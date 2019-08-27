@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Anywhere-</string>
+    <string name="ib_collector_todo">Collector</string>
+    <string name="accessibility_service_description">开启功能, 以选择当前 Activity</string>
 </resources>
