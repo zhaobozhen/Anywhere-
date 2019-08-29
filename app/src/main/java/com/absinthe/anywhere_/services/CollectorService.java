@@ -1,32 +1,20 @@
 package com.absinthe.anywhere_.services;
 
-import android.accessibilityservice.AccessibilityService;
+import android.app.Service;
 import android.content.Intent;
-import android.text.TextUtils;
+import android.os.IBinder;
 import android.util.Log;
-import android.view.WindowManager;
-import android.view.accessibility.AccessibilityEvent;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 
 import com.absinthe.anywhere_.model.CollectorWindowManager;
 
-import org.greenrobot.eventbus.EventBus;
-
-public class CollectorService extends AccessibilityService {
+public class CollectorService extends Service {
     private static final String TAG = "CollectorService";
     public static final String COMMAND = "COMMAND";
     public static final String COMMAND_OPEN = "COMMAND_OPEN";
     public static final String COMMAND_CLOSE = "COMMAND_CLOSE";
 
-    //要引用的布局文件.
-    LinearLayout collectorLayout;
-    //布局参数.
-    WindowManager.LayoutParams params;
-    //实例化的WindowManager.
-    WindowManager windowManager;
-
-    ImageButton imageButton;
     CollectorWindowManager mCollectorWindowManager;
 
     private void initCollectorWindowManager() {
@@ -37,7 +25,7 @@ public class CollectorService extends AccessibilityService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG,"CollectorService Created");
+        Log.i(TAG,"CollectorService onCreate");
     }
 
     @Override
@@ -45,58 +33,28 @@ public class CollectorService extends AccessibilityService {
         initCollectorWindowManager();
         String command = intent.getStringExtra(COMMAND);
         if (command != null) {
-            if (command.equals(COMMAND_OPEN))
+            if (command.equals(COMMAND_OPEN)) {
                 mCollectorWindowManager.addView();
-            else if (command.equals(COMMAND_CLOSE))
+            }
+            else if (command.equals(COMMAND_CLOSE)) {
+                Log.d(TAG, "Intent:COMMAND_CLOSE");
                 mCollectorWindowManager.removeView();
                 stopSelf();
+            }
         }
 
         return super.onStartCommand(intent, flags, startId);
     }
 
+    @Nullable
     @Override
-    public void onAccessibilityEvent(AccessibilityEvent event) {
-        Log.d(TAG, "onAccessibilityEvent: " + event.getPackageName());
-        if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-
-            CharSequence packageName = event.getPackageName();
-            CharSequence className = event.getClassName();
-            if (!TextUtils.isEmpty(packageName) && !TextUtils.isEmpty(className)) {
-                EventBus.getDefault().post(new ActivityChangedEvent(
-                        event.getPackageName().toString(),
-                        event.getClassName().toString()
-                ));
-            }
-        }
-    }
-
-    @Override
-    public void onInterrupt() {
-
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "CollectorService onDestroy.");
         super.onDestroy();
     }
-
-    public static class ActivityChangedEvent {
-        private final String mPackageName;
-        private final String mClassName;
-
-        ActivityChangedEvent(String packageName, String className) {
-            mPackageName = packageName;
-            mClassName = className;
-        }
-
-        public String getPackageName() {
-            return mPackageName;
-        }
-
-        public String getClassName() {
-            return mClassName;
-        }
-    }
-
 }

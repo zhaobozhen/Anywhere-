@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -13,16 +12,13 @@ import android.widget.LinearLayout;
 import com.absinthe.anywhere_.MainActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.CollectorService;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import com.absinthe.anywhere_.utils.PermissionUtil;
 
 public class CollectorView extends LinearLayout {
     public static final String TAG = "CollectorView";
 
     private final Context mContext;
     private final WindowManager mWindowManager;
-    private ImageButton mIbCollector;
 
     private String packageName, className;
 
@@ -35,46 +31,44 @@ public class CollectorView extends LinearLayout {
 
     private void initView() {
         inflate(mContext, R.layout.layout_collector, this);
-        mIbCollector = findViewById(R.id.ib_collector);
+        ImageButton mIbCollector = findViewById(R.id.ib_collector);
 
-        mIbCollector.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mContext.startService(
-                        new Intent(mContext, CollectorService.class)
-                                .putExtra(CollectorService.COMMAND, CollectorService.COMMAND_CLOSE)
-                );
-                mContext.startActivity(
-                        new Intent(mContext, MainActivity.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                .putExtra("packageName", packageName)
-                                .putExtra("className", className));
-            }
+        mIbCollector.setOnClickListener(v -> {
+            Log.d(TAG, "Collector clicked!");
+            collectActivity();
+            mContext.startService(
+                    new Intent(mContext, CollectorService.class)
+                            .putExtra(CollectorService.COMMAND, CollectorService.COMMAND_CLOSE)
+            );
+            mContext.startActivity(
+                    new Intent(mContext, MainActivity.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .putExtra("packageName", packageName)
+                            .putExtra("className", className));
         });
     }
 
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        EventBus.getDefault().register(this);
+    private void collectActivity() {
+        String cmd = "dumpsys activity activities | grep mResumedActivity";
+        String result = PermissionUtil.execShizukuCmd(cmd);
+        Log.d(TAG, "Shell result = " + result);
+
+        if (result != null) {
+            String[] processed = processResultString(result);
+            packageName = processed[0];
+            className = processed[1];
+        }
     }
 
-    @Override
-    public void onDetachedFromWindow() {
-        EventBus.getDefault().unregister(this);
-        super.onDetachedFromWindow();
-    }
+    private String[] processResultString(String result) {
+        String packageName, className;
 
-    @Subscribe
-    public void onEventMainThread(CollectorService.ActivityChangedEvent event){
-        Log.d(TAG, "event:" + event.getPackageName() + ": " + event.getClassName());
-        String packageName = event.getPackageName(),
-                className = event.getClassName();
+        packageName = result.substring(result.indexOf(" u0 ") + 4, result.indexOf("/"));
+        className = result.substring(result.indexOf("/") + 1, result.lastIndexOf(" "));
+        Log.d(TAG, "packageName = " + packageName);
+        Log.d(TAG, "className = " + className);
 
-        this.packageName = packageName;
-        this.className = className.startsWith(packageName)?
-                        className.substring(packageName.length()):
-                        className;
+        return new String[]{packageName, className};
     }
 
     Point preP, curP;
@@ -94,7 +88,6 @@ public class CollectorView extends LinearLayout {
                 WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) this.getLayoutParams();
                 layoutParams.x += dx;
                 layoutParams.y += dy;
-                Log.d("Motion",dx+","+dy);
                 mWindowManager.updateViewLayout(this, layoutParams);
 
                 preP = curP;

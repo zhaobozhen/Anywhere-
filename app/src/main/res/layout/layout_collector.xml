@@ -8,7 +8,7 @@
         android:id="@+id/ib_collector"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:background="@mipmap/ic_launcher"
+        android:background="@drawable/btn_collector"
         android:contentDescription="@string/ib_collector_todo" />
 
 </LinearLayout>

@@ -1,21 +1,24 @@
 package com.absinthe.anywhere_;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.ui.main.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Main","onCreate");
         setContentView(R.layout.main_activity);
+
+        Log.d(TAG,"onCreate");
+
         mainFragment = MainFragment.newInstance();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
