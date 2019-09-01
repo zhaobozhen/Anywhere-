@@ -4,7 +4,7 @@
     android:layout_width="65dp"
     android:layout_height="65dp">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/ib_collector"
         android:layout_width="65dp"
         android:layout_height="65dp"

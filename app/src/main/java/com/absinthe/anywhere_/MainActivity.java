@@ -32,10 +32,14 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         String packageName = intent.getStringExtra("packageName");
         String className = intent.getStringExtra("className");
+        String classNameType = intent.getStringExtra("classNameType");
+
+        Log.d(TAG, "classNameType = " + classNameType);
 
         Bundle bundle = new Bundle();
         bundle.putString("packageName", packageName);
         bundle.putString("className", className);
+        bundle.putString("classNameType", classNameType);
 
         mainFragment.setArguments(bundle);
     }

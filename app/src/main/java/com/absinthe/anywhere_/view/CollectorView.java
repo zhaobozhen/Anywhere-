@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.MainActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.PermissionUtil;
+import com.absinthe.anywhere_.utils.TextUtils;
 
 public class CollectorView extends LinearLayout {
     public static final String TAG = "CollectorView";
@@ -20,7 +22,7 @@ public class CollectorView extends LinearLayout {
     private final Context mContext;
     private final WindowManager mWindowManager;
 
-    private String packageName, className;
+    private String packageName, className, classNameType;
 
     public CollectorView(Context context) {
         super(context);
@@ -31,7 +33,7 @@ public class CollectorView extends LinearLayout {
 
     private void initView() {
         inflate(mContext, R.layout.layout_collector, this);
-        ImageButton mIbCollector = findViewById(R.id.ib_collector);
+        ImageView mIbCollector = findViewById(R.id.ib_collector);
 
         mIbCollector.setOnClickListener(v -> {
             Log.d(TAG, "Collector clicked!");
@@ -44,7 +46,8 @@ public class CollectorView extends LinearLayout {
                     new Intent(mContext, MainActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             .putExtra("packageName", packageName)
-                            .putExtra("className", className));
+                            .putExtra("className", className)
+                            .putExtra("classNameType", classNameType));
         });
     }
 
@@ -54,21 +57,12 @@ public class CollectorView extends LinearLayout {
         Log.d(TAG, "Shell result = " + result);
 
         if (result != null) {
-            String[] processed = processResultString(result);
+            String[] processed = TextUtils.processResultString(result);
             packageName = processed[0];
             className = processed[1];
+            classNameType = processed[2];
+            Log.d(TAG, "classNameType = " + classNameType);
         }
-    }
-
-    private String[] processResultString(String result) {
-        String packageName, className;
-
-        packageName = result.substring(result.indexOf(" u0 ") + 4, result.indexOf("/"));
-        className = result.substring(result.indexOf("/") + 1, result.lastIndexOf(" "));
-        Log.d(TAG, "packageName = " + packageName);
-        Log.d(TAG, "className = " + className);
-
-        return new String[]{packageName, className};
     }
 
     Point preP, curP;
@@ -78,6 +72,7 @@ public class CollectorView extends LinearLayout {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 preP = new Point((int)event.getRawX(), (int)event.getRawY());
+                performClick();
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -95,5 +90,11 @@ public class CollectorView extends LinearLayout {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean performClick() {
+        super.performClick();
+        return true;
     }
 }
