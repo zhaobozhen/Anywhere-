@@ -3,6 +3,8 @@ package com.absinthe.anywhere_.adapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,13 +15,17 @@ import androidx.recyclerview.selection.ItemKeyProvider;
 import androidx.recyclerview.selection.SelectionTracker;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.ConstUtil;
 import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "SelectableCardsAdapter";
 
-    private List<AnywhereItem> items;
+    private List<AnywhereEntity> items;
 
     private SelectionTracker<Long> selectionTracker;
 
@@ -27,8 +33,9 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.items = new ArrayList<>();
     }
 
-    public void setItems(List<AnywhereItem> items) {
+    public void setItems(List<AnywhereEntity> items) {
         this.items = items;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -50,8 +57,25 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        AnywhereItem item = items.get(position);
+        AnywhereEntity item = items.get(position);
         ((ItemViewHolder) viewHolder).bind(item, position);
+
+        ((ItemViewHolder) viewHolder).materialCardView.setOnClickListener(view -> openAnywhereActivity(item.getPackageName(), item.getClassName(), item.getClassNameType()));
+    }
+
+    private void openAnywhereActivity(String packageName, String className, int classNameType) {
+        String cmd = null;
+
+        if (classNameType == ConstUtil.FULL_CLASS_NAME_TYPE) {
+            cmd = "am start -n " + packageName + "/" + className;
+        } else if (classNameType == ConstUtil.SHORT_CLASS_NAME_TYPE) {
+            cmd = "am start -n " + packageName + "/" + packageName + className;
+        } else {
+            Log.d(TAG, "className has problem.");
+        }
+
+        Log.d(TAG, packageName + "\n" + className + "\n" + classNameType);
+        MainFragment.getViewModelInstance().getCommand().setValue(cmd);
     }
 
     @Override
@@ -78,12 +102,12 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             details = new Details();
         }
 
-        private void bind(AnywhereItem item, int position) {
+        private void bind(AnywhereEntity item, int position) {
             details.position = position;
-            appNameView.setText(item.appName);
-            packageNameView.setText(item.packageName);
-            classNameView.setText(item.className);
-            customTextureView.setText(item.customTexture);
+            appNameView.setText(item.getAppName());
+            packageNameView.setText(item.getPackageName());
+            classNameView.setText(item.getClassName());
+            customTextureView.setText(item.getCustomTexture());
             if (selectionTracker != null) {
                 bindSelectedState();
             }
@@ -136,21 +160,6 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public int getPosition(@NonNull Long key) {
             long value = key;
             return (int) value;
-        }
-    }
-
-    public static class AnywhereItem {
-
-        private final String packageName;
-        private final String className;
-        private final String appName;
-        private final String customTexture;
-
-        public AnywhereItem(String packageName, String className, String appName, String customTexture) {
-            this.packageName = packageName;
-            this.className = className;
-            this.appName = appName;
-            this.customTexture = "Custom Texture";
         }
     }
 

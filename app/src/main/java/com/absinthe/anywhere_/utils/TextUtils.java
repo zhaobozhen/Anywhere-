@@ -18,9 +18,9 @@ public class TextUtils {
         Log.d(TAG, "className = " + className);
 
         if (String.valueOf(className.charAt(0)).equals(".")) {
-            return new String[]{packageName, className, "shortClassName"};
+            return new String[]{packageName, className, ConstUtil.SHORT_CLASS_NAME_TYPE + ""};
         } else {
-            return new String[]{packageName, className, "fullClassName"};
+            return new String[]{packageName, className, ConstUtil.FULL_CLASS_NAME_TYPE + ""};
         }
     }
 

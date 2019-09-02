@@ -3,8 +3,6 @@ package com.absinthe.anywhere_.ui.main;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -21,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.selection.SelectionPredicates;
 import androidx.recyclerview.selection.SelectionTracker;
@@ -31,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
-import com.absinthe.anywhere_.adapter.SelectableCardsAdapter.AnywhereItem;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
@@ -53,14 +52,17 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private static final int REQUEST_CODE_AUTHORIZATION_V3 = 3;
     private Context mContext;
 
-    private AnywhereViewModel mViewModel;
+    private static AnywhereViewModel mViewModel;
     private FloatingActionButton fab;
     private SelectableCardsAdapter adapter;
     private SelectionTracker<Long> selectionTracker;
-    private List<AnywhereItem> anywhereItemList;
+    private List<AnywhereEntity> anywhereEntityList;
 
     public static MainFragment newInstance() {
         return new MainFragment();
+    }
+    public static AnywhereViewModel getViewModelInstance() {
+        return mViewModel;
     }
 
     @Nullable
@@ -85,6 +87,15 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        final Observer<String> commandObserver = this::execShizukuWithPermissionCheck;
+        mViewModel.getCommand().observe(this, commandObserver);
+
+        mViewModel.getAllAnywhereEntities().observe(this, new Observer<List<AnywhereEntity>>() {
+            @Override
+            public void onChanged(List<AnywhereEntity> anywhereEntities) {
+                adapter.setItems(anywhereEntities);
+            }
+        });
 
         fab.setOnClickListener(view -> checkOverlayPermission());
 
@@ -98,22 +109,18 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (bundle != null) {
             String packageName = bundle.getString("packageName");
             String className = bundle.getString("className");
+            int classNameType = bundle.getInt("classNameType");
+
             String appName;
-
-            if (packageName != null) {
-                mViewModel.getPackageName().setValue(packageName);
-                mViewModel.getClassName().setValue(className);
-                mViewModel.getClassNameType().setValue(bundle.getString("classNameType"));
-                Log.d(TAG, "classNameType = " + bundle.getString("classNameType"));
-
+            if (packageName != null && className != null) {
                 appName = TextUtils.getAppName(mContext, packageName);
 
-                anywhereItemList.add(new AnywhereItem(packageName, className, appName, null));
-                adapter.notifyDataSetChanged();
+                mViewModel.insert(new AnywhereEntity(packageName, className,classNameType , appName, ""));
 
                 bundle.clear();
             }
         }
+
     }
 
     private void checkOverlayPermission() {
@@ -150,23 +157,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (requestCode == REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION && Settings.canDrawOverlays(mContext)) {
             startCollector();
         }
-    }
-
-    private void openAnywhereActivity() {
-        String packageName = mViewModel.getPackageName().getValue();
-        String className = mViewModel.getClassName().getValue();
-        String classNameType = mViewModel.getClassNameType().getValue();
-        String cmd = null;
-
-        if (classNameType.equals("fullClassName")) {
-            cmd = "am start -n " + packageName + "/" + className;
-        } else if (classNameType.equals("shortClassName")) {
-            cmd = "am start -n " + packageName + "/" + packageName + className;
-        } else {
-            Log.d(TAG, "className has problem.");
-        }
-
-        execShizukuWithPermissionCheck(cmd);
     }
 
     private boolean checkShizukuOnWorking() {
@@ -220,8 +210,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
         adapter = new SelectableCardsAdapter();
-        anywhereItemList = new ArrayList<>();
-        adapter.setItems(anywhereItemList);
+        anywhereEntityList = new ArrayList<>();
+        adapter.setItems(anywhereEntityList);
         recyclerView.setAdapter(adapter);
 
         selectionTracker =

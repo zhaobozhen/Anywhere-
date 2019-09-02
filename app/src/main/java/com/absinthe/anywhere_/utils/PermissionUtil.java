@@ -1,14 +1,24 @@
 package com.absinthe.anywhere_.utils;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+
+import com.absinthe.anywhere_.AnywhereApplication;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 import moe.shizuku.api.RemoteProcess;
+import moe.shizuku.api.ShizukuApiConstants;
+import moe.shizuku.api.ShizukuClientHelper;
 import moe.shizuku.api.ShizukuService;
 
 public class PermissionUtil {

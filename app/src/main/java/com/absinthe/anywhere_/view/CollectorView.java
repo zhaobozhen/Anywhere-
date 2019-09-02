@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -22,7 +21,8 @@ public class CollectorView extends LinearLayout {
     private final Context mContext;
     private final WindowManager mWindowManager;
 
-    private String packageName, className, classNameType;
+    private String packageName, className;
+    private int classNameType;
 
     public CollectorView(Context context) {
         super(context);
@@ -60,7 +60,7 @@ public class CollectorView extends LinearLayout {
             String[] processed = TextUtils.processResultString(result);
             packageName = processed[0];
             className = processed[1];
-            classNameType = processed[2];
+            classNameType = Integer.valueOf(processed[2]);
             Log.d(TAG, "classNameType = " + classNameType);
         }
     }

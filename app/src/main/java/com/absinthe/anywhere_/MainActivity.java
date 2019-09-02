@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.ConstUtil;
 
 public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment;
@@ -32,14 +33,16 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         String packageName = intent.getStringExtra("packageName");
         String className = intent.getStringExtra("className");
-        String classNameType = intent.getStringExtra("classNameType");
+        int classNameType = intent.getIntExtra("classNameType", ConstUtil.SHORT_CLASS_NAME_TYPE);
 
         Log.d(TAG, "classNameType = " + classNameType);
+        Log.d(TAG, "className = " + className);
+        Log.d(TAG, "packageName = " + packageName);
 
         Bundle bundle = new Bundle();
         bundle.putString("packageName", packageName);
         bundle.putString("className", className);
-        bundle.putString("classNameType", classNameType);
+        bundle.putInt("classNameType", classNameType);
 
         mainFragment.setArguments(bundle);
     }

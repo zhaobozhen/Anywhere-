@@ -5,7 +5,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "anywhere_table")
+import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
+
+@Entity(tableName = "anywhere_table", primaryKeys = {"package_name", "class_name"})
 public class AnywhereEntity {
 
     @NonNull
@@ -24,17 +26,16 @@ public class AnywhereEntity {
     @ColumnInfo(name = "custom_texture")
     private String mCustomTexture;
 
-    @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "hash_code")
-    private String mHashCode;
+    @ColumnInfo(name = "class_name_type")
+    private int mClassNameType;
 
-    public AnywhereEntity(@NonNull String packageName, @NonNull String className, @NonNull String appName, @NonNull String customTexture, @NonNull String hashCode) {
+    public AnywhereEntity(@NonNull String packageName, @NonNull String className, @NonNull int classNameType, @NonNull String appName, @NonNull String customTexture) {
         mPackageName = packageName;
         mClassName = className;
+        mClassNameType = classNameType;
         mAppName = appName;
         mCustomTexture = customTexture;
-        mHashCode = hashCode;
     }
 
     public String getPackageName() {
@@ -45,6 +46,10 @@ public class AnywhereEntity {
         return this.mClassName;
     }
 
+    public int getClassNameType() {
+        return this.mClassNameType;
+    }
+
     public String getAppName() {
         return this.mAppName;
     }
@@ -53,7 +58,4 @@ public class AnywhereEntity {
         return this.mCustomTexture;
     }
 
-    public String getHashCode() {
-        return this.mHashCode;
-    }
 }

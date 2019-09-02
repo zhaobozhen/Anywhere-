@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -17,9 +18,7 @@ public class AnywhereViewModel extends AndroidViewModel {
     private AnywhereRepository mRepository;
     private LiveData<List<AnywhereEntity>> mAllAnywhereEntities;
 
-    private MutableLiveData<String> mPackageName = null;
-    private MutableLiveData<String> mClassName = null;
-    private MutableLiveData<String> mClassNameType = null;
+    private MutableLiveData<String> mCommand = null;
 
     public AnywhereViewModel(Application application) {
         super(application);
@@ -35,24 +34,10 @@ public class AnywhereViewModel extends AndroidViewModel {
         mRepository.insert(ae);
     }
 
-    public MutableLiveData<String> getPackageName() {
-        if (mPackageName == null) {
-            mPackageName = new MutableLiveData<>();
+    public MutableLiveData<String> getCommand() {
+        if (mCommand == null) {
+            mCommand = new MutableLiveData<>();
         }
-        return mPackageName;
-    }
-
-    public MutableLiveData<String> getClassName() {
-        if (mClassName == null) {
-            mClassName = new MutableLiveData<>();
-        }
-        return mClassName;
-    }
-
-    public MutableLiveData<String> getClassNameType() {
-        if (mClassNameType == null) {
-            mClassNameType = new MutableLiveData<>();
-        }
-        return mClassNameType;
+        return mCommand;
     }
 }
