@@ -23,14 +23,28 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/cat_card_title"
+            android:id="@+id/tv_card_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"/>
+
+        <TextView
+            android:id="@+id/tv_card_package_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:textAppearance="?attr/textAppearanceBody2"/>
 
         <TextView
-            android:id="@+id/cat_card_subtitle"
+            android:id="@+id/tv_card_class_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="?attr/textAppearanceBody2"/>
+
+        <TextView
+            android:id="@+id/tv_card_custom_texture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceCaption"/>

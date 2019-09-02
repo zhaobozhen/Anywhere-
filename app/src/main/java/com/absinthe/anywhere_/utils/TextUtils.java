@@ -1,9 +1,13 @@
 package com.absinthe.anywhere_.utils;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 public class TextUtils {
     private static final String TAG = "TextUtils";
+
     public static String[] processResultString(String result) {
         String packageName, className;
 
@@ -18,5 +22,17 @@ public class TextUtils {
         } else {
             return new String[]{packageName, className, "fullClassName"};
         }
+    }
+
+    public static String getAppName(Context context, String pkgName) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            ApplicationInfo info = pm.getApplicationInfo(pkgName, 0);
+            return info.loadLabel(pm).toString();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

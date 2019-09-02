@@ -3,6 +3,8 @@ package com.absinthe.anywhere_.ui.main;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -19,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.selection.SelectionPredicates;
 import androidx.recyclerview.selection.SelectionTracker;
@@ -30,9 +31,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
-import com.absinthe.anywhere_.adapter.SelectableCardsAdapter.Item;
+import com.absinthe.anywhere_.adapter.SelectableCardsAdapter.AnywhereItem;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.PermissionUtil;
+import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -49,12 +51,13 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1;
     private static final int REQUEST_CODE_PERMISSION_V3 = 2;
     private static final int REQUEST_CODE_AUTHORIZATION_V3 = 3;
+    private Context mContext;
 
     private AnywhereViewModel mViewModel;
     private FloatingActionButton fab;
     private SelectableCardsAdapter adapter;
     private SelectionTracker<Long> selectionTracker;
-    private Context mContext;
+    private List<AnywhereItem> anywhereItemList;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -75,9 +78,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fab = getView().findViewById(R.id.fab);
-//        tvPackage = getView().findViewById(R.id.tv_package);
-//        tvClass = getView().findViewById(R.id.tv_class);
-//        button = getView().findViewById(R.id.button);
         mContext = getContext();
     }
 
@@ -96,10 +96,23 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         super.onResume();
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mViewModel.getPackageName().setValue(bundle.getString("packageName"));
-            mViewModel.getClassName().setValue(bundle.getString("className"));
-            mViewModel.getClassNameType().setValue(bundle.getString("classNameType"));
-            Log.d(TAG, "classNameType = " + bundle.getString("classNameType"));
+            String packageName = bundle.getString("packageName");
+            String className = bundle.getString("className");
+            String appName;
+
+            if (packageName != null) {
+                mViewModel.getPackageName().setValue(packageName);
+                mViewModel.getClassName().setValue(className);
+                mViewModel.getClassNameType().setValue(bundle.getString("classNameType"));
+                Log.d(TAG, "classNameType = " + bundle.getString("classNameType"));
+
+                appName = TextUtils.getAppName(mContext, packageName);
+
+                anywhereItemList.add(new AnywhereItem(packageName, className, appName, null));
+                adapter.notifyDataSetChanged();
+
+                bundle.clear();
+            }
         }
     }
 
@@ -110,7 +123,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + mContext.getPackageName())),
                         REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION
                 );
-                Toast.makeText(mContext, "«Îœ» ⁄”Ë \"Anywhere-\" –¸∏°¥∞»®œﬁ", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "ËØ∑ÂÖàÊéà‰∫à \"Anywhere-\" ÊÇ¨ÊµÆÁ™óÊùÉÈôê", Toast.LENGTH_LONG).show();
             } else {
                 startCollector();
             }
@@ -121,7 +134,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (checkShizukuOnWorking()) {
             Intent intent = new Intent(mContext, CollectorService.class);
             intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
-            Toast.makeText(getContext(), "“—ø™∆ÙCollector", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Â∑≤ÂºÄÂêØCollector", Toast.LENGTH_SHORT).show();
             mContext.startService(intent);
             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -207,7 +220,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
         adapter = new SelectableCardsAdapter();
-        adapter.setItems(generateItems());
+        anywhereItemList = new ArrayList<>();
+        adapter.setItems(anywhereItemList);
         recyclerView.setAdapter(adapter);
 
         selectionTracker =
@@ -236,18 +250,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 //                    }
 //                });
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-    }
-
-    private List<Item> generateItems() {
-        String titlePrefix = "Title";
-        List<Item> items = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            items.add(
-                    new Item(titlePrefix + " " + (i + 1), "Lorem ipsum dolor sit amet, nec no nominavi scaevola. Per et sint sapientem, nobis perpetua salutandi mei te. Quo tamquam probatus reprehendunt in. Eos esse purto eruditi ea. Enim tation persius ut sea, eos ad consul populo.\n" +
-                            "    Ne eum solet altera. Cibo eligendi et est, electram theophrastus te vel eu."));
-        }
-
-        return items;
     }
 
 }

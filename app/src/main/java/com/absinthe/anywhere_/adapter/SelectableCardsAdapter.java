@@ -19,7 +19,7 @@ import java.util.List;
 
 public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Item> items;
+    private List<AnywhereItem> items;
 
     private SelectionTracker<Long> selectionTracker;
 
@@ -27,7 +27,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.items = new ArrayList<>();
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<AnywhereItem> items) {
         this.items = items;
     }
 
@@ -50,7 +50,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        Item item = items.get(position);
+        AnywhereItem item = items.get(position);
         ((ItemViewHolder) viewHolder).bind(item, position);
     }
 
@@ -63,21 +63,27 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         private final Details details;
         private final MaterialCardView materialCardView;
-        private final TextView titleView;
-        private final TextView subtitleView;
+        private final TextView appNameView;
+        private final TextView packageNameView;
+        private final TextView classNameView;
+        private final TextView customTextureView;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             materialCardView = itemView.findViewById(R.id.item_card);
-            titleView = itemView.findViewById(R.id.cat_card_title);
-            subtitleView = itemView.findViewById(R.id.cat_card_subtitle);
+            appNameView = itemView.findViewById(R.id.tv_card_app_name);
+            packageNameView = itemView.findViewById(R.id.tv_card_package_name);
+            classNameView = itemView.findViewById(R.id.tv_card_class_name);
+            customTextureView = itemView.findViewById(R.id.tv_card_custom_texture);
             details = new Details();
         }
 
-        private void bind(Item item, int position) {
+        private void bind(AnywhereItem item, int position) {
             details.position = position;
-            titleView.setText(item.title);
-            subtitleView.setText(item.subtitle);
+            appNameView.setText(item.appName);
+            packageNameView.setText(item.packageName);
+            classNameView.setText(item.className);
+            customTextureView.setText(item.customTexture);
             if (selectionTracker != null) {
                 bindSelectedState();
             }
@@ -133,14 +139,18 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public static class Item {
+    public static class AnywhereItem {
 
-        private final String title;
-        private final String subtitle;
+        private final String packageName;
+        private final String className;
+        private final String appName;
+        private final String customTexture;
 
-        public Item(String title, String subtitle) {
-            this.title = title;
-            this.subtitle = subtitle;
+        public AnywhereItem(String packageName, String className, String appName, String customTexture) {
+            this.packageName = packageName;
+            this.className = className;
+            this.appName = appName;
+            this.customTexture = "Custom Texture";
         }
     }
 
