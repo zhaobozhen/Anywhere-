@@ -1,12 +1,10 @@
 package com.absinthe.anywhere_.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereRepository;
@@ -32,6 +30,10 @@ public class AnywhereViewModel extends AndroidViewModel {
 
     public void insert(AnywhereEntity ae) {
         mRepository.insert(ae);
+    }
+
+    public void delete(AnywhereEntity ae) {
+        mRepository.delete(ae);
     }
 
     public MutableLiveData<String> getCommand() {

@@ -3,9 +3,6 @@ package com.absinthe.anywhere_.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 
 @Entity(tableName = "anywhere_table", primaryKeys = {"package_name", "class_name"})
 public class AnywhereEntity {
@@ -28,9 +25,9 @@ public class AnywhereEntity {
 
     @NonNull
     @ColumnInfo(name = "class_name_type")
-    private int mClassNameType;
+    private Integer mClassNameType;
 
-    public AnywhereEntity(@NonNull String packageName, @NonNull String className, @NonNull int classNameType, @NonNull String appName, @NonNull String customTexture) {
+    public AnywhereEntity(@NonNull String packageName, @NonNull String className, @NonNull Integer classNameType, @NonNull String appName, @NonNull String customTexture) {
         mPackageName = packageName;
         mClassName = className;
         mClassNameType = classNameType;
@@ -46,7 +43,7 @@ public class AnywhereEntity {
         return this.mClassName;
     }
 
-    public int getClassNameType() {
+    public Integer getClassNameType() {
         return this.mClassNameType;
     }
 

@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.selection.SelectionPredicates;
-import androidx.recyclerview.selection.SelectionTracker;
-import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,8 +51,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private static AnywhereViewModel mViewModel;
     private FloatingActionButton fab;
     private SelectableCardsAdapter adapter;
-    private SelectionTracker<Long> selectionTracker;
-    private List<AnywhereEntity> anywhereEntityList;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -73,29 +67,21 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         setUpRecyclerView(recyclerView);
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        fab = getView().findViewById(R.id.fab);
+        fab = view.findViewById(R.id.fab);
         mContext = getContext();
+
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+
         final Observer<String> commandObserver = this::execShizukuWithPermissionCheck;
         mViewModel.getCommand().observe(this, commandObserver);
-
-        mViewModel.getAllAnywhereEntities().observe(this, new Observer<List<AnywhereEntity>>() {
-            @Override
-            public void onChanged(List<AnywhereEntity> anywhereEntities) {
-                adapter.setItems(anywhereEntities);
-            }
-        });
+        mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
 
         fab.setOnClickListener(view -> checkOverlayPermission());
 
@@ -130,7 +116,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + mContext.getPackageName())),
                         REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION
                 );
-                Toast.makeText(mContext, "请先授予 \"Anywhere-\" 悬浮窗权限", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.toast_permission_overlap, Toast.LENGTH_LONG).show();
             } else {
                 startCollector();
             }
@@ -141,7 +127,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (checkShizukuOnWorking()) {
             Intent intent = new Intent(mContext, CollectorService.class);
             intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
-            Toast.makeText(getContext(), "已开启Collector", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.toast_collector_opened, Toast.LENGTH_SHORT).show();
+
             mContext.startService(intent);
             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -209,36 +196,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
-        adapter = new SelectableCardsAdapter();
-        anywhereEntityList = new ArrayList<>();
+        List<AnywhereEntity> anywhereEntityList = new ArrayList<>();
+
+        adapter = new SelectableCardsAdapter(getContext());
         adapter.setItems(anywhereEntityList);
         recyclerView.setAdapter(adapter);
 
-        selectionTracker =
-                new SelectionTracker.Builder<>(
-                        "card_selection",
-                        recyclerView,
-                        new SelectableCardsAdapter.KeyProvider(adapter),
-                        new SelectableCardsAdapter.DetailsLookup(recyclerView),
-                        StorageStrategy.createLongStorage())
-                        .withSelectionPredicate(SelectionPredicates.createSelectAnything())
-                        .build();
-
-        adapter.setSelectionTracker(selectionTracker);
-//        selectionTracker.addObserver(
-//                new SelectionTracker.SelectionObserver<Long>() {
-//                    @Override
-//                    public void onSelectionChanged() {
-//                        if (selectionTracker.getSelection().size() > 0) {
-//                            if (actionMode == null) {
-//                                actionMode = startSupportActionMode(CardSelectionModeActivity.this);
-//                            }
-//                            actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size()));
-//                        } else if (actionMode != null) {
-//                            actionMode.finish();
-//                        }
-//                    }
-//                });
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
     }
 

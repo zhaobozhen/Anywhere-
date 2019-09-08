@@ -7,13 +7,13 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 4
+        versionCode 5
         versionName "1.0-alpha"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -39,7 +39,6 @@ dependencies {
     //     AndroidX libraries use this lightweight import for Lifecycle
     implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-alpha03"
 
-    implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
     implementation 'me.weishu:free_reflection:2.1.0'
 

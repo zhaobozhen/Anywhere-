@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.absinthe.anywhere_.MainActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.CollectorService;
+import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 
@@ -52,7 +53,7 @@ public class CollectorView extends LinearLayout {
     }
 
     private void collectActivity() {
-        String cmd = "dumpsys activity activities | grep mResumedActivity";
+        String cmd = ConstUtil.CMD_GET_TOP_STACK_ACTIVITY;
         String result = PermissionUtil.execShizukuCmd(cmd);
         Log.d(TAG, "Shell result = " + result);
 

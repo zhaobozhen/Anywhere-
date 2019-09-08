@@ -12,7 +12,8 @@
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
-    app:cardElevation="6dp">
+    app:cardElevation="@dimen/anywhere_cardview_elevation"
+    app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius">
 
     <LinearLayout
         android:layout_width="wrap_content"

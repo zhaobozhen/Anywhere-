@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.model;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -16,6 +17,9 @@ public interface AnywhereDao {
 
     @Query("DELETE FROM anywhere_table")
     void deleteAll();
+
+    @Delete
+    void delete(AnywhereEntity ae);
 
     @Query("SELECT * from anywhere_table ORDER BY app_name ASC")
     LiveData<List<AnywhereEntity>> getAllAnywhereEntities();
