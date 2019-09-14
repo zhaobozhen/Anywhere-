@@ -8,9 +8,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,7 +33,9 @@ import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +54,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private static AnywhereViewModel mViewModel;
     private FloatingActionButton fab;
+    private BottomSheetDialog bottomSheetDialog;
     private SelectableCardsAdapter adapter;
 
     public static MainFragment newInstance() {
@@ -69,6 +74,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         fab = view.findViewById(R.id.fab);
         mContext = getContext();
+
+        bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(mContext));
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
+        bottomSheetDialog.setDismissWithAnimation(true);
 
         return view;
     }
@@ -101,7 +110,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             if (packageName != null && className != null) {
                 appName = TextUtils.getAppName(mContext, packageName);
 
-                mViewModel.insert(new AnywhereEntity(packageName, className,classNameType , appName, ""));
+                editNewAnywhere(packageName, className, classNameType, appName);
 
                 bundle.clear();
             }
@@ -203,6 +212,47 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         recyclerView.setAdapter(adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+    }
+
+    private void editNewAnywhere(String packageName, String className, int classNameType, String appName) {
+        TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
+        TextInputEditText tietPackageName = bottomSheetDialog.findViewById(R.id.tiet_package_name);
+        TextInputEditText tietClassName = bottomSheetDialog.findViewById(R.id.tiet_class_name);
+        TextInputEditText tietDescription = bottomSheetDialog.findViewById(R.id.tiet_description);
+
+
+        if (tietAppName != null) {
+            tietAppName.setText(appName);
+        }
+
+        if (tietPackageName != null) {
+            tietPackageName.setText(packageName);
+        }
+
+        if (tietClassName != null) {
+            tietClassName.setText(className);
+        }
+
+        if (tietDescription != null) {
+            tietDescription.setText(null);
+        }
+
+        Button btnEditAnywhereDone = bottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
+        if (btnEditAnywhereDone != null) {
+            btnEditAnywhereDone.setOnClickListener(view -> {
+                String description = null;
+                if (tietDescription != null) {
+                    description = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
+                    Log.d(TAG, "description == " + description);
+                }
+                if (description != null) {
+                    mViewModel.insert(new AnywhereEntity(packageName, className, classNameType, appName, description));
+                    bottomSheetDialog.dismiss();
+                }
+            });
+        }
+
+        bottomSheetDialog.show();
     }
 
 }

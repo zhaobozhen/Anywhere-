@@ -12,4 +12,17 @@
     <string name="dialog_delete_message">确定要删除</string>
     <string name="dialog_delete_positive_button">确定</string>
     <string name="dialog_delete_negative_button">取消</string>
+
+    <!--  BottomSheetDialog  -->
+    <string name="bsd_btn_done">保存</string>
+    <string name="bsd_text_input_layout_app_name_label">App 名称</string>
+    <string name="bsd_text_input_layout_package_name_label">包名</string>
+    <string name="bsd_text_input_layout_class_name_label">类名</string>
+    <string name="bsd_text_input_layout_description_label">描述（选填）</string>
+
+    <string name="bsd_text_input_layout_app_name_helper_text">给 Anywhere- 起个名字吧</string>
+    <string name="bsd_text_input_layout_package_name_helper_text">App 包名，一般来说默认即可</string>
+    <string name="bsd_text_input_layout_class_name_helper_text">App 类名，一般来说默认即可</string>
+    <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 吧</string>
+
 </resources>
