@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
@@ -88,11 +89,19 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
 
-        final Observer<String> commandObserver = this::execShizukuWithPermissionCheck;
+        final Observer<String> commandObserver = s -> {
+            if (shizukuPermissionCheck()) {
+                PermissionUtil.execShizukuCmd(s);
+            }
+        };
         mViewModel.getCommand().observe(this, commandObserver);
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
 
-        fab.setOnClickListener(view -> checkOverlayPermission());
+        fab.setOnClickListener(view -> {
+            if (checkOverlayPermission()) {
+                startCollector();
+            }
+        });
 
         checkShizukuOnWorking();
     }
@@ -110,6 +119,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             if (packageName != null && className != null) {
                 appName = TextUtils.getAppName(mContext, packageName);
 
+                Log.d(TAG, "onResume:" + packageName + "," + className);
                 editNewAnywhere(packageName, className, classNameType, appName);
 
                 bundle.clear();
@@ -118,7 +128,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     }
 
-    private void checkOverlayPermission() {
+    private boolean checkOverlayPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(mContext)) {
                 startActivityForResult(
@@ -126,14 +136,16 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION
                 );
                 Toast.makeText(mContext, R.string.toast_permission_overlap, Toast.LENGTH_LONG).show();
+                return false;
             } else {
-                startCollector();
+                return true;
             }
         }
+        return true;
     }
 
     private void startCollector() {
-        if (checkShizukuOnWorking()) {
+        if (checkShizukuOnWorking() && shizukuPermissionCheck()) {
             Intent intent = new Intent(mContext, CollectorService.class);
             intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
             Toast.makeText(getContext(), R.string.toast_collector_opened, Toast.LENGTH_SHORT).show();
@@ -178,12 +190,15 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         return false;
     }
 
-    private void execShizukuWithPermissionCheck(String cmd) {
+    private boolean shizukuPermissionCheck() {
         if (!ShizukuClientHelper.isPreM()) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (ActivityCompat.checkSelfPermission(mContext, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
-                return;
+//                ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
+                    showPermissionDialog();
+                    return false;
+            } else {
+                return true;
             }
         } else if (!AnywhereApplication.isShizukuV3TokenValid()){
             // on API pre-23, Shizuku v3 uses old token, get token from Shizuku app
@@ -191,23 +206,26 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             if (intent != null) {
                 try {
                     startActivityForResult(intent, REQUEST_CODE_AUTHORIZATION_V3);
+                    return true;
                 } catch (Throwable tr) {
                     // should never happened
+                    return false;
                 }
             } else {
                 // activity not found
+                Log.d(TAG, "activity not found.");
                 Toast.makeText(mContext, "activity not found.", Toast.LENGTH_SHORT).show();
+                return false;
             }
-            return;
+        } else {
+            return false;
         }
-
-        PermissionUtil.execShizukuCmd(cmd);
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
         List<AnywhereEntity> anywhereEntityList = new ArrayList<>();
 
-        adapter = new SelectableCardsAdapter(getContext());
+        adapter = new SelectableCardsAdapter(mContext);
         adapter.setItems(anywhereEntityList);
         recyclerView.setAdapter(adapter);
 
@@ -240,14 +258,17 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         Button btnEditAnywhereDone = bottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
         if (btnEditAnywhereDone != null) {
             btnEditAnywhereDone.setOnClickListener(view -> {
-                String description = null;
-                if (tietDescription != null) {
-                    description = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
+                if (tietPackageName != null && tietClassName != null && tietAppName != null && tietDescription != null) {
+                    String pName = tietPackageName.getText() == null ? packageName : tietPackageName.getText().toString();
+                    String cName = tietClassName.getText() == null ? className : tietClassName.getText().toString();
+                    String aName = tietAppName.getText() == null ? appName : tietAppName.getText().toString();
+                    String description = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
                     Log.d(TAG, "description == " + description);
-                }
-                if (description != null) {
-                    mViewModel.insert(new AnywhereEntity(packageName, className, classNameType, appName, description));
+
+                    mViewModel.insert(new AnywhereEntity(pName, cName, classNameType, aName, description));
                     bottomSheetDialog.dismiss();
+                } else {
+                    Toast.makeText(mContext, "error data.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -255,4 +276,21 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         bottomSheetDialog.show();
     }
 
+    private void showPermissionDialog() {
+        new AlertDialog.Builder(mContext)
+                .setTitle(R.string.dialog_permission_title)
+                .setMessage(R.string.dialog_permission_message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
+                    if (intent != null) {
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(mContext, "Not install Shizuku.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_delete_negative_button,
+                        (dialogInterface, i) -> { })
+                .show();
+    }
 }

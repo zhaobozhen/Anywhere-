@@ -29,21 +29,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:textAppearance="?attr/textAppearanceHeadline6"/>
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tv_card_package_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:textAppearance="?attr/textAppearanceBody2"/>
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textStyle="italic"/>
 
         <TextView
             android:id="@+id/tv_card_class_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:textAppearance="?attr/textAppearanceBody2"/>
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textStyle="italic"/>
 
         <TextView
             android:id="@+id/tv_card_custom_texture"

@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.adapter;
 
 import android.content.Context;
+import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.selection.ItemKeyProvider;
-import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.R;
@@ -31,12 +31,12 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private List<AnywhereEntity> items;
     private Context mContext;
-
-    private SelectionTracker<Long> selectionTracker;
+    private Vibrator vibrator;
 
     public SelectableCardsAdapter(Context context) {
         this.mContext = context;
         this.items = new ArrayList<>();
+        this.vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     public void setItems(List<AnywhereEntity> items) {
@@ -47,10 +47,6 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public int getItemViewType(int position) {
         return 0;
-    }
-
-    public void setSelectionTracker(SelectionTracker<Long> selectionTracker) {
-        this.selectionTracker = selectionTracker;
     }
 
     @NonNull
@@ -68,6 +64,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         ((ItemViewHolder) viewHolder).materialCardView.setOnClickListener(view -> openAnywhereActivity(item.getPackageName(), item.getClassName(), item.getClassNameType()));
         ((ItemViewHolder) viewHolder).materialCardView.setOnLongClickListener(view -> {
+            vibrator.vibrate(30);
             deleteAnywhereActivity(item, position);
             return false;
         });
@@ -132,13 +129,6 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             packageNameView.setText(item.getPackageName());
             classNameView.setText(item.getClassName());
             customTextureView.setText(item.getCustomTexture());
-            if (selectionTracker != null) {
-                bindSelectedState();
-            }
-        }
-
-        private void bindSelectedState() {
-            materialCardView.setChecked(selectionTracker.isSelected(details.getSelectionKey()));
         }
 
         ItemDetailsLookup.ItemDetails<Long> getItemDetails() {

@@ -3,6 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.absinthe.anywhere_">
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission
+        android:name="moe.shizuku.manager.permission.API"
+        android:maxSdkVersion="23" />
+
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
+
+    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
+
     <application
         android:name=".AnywhereApplication"
         android:allowBackup="false"
@@ -12,7 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.intro.IntroActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask">
@@ -22,6 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.intro.IntroActivity"/>
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
@@ -45,14 +56,5 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
     </application>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission
-        android:name="moe.shizuku.manager.permission.API"
-        android:maxSdkVersion="23" />
-
-    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
-    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
-
-    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
 
 </manifest>
