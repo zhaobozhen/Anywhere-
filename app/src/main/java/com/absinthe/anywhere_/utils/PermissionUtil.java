@@ -7,6 +7,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import moe.shizuku.api.RemoteProcess;
 import moe.shizuku.api.ShizukuService;
@@ -40,7 +42,9 @@ public class PermissionUtil {
                 if (os != null) {
                     os.close();
                 }
-                process.destroy();
+                if (process != null) {
+                    process.destroy();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -121,6 +125,22 @@ public class PermissionUtil {
         } catch (Throwable tr) {
             Log.e(TAG, "newProcess", tr);
             return null;
+        }
+    }
+
+    public static boolean isMIUI() {
+        Class<?> c = null;
+        try {
+            c = Class.forName("android.os.SystemProperties");
+            Method get = c.getMethod("get", String.class);
+            String miui = (String) get.invoke(c, "ro.miui.ui.version.code");
+            if (miui != null) {
+                return !miui.isEmpty();
+            }
+            return false;
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

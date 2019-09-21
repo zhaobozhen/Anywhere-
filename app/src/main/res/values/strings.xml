@@ -7,7 +7,7 @@
     <string name="ib_collector_todo">Collector</string>
     <string name="accessibility_service_description">开启功能, 以选择当前 Activity</string>
     <string name="dialog_permission_title">需要权限</string>
-    <string name="dialog_permission_message">需要 Shizuku 权限，请到 Shizuku 打开</string>
+    <string name="dialog_permission_message">需要 Shizuku 权限，MIUI 由于系统限制，请到 Shizuku 打开</string>
 
     <!--  RecyclerView Adapter  -->
     <string name="dialog_delete_title">确认删除</string>
@@ -26,5 +26,9 @@
     <string name="bsd_text_input_layout_package_name_helper_text">App 包名，一般来说默认即可</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App 类名，一般来说默认即可</string>
     <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 吧</string>
+
+    <!--  BottomAppBarMenu  -->
+    <string name="menu_settings">设置</string>
+    <string name="menu_about">关于</string>
 
 </resources>

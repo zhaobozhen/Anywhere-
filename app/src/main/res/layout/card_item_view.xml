@@ -52,6 +52,6 @@
             android:id="@+id/tv_card_custom_texture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceCaption"/>
+            android:textAppearance="?attr/textAppearanceSubtitle2"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

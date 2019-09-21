@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.absinthe.anywhere_.MainActivity;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.ConstUtil;

@@ -17,19 +17,12 @@
         android:clipToPadding="false"
         android:scrollbars="vertical"/>
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:navigationIcon="@drawable/ic_drawer_menu_24px"
-        android:fitsSystemWindows="true"/>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/bar"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="30dp"
         app:srcCompat="@drawable/ic_add_24px"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

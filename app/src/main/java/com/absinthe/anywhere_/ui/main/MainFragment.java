@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -31,6 +34,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.services.CollectorService;
+import com.absinthe.anywhere_.ui.SettingsActivity;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
@@ -69,12 +73,14 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mContext = getContext();
         View view = inflater.inflate(R.layout.main_fragment, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         setUpRecyclerView(recyclerView);
+        setHasOptionsMenu(true);
 
         fab = view.findViewById(R.id.fab);
-        mContext = getContext();
+
 
         bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(mContext));
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
@@ -194,8 +200,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (!ShizukuClientHelper.isPreM()) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (ActivityCompat.checkSelfPermission(mContext, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
+                if (PermissionUtil.isMIUI()) {
                     showPermissionDialog();
+                } else {
+                    ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
+                }
                     return false;
             } else {
                 return true;
@@ -230,6 +239,17 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         recyclerView.setAdapter(adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.bottom_bar_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        startActivity(new Intent(getActivity(), SettingsActivity.class));
+        return super.onOptionsItemSelected(item);
     }
 
     private void editNewAnywhere(String packageName, String className, int classNameType, String appName) {

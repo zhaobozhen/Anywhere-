@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_;
+package com.absinthe.anywhere_.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
 
