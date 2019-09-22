@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:key="notifications"
+        app:title="Enable message notifications" />
+
+    <Preference
+        app:key="about"
+        app:title="@string/menu_about"
+        app:summary="这里是 Anywhere- !"/>
+
+</androidx.preference.PreferenceScreen>

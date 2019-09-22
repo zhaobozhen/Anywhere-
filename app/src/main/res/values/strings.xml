@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Anywhere-</string>
+    <string name="settings_title">设置</string>
+    <string name="about_title">关于</string>
 
     <!--  Collector  -->
     <string name="toast_permission_overlap">请先授予 \"Anywhere-\" 悬浮窗权限</string>

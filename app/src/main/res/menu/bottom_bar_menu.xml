@@ -6,8 +6,4 @@
         android:icon="@drawable/ic_settings_outline"
         android:title="@string/menu_settings"
         app:showAsAction="ifRoom"/>
-<!--    <item-->
-<!--        android:icon="@drawable/ic_logo"-->
-<!--        android:title="@string/menu_about"-->
-<!--        app:showAsAction="ifRoom"/>-->
 </menu>

@@ -7,7 +7,7 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 6
+        versionCode 7
         versionName "1.0-alpha"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,17 +29,20 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
     implementation 'com.google.android.material:material:1.1.0-alpha10'
     implementation 'androidx.room:room-runtime:2.1.0'
+    implementation "androidx.preference:preference:1.1.0"
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
     implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-alpha04"
 
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
+    implementation 'moe.shizuku.preference:preference-appcompat:4.0.0'
     implementation 'me.weishu:free_reflection:2.1.0'
     implementation 'com.github.AppIntro:AppIntro:5.1.0'
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
