@@ -14,4 +14,8 @@
         <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@mipmap/splash</item>
+    </style>
+
 </resources>

@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/SplashTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.main.MainActivity"
@@ -22,21 +22,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.intro.IntroActivity" />
-
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
-            android:parentActivityName=".ui.main.MainActivity"
-            android:launchMode="singleTask">
-        </activity>
-
+            android:launchMode="singleTask"
+            android:parentActivityName=".ui.main.MainActivity"/>
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_title"
-            android:parentActivityName=".ui.settings.SettingsActivity">
-        </activity>
-
+            android:parentActivityName=".ui.settings.SettingsActivity"/>
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
             android:authorities="${applicationId}.shizuku"
@@ -44,6 +38,18 @@
             android:exported="true"
             android:multiprocess="false"
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+        <service
+            android:name=".services.CollectorTileService"
+            android:icon="@drawable/ic_logo"
+            android:label="@string/tile_collector"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" >
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
 
         <service
             android:name=".services.CollectorService"
@@ -59,15 +65,15 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
     </application>
-    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
     <uses-permission
         android:name="moe.shizuku.manager.permission.API"
         android:maxSdkVersion="23" />
-    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
 
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
+
+    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
 
 </manifest>

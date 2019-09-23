@@ -38,11 +38,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-alpha04"
 
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
-    implementation 'moe.shizuku.preference:preference-appcompat:4.0.0'
     implementation 'me.weishu:free_reflection:2.1.0'
-    implementation 'com.github.AppIntro:AppIntro:5.1.0'
+    implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

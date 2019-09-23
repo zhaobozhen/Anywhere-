@@ -19,7 +19,6 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://dl.bintray.com/rikkaw/Shizuku' }
-        maven { url 'https://dl.bintray.com/rikkaw/MaterialPreference' }
         maven { url 'https://jitpack.io' }
     }
 }

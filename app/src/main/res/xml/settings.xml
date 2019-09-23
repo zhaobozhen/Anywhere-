@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:key="notifications"
-        app:title="Enable message notifications" />
+    <PreferenceCategory
+        app:key="normal_category"
+        app:title="@string/settings_category_normal">
 
-    <Preference
-        app:key="about"
-        app:title="@string/menu_about"
-        app:summary="这里是 Anywhere- !"/>
+        <ListPreference
+            app:key="working_mode"
+            app:title="@string/settings_working_mode"
+            app:summary="@string/settings_working_mode_summary"
+            app:entries="@array/list_working_mode"
+            android:entryValues="@array/list_working_mode_value"/>
+
+        <Preference
+            app:key="change_background"
+            app:title="@string/settings_change_background"
+            app:summary="@string/settings_change_background_summary"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="others_category"
+        app:title="@string/settings_category_others">
+
+        <Preference
+            app:key="about"
+            app:title="@string/menu_about"
+            app:summary="这里是 Anywhere- !"/>
+
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

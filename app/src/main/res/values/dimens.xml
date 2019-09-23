@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  CardView  -->
     <dimen name="anywhere_cardview_elevation">6dp</dimen>
     <dimen name="anywhere_cardview_corner_radius">10dp</dimen>
+    <dimen name="anywhere_cardview_line_spacing">4dp</dimen>
+    <dimen name="anywhere_cardview_spacing">4dp</dimen>
+
 </resources>

@@ -5,53 +5,70 @@
     android:id="@+id/item_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:checkable="true"
+    android:layout_marginTop="@dimen/anywhere_cardview_spacing"
+    android:layout_marginBottom="@dimen/anywhere_cardview_spacing"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
     android:clickable="true"
     android:focusable="true"
     app:cardElevation="@dimen/anywhere_cardview_elevation"
     app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="64dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-        <TextView
-            android:id="@+id/tv_card_app_name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            android:textStyle="bold"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_card_package_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textStyle="italic"/>
+            <TextView
+                android:id="@+id/tv_card_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/tv_card_class_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textStyle="italic"/>
+            <TextView
+                android:id="@+id/tv_card_package_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textStyle="italic"/>
 
-        <TextView
-            android:id="@+id/tv_card_custom_texture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceSubtitle2"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_card_class_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textStyle="italic"/>
+
+            <TextView
+                android:id="@+id/tv_card_custom_texture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceSubtitle2"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_app_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            app:backgroundTint="@color/material_on_surface_emphasis_medium"
+            app:backgroundTintMode="add"/>
+
+    </RelativeLayout>
+
 </com.google.android.material.card.MaterialCardView>

@@ -11,12 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.utils.ImageUtils;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -64,6 +66,9 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             deleteAnywhereActivity(item, position);
             return false;
         });
+        if (((ItemViewHolder) viewHolder).customTextureView.getText().toString().isEmpty()) {
+            ((ItemViewHolder) viewHolder).customTextureView.setVisibility(View.GONE);
+        }
     }
 
     private void openAnywhereActivity(String packageName, String className, int classNameType) {
@@ -103,6 +108,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private final MaterialCardView materialCardView;
+        private final AppCompatImageView appIcon;
         private final TextView appNameView;
         private final TextView packageNameView;
         private final TextView classNameView;
@@ -111,6 +117,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         ItemViewHolder(View itemView) {
             super(itemView);
             materialCardView = itemView.findViewById(R.id.item_card);
+            appIcon = itemView.findViewById(R.id.iv_app_icon);
             appNameView = itemView.findViewById(R.id.tv_card_app_name);
             packageNameView = itemView.findViewById(R.id.tv_card_package_name);
             classNameView = itemView.findViewById(R.id.tv_card_class_name);
@@ -122,6 +129,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             packageNameView.setText(item.getPackageName());
             classNameView.setText(item.getClassName());
             customTextureView.setText(item.getCustomTexture());
+            appIcon.setImageDrawable(ImageUtils.getAppIconByPackageName(mContext, item.getPackageName()));
         }
 
     }

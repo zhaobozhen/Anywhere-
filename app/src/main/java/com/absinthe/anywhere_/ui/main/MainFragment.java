@@ -81,7 +81,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         fab = view.findViewById(R.id.fab);
 
-
         bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(mContext));
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
         bottomSheetDialog.setDismissWithAnimation(true);
@@ -108,6 +107,18 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 startCollector();
             }
         });
+
+//        new MaterialTapTargetPrompt.Builder(this)
+//                .setTarget(R.id.fab)
+//                .setPrimaryText("创建你的第一个 Anywhere- 吧！")
+//                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+//                .setPromptStateChangeListener((prompt, state) -> {
+//                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
+//                    {
+//                        // User has pressed the prompt target
+//                    }
+//                })
+//                .show();
 
         checkShizukuOnWorking();
     }
@@ -260,6 +271,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
 
         if (tietAppName != null) {
+//            tietAppName.setText(String.format("%s - Anywhere-01", appName));
             tietAppName.setText(appName);
         }
 
