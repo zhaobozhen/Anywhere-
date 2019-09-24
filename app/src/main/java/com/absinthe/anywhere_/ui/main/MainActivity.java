@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.ui.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -18,9 +19,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        Log.d(TAG,"onCreate");
+        SharedPreferences sp = getSharedPreferences(ConstUtil.SP_NAME, MODE_PRIVATE);
 
         mainFragment = MainFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ConstUtil.BUNDLE_FIRST_LAUNCH, sp.getBoolean(ConstUtil.SP_KEY_FIRST_LAUNCH, true));
+        mainFragment.setArguments(bundle);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, mainFragment)
@@ -40,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "packageName = " + packageName);
 
         Bundle bundle = new Bundle();
-        bundle.putString("packageName", packageName);
-        bundle.putString("className", className);
-        bundle.putInt("classNameType", classNameType);
+        bundle.putString(ConstUtil.BUNDLE_PACKAGE_NAME, packageName);
+        bundle.putString(ConstUtil.BUNDLE_CLASS_NAME, className);
+        bundle.putInt(ConstUtil.BUNDLE_CLASS_NAME_TYPE, classNameType);
 
         mainFragment.setArguments(bundle);
     }

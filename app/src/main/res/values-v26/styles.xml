@@ -2,7 +2,7 @@
 <resources>
 
     <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowSplashscreenContent">@mipmap/splash</item>
+        <item name="android:windowSplashscreenContent">@drawable/splash_drawable</item>
     </style>
 
 </resources>

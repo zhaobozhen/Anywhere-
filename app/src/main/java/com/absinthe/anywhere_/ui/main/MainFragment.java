@@ -3,7 +3,7 @@ package com.absinthe.anywhere_.ui.main;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,8 +20,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -29,12 +27,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
+import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
@@ -46,15 +44,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import moe.shizuku.api.ShizukuApiConstants;
-import moe.shizuku.api.ShizukuClientHelper;
-import moe.shizuku.api.ShizukuService;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class MainFragment extends Fragment implements LifecycleOwner {
     private static final String TAG = "MainFragment";
-    private static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1;
-    private static final int REQUEST_CODE_PERMISSION_V3 = 2;
-    private static final int REQUEST_CODE_AUTHORIZATION_V3 = 3;
+    private static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1001;
     private Context mContext;
 
     private static AnywhereViewModel mViewModel;
@@ -62,7 +56,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private BottomSheetDialog bottomSheetDialog;
     private SelectableCardsAdapter adapter;
 
-    public static MainFragment newInstance() {
+    static MainFragment newInstance() {
         return new MainFragment();
     }
     public static AnywhereViewModel getViewModelInstance() {
@@ -95,7 +89,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
 
         final Observer<String> commandObserver = s -> {
-            if (shizukuPermissionCheck()) {
+            if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
                 PermissionUtil.execShizukuCmd(s);
             }
         };
@@ -108,19 +102,28 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
         });
 
-//        new MaterialTapTargetPrompt.Builder(this)
-//                .setTarget(R.id.fab)
-//                .setPrimaryText("创建你的第一个 Anywhere- 吧！")
-//                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-//                .setPromptStateChangeListener((prompt, state) -> {
-//                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
-//                    {
-//                        // User has pressed the prompt target
-//                    }
-//                })
-//                .show();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            boolean isFirstLaunch = bundle.getBoolean(ConstUtil.BUNDLE_FIRST_LAUNCH);
+            if (isFirstLaunch) {
+                new MaterialTapTargetPrompt.Builder(this)
+                        .setTarget(R.id.fab)
+                        .setPrimaryText("创建你的第一个 Anywhere- 吧！")
+                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setPromptStateChangeListener((prompt, state) -> {
+                            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
+                            {
+                                // User has pressed the prompt target
+                            }
+                        })
+                        .show();
+                SharedPreferences.Editor editor = mContext.getSharedPreferences(ConstUtil.SP_NAME, Context.MODE_PRIVATE).edit();
+                editor.putBoolean(ConstUtil.SP_KEY_FIRST_LAUNCH, false);
+                editor.apply();
+            }
+        }
 
-        checkShizukuOnWorking();
+        PermissionUtil.checkShizukuOnWorking(mContext);
     }
 
     @Override
@@ -162,7 +165,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void startCollector() {
-        if (checkShizukuOnWorking() && shizukuPermissionCheck()) {
+        if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
             Intent intent = new Intent(mContext, CollectorService.class);
             intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
             Toast.makeText(getContext(), R.string.toast_collector_opened, Toast.LENGTH_SHORT).show();
@@ -181,64 +184,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION && Settings.canDrawOverlays(mContext)) {
             startCollector();
-        }
-    }
-
-    private boolean checkShizukuOnWorking() {
-        // Shizuku v3 service will send binder via Content Provider to this process when this activity comes foreground.
-
-        // Wait a few seconds here for binder
-
-        if (!ShizukuService.pingBinder()) {
-            if (AnywhereApplication.isShizukuV3Failed()) {
-                // provider started with no binder included, binder calls blocked by SELinux or server dead, should never happened
-                // notify user
-                Toast.makeText(mContext, "provider started with no binder included.", Toast.LENGTH_SHORT).show();
-            }
-
-            // Shizuku v3 may not running, notify user
-            Toast.makeText(mContext, "Shizuku v3 may not running.", Toast.LENGTH_SHORT).show();
-            // if your app support Shizuku v2, run old v2 codes here
-            // for new apps, recommended to ignore v2
-        } else {
-            // Shizuku v3 binder received
-            return true;
-        }
-        return false;
-    }
-
-    private boolean shizukuPermissionCheck() {
-        if (!ShizukuClientHelper.isPreM()) {
-            // on API 23+, Shizuku v3 uses runtime permission
-            if (ActivityCompat.checkSelfPermission(mContext, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                if (PermissionUtil.isMIUI()) {
-                    showPermissionDialog();
-                } else {
-                    ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
-                }
-                    return false;
-            } else {
-                return true;
-            }
-        } else if (!AnywhereApplication.isShizukuV3TokenValid()){
-            // on API pre-23, Shizuku v3 uses old token, get token from Shizuku app
-            Intent intent = ShizukuClientHelper.createPre23AuthorizationIntent(mContext);
-            if (intent != null) {
-                try {
-                    startActivityForResult(intent, REQUEST_CODE_AUTHORIZATION_V3);
-                    return true;
-                } catch (Throwable tr) {
-                    // should never happened
-                    return false;
-                }
-            } else {
-                // activity not found
-                Log.d(TAG, "activity not found.");
-                Toast.makeText(mContext, "activity not found.", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        } else {
-            return false;
         }
     }
 
@@ -308,21 +253,4 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         bottomSheetDialog.show();
     }
 
-    private void showPermissionDialog() {
-        new AlertDialog.Builder(mContext)
-                .setTitle(R.string.dialog_permission_title)
-                .setMessage(R.string.dialog_permission_message)
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
-                    if (intent != null) {
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(mContext, "Not install Shizuku.", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton(R.string.dialog_delete_negative_button,
-                        (dialogInterface, i) -> { })
-                .show();
-    }
 }
