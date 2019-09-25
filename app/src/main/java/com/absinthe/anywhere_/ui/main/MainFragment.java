@@ -37,6 +37,7 @@ import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -50,6 +51,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private static final String TAG = "MainFragment";
     private static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1001;
     private Context mContext;
+    private Bundle spBundle;
 
     private static AnywhereViewModel mViewModel;
     private FloatingActionButton fab;
@@ -98,13 +100,13 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         fab.setOnClickListener(view -> {
             if (checkOverlayPermission()) {
-                startCollector();
+                checkWorkingPermission();
             }
         });
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            boolean isFirstLaunch = bundle.getBoolean(ConstUtil.BUNDLE_FIRST_LAUNCH);
+        spBundle = getArguments();
+        if (spBundle != null) {
+            boolean isFirstLaunch = spBundle.getBoolean(ConstUtil.BUNDLE_FIRST_LAUNCH);
             if (isFirstLaunch) {
                 new MaterialTapTargetPrompt.Builder(this)
                         .setTarget(R.id.fab)
@@ -164,18 +166,38 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         return true;
     }
 
-    private void startCollector() {
-        if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
-            Intent intent = new Intent(mContext, CollectorService.class);
-            intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
-            Toast.makeText(getContext(), R.string.toast_collector_opened, Toast.LENGTH_SHORT).show();
-
-            mContext.startService(intent);
-            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-            homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            homeIntent.addCategory(Intent.CATEGORY_HOME);
-            startActivity(homeIntent);
+    private void checkWorkingPermission() {
+        String workingMode = spBundle.getString(ConstUtil.BUNDLE_WORKING_MODE);
+        if (workingMode != null && workingMode.isEmpty()) {
+            new MaterialAlertDialogBuilder(mContext)
+                    .setTitle(R.string.settings_working_mode)
+                    .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                    .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                    .setSingleChoiceItems(new CharSequence[] {"Root", "Shizuku"}, 0, null)
+                    .show();
         }
+        workingMode = ConstUtil.WORKING_MODE_SHIZUKU;
+        if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+            if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
+                startCollector();
+            }
+        } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+            if (PermissionUtil.upgradeRootPermission(getActivity().getPackageCodePath())) {
+                startCollector();
+            }
+        }
+    }
+
+    private void startCollector() {
+        Intent intent = new Intent(mContext, CollectorService.class);
+        intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
+        Toast.makeText(getContext(), R.string.toast_collector_opened, Toast.LENGTH_SHORT).show();
+
+        mContext.startService(intent);
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        homeIntent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(homeIntent);
     }
 
     @TargetApi(Build.VERSION_CODES.M)

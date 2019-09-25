@@ -46,9 +46,9 @@ public class CollectorView extends LinearLayout {
             mContext.startActivity(
                     new Intent(mContext, MainActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .putExtra("packageName", packageName)
-                            .putExtra("className", className)
-                            .putExtra("classNameType", classNameType));
+                            .putExtra(ConstUtil.INTENT_EXTRA_PACKAGE_NAME, packageName)
+                            .putExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME, className)
+                            .putExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME_TYPE, classNameType));
         });
     }
 

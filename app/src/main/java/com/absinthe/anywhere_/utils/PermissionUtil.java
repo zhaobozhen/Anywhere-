@@ -7,11 +7,11 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -159,7 +159,7 @@ public class PermissionUtil {
     }
 
     public static void showPermissionDialog(Context mContext) {
-        new AlertDialog.Builder(mContext)
+        new MaterialAlertDialogBuilder(mContext)
                 .setTitle(R.string.dialog_permission_title)
                 .setMessage(R.string.dialog_permission_message)
                 .setCancelable(false)

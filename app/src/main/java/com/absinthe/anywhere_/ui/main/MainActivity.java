@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         mainFragment = MainFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putBoolean(ConstUtil.BUNDLE_FIRST_LAUNCH, sp.getBoolean(ConstUtil.SP_KEY_FIRST_LAUNCH, true));
+        bundle.putString(ConstUtil.BUNDLE_WORKING_MODE, sp.getString(ConstUtil.SP_KEY_WORKING_MODE, ""));
         mainFragment.setArguments(bundle);
 
         if (savedInstanceState == null) {
@@ -36,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        String packageName = intent.getStringExtra("packageName");
-        String className = intent.getStringExtra("className");
-        int classNameType = intent.getIntExtra("classNameType", ConstUtil.SHORT_CLASS_NAME_TYPE);
+        String packageName = intent.getStringExtra(ConstUtil.INTENT_EXTRA_PACKAGE_NAME);
+        String className = intent.getStringExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME);
+        int classNameType = intent.getIntExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME_TYPE, ConstUtil.SHORT_CLASS_NAME_TYPE);
 
         Log.d(TAG, "classNameType = " + classNameType);
         Log.d(TAG, "className = " + className);
