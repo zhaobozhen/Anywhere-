@@ -9,6 +9,9 @@ import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.utils.SPUtils;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -20,6 +23,7 @@ import moe.shizuku.api.ShizukuService;
 public class AnywhereApplication extends android.app.Application {
     public static final String ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER";
     public static final String TAG = "AnywhereApplication";
+    public static String workingMode = null;
 
     public static String getProcessName() {
         if (Build.VERSION.SDK_INT >= 28)
@@ -83,5 +87,7 @@ public class AnywhereApplication extends android.app.Application {
                 }
             }
         });
+
+        workingMode = SPUtils.getString(this, ConstUtil.SP_KEY_WORKING_MODE);
     }
 }

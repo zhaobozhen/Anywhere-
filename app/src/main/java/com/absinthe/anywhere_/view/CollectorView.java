@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.CollectorService;
@@ -54,7 +55,17 @@ public class CollectorView extends LinearLayout {
 
     private void collectActivity() {
         String cmd = ConstUtil.CMD_GET_TOP_STACK_ACTIVITY;
-        String result = PermissionUtil.execShizukuCmd(cmd);
+        String workingMode = AnywhereApplication.workingMode;
+        String result = null;
+
+        if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+            result = PermissionUtil.execRootCmd(cmd);
+        } else if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+            result = PermissionUtil.execShizukuCmd(cmd);
+        } else {
+            Log.d(TAG, "workingMode abnormal.");
+        }
+
         Log.d(TAG, "Shell result = " + result);
 
         if (result != null) {

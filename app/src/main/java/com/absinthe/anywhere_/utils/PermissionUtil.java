@@ -31,11 +31,12 @@ public class PermissionUtil {
     private static final int REQUEST_CODE_PERMISSION_V3 = 1001;
     private static final int REQUEST_CODE_AUTHORIZATION_V3 = 1002;
 
-    public static void goToMIUIPermissionManager() {
+    public static void goToMIUIPermissionManager(Context context) {
         Intent intent = new Intent();
         intent.setAction("miui.intent.action.APP_PERM_EDITOR");
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.putExtra("extra_pkgname", "com.absinthe.anywhere_");
+        intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
+        intent.putExtra("extra_pkgname", context.getPackageName());
+        context.startActivity(intent);
     }
 
     public static boolean upgradeRootPermission(String pkgCodePath) {
@@ -44,6 +45,7 @@ public class PermissionUtil {
 
         try {
             String cmd = "chmod 777 " + pkgCodePath;
+            Log.d(TAG, "root cmd = " + cmd);
             process = Runtime.getRuntime().exec("su"); //切换到 root 账户
             os = new DataOutputStream(process.getOutputStream());
             os.writeBytes(cmd + "\n");
@@ -51,6 +53,7 @@ public class PermissionUtil {
             os.flush();
             process.waitFor();
         } catch (Exception e) {
+            Log.d(TAG, "upgradeRootPermission:" + e.toString());
             return false;
         } finally {
             try {

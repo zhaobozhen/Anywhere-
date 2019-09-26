@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.ui.main;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -34,6 +34,7 @@ import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
+import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -51,7 +52,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private static final String TAG = "MainFragment";
     private static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1001;
     private Context mContext;
-    private Bundle spBundle;
+    private String workingMode;
 
     private static AnywhereViewModel mViewModel;
     private FloatingActionButton fab;
@@ -69,7 +70,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mContext = getContext();
+        mContext = getActivity();
         View view = inflater.inflate(R.layout.main_fragment, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         setUpRecyclerView(recyclerView);
@@ -104,25 +105,25 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
         });
 
-        spBundle = getArguments();
-        if (spBundle != null) {
-            boolean isFirstLaunch = spBundle.getBoolean(ConstUtil.BUNDLE_FIRST_LAUNCH);
-            if (isFirstLaunch) {
-                new MaterialTapTargetPrompt.Builder(this)
-                        .setTarget(R.id.fab)
-                        .setPrimaryText("创建你的第一个 Anywhere- 吧！")
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                        .setPromptStateChangeListener((prompt, state) -> {
-                            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
-                            {
-                                // User has pressed the prompt target
+        boolean isFirstLaunch = SPUtils.getBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH);
+        workingMode = AnywhereApplication.workingMode;
+
+        if (isFirstLaunch) {
+            new MaterialTapTargetPrompt.Builder(this)
+                    .setTarget(R.id.fab)
+                    .setPrimaryText("创建你的第一个 Anywhere- 吧！")
+                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                    .setPromptStateChangeListener((prompt, state) -> {
+                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
+                        {
+                            Toast.makeText(mContext, getString(R.string.toast_open_pop_up_when_background_permission), Toast.LENGTH_LONG).show();
+                            if (PermissionUtil.isMIUI()) {
+                                PermissionUtil.goToMIUIPermissionManager(mContext);
                             }
-                        })
-                        .show();
-                SharedPreferences.Editor editor = mContext.getSharedPreferences(ConstUtil.SP_NAME, Context.MODE_PRIVATE).edit();
-                editor.putBoolean(ConstUtil.SP_KEY_FIRST_LAUNCH, false);
-                editor.apply();
-            }
+                        }
+                    })
+                    .show();
+            SPUtils.putBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH, false);
         }
 
         PermissionUtil.checkShizukuOnWorking(mContext);
@@ -167,25 +168,44 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void checkWorkingPermission() {
-        String workingMode = spBundle.getString(ConstUtil.BUNDLE_WORKING_MODE);
+        Log.d(TAG, "workingMode = " + workingMode);
         if (workingMode != null && workingMode.isEmpty()) {
+            final int[] selected = {-1};
             new MaterialAlertDialogBuilder(mContext)
                     .setTitle(R.string.settings_working_mode)
-                    .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                    .setSingleChoiceItems(new CharSequence[]{"Root", "Shizuku"}, 0, (dialogInterface, i) -> selected[0] = i)
+                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                        switch (selected[0]) {
+                            case 0:
+                                SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, ConstUtil.WORKING_MODE_ROOT);
+                                workingMode = ConstUtil.WORKING_MODE_ROOT;
+                                break;
+                            case 1:
+                                SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, ConstUtil.WORKING_MODE_SHIZUKU);
+                                workingMode = ConstUtil.WORKING_MODE_SHIZUKU;
+                                break;
+                            default:
+                                Log.d(TAG, "default");
+                        }
+                    })
                     .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                    .setSingleChoiceItems(new CharSequence[] {"Root", "Shizuku"}, 0, null)
                     .show();
-        }
-        workingMode = ConstUtil.WORKING_MODE_SHIZUKU;
-        if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
-            if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
-                startCollector();
+        } else {
+            workingMode = SPUtils.getString(mContext, ConstUtil.SP_KEY_WORKING_MODE);
+            if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+                if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
+                    startCollector();
+                }
+            } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+                if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
+                    startCollector();
+                } else {
+                    Log.d(TAG, "ROOT permission denied.");
+                    Toast.makeText(mContext, getString(R.string.toast_root_permission_denied), Toast.LENGTH_SHORT).show();
+                }
             }
-        } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
-            if (PermissionUtil.upgradeRootPermission(getActivity().getPackageCodePath())) {
-                startCollector();
-            }
         }
+
     }
 
     private void startCollector() {
@@ -205,7 +225,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION && Settings.canDrawOverlays(mContext)) {
-            startCollector();
+            checkWorkingPermission();
         }
     }
 
