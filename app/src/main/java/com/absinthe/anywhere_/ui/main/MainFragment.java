@@ -3,6 +3,8 @@ package com.absinthe.anywhere_.ui.main;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,11 +16,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -37,6 +42,11 @@ import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -90,8 +100,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         super.onActivityCreated(savedInstanceState);
 
         boolean isFirstLaunch = SPUtils.getBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH);
-        workingMode = AnywhereApplication.workingMode;
+        String backgroundUri = SPUtils.getString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        mViewModel.getWorkingMode().setValue(AnywhereApplication.workingMode);
 
         final Observer<String> commandObserver = s -> {
             if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
@@ -106,6 +117,43 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         };
         mViewModel.getCommand().observe(this, commandObserver);
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
+        mViewModel.getWorkingMode().observe(this, s -> {
+            AnywhereApplication.workingMode = workingMode = s;
+            SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, s);
+        });
+
+        final Observer<String> backgroundObserver = s -> {
+            View bgView = Objects.requireNonNull(getActivity()).findViewById(R.id.main);
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            Window window = getActivity().getWindow();
+
+            if (s.isEmpty()) {
+                bgView.setBackground(null);
+                if (actionBar != null) {
+                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+                }
+                window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
+
+            } else {
+                SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                        bgView.setBackground(resource);
+                    }
+                };
+                Glide.with(mContext)
+                        .load(Uri.parse(s))
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .into(simpleTarget);
+                if (actionBar != null) {
+                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
+                }
+                window.setStatusBarColor(this.getResources().getColor(R.color.transparent));
+            }
+            SPUtils.putString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND, s);
+        };
+        mViewModel.getBackground().observe(this, backgroundObserver);
 
         fab.setOnClickListener(view -> {
             if (checkOverlayPermission()) {
@@ -129,6 +177,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     })
                     .show();
             SPUtils.putBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH, false);
+        }
+
+        if (!backgroundUri.isEmpty()) {
+            Log.d(TAG, "backgroundUri = " + backgroundUri);
+            mViewModel.getBackground().setValue(backgroundUri);
         }
 
         PermissionUtil.checkShizukuOnWorking(mContext);
@@ -174,39 +227,38 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void checkWorkingPermission() {
         Log.d(TAG, "workingMode = " + workingMode);
-        if (workingMode != null && workingMode.isEmpty()) {
-            final int[] selected = {-1};
-            new MaterialAlertDialogBuilder(mContext)
-                    .setTitle(R.string.settings_working_mode)
-                    .setSingleChoiceItems(new CharSequence[]{"Root", "Shizuku"}, 0, (dialogInterface, i) -> selected[0] = i)
-                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                        switch (selected[0]) {
-                            case 0:
-                                SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, ConstUtil.WORKING_MODE_ROOT);
-                                AnywhereApplication.workingMode = workingMode = ConstUtil.WORKING_MODE_ROOT;
-                                break;
-                            case 1:
-                                SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, ConstUtil.WORKING_MODE_SHIZUKU);
-                                AnywhereApplication.workingMode = workingMode = ConstUtil.WORKING_MODE_SHIZUKU;
-                                break;
-                            default:
-                                Log.d(TAG, "default");
-                        }
-                    })
-                    .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                    .show();
-        } else {
-            workingMode = SPUtils.getString(mContext, ConstUtil.SP_KEY_WORKING_MODE);
-            if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
-                if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
-                    startCollector();
-                }
-            } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
-                if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
-                    startCollector();
-                } else {
-                    Log.d(TAG, "ROOT permission denied.");
-                    Toast.makeText(mContext, getString(R.string.toast_root_permission_denied), Toast.LENGTH_SHORT).show();
+        if (workingMode != null) {
+            if (workingMode.isEmpty()) {
+                final int[] selected = {-1};
+                new MaterialAlertDialogBuilder(mContext)
+                        .setTitle(R.string.settings_working_mode)
+                        .setSingleChoiceItems(new CharSequence[]{"Root", "Shizuku"}, 0, (dialogInterface, i) -> selected[0] = i)
+                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                            switch (selected[0]) {
+                                case 0:
+                                    mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_ROOT);
+                                    break;
+                                case 1:
+                                    mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_SHIZUKU);
+                                    break;
+                                default:
+                                    Log.d(TAG, "default");
+                            }
+                        })
+                        .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                        .show();
+            } else {
+                if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+                    if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
+                        startCollector();
+                    }
+                } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+                    if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
+                        startCollector();
+                    } else {
+                        Log.d(TAG, "ROOT permission denied.");
+                        Toast.makeText(mContext, getString(R.string.toast_root_permission_denied), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }

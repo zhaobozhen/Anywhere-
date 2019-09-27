@@ -10,13 +10,33 @@
             app:key="workingMode"
             app:title="@string/settings_working_mode"
             app:summary="@string/settings_working_mode_summary"
+            app:useSimpleSummaryProvider="true"
             app:entries="@array/list_working_mode"
-            android:entryValues="@array/list_working_mode_value"/>
+            app:entryValues="@array/list_working_mode_value"/>
 
         <Preference
             app:key="changeBackground"
             app:title="@string/settings_change_background"
             app:summary="@string/settings_change_background_summary"/>
+
+        <Preference
+            app:key="resetBackground"
+            app:title="@string/settings_reset_background"
+            app:summary="@string/settings_reset_background_summary"/>
+
+        <ListPreference
+            app:key="darkMode"
+            app:title="@string/settings_dark_mode"
+            app:summary="@string/settings_dark_mode_summary"
+            app:useSimpleSummaryProvider="true"
+            app:entries="@array/list_dark_mode"
+            app:entryValues="@array/list_dark_mode_value"
+            android:defaultValue="off"/>
+
+        <SwitchPreferenceCompat
+            app:key="darkModeOLED"
+            app:title="@string/settings_dark_mode_oled"
+            android:summary="@string/settings_dark_mode_oled_summary"/>
 
     </PreferenceCategory>
 
@@ -27,7 +47,13 @@
         <Preference
             app:key="about"
             app:title="@string/menu_about"
-            app:summary="这里是 Anywhere- !"/>
+            app:summary="这里是 Anywhere- !">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_"
+                android:targetClass="com.absinthe.anywhere_.ui.about.AboutActivity"/>
+
+        </Preference>
 
     </PreferenceCategory>
 

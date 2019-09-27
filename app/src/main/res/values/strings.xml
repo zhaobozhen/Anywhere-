@@ -13,7 +13,7 @@
     <string name="dialog_permission_message">需要 Shizuku 权限，MIUI 由于系统限制，请到 Shizuku 打开</string>
 
     <!--  RecyclerView Adapter  -->
-    <string name="dialog_delete_title">确认删除</string>
+    <string name="dialog_delete_title">删除</string>
     <string name="dialog_delete_message">确定要删除</string>
     <string name="dialog_delete_positive_button">确定</string>
     <string name="dialog_delete_negative_button">取消</string>
@@ -40,12 +40,21 @@
 
     <string name="settings_working_mode">工作模式</string>
     <string name="settings_change_background">更换背景图片</string>
+    <string name="settings_reset_background">重置背景</string>
+    <string name="settings_dark_mode">夜间模式</string>
+    <string name="settings_dark_mode_oled">OLED 夜间模式</string>
 
     <string name="settings_working_mode_summary">选择一个工作模式</string>
-    <string name="settings_change_background_summary">为主页换一张背景图片吧</string>
+    <string name="settings_change_background_summary">为主页更换一张背景图片吧</string>
+    <string name="settings_reset_background_summary">将背景重置为空白</string>
+    <string name="settings_dark_mode_summary">在夜晚使用夜间模式</string>
+    <string name="settings_dark_mode_oled_summary">在 OLED 设备上启用纯黑背景</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root 权限被拒绝</string>
     <string name="toast_open_pop_up_when_background_permission">请打开 后台弹出界面 权限</string>
+
+    <string name="dialog_reset_background_confirm_title">重置</string>
+    <string name="dialog_reset_background_confirm_message">确定要重置背景吗？</string>
 
 </resources>

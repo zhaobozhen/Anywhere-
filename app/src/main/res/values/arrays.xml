@@ -9,4 +9,19 @@
         <item>root</item>
         <item>shizuku</item>
     </string-array>
+
+    <string-array name="list_dark_mode">
+        <item>关闭</item>
+        <item>开启</item>
+        <item>自动</item>
+        <item>跟随系统</item>
+    </string-array>
+
+    <string-array name="list_dark_mode_value">
+        <item>off</item>
+        <item>on</item>
+        <item>auto</item>
+        <item>system</item>
+    </string-array>
+
 </resources>

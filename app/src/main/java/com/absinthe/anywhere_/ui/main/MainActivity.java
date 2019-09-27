@@ -1,13 +1,17 @@
 package com.absinthe.anywhere_.ui.main;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.utils.SPUtils;
 
 public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment;
@@ -17,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        initView();
 
         mainFragment = MainFragment.newInstance();
         if (savedInstanceState == null) {
@@ -45,10 +50,14 @@ public class MainActivity extends AppCompatActivity {
         mainFragment.setArguments(bundle);
     }
 
-    public MainFragment getInstance() {
-        if (mainFragment == null) {
-            mainFragment = new MainFragment();
+    private void initView() {
+        if (!SPUtils.getString(this, ConstUtil.SP_KEY_CHANGE_BACKGROUND).isEmpty()) {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
+            }
+            Window window = this.getWindow();
+            window.setStatusBarColor(this.getResources().getColor(R.color.transparent));
         }
-        return mainFragment;
     }
 }
