@@ -76,6 +76,19 @@ public class PermissionUtil {
         return false;
     }
 
+    public static String execCmd(String cmd) {
+        String result = null;
+        if (AnywhereApplication.workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+            result = execRootCmd(cmd);
+        } else if (AnywhereApplication.workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+            result = execShizukuCmd(cmd);
+        } else {
+            Log.d(TAG, "execCmd abnormal.");
+        }
+
+        return result;
+    }
+
     public static String execRootCmd(String cmd) {
         StringBuilder result = new StringBuilder();
         OutputStream os = null;

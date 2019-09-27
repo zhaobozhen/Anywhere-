@@ -17,6 +17,7 @@ public class AnywhereViewModel extends AndroidViewModel {
     private LiveData<List<AnywhereEntity>> mAllAnywhereEntities;
 
     private MutableLiveData<String> mCommand = null;
+    private MutableLiveData<String> mWorkingMode = null;
 
     public AnywhereViewModel(Application application) {
         super(application);
@@ -41,5 +42,12 @@ public class AnywhereViewModel extends AndroidViewModel {
             mCommand = new MutableLiveData<>();
         }
         return mCommand;
+    }
+
+    public MutableLiveData<String> getWorkingMode() {
+        if (mWorkingMode == null) {
+            mWorkingMode = new MutableLiveData<>();
+        }
+        return mWorkingMode;
     }
 }

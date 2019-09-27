@@ -44,4 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         mainFragment.setArguments(bundle);
     }
+
+    public MainFragment getInstance() {
+        if (mainFragment == null) {
+            mainFragment = new MainFragment();
+        }
+        return mainFragment;
+    }
 }

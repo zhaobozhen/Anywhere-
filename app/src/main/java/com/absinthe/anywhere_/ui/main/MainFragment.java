@@ -89,11 +89,19 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        boolean isFirstLaunch = SPUtils.getBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH);
+        workingMode = AnywhereApplication.workingMode;
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
 
         final Observer<String> commandObserver = s -> {
-            if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
-                PermissionUtil.execShizukuCmd(s);
+            if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+                if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
+                    PermissionUtil.execShizukuCmd(s);
+                }
+            } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+                if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
+                    PermissionUtil.execRootCmd(s);
+                }
             }
         };
         mViewModel.getCommand().observe(this, commandObserver);
@@ -104,9 +112,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 checkWorkingPermission();
             }
         });
-
-        boolean isFirstLaunch = SPUtils.getBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH);
-        workingMode = AnywhereApplication.workingMode;
 
         if (isFirstLaunch) {
             new MaterialTapTargetPrompt.Builder(this)
@@ -143,7 +148,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 appName = TextUtils.getAppName(mContext, packageName);
 
                 Log.d(TAG, "onResume:" + packageName + "," + className);
-                editNewAnywhere(packageName, className, classNameType, appName);
+                editAnywhere(packageName, className, classNameType, appName);
 
                 bundle.clear();
             }
@@ -178,11 +183,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         switch (selected[0]) {
                             case 0:
                                 SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, ConstUtil.WORKING_MODE_ROOT);
-                                workingMode = ConstUtil.WORKING_MODE_ROOT;
+                                AnywhereApplication.workingMode = workingMode = ConstUtil.WORKING_MODE_ROOT;
                                 break;
                             case 1:
                                 SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, ConstUtil.WORKING_MODE_SHIZUKU);
-                                workingMode = ConstUtil.WORKING_MODE_SHIZUKU;
+                                AnywhereApplication.workingMode = workingMode = ConstUtil.WORKING_MODE_SHIZUKU;
                                 break;
                             default:
                                 Log.d(TAG, "default");
@@ -246,11 +251,13 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        startActivity(new Intent(getActivity(), SettingsActivity.class));
+        if (item.getItemId() == R.id.toolbar_settings) {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    private void editNewAnywhere(String packageName, String className, int classNameType, String appName) {
+    public void editAnywhere(String packageName, String className, int classNameType, String appName) {
         TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
         TextInputEditText tietPackageName = bottomSheetDialog.findViewById(R.id.tiet_package_name);
         TextInputEditText tietClassName = bottomSheetDialog.findViewById(R.id.tiet_class_name);

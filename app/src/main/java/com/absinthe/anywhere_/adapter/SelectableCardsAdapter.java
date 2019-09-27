@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.ImageUtils;
@@ -58,12 +59,14 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         AnywhereEntity item = items.get(position);
-        ((ItemViewHolder) viewHolder).bind(item, position);
+        ((ItemViewHolder) viewHolder).bind(item);
 
         ((ItemViewHolder) viewHolder).materialCardView.setOnClickListener(view -> openAnywhereActivity(item.getPackageName(), item.getClassName(), item.getClassNameType()));
         ((ItemViewHolder) viewHolder).materialCardView.setOnLongClickListener(view -> {
             vibrator.vibrate(30);
             deleteAnywhereActivity(item, position);
+//            ((MainActivity)mContext).getInstance().editAnywhere(item.getPackageName(), item.getClassName(), item.getClassNameType(), item.getAppName());
+
             return false;
         });
         if (((ItemViewHolder) viewHolder).customTextureView.getText().toString().isEmpty()) {
@@ -124,7 +127,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             customTextureView = itemView.findViewById(R.id.tv_card_custom_texture);
         }
 
-        private void bind(AnywhereEntity item, int position) {
+        private void bind(AnywhereEntity item) {
             appNameView.setText(item.getAppName());
             packageNameView.setText(item.getPackageName());
             classNameView.setText(item.getClassName());

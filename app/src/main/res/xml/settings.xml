@@ -3,25 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        app:key="normal_category"
+        app:key="normalCategory"
         app:title="@string/settings_category_normal">
 
         <ListPreference
-            app:key="working_mode"
+            app:key="workingMode"
             app:title="@string/settings_working_mode"
             app:summary="@string/settings_working_mode_summary"
             app:entries="@array/list_working_mode"
             android:entryValues="@array/list_working_mode_value"/>
 
         <Preference
-            app:key="change_background"
+            app:key="changeBackground"
             app:title="@string/settings_change_background"
             app:summary="@string/settings_change_background_summary"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="others_category"
+        app:key="othersCategory"
         app:title="@string/settings_category_others">
 
         <Preference
