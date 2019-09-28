@@ -1,19 +1,27 @@
 package com.absinthe.anywhere_.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.Display;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.absinthe.anywhere_.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 public class ImageUtils {
+
     public static Drawable getAppIconByPackageName(Context mContext, String apkTempPackageName){
         Drawable drawable;
         try{
@@ -26,37 +34,25 @@ public class ImageUtils {
         return drawable;
     }
 
-    public static Bitmap scaleCenterCrop(Bitmap source, int newHeight, int newWidth) {
-        int sourceWidth = source.getWidth();
-        int sourceHeight = source.getHeight();
+    public static void setActionBarTransparent(Activity activity) {
+        ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+        Window window = activity.getWindow();
 
-        // Compute the scaling factors to fit the new height and width, respectively.
-        // To cover the final image, the final scaling will be the bigger
-        // of these two.
-        float xScale = (float) newWidth / sourceWidth;
-        float yScale = (float) newHeight / sourceHeight;
-        float scale = Math.max(xScale, yScale);
+        if (actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(R.color.transparent)));
+        }
+        window.setStatusBarColor(activity.getResources().getColor(R.color.transparent));
+    }
 
-        // Now get the size of the source bitmap when scaled
-        float scaledWidth = scale * sourceWidth;
-        float scaledHeight = scale * sourceHeight;
-
-        // Let's find out the upper left coordinates if the scaled bitmap
-        // should be centered in the new size give by the parameters
-        float left = (newWidth - scaledWidth) / 2;
-        float top = (newHeight - scaledHeight) / 2;
-
-        // The target rectangle for the new, scaled version of the source bitmap will now
-        // be
-        RectF targetRect = new RectF(left, top, left + scaledWidth, top + scaledHeight);
-
-        // Finally, we create a new bitmap of the specified size and draw our new,
-        // scaled bitmap onto it.
-        Bitmap dest = Bitmap.createBitmap(newWidth, newHeight, source.getConfig());
-        Canvas canvas = new Canvas(dest);
-        canvas.drawBitmap(source, null, targetRect, null);
-
-        return dest;
+    public static void loadBackgroundPic(Context context, ImageView imageView) {
+        String backgroundUri = SPUtils.getString(context, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
+        if (!backgroundUri.isEmpty()) {
+            Glide.with(context)
+                    .load(Uri.parse(backgroundUri))
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(imageView);
+        }
     }
 
     /**
@@ -72,4 +68,5 @@ public class ImageUtils {
             return null;
         }
     }
+
 }

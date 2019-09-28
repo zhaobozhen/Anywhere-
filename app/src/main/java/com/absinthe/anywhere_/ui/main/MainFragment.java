@@ -3,9 +3,6 @@ package com.absinthe.anywhere_.ui.main;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,14 +13,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -38,15 +33,11 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.utils.ImageUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -123,40 +114,19 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         });
 
         final Observer<String> backgroundObserver = s -> {
-            View bgView = Objects.requireNonNull(getActivity()).findViewById(R.id.main);
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            Window window = getActivity().getWindow();
-
+            ImageView ivBackground = Objects.requireNonNull(getActivity()).findViewById(R.id.iv_background);
             if (s.isEmpty()) {
-                bgView.setBackground(null);
-                if (actionBar != null) {
-                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
-                }
-                window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
-
+                ivBackground.setBackground(null);
             } else {
-                SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
-                        bgView.setBackground(resource);
-                    }
-                };
-                Glide.with(mContext)
-                        .load(Uri.parse(s))
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .into(simpleTarget);
-                if (actionBar != null) {
-                    actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
-                }
-                window.setStatusBarColor(this.getResources().getColor(R.color.transparent));
+                ImageUtils.loadBackgroundPic(mContext, ivBackground);
+                ImageUtils.setActionBarTransparent(getActivity());
             }
             SPUtils.putString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND, s);
         };
         mViewModel.getBackground().observe(this, backgroundObserver);
 
         fab.setOnClickListener(view -> {
-            if (checkOverlayPermission()) {
+            if (PermissionUtil.checkOverlayPermission(getActivity(), REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                 checkWorkingPermission();
             }
         });
@@ -207,22 +177,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
         }
 
-    }
-
-    private boolean checkOverlayPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(mContext)) {
-                startActivityForResult(
-                        new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + mContext.getPackageName())),
-                        REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION
-                );
-                Toast.makeText(mContext, R.string.toast_permission_overlap, Toast.LENGTH_LONG).show();
-                return false;
-            } else {
-                return true;
-            }
-        }
-        return true;
     }
 
     private void checkWorkingPermission() {
@@ -310,6 +264,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     public void editAnywhere(String packageName, String className, int classNameType, String appName) {
+        if (bottomSheetDialog == null) {
+            bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(mContext));
+            bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
+            bottomSheetDialog.setDismissWithAnimation(true);
+        }
+
         TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
         TextInputEditText tietPackageName = bottomSheetDialog.findViewById(R.id.tiet_package_name);
         TextInputEditText tietClassName = bottomSheetDialog.findViewById(R.id.tiet_class_name);

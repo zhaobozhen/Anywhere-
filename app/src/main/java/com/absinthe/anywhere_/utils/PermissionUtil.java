@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -225,6 +228,22 @@ public class PermissionUtil {
         } else {
             return false;
         }
+    }
+
+    public static boolean checkOverlayPermission(Activity activity, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(activity)) {
+                activity.startActivityForResult(
+                        new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName())),
+                        requestCode
+                );
+                Toast.makeText(activity, R.string.toast_permission_overlap, Toast.LENGTH_LONG).show();
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return true;
     }
 
     public static boolean checkShizukuOnWorking(Context mContext) {

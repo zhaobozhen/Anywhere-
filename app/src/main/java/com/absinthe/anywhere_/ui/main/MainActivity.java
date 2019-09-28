@@ -1,17 +1,25 @@
 package com.absinthe.anywhere_.ui.main;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
+import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.utils.ImageUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment;
@@ -51,13 +59,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        if (!SPUtils.getString(this, ConstUtil.SP_KEY_CHANGE_BACKGROUND).isEmpty()) {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
-            }
-            Window window = this.getWindow();
-            window.setStatusBarColor(this.getResources().getColor(R.color.transparent));
+        String backgroundUri = SPUtils.getString(this, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
+        ImageView ivBackground = findViewById(R.id.iv_background);
+        if (!backgroundUri.isEmpty()) {
+            ImageUtils.setActionBarStyle(this, ImageUtils.ACTION_BAR_TRANSLATE);
+            ImageUtils.loadBackgroundPic(this, ivBackground);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        ImageView ivBackground = findViewById(R.id.iv_background);
+
+        ImageUtils.loadBackgroundPic(this, ivBackground);
     }
 }

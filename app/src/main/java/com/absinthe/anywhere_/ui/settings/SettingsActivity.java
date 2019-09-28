@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.utils.SPUtils;
 
 public class SettingsActivity extends AppCompatActivity {
     private final String TAG = SettingsActivity.class.getSimpleName();
+    private final int REQUEST_CODE_PHOTO_CROP = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class SettingsActivity extends AppCompatActivity {
                         Log.d(TAG, "onActivityResult: REQUEST_CODE_IMAGE_CAPTURE: data = null.");
                     }
                 }
+                break;
+            case REQUEST_CODE_PHOTO_CROP:
                 break;
             default:
         }
