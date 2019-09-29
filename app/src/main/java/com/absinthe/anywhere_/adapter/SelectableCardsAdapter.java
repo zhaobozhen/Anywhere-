@@ -1,8 +1,8 @@
 package com.absinthe.anywhere_.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Vibrator;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +17,9 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ImageUtils;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +63,9 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         ((ItemViewHolder) viewHolder).materialCardView.setOnClickListener(view -> openAnywhereActivity(item.getPackageName(), item.getClassName(), item.getClassNameType()));
         ((ItemViewHolder) viewHolder).materialCardView.setOnLongClickListener(view -> {
             vibrator.vibrate(30);
-            deleteAnywhereActivity(item, position);
-//            ((MainActivity)mContext).getInstance().editAnywhere(item.getPackageName(), item.getClassName(), item.getClassNameType(), item.getAppName());
+            EditUtils.editAnywhere((Activity) mContext, this, item, position, true);
 
-            return false;
+            return true;
         });
         if (((ItemViewHolder) viewHolder).customTextureView.getText().toString().isEmpty()) {
             ((ItemViewHolder) viewHolder).customTextureView.setVisibility(View.GONE);
@@ -90,20 +89,6 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         Log.d(TAG, packageName + "\n" + className + "\n" + classNameType);
         MainFragment.getViewModelInstance().getCommand().setValue(cmd);
-    }
-
-    private void deleteAnywhereActivity(AnywhereEntity ae, int posiion) {
-        new MaterialAlertDialogBuilder(mContext)
-                .setTitle(R.string.dialog_delete_title)
-                .setMessage(Html.fromHtml(mContext.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                    MainFragment.getViewModelInstance().delete(ae);
-                    notifyItemRemoved(posiion);
-                })
-                .setNegativeButton(R.string.dialog_delete_negative_button,
-                        (dialogInterface, i) -> { })
-                .show();
     }
 
     @Override

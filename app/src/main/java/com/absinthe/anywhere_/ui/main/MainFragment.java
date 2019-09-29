@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.ui.main;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -13,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -33,15 +33,14 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ImageUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private String workingMode;
 
     private static AnywhereViewModel mViewModel;
-    private BottomSheetDialog bottomSheetDialog;
     private SelectableCardsAdapter adapter;
 
     static MainFragment newInstance() {
@@ -118,7 +116,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 appName = TextUtils.getAppName(mContext, packageName);
 
                 Log.d(TAG, "onResume:" + packageName + "," + className);
-                editAnywhere(packageName, className, classNameType, appName);
+                EditUtils.editAnywhere((Activity) mContext, packageName, className, classNameType, appName);
 
                 bundle.clear();
             }
@@ -210,65 +208,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         return super.onOptionsItemSelected(item);
     }
 
-    private void editAnywhere(String packageName, String className, int classNameType, String appName) {
-        if (bottomSheetDialog == null) {
-            bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(mContext));
-            bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
-            bottomSheetDialog.setDismissWithAnimation(true);
-        }
 
-        TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
-        TextInputEditText tietPackageName = bottomSheetDialog.findViewById(R.id.tiet_package_name);
-        TextInputEditText tietClassName = bottomSheetDialog.findViewById(R.id.tiet_class_name);
-        TextInputEditText tietDescription = bottomSheetDialog.findViewById(R.id.tiet_description);
-
-
-        if (tietAppName != null) {
-//            tietAppName.setText(String.format("%s - Anywhere-01", appName));
-            tietAppName.setText(appName);
-        }
-
-        if (tietPackageName != null) {
-            tietPackageName.setText(packageName);
-        }
-
-        if (tietClassName != null) {
-            tietClassName.setText(className);
-        }
-
-        if (tietDescription != null) {
-            tietDescription.setText(null);
-        }
-
-        Button btnEditAnywhereDone = bottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
-        if (btnEditAnywhereDone != null) {
-            btnEditAnywhereDone.setOnClickListener(view -> {
-                if (tietPackageName != null && tietClassName != null && tietAppName != null && tietDescription != null) {
-                    String pName = tietPackageName.getText() == null ? packageName : tietPackageName.getText().toString();
-                    String cName = tietClassName.getText() == null ? className : tietClassName.getText().toString();
-                    String aName = tietAppName.getText() == null ? appName : tietAppName.getText().toString();
-                    String description = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
-                    Log.d(TAG, "description == " + description);
-
-                    mViewModel.insert(new AnywhereEntity(pName, cName, classNameType, aName, description));
-                    bottomSheetDialog.dismiss();
-                } else {
-                    Toast.makeText(mContext, "error data.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-        bottomSheetDialog.show();
-    }
 
     private void initView(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         setUpRecyclerView(recyclerView);
         setHasOptionsMenu(true);
-
-        bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(mContext));
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
-        bottomSheetDialog.setDismissWithAnimation(true);
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(clickView -> {

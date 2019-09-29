@@ -3,6 +3,7 @@
     <string name="settings_title">设置</string>
     <string name="about_title">关于</string>
     <string name="tile_collector">启动 Collector</string>
+    <string name="slogan">Anywhere- 去你想去的地方</string>
 
     <!--  Collector  -->
     <string name="toast_permission_overlap">请先授予 \"Anywhere-\" 悬浮窗权限</string>
@@ -56,5 +57,7 @@
 
     <string name="dialog_reset_background_confirm_title">重置</string>
     <string name="dialog_reset_background_confirm_message">确定要重置背景吗？</string>
+
+    <string name="help_text">帮助文档</string>
 
 </resources>
