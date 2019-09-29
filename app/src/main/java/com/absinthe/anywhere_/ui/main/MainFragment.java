@@ -56,7 +56,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private String workingMode;
 
     private static AnywhereViewModel mViewModel;
-    private FloatingActionButton fab;
     private BottomSheetDialog bottomSheetDialog;
     private SelectableCardsAdapter adapter;
 
@@ -73,15 +72,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                              @Nullable Bundle savedInstanceState) {
         mContext = getActivity();
         View view = inflater.inflate(R.layout.main_fragment, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        setUpRecyclerView(recyclerView);
-        setHasOptionsMenu(true);
-
-        fab = view.findViewById(R.id.fab);
-
-        bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(mContext));
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
-        bottomSheetDialog.setDismissWithAnimation(true);
+        initView(view);
 
         return view;
     }
@@ -90,47 +81,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        initObserver();
+        PermissionUtil.checkShizukuOnWorking(mContext);
+
         boolean isFirstLaunch = SPUtils.getBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH);
-        String backgroundUri = SPUtils.getString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
-        mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
-        mViewModel.getWorkingMode().setValue(AnywhereApplication.workingMode);
-
-        final Observer<String> commandObserver = s -> {
-            if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
-                if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
-                    PermissionUtil.execShizukuCmd(s);
-                }
-            } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
-                if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
-                    PermissionUtil.execRootCmd(s);
-                }
-            }
-        };
-        mViewModel.getCommand().observe(this, commandObserver);
-        mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
-        mViewModel.getWorkingMode().observe(this, s -> {
-            AnywhereApplication.workingMode = workingMode = s;
-            SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, s);
-        });
-
-        final Observer<String> backgroundObserver = s -> {
-            ImageView ivBackground = Objects.requireNonNull(getActivity()).findViewById(R.id.iv_background);
-            if (s.isEmpty()) {
-                ivBackground.setBackground(null);
-            } else {
-                ImageUtils.loadBackgroundPic(mContext, ivBackground);
-                ImageUtils.setActionBarTransparent(getActivity());
-            }
-            SPUtils.putString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND, s);
-        };
-        mViewModel.getBackground().observe(this, backgroundObserver);
-
-        fab.setOnClickListener(view -> {
-            if (PermissionUtil.checkOverlayPermission(getActivity(), REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
-                checkWorkingPermission();
-            }
-        });
-
         if (isFirstLaunch) {
             new MaterialTapTargetPrompt.Builder(this)
                     .setTarget(R.id.fab)
@@ -148,13 +102,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     .show();
             SPUtils.putBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH, false);
         }
-
-        if (!backgroundUri.isEmpty()) {
-            Log.d(TAG, "backgroundUri = " + backgroundUri);
-            mViewModel.getBackground().setValue(backgroundUri);
-        }
-
-        PermissionUtil.checkShizukuOnWorking(mContext);
     }
 
     @Override
@@ -263,7 +210,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         return super.onOptionsItemSelected(item);
     }
 
-    public void editAnywhere(String packageName, String className, int classNameType, String appName) {
+    private void editAnywhere(String packageName, String className, int classNameType, String appName) {
         if (bottomSheetDialog == null) {
             bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(mContext));
             bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
@@ -314,4 +261,62 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         bottomSheetDialog.show();
     }
 
+    private void initView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        setUpRecyclerView(recyclerView);
+        setHasOptionsMenu(true);
+
+        bottomSheetDialog = new BottomSheetDialog(Objects.requireNonNull(mContext));
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
+        bottomSheetDialog.setDismissWithAnimation(true);
+
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(clickView -> {
+            if (PermissionUtil.checkOverlayPermission(getActivity(), REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                checkWorkingPermission();
+            }
+        });
+
+        String backgroundUri = SPUtils.getString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
+
+        if (!backgroundUri.isEmpty()) {
+            Log.d(TAG, "backgroundUri = " + backgroundUri);
+            mViewModel.getBackground().setValue(backgroundUri);
+        }
+    }
+
+    private void initObserver() {
+        mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        mViewModel.getWorkingMode().setValue(AnywhereApplication.workingMode);
+
+        final Observer<String> commandObserver = s -> {
+            if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+                if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
+                    PermissionUtil.execShizukuCmd(s);
+                }
+            } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+                if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
+                    PermissionUtil.execRootCmd(s);
+                }
+            }
+        };
+        mViewModel.getCommand().observe(this, commandObserver);
+        mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
+        mViewModel.getWorkingMode().observe(this, s -> {
+            AnywhereApplication.workingMode = workingMode = s;
+            SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, s);
+        });
+
+        final Observer<String> backgroundObserver = s -> {
+            ImageView ivBackground = Objects.requireNonNull(getActivity()).findViewById(R.id.iv_background);
+            if (s.isEmpty()) {
+                ivBackground.setBackground(null);
+            } else {
+                ImageUtils.loadBackgroundPic(mContext, ivBackground);
+                ImageUtils.setActionBarTransparent(getActivity());
+            }
+            SPUtils.putString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND, s);
+        };
+        mViewModel.getBackground().observe(this, backgroundObserver);
+    }
 }

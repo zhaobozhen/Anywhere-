@@ -3,6 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.absinthe.anywhere_">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission
+        android:name="moe.shizuku.manager.permission.API"
+        android:maxSdkVersion="23" />
+
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
+
+    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
+
     <application
         android:name=".AnywhereApplication"
         android:allowBackup="false"
@@ -10,7 +21,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/SplashTheme"
+        android:theme="@style/AppTheme.SplashTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.main.MainActivity"
@@ -31,6 +42,7 @@
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_title"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".ui.settings.SettingsActivity"/>
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
@@ -66,15 +78,5 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
     </application>
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission
-        android:name="moe.shizuku.manager.permission.API"
-        android:maxSdkVersion="23" />
-
-    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
-    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
-
-    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
 
 </manifest>

@@ -108,6 +108,11 @@ public class AnywhereApplication extends Application {
             case "on":
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
+            case "system":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case "auto":
+                break;
             default:
         }
     }

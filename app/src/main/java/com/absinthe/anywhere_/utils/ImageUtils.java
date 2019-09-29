@@ -75,18 +75,4 @@ public class ImageUtils {
         }
     }
 
-    public static void setTheme(Context context, AppCompatDelegate delegate) {
-        String darkMode = SPUtils.getString(context, ConstUtil.SP_KEY_DARK_MODE);
-
-        switch (darkMode) {
-            case "":
-            case "off":
-                delegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            case "on":
-                delegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            default:
-        }
-    }
 }

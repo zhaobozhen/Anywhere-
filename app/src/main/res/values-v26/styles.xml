@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="SplashTheme" parent="AppTheme">
+    <style name="AppTheme.SplashTheme" parent="AppTheme">
         <item name="android:windowSplashscreenContent">@drawable/splash_drawable</item>
     </style>
 

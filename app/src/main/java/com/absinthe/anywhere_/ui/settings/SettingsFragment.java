@@ -39,10 +39,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         mViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
         mContext = getActivity();
 
+        ListPreference workingModePreference = findPreference(ConstUtil.SP_KEY_WORKING_MODE);
         Preference changeBgPreference = findPreference(ConstUtil.SP_KEY_CHANGE_BACKGROUND);
         Preference resetBgPreference = findPreference(ConstUtil.SP_KEY_RESET_BACKGROUND);
         ListPreference darkModePreference = findPreference(ConstUtil.SP_KEY_DARK_MODE);
 
+        if (workingModePreference != null) {
+            workingModePreference.setOnPreferenceChangeListener(this);
+        }
         if (changeBgPreference != null) {
             changeBgPreference.setOnPreferenceClickListener(this);
         }
@@ -85,6 +89,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()) {
+            case ConstUtil.SP_KEY_WORKING_MODE:
+                MainFragment.getViewModelInstance().getWorkingMode().setValue(newValue.toString());
+                break;
             case ConstUtil.SP_KEY_DARK_MODE:
                 AnywhereApplication.setTheme(newValue.toString());
                 break;

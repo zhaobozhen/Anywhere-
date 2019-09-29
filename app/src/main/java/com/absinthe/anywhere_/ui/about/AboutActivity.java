@@ -1,32 +1,27 @@
 package com.absinthe.anywhere_.ui.about;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import androidx.annotation.NonNull;
 
+import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
-import com.crashlytics.android.Crashlytics;
+import com.drakeet.about.AbsAboutActivity;
 
-public class AboutActivity extends AppCompatActivity {
+import java.util.List;
+
+public class AboutActivity extends AbsAboutActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+    protected void onCreateHeader(@NonNull ImageView icon, @NonNull TextView slogan, @NonNull TextView version) {
+        icon.setImageResource(R.drawable.splash);
+        slogan.setText(getString(R.string.app_name));
+        version.setText(String.format("Version:%s", BuildConfig.VERSION_NAME));
+    }
 
-        Button crashButton = new Button(this);
-        crashButton.setText("Crash!");
-        crashButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Crashlytics.getInstance().crash(); // Force a crash
-            }
-        });
+    @Override
+    protected void onItemsCreated(@NonNull List<Object> items) {
 
-        addContentView(crashButton, new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 }

@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string-array name="list_working_mode">
-        <item>Root</item>
-        <item>Shizuku</item>
-    </string-array>
-
-    <string-array name="list_working_mode_value">
-        <item>root</item>
-        <item>shizuku</item>
-    </string-array>
-
     <string-array name="list_dark_mode" tools:ignore="InconsistentArrays">
         <item>关闭</item>
         <item>开启</item>
         <item>自动</item>
+        <item>跟随系统</item>
     </string-array>
 
     <string-array name="list_dark_mode_value" tools:ignore="InconsistentArrays">
         <item>off</item>
         <item>on</item>
         <item>auto</item>
+        <item>system</item>
     </string-array>
-
 </resources>
