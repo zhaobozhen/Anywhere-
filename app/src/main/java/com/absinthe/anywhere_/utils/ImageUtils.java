@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.absinthe.anywhere_.R;
@@ -44,6 +45,11 @@ public class ImageUtils {
         window.setStatusBarColor(activity.getResources().getColor(R.color.transparent));
     }
 
+    /**
+     * Load custom background pic
+     * @param context Context for use Glide
+     * @param imageView Load pic in this view
+     */
     public static void loadBackgroundPic(Context context, ImageView imageView) {
         String backgroundUri = SPUtils.getString(context, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
         if (!backgroundUri.isEmpty()) {
@@ -69,4 +75,18 @@ public class ImageUtils {
         }
     }
 
+    public static void setTheme(Context context, AppCompatDelegate delegate) {
+        String darkMode = SPUtils.getString(context, ConstUtil.SP_KEY_DARK_MODE);
+
+        switch (darkMode) {
+            case "":
+            case "off":
+                delegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case "on":
+                delegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            default:
+        }
+    }
 }

@@ -4,22 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
-import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.viewmodel.SettingsViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
-public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
+public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
     public static final int REQUEST_CODE_IMAGE_CAPTURE = 1001;
     private SettingsViewModel mViewModel;
     private Context mContext;
@@ -41,12 +41,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         Preference changeBgPreference = findPreference(ConstUtil.SP_KEY_CHANGE_BACKGROUND);
         Preference resetBgPreference = findPreference(ConstUtil.SP_KEY_RESET_BACKGROUND);
+        ListPreference darkModePreference = findPreference(ConstUtil.SP_KEY_DARK_MODE);
 
         if (changeBgPreference != null) {
             changeBgPreference.setOnPreferenceClickListener(this);
         }
         if (resetBgPreference != null) {
             resetBgPreference.setOnPreferenceClickListener(this);
+        }
+        if (darkModePreference != null) {
+            darkModePreference.setOnPreferenceChangeListener(this);
         }
 
     }
@@ -72,6 +76,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> { })
                         .show();
+                break;
+            default:
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        switch (preference.getKey()) {
+            case ConstUtil.SP_KEY_DARK_MODE:
+                AnywhereApplication.setTheme(newValue.toString());
                 break;
             default:
         }

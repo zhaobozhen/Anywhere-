@@ -2,24 +2,18 @@ package com.absinthe.anywhere_.ui.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.ImageUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment;
@@ -28,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main_activity);
         initView();
 
@@ -62,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         String backgroundUri = SPUtils.getString(this, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
         ImageView ivBackground = findViewById(R.id.iv_background);
         if (!backgroundUri.isEmpty()) {
-            ImageUtils.setActionBarStyle(this, ImageUtils.ACTION_BAR_TRANSLATE);
+            ImageUtils.setActionBarTransparent(this);
             ImageUtils.loadBackgroundPic(this, ivBackground);
         }
     }
