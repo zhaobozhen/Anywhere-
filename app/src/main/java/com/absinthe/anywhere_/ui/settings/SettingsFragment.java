@@ -13,6 +13,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.viewmodel.SettingsViewModel;
@@ -76,6 +77,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         .setCancelable(false)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                             MainFragment.getViewModelInstance().getBackground().setValue("");
+                            ((MainActivity)getActivity()).reloadFragment();
                         })
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> { })

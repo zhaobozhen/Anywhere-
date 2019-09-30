@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.utils.ImageUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -42,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
                         if (backgroundUri != null) {
                             Log.d(TAG, "backgroundUri = " + backgroundUri);
                             SPUtils.putString(this, ConstUtil.SP_KEY_CHANGE_BACKGROUND, backgroundUri.toString());
+                            SPUtils.putString(this, ConstUtil.SP_KEY_ACTION_BAR_TYPE, "");
                             MainFragment.getViewModelInstance().getBackground().setValue(backgroundUri.toString());
                         }
                     } else {

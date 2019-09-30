@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.ConstUtil;
@@ -68,5 +69,30 @@ public class MainActivity extends AppCompatActivity {
         ImageView ivBackground = findViewById(R.id.iv_background);
 
         ImageUtils.loadBackgroundPic(this, ivBackground);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        String actionBarType = SPUtils.getString(this, ConstUtil.SP_KEY_ACTION_BAR_TYPE);
+        Log.d(TAG, "onPrepareOptionsMenu: actionBarType = " + actionBarType);
+
+        switch (actionBarType) {
+            case "":
+            case ConstUtil.ACTION_BAR_TYPE_LIGHT:
+                menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
+                break;
+            case ConstUtil.ACTION_BAR_TYPE_DARK:
+                menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_dark);
+                break;
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void reloadFragment() {
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        ft.detach(mainFragment);
+        ft.attach(mainFragment);
+        ft.commit();
     }
 }

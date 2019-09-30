@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -56,6 +58,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private static AnywhereViewModel mViewModel;
     private SelectableCardsAdapter adapter;
+    private ActionBar actionBar;
 
     static MainFragment newInstance() {
         return new MainFragment();
@@ -221,7 +224,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 checkWorkingPermission();
             }
         });
-
+        actionBar = ((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
     }
 
     private void initObserver() {
@@ -249,10 +252,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         final Observer<String> backgroundObserver = s -> {
             ImageView ivBackground = Objects.requireNonNull(getActivity()).findViewById(R.id.iv_background);
             if (s.isEmpty()) {
-                ivBackground.setBackground(null);
+                SPUtils.putString(mContext, ConstUtil.SP_KEY_ACTION_BAR_TYPE, ConstUtil.ACTION_BAR_TYPE_LIGHT);
+                getActivity().invalidateOptionsMenu();
             } else {
                 ImageUtils.loadBackgroundPic(mContext, ivBackground);
                 ImageUtils.setActionBarTransparent(getActivity());
+                ImageUtils.setAdaptiveActionBarTitleColor(getActivity(), actionBar);
             }
             SPUtils.putString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND, s);
         };

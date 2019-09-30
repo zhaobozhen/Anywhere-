@@ -53,6 +53,7 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.1.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     androidTestImplementation 'androidx.room:room-testing:2.1.0'
+    implementation 'androidx.palette:palette:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
