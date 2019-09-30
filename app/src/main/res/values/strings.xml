@@ -2,7 +2,8 @@
     <string name="app_name">Anywhere-</string>
     <string name="settings_title">设置</string>
     <string name="about_title">关于</string>
-    <string name="tile_collector">启动 Collector</string>
+    <string name="tile_collector_on">启动 Collector</string>
+    <string name="tile_collector_off">关闭 Collector</string>
     <string name="slogan">Anywhere- 去你想去的地方</string>
 
     <!--  Collector  -->
@@ -62,5 +63,6 @@
 
     <!--  Description  -->
     <string name="background_todo">Main page background</string>
+    <string name="anywhere_delete_todo">Delete an Anywhere</string>
 
 </resources>

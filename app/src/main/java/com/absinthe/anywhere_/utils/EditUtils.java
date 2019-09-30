@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
@@ -21,6 +22,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class EditUtils {
     private static final String TAG = "EditUtils";
+
+    @SuppressLint("StaticFieldLeak")
     private static BottomSheetDialog bottomSheetDialog = null;
 
     public static void editAnywhere(@NonNull Activity activity, String packageName, String className, int classNameType, String appName, String description) {

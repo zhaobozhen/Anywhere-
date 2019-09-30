@@ -55,6 +55,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1001;
     private Context mContext;
     private String workingMode;
+    private int selectedWorkingModeIndex = 0;
 
     private static AnywhereViewModel mViewModel;
     private SelectableCardsAdapter adapter;
@@ -129,14 +130,14 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void checkWorkingPermission() {
         Log.d(TAG, "workingMode = " + workingMode);
+        selectedWorkingModeIndex = 0;
         if (workingMode != null) {
             if (workingMode.isEmpty()) {
-                final int[] selected = {-1};
                 new MaterialAlertDialogBuilder(mContext)
                         .setTitle(R.string.settings_working_mode)
-                        .setSingleChoiceItems(new CharSequence[]{"Root", "Shizuku"}, 0, (dialogInterface, i) -> selected[0] = i)
+                        .setSingleChoiceItems(new CharSequence[]{"Root", "Shizuku"}, 0, (dialogInterface, i) -> selectedWorkingModeIndex = i)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                            switch (selected[0]) {
+                            switch (selectedWorkingModeIndex) {
                                 case 0:
                                     mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_ROOT);
                                     break;
@@ -252,12 +253,16 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         final Observer<String> backgroundObserver = s -> {
             ImageView ivBackground = Objects.requireNonNull(getActivity()).findViewById(R.id.iv_background);
             if (s.isEmpty()) {
+                ivBackground.setBackground(null);
+                ivBackground.setVisibility(View.GONE);
                 SPUtils.putString(mContext, ConstUtil.SP_KEY_ACTION_BAR_TYPE, ConstUtil.ACTION_BAR_TYPE_LIGHT);
+                ImageUtils.resetActionBar(getActivity());
                 getActivity().invalidateOptionsMenu();
             } else {
                 ImageUtils.loadBackgroundPic(mContext, ivBackground);
                 ImageUtils.setActionBarTransparent(getActivity());
                 ImageUtils.setAdaptiveActionBarTitleColor(getActivity(), actionBar);
+                ivBackground.setVisibility(View.VISIBLE);
             }
             SPUtils.putString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND, s);
         };

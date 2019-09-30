@@ -33,10 +33,10 @@
             app:entryValues="@array/list_dark_mode_value"
             android:defaultValue="off"/>
 
-        <SwitchPreferenceCompat
-            app:key="darkModeOLED"
-            app:title="@string/settings_dark_mode_oled"
-            android:summary="@string/settings_dark_mode_oled_summary"/>
+<!--        <SwitchPreferenceCompat-->
+<!--            app:key="darkModeOLED"-->
+<!--            app:title="@string/settings_dark_mode_oled"-->
+<!--            android:summary="@string/settings_dark_mode_oled_summary"/>-->
 
     </PreferenceCategory>
 

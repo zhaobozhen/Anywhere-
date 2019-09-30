@@ -69,6 +69,8 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         });
         if (((ItemViewHolder) viewHolder).customTextureView.getText().toString().isEmpty()) {
             ((ItemViewHolder) viewHolder).customTextureView.setVisibility(View.GONE);
+        } else {
+            ((ItemViewHolder) viewHolder).customTextureView.setVisibility(View.VISIBLE);
         }
     }
 

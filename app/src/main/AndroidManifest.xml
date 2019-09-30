@@ -57,7 +57,7 @@
         <service
             android:name=".services.CollectorTileService"
             android:icon="@drawable/ic_logo"
-            android:label="@string/tile_collector"
+            android:label="@string/tile_collector_on"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" >

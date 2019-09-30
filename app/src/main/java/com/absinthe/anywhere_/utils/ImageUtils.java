@@ -62,6 +62,20 @@ public class ImageUtils {
     }
 
     /**
+     * Reset action bar style
+     * @param activity Activity for bind action bar
+     */
+    public static void resetActionBar(Activity activity) {
+        ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+        Window window = activity.getWindow();
+
+        if (actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(R.color.resetColorPrimary)));
+        }
+        window.setStatusBarColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+    }
+
+    /**
      * Load custom background pic
      * @param context Context for use Glide
      * @param imageView Load pic in this view

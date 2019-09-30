@@ -13,7 +13,6 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.viewmodel.SettingsViewModel;
@@ -21,7 +20,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
-    public static final int REQUEST_CODE_IMAGE_CAPTURE = 1001;
+    static final int REQUEST_CODE_IMAGE_CAPTURE = 1001;
     private SettingsViewModel mViewModel;
     private Context mContext;
 
@@ -75,10 +74,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_background_confirm_message)
                         .setCancelable(false)
-                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                            MainFragment.getViewModelInstance().getBackground().setValue("");
-                            ((MainActivity)getActivity()).reloadFragment();
-                        })
+                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().getBackground().setValue(""))
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> { })
                         .show();

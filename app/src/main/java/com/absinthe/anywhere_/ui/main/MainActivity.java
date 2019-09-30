@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.ConstUtil;
@@ -19,6 +18,7 @@ import com.absinthe.anywhere_.utils.SPUtils;
 public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment;
     private static final String TAG = "MainActivity";
+    private static MainActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.main_activity);
         initView();
+        instance = this;
 
         mainFragment = MainFragment.newInstance();
+        getAnywhereIntent(getIntent());
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, mainFragment)
@@ -38,20 +41,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        String packageName = intent.getStringExtra(ConstUtil.INTENT_EXTRA_PACKAGE_NAME);
-        String className = intent.getStringExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME);
-        int classNameType = intent.getIntExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME_TYPE, ConstUtil.SHORT_CLASS_NAME_TYPE);
-
-        Log.d(TAG, "classNameType = " + classNameType);
-        Log.d(TAG, "className = " + className);
-        Log.d(TAG, "packageName = " + packageName);
-
-        Bundle bundle = new Bundle();
-        bundle.putString(ConstUtil.BUNDLE_PACKAGE_NAME, packageName);
-        bundle.putString(ConstUtil.BUNDLE_CLASS_NAME, className);
-        bundle.putInt(ConstUtil.BUNDLE_CLASS_NAME_TYPE, classNameType);
-
-        mainFragment.setArguments(bundle);
+        getAnywhereIntent(intent);
     }
 
     private void initView() {
@@ -88,11 +78,32 @@ public class MainActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void reloadFragment() {
-        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    public static MainActivity getInstance() {
+        return instance;
+    }
 
-        ft.detach(mainFragment);
-        ft.attach(mainFragment);
-        ft.commit();
+    private void getAnywhereIntent(Intent intent) {
+        if (intent == null) {
+            return;
+        }
+
+        String packageName = intent.getStringExtra(ConstUtil.INTENT_EXTRA_PACKAGE_NAME);
+        String className = intent.getStringExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME);
+        int classNameType = intent.getIntExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME_TYPE, ConstUtil.SHORT_CLASS_NAME_TYPE);
+
+        if (packageName == null || className == null) {
+            return;
+        }
+
+        Log.d(TAG, "classNameType = " + classNameType);
+        Log.d(TAG, "className = " + className);
+        Log.d(TAG, "packageName = " + packageName);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstUtil.BUNDLE_PACKAGE_NAME, packageName);
+        bundle.putString(ConstUtil.BUNDLE_CLASS_NAME, className);
+        bundle.putInt(ConstUtil.BUNDLE_CLASS_NAME_TYPE, classNameType);
+
+        mainFragment.setArguments(bundle);
     }
 }
