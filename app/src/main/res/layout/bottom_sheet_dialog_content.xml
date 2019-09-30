@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
         android:layout_alignParentEnd="true"
-        app:srcCompat="@drawable/ic_delete_outline_24px"
+        android:background="@drawable/ic_delete_outline_24px"
         android:visibility="gone"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -22,8 +22,8 @@
         android:layout_below="@id/ib_delete_anywhere"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
         android:hint="@string/bsd_text_input_layout_app_name_label"
         app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
         app:helperTextEnabled="true">
@@ -42,8 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/til_app_name"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
         android:hint="@string/bsd_text_input_layout_package_name_label"
         app:helperText="@string/bsd_text_input_layout_package_name_helper_text"
         app:helperTextEnabled="true">
@@ -62,8 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/til_package_name"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
         android:hint="@string/bsd_text_input_layout_class_name_label"
         app:helperText="@string/bsd_text_input_layout_class_name_helper_text"
         app:helperTextEnabled="true">
@@ -82,8 +82,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/til_class_name"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
         android:hint="@string/bsd_text_input_layout_description_label"
         app:helperText="@string/bsd_text_input_layout_description_helper_text"
         app:helperTextEnabled="true">
@@ -102,6 +102,6 @@
         android:text="@string/bsd_btn_done"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_below="@id/til_description"
-        android:layout_margin="30dp" />
+        android:layout_margin="@dimen/bottom_sheet_dialog_edit_text_margin_start_end" />
 
 </RelativeLayout>

@@ -23,7 +23,7 @@ public class EditUtils {
     private static final String TAG = "EditUtils";
     private static BottomSheetDialog bottomSheetDialog = null;
 
-    public static void editAnywhere(@NonNull Activity activity, String packageName, String className, int classNameType, String appName) {
+    public static void editAnywhere(@NonNull Activity activity, String packageName, String className, int classNameType, String appName, String description) {
         bottomSheetDialog = new BottomSheetDialog(activity);
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
         bottomSheetDialog.setDismissWithAnimation(true);
@@ -47,7 +47,7 @@ public class EditUtils {
         }
 
         if (tietDescription != null) {
-            tietDescription.setText(null);
+            tietDescription.setText(description);
         }
 
         Button btnEditAnywhereDone = bottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
@@ -57,10 +57,10 @@ public class EditUtils {
                     String pName = tietPackageName.getText() == null ? packageName : tietPackageName.getText().toString();
                     String cName = tietClassName.getText() == null ? className : tietClassName.getText().toString();
                     String aName = tietAppName.getText() == null ? appName : tietAppName.getText().toString();
-                    String description = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
-                    Log.d(TAG, "description == " + description);
+                    String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
+                    Log.d(TAG, "description == " + desc);
 
-                    MainFragment.getViewModelInstance().insert(new AnywhereEntity(pName, cName, classNameType, aName, description));
+                    MainFragment.getViewModelInstance().insert(new AnywhereEntity(pName, cName, classNameType, aName, desc));
                     bottomSheetDialog.dismiss();
                 } else {
                     Toast.makeText(activity, "error data.", Toast.LENGTH_SHORT).show();
@@ -72,7 +72,8 @@ public class EditUtils {
     }
 
     public static void editAnywhere(@NonNull Activity activity, SelectableCardsAdapter adapter, AnywhereEntity item, int position, boolean withDeleteButton) {
-        editAnywhere(activity, item.getPackageName(), item.getClassName(), item.getClassNameType(), item.getAppName());
+        editAnywhere(activity, item.getPackageName(), item.getClassName(), item.getClassNameType(), item.getAppName(), item.getCustomTexture());
+        adapter.notifyItemChanged(position);
 
         ImageButton ibDelete = bottomSheetDialog.findViewById(R.id.ib_delete_anywhere);
         if (ibDelete != null) {
@@ -81,7 +82,10 @@ public class EditUtils {
             } else {
                 ibDelete.setVisibility(View.GONE);
             }
-            ibDelete.setOnClickListener(view -> deleteAnywhereActivity(activity, item, adapter, position));
+            ibDelete.setOnClickListener(view -> {
+                bottomSheetDialog.dismiss();
+                deleteAnywhereActivity(activity, item, adapter, position);
+            });
         }
 
     }
@@ -97,7 +101,7 @@ public class EditUtils {
                     adapter.notifyItemRemoved(position);
                 })
                 .setNegativeButton(R.string.dialog_delete_negative_button,
-                        (dialogInterface, i) -> { })
+                        (dialogInterface, i) -> bottomSheetDialog.show())
                 .show();
     }
 }

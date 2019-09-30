@@ -116,7 +116,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 appName = TextUtils.getAppName(mContext, packageName);
 
                 Log.d(TAG, "onResume:" + packageName + "," + className);
-                EditUtils.editAnywhere((Activity) mContext, packageName, className, classNameType, appName);
+                EditUtils.editAnywhere((Activity) mContext, packageName, className, classNameType, appName, "");
 
                 bundle.clear();
             }
@@ -222,12 +222,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
         });
 
-        String backgroundUri = SPUtils.getString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
-
-        if (!backgroundUri.isEmpty()) {
-            Log.d(TAG, "backgroundUri = " + backgroundUri);
-            mViewModel.getBackground().setValue(backgroundUri);
-        }
     }
 
     private void initObserver() {
@@ -263,5 +257,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             SPUtils.putString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND, s);
         };
         mViewModel.getBackground().observe(this, backgroundObserver);
+
+        String backgroundUri = SPUtils.getString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
+
+        if (!backgroundUri.isEmpty()) {
+            Log.d(TAG, "backgroundUri = " + backgroundUri);
+            mViewModel.getBackground().setValue(backgroundUri);
+        }
     }
 }

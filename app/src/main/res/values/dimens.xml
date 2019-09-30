@@ -6,4 +6,7 @@
     <dimen name="anywhere_cardview_line_spacing">4dp</dimen>
     <dimen name="anywhere_cardview_spacing">4dp</dimen>
 
+    <!--  BottomSheetDialog  -->
+    <dimen name="bottom_sheet_dialog_edit_text_margin_start_end">30dp</dimen>
+
 </resources>

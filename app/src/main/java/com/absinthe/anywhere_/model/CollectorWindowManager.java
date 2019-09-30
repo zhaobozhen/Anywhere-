@@ -25,8 +25,8 @@ public class CollectorWindowManager {
 
     static {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        params.x = 0;
-        params.y = 0;
+        params.x = params.width;
+        params.y = params.height/2;
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.END | Gravity.CENTER_VERTICAL;

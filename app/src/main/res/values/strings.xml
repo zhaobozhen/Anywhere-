@@ -60,4 +60,7 @@
 
     <string name="help_text">帮助文档</string>
 
+    <!--  Description  -->
+    <string name="background_todo">Main page background</string>
+
 </resources>
