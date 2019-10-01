@@ -24,11 +24,13 @@
     <string name="bsd_btn_done">保存</string>
     <string name="bsd_text_input_layout_app_name_label">App 名称</string>
     <string name="bsd_text_input_layout_package_name_label">包名</string>
+    <string name="bsd_text_input_layout_url_scheme_label">URL Scheme</string>
     <string name="bsd_text_input_layout_class_name_label">类名</string>
     <string name="bsd_text_input_layout_description_label">描述（选填）</string>
 
     <string name="bsd_text_input_layout_app_name_helper_text">给 Anywhere- 起个名字吧</string>
     <string name="bsd_text_input_layout_package_name_helper_text">App 包名，一般来说默认即可</string>
+    <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme, 可在左上角寻找你想要的</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App 类名，一般来说默认即可</string>
     <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 吧</string>
 
@@ -56,6 +58,7 @@
     <string name="toast_root_permission_denied">Root 权限被拒绝</string>
     <string name="toast_open_pop_up_when_background_permission">MIUI 系统请打开 后台弹出界面 权限，否则可能存在问题</string>
     <string name="toast_not_install_shizuku">未安装 Shizuku</string>
+    <string name="toast_change_work_mode">请切换工作模式</string>
 
     <!--  Dialog  -->
     <string name="dialog_message_shizuku_not_running">请检查 Shizuku 是否正常运行</string>
@@ -64,7 +67,7 @@
     <string name="dialog_setup_url_scheme_title">设置 URL Scheme</string>
     <string name="dialog_url_scheme_community">捷径社区</string>
 
-    <string name="help_text">帮助文档</string>
+    <string name="help_text">帮助文档(暂无)</string>
 
     <!--  Description  -->
     <string name="background_todo">Main page background</string>

@@ -3,6 +3,8 @@ package com.absinthe.anywhere_.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -106,5 +108,82 @@ public class EditUtils {
                 .setNegativeButton(R.string.dialog_delete_negative_button,
                         (dialogInterface, i) -> bottomSheetDialog.show())
                 .show();
+    }
+
+    public static void editUrlScheme(Activity activity) {
+        bottomSheetDialog = new BottomSheetDialog(activity);
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_url_scheme);
+        bottomSheetDialog.setDismissWithAnimation(true);
+
+        TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
+        TextInputEditText tietUrlScheme = bottomSheetDialog.findViewById(R.id.tiet_url_scheme);
+        TextInputEditText tietDescription = bottomSheetDialog.findViewById(R.id.tiet_description);
+
+        if (tietAppName != null) {
+            tietAppName.setText("URL Scheme");
+        }
+
+        Button btnEditAnywhereDone = bottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
+        if (btnEditAnywhereDone != null) {
+            btnEditAnywhereDone.setOnClickListener(view -> {
+                if (tietUrlScheme != null && tietAppName != null && tietDescription != null) {
+                    String uScheme = tietUrlScheme.getText() == null ? "" : tietUrlScheme.getText().toString();
+                    String aName = tietAppName.getText() == null  ? "URL Scheme" : tietAppName.getText().toString();
+                    String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
+
+                    MainFragment.getViewModelInstance().insert(new AnywhereEntity("pName", "cName", ConstUtil.URL_SCHEME_TYPE, uScheme, aName, desc, System.currentTimeMillis() + ""));
+                    bottomSheetDialog.dismiss();
+                } else {
+                    Toast.makeText(activity, "error data.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        Button btnUrlSchemeCommunity = bottomSheetDialog.findViewById(R.id.btn_url_scheme_community);
+        if (btnUrlSchemeCommunity != null) {
+            btnUrlSchemeCommunity.setOnClickListener(view -> {
+                Intent intent = new Intent("android.intent.action.VIEW");
+                intent.setData(Uri.parse("https://sharecuts.cn/apps"));
+                activity.startActivity(intent);
+            });
+        }
+
+        bottomSheetDialog.show();
+    }
+
+    public static void editUrlScheme(@NonNull Activity activity, SelectableCardsAdapter adapter, AnywhereEntity item, int position, boolean withDeleteButton) {
+        editUrlScheme(activity);
+
+        TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
+        TextInputEditText tietUrlScheme = bottomSheetDialog.findViewById(R.id.tiet_url_scheme);
+        TextInputEditText tietDescription = bottomSheetDialog.findViewById(R.id.tiet_description);
+
+        if (tietAppName != null) {
+            tietAppName.setText(item.getAppName());
+        }
+
+        if (tietUrlScheme != null) {
+            tietUrlScheme.setText(item.getUrlScheme());
+        }
+
+        if (tietDescription != null) {
+            tietDescription.setText(item.getCustomTexture());
+        }
+
+        adapter.notifyItemChanged(position);
+
+        ImageButton ibDelete = bottomSheetDialog.findViewById(R.id.ib_delete_anywhere);
+        if (ibDelete != null) {
+            if (withDeleteButton) {
+                ibDelete.setVisibility(View.VISIBLE);
+            } else {
+                ibDelete.setVisibility(View.GONE);
+            }
+            ibDelete.setOnClickListener(view -> {
+                bottomSheetDialog.dismiss();
+                deleteAnywhereActivity(activity, item, adapter, position);
+            });
+        }
+
     }
 }

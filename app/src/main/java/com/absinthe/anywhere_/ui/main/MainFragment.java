@@ -149,22 +149,32 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         .show();
             }
 
-            if (workingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
-                setUpUrlScheme();
-            } else if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
-                if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
-                    startCollector();
-                } else {
-                    actionBar.setTitle("Nowhere-");
-                }
-            } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
-                if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
-                    startCollector();
-                } else {
-                    Log.d(TAG, "ROOT permission denied.");
-                    Toast.makeText(mContext, getString(R.string.toast_root_permission_denied), Toast.LENGTH_SHORT).show();
-                    actionBar.setTitle("Nowhere-");
-                }
+            switch (workingMode) {
+                case ConstUtil.WORKING_MODE_URL_SCHEME:
+                    setUpUrlScheme();
+                    break;
+                case ConstUtil.WORKING_MODE_SHIZUKU:
+                    if (!PermissionUtil.checkOverlayPermission(getActivity(), REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                        return;
+                    }
+                    if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
+                        startCollector();
+                    } else {
+                        actionBar.setTitle("Nowhere-");
+                    }
+                    break;
+                case ConstUtil.WORKING_MODE_ROOT:
+                    if (!PermissionUtil.checkOverlayPermission(getActivity(), REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                        return;
+                    }
+                    if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
+                        startCollector();
+                    } else {
+                        Log.d(TAG, "ROOT permission denied.");
+                        Toast.makeText(mContext, getString(R.string.toast_root_permission_denied), Toast.LENGTH_SHORT).show();
+                        actionBar.setTitle("Nowhere-");
+                    }
+                    break;
             }
         }
 
@@ -183,17 +193,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void setUpUrlScheme() {
-        new MaterialAlertDialogBuilder(mContext)
-                .setTitle(R.string.dialog_setup_url_scheme_title)
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                })
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                .setNeutralButton(R.string.dialog_url_scheme_community, (dialogInterface, i) -> {
-                    Intent intent = new Intent("android.intent.action.VIEW");
-                    intent.setData(Uri.parse("https://sharecuts.cn/apps"));
-                    mContext.startActivity(intent);
-                })
-                .show();
+        EditUtils.editUrlScheme(getActivity());
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
@@ -228,12 +228,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(clickView -> {
-            if (PermissionUtil.checkOverlayPermission(getActivity(), REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
-                checkWorkingPermission();
-            }
+            checkWorkingPermission();
         });
         actionBar = ((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
-        ImageUtils.setActionBarTitle(actionBar);
+        ImageUtils.setActionBarTitle(getActivity(), actionBar);
     }
 
     private void initObserver() {
@@ -241,14 +239,22 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getWorkingMode().setValue(AnywhereApplication.workingMode);
 
         final Observer<String> commandObserver = s -> {
-            if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
-                if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
-                    PermissionUtil.execShizukuCmd(s);
-                }
-            } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
-                if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
-                    PermissionUtil.execRootCmd(s);
-                }
+            switch (workingMode) {
+                case ConstUtil.WORKING_MODE_SHIZUKU:
+                    if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
+                        PermissionUtil.execShizukuCmd(s);
+                    }
+                    break;
+                case ConstUtil.WORKING_MODE_ROOT:
+                    if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
+                        PermissionUtil.execRootCmd(s);
+                    }
+                    break;
+                case ConstUtil.WORKING_MODE_URL_SCHEME:
+                    Intent intent = new Intent("android.intent.action.VIEW");
+                    intent.setData(Uri.parse(s));
+                    mContext.startActivity(intent);
+                    break;
             }
         };
         mViewModel.getCommand().observe(this, commandObserver);
@@ -256,7 +262,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getWorkingMode().observe(this, s -> {
             AnywhereApplication.workingMode = workingMode = s;
             SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, s);
-            ImageUtils.setActionBarTitle(actionBar);
+            ImageUtils.setActionBarTitle(getActivity(), actionBar);
         });
 
         final Observer<String> backgroundObserver = s -> {
@@ -270,7 +276,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             } else {
                 ImageUtils.loadBackgroundPic(mContext, ivBackground);
                 ImageUtils.setActionBarTransparent(getActivity());
-                ImageUtils.setAdaptiveActionBarTitleColor(getActivity(), actionBar);
+                ImageUtils.setAdaptiveActionBarTitleColor(getActivity(), actionBar, ImageUtils.getActionBarTitle());
                 ivBackground.setVisibility(View.VISIBLE);
             }
             SPUtils.putString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND, s);

@@ -12,6 +12,7 @@ public class ConstUtil {
 
     public static final int SHORT_CLASS_NAME_TYPE = 0;
     public static final int FULL_CLASS_NAME_TYPE = 1;
+    public static final int URL_SCHEME_TYPE = 2;
 
     public static final String WORKING_MODE_URL_SCHEME = "url_scheme";
     public static final String WORKING_MODE_ROOT = "root";

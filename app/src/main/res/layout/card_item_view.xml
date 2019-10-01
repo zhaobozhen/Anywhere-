@@ -52,6 +52,14 @@
                 android:textStyle="italic"/>
 
             <TextView
+                android:id="@+id/tv_card_url_scheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textStyle="italic"/>
+
+            <TextView
                 android:id="@+id/tv_card_custom_texture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

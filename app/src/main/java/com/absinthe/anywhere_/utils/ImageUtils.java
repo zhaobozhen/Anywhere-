@@ -43,26 +43,41 @@ public class ImageUtils {
         }
         catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.ic_launcher);
+            drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_logo);
         }
         return drawable;
     }
 
-    public static void setActionBarTitle(ActionBar actionBar) {
+    public static void setActionBarTitle(Activity activity, ActionBar actionBar) {
         String workingMode = SPUtils.getString(MainActivity.getInstance(), ConstUtil.SP_KEY_WORKING_MODE);
         switch (workingMode) {
             case "":
-                actionBar.setTitle("Nowhere-");
+                setTopWidgetColor(activity, actionBar, SPUtils.getString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE), "Nowhere-");
                 break;
             case ConstUtil.WORKING_MODE_URL_SCHEME:
-                actionBar.setTitle("Somewhere-");
+                setTopWidgetColor(activity, actionBar, SPUtils.getString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE), "Somewhere-");
                 break;
             case ConstUtil.WORKING_MODE_ROOT:
             case ConstUtil.WORKING_MODE_SHIZUKU:
-                actionBar.setTitle("Anywhere-");
+                setTopWidgetColor(activity, actionBar, SPUtils.getString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE), "Anywhere-");
                 break;
             default:
         }
+    }
+
+    public static String getActionBarTitle() {
+        String workingMode = SPUtils.getString(MainActivity.getInstance(), ConstUtil.SP_KEY_WORKING_MODE);
+        switch (workingMode) {
+            case "":
+                return "Nowhere-";
+            case ConstUtil.WORKING_MODE_URL_SCHEME:
+                return "Somewhere-";
+            case ConstUtil.WORKING_MODE_ROOT:
+            case ConstUtil.WORKING_MODE_SHIZUKU:
+                return "Anywhere-";
+            default:
+        }
+        return "Anywhere-";
     }
 
     /**
@@ -113,10 +128,10 @@ public class ImageUtils {
      * Judge that the action bar title color should be
      * @param activity Activity for use Glide
      */
-    public static void setAdaptiveActionBarTitleColor(Activity activity, ActionBar actionBar) {
+    public static void setAdaptiveActionBarTitleColor(Activity activity, ActionBar actionBar, String title) {
         String actionBarType = SPUtils.getString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE);
         if (!actionBarType.isEmpty()) {
-            setTopWidgetColor(activity, actionBar, actionBarType);
+            setTopWidgetColor(activity, actionBar, actionBarType, title);
             return;
         }
 
@@ -153,10 +168,10 @@ public class ImageUtils {
                                 int grayScale = (int) (Color.red(dominantColor) * 0.299 + Color.green(dominantColor) * 0.587 + Color.blue(dominantColor) * 0.114);
                                 if (grayScale > 192) {
                                     // 深色字体
-                                    setTopWidgetColor(activity, actionBar, ConstUtil.ACTION_BAR_TYPE_DARK);
+                                    setTopWidgetColor(activity, actionBar, ConstUtil.ACTION_BAR_TYPE_DARK, title);
                                 } else {
                                     // 浅色字体
-                                    setTopWidgetColor(activity, actionBar, ConstUtil.ACTION_BAR_TYPE_LIGHT);
+                                    setTopWidgetColor(activity, actionBar, ConstUtil.ACTION_BAR_TYPE_LIGHT, title);
                                 }
                             }
                         });
@@ -169,14 +184,13 @@ public class ImageUtils {
 
     }
 
-    private static void setTopWidgetColor(Activity activity, ActionBar actionBar, String type) {
-        String appName = activity.getString(R.string.app_name);
+    private static void setTopWidgetColor(Activity activity, ActionBar actionBar, String type, String title) {
 
         if (type.equals(ConstUtil.ACTION_BAR_TYPE_DARK)) {
             Log.d(TAG, "Dark-");
-            SpannableString spanString = new SpannableString(appName);
+            SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
-            spanString.setSpan(span, 0, appName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             actionBar.setTitle(spanString);
 
             SPUtils.putString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE, ConstUtil.ACTION_BAR_TYPE_DARK);
@@ -187,9 +201,9 @@ public class ImageUtils {
             }
         } else if (type.equals(ConstUtil.ACTION_BAR_TYPE_LIGHT)) {
             Log.d(TAG, "Light-");
-            SpannableString spanString = new SpannableString(appName);
+            SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
-            spanString.setSpan(span, 0, appName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             actionBar.setTitle(spanString);
 
             SPUtils.putString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE, ConstUtil.ACTION_BAR_TYPE_LIGHT);
