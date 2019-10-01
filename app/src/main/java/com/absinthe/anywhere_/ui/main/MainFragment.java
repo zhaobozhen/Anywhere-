@@ -1,12 +1,9 @@
 package com.absinthe.anywhere_.ui.main;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,7 +49,7 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class MainFragment extends Fragment implements LifecycleOwner {
     private static final String TAG = "MainFragment";
-    private static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1001;
+    static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1001;
     private Context mContext;
     private String workingMode;
     private int selectedWorkingModeIndex = 0;
@@ -128,7 +125,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     }
 
-    private void checkWorkingPermission() {
+    void checkWorkingPermission() {
         Log.d(TAG, "workingMode = " + workingMode);
         selectedWorkingModeIndex = 0;
         if (workingMode != null) {
@@ -147,21 +144,22 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                                 default:
                                     Log.d(TAG, "default");
                             }
+                            checkWorkingPermission();
                         })
                         .setNegativeButton(R.string.dialog_delete_negative_button, null)
                         .show();
-            } else {
-                if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
-                    if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
-                        startCollector();
-                    }
-                } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
-                    if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
-                        startCollector();
-                    } else {
-                        Log.d(TAG, "ROOT permission denied.");
-                        Toast.makeText(mContext, getString(R.string.toast_root_permission_denied), Toast.LENGTH_SHORT).show();
-                    }
+            }
+
+            if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+                if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
+                    startCollector();
+                }
+            } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+                if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
+                    startCollector();
+                } else {
+                    Log.d(TAG, "ROOT permission denied.");
+                    Toast.makeText(mContext, getString(R.string.toast_root_permission_denied), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -178,15 +176,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         homeIntent.addCategory(Intent.CATEGORY_HOME);
         startActivity(homeIntent);
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION && Settings.canDrawOverlays(mContext)) {
-            checkWorkingPermission();
-        }
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {

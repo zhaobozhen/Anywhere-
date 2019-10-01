@@ -11,5 +11,6 @@
 
     <color name="cardColor">#EEFFFFFF</color>
     <color name="textColorNormal">#000000</color>
+    <color name="navigationColorNormal">#FFFFFF</color>
 
 </resources>

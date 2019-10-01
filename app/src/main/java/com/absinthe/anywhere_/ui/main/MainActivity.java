@@ -1,8 +1,11 @@
 package com.absinthe.anywhere_.ui.main;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageView;
@@ -105,5 +108,15 @@ public class MainActivity extends AppCompatActivity {
         bundle.putInt(ConstUtil.BUNDLE_CLASS_NAME_TYPE, classNameType);
 
         mainFragment.setArguments(bundle);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MainFragment.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION && Settings.canDrawOverlays(this)) {
+            Log.d(TAG, "REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
+            mainFragment.checkWorkingPermission();
+        }
     }
 }

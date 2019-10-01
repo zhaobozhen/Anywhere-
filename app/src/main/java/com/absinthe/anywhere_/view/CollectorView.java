@@ -105,7 +105,8 @@ public class CollectorView extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         endTime = System.currentTimeMillis();
-                        isClick = (endTime - startTime) > 0.1 * 1000L;
+                        Log.d(TAG, "Touch period = " + (endTime - startTime));
+                        isClick = (endTime - startTime) > 0.2 * 1000L;
                         break;
                 }
                 return isClick;
