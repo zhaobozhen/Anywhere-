@@ -85,8 +85,8 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             Log.d(TAG, "className has problem.");
         }
 
-        if (packageName.contains("alipay://")) {
-            cmd = packageName;
+        if (packageName.contains("://")) {
+            cmd = "am start -a android.intent.action.VIEW -d " + packageName;
         }
 
         Log.d(TAG, packageName + "\n" + className + "\n" + classNameType);

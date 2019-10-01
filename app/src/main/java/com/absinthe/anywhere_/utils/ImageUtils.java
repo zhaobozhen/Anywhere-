@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -45,6 +46,23 @@ public class ImageUtils {
             drawable = ContextCompat.getDrawable(mContext, R.mipmap.ic_launcher);
         }
         return drawable;
+    }
+
+    public static void setActionBarTitle(ActionBar actionBar) {
+        String workingMode = SPUtils.getString(MainActivity.getInstance(), ConstUtil.SP_KEY_WORKING_MODE);
+        switch (workingMode) {
+            case "":
+                actionBar.setTitle("Nowhere-");
+                break;
+            case ConstUtil.WORKING_MODE_URL_SCHEME:
+                actionBar.setTitle("Somewhere-");
+                break;
+            case ConstUtil.WORKING_MODE_ROOT:
+            case ConstUtil.WORKING_MODE_SHIZUKU:
+                actionBar.setTitle("Anywhere-");
+                break;
+            default:
+        }
     }
 
     /**

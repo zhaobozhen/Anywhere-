@@ -55,9 +55,14 @@
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root 权限被拒绝</string>
     <string name="toast_open_pop_up_when_background_permission">MIUI 系统请打开 后台弹出界面 权限，否则可能存在问题</string>
+    <string name="toast_not_install_shizuku">未安装 Shizuku</string>
 
+    <!--  Dialog  -->
+    <string name="dialog_message_shizuku_not_running">请检查 Shizuku 是否正常运行</string>
     <string name="dialog_reset_background_confirm_title">重置</string>
     <string name="dialog_reset_background_confirm_message">确定要重置背景吗？</string>
+    <string name="dialog_setup_url_scheme_title">设置 URL Scheme</string>
+    <string name="dialog_url_scheme_community">捷径社区</string>
 
     <string name="help_text">帮助文档</string>
 

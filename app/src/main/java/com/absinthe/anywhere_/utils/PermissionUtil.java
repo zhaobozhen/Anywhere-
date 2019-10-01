@@ -187,7 +187,10 @@ public class PermissionUtil {
                     if (intent != null) {
                         mContext.startActivity(intent);
                     } else {
-                        Toast.makeText(mContext, "Not install Shizuku.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, mContext.getString(R.string.toast_not_install_shizuku), Toast.LENGTH_SHORT).show();
+                        intent = new Intent("android.intent.action.VIEW");
+                        intent.setData(Uri.parse("coolmarket://www.coolapk.com/moe.shizuku.privileged.api"));
+                        mContext.startActivity(intent);
                     }
                 })
                 .setNegativeButton(R.string.dialog_delete_negative_button,
@@ -259,7 +262,11 @@ public class PermissionUtil {
             }
 
             // Shizuku v3 may not running, notify user
-            Toast.makeText(mContext, "Shizuku v3 may not running.", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Shizuku v3 may not running.");
+            new MaterialAlertDialogBuilder(mContext)
+                    .setMessage(R.string.dialog_message_shizuku_not_running)
+                    .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                    .show();
             // if your app support Shizuku v2, run old v2 codes here
             // for new apps, recommended to ignore v2
         } else {
@@ -268,4 +275,5 @@ public class PermissionUtil {
         }
         return false;
     }
+
 }

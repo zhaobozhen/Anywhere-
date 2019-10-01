@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
-@Entity(tableName = "anywhere_table", primaryKeys = {"package_name", "class_name"})
+@Entity(tableName = "anywhere_table", primaryKeys = {"package_name", "class_name", "url_scheme"})
 public class AnywhereEntity {
 
     @NonNull
@@ -27,12 +27,22 @@ public class AnywhereEntity {
     @ColumnInfo(name = "class_name_type")
     private Integer mClassNameType;
 
-    public AnywhereEntity(@NonNull String packageName, @NonNull String className, @NonNull Integer classNameType, @NonNull String appName, @NonNull String customTexture) {
+    @NonNull
+    @ColumnInfo(name = "url_scheme")
+    private String mUrlScheme;
+
+    @NonNull
+    @ColumnInfo(name = "time_stamp")
+    private String mTimeStamp;
+
+    public AnywhereEntity(@NonNull String packageName, @NonNull String className, @NonNull Integer classNameType, @NonNull String urlScheme, @NonNull String appName, @NonNull String customTexture, @NonNull String timeStamp) {
         mPackageName = packageName;
         mClassName = className;
         mClassNameType = classNameType;
+        mUrlScheme = urlScheme;
         mAppName = appName;
         mCustomTexture = customTexture;
+        mTimeStamp = timeStamp;
     }
 
     public String getPackageName() {
@@ -55,4 +65,11 @@ public class AnywhereEntity {
         return this.mCustomTexture;
     }
 
+    public String getUrlScheme() {
+        return this.mUrlScheme;
+    }
+
+    public String getTimeStamp() {
+        return this.mTimeStamp;
+    }
 }

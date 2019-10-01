@@ -63,7 +63,7 @@ public class EditUtils {
                     String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
                     Log.d(TAG, "description == " + desc);
 
-                    MainFragment.getViewModelInstance().insert(new AnywhereEntity(pName, cName, classNameType, aName, desc));
+                    MainFragment.getViewModelInstance().insert(new AnywhereEntity(pName, cName, classNameType, "", aName, desc, System.currentTimeMillis() + ""));
                     bottomSheetDialog.dismiss();
                 } else {
                     Toast.makeText(activity, "error data.", Toast.LENGTH_SHORT).show();

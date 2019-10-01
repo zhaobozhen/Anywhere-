@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.ui.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private static final String TAG = "MainFragment";
     static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1001;
     private Context mContext;
-    private String workingMode;
+    private String workingMode = AnywhereApplication.workingMode;
     private int selectedWorkingModeIndex = 0;
 
     private static AnywhereViewModel mViewModel;
@@ -81,7 +82,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         super.onActivityCreated(savedInstanceState);
 
         initObserver();
-        PermissionUtil.checkShizukuOnWorking(mContext);
 
         boolean isFirstLaunch = SPUtils.getBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH);
         if (isFirstLaunch) {
@@ -89,15 +89,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     .setTarget(R.id.fab)
                     .setPrimaryText("创建你的第一个 Anywhere- 吧！")
                     .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                    .setPromptStateChangeListener((prompt, state) -> {
-                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
-                        {
-                            Toast.makeText(mContext, getString(R.string.toast_open_pop_up_when_background_permission), Toast.LENGTH_LONG).show();
-                            if (PermissionUtil.isMIUI()) {
-                                PermissionUtil.goToMIUIPermissionManager(mContext);
-                            }
-                        }
-                    })
                     .show();
             SPUtils.putBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH, false);
         }
@@ -106,6 +97,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     @Override
     public void onResume() {
         super.onResume();
+
+        if (workingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+            return;
+        }
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             String packageName = bundle.getString("packageName");
@@ -132,13 +128,16 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             if (workingMode.isEmpty()) {
                 new MaterialAlertDialogBuilder(mContext)
                         .setTitle(R.string.settings_working_mode)
-                        .setSingleChoiceItems(new CharSequence[]{"Root", "Shizuku"}, 0, (dialogInterface, i) -> selectedWorkingModeIndex = i)
+                        .setSingleChoiceItems(R.array.list_working_mode, 0, (dialogInterface, i) -> selectedWorkingModeIndex = i)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                             switch (selectedWorkingModeIndex) {
                                 case 0:
-                                    mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_ROOT);
+                                    mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_URL_SCHEME);
                                     break;
                                 case 1:
+                                    mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_ROOT);
+                                    break;
+                                case 2:
                                     mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_SHIZUKU);
                                     break;
                                 default:
@@ -150,9 +149,13 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         .show();
             }
 
-            if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+            if (workingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+                setUpUrlScheme();
+            } else if (workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
                 if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
                     startCollector();
+                } else {
+                    actionBar.setTitle("Nowhere-");
                 }
             } else if (workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
                 if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
@@ -160,6 +163,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 } else {
                     Log.d(TAG, "ROOT permission denied.");
                     Toast.makeText(mContext, getString(R.string.toast_root_permission_denied), Toast.LENGTH_SHORT).show();
+                    actionBar.setTitle("Nowhere-");
                 }
             }
         }
@@ -176,6 +180,20 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         homeIntent.addCategory(Intent.CATEGORY_HOME);
         startActivity(homeIntent);
+    }
+
+    private void setUpUrlScheme() {
+        new MaterialAlertDialogBuilder(mContext)
+                .setTitle(R.string.dialog_setup_url_scheme_title)
+                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                })
+                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNeutralButton(R.string.dialog_url_scheme_community, (dialogInterface, i) -> {
+                    Intent intent = new Intent("android.intent.action.VIEW");
+                    intent.setData(Uri.parse("https://sharecuts.cn/apps"));
+                    mContext.startActivity(intent);
+                })
+                .show();
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
@@ -215,6 +233,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
         });
         actionBar = ((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
+        ImageUtils.setActionBarTitle(actionBar);
     }
 
     private void initObserver() {
@@ -237,6 +256,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getWorkingMode().observe(this, s -> {
             AnywhereApplication.workingMode = workingMode = s;
             SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, s);
+            ImageUtils.setActionBarTitle(actionBar);
         });
 
         final Observer<String> backgroundObserver = s -> {
