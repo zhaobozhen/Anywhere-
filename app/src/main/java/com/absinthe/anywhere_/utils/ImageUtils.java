@@ -50,6 +50,7 @@ public class ImageUtils {
 
     public static void setActionBarTitle(Activity activity, ActionBar actionBar) {
         String workingMode = SPUtils.getString(MainActivity.getInstance(), ConstUtil.SP_KEY_WORKING_MODE);
+        Log.d(TAG, "setActionBarTitle:workingMode = " + workingMode);
         switch (workingMode) {
             case "":
                 setTopWidgetColor(activity, actionBar, SPUtils.getString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE), "Nowhere-");
@@ -199,7 +200,7 @@ public class ImageUtils {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
-        } else if (type.equals(ConstUtil.ACTION_BAR_TYPE_LIGHT)) {
+        } else if (type.equals(ConstUtil.ACTION_BAR_TYPE_LIGHT) || type.isEmpty()) {
             Log.d(TAG, "Light-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);

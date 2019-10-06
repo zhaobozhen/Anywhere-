@@ -227,9 +227,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         setHasOptionsMenu(true);
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(clickView -> {
-            checkWorkingPermission();
-        });
+        fab.setOnClickListener(clickView -> checkWorkingPermission());
         actionBar = ((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
         ImageUtils.setActionBarTitle(getActivity(), actionBar);
     }
@@ -251,9 +249,14 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     }
                     break;
                 case ConstUtil.WORKING_MODE_URL_SCHEME:
-                    Intent intent = new Intent("android.intent.action.VIEW");
-                    intent.setData(Uri.parse(s));
-                    mContext.startActivity(intent);
+                    try {
+                        Intent intent = new Intent("android.intent.action.VIEW");
+                        intent.setData(Uri.parse(s));
+                        mContext.startActivity(intent);
+                    } catch (Exception e) {
+                        Log.d(TAG, "WORKING_MODE_URL_SCHEME:Exception:" + e.getMessage());
+                        Toast.makeText(mContext, "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                     break;
             }
         };

@@ -19,12 +19,13 @@
         android:layout_height="match_parent" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toStartOf="@+id/iv_app_icon"
             android:orientation="vertical">
 
             <TextView
@@ -33,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_card_package_name"
@@ -41,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/tv_card_class_name"
@@ -49,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/tv_card_url_scheme"
@@ -57,13 +58,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/tv_card_custom_texture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceSubtitle2"/>
+                android:textAppearance="?attr/textAppearanceSubtitle2" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
