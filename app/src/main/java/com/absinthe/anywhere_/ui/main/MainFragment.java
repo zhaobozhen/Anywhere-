@@ -106,7 +106,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (bundle != null) {
             String packageName = bundle.getString("packageName");
             String className = bundle.getString("className");
-            int classNameType = bundle.getInt("classNameType");
+            String classNameType = bundle.getInt("classNameType") + "";
 
             String appName;
             if (packageName != null && className != null) {

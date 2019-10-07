@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,10 +16,12 @@ import androidx.annotation.NonNull;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class EditUtils {
     private static final String TAG = "EditUtils";
@@ -28,10 +29,14 @@ public class EditUtils {
     @SuppressLint("StaticFieldLeak")
     private static BottomSheetDialog bottomSheetDialog = null;
 
-    public static void editAnywhere(@NonNull Activity activity, String packageName, String className, int classNameType, String appName, String description) {
+    public static void editAnywhere(@NonNull Activity activity, String packageName, String className, String classNameType, String appName, String description) {
         bottomSheetDialog = new BottomSheetDialog(activity);
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
         bottomSheetDialog.setDismissWithAnimation(true);
+
+        TextInputLayout tilAppName = bottomSheetDialog.findViewById(R.id.til_app_name);
+        TextInputLayout tilPackageName = bottomSheetDialog.findViewById(R.id.til_package_name);
+        TextInputLayout tilClassName = bottomSheetDialog.findViewById(R.id.til_class_name);
 
         TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
         TextInputEditText tietPackageName = bottomSheetDialog.findViewById(R.id.tiet_package_name);
@@ -63,10 +68,24 @@ public class EditUtils {
                     String cName = tietClassName.getText() == null ? className : tietClassName.getText().toString();
                     String aName = tietAppName.getText() == null ? appName : tietAppName.getText().toString();
                     String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
-                    Log.d(TAG, "description == " + desc);
 
-                    MainFragment.getViewModelInstance().insert(new AnywhereEntity(pName, cName, classNameType, "", aName, desc, System.currentTimeMillis() + ""));
-                    bottomSheetDialog.dismiss();
+                    if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
+                            tilAppName.setError(activity.getString(R.string.bsd_error_should_not_empty));
+                    }
+                    if (tietPackageName.getText().toString().isEmpty() && tilPackageName != null) {
+                        tilPackageName.setError(activity.getString(R.string.bsd_error_should_not_empty));
+                    }
+                    if (tietClassName.getText().toString().isEmpty() && tilClassName != null) {
+                        tilClassName.setError(activity.getString(R.string.bsd_error_should_not_empty));
+                    }
+
+                    if (!tietAppName.getText().toString().isEmpty()
+                            && !tietPackageName.getText().toString().isEmpty()
+                            && !tietClassName.getText().toString().isEmpty()) {
+                        MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY,  System.currentTimeMillis() + ""));
+                        bottomSheetDialog.dismiss();
+                    }
+
                 } else {
                     Toast.makeText(activity, "error data.", Toast.LENGTH_SHORT).show();
                 }
@@ -77,7 +96,7 @@ public class EditUtils {
     }
 
     public static void editAnywhere(@NonNull Activity activity, SelectableCardsAdapter adapter, AnywhereEntity item, int position, boolean withDeleteButton) {
-        editAnywhere(activity, item.getPackageName(), item.getClassName(), item.getClassNameType(), item.getAppName(), item.getCustomTexture());
+        editAnywhere(activity, item.getParam1(), item.getParam2(), item.getParam3(), item.getAppName(), item.getDescription());
         adapter.notifyItemChanged(position);
 
         ImageButton ibDelete = bottomSheetDialog.findViewById(R.id.ib_delete_anywhere);
@@ -115,6 +134,9 @@ public class EditUtils {
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_url_scheme);
         bottomSheetDialog.setDismissWithAnimation(true);
 
+        TextInputLayout tilAppName = bottomSheetDialog.findViewById(R.id.til_app_name);
+        TextInputLayout tilUrlScheme = bottomSheetDialog.findViewById(R.id.til_url_scheme);
+
         TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
         TextInputEditText tietUrlScheme = bottomSheetDialog.findViewById(R.id.tiet_url_scheme);
         TextInputEditText tietDescription = bottomSheetDialog.findViewById(R.id.tiet_description);
@@ -131,8 +153,18 @@ public class EditUtils {
                     String aName = tietAppName.getText() == null  ? "URL Scheme" : tietAppName.getText().toString();
                     String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
 
-                    MainFragment.getViewModelInstance().insert(new AnywhereEntity("pName", "cName", ConstUtil.URL_SCHEME_TYPE, uScheme, aName, desc, System.currentTimeMillis() + ""));
-                    bottomSheetDialog.dismiss();
+                    if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
+                        tilAppName.setError(activity.getString(R.string.bsd_error_should_not_empty));
+                    }
+                    if (tietUrlScheme.getText().toString().isEmpty() && tilUrlScheme != null) {
+                        tilUrlScheme.setError(activity.getString(R.string.bsd_error_should_not_empty));
+                    }
+
+                    if (!tietAppName.getText().toString().isEmpty()
+                            && !tietUrlScheme.getText().toString().isEmpty()) {
+                        MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + ""));
+                        bottomSheetDialog.dismiss();
+                    }
                 } else {
                     Toast.makeText(activity, "error data.", Toast.LENGTH_SHORT).show();
                 }
@@ -163,11 +195,11 @@ public class EditUtils {
         }
 
         if (tietUrlScheme != null) {
-            tietUrlScheme.setText(item.getUrlScheme());
+            tietUrlScheme.setText(item.getParam1());
         }
 
         if (tietDescription != null) {
-            tietDescription.setText(item.getCustomTexture());
+            tietDescription.setText(item.getDescription());
         }
 
         adapter.notifyItemChanged(position);

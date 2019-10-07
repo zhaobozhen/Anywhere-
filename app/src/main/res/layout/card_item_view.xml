@@ -37,34 +37,38 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_card_package_name"
+                android:id="@+id/tv_card_param_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/tv_card_class_name"
+                android:id="@+id/tv_card_param_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/tv_card_url_scheme"
+                android:id="@+id/tv_card_param_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/tv_card_custom_texture"
+                android:id="@+id/tv_card_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceSubtitle2" />
+                android:textAppearance="?attr/textAppearanceSubtitle2"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView

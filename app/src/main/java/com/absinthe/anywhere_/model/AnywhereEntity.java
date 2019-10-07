@@ -4,72 +4,73 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
-@Entity(tableName = "anywhere_table", primaryKeys = {"package_name", "class_name", "url_scheme"})
+@Entity(tableName = "anywhere_table", primaryKeys = {"app_name", "param_1"})
 public class AnywhereEntity {
-
-    @NonNull
-    @ColumnInfo(name = "package_name")
-    private String mPackageName;
-
-    @NonNull
-    @ColumnInfo(name = "class_name")
-    private String mClassName;
 
     @NonNull
     @ColumnInfo(name = "app_name")
     private String mAppName;
 
     @NonNull
-    @ColumnInfo(name = "custom_texture")
-    private String mCustomTexture;
+    @ColumnInfo(name = "param_1")
+    private String mParam1;
+
+    @ColumnInfo(name = "param_2")
+    private String mParam2;
+
+    @ColumnInfo(name = "param_3")
+    private String mParam3;
+
+    @ColumnInfo(name = "description")
+    private String mDescription;
 
     @NonNull
-    @ColumnInfo(name = "class_name_type")
-    private Integer mClassNameType;
-
-    @NonNull
-    @ColumnInfo(name = "url_scheme")
-    private String mUrlScheme;
+    @ColumnInfo(name = "type")
+    private Integer mType;
 
     @NonNull
     @ColumnInfo(name = "time_stamp")
     private String mTimeStamp;
 
-    public AnywhereEntity(@NonNull String packageName, @NonNull String className, @NonNull Integer classNameType, @NonNull String urlScheme, @NonNull String appName, @NonNull String customTexture, @NonNull String timeStamp) {
-        mPackageName = packageName;
-        mClassName = className;
-        mClassNameType = classNameType;
-        mUrlScheme = urlScheme;
+    public AnywhereEntity(@NonNull String appName, @NonNull String param1, String param2, String param3, String description, @NonNull Integer type, @NonNull String timeStamp) {
         mAppName = appName;
-        mCustomTexture = customTexture;
+        mParam1 = param1;
+        mParam2 = param2;
+        mParam3 = param3;
+        mDescription = description;
+        mType = type;
         mTimeStamp = timeStamp;
     }
 
-    public String getPackageName() {
-        return this.mPackageName;
-    }
-
-    public String getClassName() {
-        return this.mClassName;
-    }
-
-    public Integer getClassNameType() {
-        return this.mClassNameType;
-    }
-
+    @NonNull
     public String getAppName() {
-        return this.mAppName;
+        return mAppName;
     }
 
-    public String getCustomTexture() {
-        return this.mCustomTexture;
+    @NonNull
+    public String getParam1() {
+        return mParam1;
     }
 
-    public String getUrlScheme() {
-        return this.mUrlScheme;
+    public String getParam2() {
+        return mParam2;
     }
 
+    public String getParam3() {
+        return mParam3;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    @NonNull
+    public Integer getType() {
+        return mType;
+    }
+
+    @NonNull
     public String getTimeStamp() {
-        return this.mTimeStamp;
+        return mTimeStamp;
     }
 }

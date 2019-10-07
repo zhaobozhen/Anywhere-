@@ -22,6 +22,8 @@
 
     <!--  BottomSheetDialog  -->
     <string name="bsd_btn_done">保存</string>
+    <string name="bsd_error_should_not_empty">不能为空</string>
+
     <string name="bsd_text_input_layout_app_name_label">App 名称</string>
     <string name="bsd_text_input_layout_package_name_label">包名</string>
     <string name="bsd_text_input_layout_url_scheme_label">URL Scheme</string>

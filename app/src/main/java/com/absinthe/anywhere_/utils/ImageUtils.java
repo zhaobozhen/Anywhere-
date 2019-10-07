@@ -16,6 +16,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -93,6 +94,7 @@ public class ImageUtils {
             actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(R.color.transparent)));
         }
         window.setStatusBarColor(activity.getResources().getColor(R.color.transparent));
+        window.setNavigationBarColor(activity.getResources().getColor(R.color.transparent));
     }
 
     /**
@@ -197,7 +199,9 @@ public class ImageUtils {
             SPUtils.putString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE, ConstUtil.ACTION_BAR_TYPE_DARK);
             activity.invalidateOptionsMenu();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
         } else if (type.equals(ConstUtil.ACTION_BAR_TYPE_LIGHT) || type.isEmpty()) {
