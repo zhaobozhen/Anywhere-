@@ -5,6 +5,8 @@
     <string name="tile_collector_on">启动 Collector</string>
     <string name="tile_collector_off">关闭 Collector</string>
     <string name="slogan">Anywhere- 去你想去的地方</string>
+    <string name="welcome_title">欢迎使用 Anywhere-</string>
+    <string name="welcome_start_button">开始</string>
 
     <!--  Collector  -->
     <string name="toast_permission_overlap">请先授予 \"Anywhere-\" 悬浮窗权限</string>
@@ -61,6 +63,8 @@
     <string name="toast_open_pop_up_when_background_permission">MIUI 系统请打开 后台弹出界面 权限，否则可能存在问题</string>
     <string name="toast_not_install_shizuku">未安装 Shizuku</string>
     <string name="toast_change_work_mode">请切换工作模式</string>
+    <string name="toast_collector_service_launch_failed">服务启动失败</string>
+    <string name="toast_adb_result_process_failed">解析错误</string>
 
     <!--  Dialog  -->
     <string name="dialog_message_shizuku_not_running">请检查 Shizuku 是否正常运行</string>
@@ -74,5 +78,6 @@
     <!--  Description  -->
     <string name="background_todo">Main page background</string>
     <string name="anywhere_delete_todo">Delete an Anywhere</string>
+    <string name="welcome_logo_todo">Welcome logo</string>
 
 </resources>

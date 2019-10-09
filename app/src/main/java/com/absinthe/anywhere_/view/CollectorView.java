@@ -122,10 +122,13 @@ public class CollectorView extends LinearLayout {
 
         if (result != null) {
             String[] processed = TextUtils.processResultString(result);
-            packageName = processed[0];
-            className = processed[1];
-            classNameType = Integer.valueOf(processed[2]);
-            Log.d(TAG, "classNameType = " + classNameType);
+
+            if (processed != null) {
+                packageName = processed[0];
+                className = processed[1];
+                classNameType = Integer.valueOf(processed[2]);
+                Log.d(TAG, "classNameType = " + classNameType);
+            }
         }
     }
 

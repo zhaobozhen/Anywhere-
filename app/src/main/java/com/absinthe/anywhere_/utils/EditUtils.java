@@ -129,7 +129,7 @@ public class EditUtils {
                 .show();
     }
 
-    public static void editUrlScheme(Activity activity) {
+    public static void editUrlScheme(@NonNull Activity activity) {
         bottomSheetDialog = new BottomSheetDialog(activity);
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_url_scheme);
         bottomSheetDialog.setDismissWithAnimation(true);

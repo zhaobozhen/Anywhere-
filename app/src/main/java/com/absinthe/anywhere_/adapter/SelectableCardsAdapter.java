@@ -105,7 +105,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         String cmd = null;
 
         int type = item.getType();
-        String packageName;
+        final String[] packageName = new String[1];
         String className;
         String urlScheme;
         int classNameType;
@@ -115,15 +115,15 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 Toast.makeText(mContext, mContext.getString(R.string.toast_change_work_mode), Toast.LENGTH_LONG).show();
                 return;
             }
-            packageName = item.getParam1();
+            packageName[0] = item.getParam1();
             className = item.getParam2();
             classNameType = Integer.valueOf(item.getParam3());
-            Log.d(TAG, "packageName = " + packageName + ", className = " + className + ", classNameType = " + classNameType);
+            Log.d(TAG, "packageName = " + packageName[0] + ", className = " + className + ", classNameType = " + classNameType);
 
             if (classNameType == ConstUtil.FULL_CLASS_NAME_TYPE) {
-                cmd = "am start -n " + packageName + "/" + className;
+                cmd = "am start -n " + packageName[0] + "/" + className;
             } else if (classNameType == ConstUtil.SHORT_CLASS_NAME_TYPE) {
-                cmd = "am start -n " + packageName + "/" + packageName + className;
+                cmd = "am start -n " + packageName[0] + "/" + packageName[0] + className;
             }
         } else if (type == AnywhereType.URL_SCHEME) {
             urlScheme = item.getParam1();
@@ -134,6 +134,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             } else {
                 cmd = "am start -a android.intent.action.VIEW -d " + urlScheme;
             }
+
         } else if (type == AnywhereType.MINI_PROGRAM) {
             //Todo
         } else {
@@ -175,7 +176,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             param2View.setText(item.getParam2());
             param3View.setText(item.getParam3());
             descriptionView.setText(item.getDescription());
-            appIcon.setImageDrawable(ImageUtils.getAppIconByPackageName(mContext, item.getParam1()));
+            appIcon.setImageDrawable(ImageUtils.getAppIconByPackageName(mContext, item));
         }
 
     }

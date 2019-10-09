@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.service.quicksettings.Tile;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -33,6 +34,11 @@ public class CollectorService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null) {
+            Toast.makeText(this, R.string.toast_collector_service_launch_failed, Toast.LENGTH_SHORT).show();
+            return super.onStartCommand(null, flags, startId);
+        }
+
         initCollectorWindowManager();
         String command = intent.getStringExtra(COMMAND);
         if (command != null) {

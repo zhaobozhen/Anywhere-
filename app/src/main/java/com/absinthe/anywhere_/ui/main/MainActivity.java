@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.ConstUtil;
@@ -31,13 +32,22 @@ public class MainActivity extends AppCompatActivity {
         initView();
         instance = this;
 
-        mainFragment = MainFragment.newInstance();
-        getAnywhereIntent(getIntent());
-
-        if (savedInstanceState == null) {
+        boolean isFirstLaunch = SPUtils.getBoolean(this, ConstUtil.SP_KEY_FIRST_LAUNCH);
+        if (isFirstLaunch) {
+            WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, mainFragment)
+                    .replace(R.id.container, welcomeFragment)
                     .commitNow();
+            SPUtils.putBoolean(this, ConstUtil.SP_KEY_FIRST_LAUNCH, false);
+        } else {
+            mainFragment = MainFragment.newInstance();
+            getAnywhereIntent(getIntent());
+
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, mainFragment)
+                        .commitNow();
+            }
         }
     }
 
@@ -69,14 +79,16 @@ public class MainActivity extends AppCompatActivity {
         String actionBarType = SPUtils.getString(this, ConstUtil.SP_KEY_ACTION_BAR_TYPE);
         Log.d(TAG, "onPrepareOptionsMenu: actionBarType = " + actionBarType);
 
-        switch (actionBarType) {
-            case "":
-            case ConstUtil.ACTION_BAR_TYPE_LIGHT:
-                menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
-                break;
-            case ConstUtil.ACTION_BAR_TYPE_DARK:
-                menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_dark);
-                break;
+        if (menu.findItem(R.id.toolbar_settings) != null) {
+            switch (actionBarType) {
+                case "":
+                case ConstUtil.ACTION_BAR_TYPE_LIGHT:
+                    menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
+                    break;
+                case ConstUtil.ACTION_BAR_TYPE_DARK:
+                    menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_dark);
+                    break;
+            }
         }
         return super.onPrepareOptionsMenu(menu);
     }

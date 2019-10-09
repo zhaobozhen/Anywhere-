@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.main;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -113,7 +112,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 appName = TextUtils.getAppName(mContext, packageName);
 
                 Log.d(TAG, "onResume:" + packageName + "," + className);
-                EditUtils.editAnywhere((Activity) mContext, packageName, className, classNameType, appName, "");
+                EditUtils.editAnywhere(MainActivity.getInstance(), packageName, className, classNameType, appName, "");
 
                 bundle.clear();
             }
@@ -193,7 +192,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void setUpUrlScheme() {
-        EditUtils.editUrlScheme(getActivity());
+        EditUtils.editUrlScheme(MainActivity.getInstance());
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {

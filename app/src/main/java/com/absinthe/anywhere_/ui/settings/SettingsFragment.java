@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -15,13 +14,11 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
-import com.absinthe.anywhere_.viewmodel.SettingsViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
     static final int REQUEST_CODE_IMAGE_CAPTURE = 1001;
-    private SettingsViewModel mViewModel;
     private Context mContext;
 
     static SettingsFragment newInstance() {
@@ -36,7 +33,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
         mContext = getActivity();
 
         ListPreference workingModePreference = findPreference(ConstUtil.SP_KEY_WORKING_MODE);

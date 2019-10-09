@@ -16,7 +16,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +26,8 @@ import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -37,7 +38,21 @@ import com.bumptech.glide.request.transition.Transition;
 public class ImageUtils {
     private static final String TAG = "ImageUtils";
 
-    public static Drawable getAppIconByPackageName(Context mContext, String apkTempPackageName){
+    public static Drawable getAppIconByPackageName(Context mContext, AnywhereEntity item){
+        int type = item.getType();
+        String apkTempPackageName = "";
+
+        switch (type) {
+            case AnywhereType.URL_SCHEME:
+                apkTempPackageName = item.getParam2() == null ? "" : item.getParam2();
+                break;
+            case AnywhereType.ACTIVITY:
+                apkTempPackageName = item.getParam1();
+            case AnywhereType.MINI_PROGRAM:
+                //Todo
+                break;
+        }
+
         Drawable drawable;
         try{
             drawable = mContext.getPackageManager().getApplicationIcon(apkTempPackageName);

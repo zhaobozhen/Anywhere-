@@ -5,14 +5,12 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
     <uses-permission
         android:name="moe.shizuku.manager.permission.API"
         android:maxSdkVersion="23" />
-
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
-    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
 
+    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
     <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
 
     <application
@@ -26,8 +24,8 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.main.MainActivity"
-            android:launchMode="singleTask"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,17 +33,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
             android:launchMode="singleTask"
-            android:parentActivityName=".ui.main.MainActivity"/>
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_title"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ui.settings.SettingsActivity"/>
+            android:parentActivityName=".ui.settings.SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
             android:authorities="${applicationId}.shizuku"
@@ -56,16 +54,15 @@
 
         <service
             android:name=".services.CollectorTileService"
-            android:icon="@drawable/ic_logo"
-            android:label="@string/tile_collector_on"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" >
+            android:icon="@drawable/ic_logo"
+            android:label="@string/tile_collector_on"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
-
         <service
             android:name=".services.CollectorService"
             android:enabled="true"
