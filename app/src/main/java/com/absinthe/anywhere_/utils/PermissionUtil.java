@@ -177,20 +177,20 @@ public class PermissionUtil {
         }
     }
 
-    public static void showPermissionDialog(Context mContext) {
-        new MaterialAlertDialogBuilder(mContext)
+    public static void showPermissionDialog(Activity activity) {
+        new MaterialAlertDialogBuilder(activity)
                 .setTitle(R.string.dialog_permission_title)
                 .setMessage(R.string.dialog_permission_message)
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
+                    Intent intent = activity.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
                     if (intent != null) {
-                        mContext.startActivity(intent);
+                        activity.startActivityForResult(intent, ConstUtil.REQUEST_CODE_SHIZUKU_PERMISSION);
                     } else {
-                        Toast.makeText(mContext, mContext.getString(R.string.toast_not_install_shizuku), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, activity.getString(R.string.toast_not_install_shizuku), Toast.LENGTH_SHORT).show();
                         intent = new Intent("android.intent.action.VIEW");
                         intent.setData(Uri.parse("coolmarket://www.coolapk.com/moe.shizuku.privileged.api"));
-                        ((Activity) mContext).startActivityForResult(intent, ConstUtil.REQUEST_CODE_SHIZUKU_PERMISSION);
+                        activity.startActivity(intent);
                     }
                 })
                 .setNegativeButton(R.string.dialog_delete_negative_button,

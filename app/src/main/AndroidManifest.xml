@@ -32,6 +32,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity
             android:name=".ui.settings.SettingsActivity"
@@ -43,6 +47,8 @@
             android:label="@string/about_title"
             android:parentActivityName=".ui.settings.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".ui.shortcuts.ShortcutsActivity"/>
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
@@ -65,17 +71,7 @@
         </service>
         <service
             android:name=".services.CollectorService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility_service_config" />
-        </service>
+            android:enabled="true"/>
     </application>
 
 </manifest>

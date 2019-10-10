@@ -35,9 +35,9 @@ import java.util.Objects;
 
 public class InitializeFragment extends Fragment implements MaterialButtonToggleGroup.OnButtonCheckedListener, LifecycleOwner {
     private static final String TAG = InitializeFragment.class.getSimpleName();
+    private static InitializeViewModel mViewModel;
 
     private Context mContext;
-    private InitializeViewModel mViewModel;
     private MaterialCardView cvRoot, cvShizuku, cvOverlay, cvPopup;
     private Button btnRoot, btnShizukuCheck, btnShizuku, btnOverlay, btnPopup;
 
@@ -45,6 +45,10 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     static InitializeFragment newInstance() {
         return new InitializeFragment();
+    }
+
+    static InitializeViewModel getViewModel() {
+        return mViewModel;
     }
 
     @Override
@@ -156,18 +160,23 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             }
 
             if (flag) {
+                MainFragment fragment = MainFragment.newInstance();
                 MainActivity.getInstance()
                         .getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, MainFragment.newInstance())
+                        .replace(R.id.container, fragment)
                         .commitNow();
+                MainActivity.getInstance().setMainFragment(fragment);
             } else {
+                MainFragment fragment = MainFragment.newInstance();
                 new MaterialAlertDialogBuilder(mContext)
                         .setMessage(R.string.dialog_message_perm_not_ever)
-                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) ->
-                                MainActivity.getInstance()
-                                .getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, MainFragment.newInstance())
-                                .commitNow())
+                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                            MainActivity.getInstance()
+                                    .getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.container, fragment)
+                                    .commitNow();
+                            MainActivity.getInstance().setMainFragment(fragment);
+                        })
                         .setNegativeButton(R.string.dialog_delete_negative_button, null)
                         .show();
             }

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.ImageUtils;
@@ -105,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
         curFragment = fragment;
     }
 
+    public void setMainFragment(MainFragment fragment) {
+        mainFragment = fragment;
+    }
+
     private void getAnywhereIntent(Intent intent) {
         if (intent == null) {
             return;
@@ -113,19 +118,26 @@ public class MainActivity extends AppCompatActivity {
         String packageName = intent.getStringExtra(ConstUtil.INTENT_EXTRA_PACKAGE_NAME);
         String className = intent.getStringExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME);
         int classNameType = intent.getIntExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME_TYPE, ConstUtil.SHORT_CLASS_NAME_TYPE);
-
-        if (packageName == null || className == null) {
-            return;
-        }
-
-        Log.d(TAG, "classNameType = " + classNameType);
-        Log.d(TAG, "className = " + className);
-        Log.d(TAG, "packageName = " + packageName);
+        String shortcutEditUrl = intent.getStringExtra("shortcutEditUrl");
 
         Bundle bundle = new Bundle();
-        bundle.putString(ConstUtil.BUNDLE_PACKAGE_NAME, packageName);
-        bundle.putString(ConstUtil.BUNDLE_CLASS_NAME, className);
-        bundle.putInt(ConstUtil.BUNDLE_CLASS_NAME_TYPE, classNameType);
+        if (AnywhereApplication.workingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+            if (shortcutEditUrl != null) {
+                bundle.putString("shortcutEditUrl", shortcutEditUrl);
+            }
+        } else {
+            if (packageName == null || className == null) {
+                return;
+            }
+
+            Log.d(TAG, "classNameType = " + classNameType);
+            Log.d(TAG, "className = " + className);
+            Log.d(TAG, "packageName = " + packageName);
+
+            bundle.putString(ConstUtil.BUNDLE_PACKAGE_NAME, packageName);
+            bundle.putString(ConstUtil.BUNDLE_CLASS_NAME, className);
+            bundle.putInt(ConstUtil.BUNDLE_CLASS_NAME_TYPE, classNameType);
+        }
 
         mainFragment.setArguments(bundle);
     }
@@ -138,18 +150,21 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == ConstUtil.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
             Log.d(TAG, "REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
             if (curFragment instanceof MainFragment) {
+                if (mainFragment == null) {
+                    mainFragment = (MainFragment) curFragment;
+                }
                 mainFragment.checkWorkingPermission();
             } else if (curFragment instanceof InitializeFragment) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (Settings.canDrawOverlays(this)) {
-                        InitializeViewModel.getInstance().getIsOverlay().setValue(Boolean.TRUE);
+                        InitializeFragment.getViewModel().getIsOverlay().setValue(Boolean.TRUE);
                     }
                 }
             }
         } else if (requestCode == ConstUtil.REQUEST_CODE_SHIZUKU_PERMISSION) {
             Log.d(TAG, "REQUEST_CODE_SHIZUKU_PERMISSION");
             if (curFragment instanceof InitializeFragment) {
-                InitializeViewModel.getInstance().getIsShizuku().setValue(Boolean.TRUE);
+                InitializeFragment.getViewModel().getIsShizuku().setValue(Boolean.TRUE);
             }
         }
     }

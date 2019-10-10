@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class InitializeViewModel extends ViewModel {
-    private static InitializeViewModel instance;
 
     private MutableLiveData<Boolean> isRoot;
     private MutableLiveData<Boolean> isOverlay;
@@ -18,13 +17,6 @@ public class InitializeViewModel extends ViewModel {
     public static final int SHIZUKU_PERM = 4;
     public static final int OVERLAY_PERM = 8;
     public static final int SHIZUKU_GROUP_PERM = 6;
-
-    public static InitializeViewModel getInstance() {
-        if (instance == null) {
-            instance = new InitializeViewModel();
-        }
-        return instance;
-    }
 
     public MutableLiveData<Boolean> getIsRoot() {
         if (isRoot == null) {

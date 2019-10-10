@@ -98,14 +98,26 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         super.onResume();
 
         if (workingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+            Bundle bundle = getArguments();
+
+            if (bundle != null) {
+                String shortcutEditUrl = bundle.getString("shortcutEditUrl");
+                if (shortcutEditUrl != null) {
+                    if (shortcutEditUrl.equals("true")) {
+                        EditUtils.editUrlScheme(MainActivity.getInstance());
+                    }
+                    bundle.clear();
+                }
+            }
             return;
         }
 
         Bundle bundle = getArguments();
+
         if (bundle != null) {
-            String packageName = bundle.getString("packageName");
-            String className = bundle.getString("className");
-            String classNameType = bundle.getInt("classNameType") + "";
+            String packageName = bundle.getString(ConstUtil.BUNDLE_PACKAGE_NAME);
+            String className = bundle.getString(ConstUtil.BUNDLE_CLASS_NAME);
+            String classNameType = bundle.getInt(ConstUtil.BUNDLE_CLASS_NAME_TYPE) + "";
 
             String appName;
             if (packageName != null && className != null) {
@@ -229,6 +241,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         fab.setOnClickListener(clickView -> checkWorkingPermission());
         actionBar = ((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
         ImageUtils.setActionBarTitle(getActivity(), actionBar);
+
+        View placeholder = view.findViewById(R.id.placeholder);
+        if (SPUtils.getBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH)) {
+            placeholder.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initObserver() {

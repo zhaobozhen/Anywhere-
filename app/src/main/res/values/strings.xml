@@ -4,6 +4,7 @@
     <string name="about_title">关于</string>
     <string name="tile_collector_on">启动 Collector</string>
     <string name="tile_collector_off">关闭 Collector</string>
+    <string name="shortcut_add">添加 Anywhere-</string>
     <string name="slogan">Anywhere- 去你想去的地方</string>
     <string name="welcome_title">欢迎使用 Anywhere-</string>
     <string name="welcome_start_button">开始</string>
@@ -37,6 +38,8 @@
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme, 可在左上角寻找你想要的</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App 类名，一般来说默认即可</string>
     <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 吧</string>
+
+    <string name="bsd_new_url_scheme_name">New URL Scheme</string>
 
     <!--  BottomAppBarMenu  -->
     <string name="menu_settings">设置</string>
@@ -74,6 +77,7 @@
     <string name="dialog_setup_url_scheme_title">设置 URL Scheme</string>
     <string name="dialog_url_scheme_community">捷径社区</string>
     <string name="dialog_message_perm_not_ever">尚有未授予的权限，确定要进入吗？</string>
+    <string name="dialog_message_same_app_name">似乎有相似的 Anywhere-，要覆盖吗？</string>
 
     <string name="help_text">帮助文档(暂无)</string>
 

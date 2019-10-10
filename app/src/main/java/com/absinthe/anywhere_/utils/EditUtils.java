@@ -23,6 +23,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.List;
+
 public class EditUtils {
     private static final String TAG = "EditUtils";
 
@@ -82,7 +84,16 @@ public class EditUtils {
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietPackageName.getText().toString().isEmpty()
                             && !tietClassName.getText().toString().isEmpty()) {
-                        MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY,  System.currentTimeMillis() + ""));
+                        if (hasSameAppName(aName, packageName)) {
+                            bottomSheetDialog.dismiss();
+                            new MaterialAlertDialogBuilder(activity)
+                                    .setMessage(R.string.dialog_message_same_app_name)
+                                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + "")))
+                                    .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> bottomSheetDialog.show())
+                                    .show();
+                        } else {
+                            MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + ""));
+                        }
                         bottomSheetDialog.dismiss();
                     }
 
@@ -142,7 +153,7 @@ public class EditUtils {
         TextInputEditText tietDescription = bottomSheetDialog.findViewById(R.id.tiet_description);
 
         if (tietAppName != null) {
-            tietAppName.setText("URL Scheme");
+            tietAppName.setText(R.string.bsd_new_url_scheme_name);
         }
 
         Button btnEditAnywhereDone = bottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
@@ -162,7 +173,16 @@ public class EditUtils {
 
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietUrlScheme.getText().toString().isEmpty()) {
-                        MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + ""));
+                        if (hasSameAppName(aName, uScheme)) {
+                            bottomSheetDialog.dismiss();
+                            new MaterialAlertDialogBuilder(activity)
+                                    .setMessage(R.string.dialog_message_same_app_name)
+                                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + "")))
+                                    .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> bottomSheetDialog.show())
+                                    .show();
+                        } else {
+                            MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + ""));
+                        }
                         bottomSheetDialog.dismiss();
                     }
                 } else {
@@ -216,6 +236,18 @@ public class EditUtils {
                 deleteAnywhereActivity(activity, item, adapter, position);
             });
         }
+    }
 
+    private static boolean hasSameAppName(String name, String param1) {
+        List<AnywhereEntity> list = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+
+        if (list != null) {
+            for (AnywhereEntity ae : list) {
+                if (name.equals(ae.getAppName()) && param1.equals(ae.getParam1())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
