@@ -6,11 +6,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereRepository;
-import com.absinthe.anywhere_.utils.ConstUtil;
-import com.absinthe.anywhere_.utils.SPUtils;
 
 import java.util.List;
 

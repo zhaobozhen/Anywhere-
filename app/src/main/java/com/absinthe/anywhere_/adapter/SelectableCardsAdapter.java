@@ -14,10 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.EditUtils;
@@ -111,7 +111,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         int classNameType;
 
         if (type == AnywhereType.ACTIVITY) {
-            if (AnywhereApplication.workingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+            if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
                 Toast.makeText(mContext, mContext.getString(R.string.toast_change_work_mode), Toast.LENGTH_LONG).show();
                 return;
             }
@@ -129,7 +129,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             urlScheme = item.getParam1();
             Log.d(TAG, "urlScheme = " + urlScheme);
 
-            if (AnywhereApplication.workingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+            if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
                 cmd = urlScheme;
             } else {
                 cmd = "am start -a android.intent.action.VIEW -d " + urlScheme;

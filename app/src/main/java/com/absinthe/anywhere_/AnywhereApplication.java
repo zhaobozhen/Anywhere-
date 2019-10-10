@@ -10,8 +10,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.absinthe.anywhere_.utils.ConstUtil;
-import com.absinthe.anywhere_.utils.SPUtils;
+import com.absinthe.anywhere_.model.GlobalValues;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,13 +23,15 @@ import moe.shizuku.api.ShizukuService;
 public class AnywhereApplication extends Application {
     public static final String ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER";
     public static final String TAG = "AnywhereApplication";
-    public static String workingMode = null;
+    @SuppressLint("StaticFieldLeak")
+    public static Context sContext = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        String darkMode = SPUtils.getString(this, ConstUtil.SP_KEY_DARK_MODE);
-        setTheme(darkMode);
+        sContext = this;
+        GlobalValues.init(sContext);
+        setTheme(GlobalValues.sDarkMode);
     }
 
     public static String getProcessName() {
@@ -40,6 +41,7 @@ public class AnywhereApplication extends Application {
             try {
                 @SuppressLint("PrivateApi")
                 Class<?> activityThread = Class.forName("android.app.ActivityThread");
+                @SuppressLint("DiscouragedPrivateApi")
                 Method method = activityThread.getDeclaredMethod("currentProcessName");
                 return (String) method.invoke(null);
             } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
@@ -95,8 +97,6 @@ public class AnywhereApplication extends Application {
                 }
             }
         });
-
-        workingMode = SPUtils.getString(this, ConstUtil.SP_KEY_WORKING_MODE);
     }
 
     public static void setTheme(String mode) {
@@ -116,4 +116,5 @@ public class AnywhereApplication extends Application {
             default:
         }
     }
+
 }

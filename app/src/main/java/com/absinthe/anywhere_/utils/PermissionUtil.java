@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.DataOutputStream;
@@ -81,9 +82,9 @@ public class PermissionUtil {
 
     public static String execCmd(String cmd) {
         String result = null;
-        if (AnywhereApplication.workingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+        if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
             result = execRootCmd(cmd);
-        } else if (AnywhereApplication.workingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+        } else if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
             result = execShizukuCmd(cmd);
         } else {
             Log.d(TAG, "execCmd abnormal.");
@@ -177,7 +178,7 @@ public class PermissionUtil {
         }
     }
 
-    public static void showPermissionDialog(Activity activity) {
+    private static void showPermissionDialog(Activity activity) {
         new MaterialAlertDialogBuilder(activity)
                 .setTitle(R.string.dialog_permission_title)
                 .setMessage(R.string.dialog_permission_message)

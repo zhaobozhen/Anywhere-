@@ -15,10 +15,10 @@ import androidx.fragment.app.Fragment;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.ImageUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
-import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         String shortcutEditUrl = intent.getStringExtra("shortcutEditUrl");
 
         Bundle bundle = new Bundle();
-        if (AnywhereApplication.workingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+        if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
             if (shortcutEditUrl != null) {
                 bundle.putString("shortcutEditUrl", shortcutEditUrl);
             }

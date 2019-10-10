@@ -25,10 +25,10 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.ConstUtil;
@@ -50,7 +50,6 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 public class MainFragment extends Fragment implements LifecycleOwner {
     private static final String TAG = MainFragment.class.getSimpleName();
     private Context mContext;
-    private String workingMode = AnywhereApplication.workingMode;
     private int selectedWorkingModeIndex = 0;
 
     private static AnywhereViewModel mViewModel;
@@ -97,7 +96,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public void onResume() {
         super.onResume();
 
-        if (workingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+        if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
             Bundle bundle = getArguments();
 
             if (bundle != null) {
@@ -133,10 +132,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     void checkWorkingPermission() {
-        Log.d(TAG, "workingMode = " + workingMode);
+        Log.d(TAG, "workingMode = " + GlobalValues.sWorkingMode);
         selectedWorkingModeIndex = 0;
-        if (workingMode != null) {
-            if (workingMode.isEmpty()) {
+        if (GlobalValues.sWorkingMode != null) {
+            if (GlobalValues.sWorkingMode.isEmpty()) {
                 new MaterialAlertDialogBuilder(mContext)
                         .setTitle(R.string.settings_working_mode)
                         .setSingleChoiceItems(R.array.list_working_mode, 0, (dialogInterface, i) -> selectedWorkingModeIndex = i)
@@ -160,7 +159,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         .show();
             }
 
-            switch (workingMode) {
+            switch (GlobalValues.sWorkingMode) {
                 case ConstUtil.WORKING_MODE_URL_SCHEME:
                     setUpUrlScheme();
                     break;
@@ -250,10 +249,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void initObserver() {
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
-        mViewModel.getWorkingMode().setValue(AnywhereApplication.workingMode);
+        mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
 
         final Observer<String> commandObserver = s -> {
-            switch (workingMode) {
+            switch (GlobalValues.sWorkingMode) {
                 case ConstUtil.WORKING_MODE_SHIZUKU:
                     if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
                         PermissionUtil.execShizukuCmd(s);
@@ -279,7 +278,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getCommand().observe(this, commandObserver);
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
         mViewModel.getWorkingMode().observe(this, s -> {
-            AnywhereApplication.workingMode = workingMode = s;
+            GlobalValues.setsWorkingMode(s);
             SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, s);
             ImageUtils.setActionBarTitle(getActivity(), actionBar);
         });

@@ -8,6 +8,7 @@ public class ConstUtil {
     public static final String SP_KEY_CHANGE_BACKGROUND = "changeBackground";
     public static final String SP_KEY_RESET_BACKGROUND = "resetBackground";
     public static final String SP_KEY_DARK_MODE_OLED = "darkModeOLED";
+    public static final String SP_KEY_ACTION_BAR_TITLE = "actionBarTitle";
     public static final String SP_KEY_ACTION_BAR_TYPE = "actionBarType";
 
     public static final int SHORT_CLASS_NAME_TYPE = 0;

@@ -20,12 +20,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.AnimationUtil;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
-import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
@@ -137,8 +136,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.toolbar_initialize_done) {
-            SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, workingMode);
-            AnywhereApplication.workingMode = workingMode;
+            GlobalValues.setsWorkingMode(workingMode);
 
             boolean flag = false;
             int allPerm = Objects.requireNonNull(mViewModel.getAllPerm().getValue());
