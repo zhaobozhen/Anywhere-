@@ -14,7 +14,7 @@ import com.absinthe.anywhere_.R;
 
 public class WelcomeFragment extends Fragment {
 
-    public static WelcomeFragment newInstance() {
+    static WelcomeFragment newInstance() {
         return new WelcomeFragment();
     }
 
@@ -23,11 +23,13 @@ public class WelcomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.welcome_fragment, container, false);
 
+        setHasOptionsMenu(false);
         Button btnStart = view.findViewById(R.id.btn_welcome_start);
         btnStart.setOnClickListener(view1 -> MainActivity.getInstance()
                 .getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, InitializeFragment.newInstance())
                 .commitNow());
+        MainActivity.setCurFragment(this);
 
         return view;
     }

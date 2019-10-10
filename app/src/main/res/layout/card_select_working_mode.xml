@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_select_working_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="@dimen/anywhere_cardview_margin"
+        android:layout_marginStart="@dimen/anywhere_cardview_margin"
+        android:layout_marginEnd="@dimen/anywhere_cardview_margin"
+        android:elevation="@dimen/anywhere_cardview_elevation"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
+                android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
+                android:text="@string/title_select_working_mode"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/toggle_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
+                android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
+                android:layout_marginBottom="@dimen/anywhere_cardview_item_margin"
+                app:singleSelection="true"
+                app:checkedButton="@id/btn_url_scheme">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_url_scheme"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_url_scheme" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_root"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_root"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_shizuku"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_shizuku"/>
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

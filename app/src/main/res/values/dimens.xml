@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  CardView  -->
-    <dimen name="anywhere_cardview_elevation">6dp</dimen>
+    <dimen name="anywhere_cardview_elevation">5dp</dimen>
     <dimen name="anywhere_cardview_corner_radius">10dp</dimen>
     <dimen name="anywhere_cardview_line_spacing">4dp</dimen>
     <dimen name="anywhere_cardview_spacing">4dp</dimen>
+    <dimen name="anywhere_cardview_margin">4dp</dimen>
+    <dimen name="anywhere_cardview_item_margin">10dp</dimen>
+    <dimen name="anywhere_cardview_item_margin_long">15dp</dimen>
 
     <!--  BottomSheetDialog  -->
     <dimen name="bottom_sheet_dialog_edit_text_margin_start_end">30dp</dimen>

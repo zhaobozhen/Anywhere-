@@ -190,7 +190,7 @@ public class PermissionUtil {
                         Toast.makeText(mContext, mContext.getString(R.string.toast_not_install_shizuku), Toast.LENGTH_SHORT).show();
                         intent = new Intent("android.intent.action.VIEW");
                         intent.setData(Uri.parse("coolmarket://www.coolapk.com/moe.shizuku.privileged.api"));
-                        mContext.startActivity(intent);
+                        ((Activity) mContext).startActivityForResult(intent, ConstUtil.REQUEST_CODE_SHIZUKU_PERMISSION);
                     }
                 })
                 .setNegativeButton(R.string.dialog_delete_negative_button,

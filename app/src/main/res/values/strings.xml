@@ -41,6 +41,7 @@
     <!--  BottomAppBarMenu  -->
     <string name="menu_settings">设置</string>
     <string name="menu_about">关于</string>
+    <string name="menu_done">完成</string>
 
     <!--  Settings  -->
     <string name="settings_category_normal">常规</string>
@@ -72,12 +73,37 @@
     <string name="dialog_reset_background_confirm_message">确定要重置背景吗？</string>
     <string name="dialog_setup_url_scheme_title">设置 URL Scheme</string>
     <string name="dialog_url_scheme_community">捷径社区</string>
+    <string name="dialog_message_perm_not_ever">尚有未授予的权限，确定要进入吗？</string>
 
     <string name="help_text">帮助文档(暂无)</string>
+
+    <!--  Initialize  -->
+    <string name="title_select_working_mode">选择工作模式</string>
+    <string name="title_acquire_root_permission">获取 Root 权限</string>
+    <string name="subtitle_acquire_root_permission">使用 Root 权限执行 adb 指令</string>
+    <string name="title_acquire_overlay_permission">获取悬浮窗权限</string>
+    <string name="subtitle_acquire_overlay_permission">悬浮窗权限用于生成一个悬浮按钮来选择页面</string>
+    <string name="title_acquire_popup_permission">获取后台弹出界面权限</string>
+    <string name="subtitle_acquire_popup_permission">MIUI 可能需要获取此权限来使应用正常运行，此权限非标准权限，无法获取授权状态。</string>
+    <string name="title_acquire_shizuku_permission">获取 Shizuku 权限</string>
+    <string name="subtitle_acquire_shizuku_permission">使用 Shizuku 权限执行 adb 指令</string>
+    <string name="subtitle_check_shizuku_state">检查 Shizuku 服务状态</string>
+    <string name="subtitle_check_shizuku_permission">获取 Shizuku 权限</string>
+
+    <string name="btn_url_scheme">URL Scheme</string>
+    <string name="btn_root">Root</string>
+    <string name="btn_shizuku">Shizuku</string>
+
+    <string name="btn_acquire_permission">点击获取</string>
+    <string name="btn_acquired">已获取</string>
+
+    <string name="btn_check_permission">点击检查</string>
+    <string name="btn_checked">已检查</string>
 
     <!--  Description  -->
     <string name="background_todo">Main page background</string>
     <string name="anywhere_delete_todo">Delete an Anywhere</string>
     <string name="welcome_logo_todo">Welcome logo</string>
+    <string name="initialize_done_todo">Done</string>
 
 </resources>

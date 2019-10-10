@@ -48,8 +48,7 @@ import java.util.Objects;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class MainFragment extends Fragment implements LifecycleOwner {
-    private static final String TAG = "MainFragment";
-    static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1001;
+    private static final String TAG = MainFragment.class.getSimpleName();
     private Context mContext;
     private String workingMode = AnywhereApplication.workingMode;
     private int selectedWorkingModeIndex = 0;
@@ -70,6 +69,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mContext = getActivity();
+        MainActivity.setCurFragment(this);
         View view = inflater.inflate(R.layout.main_fragment, container, false);
         initView(view);
 
@@ -153,7 +153,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     setUpUrlScheme();
                     break;
                 case ConstUtil.WORKING_MODE_SHIZUKU:
-                    if (!PermissionUtil.checkOverlayPermission(getActivity(), REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    if (!PermissionUtil.checkOverlayPermission(getActivity(), ConstUtil.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
                     if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
@@ -163,7 +163,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     }
                     break;
                 case ConstUtil.WORKING_MODE_ROOT:
-                    if (!PermissionUtil.checkOverlayPermission(getActivity(), REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    if (!PermissionUtil.checkOverlayPermission(getActivity(), ConstUtil.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
                     if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
@@ -207,7 +207,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.bottom_bar_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
     }
 
     @Override

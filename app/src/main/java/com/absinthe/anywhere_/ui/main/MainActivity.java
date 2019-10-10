@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.main;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -12,15 +11,17 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.ImageUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
+import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment;
+    private static Fragment curFragment;
     private static final String TAG = "MainActivity";
     private static MainActivity instance;
 
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
-            SPUtils.putBoolean(this, ConstUtil.SP_KEY_FIRST_LAUNCH, false);
         } else {
             mainFragment = MainFragment.newInstance();
             getAnywhereIntent(getIntent());
@@ -97,6 +97,14 @@ public class MainActivity extends AppCompatActivity {
         return instance;
     }
 
+    public static Fragment getCurFragment() {
+        return curFragment;
+    }
+
+    public static void setCurFragment(Fragment fragment) {
+        curFragment = fragment;
+    }
+
     private void getAnywhereIntent(Intent intent) {
         if (intent == null) {
             return;
@@ -122,13 +130,27 @@ public class MainActivity extends AppCompatActivity {
         mainFragment.setArguments(bundle);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MainFragment.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION && Settings.canDrawOverlays(this)) {
+        Log.d(TAG, "curFragment = " + curFragment);
+
+        if (requestCode == ConstUtil.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
             Log.d(TAG, "REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
-            mainFragment.checkWorkingPermission();
+            if (curFragment instanceof MainFragment) {
+                mainFragment.checkWorkingPermission();
+            } else if (curFragment instanceof InitializeFragment) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (Settings.canDrawOverlays(this)) {
+                        InitializeViewModel.getInstance().getIsOverlay().setValue(Boolean.TRUE);
+                    }
+                }
+            }
+        } else if (requestCode == ConstUtil.REQUEST_CODE_SHIZUKU_PERMISSION) {
+            Log.d(TAG, "REQUEST_CODE_SHIZUKU_PERMISSION");
+            if (curFragment instanceof InitializeFragment) {
+                InitializeViewModel.getInstance().getIsShizuku().setValue(Boolean.TRUE);
+            }
         }
     }
 }

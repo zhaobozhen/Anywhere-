@@ -16,7 +16,6 @@ import com.absinthe.anywhere_.utils.SPUtils;
 
 public class SettingsActivity extends AppCompatActivity {
     private final String TAG = SettingsActivity.class.getSimpleName();
-    private final int REQUEST_CODE_PHOTO_CROP = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case SettingsFragment.REQUEST_CODE_IMAGE_CAPTURE:
+            case ConstUtil.REQUEST_CODE_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         Uri backgroundUri = data.getData();
@@ -51,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case REQUEST_CODE_PHOTO_CROP:
+            case ConstUtil.REQUEST_CODE_PHOTO_CROP:
                 break;
             default:
         }

@@ -12,7 +12,6 @@ public class ConstUtil {
 
     public static final int SHORT_CLASS_NAME_TYPE = 0;
     public static final int FULL_CLASS_NAME_TYPE = 1;
-    public static final int URL_SCHEME_TYPE = 2;
 
     public static final String WORKING_MODE_URL_SCHEME = "url_scheme";
     public static final String WORKING_MODE_ROOT = "root";
@@ -30,6 +29,10 @@ public class ConstUtil {
     public static final String INTENT_EXTRA_CLASS_NAME_TYPE = "classNameType";
 
     public static final String CMD_GET_TOP_STACK_ACTIVITY = "dumpsys activity activities | grep mResumedActivity";
-    public static final String CMD_START_URL_SCHEME = "dumpsys activity activities | grep mResumedActivity";
+
+    public static final int REQUEST_CODE_SHIZUKU_PERMISSION = 1001;
+    public static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1002;
+    public static final int REQUEST_CODE_PHOTO_CROP = 1003;
+    public static final int REQUEST_CODE_IMAGE_CAPTURE = 1004;
 
 }

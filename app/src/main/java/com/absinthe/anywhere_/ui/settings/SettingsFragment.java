@@ -18,7 +18,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
-    static final int REQUEST_CODE_IMAGE_CAPTURE = 1001;
     private Context mContext;
 
     static SettingsFragment newInstance() {
@@ -63,7 +62,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
-                ((Activity)mContext).startActivityForResult(intent,REQUEST_CODE_IMAGE_CAPTURE);
+                ((Activity)mContext).startActivityForResult(intent, ConstUtil.REQUEST_CODE_IMAGE_CAPTURE);
                 break;
             case ConstUtil.SP_KEY_RESET_BACKGROUND:
                 new MaterialAlertDialogBuilder(mContext)
