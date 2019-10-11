@@ -2,6 +2,7 @@
     <string name="app_name">Anywhere-</string>
     <string name="settings_title">设置</string>
     <string name="about_title">关于</string>
+    <string name="shortcuts_title">Shortcuts</string>
     <string name="tile_collector_on">启动 Collector</string>
     <string name="tile_collector_off">关闭 Collector</string>
     <string name="shortcut_add">添加 Anywhere-</string>
@@ -48,6 +49,7 @@
 
     <!--  Settings  -->
     <string name="settings_category_normal">常规</string>
+    <string name="settings_category_advanced">高级</string>
     <string name="settings_category_others">其它</string>
 
     <string name="settings_working_mode">工作模式</string>
@@ -55,12 +57,14 @@
     <string name="settings_reset_background">重置背景</string>
     <string name="settings_dark_mode">夜间模式</string>
     <string name="settings_dark_mode_oled">OLED 夜间模式</string>
+    <string name="settings_shortcuts">设置 Shortcuts</string>
 
     <string name="settings_working_mode_summary">选择一个工作模式</string>
     <string name="settings_change_background_summary">为主页更换一张背景图片吧</string>
     <string name="settings_reset_background_summary">将背景重置为空白</string>
     <string name="settings_dark_mode_summary">在夜晚使用夜间模式</string>
     <string name="settings_dark_mode_oled_summary">在 OLED 设备上启用纯黑背景</string>
+    <string name="settings_shortcuts_summary">添加最多三个 Shortcuts</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root 权限被拒绝</string>

@@ -10,6 +10,7 @@ public class Const {
     public static final String SP_KEY_DARK_MODE_OLED = "darkModeOLED";
     public static final String SP_KEY_ACTION_BAR_TITLE = "actionBarTitle";
     public static final String SP_KEY_ACTION_BAR_TYPE = "actionBarType";
+    public static final String SP_KEY_SHORTCUTS = "shortcuts";
 
     public static final int SHORT_CLASS_NAME_TYPE = 0;
     public static final int FULL_CLASS_NAME_TYPE = 1;

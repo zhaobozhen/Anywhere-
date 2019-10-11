@@ -41,6 +41,23 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:key="advancedCategory"
+        app:title="@string/settings_category_advanced">
+
+        <Preference
+            app:key="shortcuts"
+            app:title="@string/settings_shortcuts"
+            app:summary="@string/settings_shortcuts_summary">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_"
+                android:targetClass="com.absinthe.anywhere_.ui.shortcuts.ShortcutsSettingsActivity"/>
+
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:key="othersCategory"
         app:title="@string/settings_category_others">
 

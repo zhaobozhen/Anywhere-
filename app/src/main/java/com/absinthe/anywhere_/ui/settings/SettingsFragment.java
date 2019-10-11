@@ -35,9 +35,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         mContext = getActivity();
 
         ListPreference workingModePreference = findPreference(Const.SP_KEY_WORKING_MODE);
+        ListPreference darkModePreference = findPreference(Const.SP_KEY_DARK_MODE);
         Preference changeBgPreference = findPreference(Const.SP_KEY_CHANGE_BACKGROUND);
         Preference resetBgPreference = findPreference(Const.SP_KEY_RESET_BACKGROUND);
-        ListPreference darkModePreference = findPreference(Const.SP_KEY_DARK_MODE);
 
         if (workingModePreference != null) {
             workingModePreference.setOnPreferenceChangeListener(this);

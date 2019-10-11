@@ -47,8 +47,13 @@
             android:label="@string/about_title"
             android:parentActivityName=".ui.settings.SettingsActivity"
             android:theme="@style/AppTheme.About" />
+        <activity android:name=".ui.shortcuts.ShortcutsActivity" />
 
-        <activity android:name=".ui.shortcuts.ShortcutsActivity"/>
+        <activity
+            android:name=".ui.shortcuts.ShortcutsSettingsActivity"
+            android:label="@string/shortcuts_title"
+            android:parentActivityName=".ui.settings.SettingsActivity">
+        </activity>
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
@@ -71,7 +76,7 @@
         </service>
         <service
             android:name=".services.CollectorService"
-            android:enabled="true"/>
+            android:enabled="true" />
     </application>
 
 </manifest>
