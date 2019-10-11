@@ -27,6 +27,7 @@ public class WelcomeFragment extends Fragment {
         Button btnStart = view.findViewById(R.id.btn_welcome_start);
         btnStart.setOnClickListener(view1 -> MainActivity.getInstance()
                 .getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.container, InitializeFragment.newInstance())
                 .commitNow());
         MainActivity.setCurFragment(this);

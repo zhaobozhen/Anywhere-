@@ -13,10 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.utils.ImageUtils;
+import com.absinthe.anywhere_.utils.UIUtils;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         if (GlobalValues.sIsFirstLaunch) {
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
         } else {
@@ -44,10 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                         .replace(R.id.container, mainFragment)
                         .commitNow();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AnywhereApplication.setTheme(GlobalValues.sDarkMode);
     }
 
     @Override
@@ -59,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         ImageView ivBackground = findViewById(R.id.iv_background);
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            ImageUtils.setActionBarTransparent(this);
-            ImageUtils.loadBackgroundPic(this, ivBackground);
+            UIUtils.setActionBarTransparent(this);
+            UIUtils.loadBackgroundPic(this, ivBackground);
         }
     }
 
@@ -69,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         ImageView ivBackground = findViewById(R.id.iv_background);
 
-        ImageUtils.loadBackgroundPic(this, ivBackground);
+        UIUtils.loadBackgroundPic(this, ivBackground);
     }
 
     @Override

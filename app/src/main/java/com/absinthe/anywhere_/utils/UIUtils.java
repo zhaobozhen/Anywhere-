@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
@@ -36,8 +37,10 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
-public class ImageUtils {
-    private static final String TAG = "ImageUtils";
+import java.util.Calendar;
+
+public class UIUtils {
+    private static final String TAG = "UIUtils";
 
     public static Drawable getAppIconByPackageName(Context mContext, AnywhereEntity item){
         int type = item.getType();
@@ -230,6 +233,17 @@ public class ImageUtils {
             activity.invalidateOptionsMenu();
 
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        }
+    }
+
+    public static int getAutoDarkMode() {
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        Log.d(TAG, "Current hour = " + hour);
+
+        if (hour >= 22 || hour <= 7) {
+            return AppCompatDelegate.MODE_NIGHT_YES;
+        } else {
+            return AppCompatDelegate.MODE_NIGHT_NO;
         }
     }
 

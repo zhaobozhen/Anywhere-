@@ -32,7 +32,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.EditUtils;
-import com.absinthe.anywhere_.utils.ImageUtils;
+import com.absinthe.anywhere_.utils.UIUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
@@ -236,7 +236,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(clickView -> checkWorkingPermission());
         actionBar = MainActivity.getInstance().getSupportActionBar();
-        ImageUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
+        UIUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
 
         View placeholder = view.findViewById(R.id.placeholder);
         if (GlobalValues.sIsFirstLaunch) {
@@ -276,7 +276,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
         mViewModel.getWorkingMode().observe(this, s -> {
             GlobalValues.setsWorkingMode(s);
-            ImageUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
+            UIUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
         });
 
         final Observer<String> backgroundObserver = s -> {
@@ -285,12 +285,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 ivBackground.setBackground(null);
                 ivBackground.setVisibility(View.GONE);
                 GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
-                ImageUtils.resetActionBar(MainActivity.getInstance());
+                UIUtils.resetActionBar(MainActivity.getInstance());
                 MainActivity.getInstance().invalidateOptionsMenu();
             } else {
-                ImageUtils.loadBackgroundPic(mContext, ivBackground);
-                ImageUtils.setActionBarTransparent(MainActivity.getInstance());
-                ImageUtils.setAdaptiveActionBarTitleColor(MainActivity.getInstance(), actionBar, ImageUtils.getActionBarTitle());
+                UIUtils.loadBackgroundPic(mContext, ivBackground);
+                UIUtils.setActionBarTransparent(MainActivity.getInstance());
+                UIUtils.setAdaptiveActionBarTitleColor(MainActivity.getInstance(), actionBar, UIUtils.getActionBarTitle());
                 ivBackground.setVisibility(View.VISIBLE);
             }
             GlobalValues.setsBackgroundUri(s);

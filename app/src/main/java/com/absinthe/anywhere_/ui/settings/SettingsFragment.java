@@ -12,6 +12,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.model.Const;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -87,6 +88,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 break;
             case Const.SP_KEY_DARK_MODE:
                 AnywhereApplication.setTheme(newValue.toString());
+                GlobalValues.setsDarkMode(newValue.toString());
                 break;
             default:
         }

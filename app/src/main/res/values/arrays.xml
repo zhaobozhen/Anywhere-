@@ -15,13 +15,13 @@
     <string-array name="list_dark_mode" tools:ignore="InconsistentArrays">
         <item>关闭</item>
         <item>开启</item>
-<!--        <item>自动</item>-->
+        <item>自动</item>
     </string-array>
 
     <string-array name="list_dark_mode_value" tools:ignore="InconsistentArrays">
         <item>off</item>
         <item>on</item>
-<!--        <item>auto</item>-->
+        <item>auto</item>
     </string-array>
 
 </resources>

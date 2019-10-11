@@ -21,7 +21,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.EditUtils;
-import com.absinthe.anywhere_.utils.ImageUtils;
+import com.absinthe.anywhere_.utils.UIUtils;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -179,7 +179,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
             param2View.setText(item.getParam2());
             param3View.setText(item.getParam3());
             descriptionView.setText(item.getDescription());
-            appIcon.setImageDrawable(ImageUtils.getAppIconByPackageName(mContext, item));
+            appIcon.setImageDrawable(UIUtils.getAppIconByPackageName(mContext, item));
         }
 
     }
