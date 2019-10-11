@@ -56,7 +56,11 @@ public class ImageUtils {
 
         Drawable drawable;
         try{
-            drawable = mContext.getPackageManager().getApplicationIcon(apkTempPackageName);
+            if (type == AnywhereType.URL_SCHEME) {
+                drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_logo);
+            } else {
+                drawable = mContext.getPackageManager().getApplicationIcon(apkTempPackageName);
+            }
         }
         catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();

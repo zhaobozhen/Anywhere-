@@ -25,6 +25,10 @@ public class AnywhereRepository {
         new insertAsyncTask(mAnywhereDao).execute(ae);
     }
 
+    public void update(AnywhereEntity ae) {
+        new updateAsyncTask(mAnywhereDao).execute(ae);
+    }
+
     public void delete(AnywhereEntity ae) {
         new deleteAsyncTask(mAnywhereDao).execute(ae);
     }
@@ -40,6 +44,21 @@ public class AnywhereRepository {
         @Override
         protected Void doInBackground(final AnywhereEntity... params) {
             mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private static class updateAsyncTask extends AsyncTask<AnywhereEntity, Void, Void> {
+
+        private AnywhereDao mAsyncTaskDao;
+
+        updateAsyncTask(AnywhereDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final AnywhereEntity... params) {
+            mAsyncTaskDao.update(params[0]);
             return null;
         }
     }

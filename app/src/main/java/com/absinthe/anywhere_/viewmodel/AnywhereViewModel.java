@@ -34,6 +34,10 @@ public class AnywhereViewModel extends AndroidViewModel {
         mRepository.insert(ae);
     }
 
+    public void update(AnywhereEntity ae) {
+        mRepository.update(ae);
+    }
+
     public void delete(AnywhereEntity ae) {
         mRepository.delete(ae);
     }

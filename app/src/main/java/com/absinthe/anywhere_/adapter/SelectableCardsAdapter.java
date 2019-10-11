@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ImageUtils;
 import com.google.android.material.card.MaterialCardView;
@@ -27,7 +27,7 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCardsAdapter.ItemViewHolder> {
     private static final String TAG = "SelectableCardsAdapter";
 
     private List<AnywhereEntity> items;
@@ -52,21 +52,22 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.card_item_view, parent, false);
         return new ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewHolder viewHolder, int position) {
         AnywhereEntity item = items.get(position);
-        ((ItemViewHolder) viewHolder).bind(item);
+        viewHolder.bind(item);
 
         int type = item.getType();
+        Log.d(TAG, "Type = " + type);
 
-        ((ItemViewHolder) viewHolder).materialCardView.setOnClickListener(view -> openAnywhereActivity(item));
-        ((ItemViewHolder) viewHolder).materialCardView.setOnLongClickListener(view -> {
+        viewHolder.materialCardView.setOnClickListener(view -> openAnywhereActivity(item));
+        viewHolder.materialCardView.setOnLongClickListener(view -> {
             vibrator.vibrate(30);
 
             switch (type) {
@@ -79,25 +80,27 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 case AnywhereType.MINI_PROGRAM:
                     break;
             }
-
             return true;
         });
 
         switch (type) {
             case AnywhereType.URL_SCHEME:
-                ((ItemViewHolder) viewHolder).param1View.setVisibility(View.VISIBLE);
+                viewHolder.param1View.setVisibility(View.VISIBLE);
+                viewHolder.param2View.setVisibility(View.GONE);
+                viewHolder.param3View.setVisibility(View.GONE);
                 break;
             case AnywhereType.ACTIVITY:
             case AnywhereType.MINI_PROGRAM:
-                ((ItemViewHolder) viewHolder).param1View.setVisibility(View.VISIBLE);
-                ((ItemViewHolder) viewHolder).param2View.setVisibility(View.VISIBLE);
+                viewHolder.param1View.setVisibility(View.VISIBLE);
+                viewHolder.param2View.setVisibility(View.VISIBLE);
+                viewHolder.param3View.setVisibility(View.GONE);
                 break;
         }
 
-        if (((ItemViewHolder) viewHolder).descriptionView.getText().toString().isEmpty()) {
-            ((ItemViewHolder) viewHolder).descriptionView.setVisibility(View.GONE);
+        if (viewHolder.descriptionView.getText().toString().isEmpty()) {
+            viewHolder.descriptionView.setVisibility(View.GONE);
         } else {
-            ((ItemViewHolder) viewHolder).descriptionView.setVisibility(View.VISIBLE);
+            viewHolder.descriptionView.setVisibility(View.VISIBLE);
         }
     }
 

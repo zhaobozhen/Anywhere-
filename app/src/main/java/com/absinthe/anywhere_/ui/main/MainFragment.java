@@ -99,7 +99,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 String shortcutEditUrl = bundle.getString("shortcutEditUrl");
                 if (shortcutEditUrl != null) {
                     if (shortcutEditUrl.equals("true")) {
-                        EditUtils.editUrlScheme(MainActivity.getInstance());
+                        EditUtils.editUrlScheme(MainActivity.getInstance(), false);
                     }
                     bundle.clear();
                 }
@@ -114,12 +114,13 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             String className = bundle.getString(Const.BUNDLE_CLASS_NAME);
             String classNameType = bundle.getInt(Const.BUNDLE_CLASS_NAME_TYPE) + "";
 
+            Log.d(TAG, "Bundle packageName = " + packageName);
+            Log.d(TAG, "Bundle className = " + className);
+
             String appName;
             if (packageName != null && className != null) {
                 appName = TextUtils.getAppName(mContext, packageName);
-
-                Log.d(TAG, "onResume:" + packageName + "," + className);
-                EditUtils.editAnywhere(MainActivity.getInstance(), packageName, className, classNameType, appName, "");
+                EditUtils.editAnywhere(MainActivity.getInstance(), packageName, className, classNameType, appName, "", false);
 
                 bundle.clear();
             }
@@ -199,7 +200,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void setUpUrlScheme() {
-        EditUtils.editUrlScheme(MainActivity.getInstance());
+        EditUtils.editUrlScheme(MainActivity.getInstance(), false);
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {

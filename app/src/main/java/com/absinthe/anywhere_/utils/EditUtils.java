@@ -31,7 +31,7 @@ public class EditUtils {
     @SuppressLint("StaticFieldLeak")
     private static BottomSheetDialog bottomSheetDialog = null;
 
-    public static void editAnywhere(@NonNull Activity activity, String packageName, String className, String classNameType, String appName, String description) {
+    public static void editAnywhere(@NonNull Activity activity, String packageName, String className, String classNameType, String appName, String description, boolean isUpdate) {
         bottomSheetDialog = new BottomSheetDialog(activity);
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
         bottomSheetDialog.setDismissWithAnimation(true);
@@ -84,15 +84,19 @@ public class EditUtils {
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietPackageName.getText().toString().isEmpty()
                             && !tietClassName.getText().toString().isEmpty()) {
-                        if (hasSameAppName(aName, packageName)) {
-                            bottomSheetDialog.dismiss();
-                            new MaterialAlertDialogBuilder(activity)
-                                    .setMessage(R.string.dialog_message_same_app_name)
-                                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + "")))
-                                    .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> bottomSheetDialog.show())
-                                    .show();
+                        if (isUpdate) {
+                            MainFragment.getViewModelInstance().update(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + ""));
                         } else {
-                            MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + ""));
+                            if (hasSameAppName(aName, packageName)) {
+                                bottomSheetDialog.dismiss();
+                                new MaterialAlertDialogBuilder(activity)
+                                        .setMessage(R.string.dialog_message_same_app_name)
+                                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + "")))
+                                        .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> bottomSheetDialog.show())
+                                        .show();
+                            } else {
+                                MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + ""));
+                            }
                         }
                         bottomSheetDialog.dismiss();
                     }
@@ -107,7 +111,7 @@ public class EditUtils {
     }
 
     public static void editAnywhere(@NonNull Activity activity, SelectableCardsAdapter adapter, AnywhereEntity item, int position, boolean withDeleteButton) {
-        editAnywhere(activity, item.getParam1(), item.getParam2(), item.getParam3(), item.getAppName(), item.getDescription());
+        editAnywhere(activity, item.getParam1(), item.getParam2(), item.getParam3(), item.getAppName(), item.getDescription(), true);
         adapter.notifyItemChanged(position);
 
         ImageButton ibDelete = bottomSheetDialog.findViewById(R.id.ib_delete_anywhere);
@@ -140,7 +144,7 @@ public class EditUtils {
                 .show();
     }
 
-    public static void editUrlScheme(@NonNull Activity activity) {
+    public static void editUrlScheme(@NonNull Activity activity, boolean isUpdate) {
         bottomSheetDialog = new BottomSheetDialog(activity);
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_url_scheme);
         bottomSheetDialog.setDismissWithAnimation(true);
@@ -173,15 +177,19 @@ public class EditUtils {
 
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietUrlScheme.getText().toString().isEmpty()) {
-                        if (hasSameAppName(aName, uScheme)) {
-                            bottomSheetDialog.dismiss();
-                            new MaterialAlertDialogBuilder(activity)
-                                    .setMessage(R.string.dialog_message_same_app_name)
-                                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + "")))
-                                    .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> bottomSheetDialog.show())
-                                    .show();
+                        if (isUpdate) {
+                            MainFragment.getViewModelInstance().update(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + ""));
                         } else {
-                            MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + ""));
+                            if (hasSameAppName(aName, uScheme)) {
+                                bottomSheetDialog.dismiss();
+                                new MaterialAlertDialogBuilder(activity)
+                                        .setMessage(R.string.dialog_message_same_app_name)
+                                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + "")))
+                                        .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> bottomSheetDialog.show())
+                                        .show();
+                            } else {
+                                MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + ""));
+                            }
                         }
                         bottomSheetDialog.dismiss();
                     }
@@ -204,7 +212,7 @@ public class EditUtils {
     }
 
     public static void editUrlScheme(@NonNull Activity activity, SelectableCardsAdapter adapter, AnywhereEntity item, int position, boolean withDeleteButton) {
-        editUrlScheme(activity);
+        editUrlScheme(activity, true);
 
         TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
         TextInputEditText tietUrlScheme = bottomSheetDialog.findViewById(R.id.tiet_url_scheme);
