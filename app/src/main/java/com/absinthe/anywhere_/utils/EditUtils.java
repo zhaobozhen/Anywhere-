@@ -3,8 +3,10 @@ package com.absinthe.anywhere_.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
@@ -127,21 +129,28 @@ public class EditUtils {
             });
         }
 
-    }
-
-    private static void deleteAnywhereActivity(Context context, AnywhereEntity ae, SelectableCardsAdapter adapter, int position) {
-        new MaterialAlertDialogBuilder(context)
-                .setTitle(R.string.dialog_delete_title)
-                .setMessage(Html.fromHtml(context.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                    MainFragment.getViewModelInstance().delete(ae);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            ImageButton ibAddShortcut = bottomSheetDialog.findViewById(R.id.ib_add_shortcut);
+            if (ibAddShortcut != null) {
+                if (withDeleteButton) {
+                    ibAddShortcut.setVisibility(View.VISIBLE);
+                    if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
+                        ibAddShortcut.setBackgroundResource(R.drawable.ic_added_shortcut);
+                    }
+                } else {
+                    ibAddShortcut.setVisibility(View.GONE);
+                }
+                ibAddShortcut.setOnClickListener(view -> {
                     bottomSheetDialog.dismiss();
-                    adapter.notifyItemRemoved(position);
-                })
-                .setNegativeButton(R.string.dialog_delete_negative_button,
-                        (dialogInterface, i) -> bottomSheetDialog.show())
-                .show();
+                    if (item.getShortcutType() != AnywhereType.SHORTCUTS) {
+                        addShortcut(activity, item);
+                    } else {
+                        removeShortcut(activity, item);
+                    }
+                });
+            }
+        }
+
     }
 
     public static void editUrlScheme(@NonNull Activity activity, boolean isUpdate) {
@@ -244,6 +253,28 @@ public class EditUtils {
                 deleteAnywhereActivity(activity, item, adapter, position);
             });
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            ImageButton ibAddShortcut = bottomSheetDialog.findViewById(R.id.ib_add_shortcut);
+            if (ibAddShortcut != null) {
+                if (withDeleteButton) {
+                    ibAddShortcut.setVisibility(View.VISIBLE);
+                    if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
+                        ibAddShortcut.setBackgroundResource(R.drawable.ic_added_shortcut);
+                    }
+                } else {
+                    ibAddShortcut.setVisibility(View.GONE);
+                }
+                ibAddShortcut.setOnClickListener(view -> {
+                    bottomSheetDialog.dismiss();
+                    if (item.getShortcutType() != AnywhereType.SHORTCUTS) {
+                        addShortcut(activity, item);
+                    } else {
+                        removeShortcut(activity, item);
+                    }
+                });
+            }
+        }
     }
 
     private static boolean hasSameAppName(String name, String param1) {
@@ -257,5 +288,54 @@ public class EditUtils {
             }
         }
         return false;
+    }
+
+    private static void deleteAnywhereActivity(Context context, AnywhereEntity ae, SelectableCardsAdapter adapter, int position) {
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.dialog_delete_title)
+                .setMessage(Html.fromHtml(context.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
+                .setCancelable(false)
+                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                    MainFragment.getViewModelInstance().delete(ae);
+                    bottomSheetDialog.dismiss();
+                    adapter.notifyItemRemoved(position);
+                })
+                .setNegativeButton(R.string.dialog_delete_negative_button,
+                        (dialogInterface, i) -> bottomSheetDialog.show())
+                .show();
+    }
+
+    private static void addShortcut(Context context, AnywhereEntity ae) {
+        DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
+            AnywhereEntity item = new AnywhereEntity(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getType() + 10, ae.getTimeStamp());
+            MainFragment.getViewModelInstance().update(item);
+            bottomSheetDialog.dismiss();
+        };
+
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.dialog_add_shortcut_title)
+                .setMessage(Html.fromHtml(context.getString(R.string.dialog_add_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
+                .setCancelable(false)
+                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setNegativeButton(R.string.dialog_delete_negative_button,
+                        (dialogInterface, i) -> bottomSheetDialog.show())
+                .show();
+    }
+
+    private static void removeShortcut(Context context, AnywhereEntity ae) {
+        DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
+            AnywhereEntity item = new AnywhereEntity(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getType() - 10, ae.getTimeStamp());
+            MainFragment.getViewModelInstance().update(item);
+            bottomSheetDialog.dismiss();
+        };
+
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.dialog_remove_shortcut_title)
+                .setMessage(Html.fromHtml(context.getString(R.string.dialog_remove_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
+                .setCancelable(false)
+                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setNegativeButton(R.string.dialog_delete_negative_button,
+                        (dialogInterface, i) -> bottomSheetDialog.show())
+                .show();
     }
 }

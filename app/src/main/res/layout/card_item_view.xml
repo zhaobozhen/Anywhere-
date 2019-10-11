@@ -25,7 +25,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="8dp"
-            android:layout_toStartOf="@+id/iv_app_icon"
+            android:layout_toStartOf="@+id/rl_badge_icon"
             android:orientation="vertical">
 
             <TextView
@@ -71,16 +71,33 @@
                 android:visibility="gone"/>
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_app_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+        <RelativeLayout
+            android:id="@+id/rl_badge_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            app:backgroundTint="@color/material_on_surface_emphasis_medium"
-            app:backgroundTintMode="add"/>
+            android:layout_marginTop="10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_app_icon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                app:backgroundTint="@color/material_on_surface_emphasis_medium"
+                app:backgroundTintMode="add"/>
+
+            <ImageView
+                android:id="@+id/iv_badge"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:contentDescription="@string/icon_badge_todo" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

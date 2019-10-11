@@ -70,6 +70,11 @@ public class AnywhereEntity {
     }
 
     @NonNull
+    public Integer getShortcutType() {
+        return mType / 10;
+    }
+
+    @NonNull
     public String getTimeStamp() {
         return mTimeStamp;
     }

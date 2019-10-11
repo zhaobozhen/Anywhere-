@@ -43,7 +43,7 @@ public class UIUtils {
     private static final String TAG = "UIUtils";
 
     public static Drawable getAppIconByPackageName(Context mContext, AnywhereEntity item){
-        int type = item.getType();
+        int type = item.getType() % 10;
         String apkTempPackageName = "";
 
         switch (type) {

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +64,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
         AnywhereEntity item = items.get(position);
         viewHolder.bind(item);
 
-        int type = item.getType();
+        int type = item.getType() % 10;
         Log.d(TAG, "Type = " + type);
 
         viewHolder.materialCardView.setOnClickListener(view -> openAnywhereActivity(item));
@@ -106,7 +107,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
 
     private void openAnywhereActivity(AnywhereEntity item) {
         String cmd = null;
-        int type = item.getType();
+        int type = item.getType() % 10;
 
         String packageName;
         String className;
@@ -156,6 +157,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
 
         private final MaterialCardView materialCardView;
         private final AppCompatImageView appIcon;
+        private final ImageView iconBadge;
         private final TextView appNameView;
         private final TextView param1View;
         private final TextView param2View;
@@ -166,6 +168,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
             super(itemView);
             materialCardView = itemView.findViewById(R.id.item_card);
             appIcon = itemView.findViewById(R.id.iv_app_icon);
+            iconBadge = itemView.findViewById(R.id.iv_badge);
             appNameView = itemView.findViewById(R.id.tv_card_app_name);
             param1View = itemView.findViewById(R.id.tv_card_param_1);
             param2View = itemView.findViewById(R.id.tv_card_param_2);
@@ -180,6 +183,9 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
             param3View.setText(item.getParam3());
             descriptionView.setText(item.getDescription());
             appIcon.setImageDrawable(UIUtils.getAppIconByPackageName(mContext, item));
+            if (item.getType() == AnywhereType.ACTIVITY) {
+                iconBadge.setImageResource(R.drawable.btn_collector);
+            }
         }
 
     }

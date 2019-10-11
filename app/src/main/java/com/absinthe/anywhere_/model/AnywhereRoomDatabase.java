@@ -25,4 +25,5 @@ public abstract class AnywhereRoomDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
 }

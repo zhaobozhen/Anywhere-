@@ -11,5 +11,6 @@
 
     <!--  BottomSheetDialog  -->
     <dimen name="bottom_sheet_dialog_edit_text_margin_start_end">30dp</dimen>
+    <dimen name="bottom_sheet_dialog_function_button_margin">40dp</dimen>
 
 </resources>

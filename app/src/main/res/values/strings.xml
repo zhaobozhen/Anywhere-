@@ -23,6 +23,10 @@
     <string name="dialog_delete_message">确定要删除</string>
     <string name="dialog_delete_positive_button">确定</string>
     <string name="dialog_delete_negative_button">取消</string>
+    <string name="dialog_add_shortcut_title">添加 Shortcuts</string>
+    <string name="dialog_add_shortcut_message">确定要添加</string>
+    <string name="dialog_remove_shortcut_title">删除 Shortcuts</string>
+    <string name="dialog_remove_shortcut_message">确定要删除</string>
 
     <!--  BottomSheetDialog  -->
     <string name="bsd_btn_done">保存</string>
@@ -113,5 +117,6 @@
     <string name="anywhere_delete_todo">Delete an Anywhere</string>
     <string name="welcome_logo_todo">Welcome logo</string>
     <string name="initialize_done_todo">Done</string>
+    <string name="icon_badge_todo">Badge</string>
 
 </resources>

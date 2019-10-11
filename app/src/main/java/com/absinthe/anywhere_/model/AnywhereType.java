@@ -4,4 +4,6 @@ public class AnywhereType {
     public static final int URL_SCHEME = 0;
     public static final int ACTIVITY = 1;
     public static final int MINI_PROGRAM = 2;
+
+    public static final int SHORTCUTS = 1;
 }
