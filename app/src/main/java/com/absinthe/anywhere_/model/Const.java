@@ -1,6 +1,6 @@
-package com.absinthe.anywhere_.utils;
+package com.absinthe.anywhere_.model;
 
-public class ConstUtil {
+public class Const {
     public static final String SP_NAME = "com.absinthe.anywhere__preferences";
     public static final String SP_KEY_FIRST_LAUNCH = "isFirstLaunch";
     public static final String SP_KEY_WORKING_MODE = "workingMode";

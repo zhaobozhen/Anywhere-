@@ -13,17 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.ImageUtils;
-import com.absinthe.anywhere_.utils.SPUtils;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private MainFragment mainFragment;
     private static Fragment curFragment;
-    private static final String TAG = "MainActivity";
     private static MainActivity instance;
 
     @Override
@@ -34,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
         initView();
         instance = this;
 
-        boolean isFirstLaunch = SPUtils.getBoolean(this, ConstUtil.SP_KEY_FIRST_LAUNCH);
-        if (isFirstLaunch) {
+        if (GlobalValues.sIsFirstLaunch) {
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, welcomeFragment)
@@ -59,9 +57,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        String backgroundUri = SPUtils.getString(this, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
         ImageView ivBackground = findViewById(R.id.iv_background);
-        if (!backgroundUri.isEmpty()) {
+        if (!GlobalValues.sBackgroundUri.isEmpty()) {
             ImageUtils.setActionBarTransparent(this);
             ImageUtils.loadBackgroundPic(this, ivBackground);
         }
@@ -77,16 +74,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        String actionBarType = SPUtils.getString(this, ConstUtil.SP_KEY_ACTION_BAR_TYPE);
-        Log.d(TAG, "onPrepareOptionsMenu: actionBarType = " + actionBarType);
+        Log.d(TAG, "onPrepareOptionsMenu: actionBarType = " + GlobalValues.sActionBarType);
 
         if (menu.findItem(R.id.toolbar_settings) != null) {
-            switch (actionBarType) {
+            switch (GlobalValues.sActionBarType) {
                 case "":
-                case ConstUtil.ACTION_BAR_TYPE_LIGHT:
+                case Const.ACTION_BAR_TYPE_LIGHT:
                     menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
                     break;
-                case ConstUtil.ACTION_BAR_TYPE_DARK:
+                case Const.ACTION_BAR_TYPE_DARK:
                     menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_dark);
                     break;
             }
@@ -115,13 +111,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        String packageName = intent.getStringExtra(ConstUtil.INTENT_EXTRA_PACKAGE_NAME);
-        String className = intent.getStringExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME);
-        int classNameType = intent.getIntExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME_TYPE, ConstUtil.SHORT_CLASS_NAME_TYPE);
+        String packageName = intent.getStringExtra(Const.INTENT_EXTRA_PACKAGE_NAME);
+        String className = intent.getStringExtra(Const.INTENT_EXTRA_CLASS_NAME);
+        int classNameType = intent.getIntExtra(Const.INTENT_EXTRA_CLASS_NAME_TYPE, Const.SHORT_CLASS_NAME_TYPE);
         String shortcutEditUrl = intent.getStringExtra("shortcutEditUrl");
 
         Bundle bundle = new Bundle();
-        if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+        if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
             if (shortcutEditUrl != null) {
                 bundle.putString("shortcutEditUrl", shortcutEditUrl);
             }
@@ -134,9 +130,9 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "className = " + className);
             Log.d(TAG, "packageName = " + packageName);
 
-            bundle.putString(ConstUtil.BUNDLE_PACKAGE_NAME, packageName);
-            bundle.putString(ConstUtil.BUNDLE_CLASS_NAME, className);
-            bundle.putInt(ConstUtil.BUNDLE_CLASS_NAME_TYPE, classNameType);
+            bundle.putString(Const.BUNDLE_PACKAGE_NAME, packageName);
+            bundle.putString(Const.BUNDLE_CLASS_NAME, className);
+            bundle.putInt(Const.BUNDLE_CLASS_NAME_TYPE, classNameType);
         }
 
         mainFragment.setArguments(bundle);
@@ -147,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "curFragment = " + curFragment);
 
-        if (requestCode == ConstUtil.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
+        if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
             Log.d(TAG, "REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
             if (curFragment instanceof MainFragment) {
                 if (mainFragment == null) {
@@ -161,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        } else if (requestCode == ConstUtil.REQUEST_CODE_SHIZUKU_PERMISSION) {
+        } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
             Log.d(TAG, "REQUEST_CODE_SHIZUKU_PERMISSION");
             if (curFragment instanceof InitializeFragment) {
                 InitializeFragment.getViewModel().getIsShizuku().setValue(Boolean.TRUE);

@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -28,14 +27,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
-import com.absinthe.anywhere_.utils.ConstUtil;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ImageUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
-import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -43,7 +41,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
@@ -81,14 +78,13 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         initObserver();
 
-        boolean isFirstLaunch = SPUtils.getBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH);
-        if (isFirstLaunch) {
+        if (GlobalValues.sIsFirstLaunch) {
             new MaterialTapTargetPrompt.Builder(this)
                     .setTarget(R.id.fab)
                     .setPrimaryText("创建你的第一个 Anywhere- 吧！")
                     .setBackgroundColour(getResources().getColor(R.color.colorAccent))
                     .show();
-            SPUtils.putBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH, false);
+            GlobalValues.setsIsFirstLaunch(false);
         }
     }
 
@@ -96,7 +92,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public void onResume() {
         super.onResume();
 
-        if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+        if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
             Bundle bundle = getArguments();
 
             if (bundle != null) {
@@ -114,9 +110,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         Bundle bundle = getArguments();
 
         if (bundle != null) {
-            String packageName = bundle.getString(ConstUtil.BUNDLE_PACKAGE_NAME);
-            String className = bundle.getString(ConstUtil.BUNDLE_CLASS_NAME);
-            String classNameType = bundle.getInt(ConstUtil.BUNDLE_CLASS_NAME_TYPE) + "";
+            String packageName = bundle.getString(Const.BUNDLE_PACKAGE_NAME);
+            String className = bundle.getString(Const.BUNDLE_CLASS_NAME);
+            String classNameType = bundle.getInt(Const.BUNDLE_CLASS_NAME_TYPE) + "";
 
             String appName;
             if (packageName != null && className != null) {
@@ -142,13 +138,13 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                             switch (selectedWorkingModeIndex) {
                                 case 0:
-                                    mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_URL_SCHEME);
+                                    mViewModel.getWorkingMode().setValue(Const.WORKING_MODE_URL_SCHEME);
                                     break;
                                 case 1:
-                                    mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_ROOT);
+                                    mViewModel.getWorkingMode().setValue(Const.WORKING_MODE_ROOT);
                                     break;
                                 case 2:
-                                    mViewModel.getWorkingMode().setValue(ConstUtil.WORKING_MODE_SHIZUKU);
+                                    mViewModel.getWorkingMode().setValue(Const.WORKING_MODE_SHIZUKU);
                                     break;
                                 default:
                                     Log.d(TAG, "default");
@@ -160,11 +156,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
 
             switch (GlobalValues.sWorkingMode) {
-                case ConstUtil.WORKING_MODE_URL_SCHEME:
+                case Const.WORKING_MODE_URL_SCHEME:
                     setUpUrlScheme();
                     break;
-                case ConstUtil.WORKING_MODE_SHIZUKU:
-                    if (!PermissionUtil.checkOverlayPermission(getActivity(), ConstUtil.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                case Const.WORKING_MODE_SHIZUKU:
+                    if (!PermissionUtil.checkOverlayPermission(getActivity(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
                     if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
@@ -173,8 +169,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         actionBar.setTitle("Nowhere-");
                     }
                     break;
-                case ConstUtil.WORKING_MODE_ROOT:
-                    if (!PermissionUtil.checkOverlayPermission(getActivity(), ConstUtil.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                case Const.WORKING_MODE_ROOT:
+                    if (!PermissionUtil.checkOverlayPermission(getActivity(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
                     if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
@@ -193,9 +189,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private void startCollector() {
         Intent intent = new Intent(mContext, CollectorService.class);
         intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
+        mContext.startService(intent);
         Toast.makeText(getContext(), R.string.toast_collector_opened, Toast.LENGTH_SHORT).show();
 
-        mContext.startService(intent);
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         homeIntent.addCategory(Intent.CATEGORY_HOME);
@@ -224,7 +220,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.toolbar_settings) {
-            startActivity(new Intent(getActivity(), SettingsActivity.class));
+            startActivity(new Intent(MainActivity.getInstance(), SettingsActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -238,11 +234,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(clickView -> checkWorkingPermission());
-        actionBar = ((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
-        ImageUtils.setActionBarTitle(getActivity(), actionBar);
+        actionBar = MainActivity.getInstance().getSupportActionBar();
+        ImageUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
 
         View placeholder = view.findViewById(R.id.placeholder);
-        if (SPUtils.getBoolean(mContext, ConstUtil.SP_KEY_FIRST_LAUNCH)) {
+        if (GlobalValues.sIsFirstLaunch) {
             placeholder.setVisibility(View.VISIBLE);
         }
     }
@@ -253,17 +249,17 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         final Observer<String> commandObserver = s -> {
             switch (GlobalValues.sWorkingMode) {
-                case ConstUtil.WORKING_MODE_SHIZUKU:
+                case Const.WORKING_MODE_SHIZUKU:
                     if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
                         PermissionUtil.execShizukuCmd(s);
                     }
                     break;
-                case ConstUtil.WORKING_MODE_ROOT:
+                case Const.WORKING_MODE_ROOT:
                     if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
                         PermissionUtil.execRootCmd(s);
                     }
                     break;
-                case ConstUtil.WORKING_MODE_URL_SCHEME:
+                case Const.WORKING_MODE_URL_SCHEME:
                     try {
                         Intent intent = new Intent("android.intent.action.VIEW");
                         intent.setData(Uri.parse(s));
@@ -279,33 +275,30 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
         mViewModel.getWorkingMode().observe(this, s -> {
             GlobalValues.setsWorkingMode(s);
-            SPUtils.putString(mContext, ConstUtil.SP_KEY_WORKING_MODE, s);
-            ImageUtils.setActionBarTitle(getActivity(), actionBar);
+            ImageUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
         });
 
         final Observer<String> backgroundObserver = s -> {
-            ImageView ivBackground = Objects.requireNonNull(getActivity()).findViewById(R.id.iv_background);
+            ImageView ivBackground = MainActivity.getInstance().findViewById(R.id.iv_background);
             if (s.isEmpty()) {
                 ivBackground.setBackground(null);
                 ivBackground.setVisibility(View.GONE);
-                SPUtils.putString(mContext, ConstUtil.SP_KEY_ACTION_BAR_TYPE, ConstUtil.ACTION_BAR_TYPE_LIGHT);
-                ImageUtils.resetActionBar(getActivity());
-                getActivity().invalidateOptionsMenu();
+                GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
+                ImageUtils.resetActionBar(MainActivity.getInstance());
+                MainActivity.getInstance().invalidateOptionsMenu();
             } else {
                 ImageUtils.loadBackgroundPic(mContext, ivBackground);
-                ImageUtils.setActionBarTransparent(getActivity());
-                ImageUtils.setAdaptiveActionBarTitleColor(getActivity(), actionBar, ImageUtils.getActionBarTitle());
+                ImageUtils.setActionBarTransparent(MainActivity.getInstance());
+                ImageUtils.setAdaptiveActionBarTitleColor(MainActivity.getInstance(), actionBar, ImageUtils.getActionBarTitle());
                 ivBackground.setVisibility(View.VISIBLE);
             }
-            SPUtils.putString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND, s);
+            GlobalValues.setsBackgroundUri(s);
         };
         mViewModel.getBackground().observe(this, backgroundObserver);
 
-        String backgroundUri = SPUtils.getString(mContext, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
-
-        if (!backgroundUri.isEmpty()) {
-            Log.d(TAG, "backgroundUri = " + backgroundUri);
-            mViewModel.getBackground().setValue(backgroundUri);
+        if (!GlobalValues.sBackgroundUri.isEmpty()) {
+            Log.d(TAG, "backgroundUri = " + GlobalValues.sBackgroundUri);
+            mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
         }
     }
 }

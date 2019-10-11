@@ -36,28 +36,27 @@ public class CollectorService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null) {
             Toast.makeText(this, R.string.toast_collector_service_launch_failed, Toast.LENGTH_SHORT).show();
-            return super.onStartCommand(null, flags, startId);
-        }
+            stopSelf();
+        } else {
+            initCollectorWindowManager();
+            String command = intent.getStringExtra(COMMAND);
+            if (command != null) {
+                if (command.equals(COMMAND_OPEN)) {
+                    mCollectorWindowManager.addView();
+                } else if (command.equals(COMMAND_CLOSE)) {
+                    Log.d(TAG, "Intent:COMMAND_CLOSE");
+                    mCollectorWindowManager.removeView();
 
-        initCollectorWindowManager();
-        String command = intent.getStringExtra(COMMAND);
-        if (command != null) {
-            if (command.equals(COMMAND_OPEN)) {
-                mCollectorWindowManager.addView();
-            }
-            else if (command.equals(COMMAND_CLOSE)) {
-                Log.d(TAG, "Intent:COMMAND_CLOSE");
-                mCollectorWindowManager.removeView();
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    if (CollectorTileService.getInstance() != null) {
-                        Tile tile = CollectorTileService.getInstance().getQsTile();
-                        tile.setState(Tile.STATE_INACTIVE);
-                        tile.setLabel(getString(R.string.tile_collector_on));
-                        tile.updateTile();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        if (CollectorTileService.getInstance() != null) {
+                            Tile tile = CollectorTileService.getInstance().getQsTile();
+                            tile.setState(Tile.STATE_INACTIVE);
+                            tile.setLabel(getString(R.string.tile_collector_on));
+                            tile.updateTile();
+                        }
                     }
+                    stopSelf();
                 }
-                stopSelf();
             }
         }
 

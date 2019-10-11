@@ -28,7 +28,8 @@ import androidx.palette.graphics.Palette;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -65,32 +66,30 @@ public class ImageUtils {
     }
 
     public static void setActionBarTitle(Activity activity, ActionBar actionBar) {
-        String workingMode = SPUtils.getString(MainActivity.getInstance(), ConstUtil.SP_KEY_WORKING_MODE);
-        Log.d(TAG, "setActionBarTitle:workingMode = " + workingMode);
-        switch (workingMode) {
+        Log.d(TAG, "setActionBarTitle:workingMode = " + GlobalValues.sWorkingMode);
+        switch (GlobalValues.sWorkingMode) {
             case "":
-                setTopWidgetColor(activity, actionBar, SPUtils.getString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE), "Nowhere-");
+                setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, "Nowhere-");
                 break;
-            case ConstUtil.WORKING_MODE_URL_SCHEME:
-                setTopWidgetColor(activity, actionBar, SPUtils.getString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE), "Somewhere-");
+            case Const.WORKING_MODE_URL_SCHEME:
+                setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, "Somewhere-");
                 break;
-            case ConstUtil.WORKING_MODE_ROOT:
-            case ConstUtil.WORKING_MODE_SHIZUKU:
-                setTopWidgetColor(activity, actionBar, SPUtils.getString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE), "Anywhere-");
+            case Const.WORKING_MODE_ROOT:
+            case Const.WORKING_MODE_SHIZUKU:
+                setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, "Anywhere-");
                 break;
             default:
         }
     }
 
     public static String getActionBarTitle() {
-        String workingMode = SPUtils.getString(MainActivity.getInstance(), ConstUtil.SP_KEY_WORKING_MODE);
-        switch (workingMode) {
+        switch (GlobalValues.sWorkingMode) {
             case "":
                 return "Nowhere-";
-            case ConstUtil.WORKING_MODE_URL_SCHEME:
+            case Const.WORKING_MODE_URL_SCHEME:
                 return "Somewhere-";
-            case ConstUtil.WORKING_MODE_ROOT:
-            case ConstUtil.WORKING_MODE_SHIZUKU:
+            case Const.WORKING_MODE_ROOT:
+            case Const.WORKING_MODE_SHIZUKU:
                 return "Anywhere-";
             default:
         }
@@ -132,10 +131,9 @@ public class ImageUtils {
      * @param imageView Load pic in this view
      */
     public static void loadBackgroundPic(Context context, ImageView imageView) {
-        String backgroundUri = SPUtils.getString(context, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
-        if (!backgroundUri.isEmpty()) {
+        if (!GlobalValues.sBackgroundUri.isEmpty()) {
             Glide.with(context)
-                    .load(Uri.parse(backgroundUri))
+                    .load(Uri.parse(GlobalValues.sBackgroundUri))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(imageView);
@@ -147,17 +145,15 @@ public class ImageUtils {
      * @param activity Activity for use Glide
      */
     public static void setAdaptiveActionBarTitleColor(Activity activity, ActionBar actionBar, String title) {
-        String actionBarType = SPUtils.getString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE);
-        if (!actionBarType.isEmpty()) {
-            setTopWidgetColor(activity, actionBar, actionBarType, title);
+        if (!GlobalValues.sActionBarType.isEmpty()) {
+            setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, title);
             return;
         }
 
-        String uriString = SPUtils.getString(activity, ConstUtil.SP_KEY_CHANGE_BACKGROUND);
         int actionBarHeight = 0;
         TypedValue tv = new TypedValue();
 
-        if (uriString.isEmpty()) {
+        if (GlobalValues.sBackgroundUri.isEmpty()) {
             return;
         }
 
@@ -169,7 +165,7 @@ public class ImageUtils {
         int finalActionBarHeight = actionBarHeight;
         Glide.with(activity)
                 .asBitmap()
-                .load(Uri.parse(uriString))
+                .load(Uri.parse(GlobalValues.sBackgroundUri))
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -186,10 +182,10 @@ public class ImageUtils {
                                 int grayScale = (int) (Color.red(dominantColor) * 0.299 + Color.green(dominantColor) * 0.587 + Color.blue(dominantColor) * 0.114);
                                 if (grayScale > 192) {
                                     // 深色字体
-                                    setTopWidgetColor(activity, actionBar, ConstUtil.ACTION_BAR_TYPE_DARK, title);
+                                    setTopWidgetColor(activity, actionBar, Const.ACTION_BAR_TYPE_DARK, title);
                                 } else {
                                     // 浅色字体
-                                    setTopWidgetColor(activity, actionBar, ConstUtil.ACTION_BAR_TYPE_LIGHT, title);
+                                    setTopWidgetColor(activity, actionBar, Const.ACTION_BAR_TYPE_LIGHT, title);
                                 }
                             }
                         });
@@ -204,14 +200,14 @@ public class ImageUtils {
 
     private static void setTopWidgetColor(Activity activity, ActionBar actionBar, String type, String title) {
 
-        if (type.equals(ConstUtil.ACTION_BAR_TYPE_DARK)) {
+        if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
             Log.d(TAG, "Dark-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             actionBar.setTitle(spanString);
 
-            SPUtils.putString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE, ConstUtil.ACTION_BAR_TYPE_DARK);
+            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
             activity.invalidateOptionsMenu();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -219,14 +215,14 @@ public class ImageUtils {
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
-        } else if (type.equals(ConstUtil.ACTION_BAR_TYPE_LIGHT) || type.isEmpty()) {
+        } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT) || type.isEmpty()) {
             Log.d(TAG, "Light-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             actionBar.setTitle(spanString);
 
-            SPUtils.putString(activity, ConstUtil.SP_KEY_ACTION_BAR_TYPE, ConstUtil.ACTION_BAR_TYPE_LIGHT);
+            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
             activity.invalidateOptionsMenu();
 
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);

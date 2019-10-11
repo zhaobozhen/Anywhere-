@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 
 public class TextUtils {
@@ -30,9 +31,9 @@ public class TextUtils {
         Log.d(TAG, "className = " + className);
 
         if (String.valueOf(className.charAt(0)).equals(".")) {
-            return new String[]{packageName, className, ConstUtil.SHORT_CLASS_NAME_TYPE + ""};
+            return new String[]{packageName, className, Const.SHORT_CLASS_NAME_TYPE + ""};
         } else {
-            return new String[]{packageName, className, ConstUtil.FULL_CLASS_NAME_TYPE + ""};
+            return new String[]{packageName, className, Const.FULL_CLASS_NAME_TYPE + ""};
         }
     }
 

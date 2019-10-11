@@ -13,7 +13,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.model.Const;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
@@ -34,10 +34,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         super.onActivityCreated(savedInstanceState);
         mContext = getActivity();
 
-        ListPreference workingModePreference = findPreference(ConstUtil.SP_KEY_WORKING_MODE);
-        Preference changeBgPreference = findPreference(ConstUtil.SP_KEY_CHANGE_BACKGROUND);
-        Preference resetBgPreference = findPreference(ConstUtil.SP_KEY_RESET_BACKGROUND);
-        ListPreference darkModePreference = findPreference(ConstUtil.SP_KEY_DARK_MODE);
+        ListPreference workingModePreference = findPreference(Const.SP_KEY_WORKING_MODE);
+        Preference changeBgPreference = findPreference(Const.SP_KEY_CHANGE_BACKGROUND);
+        Preference resetBgPreference = findPreference(Const.SP_KEY_RESET_BACKGROUND);
+        ListPreference darkModePreference = findPreference(Const.SP_KEY_DARK_MODE);
 
         if (workingModePreference != null) {
             workingModePreference.setOnPreferenceChangeListener(this);
@@ -58,13 +58,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
         switch (key) {
-            case ConstUtil.SP_KEY_CHANGE_BACKGROUND:
+            case Const.SP_KEY_CHANGE_BACKGROUND:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
-                ((Activity)mContext).startActivityForResult(intent, ConstUtil.REQUEST_CODE_IMAGE_CAPTURE);
+                ((Activity)mContext).startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
                 break;
-            case ConstUtil.SP_KEY_RESET_BACKGROUND:
+            case Const.SP_KEY_RESET_BACKGROUND:
                 new MaterialAlertDialogBuilder(mContext)
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_background_confirm_message)
@@ -82,10 +82,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()) {
-            case ConstUtil.SP_KEY_WORKING_MODE:
+            case Const.SP_KEY_WORKING_MODE:
                 MainFragment.getViewModelInstance().getWorkingMode().setValue(newValue.toString());
                 break;
-            case ConstUtil.SP_KEY_DARK_MODE:
+            case Const.SP_KEY_DARK_MODE:
                 AnywhereApplication.setTheme(newValue.toString());
                 break;
             default:

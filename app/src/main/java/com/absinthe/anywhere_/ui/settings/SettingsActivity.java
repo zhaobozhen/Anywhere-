@@ -9,8 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.SPUtils;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -34,14 +35,14 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case ConstUtil.REQUEST_CODE_IMAGE_CAPTURE:
+            case Const.REQUEST_CODE_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         Uri backgroundUri = data.getData();
                         if (backgroundUri != null) {
                             Log.d(TAG, "backgroundUri = " + backgroundUri);
-                            SPUtils.putString(this, ConstUtil.SP_KEY_CHANGE_BACKGROUND, backgroundUri.toString());
-                            SPUtils.putString(this, ConstUtil.SP_KEY_ACTION_BAR_TYPE, "");
+                            GlobalValues.setsBackgroundUri(backgroundUri.toString());
+                            GlobalValues.setsActionBarType("");
                             MainFragment.getViewModelInstance().getBackground().setValue(backgroundUri.toString());
                         }
                     } else {
@@ -49,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case ConstUtil.REQUEST_CODE_PHOTO_CROP:
+            case Const.REQUEST_CODE_PHOTO_CROP:
                 break;
             default:
         }

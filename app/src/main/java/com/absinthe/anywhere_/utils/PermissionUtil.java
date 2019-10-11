@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -82,9 +84,9 @@ public class PermissionUtil {
 
     public static String execCmd(String cmd) {
         String result = null;
-        if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_ROOT)) {
+        if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_ROOT)) {
             result = execRootCmd(cmd);
-        } else if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_SHIZUKU)) {
+        } else if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_SHIZUKU)) {
             result = execShizukuCmd(cmd);
         } else {
             Log.d(TAG, "execCmd abnormal.");
@@ -165,6 +167,7 @@ public class PermissionUtil {
 
     public static boolean isMIUI() {
         try {
+            @SuppressLint("PrivateApi")
             Class<?> c = Class.forName("android.os.SystemProperties");
             Method get = c.getMethod("get", String.class);
             String result = (String) get.invoke(c, "ro.miui.ui.version.code");
@@ -186,7 +189,7 @@ public class PermissionUtil {
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                     Intent intent = activity.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
                     if (intent != null) {
-                        activity.startActivityForResult(intent, ConstUtil.REQUEST_CODE_SHIZUKU_PERMISSION);
+                        activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
                     } else {
                         Toast.makeText(activity, activity.getString(R.string.toast_not_install_shizuku), Toast.LENGTH_SHORT).show();
                         intent = new Intent("android.intent.action.VIEW");
@@ -194,8 +197,7 @@ public class PermissionUtil {
                         activity.startActivity(intent);
                     }
                 })
-                .setNegativeButton(R.string.dialog_delete_negative_button,
-                        (dialogInterface, i) -> { })
+                .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show();
     }
 
@@ -237,10 +239,13 @@ public class PermissionUtil {
     public static boolean checkOverlayPermission(Activity activity, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(activity)) {
-                activity.startActivityForResult(
-                        new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName())),
-                        requestCode
-                );
+                try {
+                    activity.startActivityForResult(
+                            new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName())),
+                            requestCode);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
                 Toast.makeText(activity, R.string.toast_permission_overlap, Toast.LENGTH_LONG).show();
                 return false;
             } else {

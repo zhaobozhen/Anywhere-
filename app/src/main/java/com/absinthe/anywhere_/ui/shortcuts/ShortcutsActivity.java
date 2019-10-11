@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.main.MainActivity;
-import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.model.Const;
 
 public class ShortcutsActivity extends AppCompatActivity {
     public static final String ACTION_START_COLLECTOR = "START_COLLECTOR";
@@ -21,7 +21,7 @@ public class ShortcutsActivity extends AppCompatActivity {
 
         if (action != null) {
             if (action.equals(ACTION_START_COLLECTOR)) {
-                if (GlobalValues.sWorkingMode.equals(ConstUtil.WORKING_MODE_URL_SCHEME)) {
+                if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra("shortcutEditUrl", "true");
                     startActivity(intent);

@@ -46,7 +46,7 @@
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_title"
             android:parentActivityName=".ui.settings.SettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.About" />
 
         <activity android:name=".ui.shortcuts.ShortcutsActivity"/>
 

@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.main.MainActivity;
-import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 
@@ -53,9 +53,9 @@ public class CollectorView extends LinearLayout {
             mContext.startActivity(
                     new Intent(mContext, MainActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .putExtra(ConstUtil.INTENT_EXTRA_PACKAGE_NAME, packageName)
-                            .putExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME, className)
-                            .putExtra(ConstUtil.INTENT_EXTRA_CLASS_NAME_TYPE, classNameType));
+                            .putExtra(Const.INTENT_EXTRA_PACKAGE_NAME, packageName)
+                            .putExtra(Const.INTENT_EXTRA_CLASS_NAME, className)
+                            .putExtra(Const.INTENT_EXTRA_CLASS_NAME_TYPE, classNameType));
         });
 
         mIbCollector.setOnTouchListener(new OnTouchListener() {
@@ -115,7 +115,7 @@ public class CollectorView extends LinearLayout {
     }
 
     private void collectActivity() {
-        String cmd = ConstUtil.CMD_GET_TOP_STACK_ACTIVITY;
+        String cmd = Const.CMD_GET_TOP_STACK_ACTIVITY;
         String result = PermissionUtil.execCmd(cmd);
 
         Log.d(TAG, "Shell result = " + result);

@@ -23,7 +23,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.AnimationUtil;
-import com.absinthe.anywhere_.utils.ConstUtil;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -66,7 +66,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
         mContext = MainActivity.getInstance();
         mViewModel = ViewModelProviders.of(this).get(InitializeViewModel.class);
-        workingMode = ConstUtil.WORKING_MODE_URL_SCHEME;
+        workingMode = Const.WORKING_MODE_URL_SCHEME;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.OVERLAY_PERM);
         }
@@ -108,21 +108,21 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             case R.id.btn_url_scheme:
                 if (isChecked) {
                     hidePermissionCard();
-                    workingMode = ConstUtil.WORKING_MODE_URL_SCHEME;
+                    workingMode = Const.WORKING_MODE_URL_SCHEME;
                 }
                 break;
             case R.id.btn_root:
                 if (isChecked) {
                     hidePermissionCard();
                     showRootCard();
-                    workingMode = ConstUtil.WORKING_MODE_ROOT;
+                    workingMode = Const.WORKING_MODE_ROOT;
                 }
                 break;
             case R.id.btn_shizuku:
                 if (isChecked) {
                     hidePermissionCard();
                     showShizukuCard();
-                    workingMode = ConstUtil.WORKING_MODE_SHIZUKU;
+                    workingMode = Const.WORKING_MODE_SHIZUKU;
                 }
                 break;
         }
@@ -141,15 +141,15 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             boolean flag = false;
             int allPerm = Objects.requireNonNull(mViewModel.getAllPerm().getValue());
             switch (workingMode) {
-                case ConstUtil.WORKING_MODE_URL_SCHEME:
+                case Const.WORKING_MODE_URL_SCHEME:
                     flag = true;
                     break;
-                case ConstUtil.WORKING_MODE_ROOT:
+                case Const.WORKING_MODE_ROOT:
                     if (allPerm == (InitializeViewModel.ROOT_PERM | InitializeViewModel.OVERLAY_PERM)) {
                         flag = true;
                     }
                     break;
-                case ConstUtil.WORKING_MODE_SHIZUKU:
+                case Const.WORKING_MODE_SHIZUKU:
                     if (allPerm == (InitializeViewModel.SHIZUKU_GROUP_PERM | InitializeViewModel.OVERLAY_PERM)) {
                         flag = true;
                     }
@@ -200,7 +200,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         });
 
         btnOverlay.setOnClickListener(view -> {
-            boolean result = PermissionUtil.checkOverlayPermission((Activity) mContext, ConstUtil.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
+            boolean result = PermissionUtil.checkOverlayPermission((Activity) mContext, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
             mViewModel.getIsOverlay().setValue(result);
         });
 
