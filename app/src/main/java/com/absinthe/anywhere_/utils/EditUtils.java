@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
@@ -40,9 +41,14 @@ public class EditUtils {
     private static BottomSheetDialog bottomSheetDialog = null;
 
     public static void editAnywhere(@NonNull Activity activity, String packageName, String className, String classNameType, String appName, String description, boolean isUpdate) {
+        View contentView = View.inflate(activity, R.layout.bottom_sheet_dialog_content, null);
         bottomSheetDialog = new BottomSheetDialog(activity);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_content);
+        bottomSheetDialog.setContentView(contentView);
         bottomSheetDialog.setDismissWithAnimation(true);
+        View parent = (View) contentView.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        contentView.measure(0, 0);
+        behavior.setPeekHeight(contentView.getMeasuredHeight());
 
         TextInputLayout tilAppName = bottomSheetDialog.findViewById(R.id.til_app_name);
         TextInputLayout tilPackageName = bottomSheetDialog.findViewById(R.id.til_package_name);
@@ -54,7 +60,6 @@ public class EditUtils {
         TextInputEditText tietDescription = bottomSheetDialog.findViewById(R.id.tiet_description);
 
         if (tietAppName != null) {
-//            tietAppName.setText(String.format("%s - Anywhere-01", appName));
             tietAppName.setText(appName);
         }
 

@@ -2,15 +2,16 @@ package com.absinthe.anywhere_.ui.shortcuts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.main.MainActivity;
-import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.PermissionUtil;
+import com.absinthe.anywhere_.utils.ToastUtil;
 
 public class ShortcutsActivity extends AppCompatActivity {
     public static final String ACTION_START_COLLECTOR = "START_COLLECTOR";
@@ -36,7 +37,10 @@ public class ShortcutsActivity extends AppCompatActivity {
             } else if (action.equals(ACTION_START_COMMAND)) {
                 String cmd = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
                 if (cmd != null) {
-                    PermissionUtil.execCmd(cmd);
+                    String result = PermissionUtil.execCmd(cmd);
+                    if (result == null) {
+                        ToastUtil.makeText(R.string.toast_check_perm);
+                    }
                 }
             }
         }

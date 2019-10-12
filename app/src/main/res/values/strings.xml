@@ -77,6 +77,7 @@
     <string name="toast_open_pop_up_when_background_permission">MIUI 系统请打开 后台弹出界面 权限，否则可能存在问题</string>
     <string name="toast_not_install_shizuku">未安装 Shizuku</string>
     <string name="toast_change_work_mode">请切换工作模式</string>
+    <string name="toast_check_perm">请检查权限</string>
     <string name="toast_collector_service_launch_failed">服务启动失败</string>
     <string name="toast_adb_result_process_failed">解析错误</string>
 

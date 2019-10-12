@@ -87,14 +87,10 @@ public class PermissionUtil {
 
         switch (GlobalValues.sWorkingMode) {
             case Const.WORKING_MODE_SHIZUKU:
-                if (shizukuPermissionCheck(MainActivity.getInstance())) {
-                    result = execShizukuCmd(cmd);
-                }
+                result = execShizukuCmd(cmd);
                 break;
             case Const.WORKING_MODE_ROOT:
-                if (upgradeRootPermission(MainActivity.getInstance().getPackageCodePath())) {
-                    result = execRootCmd(cmd);
-                }
+                result = execRootCmd(cmd);
                 break;
             case Const.WORKING_MODE_URL_SCHEME:
                 if (cmd.contains("am start -n")) {
@@ -110,7 +106,6 @@ public class PermissionUtil {
                     MainActivity.getInstance().startActivity(intent);
                 } catch (Exception e) {
                     Log.d(TAG, "WORKING_MODE_URL_SCHEME:Exception:" + e.getMessage());
-                    ToastUtil.makeText("Error:" + e.getMessage());
                 }
                 break;
         }

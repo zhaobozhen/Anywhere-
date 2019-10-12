@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.ToastUtil;
 
 public class CollectorView extends LinearLayout {
     public static final String TAG = "CollectorView";
@@ -129,6 +130,8 @@ public class CollectorView extends LinearLayout {
                 classNameType = Integer.valueOf(processed[2]);
                 Log.d(TAG, "classNameType = " + classNameType);
             }
+        } else {
+            ToastUtil.makeText(R.string.toast_check_perm);
         }
     }
 
