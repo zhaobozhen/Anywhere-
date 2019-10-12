@@ -104,6 +104,7 @@ public class PermissionUtil {
                     Intent intent = new Intent("android.intent.action.VIEW");
                     intent.setData(Uri.parse(cmd));
                     MainActivity.getInstance().startActivity(intent);
+                    result = "android.intent.action.VIEW";
                 } catch (Exception e) {
                     Log.d(TAG, "WORKING_MODE_URL_SCHEME:Exception:" + e.getMessage());
                 }

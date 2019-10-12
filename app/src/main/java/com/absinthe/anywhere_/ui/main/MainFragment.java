@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
@@ -98,7 +99,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 String shortcutEditUrl = bundle.getString("shortcutEditUrl");
                 if (shortcutEditUrl != null) {
                     if (shortcutEditUrl.equals("true")) {
-                        EditUtils.editUrlScheme(MainActivity.getInstance(), false);
+                        AnywhereEntity ae = new AnywhereEntity(getString(R.string.bsd_new_url_scheme_name), "", null, null, "", AnywhereType.URL_SCHEME, System.currentTimeMillis() + "");
+                        EditUtils.editUrlScheme(MainActivity.getInstance(), ae, false);
                     }
                     bundle.clear();
                 }
@@ -119,7 +121,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             String appName;
             if (packageName != null && className != null) {
                 appName = TextUtils.getAppName(mContext, packageName);
-                EditUtils.editAnywhere(MainActivity.getInstance(), packageName, className, classNameType, appName, "", false);
+                AnywhereEntity ae = new AnywhereEntity(appName, packageName, className, classNameType, "", AnywhereType.ACTIVITY, System.currentTimeMillis() + "");
+                EditUtils.editAnywhere(MainActivity.getInstance(), ae, false);
 
                 bundle.clear();
             }
@@ -199,7 +202,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void setUpUrlScheme() {
-        EditUtils.editUrlScheme(MainActivity.getInstance(), false);
+        AnywhereEntity ae = new AnywhereEntity(getString(R.string.bsd_new_url_scheme_name), "", null, null, "", AnywhereType.URL_SCHEME, System.currentTimeMillis() + "");
+        EditUtils.editUrlScheme(MainActivity.getInstance(), ae, false);
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {

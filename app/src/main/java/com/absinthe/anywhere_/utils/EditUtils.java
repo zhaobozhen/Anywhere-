@@ -5,9 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ShortcutInfo;
-import android.content.pm.ShortcutManager;
-import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
@@ -18,21 +15,20 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EditUtils {
     private static final String TAG = "EditUtils";
@@ -40,15 +36,14 @@ public class EditUtils {
     @SuppressLint("StaticFieldLeak")
     private static BottomSheetDialog bottomSheetDialog = null;
 
-    public static void editAnywhere(@NonNull Activity activity, String packageName, String className, String classNameType, String appName, String description, boolean isUpdate) {
+    public static void editAnywhere(@NonNull Activity activity, AnywhereEntity item, boolean isUpdate) {
         View contentView = View.inflate(activity, R.layout.bottom_sheet_dialog_content, null);
         bottomSheetDialog = new BottomSheetDialog(activity);
         bottomSheetDialog.setContentView(contentView);
         bottomSheetDialog.setDismissWithAnimation(true);
         View parent = (View) contentView.getParent();
         BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
-        contentView.measure(0, 0);
-        behavior.setPeekHeight(contentView.getMeasuredHeight());
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         TextInputLayout tilAppName = bottomSheetDialog.findViewById(R.id.til_app_name);
         TextInputLayout tilPackageName = bottomSheetDialog.findViewById(R.id.til_package_name);
@@ -60,28 +55,28 @@ public class EditUtils {
         TextInputEditText tietDescription = bottomSheetDialog.findViewById(R.id.tiet_description);
 
         if (tietAppName != null) {
-            tietAppName.setText(appName);
+            tietAppName.setText(item.getAppName());
         }
 
         if (tietPackageName != null) {
-            tietPackageName.setText(packageName);
+            tietPackageName.setText(item.getParam1());
         }
 
         if (tietClassName != null) {
-            tietClassName.setText(className);
+            tietClassName.setText(item.getParam2());
         }
 
         if (tietDescription != null) {
-            tietDescription.setText(description);
+            tietDescription.setText(item.getDescription());
         }
 
         Button btnEditAnywhereDone = bottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
         if (btnEditAnywhereDone != null) {
             btnEditAnywhereDone.setOnClickListener(view -> {
                 if (tietPackageName != null && tietClassName != null && tietAppName != null && tietDescription != null) {
-                    String pName = tietPackageName.getText() == null ? packageName : tietPackageName.getText().toString();
-                    String cName = tietClassName.getText() == null ? className : tietClassName.getText().toString();
-                    String aName = tietAppName.getText() == null ? appName : tietAppName.getText().toString();
+                    String pName = tietPackageName.getText() == null ? item.getParam1() : tietPackageName.getText().toString();
+                    String cName = tietClassName.getText() == null ? item.getParam2() : tietClassName.getText().toString();
+                    String aName = tietAppName.getText() == null ? item.getAppName() : tietAppName.getText().toString();
                     String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
 
                     if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
@@ -97,18 +92,39 @@ public class EditUtils {
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietPackageName.getText().toString().isEmpty()
                             && !tietClassName.getText().toString().isEmpty()) {
+                        AnywhereEntity ae = new AnywhereEntity(aName, pName, cName, item.getParam3(), desc, item.getType(), item.getTimeStamp());
                         if (isUpdate) {
-                            MainFragment.getViewModelInstance().update(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + ""));
+                            if (!aName.equals(item.getAppName()) || !pName.equals(item.getParam1())) {
+                                MainFragment.getViewModelInstance().insert(ae);
+                                MainFragment.getViewModelInstance().delete(item);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                    ShortcutsUtil.removeShortcut(item);
+                                    ShortcutsUtil.addShortcut(ae);
+                                }
+                            } else if (!cName.equals(item.getParam2())) {
+                                MainFragment.getViewModelInstance().update(ae);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                    ShortcutsUtil.removeShortcut(item);
+                                    ShortcutsUtil.addShortcut(ae);
+                                }
+                            } else {
+                                MainFragment.getViewModelInstance().update(ae);
+                            }
                         } else {
-                            if (hasSameAppName(aName, packageName)) {
+                            if (hasSameAppName(aName, item.getParam1())) {
                                 bottomSheetDialog.dismiss();
                                 new MaterialAlertDialogBuilder(activity)
                                         .setMessage(R.string.dialog_message_same_app_name)
-                                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + "")))
+                                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                                            MainFragment.getViewModelInstance().insert(ae);
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                                ShortcutsUtil.removeShortcut(Objects.requireNonNull(hasSameAppNameEntity(aName, item.getParam1())));
+                                            }
+                                        })
                                         .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> bottomSheetDialog.show())
                                         .show();
                             } else {
-                                MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, pName, cName, classNameType, desc, AnywhereType.ACTIVITY, System.currentTimeMillis() + ""));
+                                MainFragment.getViewModelInstance().insert(ae);
                             }
                         }
                         bottomSheetDialog.dismiss();
@@ -124,7 +140,7 @@ public class EditUtils {
     }
 
     public static void editAnywhere(@NonNull Activity activity, SelectableCardsAdapter adapter, AnywhereEntity item, int position, boolean withDeleteButton) {
-        editAnywhere(activity, item.getParam1(), item.getParam2(), item.getParam3(), item.getAppName(), item.getDescription(), true);
+        editAnywhere(activity, item, true);
 
         ImageButton ibDelete = bottomSheetDialog.findViewById(R.id.ib_delete_anywhere);
         if (ibDelete != null) {
@@ -165,10 +181,14 @@ public class EditUtils {
 
     }
 
-    public static void editUrlScheme(@NonNull Activity activity, boolean isUpdate) {
+    public static void editUrlScheme(@NonNull Activity activity, AnywhereEntity item, boolean isUpdate) {
+        View contentView = View.inflate(activity, R.layout.bottom_sheet_dialog_url_scheme, null);
         bottomSheetDialog = new BottomSheetDialog(activity);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_url_scheme);
+        bottomSheetDialog.setContentView(contentView);
         bottomSheetDialog.setDismissWithAnimation(true);
+        View parent = (View) contentView.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         TextInputLayout tilAppName = bottomSheetDialog.findViewById(R.id.til_app_name);
         TextInputLayout tilUrlScheme = bottomSheetDialog.findViewById(R.id.til_url_scheme);
@@ -186,7 +206,7 @@ public class EditUtils {
             btnEditAnywhereDone.setOnClickListener(view -> {
                 if (tietUrlScheme != null && tietAppName != null && tietDescription != null) {
                     String uScheme = tietUrlScheme.getText() == null ? "" : tietUrlScheme.getText().toString();
-                    String aName = tietAppName.getText() == null  ? "URL Scheme" : tietAppName.getText().toString();
+                    String aName = tietAppName.getText() == null  ? AnywhereApplication.sContext.getString(R.string.bsd_new_url_scheme_name) : tietAppName.getText().toString();
                     String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
 
                     if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
@@ -198,18 +218,34 @@ public class EditUtils {
 
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietUrlScheme.getText().toString().isEmpty()) {
+                        AnywhereEntity ae = new AnywhereEntity(aName, uScheme, null, null, desc, item.getType(), item.getTimeStamp());
+
                         if (isUpdate) {
-                            MainFragment.getViewModelInstance().update(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + ""));
+                            if (!aName.equals(item.getAppName()) || !uScheme.equals(item.getParam1())) {
+                                MainFragment.getViewModelInstance().insert(ae);
+                                MainFragment.getViewModelInstance().delete(item);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                    ShortcutsUtil.removeShortcut(item);
+                                    ShortcutsUtil.addShortcut(ae);
+                                }
+                            } else {
+                                MainFragment.getViewModelInstance().update(ae);
+                            }
                         } else {
                             if (hasSameAppName(aName, uScheme)) {
                                 bottomSheetDialog.dismiss();
                                 new MaterialAlertDialogBuilder(activity)
                                         .setMessage(R.string.dialog_message_same_app_name)
-                                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + "")))
+                                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                                            MainFragment.getViewModelInstance().insert(ae);
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                                ShortcutsUtil.removeShortcut(Objects.requireNonNull(hasSameAppNameEntity(aName, item.getParam1())));
+                                            }
+                                        })
                                         .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> bottomSheetDialog.show())
                                         .show();
                             } else {
-                                MainFragment.getViewModelInstance().insert(new AnywhereEntity(aName, uScheme, null, null, desc, AnywhereType.URL_SCHEME, System.currentTimeMillis() + ""));
+                                MainFragment.getViewModelInstance().insert(ae);
                             }
                         }
                         bottomSheetDialog.dismiss();
@@ -233,7 +269,7 @@ public class EditUtils {
     }
 
     public static void editUrlScheme(@NonNull Activity activity, SelectableCardsAdapter adapter, AnywhereEntity item, int position, boolean withDeleteButton) {
-        editUrlScheme(activity, true);
+        editUrlScheme(activity, item, true);
 
         TextInputEditText tietAppName = bottomSheetDialog.findViewById(R.id.tiet_app_name);
         TextInputEditText tietUrlScheme = bottomSheetDialog.findViewById(R.id.tiet_url_scheme);
@@ -302,6 +338,19 @@ public class EditUtils {
         return false;
     }
 
+    private static AnywhereEntity hasSameAppNameEntity(String name, String param1) {
+        List<AnywhereEntity> list = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+
+        if (list != null) {
+            for (AnywhereEntity ae : list) {
+                if (name.equals(ae.getAppName()) && param1.equals(ae.getParam1())) {
+                    return ae;
+                }
+            }
+        }
+        return null;
+    }
+
     private static void deleteAnywhereActivity(Context context, AnywhereEntity ae, SelectableCardsAdapter adapter, int position) {
         new MaterialAlertDialogBuilder(context)
                 .setTitle(R.string.dialog_delete_title)
@@ -309,6 +358,9 @@ public class EditUtils {
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                     MainFragment.getViewModelInstance().delete(ae);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                        ShortcutsUtil.removeShortcut(ae);
+                    }
                     bottomSheetDialog.dismiss();
                     adapter.notifyItemRemoved(position);
                 })
@@ -319,26 +371,8 @@ public class EditUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private static void addShortcut(Context context, AnywhereEntity ae) {
-        ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
-
         DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
-            if (shortcutManager != null) {
-                Intent intent = new Intent(context, ShortcutsActivity.class);
-                intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
-                intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
-
-                List<ShortcutInfo> infos = new ArrayList<>();
-                ShortcutInfo info = new ShortcutInfo.Builder(context, ae.getTimeStamp())
-                        .setShortLabel(ae.getAppName())
-                        .setIcon(Icon.createWithBitmap(UIUtils.drawableToBitmap(UIUtils.getAppIconByPackageName(context, ae))))
-                        .setIntent(intent)
-                        .build();
-                infos.add(info);
-                shortcutManager.addDynamicShortcuts(infos);
-            }
-
-            AnywhereEntity item = new AnywhereEntity(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getType() + 10, ae.getTimeStamp());
-            MainFragment.getViewModelInstance().update(item);
+            ShortcutsUtil.addShortcut(ae);
 
             bottomSheetDialog.dismiss();
         };
@@ -356,12 +390,10 @@ public class EditUtils {
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> bottomSheetDialog.show());
 
-        if (shortcutManager != null) {
-            if (shortcutManager.getDynamicShortcuts().size() < 3) {
-                addDialog.show();
-            } else {
-                cantAddDialog.show();
-            }
+        if (ShortcutsUtil.getInstance().getDynamicShortcuts().size() < 3) {
+            addDialog.show();
+        } else {
+            cantAddDialog.show();
         }
     }
 
@@ -369,15 +401,7 @@ public class EditUtils {
 
     private static void removeShortcut(Context context, AnywhereEntity ae) {
         DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
-            AnywhereEntity item = new AnywhereEntity(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getType() - 10, ae.getTimeStamp());
-            MainFragment.getViewModelInstance().update(item);
-
-            ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
-            List<String> shortcutsIds = new ArrayList<>();
-            shortcutsIds.add(ae.getTimeStamp());
-            if (shortcutManager != null) {
-                shortcutManager.removeDynamicShortcuts(shortcutsIds);
-            }
+            ShortcutsUtil.removeShortcut(ae);
 
             bottomSheetDialog.dismiss();
         };

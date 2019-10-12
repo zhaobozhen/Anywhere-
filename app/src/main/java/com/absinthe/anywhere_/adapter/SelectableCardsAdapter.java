@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCardsAdapter.ItemViewHolder> {
-    private static final String TAG = "SelectableCardsAdapter";
+    private static final String TAG = SelectableCardsAdapter.class.getSimpleName();
 
     private List<AnywhereEntity> items;
     private Context mContext;

@@ -8,8 +8,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 18
-        versionName "1.0-beta3"
+        versionCode 20
+        versionName "1.0-beta4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

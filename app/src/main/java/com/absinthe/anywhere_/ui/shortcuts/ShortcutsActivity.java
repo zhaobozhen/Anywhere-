@@ -1,9 +1,8 @@
 package com.absinthe.anywhere_.ui.shortcuts;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
@@ -13,7 +12,7 @@ import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ToastUtil;
 
-public class ShortcutsActivity extends AppCompatActivity {
+public class ShortcutsActivity extends Activity {
     public static final String ACTION_START_COLLECTOR = "START_COLLECTOR";
     public static final String ACTION_START_COMMAND = "START_COMMAND";
 
