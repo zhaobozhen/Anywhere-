@@ -70,6 +70,11 @@ public class AnywhereEntity {
     }
 
     @NonNull
+    public Integer getAnywhereType() {
+        return mType % 10;
+    }
+
+    @NonNull
     public Integer getShortcutType() {
         return mType / 10;
     }

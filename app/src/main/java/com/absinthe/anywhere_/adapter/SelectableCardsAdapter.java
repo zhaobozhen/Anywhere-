@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -18,10 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.EditUtils;
+import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UIUtils;
 import com.google.android.material.card.MaterialCardView;
 
@@ -106,46 +104,10 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
     }
 
     private void openAnywhereActivity(AnywhereEntity item) {
-        String cmd = null;
-        int type = item.getType() % 10;
-
-        String packageName;
-        String className;
-        String urlScheme;
-        int classNameType;
-
-        if (type == AnywhereType.ACTIVITY) {
-            if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
-                Toast.makeText(mContext, mContext.getString(R.string.toast_change_work_mode), Toast.LENGTH_LONG).show();
-                return;
-            }
-            packageName = item.getParam1();
-            className = item.getParam2();
-            classNameType = Integer.valueOf(item.getParam3());
-            Log.d(TAG, "packageName = " + packageName + ", className = " + className + ", classNameType = " + classNameType);
-
-            if (classNameType == Const.FULL_CLASS_NAME_TYPE) {
-                cmd = "am start -n " + packageName + "/" + className;
-            } else if (classNameType == Const.SHORT_CLASS_NAME_TYPE) {
-                cmd = "am start -n " + packageName + "/" + packageName + className;
-            }
-        } else if (type == AnywhereType.URL_SCHEME) {
-            urlScheme = item.getParam1();
-            Log.d(TAG, "urlScheme = " + urlScheme);
-
-            if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
-                cmd = urlScheme;
-            } else {
-                cmd = "am start -a android.intent.action.VIEW -d " + urlScheme;
-            }
-
-        } else if (type == AnywhereType.MINI_PROGRAM) {
-            //Todo
-        } else {
-            Log.d(TAG, "AnywhereType has problem.");
+        String cmd = TextUtils.getItemCommand(item);
+        if (!cmd.isEmpty()) {
+            MainFragment.getViewModelInstance().getCommand().setValue(cmd);
         }
-
-        MainFragment.getViewModelInstance().getCommand().setValue(cmd);
     }
 
     @Override
@@ -183,8 +145,11 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
             param3View.setText(item.getParam3());
             descriptionView.setText(item.getDescription());
             appIcon.setImageDrawable(UIUtils.getAppIconByPackageName(mContext, item));
-            if (item.getType() == AnywhereType.ACTIVITY) {
-                iconBadge.setImageResource(R.drawable.btn_collector);
+            if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
+                iconBadge.setImageResource(R.drawable.ic_added_shortcut);
+                iconBadge.setVisibility(View.VISIBLE);
+            } else {
+                iconBadge.setVisibility(View.GONE);
             }
         }
 

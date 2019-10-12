@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.utils.ToastUtil;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class CollectorTileService extends TileService {
@@ -30,7 +30,7 @@ public class CollectorTileService extends TileService {
         } else {
             Intent intent = new Intent(this, CollectorService.class);
             intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
-            Toast.makeText(this, R.string.toast_collector_opened, Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(R.string.toast_collector_opened);
 
             startService(intent);
             tile.setState(Tile.STATE_ACTIVE);

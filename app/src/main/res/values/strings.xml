@@ -27,6 +27,8 @@
     <string name="dialog_add_shortcut_message">确定要添加</string>
     <string name="dialog_remove_shortcut_title">删除 Shortcuts</string>
     <string name="dialog_remove_shortcut_message">确定要删除</string>
+    <string name="dialog_cant_add_shortcut_title">无法添加 Shortcuts</string>
+    <string name="dialog_cant_add_shortcut_message">最多只可添加 3 个 Shortcuts</string>
 
     <!--  BottomSheetDialog  -->
     <string name="bsd_btn_done">保存</string>

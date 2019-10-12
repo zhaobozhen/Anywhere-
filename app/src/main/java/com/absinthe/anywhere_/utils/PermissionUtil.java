@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
@@ -17,6 +16,7 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.DataOutputStream;
@@ -84,14 +84,37 @@ public class PermissionUtil {
 
     public static String execCmd(String cmd) {
         String result = null;
-        if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_ROOT)) {
-            result = execRootCmd(cmd);
-        } else if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_SHIZUKU)) {
-            result = execShizukuCmd(cmd);
-        } else {
-            Log.d(TAG, "execCmd abnormal.");
-        }
 
+        switch (GlobalValues.sWorkingMode) {
+            case Const.WORKING_MODE_SHIZUKU:
+                if (shizukuPermissionCheck(MainActivity.getInstance())) {
+                    result = execShizukuCmd(cmd);
+                }
+                break;
+            case Const.WORKING_MODE_ROOT:
+                if (upgradeRootPermission(MainActivity.getInstance().getPackageCodePath())) {
+                    result = execRootCmd(cmd);
+                }
+                break;
+            case Const.WORKING_MODE_URL_SCHEME:
+                if (cmd.contains("am start -n")) {
+                    ToastUtil.makeText(R.string.toast_change_work_mode);
+                    break;
+                }
+                if (cmd.contains(Const.CMD_OPEN_URL_SCHEME)) {
+                    cmd =  cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
+                }
+                try {
+                    Intent intent = new Intent("android.intent.action.VIEW");
+                    intent.setData(Uri.parse(cmd));
+                    MainActivity.getInstance().startActivity(intent);
+                } catch (Exception e) {
+                    Log.d(TAG, "WORKING_MODE_URL_SCHEME:Exception:" + e.getMessage());
+                    ToastUtil.makeText("Error:" + e.getMessage());
+                }
+                break;
+        }
+        Log.d(TAG, "execCmd result = " + result);
         return result;
     }
 
@@ -191,7 +214,7 @@ public class PermissionUtil {
                     if (intent != null) {
                         activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
                     } else {
-                        Toast.makeText(activity, activity.getString(R.string.toast_not_install_shizuku), Toast.LENGTH_SHORT).show();
+                        ToastUtil.makeText(R.string.toast_not_install_shizuku);
                         intent = new Intent("android.intent.action.VIEW");
                         intent.setData(Uri.parse("coolmarket://www.coolapk.com/moe.shizuku.privileged.api"));
                         activity.startActivity(intent);
@@ -228,7 +251,7 @@ public class PermissionUtil {
             } else {
                 // activity not found
                 Log.d(TAG, "activity not found.");
-                Toast.makeText(activity, "activity not found.", Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText("activity not found.");
                 return false;
             }
         } else {
@@ -246,7 +269,7 @@ public class PermissionUtil {
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(activity, R.string.toast_permission_overlap, Toast.LENGTH_LONG).show();
+                ToastUtil.makeText(R.string.toast_permission_overlap);
                 return false;
             } else {
                 return true;
@@ -264,7 +287,7 @@ public class PermissionUtil {
             if (AnywhereApplication.isShizukuV3Failed()) {
                 // provider started with no binder included, binder calls blocked by SELinux or server dead, should never happened
                 // notify user
-                Toast.makeText(mContext, "provider started with no binder included.", Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText("provider started with no binder included.");
             }
 
             // Shizuku v3 may not running, notify user

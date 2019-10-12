@@ -6,12 +6,12 @@ import android.os.Build;
 import android.os.IBinder;
 import android.service.quicksettings.Tile;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.CollectorWindowManager;
+import com.absinthe.anywhere_.utils.ToastUtil;
 
 public class CollectorService extends Service {
     private static final String TAG = "CollectorService";
@@ -35,7 +35,7 @@ public class CollectorService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null) {
-            Toast.makeText(this, R.string.toast_collector_service_launch_failed, Toast.LENGTH_SHORT).show();
+            ToastUtil.makeText(R.string.toast_collector_service_launch_failed);
             stopSelf();
         } else {
             initCollectorWindowManager();

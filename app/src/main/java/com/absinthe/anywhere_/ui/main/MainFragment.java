@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,9 +30,10 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.EditUtils;
-import com.absinthe.anywhere_.utils.UIUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.UIUtils;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -178,7 +177,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         startCollector();
                     } else {
                         Log.d(TAG, "ROOT permission denied.");
-                        Toast.makeText(mContext, getString(R.string.toast_root_permission_denied), Toast.LENGTH_SHORT).show();
+                        ToastUtil.makeText(R.string.toast_root_permission_denied);
                         actionBar.setTitle("Nowhere-");
                     }
                     break;
@@ -191,7 +190,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         Intent intent = new Intent(mContext, CollectorService.class);
         intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
         mContext.startService(intent);
-        Toast.makeText(getContext(), R.string.toast_collector_opened, Toast.LENGTH_SHORT).show();
+        ToastUtil.makeText(R.string.toast_collector_opened);
 
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -248,31 +247,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
 
-        final Observer<String> commandObserver = s -> {
-            switch (GlobalValues.sWorkingMode) {
-                case Const.WORKING_MODE_SHIZUKU:
-                    if (PermissionUtil.shizukuPermissionCheck(getActivity())) {
-                        PermissionUtil.execShizukuCmd(s);
-                    }
-                    break;
-                case Const.WORKING_MODE_ROOT:
-                    if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
-                        PermissionUtil.execRootCmd(s);
-                    }
-                    break;
-                case Const.WORKING_MODE_URL_SCHEME:
-                    try {
-                        Intent intent = new Intent("android.intent.action.VIEW");
-                        intent.setData(Uri.parse(s));
-                        mContext.startActivity(intent);
-                    } catch (Exception e) {
-                        Log.d(TAG, "WORKING_MODE_URL_SCHEME:Exception:" + e.getMessage());
-                        Toast.makeText(mContext, "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                    break;
-            }
-        };
-        mViewModel.getCommand().observe(this, commandObserver);
+        mViewModel.getCommand().observe(this, PermissionUtil::execCmd);
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
         mViewModel.getWorkingMode().observe(this, s -> {
             GlobalValues.setsWorkingMode(s);
