@@ -1,8 +1,9 @@
 package com.absinthe.anywhere_.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Vibrator;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.utils.EditUtils;
+import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UIUtils;
+import com.absinthe.anywhere_.view.Editor;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +66,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
         AnywhereEntity item = items.get(position);
         viewHolder.bind(item);
 
-        int type = item.getType() % 10;
+        int type = item.getAnywhereType();
         Log.d(TAG, "Type = " + type);
 
         viewHolder.materialCardView.setOnClickListener(view -> openAnywhereActivity(item));
@@ -71,10 +75,10 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
 
             switch (type) {
                 case AnywhereType.URL_SCHEME:
-                    EditUtils.editUrlScheme((Activity) mContext, this, item, position, true);
+                    openEditor(item, Editor.URL_SCHEME, position);
                     break;
                 case AnywhereType.ACTIVITY:
-                    EditUtils.editAnywhere((Activity) mContext, this, item, position, true);
+                    openEditor(item, Editor.ANYWHERE, position);
                     break;
                 case AnywhereType.MINI_PROGRAM:
                     break;
@@ -108,6 +112,45 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
         if (!cmd.isEmpty()) {
             MainFragment.getViewModelInstance().getCommand().setValue(cmd);
         }
+    }
+
+    private void openEditor(AnywhereEntity item, int type, int position) {
+        Editor editor = new Editor(MainActivity.getInstance(), type)
+                .item(item)
+                .isEditorMode(true)
+                .isShortcut(item.getShortcutType() == AnywhereType.SHORTCUTS)
+                .build();
+        editor.setOnEditorListener(new Editor.OnEditorListener() {
+            @Override
+            public void onDelete() {
+                deleteAnywhereActivity(editor, item, position);
+            }
+
+            @Override
+            public void onChange() {
+                notifyItemChanged(position);
+            }
+        });
+
+        editor.show();
+    }
+
+    private void deleteAnywhereActivity(Editor editor, AnywhereEntity ae, int position) {
+        new MaterialAlertDialogBuilder(mContext)
+                .setTitle(R.string.dialog_delete_title)
+                .setMessage(Html.fromHtml(mContext.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
+                .setCancelable(false)
+                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                    MainFragment.getViewModelInstance().delete(ae);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                        ShortcutsUtil.removeShortcut(ae);
+                    }
+                    editor.dismiss();
+                    notifyItemRemoved(position);
+                })
+                .setNegativeButton(R.string.dialog_delete_negative_button,
+                        (dialogInterface, i) -> editor.show())
+                .show();
     }
 
     @Override

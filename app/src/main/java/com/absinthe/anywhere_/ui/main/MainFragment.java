@@ -30,11 +30,11 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
-import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UIUtils;
+import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -99,8 +99,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 String shortcutEditUrl = bundle.getString("shortcutEditUrl");
                 if (shortcutEditUrl != null) {
                     if (shortcutEditUrl.equals("true")) {
-                        AnywhereEntity ae = new AnywhereEntity(getString(R.string.bsd_new_url_scheme_name), "", null, null, "", AnywhereType.URL_SCHEME, System.currentTimeMillis() + "");
-                        EditUtils.editUrlScheme(MainActivity.getInstance(), ae, false);
+                        setUpUrlScheme();
                     }
                     bundle.clear();
                 }
@@ -122,7 +121,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             if (packageName != null && className != null) {
                 appName = TextUtils.getAppName(mContext, packageName);
                 AnywhereEntity ae = new AnywhereEntity(appName, packageName, className, classNameType, "", AnywhereType.ACTIVITY, System.currentTimeMillis() + "");
-                EditUtils.editAnywhere(MainActivity.getInstance(), ae, false);
+                Editor editor = new Editor(MainActivity.getInstance(), Editor.ANYWHERE)
+                        .item(ae)
+                        .isEditorMode(false)
+                        .isShortcut(false)
+                        .build();
+                editor.show();
 
                 bundle.clear();
             }
@@ -203,7 +207,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void setUpUrlScheme() {
         AnywhereEntity ae = new AnywhereEntity(getString(R.string.bsd_new_url_scheme_name), "", null, null, "", AnywhereType.URL_SCHEME, System.currentTimeMillis() + "");
-        EditUtils.editUrlScheme(MainActivity.getInstance(), ae, false);
+        Editor editor = new Editor(MainActivity.getInstance(), Editor.URL_SCHEME)
+                .item(ae)
+                .isEditorMode(false)
+                .isShortcut(false)
+                .build();
+        editor.show();
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {

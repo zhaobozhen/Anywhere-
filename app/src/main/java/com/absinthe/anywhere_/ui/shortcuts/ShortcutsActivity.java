@@ -29,9 +29,11 @@ public class ShortcutsActivity extends Activity {
                     intent.putExtra("shortcutEditUrl", "true");
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(this, CollectorService.class);
-                    intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
-                    startService(intent);
+                    if (PermissionUtil.checkOverlayPermission(this, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                        Intent intent = new Intent(this, CollectorService.class);
+                        intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
+                        startService(intent);
+                    }
                 }
             } else if (action.equals(ACTION_START_COMMAND)) {
                 String cmd = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);

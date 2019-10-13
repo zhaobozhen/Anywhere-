@@ -158,7 +158,9 @@ public class MainActivity extends AppCompatActivity {
                 if (mainFragment == null) {
                     mainFragment = (MainFragment) curFragment;
                 }
-                mainFragment.checkWorkingPermission();
+                if (resultCode == RESULT_OK) {
+                    mainFragment.checkWorkingPermission();
+                }
             } else if (curFragment instanceof InitializeFragment) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (Settings.canDrawOverlays(this)) {
