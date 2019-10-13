@@ -88,7 +88,7 @@
     <string name="dialog_setup_url_scheme_title">设置 URL Scheme</string>
     <string name="dialog_url_scheme_community">捷径社区</string>
     <string name="dialog_message_perm_not_ever">尚有未授予的权限，确定要进入吗？</string>
-    <string name="dialog_message_same_app_name">似乎有相似的 Anywhere-，要覆盖吗？</string>
+    <string name="dialog_message_same_app_name">似乎有相似的 Anywhere-，要添加吗？</string>
 
     <string name="help_text">帮助文档(暂无)</string>
 

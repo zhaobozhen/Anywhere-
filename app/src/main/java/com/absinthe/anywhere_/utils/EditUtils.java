@@ -8,12 +8,12 @@ import java.util.List;
 public class EditUtils {
     private static final String TAG = "EditUtils";
 
-    public static boolean hasSameAppName(String name, String param1) {
+    public static boolean hasSameAppName(String param1, String param2) {
         List<AnywhereEntity> list = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
 
         if (list != null) {
             for (AnywhereEntity ae : list) {
-                if (name.equals(ae.getAppName()) && param1.equals(ae.getParam1())) {
+                if (param1.equals(ae.getParam1()) && param2.equals(ae.getParam2())) {
                     return true;
                 }
             }
@@ -21,12 +21,12 @@ public class EditUtils {
         return false;
     }
 
-    public static AnywhereEntity hasSameAppNameEntity(String name, String param1) {
+    public static AnywhereEntity hasSameAppNameEntity(String param1, String param2) {
         List<AnywhereEntity> list = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
 
         if (list != null) {
             for (AnywhereEntity ae : list) {
-                if (name.equals(ae.getAppName()) && param1.equals(ae.getParam1())) {
+                if (param1.equals(ae.getParam1()) && param2.equals(ae.getParam2())) {
                     return ae;
                 }
             }
@@ -34,4 +34,29 @@ public class EditUtils {
         return null;
     }
 
+    public static boolean hasSameAppName(String param1) {
+        List<AnywhereEntity> list = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+
+        if (list != null) {
+            for (AnywhereEntity ae : list) {
+                if (param1.equals(ae.getParam1())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static AnywhereEntity hasSameAppNameEntity(String param1) {
+        List<AnywhereEntity> list = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+
+        if (list != null) {
+            for (AnywhereEntity ae : list) {
+                if (param1.equals(ae.getParam1())) {
+                    return ae;
+                }
+            }
+        }
+        return null;
+    }
 }

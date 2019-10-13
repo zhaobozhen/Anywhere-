@@ -120,7 +120,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             String appName;
             if (packageName != null && className != null) {
                 appName = TextUtils.getAppName(mContext, packageName);
-                AnywhereEntity ae = new AnywhereEntity(appName, packageName, className, classNameType, "", AnywhereType.ACTIVITY, System.currentTimeMillis() + "");
+                String timeStamp = System.currentTimeMillis() + "";
+                AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, packageName, className, classNameType, "", AnywhereType.ACTIVITY, timeStamp);
                 Editor editor = new Editor(MainActivity.getInstance(), Editor.ANYWHERE)
                         .item(ae)
                         .isEditorMode(false)
@@ -206,7 +207,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void setUpUrlScheme() {
-        AnywhereEntity ae = new AnywhereEntity(getString(R.string.bsd_new_url_scheme_name), "", null, null, "", AnywhereType.URL_SCHEME, System.currentTimeMillis() + "");
+        String timeStamp = System.currentTimeMillis() + "";
+        AnywhereEntity ae = new AnywhereEntity(timeStamp, getString(R.string.bsd_new_url_scheme_name), "", null, null, "", AnywhereType.URL_SCHEME, timeStamp);
         Editor editor = new Editor(MainActivity.getInstance(), Editor.URL_SCHEME)
                 .item(ae)
                 .isEditorMode(false)

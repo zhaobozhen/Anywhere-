@@ -125,34 +125,25 @@ public class Editor {
                         if (!tietAppName.getText().toString().isEmpty()
                                 && !tietPackageName.getText().toString().isEmpty()
                                 && !tietClassName.getText().toString().isEmpty()) {
-                            AnywhereEntity ae = new AnywhereEntity(aName, pName, cName, mItem.getParam3()
-                                    , desc, mItem.getType(), mItem.getTimeStamp());
+                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, pName, cName, mItem.getParam3()
+                                    , desc, mItem.getType(), System.currentTimeMillis() + "");
                             if (isEditMode) {
-                                if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1())) {
-                                    MainFragment.getViewModelInstance().insert(ae);
-                                    MainFragment.getViewModelInstance().delete(mItem);
+                                if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1()) || !cName.equals(mItem.getParam2())) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                         ShortcutsUtil.removeShortcut(mItem);
                                         ShortcutsUtil.addShortcut(ae);
                                     }
-                                } else if (!cName.equals(mItem.getParam2())) {
-                                    MainFragment.getViewModelInstance().update(ae);
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                        ShortcutsUtil.removeShortcut(mItem);
-                                        ShortcutsUtil.addShortcut(ae);
-                                    }
-                                } else {
-                                    MainFragment.getViewModelInstance().update(ae);
                                 }
+                                MainFragment.getViewModelInstance().update(ae);
                             } else {
-                                if (EditUtils.hasSameAppName(aName, mItem.getParam1())) {
+                                if (EditUtils.hasSameAppName(pName, cName)) {
                                     dismiss();
                                     new MaterialAlertDialogBuilder(mContext)
                                             .setMessage(R.string.dialog_message_same_app_name)
                                             .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                                                 MainFragment.getViewModelInstance().insert(ae);
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                                    ShortcutsUtil.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(aName, mItem.getParam1())));
+                                                    ShortcutsUtil.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(mItem.getParam1(), mItem.getParam2())));
                                                 }
                                             })
                                             .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
@@ -217,6 +208,12 @@ public class Editor {
             if (tietAppName != null) {
                 tietAppName.setText(R.string.bsd_new_url_scheme_name);
             }
+            if (tietUrlScheme != null) {
+                tietUrlScheme.setText(mItem.getParam1());
+            }
+            if (tietDescription != null) {
+                tietDescription.setText(mItem.getDescription());
+            }
 
             Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
             if (btnEditAnywhereDone != null) {
@@ -235,29 +232,26 @@ public class Editor {
 
                         if (!tietAppName.getText().toString().isEmpty()
                                 && !tietUrlScheme.getText().toString().isEmpty()) {
-                            AnywhereEntity ae = new AnywhereEntity(aName, uScheme, null, null
-                                    , desc, mItem.getType(), mItem.getTimeStamp());
+                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, uScheme, null, null
+                                    , desc, mItem.getType(), System.currentTimeMillis() + "");
 
                             if (isEditMode) {
                                 if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
-                                    MainFragment.getViewModelInstance().insert(ae);
-                                    MainFragment.getViewModelInstance().delete(mItem);
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                         ShortcutsUtil.removeShortcut(mItem);
                                         ShortcutsUtil.addShortcut(ae);
                                     }
-                                } else {
-                                    MainFragment.getViewModelInstance().update(ae);
                                 }
+                                MainFragment.getViewModelInstance().update(ae);
                             } else {
-                                if (EditUtils.hasSameAppName(aName, uScheme)) {
+                                if (EditUtils.hasSameAppName(uScheme)) {
                                     dismiss();
                                     new MaterialAlertDialogBuilder(mContext)
                                             .setMessage(R.string.dialog_message_same_app_name)
                                             .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                                                 MainFragment.getViewModelInstance().insert(ae);
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                                    ShortcutsUtil.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(aName, mItem.getParam1())));
+                                                    ShortcutsUtil.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(mItem.getParam1())));
                                                 }
                                             })
                                             .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
