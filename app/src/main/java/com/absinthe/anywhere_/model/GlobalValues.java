@@ -6,6 +6,7 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.utils.SPUtils;
 
 public class GlobalValues {
+    public static boolean sIsDebugMode;
     public static boolean sIsFirstLaunch;
 
     public static String sWorkingMode;
@@ -15,6 +16,7 @@ public class GlobalValues {
     public static String sBackgroundUri;
 
     public static void init(Context context) {
+        sIsDebugMode = false;
         sIsFirstLaunch = SPUtils.getBoolean(context, Const.SP_KEY_FIRST_LAUNCH);
         sWorkingMode = SPUtils.getString(context, Const.SP_KEY_WORKING_MODE);
         sActionBarTitle = SPUtils.getString(context, Const.SP_KEY_ACTION_BAR_TITLE);
