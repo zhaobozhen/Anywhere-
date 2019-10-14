@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.main;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -103,10 +104,6 @@ public class MainActivity extends AppCompatActivity {
         return instance;
     }
 
-    public static Fragment getCurFragment() {
-        return curFragment;
-    }
-
     public static void setCurFragment(Fragment fragment) {
         curFragment = fragment;
     }
@@ -116,33 +113,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getAnywhereIntent(Intent intent) {
-        if (intent == null) {
+        Uri uri = intent.getData();
+        if (uri == null) {
             return;
+        } else {
+            Log.d(TAG, "Received Url = " + uri.toString());
         }
-
-        String packageName = intent.getStringExtra(Const.INTENT_EXTRA_PACKAGE_NAME);
-        String className = intent.getStringExtra(Const.INTENT_EXTRA_CLASS_NAME);
-        int classNameType = intent.getIntExtra(Const.INTENT_EXTRA_CLASS_NAME_TYPE, Const.SHORT_CLASS_NAME_TYPE);
-        String shortcutEditUrl = intent.getStringExtra("shortcutEditUrl");
+        String scheme = uri.getScheme();
+        String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
+        String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
+        String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
+        Log.d(TAG, "Url param = "+param1+", "+param2+", "+param3);
 
         Bundle bundle = new Bundle();
-        if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
-            if (shortcutEditUrl != null) {
-                bundle.putString("shortcutEditUrl", shortcutEditUrl);
-            }
-        } else {
-            if (packageName == null || className == null) {
-                return;
-            }
-
-            Log.d(TAG, "classNameType = " + classNameType);
-            Log.d(TAG, "className = " + className);
-            Log.d(TAG, "packageName = " + packageName);
-
-            bundle.putString(Const.BUNDLE_PACKAGE_NAME, packageName);
-            bundle.putString(Const.BUNDLE_CLASS_NAME, className);
-            bundle.putInt(Const.BUNDLE_CLASS_NAME_TYPE, classNameType);
-        }
+        bundle.putString(Const.INTENT_EXTRA_PARAM_1, param1);
+        bundle.putString(Const.INTENT_EXTRA_PARAM_2, param2);
+        bundle.putString(Const.INTENT_EXTRA_PARAM_3, param3);
 
         mainFragment.setArguments(bundle);
     }

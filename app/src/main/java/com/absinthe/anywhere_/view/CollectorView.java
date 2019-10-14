@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.services.CollectorService;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.services.CollectorService;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -51,12 +51,8 @@ public class CollectorView extends LinearLayout {
                     new Intent(mContext, CollectorService.class)
                             .putExtra(CollectorService.COMMAND, CollectorService.COMMAND_CLOSE)
             );
-            mContext.startActivity(
-                    new Intent(mContext, MainActivity.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .putExtra(Const.INTENT_EXTRA_PACKAGE_NAME, packageName)
-                            .putExtra(Const.INTENT_EXTRA_CLASS_NAME, className)
-                            .putExtra(Const.INTENT_EXTRA_CLASS_NAME_TYPE, classNameType));
+
+            AppUtils.openUrl(mContext, packageName, className, classNameType + "");
         });
 
         mIbCollector.setOnTouchListener(new OnTouchListener() {

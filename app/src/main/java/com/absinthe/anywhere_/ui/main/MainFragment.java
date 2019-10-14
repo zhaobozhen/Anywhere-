@@ -92,43 +92,32 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public void onResume() {
         super.onResume();
 
-        if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
-            Bundle bundle = getArguments();
-
-            if (bundle != null) {
-                String shortcutEditUrl = bundle.getString("shortcutEditUrl");
-                if (shortcutEditUrl != null) {
-                    if (shortcutEditUrl.equals("true")) {
-                        setUpUrlScheme();
-                    }
-                    bundle.clear();
-                }
-            }
-            return;
-        }
-
         Bundle bundle = getArguments();
 
         if (bundle != null) {
-            String packageName = bundle.getString(Const.BUNDLE_PACKAGE_NAME);
-            String className = bundle.getString(Const.BUNDLE_CLASS_NAME);
-            String classNameType = bundle.getInt(Const.BUNDLE_CLASS_NAME_TYPE) + "";
+            String param1 = bundle.getString(Const.INTENT_EXTRA_PARAM_1);
+            String param2 = bundle.getString(Const.INTENT_EXTRA_PARAM_2);
+            String param3 = bundle.getString(Const.INTENT_EXTRA_PARAM_3);
 
-            Log.d(TAG, "Bundle packageName = " + packageName);
-            Log.d(TAG, "Bundle className = " + className);
+            Log.d(TAG, "Bundle param1 = " + param1);
+            Log.d(TAG, "Bundle param2 = " + param2);
+            Log.d(TAG, "Bundle param3 = " + param3);
 
-            String appName;
-            if (packageName != null && className != null) {
-                appName = TextUtils.getAppName(mContext, packageName);
-                String timeStamp = System.currentTimeMillis() + "";
-                AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, packageName, className, classNameType, "", AnywhereType.ACTIVITY, timeStamp);
-                Editor editor = new Editor(MainActivity.getInstance(), Editor.ANYWHERE)
-                        .item(ae)
-                        .isEditorMode(false)
-                        .isShortcut(false)
-                        .build();
-                editor.show();
-
+            if (param1 != null && param2 != null && param3 != null) {
+                if (param2.isEmpty() && param3.isEmpty()) {
+                    setUpUrlScheme(param1);
+                } else {
+                    String appName;
+                    appName = TextUtils.getAppName(mContext, param1);
+                    String timeStamp = System.currentTimeMillis() + "";
+                    AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, param1, param2, param3, "", AnywhereType.ACTIVITY, timeStamp);
+                    Editor editor = new Editor(MainActivity.getInstance(), Editor.ANYWHERE)
+                            .item(ae)
+                            .isEditorMode(false)
+                            .isShortcut(false)
+                            .build();
+                    editor.show();
+                }
                 bundle.clear();
             }
         }
@@ -165,7 +154,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
             switch (GlobalValues.sWorkingMode) {
                 case Const.WORKING_MODE_URL_SCHEME:
-                    setUpUrlScheme();
+                    setUpUrlScheme("");
                     break;
                 case Const.WORKING_MODE_SHIZUKU:
                     if (!PermissionUtil.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
@@ -206,9 +195,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         startActivity(homeIntent);
     }
 
-    private void setUpUrlScheme() {
+    private void setUpUrlScheme(String url) {
         String timeStamp = System.currentTimeMillis() + "";
-        AnywhereEntity ae = new AnywhereEntity(timeStamp, getString(R.string.bsd_new_url_scheme_name), "", null, null, "", AnywhereType.URL_SCHEME, timeStamp);
+        AnywhereEntity ae = new AnywhereEntity(timeStamp, getString(R.string.bsd_new_url_scheme_name), url, null, null, "", AnywhereType.URL_SCHEME, timeStamp);
         Editor editor = new Editor(MainActivity.getInstance(), Editor.URL_SCHEME)
                 .item(ae)
                 .isEditorMode(false)

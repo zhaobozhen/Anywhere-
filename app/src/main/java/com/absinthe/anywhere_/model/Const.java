@@ -22,13 +22,9 @@ public class Const {
     public static final String ACTION_BAR_TYPE_LIGHT = "light";
     public static final String ACTION_BAR_TYPE_DARK = "dark";
 
-    public static final String BUNDLE_PACKAGE_NAME = "packageName";
-    public static final String BUNDLE_CLASS_NAME = "className";
-    public static final String BUNDLE_CLASS_NAME_TYPE = "classNameType";
-
-    public static final String INTENT_EXTRA_PACKAGE_NAME = "packageName";
-    public static final String INTENT_EXTRA_CLASS_NAME = "className";
-    public static final String INTENT_EXTRA_CLASS_NAME_TYPE = "classNameType";
+    public static final String INTENT_EXTRA_PARAM_1 = "param1";
+    public static final String INTENT_EXTRA_PARAM_2 = "param2";
+    public static final String INTENT_EXTRA_PARAM_3 = "param3";
 
     public static final String INTENT_EXTRA_SHORTCUTS_CMD = "shortcutsCmd";
 
