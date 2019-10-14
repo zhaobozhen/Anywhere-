@@ -64,6 +64,8 @@
     <string name="settings_dark_mode">夜间模式</string>
     <string name="settings_dark_mode_oled">OLED 夜间模式</string>
     <string name="settings_shortcuts">设置 Shortcuts</string>
+    <string name="settings_help">帮助</string>
+    <string name="settings_about">关于</string>
 
     <string name="settings_working_mode_summary">选择一个工作模式</string>
     <string name="settings_change_background_summary">为主页更换一张背景图片吧</string>
@@ -71,6 +73,8 @@
     <string name="settings_dark_mode_summary">在夜晚使用夜间模式</string>
     <string name="settings_dark_mode_oled_summary">在 OLED 设备上启用纯黑背景</string>
     <string name="settings_shortcuts_summary">添加最多三个 Shortcuts</string>
+    <string name="settings_help_summary">帮助文档</string>
+    <string name="settings_about_summary">这里是 Anywhere- !</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root 权限被拒绝</string>
@@ -90,7 +94,7 @@
     <string name="dialog_message_perm_not_ever">尚有未授予的权限，确定要进入吗？</string>
     <string name="dialog_message_same_app_name">似乎有相似的 Anywhere-，要添加吗？</string>
 
-    <string name="help_text">帮助文档(暂无)</string>
+    <string name="about_text">Anywhere- 是一个 App 页面的集合 App。</string>
 
     <!--  Initialize  -->
     <string name="title_select_working_mode">选择工作模式</string>

@@ -26,8 +26,8 @@ public class AboutActivity extends AbsAboutActivity {
 
     @Override
     protected void onItemsCreated(@NonNull List<Object> items) {
-        items.add(new Category("帮助"));
-        items.add(new Card(getString(R.string.help_text)));
+        items.add(new Category("这是什么"));
+        items.add(new Card(getString(R.string.about_text)));
 
         items.add(new Category("Developers"));
         items.add(new Contributor(R.drawable.rabbit, "Absinthe", "Developer & designer", "coolmarket://www.coolapk.com/u/482045"));

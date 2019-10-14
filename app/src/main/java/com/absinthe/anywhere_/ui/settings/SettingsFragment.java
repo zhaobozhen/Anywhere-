@@ -3,19 +3,23 @@ package com.absinthe.anywhere_.ui.settings;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.model.Const;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.Objects;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
@@ -39,6 +43,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         ListPreference darkModePreference = findPreference(Const.SP_KEY_DARK_MODE);
         Preference changeBgPreference = findPreference(Const.SP_KEY_CHANGE_BACKGROUND);
         Preference resetBgPreference = findPreference(Const.SP_KEY_RESET_BACKGROUND);
+        Preference helpPreference = findPreference("help");
 
         if (workingModePreference != null) {
             workingModePreference.setOnPreferenceChangeListener(this);
@@ -51,6 +56,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         if (darkModePreference != null) {
             darkModePreference.setOnPreferenceChangeListener(this);
+        }
+        if (helpPreference != null) {
+            helpPreference.setOnPreferenceClickListener(this);
         }
 
     }
@@ -74,6 +82,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> { })
                         .show();
+                break;
+            case "help":
+                String url = "https://zhaobozhen.github.io/Anywhere-Docs/";
+                CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
+                        .build();
+                tabsIntent.launchUrl(Objects.requireNonNull(getActivity()), Uri.parse(url));
                 break;
             default:
         }

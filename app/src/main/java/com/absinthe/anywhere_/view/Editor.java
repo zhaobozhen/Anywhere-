@@ -192,7 +192,6 @@ public class Editor {
                         } else {
                             removeShortcut(mContext, mItem);
                         }
-                        mListener.onChange();
                     });
                 }
             }
@@ -308,7 +307,6 @@ public class Editor {
                         } else {
                             removeShortcut(mContext, mItem);
                         }
-                        mListener.onChange();
                     });
                 }
             }
@@ -338,6 +336,7 @@ public class Editor {
     private void addShortcut(Context context, AnywhereEntity ae) {
         DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
             ShortcutsUtil.addShortcut(ae);
+            mListener.onChange();
             dismiss();
         };
 
@@ -366,6 +365,7 @@ public class Editor {
     private void removeShortcut(Context context, AnywhereEntity ae) {
         DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
             ShortcutsUtil.removeShortcut(ae);
+            mListener.onChange();
             dismiss();
         };
 

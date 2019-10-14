@@ -62,9 +62,14 @@
         app:title="@string/settings_category_others">
 
         <Preference
+            app:key="help"
+            app:title="@string/settings_help"
+            app:summary="搭建中"/>
+
+        <Preference
             app:key="about"
-            app:title="@string/menu_about"
-            app:summary="这里是 Anywhere- !">
+            app:title="@string/settings_about"
+            app:summary="@string/settings_about_summary">
 
             <intent
                 android:targetPackage="com.absinthe.anywhere_"

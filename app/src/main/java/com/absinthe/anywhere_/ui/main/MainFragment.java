@@ -168,7 +168,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     setUpUrlScheme();
                     break;
                 case Const.WORKING_MODE_SHIZUKU:
-                    if (!PermissionUtil.checkOverlayPermission(getActivity(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    if (!PermissionUtil.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
                     if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
@@ -178,7 +178,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     }
                     break;
                 case Const.WORKING_MODE_ROOT:
-                    if (!PermissionUtil.checkOverlayPermission(getActivity(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    if (!PermissionUtil.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
                     if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {

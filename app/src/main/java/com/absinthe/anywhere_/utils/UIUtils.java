@@ -178,7 +178,7 @@ public class UIUtils {
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        Bitmap actionBarBitmap = Bitmap.createBitmap(resource, 0, 0, resource.getWidth(), finalActionBarHeight);
+                        Bitmap actionBarBitmap = Bitmap.createBitmap(resource, 0, 0, resource.getWidth(), Math.min(finalActionBarHeight, resource.getHeight()));
                         Log.d(TAG, "actionBarBitmap.getWidth() = " + actionBarBitmap.getWidth());
                         Log.d(TAG, "actionBarBitmap.getHeight() = " + actionBarBitmap.getHeight());
 

@@ -186,6 +186,12 @@ public class PermissionUtil {
 
     public static boolean isMIUI() {
         try {
+            String brand = android.os.Build.BRAND.toLowerCase();
+            Log.d(TAG, "brand = " + brand);
+            if (!brand.contains("xiaomi") && !brand.contains("redmi")) {
+                return false;
+            }
+
             @SuppressLint("PrivateApi")
             Class<?> c = Class.forName("android.os.SystemProperties");
             Method get = c.getMethod("get", String.class);

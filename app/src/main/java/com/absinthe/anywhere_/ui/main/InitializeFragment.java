@@ -202,7 +202,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         });
 
         btnOverlay.setOnClickListener(view -> {
-            boolean result = PermissionUtil.checkOverlayPermission((Activity) mContext, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
+            boolean result = PermissionUtil.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
             mViewModel.getIsOverlay().setValue(result);
         });
 
