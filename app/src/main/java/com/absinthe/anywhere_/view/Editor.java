@@ -192,6 +192,9 @@ public class Editor {
                                 }
                                 break;
                             case R.id.add_home_shortcuts:
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    ShortcutsUtil.addPinnedShortcut(mItem);
+                                }
                                 break;
                             case R.id.delete:
                                 dismiss();
@@ -315,6 +318,9 @@ public class Editor {
                                 }
                                 break;
                             case R.id.add_home_shortcuts:
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    ShortcutsUtil.addPinnedShortcut(mItem);
+                                }
                                 break;
                             case R.id.delete:
                                 dismiss();

@@ -8,8 +8,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 22
-        versionName "1.0-beta5"
+        versionCode 23
+        versionName "1.0-beta6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     dataBinding {

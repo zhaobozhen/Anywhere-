@@ -85,6 +85,7 @@
     <string name="toast_check_perm">请检查权限</string>
     <string name="toast_collector_service_launch_failed">服务启动失败</string>
     <string name="toast_adb_result_process_failed">解析错误</string>
+    <string name="toast_try_to_add_pinned_shortcut">已尝试添加</string>
 
     <!--  Dialog  -->
     <string name="dialog_message_shizuku_not_running">请检查 Shizuku 是否正常运行</string>

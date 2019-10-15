@@ -62,7 +62,7 @@ public class TextUtils {
 
     public static String getItemCommand(AnywhereEntity item) {
         String cmd = null;
-        int type = item.getType() % 10;
+        int type = item.getAnywhereType();
 
         String packageName;
         String className;
