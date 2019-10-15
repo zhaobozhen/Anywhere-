@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        app:key="normalCategory"
+        app:title="@string/settings_category_normal">
+
+        <ListPreference
+            app:key="workingMode"
+            app:title="@string/settings_working_mode"
+            app:summary="@string/settings_working_mode_summary"
+            app:useSimpleSummaryProvider="true"
+            app:entries="@array/list_working_mode"
+            app:entryValues="@array/list_working_mode_value"/>
+
+        <Preference
+            app:key="changeBackground"
+            app:title="@string/settings_change_background"
+            app:summary="@string/settings_change_background_summary"/>
+
+        <Preference
+            app:key="resetBackground"
+            app:title="@string/settings_reset_background"
+            app:summary="@string/settings_reset_background_summary"/>
+
+        <ListPreference
+            app:key="darkMode"
+            app:title="@string/settings_dark_mode"
+            app:summary="@string/settings_dark_mode_summary"
+            app:useSimpleSummaryProvider="true"
+            app:entries="@array/list_dark_mode"
+            app:entryValues="@array/list_dark_mode_value"
+            android:defaultValue="off"/>
+
+        <!--        <SwitchPreferenceCompat-->
+        <!--            app:key="darkModeOLED"-->
+        <!--            app:title="@string/settings_dark_mode_oled"-->
+        <!--            android:summary="@string/settings_dark_mode_oled_summary"/>-->
+
+    </PreferenceCategory>
+
+    <!--    <PreferenceCategory-->
+    <!--        app:key="advancedCategory"-->
+    <!--        app:title="@string/settings_category_advanced">-->
+
+    <!--        <Preference-->
+    <!--            app:key="shortcuts"-->
+    <!--            app:title="@string/settings_shortcuts"-->
+    <!--            app:summary="@string/settings_shortcuts_summary">-->
+
+    <!--            <intent-->
+    <!--                android:targetPackage="com.absinthe.anywhere_"-->
+    <!--                android:targetClass="com.absinthe.anywhere_.ui.shortcuts.ShortcutsSettingsActivity"/>-->
+
+    <!--        </Preference>-->
+
+    <!--    </PreferenceCategory>-->
+
+    <PreferenceCategory
+        app:key="othersCategory"
+        app:title="@string/settings_category_others">
+
+        <Preference
+            app:key="help"
+            app:title="@string/settings_help"
+            app:summary="搭建中"/>
+
+        <Preference
+            app:key="about"
+            app:title="@string/settings_about"
+            app:summary="@string/settings_about_summary">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_.debug"
+                android:targetClass="com.absinthe.anywhere_.ui.about.AboutActivity"/>
+
+        </Preference>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

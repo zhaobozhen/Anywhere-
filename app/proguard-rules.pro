@@ -5,7 +5,6 @@
 -dontskipnonpubliclibraryclassmembers       # 指定不去忽略包可见的库类的成员
 -dontpreverify      # 混淆时是否做预校验
 -verbose        # 混淆时是否记录日志
--printmapping proguardMapping.txt
 -optimizations !code/simplification/cast,!field/*,!class/merging/*      # 混淆时所采用的算法
 -keepattributes *Annotation*,InnerClasses
 -keepattributes Signature
@@ -21,6 +20,7 @@
 -keep public class * extends android.app.backup.BackupAgentHelper
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.view.View
+-keep public class * extends java.lang.Exception
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
 #-ignorewarnings -keep class * { public private *; }
@@ -79,3 +79,18 @@
 -keepclassmembers class * extends android.webkit.WebViewClient {
     public void *(android.webkit.WebView, jav.lang.String);
 }
+
+#Firebase
+-dontwarn com.google.firebase.**
+-keep class com.google.firebase.** { *; }
+-dontwarn com.google.android.gms.**
+-keep class com.google.android.gms.** { *; }
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+
+#Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+   **[] $VALUES;
+   public *;
+ }

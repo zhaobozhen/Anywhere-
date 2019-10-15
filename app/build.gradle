@@ -8,14 +8,19 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 23
+        versionCode 24
         versionName "1.0-beta6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [appName : "Anywhere-"]
     }
     dataBinding {
         enabled = true
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            manifestPlaceholders = [appName : "Anywhere-Debug"]
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
