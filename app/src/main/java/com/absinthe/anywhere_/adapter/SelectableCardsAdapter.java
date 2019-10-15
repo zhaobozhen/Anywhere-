@@ -8,14 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.databinding.CardItemViewBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainActivity;
@@ -24,7 +22,6 @@ import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UIUtils;
 import com.absinthe.anywhere_.view.Editor;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -57,8 +54,8 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.card_item_view, parent, false);
-        return new ItemViewHolder(view);
+        CardItemViewBinding binding = CardItemViewBinding.inflate(inflater, parent, false);
+        return new ItemViewHolder(binding);
     }
 
     @Override
@@ -69,8 +66,8 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
         int type = item.getAnywhereType();
         Log.d(TAG, "Type = " + type);
 
-        viewHolder.materialCardView.setOnClickListener(view -> openAnywhereActivity(item));
-        viewHolder.materialCardView.setOnLongClickListener(view -> {
+        viewHolder.binding.itemCard.setOnClickListener(view -> openAnywhereActivity(item));
+        viewHolder.binding.itemCard.setOnLongClickListener(view -> {
             vibrator.vibrate(30);
 
             switch (type) {
@@ -88,22 +85,22 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
 
         switch (type) {
             case AnywhereType.URL_SCHEME:
-                viewHolder.param1View.setVisibility(View.VISIBLE);
-                viewHolder.param2View.setVisibility(View.GONE);
-                viewHolder.param3View.setVisibility(View.GONE);
+                viewHolder.binding.tvParam1.setVisibility(View.VISIBLE);
+                viewHolder.binding.tvParam2.setVisibility(View.GONE);
+                viewHolder.binding.tvParam3.setVisibility(View.GONE);
                 break;
             case AnywhereType.ACTIVITY:
             case AnywhereType.MINI_PROGRAM:
-                viewHolder.param1View.setVisibility(View.VISIBLE);
-                viewHolder.param2View.setVisibility(View.VISIBLE);
-                viewHolder.param3View.setVisibility(View.GONE);
+                viewHolder.binding.tvParam1.setVisibility(View.VISIBLE);
+                viewHolder.binding.tvParam2.setVisibility(View.VISIBLE);
+                viewHolder.binding.tvParam3.setVisibility(View.GONE);
                 break;
         }
 
-        if (viewHolder.descriptionView.getText().toString().isEmpty()) {
-            viewHolder.descriptionView.setVisibility(View.GONE);
+        if (viewHolder.binding.tvDescription.getText().toString().isEmpty()) {
+            viewHolder.binding.tvDescription.setVisibility(View.GONE);
         } else {
-            viewHolder.descriptionView.setVisibility(View.VISIBLE);
+            viewHolder.binding.tvDescription.setVisibility(View.VISIBLE);
         }
     }
 
@@ -159,40 +156,27 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
+        private CardItemViewBinding binding;
 
-        private final MaterialCardView materialCardView;
-        private final AppCompatImageView appIcon;
-        private final ImageView iconBadge;
-        private final TextView appNameView;
-        private final TextView param1View;
-        private final TextView param2View;
-        private final TextView param3View;
-        private final TextView descriptionView;
-
-        ItemViewHolder(View itemView) {
-            super(itemView);
-            materialCardView = itemView.findViewById(R.id.item_card);
-            appIcon = itemView.findViewById(R.id.iv_app_icon);
-            iconBadge = itemView.findViewById(R.id.iv_badge);
-            appNameView = itemView.findViewById(R.id.tv_card_app_name);
-            param1View = itemView.findViewById(R.id.tv_card_param_1);
-            param2View = itemView.findViewById(R.id.tv_card_param_2);
-            param3View = itemView.findViewById(R.id.tv_card_param_3);
-            descriptionView = itemView.findViewById(R.id.tv_card_description);
+        ItemViewHolder(CardItemViewBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         private void bind(AnywhereEntity item) {
-            appNameView.setText(item.getAppName());
-            param1View.setText(item.getParam1());
-            param2View.setText(item.getParam2());
-            param3View.setText(item.getParam3());
-            descriptionView.setText(item.getDescription());
-            appIcon.setImageDrawable(UIUtils.getAppIconByPackageName(mContext, item));
+            binding.executePendingBindings();
+
+            binding.setAppName(item.getAppName());
+            binding.setParam1(item.getParam1());
+            binding.setParam2(item.getParam2());
+            binding.setParam3(item.getParam3());
+            binding.setDescription(item.getDescription());
+            binding.ivAppIcon.setImageDrawable(UIUtils.getAppIconByPackageName(mContext, item));
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
-                iconBadge.setImageResource(R.drawable.ic_added_shortcut);
-                iconBadge.setVisibility(View.VISIBLE);
+                binding.ivBadge.setImageResource(R.drawable.ic_added_shortcut);
+                binding.ivBadge.setVisibility(View.VISIBLE);
             } else {
-                iconBadge.setVisibility(View.GONE);
+                binding.ivBadge.setVisibility(View.GONE);
             }
         }
 

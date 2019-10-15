@@ -47,6 +47,10 @@ public class ShortcutsUtil {
     }
 
     public static void removeShortcut(AnywhereEntity ae) {
+        if (ae == null) {
+            return;
+        }
+
         AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getAnywhereType(), ae.getTimeStamp());
         MainFragment.getViewModelInstance().update(item);
 

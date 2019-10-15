@@ -29,6 +29,7 @@
     <string name="dialog_remove_shortcut_message">确定要删除</string>
     <string name="dialog_cant_add_shortcut_title">无法添加 Shortcuts</string>
     <string name="dialog_cant_add_shortcut_message">最多只可添加 3 个 Shortcuts</string>
+    <string name="dialog_add_home_shortcut_title">添加桌面快捷方式</string>
 
     <!--  BottomSheetDialog  -->
     <string name="bsd_btn_done">保存</string>
@@ -121,7 +122,7 @@
 
     <!--  Description  -->
     <string name="background_todo">Main page background</string>
-    <string name="anywhere_delete_todo">Delete an Anywhere</string>
+    <string name="anywhere_more_todo">More</string>
     <string name="welcome_logo_todo">Welcome logo</string>
     <string name="initialize_done_todo">Done</string>
     <string name="icon_badge_todo">Badge</string>

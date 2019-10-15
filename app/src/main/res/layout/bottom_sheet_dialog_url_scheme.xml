@@ -21,26 +21,14 @@
             android:text="@string/dialog_url_scheme_community" />
 
         <ImageButton
-            android:id="@+id/ib_add_shortcut"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="@dimen/bottom_sheet_dialog_function_button_margin"
-            android:layout_alignEnd="@id/ib_delete_anywhere"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_add_shortcut"
-            android:visibility="gone"
-            android:contentDescription="@string/anywhere_delete_todo" />
-
-        <ImageButton
-            android:id="@+id/ib_delete_anywhere"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/ib_editor_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
-            android:background="@drawable/ic_delete_outline_24px"
-            android:contentDescription="@string/anywhere_delete_todo"
-            android:visibility="gone" />
+            android:background="@drawable/ic_more_vert_24dp"
+            android:contentDescription="@string/anywhere_more_todo"/>
 
     </RelativeLayout>
 

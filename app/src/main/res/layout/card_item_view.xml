@@ -1,104 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/item_card"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/anywhere_cardview_spacing"
-    android:layout_marginBottom="@dimen/anywhere_cardview_spacing"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:clickable="true"
-    android:focusable="true"
-    app:cardElevation="@dimen/anywhere_cardview_elevation"
-    app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <data>
+        <variable name="appName" type="String" />
+        <variable name="param1" type="String" />
+        <variable name="param2" type="String" />
+        <variable name="param3" type="String" />
+        <variable name="description" type="String" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/item_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toStartOf="@+id/rl_badge_icon"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_card_app_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
-                android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_card_param_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="italic"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/tv_card_param_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="italic"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/tv_card_param_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textStyle="italic"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/tv_card_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceSubtitle2"
-                android:visibility="gone"/>
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/anywhere_cardview_spacing"
+        android:layout_marginBottom="@dimen/anywhere_cardview_spacing"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardElevation="@dimen/anywhere_cardview_elevation"
+        app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius">
 
         <RelativeLayout
-            android:id="@+id/rl_badge_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_app_icon"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                app:backgroundTint="@color/material_on_surface_emphasis_medium"
-                app:backgroundTintMode="add"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="8dp"
+                android:layout_toStartOf="@+id/rl_badge_icon"
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_badge"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
+                    android:text="@{appName}"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_param_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
+                    android:text="@{param1}"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textStyle="italic"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_param_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
+                    android:text="@{param2}"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textStyle="italic"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_param_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
+                    android:text="@{param3}"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textStyle="italic"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{description}"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_badge_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:contentDescription="@string/icon_badge_todo" />
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_app_icon"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    app:backgroundTint="@color/material_on_surface_emphasis_medium"
+                    app:backgroundTintMode="add" />
+
+                <ImageView
+                    android:id="@+id/iv_badge"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="@string/icon_badge_todo" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
-    </RelativeLayout>
-
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

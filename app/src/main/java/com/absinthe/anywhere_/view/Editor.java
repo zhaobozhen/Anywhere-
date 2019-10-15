@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.PopupMenu;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -161,39 +163,47 @@ public class Editor {
                 });
             }
 
-            ImageButton ibDelete = mBottomSheetDialog.findViewById(R.id.ib_delete_anywhere);
-            if (ibDelete != null) {
-                if (isEditMode) {
-                    ibDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ibDelete.setVisibility(View.GONE);
-                }
-                ibDelete.setOnClickListener(view -> {
-                    dismiss();
-                    mListener.onDelete();
-                });
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                ImageButton ibAddShortcut = mBottomSheetDialog.findViewById(R.id.ib_add_shortcut);
-                if (ibAddShortcut != null) {
-                    if (isEditMode) {
-                        ibAddShortcut.setVisibility(View.VISIBLE);
-                        if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
-                            ibAddShortcut.setBackgroundResource(R.drawable.ic_added_shortcut);
-                        }
-                    } else {
-                        ibAddShortcut.setVisibility(View.GONE);
+            ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
+            if (ibMore != null) {
+                ibMore.setOnClickListener(view -> {
+                    PopupMenu popup = new PopupMenu(mContext, ibMore);
+                    popup.getMenuInflater()
+                            .inflate(R.menu.editor_menu, popup.getMenu());
+                    if (popup.getMenu() instanceof MenuBuilder) {
+                        MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
+                        menuBuilder.setOptionalIconsVisible(true);
                     }
-                    ibAddShortcut.setOnClickListener(view -> {
-                        dismiss();
-                        if (mItem.getShortcutType() != AnywhereType.SHORTCUTS) {
-                            addShortcut(mContext, mItem);
-                        } else {
-                            removeShortcut(mContext, mItem);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                        if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
+                            popup.getMenu().getItem(0).setIcon(R.drawable.ic_added_shortcut);
+                            popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
                         }
+                    }
+                    popup.setOnMenuItemClickListener(item -> {
+                        switch (item.getItemId()) {
+                            case R.id.add_shortcuts:
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                    dismiss();
+                                    if (mItem.getShortcutType() != AnywhereType.SHORTCUTS) {
+                                        addShortcut(mContext, mItem);
+                                    } else {
+                                        removeShortcut(mContext, mItem);
+                                    }
+                                }
+                                break;
+                            case R.id.add_home_shortcuts:
+                                break;
+                            case R.id.delete:
+                                dismiss();
+                                mListener.onDelete();
+                                break;
+                            default:
+                        }
+                        return true;
                     });
-                }
+
+                    popup.show();
+                });
             }
 
         } else if (mEditorType == URL_SCHEME) {
@@ -250,7 +260,7 @@ public class Editor {
                                             .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                                                 MainFragment.getViewModelInstance().insert(ae);
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                                    ShortcutsUtil.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(mItem.getParam1())));
+                                                    ShortcutsUtil.removeShortcut(EditUtils.hasSameAppNameEntity(mItem.getParam1()));
                                                 }
                                             })
                                             .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
@@ -276,39 +286,47 @@ public class Editor {
                 });
             }
 
-            ImageButton ibDelete = mBottomSheetDialog.findViewById(R.id.ib_delete_anywhere);
-            if (ibDelete != null) {
-                if (isEditMode) {
-                    ibDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ibDelete.setVisibility(View.GONE);
-                }
-                ibDelete.setOnClickListener(view -> {
-                    dismiss();
-                    mListener.onDelete();
-                });
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                ImageButton ibAddShortcut = mBottomSheetDialog.findViewById(R.id.ib_add_shortcut);
-                if (ibAddShortcut != null) {
-                    if (isEditMode) {
-                        ibAddShortcut.setVisibility(View.VISIBLE);
-                        if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
-                            ibAddShortcut.setBackgroundResource(R.drawable.ic_added_shortcut);
-                        }
-                    } else {
-                        ibAddShortcut.setVisibility(View.GONE);
+            ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
+            if (ibMore != null) {
+                ibMore.setOnClickListener(view -> {
+                    PopupMenu popup = new PopupMenu(mContext, ibMore);
+                    popup.getMenuInflater()
+                            .inflate(R.menu.editor_menu, popup.getMenu());
+                    if (popup.getMenu() instanceof MenuBuilder) {
+                        MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
+                        menuBuilder.setOptionalIconsVisible(true);
                     }
-                    ibAddShortcut.setOnClickListener(view -> {
-                        dismiss();
-                        if (mItem.getShortcutType() != AnywhereType.SHORTCUTS) {
-                            addShortcut(mContext, mItem);
-                        } else {
-                            removeShortcut(mContext, mItem);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                        if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
+                            popup.getMenu().getItem(0).setIcon(R.drawable.ic_added_shortcut);
+                            popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
                         }
+                    }
+                    popup.setOnMenuItemClickListener(item -> {
+                        switch (item.getItemId()) {
+                            case R.id.add_shortcuts:
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                    dismiss();
+                                    if (mItem.getShortcutType() != AnywhereType.SHORTCUTS) {
+                                        addShortcut(mContext, mItem);
+                                    } else {
+                                        removeShortcut(mContext, mItem);
+                                    }
+                                }
+                                break;
+                            case R.id.add_home_shortcuts:
+                                break;
+                            case R.id.delete:
+                                dismiss();
+                                mListener.onDelete();
+                                break;
+                            default:
+                        }
+                        return true;
                     });
-                }
+
+                    popup.show();
+                });
             }
         }
         return this;
