@@ -27,7 +27,8 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
-            android:background="@drawable/ic_more_vert_24dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_more_vert_24dp"
             android:contentDescription="@string/anywhere_more_todo"/>
 
     </RelativeLayout>

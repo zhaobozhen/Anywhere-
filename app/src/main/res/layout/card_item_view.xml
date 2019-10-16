@@ -9,7 +9,6 @@
         <variable name="param2" type="String" />
         <variable name="param3" type="String" />
         <variable name="description" type="String" />
-
     </data>
 
     <com.google.android.material.card.MaterialCardView

@@ -4,11 +4,12 @@
     android:layout_width="65dp"
     android:layout_height="65dp">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/ib_collector"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:background="@drawable/btn_collector"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/btn_collector"
         android:contentDescription="@string/ib_collector_todo" />
 
 </LinearLayout>

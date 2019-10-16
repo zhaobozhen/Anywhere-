@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.R;
@@ -42,7 +42,7 @@ public class CollectorView extends LinearLayout {
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
         inflate(mContext, R.layout.layout_collector, this);
-        ImageView mIbCollector = findViewById(R.id.ib_collector);
+        ImageButton mIbCollector = findViewById(R.id.ib_collector);
 
         mIbCollector.setOnClickListener(v -> {
             Log.d(TAG, "Collector clicked!");
