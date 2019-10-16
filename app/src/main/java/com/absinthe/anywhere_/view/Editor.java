@@ -174,7 +174,7 @@ public class Editor {
                         menuBuilder.setOptionalIconsVisible(true);
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                        if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
+                        if (isShortcut) {
                             popup.getMenu().getItem(0).setIcon(R.drawable.ic_added_shortcut);
                             popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
                         }
@@ -184,7 +184,7 @@ public class Editor {
                             case R.id.add_shortcuts:
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                     dismiss();
-                                    if (mItem.getShortcutType() != AnywhereType.SHORTCUTS) {
+                                    if (!isShortcut) {
                                         addShortcut(mContext, mItem);
                                     } else {
                                         removeShortcut(mContext, mItem);
@@ -300,7 +300,7 @@ public class Editor {
                         menuBuilder.setOptionalIconsVisible(true);
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                        if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
+                        if (isShortcut) {
                             popup.getMenu().getItem(0).setIcon(R.drawable.ic_added_shortcut);
                             popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
                         }
@@ -310,7 +310,7 @@ public class Editor {
                             case R.id.add_shortcuts:
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                     dismiss();
-                                    if (mItem.getShortcutType() != AnywhereType.SHORTCUTS) {
+                                    if (!isShortcut) {
                                         addShortcut(mContext, mItem);
                                     } else {
                                         removeShortcut(mContext, mItem);

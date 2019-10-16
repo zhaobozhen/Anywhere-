@@ -58,6 +58,7 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme.ActionBar"
             android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.about.AboutActivity"
@@ -65,7 +66,6 @@
             android:parentActivityName=".ui.settings.SettingsActivity"
             android:theme="@style/AppTheme.About" />
         <activity android:name=".ui.shortcuts.ShortcutsActivity" />
-
         <activity
             android:name=".ui.shortcuts.ShortcutsSettingsActivity"
             android:label="@string/shortcuts_title"
@@ -94,6 +94,10 @@
         <service
             android:name=".services.CollectorService"
             android:enabled="true" />
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.2" />
     </application>
 
 </manifest>

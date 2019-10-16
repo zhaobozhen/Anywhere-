@@ -33,6 +33,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
     private List<AnywhereEntity> items;
     private Context mContext;
     private Vibrator vibrator;
+    private Editor mEditor;
     private Editor.OnEditorListener mListener;
 
     public SelectableCardsAdapter(Context context) {
@@ -113,16 +114,10 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
     }
 
     private void openEditor(AnywhereEntity item, int type, int position) {
-        Editor editor = new Editor(MainActivity.getInstance(), type)
-                .item(item)
-                .isEditorMode(true)
-                .isShortcut(item.getShortcutType() == AnywhereType.SHORTCUTS)
-                .build();
-
         mListener = new Editor.OnEditorListener() {
             @Override
             public void onDelete() {
-                deleteAnywhereActivity(editor, item, position);
+                deleteAnywhereActivity(mEditor, item, position);
             }
 
             @Override
@@ -130,9 +125,15 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
                 notifyItemChanged(position);
             }
         };
-        editor.setOnEditorListener(mListener);
 
-        editor.show();
+        mEditor = new Editor(MainActivity.getInstance(), type)
+                .item(item)
+                .isEditorMode(true)
+                .isShortcut(item.getShortcutType() == AnywhereType.SHORTCUTS)
+                .setOnEditorListener(mListener)
+                .build();
+
+        mEditor.show();
     }
 
     private void deleteAnywhereActivity(Editor editor, AnywhereEntity ae, int position) {

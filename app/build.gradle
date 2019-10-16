@@ -8,8 +8,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 24
-        versionName "1.0-beta6"
+        versionCode 25
+        versionName "1.0-beta7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName : "Anywhere-"]
     }
@@ -48,7 +48,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-beta01"
     implementation 'com.google.android.material:material:1.1.0-beta01'
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
-
 
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
     implementation 'me.weishu:free_reflection:2.1.0'

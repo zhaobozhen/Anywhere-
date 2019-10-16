@@ -229,8 +229,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     private void initView(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         setUpRecyclerView(recyclerView);
@@ -240,11 +238,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         fab.setOnClickListener(clickView -> checkWorkingPermission());
         actionBar = MainActivity.getInstance().getSupportActionBar();
         UIUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
-
-        View placeholder = view.findViewById(R.id.placeholder);
-        if (GlobalValues.sIsFirstLaunch) {
-            placeholder.setVisibility(View.VISIBLE);
-        }
     }
 
     private void initObserver() {

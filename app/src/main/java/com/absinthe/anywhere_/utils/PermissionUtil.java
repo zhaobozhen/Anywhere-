@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,11 +39,18 @@ public class PermissionUtil {
     private static final int REQUEST_CODE_AUTHORIZATION_V3 = 1002;
 
     public static void goToMIUIPermissionManager(Context context) {
-        Intent intent = new Intent();
-        intent.setAction("miui.intent.action.APP_PERM_EDITOR");
-        intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
-        intent.putExtra("extra_pkgname", context.getPackageName());
-        context.startActivity(intent);
+        try {
+            Intent intent = new Intent();
+            intent.setAction("miui.intent.action.APP_PERM_EDITOR");
+            intent.setClassName("com.miui.securitycenter",
+                    "com.miui.permcenter.permissions.PermissionsEditorActivity");
+            intent.putExtra("extra_pkgname", context.getPackageName());
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            ToastUtil.makeText("打开失败，请自行前往 MIUI 权限界面");
+        }
+
     }
 
     public static boolean upgradeRootPermission(String pkgCodePath) {

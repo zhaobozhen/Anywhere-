@@ -23,7 +23,7 @@ import moe.shizuku.api.ShizukuService;
 
 public class AnywhereApplication extends Application {
     public static final String ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER";
-    public static final String TAG = "AnywhereApplication";
+    public static final String TAG = AnywhereApplication.class.getSimpleName();
     @SuppressLint("StaticFieldLeak")
     public static Context sContext = null;
 

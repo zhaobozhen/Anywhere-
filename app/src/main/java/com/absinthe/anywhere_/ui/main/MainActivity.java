@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.absinthe.anywhere_.AnywhereApplication;
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         ImageView ivBackground = findViewById(R.id.iv_background);
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             UIUtils.setActionBarTransparent(this);
