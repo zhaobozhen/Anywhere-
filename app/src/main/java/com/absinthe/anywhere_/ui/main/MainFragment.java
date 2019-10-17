@@ -33,7 +33,7 @@ import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.UIUtils;
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -237,7 +237,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(clickView -> checkWorkingPermission());
         actionBar = MainActivity.getInstance().getSupportActionBar();
-        UIUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
+        UiUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
     }
 
     private void initObserver() {
@@ -248,7 +248,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
         mViewModel.getWorkingMode().observe(this, s -> {
             GlobalValues.setsWorkingMode(s);
-            UIUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
+            UiUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
         });
 
         final Observer<String> backgroundObserver = s -> {
@@ -257,12 +257,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 ivBackground.setBackground(null);
                 ivBackground.setVisibility(View.GONE);
                 GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
-                UIUtils.resetActionBar(MainActivity.getInstance());
+                UiUtils.resetActionBar(MainActivity.getInstance());
                 MainActivity.getInstance().invalidateOptionsMenu();
             } else {
-                UIUtils.loadBackgroundPic(mContext, ivBackground);
-                UIUtils.setActionBarTransparent(MainActivity.getInstance());
-                UIUtils.setAdaptiveActionBarTitleColor(MainActivity.getInstance(), actionBar, UIUtils.getActionBarTitle());
+                UiUtils.loadBackgroundPic(mContext, ivBackground);
+                UiUtils.setActionBarTransparent(MainActivity.getInstance());
+                UiUtils.setAdaptiveActionBarTitleColor(MainActivity.getInstance(), actionBar, UiUtils.getActionBarTitle());
                 ivBackground.setVisibility(View.VISIBLE);
             }
             GlobalValues.setsBackgroundUri(s);

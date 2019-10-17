@@ -16,6 +16,10 @@ import com.absinthe.anywhere_.model.GlobalValues;
 public class TextUtils {
     private static final String TAG = TextUtils.class.getSimpleName();
 
+    /**
+     * process and obtain adb result
+     * @param result return result
+     */
     public static String[] processResultString(String result) {
         String packageName, className;
         int length = result.length();
@@ -38,6 +42,11 @@ public class TextUtils {
         }
     }
 
+    /**
+     * get the app name by package name
+     * @param context to get PackageManager
+     * @param pkgName package name
+     */
     public static String getAppName(Context context, String pkgName) {
         PackageManager pm = context.getPackageManager();
         try {
@@ -50,6 +59,10 @@ public class TextUtils {
         return "";
     }
 
+    /**
+     * get current app package name
+     * @param context to get ActivityManager
+     */
     public static String getTopAppPackageName(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
 
@@ -60,6 +73,10 @@ public class TextUtils {
         return "";
     }
 
+    /**
+     * get launch command of a item
+     * @param item the item
+     */
     public static String getItemCommand(AnywhereEntity item) {
         String cmd = null;
         int type = item.getAnywhereType();

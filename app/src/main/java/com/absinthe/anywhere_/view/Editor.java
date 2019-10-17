@@ -16,11 +16,11 @@ import androidx.appcompat.widget.PopupMenu;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -165,6 +165,7 @@ public class Editor {
 
             ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
             if (ibMore != null) {
+                UiUtils.setVisibility(ibMore, isEditMode);
                 ibMore.setOnClickListener(view -> {
                     PopupMenu popup = new PopupMenu(mContext, ibMore);
                     popup.getMenuInflater()
@@ -291,6 +292,7 @@ public class Editor {
 
             ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
             if (ibMore != null) {
+                UiUtils.setVisibility(ibMore, isEditMode);
                 ibMore.setOnClickListener(view -> {
                     PopupMenu popup = new PopupMenu(mContext, ibMore);
                     popup.getMenuInflater()

@@ -40,7 +40,7 @@ public class ShortcutsUtil {
         List<ShortcutInfo> infos = new ArrayList<>();
         ShortcutInfo info = new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getTimeStamp())
                 .setShortLabel(ae.getAppName())
-                .setIcon(Icon.createWithBitmap(UIUtils.drawableToBitmap(UIUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
+                .setIcon(Icon.createWithBitmap(UiUtils.drawableToBitmap(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
                 .setIntent(intent)
                 .build();
         infos.add(info);
@@ -76,7 +76,7 @@ public class ShortcutsUtil {
             ShortcutInfo pinShortcutInfo =
                     new ShortcutInfo.Builder(MainActivity.getInstance(), ae.getId())
                             .setShortLabel(ae.getAppName())
-                            .setIcon(Icon.createWithBitmap(UIUtils.drawableToBitmap(UIUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
+                            .setIcon(Icon.createWithBitmap(UiUtils.drawableToBitmap(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
                             .setIntent(intent)
                             .build();
 

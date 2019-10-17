@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.utils.UIUtils;
+import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -113,7 +113,7 @@ public class AnywhereApplication extends Application {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 break;
             case "auto":
-                AppCompatDelegate.setDefaultNightMode(UIUtils.getAutoDarkMode());
+                AppCompatDelegate.setDefaultNightMode(UiUtils.getAutoDarkMode());
                 break;
             default:
         }

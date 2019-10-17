@@ -19,7 +19,7 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.utils.UIUtils;
+import com.absinthe.anywhere_.utils.UiUtils;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ImageView ivBackground = findViewById(R.id.iv_background);
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            UIUtils.setActionBarTransparent(this);
-            UIUtils.loadBackgroundPic(this, ivBackground);
+            UiUtils.setActionBarTransparent(this);
+            UiUtils.loadBackgroundPic(this, ivBackground);
         }
     }
 
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         ImageView ivBackground = findViewById(R.id.iv_background);
 
-        UIUtils.loadBackgroundPic(this, ivBackground);
+        UiUtils.loadBackgroundPic(this, ivBackground);
     }
 
     @Override

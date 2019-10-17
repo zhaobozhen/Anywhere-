@@ -38,6 +38,10 @@ public class PermissionUtil {
     private static final int REQUEST_CODE_PERMISSION_V3 = 1001;
     private static final int REQUEST_CODE_AUTHORIZATION_V3 = 1002;
 
+    /**
+     * bump to miui permission management activity
+     * @param context to launch an activity
+     */
     public static void goToMIUIPermissionManager(Context context) {
         try {
             Intent intent = new Intent();
@@ -53,6 +57,10 @@ public class PermissionUtil {
 
     }
 
+    /**
+     * acquire su permission
+     * @param pkgCodePath to get su permission of the package
+     */
     public static boolean upgradeRootPermission(String pkgCodePath) {
         Process process = null;
         DataOutputStream os = null;
@@ -90,6 +98,10 @@ public class PermissionUtil {
         return false;
     }
 
+    /**
+     * execute adb or intent command
+     * @param cmd command
+     */
     public static String execCmd(String cmd) {
         String result = null;
 
@@ -122,6 +134,10 @@ public class PermissionUtil {
         return result;
     }
 
+    /**
+     * execute adb or intent command by root
+     * @param cmd command
+     */
     public static String execRootCmd(String cmd) {
         StringBuilder result = new StringBuilder();
         OutputStream os = null;
@@ -165,6 +181,10 @@ public class PermissionUtil {
         return result.toString();
     }
 
+    /**
+     * execute adb or intent via shizuku manager
+     * @param cmd command
+     */
     public static String execShizukuCmd(String cmd) {
         try {
             RemoteProcess remoteProcess = ShizukuService.newProcess(new String[]{"sh"}, null, null);
@@ -192,6 +212,9 @@ public class PermissionUtil {
         }
     }
 
+    /**
+     * Judge that whether device is miui
+     */
     public static boolean isMIUI() {
         try {
             String brand = android.os.Build.BRAND.toLowerCase();
@@ -214,6 +237,10 @@ public class PermissionUtil {
         }
     }
 
+    /**
+     * show permission dialog
+     * @param activity to bind an activity to show
+     */
     private static void showPermissionDialog(Activity activity) {
         new MaterialAlertDialogBuilder(activity)
                 .setTitle(R.string.dialog_permission_title)
@@ -234,6 +261,10 @@ public class PermissionUtil {
                 .show();
     }
 
+    /**
+     * check shizuku permission
+     * @param activity to bind an activity to show a dialog
+     */
     public static boolean shizukuPermissionCheck(Activity activity) {
         if (!ShizukuClientHelper.isPreM()) {
             // on API 23+, Shizuku v3 uses runtime permission
@@ -269,6 +300,11 @@ public class PermissionUtil {
         }
     }
 
+    /**
+     * check overlay permission
+     * @param activity to start an intent to permission activity
+     * @param requestCode get result
+     */
     public static boolean checkOverlayPermission(Activity activity, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(activity)) {
@@ -288,6 +324,10 @@ public class PermissionUtil {
         return true;
     }
 
+    /**
+     * check whether shizuku service is on working
+     * @param mContext to show a dialog
+     */
     public static boolean checkShizukuOnWorking(Context mContext) {
         // Shizuku v3 service will send binder via Content Provider to this process when this activity comes foreground.
 

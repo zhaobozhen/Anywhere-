@@ -2,13 +2,21 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\key_store\\android-key.jks')
+            storePassword 'yinzhua'
+            keyAlias = 'absinthe-android'
+            keyPassword 'yinzhua'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 25
+        versionCode 26
         versionName "1.0-beta7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName : "Anywhere-"]
@@ -24,6 +32,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

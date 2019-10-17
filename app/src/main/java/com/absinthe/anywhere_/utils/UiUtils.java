@@ -41,10 +41,15 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Calendar;
 
-public class UIUtils {
-    private static final String TAG = "UIUtils";
+public class UiUtils {
+    private static final String TAG = "UiUtils";
 
-    public static Drawable getAppIconByPackageName(Context mContext, AnywhereEntity item){
+    /**
+     * Get app icon by package name
+     * @param context for get manager
+     * @param item for get package name
+     */
+    public static Drawable getAppIconByPackageName(Context context, AnywhereEntity item){
         int type = item.getAnywhereType();
         String apkTempPackageName = "";
 
@@ -62,18 +67,23 @@ public class UIUtils {
         Drawable drawable;
         try{
             if (type == AnywhereType.URL_SCHEME) {
-                drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_logo);
+                drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
             } else {
-                drawable = mContext.getPackageManager().getApplicationIcon(apkTempPackageName);
+                drawable = context.getPackageManager().getApplicationIcon(apkTempPackageName);
             }
         }
         catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();
-            drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_logo);
+            drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
         }
         return drawable;
     }
 
+    /**
+     * Set action bar title
+     * @param activity Activity for bind action bar
+     * @param actionBar our target
+     */
     public static void setActionBarTitle(Activity activity, ActionBar actionBar) {
         Log.d(TAG, "setActionBarTitle:workingMode = " + GlobalValues.sWorkingMode);
         switch (GlobalValues.sWorkingMode) {
@@ -91,6 +101,9 @@ public class UIUtils {
         }
     }
 
+    /**
+     * get action bar title by working mode
+     */
     public static String getActionBarTitle() {
         switch (GlobalValues.sWorkingMode) {
             case "":
@@ -207,6 +220,13 @@ public class UIUtils {
 
     }
 
+    /**
+     * Set action bar title color and status bar and navigation bar style
+     * @param activity Activity for bind action bar
+     * @param actionBar our target
+     * @param type dark or light
+     * @param title action bar title
+     */
     private static void setTopWidgetColor(Activity activity, ActionBar actionBar, String type, String title) {
 
         if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
@@ -238,6 +258,9 @@ public class UIUtils {
         }
     }
 
+    /**
+     * Judge that whether open the dark mode
+     */
     public static int getAutoDarkMode() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         Log.d(TAG, "Current hour = " + hour);
@@ -249,6 +272,10 @@ public class UIUtils {
         }
     }
 
+    /**
+     * transform drawable object to a bitmap object
+     * @param drawable our target
+     */
     public static Bitmap drawableToBitmap (Drawable drawable) {
         Bitmap bitmap = null;
 
@@ -269,5 +296,14 @@ public class UIUtils {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    /**
+     * Set visibility of a view
+     * @param view our target
+     * @param trueIsVisible if is true that set visible
+     */
+    public static void setVisibility(@NonNull View view, boolean trueIsVisible) {
+        view.setVisibility(trueIsVisible ? View.VISIBLE : View.GONE);
     }
 }

@@ -20,7 +20,7 @@ import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
-import com.absinthe.anywhere_.utils.UIUtils;
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.Editor;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -34,7 +34,6 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
     private Context mContext;
     private Vibrator vibrator;
     private Editor mEditor;
-    private Editor.OnEditorListener mListener;
 
     public SelectableCardsAdapter(Context context) {
         this.mContext = context;
@@ -99,11 +98,8 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
                 break;
         }
 
-        if (viewHolder.binding.tvDescription.getText().toString().isEmpty()) {
-            viewHolder.binding.tvDescription.setVisibility(View.GONE);
-        } else {
-            viewHolder.binding.tvDescription.setVisibility(View.VISIBLE);
-        }
+        UiUtils.setVisibility(viewHolder.binding.tvDescription,
+                !viewHolder.binding.tvDescription.getText().toString().isEmpty());
     }
 
     private void openAnywhereActivity(AnywhereEntity item) {
@@ -114,7 +110,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
     }
 
     private void openEditor(AnywhereEntity item, int type, int position) {
-        mListener = new Editor.OnEditorListener() {
+        Editor.OnEditorListener listener = new Editor.OnEditorListener() {
             @Override
             public void onDelete() {
                 deleteAnywhereActivity(mEditor, item, position);
@@ -130,7 +126,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
                 .item(item)
                 .isEditorMode(true)
                 .isShortcut(item.getShortcutType() == AnywhereType.SHORTCUTS)
-                .setOnEditorListener(mListener)
+                .setOnEditorListener(listener)
                 .build();
 
         mEditor.show();
@@ -175,7 +171,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
             binding.setParam2(item.getParam2());
             binding.setParam3(item.getParam3());
             binding.setDescription(item.getDescription());
-            binding.ivAppIcon.setImageDrawable(UIUtils.getAppIconByPackageName(mContext, item));
+            binding.ivAppIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item));
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
                 binding.ivBadge.setImageResource(R.drawable.ic_added_shortcut);
                 binding.ivBadge.setVisibility(View.VISIBLE);
