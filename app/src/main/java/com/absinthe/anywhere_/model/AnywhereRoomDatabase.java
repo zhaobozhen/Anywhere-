@@ -15,7 +15,7 @@ public abstract class AnywhereRoomDatabase extends RoomDatabase {
     public abstract AnywhereDao anywhereDao();
     private static AnywhereRoomDatabase INSTANCE;
 
-    static AnywhereRoomDatabase getDatabase(final Context context) {
+    public static AnywhereRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (AnywhereRoomDatabase.class) {
                 if (INSTANCE == null) {

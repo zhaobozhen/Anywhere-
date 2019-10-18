@@ -27,4 +27,7 @@ public interface AnywhereDao {
 
     @Query("SELECT * from anywhere_table ORDER BY time_stamp DESC")
     LiveData<List<AnywhereEntity>> getAllAnywhereEntities();
+
+    @Query("SELECT * from anywhere_table ORDER BY time_stamp DESC")
+    List<AnywhereEntity> getAllAnywhereEntitiesLiveless();
 }

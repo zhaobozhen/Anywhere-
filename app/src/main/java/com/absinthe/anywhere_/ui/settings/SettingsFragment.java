@@ -1,7 +1,5 @@
 package com.absinthe.anywhere_.ui.settings;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,8 +21,6 @@ import java.util.Objects;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
-    private Context mContext;
-
     static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
@@ -37,7 +33,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mContext = getActivity();
 
         ListPreference workingModePreference = findPreference(Const.SP_KEY_WORKING_MODE);
         ListPreference darkModePreference = findPreference(Const.SP_KEY_DARK_MODE);
@@ -71,10 +66,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
-                ((Activity)mContext).startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
                 break;
             case Const.SP_KEY_RESET_BACKGROUND:
-                new MaterialAlertDialogBuilder(mContext)
+                new MaterialAlertDialogBuilder(SettingsActivity.getInstance())
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_background_confirm_message)
                         .setCancelable(false)
@@ -98,7 +93,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()) {
             case Const.SP_KEY_WORKING_MODE:
-                MainFragment.getViewModelInstance().getWorkingMode().setValue(newValue.toString());
+                if (MainFragment.getViewModelInstance() != null) {
+                    MainFragment.getViewModelInstance().getWorkingMode().setValue(newValue.toString());
+                }
                 break;
             case Const.SP_KEY_DARK_MODE:
                 AnywhereApplication.setTheme(newValue.toString());

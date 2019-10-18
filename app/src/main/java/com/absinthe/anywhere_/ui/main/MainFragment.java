@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -30,6 +31,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -245,7 +247,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
 
         mViewModel.getCommand().observe(this, PermissionUtil::execCmd);
-        mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> adapter.setItems(anywhereEntities));
+        mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
+            adapter.setItems(anywhereEntities);
+            AppUtils.updateWidget(AnywhereApplication.sContext);
+        });
         mViewModel.getWorkingMode().observe(this, s -> {
             GlobalValues.setsWorkingMode(s);
             UiUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);

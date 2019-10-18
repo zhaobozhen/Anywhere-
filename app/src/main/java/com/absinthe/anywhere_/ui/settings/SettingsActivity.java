@@ -16,10 +16,17 @@ import com.absinthe.anywhere_.ui.main.MainFragment;
 public class SettingsActivity extends AppCompatActivity {
     private final String TAG = SettingsActivity.class.getSimpleName();
 
+    private static SettingsActivity instance;
+
+    public static SettingsActivity getInstance() {
+        return instance;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        instance = this;
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -42,7 +49,9 @@ public class SettingsActivity extends AppCompatActivity {
                             Log.d(TAG, "backgroundUri = " + backgroundUri);
                             GlobalValues.setsBackgroundUri(backgroundUri.toString());
                             GlobalValues.setsActionBarType("");
-                            MainFragment.getViewModelInstance().getBackground().setValue(backgroundUri.toString());
+                            if (MainFragment.getViewModelInstance() != null) {
+                                MainFragment.getViewModelInstance().getBackground().setValue(backgroundUri.toString());
+                            }
                         }
                     } else {
                         Log.d(TAG, "onActivityResult: REQUEST_CODE_IMAGE_CAPTURE: data = null.");

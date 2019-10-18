@@ -3,5 +3,6 @@
     android:initialLayout="@layout/widget_home"
     android:minHeight="110dp"
     android:minWidth="110dp"
-    android:previewImage="@drawable/rabbit"
-    android:updatePeriodMillis="864000" />
+    android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/splash"
+    android:widgetCategory="home_screen"/>

@@ -27,6 +27,8 @@ public class Const {
     public static final String INTENT_EXTRA_PARAM_3 = "param3";
 
     public static final String INTENT_EXTRA_SHORTCUTS_CMD = "shortcutsCmd";
+    public static final String INTENT_EXTRA_WIDGET_ENTITY = "entity";
+    public static final String INTENT_EXTRA_WIDGET_COMMAND = "command";
 
     public static final String CMD_GET_TOP_STACK_ACTIVITY = "dumpsys activity activities | grep mResumedActivity";
     public static final String CMD_OPEN_URL_SCHEME = "am start -a android.intent.action.VIEW -d ";

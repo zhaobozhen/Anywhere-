@@ -94,6 +94,9 @@
         <service
             android:name=".services.CollectorService"
             android:enabled="true" />
+        <service
+            android:name=".services.AppRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
         <receiver android:name=".provider.HomeWidgetProvider">
             <meta-data

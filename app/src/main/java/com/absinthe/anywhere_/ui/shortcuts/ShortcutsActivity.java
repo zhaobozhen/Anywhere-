@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.utils.ToastUtil;
 public class ShortcutsActivity extends Activity {
     public static final String ACTION_START_COLLECTOR = "START_COLLECTOR";
     public static final String ACTION_START_COMMAND = "START_COMMAND";
+    public static final String ACTION_START_FROM_WIDGET = "START_FROM_WIDGET";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,14 @@ public class ShortcutsActivity extends Activity {
                 }
             } else if (action.equals(ACTION_START_COMMAND)) {
                 String cmd = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
+                if (cmd != null) {
+                    String result = PermissionUtil.execCmd(cmd);
+                    if (result == null) {
+                        ToastUtil.makeText(R.string.toast_check_perm);
+                    }
+                }
+            } else if (action.equals(ACTION_START_FROM_WIDGET)) {
+                String cmd = i.getStringExtra(Const.INTENT_EXTRA_WIDGET_COMMAND);
                 if (cmd != null) {
                     String result = PermissionUtil.execCmd(cmd);
                     if (result == null) {
