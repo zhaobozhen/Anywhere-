@@ -14,6 +14,7 @@ public class GlobalValues {
     public static String sActionBarType;
     public static String sDarkMode;
     public static String sBackgroundUri;
+    public static String sSortMode;
 
     public static void init(Context context) {
         sIsDebugMode = false;
@@ -23,6 +24,7 @@ public class GlobalValues {
         sActionBarType = SPUtils.getString(context, Const.SP_KEY_ACTION_BAR_TYPE);
         sDarkMode = SPUtils.getString(context, Const.SP_KEY_DARK_MODE);
         sBackgroundUri = SPUtils.getString(context, Const.SP_KEY_CHANGE_BACKGROUND);
+        sSortMode = SPUtils.getString(context, Const.SP_KEY_SORT_MODE);
     }
 
     public static void setsIsFirstLaunch(boolean sIsFirstLaunch) {
@@ -53,5 +55,10 @@ public class GlobalValues {
     public static void setsBackgroundUri(String sBackgroundUri) {
         GlobalValues.sBackgroundUri = sBackgroundUri;
         SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_CHANGE_BACKGROUND, sBackgroundUri);
+    }
+
+    public static void setsSortMode(String sSortMode) {
+        GlobalValues.sSortMode = sSortMode;
+        SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_SORT_MODE, sSortMode);
     }
 }

@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -227,6 +229,25 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.toolbar_settings) {
             startActivity(new Intent(MainActivity.getInstance(), SettingsActivity.class));
+        } else if (item.getItemId() == R.id.toolbar_sort) {
+            PopupMenu popup = new PopupMenu(mContext, MainActivity.getInstance().findViewById(R.id.toolbar_sort));
+            popup.getMenuInflater()
+                    .inflate(R.menu.sort_menu, popup.getMenu());
+            if (popup.getMenu() instanceof MenuBuilder) {
+                MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
+                menuBuilder.setOptionalIconsVisible(true);
+            }
+            popup.setOnMenuItemClickListener(popupItem -> {
+                switch (popupItem.getItemId()) {
+                    case R.id.sort:
+                        ToastUtil.makeText("Sort");
+                        break;
+                    default:
+                }
+                return true;
+            });
+
+            popup.show();
         }
         return super.onOptionsItemSelected(item);
     }

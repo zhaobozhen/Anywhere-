@@ -45,7 +45,9 @@ public class AppRemoteViewsService extends RemoteViewsService {
         @Override
         public void onCreate() {
             // 需要显示的数据
-            mList = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+            if (MainFragment.getViewModelInstance() != null) {
+                mList = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+            }
         }
 
         /**
@@ -56,7 +58,9 @@ public class AppRemoteViewsService extends RemoteViewsService {
         @Override
         public void onDataSetChanged() {
             // 需要显示的数据
-            mList = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+            if (MainFragment.getViewModelInstance() != null) {
+                mList = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+            }
         }
 
         /**

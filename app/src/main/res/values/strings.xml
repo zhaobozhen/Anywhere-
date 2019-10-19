@@ -49,10 +49,16 @@
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
 
-    <!--  BottomAppBarMenu  -->
+    <!--  AppBarMenu  -->
+    <string name="menu_sort">排序</string>
     <string name="menu_settings">设置</string>
     <string name="menu_about">关于</string>
     <string name="menu_done">完成</string>
+
+    <string name="menu_sort_by_time_desc">按添加时间降序 (9–0)</string>
+    <string name="menu_sort_by_time_asc">按添加时间升序 (0–9)</string>
+    <string name="menu_sort_by_name_desc">按名字降序 (Z–A)</string>
+    <string name="menu_sort_by_name_asc">按名字升序 (A–Z)</string>
 
     <!--  Settings  -->
     <string name="settings_category_normal">常规</string>

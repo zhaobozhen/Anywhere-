@@ -2,9 +2,17 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/toolbar_sort"
+        android:icon="@drawable/ic_filter_list_light"
+        android:title="@string/menu_sort"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/toolbar_settings"
         android:icon="@drawable/ic_settings_outline_light"
         android:title="@string/menu_settings"
         app:showAsAction="ifRoom"/>
+
 </menu>

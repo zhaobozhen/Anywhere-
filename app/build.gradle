@@ -16,8 +16,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 26
-        versionName "1.0-beta7"
+        versionCode 27
+        versionName "1.0-beta8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName : "Anywhere-"]
     }
@@ -47,7 +47,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta05'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta01'
     implementation 'androidx.room:room-runtime:2.2.0'
     implementation "androidx.preference:preference:1.1.0"
     implementation 'androidx.palette:palette:1.0.0'

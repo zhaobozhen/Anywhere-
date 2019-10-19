@@ -26,8 +26,15 @@ public interface AnywhereDao {
     void delete(AnywhereEntity ae);
 
     @Query("SELECT * from anywhere_table ORDER BY time_stamp DESC")
-    LiveData<List<AnywhereEntity>> getAllAnywhereEntities();
+    LiveData<List<AnywhereEntity>> getAllAnywhereEntitiesOrderByTimeDesc();
 
-    @Query("SELECT * from anywhere_table ORDER BY time_stamp DESC")
-    List<AnywhereEntity> getAllAnywhereEntitiesLiveless();
+    @Query("SELECT * from anywhere_table ORDER BY time_stamp ASC")
+    LiveData<List<AnywhereEntity>> getAllAnywhereEntitiesOrderByTimeAsc();
+
+    @Query("SELECT * from anywhere_table ORDER BY app_name DESC")
+    LiveData<List<AnywhereEntity>> getAllAnywhereEntitiesOrderByNameDesc();
+
+    @Query("SELECT * from anywhere_table ORDER BY app_name ASC")
+    LiveData<List<AnywhereEntity>> getAllAnywhereEntitiesOrderByNameAsc();
+
 }

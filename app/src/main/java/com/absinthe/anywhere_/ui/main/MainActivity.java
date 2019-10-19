@@ -94,9 +94,11 @@ public class MainActivity extends AppCompatActivity {
                 case "":
                 case Const.ACTION_BAR_TYPE_LIGHT:
                     menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
+                    menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_light);
                     break;
                 case Const.ACTION_BAR_TYPE_DARK:
                     menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_dark);
+                    menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_dark);
                     break;
             }
         }

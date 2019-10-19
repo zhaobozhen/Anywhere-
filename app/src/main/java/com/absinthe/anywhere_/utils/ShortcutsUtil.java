@@ -44,7 +44,9 @@ public class ShortcutsUtil {
                 .setIntent(intent)
                 .build();
         infos.add(info);
-        getInstance().addDynamicShortcuts(infos);
+        if (getInstance().getMaxShortcutCountPerActivity() <= 3) {
+            getInstance().addDynamicShortcuts(infos);
+        }
 
         AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getAnywhereType() + 10, ae.getTimeStamp());
         MainFragment.getViewModelInstance().update(item);

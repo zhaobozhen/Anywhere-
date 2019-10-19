@@ -9,7 +9,7 @@
         android:fillColor="#F5F5F5"
         android:fillAlpha="1"/>
     <path
-        android:fillColor="@color/colorPrimary"
+        android:fillColor="@color/colorAccent"
         android:pathData="M20,17V31L31,24Z"
         android:fillAlpha="1"/>
 </vector>

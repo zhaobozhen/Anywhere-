@@ -11,6 +11,7 @@ public class Const {
     public static final String SP_KEY_ACTION_BAR_TITLE = "actionBarTitle";
     public static final String SP_KEY_ACTION_BAR_TYPE = "actionBarType";
     public static final String SP_KEY_SHORTCUTS = "shortcuts";
+    public static final String SP_KEY_SORT_MODE = "sortMode";
 
     public static final int SHORT_CLASS_NAME_TYPE = 0;
     public static final int FULL_CLASS_NAME_TYPE = 1;
@@ -21,6 +22,11 @@ public class Const {
 
     public static final String ACTION_BAR_TYPE_LIGHT = "light";
     public static final String ACTION_BAR_TYPE_DARK = "dark";
+
+    public static final String SORT_MODE_TIME_ASC = "TIME_ASC";
+    public static final String SORT_MODE_TIME_DESC = "TIME_DESC";
+    public static final String SORT_MODE_NAME_ASC = "NAME_ASC";
+    public static final String SORT_MODE_NAME_DESC = "NAME_DESC";
 
     public static final String INTENT_EXTRA_PARAM_1 = "param1";
     public static final String INTENT_EXTRA_PARAM_2 = "param2";

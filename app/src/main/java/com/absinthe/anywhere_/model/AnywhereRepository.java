@@ -14,7 +14,7 @@ public class AnywhereRepository {
     public AnywhereRepository(Application application) {
         AnywhereRoomDatabase db = AnywhereRoomDatabase.getDatabase(application);
         mAnywhereDao = db.anywhereDao();
-        mAllAnywhereEntities = mAnywhereDao.getAllAnywhereEntities();
+        mAllAnywhereEntities = getSortedEntities();
     }
 
     public LiveData<List<AnywhereEntity>> getAllAnywhereEntities() {
@@ -75,6 +75,20 @@ public class AnywhereRepository {
         protected Void doInBackground(final AnywhereEntity... params) {
             mAsyncTaskDao.delete(params[0]);
             return null;
+        }
+    }
+
+    private LiveData<List<AnywhereEntity>> getSortedEntities() {
+        switch (GlobalValues.sSortMode) {
+            case Const.SORT_MODE_TIME_ASC:
+                return mAnywhereDao.getAllAnywhereEntitiesOrderByTimeAsc();
+            case Const.SORT_MODE_NAME_ASC:
+                return mAnywhereDao.getAllAnywhereEntitiesOrderByNameAsc();
+            case Const.SORT_MODE_NAME_DESC:
+                return mAnywhereDao.getAllAnywhereEntitiesOrderByNameDesc();
+            case Const.SORT_MODE_TIME_DESC:
+            default:
+                return mAnywhereDao.getAllAnywhereEntitiesOrderByTimeDesc();
         }
     }
 }
