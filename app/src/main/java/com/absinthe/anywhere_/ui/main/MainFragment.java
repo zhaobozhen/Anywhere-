@@ -34,6 +34,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -239,11 +240,25 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
             popup.setOnMenuItemClickListener(popupItem -> {
                 switch (popupItem.getItemId()) {
+                    case R.id.sort_by_time_desc:
+                        GlobalValues.setsSortMode(Const.SORT_MODE_TIME_DESC);
+                        break;
+                    case R.id.sort_by_time_asc:
+                        GlobalValues.setsSortMode(Const.SORT_MODE_TIME_ASC);
+                        break;
+                    case R.id.sort_by_name_desc:
+                        GlobalValues.setsSortMode(Const.SORT_MODE_NAME_DESC);
+                        break;
+                    case R.id.sort_by_name_asc:
+                        GlobalValues.setsSortMode(Const.SORT_MODE_NAME_ASC);
+                        break;
                     case R.id.sort:
-                        ToastUtil.makeText("Sort");
+                        ToastUtil.makeText("Dev");
                         break;
                     default:
                 }
+
+                adapter.setItems(ListUtils.sort(getViewModelInstance().getAllAnywhereEntities().getValue()));
                 return true;
             });
 

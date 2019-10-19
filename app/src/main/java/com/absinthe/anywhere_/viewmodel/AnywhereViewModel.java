@@ -62,4 +62,9 @@ public class AnywhereViewModel extends AndroidViewModel {
         }
         return mBackground;
     }
+
+    public void refreshList() {
+        mRepository.refreshList();
+        mAllAnywhereEntities = mRepository.getAllAnywhereEntities();
+    }
 }

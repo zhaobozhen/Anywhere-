@@ -91,4 +91,8 @@ public class AnywhereRepository {
                 return mAnywhereDao.getAllAnywhereEntitiesOrderByTimeDesc();
         }
     }
+
+    public void refreshList() {
+        mAllAnywhereEntities = getSortedEntities();
+    }
 }
