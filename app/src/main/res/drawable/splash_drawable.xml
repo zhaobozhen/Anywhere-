@@ -7,10 +7,10 @@
         </shape>
     </item>
 
-    <!--单独的 splash 图片 -->
+    <!--单独的 pic_splash 图片 -->
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/splash" />
+            android:src="@drawable/pic_splash" />
     </item>
 </layer-list>

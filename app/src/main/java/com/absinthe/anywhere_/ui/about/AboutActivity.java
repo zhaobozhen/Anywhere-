@@ -26,7 +26,7 @@ public class AboutActivity extends AbsAboutActivity {
     @Override
     protected void onCreateHeader(@NonNull ImageView icon, @NonNull TextView slogan, @NonNull TextView version) {
         View.OnClickListener listener = createDebugListener();
-        icon.setImageResource(R.drawable.splash);
+        icon.setImageResource(R.drawable.pic_splash);
         icon.setOnClickListener(listener);
         slogan.setText(getString(R.string.slogan));
         version.setText(String.format("Version: %s", BuildConfig.VERSION_NAME));
@@ -38,7 +38,7 @@ public class AboutActivity extends AbsAboutActivity {
         items.add(new Card(getString(R.string.about_text)));
 
         items.add(new Category("Developers"));
-        items.add(new Contributor(R.drawable.rabbit, "Absinthe", "Developer & designer", "coolmarket://www.coolapk.com/u/482045"));
+        items.add(new Contributor(R.drawable.pic_rabbit, "Absinthe", "Developer & designer", "coolmarket://www.coolapk.com/u/482045"));
 
         items.add(new Category("Open Source Licenses"));
         items.add(new License("Shizuku", "Rikka", "License", "https://github.com/RikkaApps/Shizuku"));

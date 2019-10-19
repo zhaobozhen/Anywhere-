@@ -59,6 +59,7 @@
     <string name="menu_sort_by_time_asc">按添加时间升序 (0–9)</string>
     <string name="menu_sort_by_name_desc">按名字降序 (Z–A)</string>
     <string name="menu_sort_by_name_asc">按名字升序 (A–Z)</string>
+    <string name="menu_sort_manually">手动排序</string>
 
     <!--  Settings  -->
     <string name="settings_category_normal">常规</string>

@@ -53,7 +53,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.initialize_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_initialize, container, false);
         initView(view);
         MainActivity.setCurFragment(this);
 

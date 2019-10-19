@@ -70,7 +70,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                              @Nullable Bundle savedInstanceState) {
         mContext = getActivity();
         MainActivity.setCurFragment(this);
-        View view = inflater.inflate(R.layout.main_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         initView(view);
 
         return view;

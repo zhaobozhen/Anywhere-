@@ -24,7 +24,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_done_outline_24px_green"
+                android:background="@drawable/ic_done_outline_green"
                 android:layout_marginEnd="@dimen/anywhere_cardview_item_margin"
                 android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
                 android:layout_alignParentEnd="true"

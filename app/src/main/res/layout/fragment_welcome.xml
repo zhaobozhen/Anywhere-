@@ -9,7 +9,7 @@
         android:id="@+id/iv_welcome_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/splash"
+        android:background="@drawable/pic_splash"
         android:contentDescription="@string/welcome_logo_todo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

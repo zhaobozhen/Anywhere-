@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.settings.SettingsActivity">
 
-    <include layout="@layout/settings_fragment" />
+    <include layout="@layout/fragment_settings" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
