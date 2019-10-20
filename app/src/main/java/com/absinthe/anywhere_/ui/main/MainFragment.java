@@ -238,6 +238,22 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
                 menuBuilder.setOptionalIconsVisible(true);
             }
+
+            switch (GlobalValues.sSortMode) {
+                case Const.SORT_MODE_TIME_DESC:
+                    popup.getMenu().getItem(0).setChecked(true);
+                    break;
+                case Const.SORT_MODE_TIME_ASC:
+                    popup.getMenu().getItem(1).setChecked(true);
+                    break;
+                case Const.SORT_MODE_NAME_DESC:
+                    popup.getMenu().getItem(2).setChecked(true);
+                    break;
+                case Const.SORT_MODE_NAME_ASC:
+                    popup.getMenu().getItem(3).setChecked(true);
+                    break;
+            }
+
             popup.setOnMenuItemClickListener(popupItem -> {
                 switch (popupItem.getItemId()) {
                     case R.id.sort_by_time_desc:
@@ -252,9 +268,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     case R.id.sort_by_name_asc:
                         GlobalValues.setsSortMode(Const.SORT_MODE_NAME_ASC);
                         break;
-                    case R.id.sort:
-                        ToastUtil.makeText("Dev");
-                        break;
+//                    case R.id.sort:
+//                        ToastUtil.makeText("Dev");
+//                        break;
                     default:
                 }
 

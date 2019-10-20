@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -344,7 +345,17 @@ public class PermissionUtil {
             Log.d(TAG, "Shizuku v3 may not running.");
             new MaterialAlertDialogBuilder(mContext)
                     .setMessage(R.string.dialog_message_shizuku_not_running)
-                    .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                        Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
+                        if (intent != null) {
+                            ((Activity) mContext).startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
+                        } else {
+                            ToastUtil.makeText(R.string.toast_not_install_shizuku);
+                            intent = new Intent("android.intent.action.VIEW");
+                            intent.setData(Uri.parse("coolmarket://www.coolapk.com/moe.shizuku.privileged.api"));
+                            mContext.startActivity(intent);
+                        }
+                    })
                     .show();
             // if your app support Shizuku v2, run old v2 codes here
             // for new apps, recommended to ignore v2

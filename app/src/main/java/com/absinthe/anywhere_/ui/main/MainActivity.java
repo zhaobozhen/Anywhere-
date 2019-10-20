@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageView;
 
@@ -19,10 +18,10 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     private MainFragment mainFragment;
     private static Fragment curFragment;
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        Log.d(TAG, "onPrepareOptionsMenu: actionBarType = " + GlobalValues.sActionBarType);
+        LogUtil.d(this.getClass(), "onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
 
         if (menu.findItem(R.id.toolbar_settings) != null) {
             switch (GlobalValues.sActionBarType) {
@@ -122,29 +121,32 @@ public class MainActivity extends AppCompatActivity {
         if (uri == null) {
             return;
         } else {
-            Log.d(TAG, "Received Url = " + uri.toString());
+            LogUtil.d(this.getClass(), "Received Url =", uri.toString());
         }
         String scheme = uri.getScheme();
         String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
         String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
         String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
-        Log.d(TAG, "Url param = "+param1+", "+param2+", "+param3);
+        LogUtil.d(this.getClass(), "Url param =", param1, param2, param3);
 
         Bundle bundle = new Bundle();
         bundle.putString(Const.INTENT_EXTRA_PARAM_1, param1);
         bundle.putString(Const.INTENT_EXTRA_PARAM_2, param2);
         bundle.putString(Const.INTENT_EXTRA_PARAM_3, param3);
 
+        if (mainFragment == null) {
+            mainFragment = MainFragment.newInstance();
+        }
         mainFragment.setArguments(bundle);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "curFragment = " + curFragment);
+        LogUtil.d(this.getClass(), "curFragment =" + curFragment);
 
         if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
-            Log.d(TAG, "REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
+            LogUtil.d(this.getClass(), "REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
             if (curFragment instanceof MainFragment) {
                 if (mainFragment == null) {
                     mainFragment = (MainFragment) curFragment;
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
-            Log.d(TAG, "REQUEST_CODE_SHIZUKU_PERMISSION");
+            LogUtil.d(this.getClass(), "REQUEST_CODE_SHIZUKU_PERMISSION");
             if (curFragment instanceof InitializeFragment) {
                 InitializeFragment.getViewModel().getIsShizuku().setValue(Boolean.TRUE);
             }

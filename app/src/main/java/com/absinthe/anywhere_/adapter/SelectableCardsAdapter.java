@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.adapter;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
@@ -69,7 +70,11 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
 
         viewHolder.binding.itemCard.setOnClickListener(view -> openAnywhereActivity(item));
         viewHolder.binding.itemCard.setOnLongClickListener(view -> {
-            vibrator.vibrate(30);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.DEFAULT_AMPLITUDE);
+            } else {
+                vibrator.vibrate(20);
+            }
 
             switch (type) {
                 case AnywhereType.URL_SCHEME:

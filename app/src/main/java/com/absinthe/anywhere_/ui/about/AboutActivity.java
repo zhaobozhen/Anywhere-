@@ -72,7 +72,8 @@ public class AboutActivity extends AbsAboutActivity {
                         .setTitle("Debug info")
                         .setMessage(Html.fromHtml("<b>workingMode</b> = " + GlobalValues.sWorkingMode + "<br>"
                                 + "<b>backgroundUri</b> = " + GlobalValues.sBackgroundUri + "<br>"
-                                + "<b>actionBarType</b> = " + GlobalValues.sActionBarType + "<br>"))
+                                + "<b>actionBarType</b> = " + GlobalValues.sActionBarType + "<br>"
+                                + "<b>sortMode</b> = " + GlobalValues.sSortMode + "<br>"))
                         .setPositiveButton(R.string.dialog_delete_positive_button, null)
                         .setCancelable(false)
                         .show();
