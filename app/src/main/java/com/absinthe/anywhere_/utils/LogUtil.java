@@ -3,51 +3,51 @@ package com.absinthe.anywhere_.utils;
 import android.util.Log;
 
 public class LogUtil {
-    public static void v(Class klass, String... contents) {
+    public static void v(Class klass, Object... contents) {
         StringBuilder sb = new StringBuilder();
 
-        for (String str : contents) {
-            sb.append(str).append(" ");
+        for (Object obj : contents) {
+            sb.append(obj.toString()).append(" ");
         }
 
         Log.v(klass.getSimpleName(), sb.toString());
     }
 
-    public static void d(Class klass, String... contents) {
+    public static void d(Class klass, Object... contents) {
         StringBuilder sb = new StringBuilder();
 
-        for (String str : contents) {
-            sb.append(str).append(" ");
+        for (Object obj : contents) {
+            sb.append(obj.toString()).append(" ");
         }
 
         Log.d(klass.getSimpleName(), sb.toString());
     }
 
-    public static void i(Class klass, String... contents) {
+    public static void i(Class klass, Object... contents) {
         StringBuilder sb = new StringBuilder();
 
-        for (String str : contents) {
-            sb.append(str).append(" ");
+        for (Object obj : contents) {
+            sb.append(obj.toString()).append(" ");
         }
 
         Log.i(klass.getSimpleName(), sb.toString());
     }
 
-    public static void e(Class klass, String... contents) {
+    public static void e(Class klass, Object... contents) {
         StringBuilder sb = new StringBuilder();
 
-        for (String str : contents) {
-            sb.append(str).append(" ");
+        for (Object obj : contents) {
+            sb.append(obj.toString()).append(" ");
         }
 
         Log.e(klass.getSimpleName(), sb.toString());
     }
 
-    public static void w(Class klass, String... contents) {
+    public static void w(Class klass, Object... contents) {
         StringBuilder sb = new StringBuilder();
 
-        for (String str : contents) {
-            sb.append(str).append(" ");
+        for (Object obj : contents) {
+            sb.append(obj.toString()).append(" ");
         }
 
         Log.w(klass.getSimpleName(), sb.toString());

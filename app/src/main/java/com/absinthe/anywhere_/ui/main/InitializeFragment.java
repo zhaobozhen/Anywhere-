@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +22,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.AnimationUtil;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
@@ -33,7 +33,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.Objects;
 
 public class InitializeFragment extends Fragment implements MaterialButtonToggleGroup.OnButtonCheckedListener, LifecycleOwner {
-    private static final String TAG = InitializeFragment.class.getSimpleName();
     private static InitializeViewModel mViewModel;
 
     private Context mContext;
@@ -102,7 +101,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     @Override
     public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-        Log.d(TAG, "onButtonChecked");
+        LogUtil.d(this.getClass(), "onButtonChecked");
 
         switch (checkedId) {
             case R.id.btn_url_scheme:
@@ -220,10 +219,10 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 btnRoot.setEnabled(false);
                 cvRoot.findViewById(R.id.done).setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.ROOT_PERM);
-                Log.d(TAG, "allPerm = " + mViewModel.getAllPerm().getValue());
+                LogUtil.d(this.getClass(), "allPerm = " + mViewModel.getAllPerm().getValue());
 
             } else {
-                Log.d(TAG, "ROOT permission denied.");
+                LogUtil.d(this.getClass(), "ROOT permission denied.");
                 ToastUtil.makeText(R.string.toast_root_permission_denied);
             }
         });
@@ -257,14 +256,14 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 btnOverlay.setEnabled(false);
                 cvOverlay.findViewById(R.id.done).setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.OVERLAY_PERM);
-                Log.d(TAG, "allPerm = " + mViewModel.getAllPerm().getValue());
+                LogUtil.d(this.getClass(), "allPerm = " + mViewModel.getAllPerm().getValue());
             }
         });
 
     }
 
     private void hidePermissionCard() {
-        Log.d(TAG, "hidePermissionCard");
+        LogUtil.d(this.getClass(), "hidePermissionCard");
 
         if (cvRoot.getVisibility() == View.VISIBLE) {
             AnimationUtil.showAndHiddenAnimation(cvRoot, AnimationUtil.AnimationState.STATE_GONE, AnimationUtil.SHORT);

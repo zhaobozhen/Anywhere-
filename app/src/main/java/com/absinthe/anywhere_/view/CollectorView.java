@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,12 +13,12 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 
 public class CollectorView extends LinearLayout {
-    public static final String TAG = "CollectorView";
 
     private final Context mContext;
     private final WindowManager mWindowManager;
@@ -45,7 +44,7 @@ public class CollectorView extends LinearLayout {
         ImageButton mIbCollector = findViewById(R.id.ib_collector);
 
         mIbCollector.setOnClickListener(v -> {
-            Log.d(TAG, "Collector clicked!");
+            LogUtil.d(this.getClass(), "Collector clicked!");
             collectActivity();
             mContext.startService(
                     new Intent(mContext, CollectorService.class)
@@ -72,7 +71,7 @@ public class CollectorView extends LinearLayout {
                         // 获取按下时的X，Y坐标
                         lastX = motionEvent.getRawX();
                         lastY = motionEvent.getRawY();
-                        Log.d(TAG, "MotionEvent.ACTION_DOWN last:" + lastX + ", " + lastY);
+                        LogUtil.d(this.getClass(), "MotionEvent.ACTION_DOWN last:", lastX, lastY);
 
                         isClick = false;
                         startTime = System.currentTimeMillis();
@@ -83,12 +82,12 @@ public class CollectorView extends LinearLayout {
                         // 获取移动时的X，Y坐标
                         nowX = motionEvent.getRawX();
                         nowY = motionEvent.getRawY();
-                        Log.d(TAG, "MotionEvent.ACTION_MOVE now:" + nowX + ", " + nowY);
+                        LogUtil.d(this.getClass(), "MotionEvent.ACTION_MOVE now:", nowX, nowY);
 
                         // 计算XY坐标偏移量
                         tranX = nowX - lastX;
                         tranY = nowY - lastY;
-                        Log.d(TAG, "MotionEvent.ACTION_MOVE tran:" + tranX + ", " + tranY);
+                        LogUtil.d(this.getClass(), "MotionEvent.ACTION_MOVE tran:", tranX, tranY);
 
                         // 移动悬浮窗
                         layoutParams.x -= tranX;
@@ -102,7 +101,7 @@ public class CollectorView extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         endTime = System.currentTimeMillis();
-                        Log.d(TAG, "Touch period = " + (endTime - startTime));
+                        LogUtil.d(this.getClass(), "Touch period =", (endTime - startTime));
                         isClick = (endTime - startTime) > 0.2 * 1000L;
                         break;
                 }
@@ -115,7 +114,7 @@ public class CollectorView extends LinearLayout {
         String cmd = Const.CMD_GET_TOP_STACK_ACTIVITY;
         String result = PermissionUtil.execCmd(cmd);
 
-        Log.d(TAG, "Shell result = " + result);
+        LogUtil.d(this.getClass(), "Shell result =", result);
 
         if (result != null) {
             String[] processed = TextUtils.processResultString(result);
@@ -124,7 +123,7 @@ public class CollectorView extends LinearLayout {
                 packageName = processed[0];
                 className = processed[1];
                 classNameType = Integer.valueOf(processed[2]);
-                Log.d(TAG, "classNameType = " + classNameType);
+                LogUtil.d(this.getClass(), "classNameType =", classNameType);
             }
         } else {
             ToastUtil.makeText(R.string.toast_check_perm);

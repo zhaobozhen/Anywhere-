@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCardsAdapter.ItemViewHolder> {
-    private static final String TAG = SelectableCardsAdapter.class.getSimpleName();
 
     private List<AnywhereEntity> items;
     private Context mContext;
@@ -66,7 +65,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
         viewHolder.bind(item);
 
         int type = item.getAnywhereType();
-        Log.d(TAG, "Type = " + type);
+        LogUtil.d(this.getClass(), "Type = " + type);
 
         viewHolder.binding.itemCard.setOnClickListener(view -> openAnywhereActivity(item));
         viewHolder.binding.itemCard.setOnLongClickListener(view -> {

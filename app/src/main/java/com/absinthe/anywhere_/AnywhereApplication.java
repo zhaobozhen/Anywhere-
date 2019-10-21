@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,7 +24,6 @@ import moe.shizuku.api.ShizukuService;
 
 public class AnywhereApplication extends Application {
     public static final String ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER";
-    public static final String TAG = AnywhereApplication.class.getSimpleName();
     @SuppressLint("StaticFieldLeak")
     public static Context sContext = null;
 
@@ -71,14 +71,14 @@ public class AnywhereApplication extends Application {
         super.attachBaseContext(base);
         Reflection.unseal(base);
 
-        Log.d(TAG, "initialize " + ShizukuMultiProcessHelper.initialize(this, !getProcessName().endsWith(":test")));
+        LogUtil.d(this.getClass(), "initialize ", ShizukuMultiProcessHelper.initialize(this, !getProcessName().endsWith(":test")));
 
         ShizukuClientHelper.setBinderReceivedListener(() -> {
-            Log.d(TAG, "onBinderReceived");
+            LogUtil.d(this.getClass(), "onBinderReceived");
 
             if (ShizukuService.getBinder() == null) {
                 // ShizukuBinderReceiveProvider started without binder, should never happened
-                Log.d(TAG, "binder is null");
+                LogUtil.d(this.getClass(), "binder is null");
                 v3Failed = true;
             } else {
                 try {
@@ -93,7 +93,7 @@ public class AnywhereApplication extends Application {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_SEND_BINDER));
                 } catch (Throwable tr) {
                     // blocked by SELinux or server dead, should never happened
-                    Log.i(TAG, "can't contact with remote", tr);
+                    Log.i(this.getClass().getSimpleName(), "can't contact with remote", tr);
                     v3Failed = true;
                 }
             }

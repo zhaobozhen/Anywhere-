@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -35,7 +34,7 @@ import moe.shizuku.api.ShizukuClientHelper;
 import moe.shizuku.api.ShizukuService;
 
 public class PermissionUtil {
-    private static final String TAG = "PermissionUtil";
+    private static final Class klass = PermissionUtil.class;
     private static final int REQUEST_CODE_PERMISSION_V3 = 1001;
     private static final int REQUEST_CODE_AUTHORIZATION_V3 = 1002;
 
@@ -68,7 +67,7 @@ public class PermissionUtil {
 
         try {
             String cmd = "chmod 777 " + pkgCodePath;
-            Log.d(TAG, "root cmd = " + cmd);
+            LogUtil.d(klass, "root cmd =", cmd);
             process = Runtime.getRuntime().exec("su"); //切换到 root 账户
             os = new DataOutputStream(process.getOutputStream());
             os.writeBytes(cmd + "\n");
@@ -76,7 +75,7 @@ public class PermissionUtil {
             os.flush();
             process.waitFor();
         } catch (Exception e) {
-            Log.d(TAG, "upgradeRootPermission:" + e.toString());
+            LogUtil.d(klass, "upgradeRootPermission:", e.toString());
             return false;
         } finally {
             try {
@@ -127,11 +126,11 @@ public class PermissionUtil {
                     MainActivity.getInstance().startActivity(intent);
                     result = "android.intent.action.VIEW";
                 } catch (Exception e) {
-                    Log.d(TAG, "WORKING_MODE_URL_SCHEME:Exception:" + e.getMessage());
+                    LogUtil.d(klass, "WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
                 }
                 break;
         }
-        Log.d(TAG, "execCmd result = " + result);
+        LogUtil.d(klass, "execCmd result = ", result);
         return result;
     }
 
@@ -149,7 +148,7 @@ public class PermissionUtil {
             os = p.getOutputStream();
             is = p.getInputStream();
 
-            Log.i(TAG, cmd);
+            LogUtil.i(klass, cmd);
             os.write((cmd + "\n").getBytes());
             os.flush();
             os.write("exit\n".getBytes());
@@ -202,13 +201,13 @@ public class PermissionUtil {
             }
             is.close();
 
-            Log.d(TAG, "newProcess: " + remoteProcess);
-            Log.d(TAG, "waitFor: " + remoteProcess.waitFor());
-            Log.d(TAG, "output: " + sb);
+            LogUtil.d(klass, "newProcess: " + remoteProcess);
+            LogUtil.d(klass, "waitFor: " + remoteProcess.waitFor());
+            LogUtil.d(klass, "output: " + sb);
 
             return sb.toString();
         } catch (Throwable tr) {
-            Log.e(TAG, "newProcess", tr);
+            Log.e(klass.getSimpleName(), "newProcess", tr);
             return null;
         }
     }
@@ -219,7 +218,7 @@ public class PermissionUtil {
     public static boolean isMIUI() {
         try {
             String brand = android.os.Build.BRAND.toLowerCase();
-            Log.d(TAG, "brand = " + brand);
+            LogUtil.d(klass, "brand =", brand);
             if (!brand.contains("xiaomi") && !brand.contains("redmi")) {
                 return false;
             }
@@ -292,7 +291,7 @@ public class PermissionUtil {
                 }
             } else {
                 // activity not found
-                Log.d(TAG, "activity not found.");
+                LogUtil.d(klass, "activity not found.");
                 ToastUtil.makeText("activity not found.");
                 return false;
             }
@@ -342,7 +341,7 @@ public class PermissionUtil {
             }
 
             // Shizuku v3 may not running, notify user
-            Log.d(TAG, "Shizuku v3 may not running.");
+            LogUtil.d(klass, "Shizuku v3 may not running.");
             new MaterialAlertDialogBuilder(mContext)
                     .setMessage(R.string.dialog_message_shizuku_not_running)
                     .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {

@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.ui.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,10 +11,9 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.LogUtil;
 
 public class SettingsActivity extends AppCompatActivity {
-    private final String TAG = SettingsActivity.class.getSimpleName();
-
     private static SettingsActivity instance;
 
     public static SettingsActivity getInstance() {
@@ -46,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
                     if (data != null) {
                         Uri backgroundUri = data.getData();
                         if (backgroundUri != null) {
-                            Log.d(TAG, "backgroundUri = " + backgroundUri);
+                            LogUtil.d(this.getClass(), "backgroundUri = " + backgroundUri);
                             GlobalValues.setsBackgroundUri(backgroundUri.toString());
                             GlobalValues.setsActionBarType("");
                             if (MainFragment.getViewModelInstance() != null) {
@@ -54,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         }
                     } else {
-                        Log.d(TAG, "onActivityResult: REQUEST_CODE_IMAGE_CAPTURE: data = null.");
+                        LogUtil.d(this.getClass(), "onActivityResult: REQUEST_CODE_IMAGE_CAPTURE: data = null.");
                     }
                 }
                 break;

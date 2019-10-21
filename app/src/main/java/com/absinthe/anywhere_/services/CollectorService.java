@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.service.quicksettings.Tile;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.CollectorWindowManager;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.ToastUtil;
 
 public class CollectorService extends Service {
-    private static final String TAG = "CollectorService";
     public static final String COMMAND = "COMMAND";
     public static final String COMMAND_OPEN = "COMMAND_OPEN";
     public static final String COMMAND_CLOSE = "COMMAND_CLOSE";
@@ -29,7 +28,7 @@ public class CollectorService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG,"CollectorService onCreate");
+        LogUtil.i(this.getClass(),"CollectorService onCreate");
     }
 
     @Override
@@ -44,7 +43,7 @@ public class CollectorService extends Service {
                 if (command.equals(COMMAND_OPEN)) {
                     mCollectorWindowManager.addView();
                 } else if (command.equals(COMMAND_CLOSE)) {
-                    Log.d(TAG, "Intent:COMMAND_CLOSE");
+                    LogUtil.d(this.getClass(), "Intent:COMMAND_CLOSE");
                     mCollectorWindowManager.removeView();
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -71,7 +70,7 @@ public class CollectorService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "CollectorService onDestroy.");
+        LogUtil.d(this.getClass(), "CollectorService onDestroy.");
         super.onDestroy();
     }
 }

@@ -14,7 +14,6 @@ import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
@@ -42,7 +41,7 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.Calendar;
 
 public class UiUtils {
-    private static final String TAG = "UiUtils";
+    private static final Class klass = UiUtils.class;
 
     /**
      * Get app icon by package name
@@ -85,7 +84,7 @@ public class UiUtils {
      * @param actionBar our target
      */
     public static void setActionBarTitle(Activity activity, ActionBar actionBar) {
-        Log.d(TAG, "setActionBarTitle:workingMode = " + GlobalValues.sWorkingMode);
+        LogUtil.d(klass, "setActionBarTitle:workingMode =", GlobalValues.sWorkingMode);
         switch (GlobalValues.sWorkingMode) {
             case "":
                 setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, "Nowhere-");
@@ -181,7 +180,7 @@ public class UiUtils {
 
         if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
-            Log.d(TAG, "actionBarHeight = " + actionBarHeight);
+            LogUtil.d(klass, "actionBarHeight = " + actionBarHeight);
         }
 
         int finalActionBarHeight = actionBarHeight;
@@ -192,8 +191,8 @@ public class UiUtils {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Bitmap actionBarBitmap = Bitmap.createBitmap(resource, 0, 0, resource.getWidth(), Math.min(finalActionBarHeight, resource.getHeight()));
-                        Log.d(TAG, "actionBarBitmap.getWidth() = " + actionBarBitmap.getWidth());
-                        Log.d(TAG, "actionBarBitmap.getHeight() = " + actionBarBitmap.getHeight());
+                        LogUtil.d(klass, "actionBarBitmap.getWidth() =", actionBarBitmap.getWidth());
+                        LogUtil.d(klass, "actionBarBitmap.getHeight() =", actionBarBitmap.getHeight());
 
                         Palette.from(actionBarBitmap).generate(p -> {
                             if (p != null) {
@@ -230,7 +229,7 @@ public class UiUtils {
     private static void setTopWidgetColor(Activity activity, ActionBar actionBar, String type, String title) {
 
         if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
-            Log.d(TAG, "Dark-");
+            LogUtil.d(klass, "Dark-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -245,7 +244,7 @@ public class UiUtils {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT) || type.isEmpty()) {
-            Log.d(TAG, "Light-");
+            LogUtil.d(klass, "Light-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -263,7 +262,7 @@ public class UiUtils {
      */
     public static int getAutoDarkMode() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        Log.d(TAG, "Current hour = " + hour);
+        LogUtil.d(klass, "Current hour =", hour);
 
         if (hour >= 22 || hour <= 7) {
             return AppCompatDelegate.MODE_NIGHT_YES;
@@ -277,7 +276,7 @@ public class UiUtils {
      * @param drawable our target
      */
     public static Bitmap drawableToBitmap (Drawable drawable) {
-        Bitmap bitmap = null;
+        Bitmap bitmap;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;

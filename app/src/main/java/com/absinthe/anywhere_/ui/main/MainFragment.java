@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +34,7 @@ import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ListUtils;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -50,7 +50,6 @@ import java.util.List;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class MainFragment extends Fragment implements LifecycleOwner {
-    private static final String TAG = MainFragment.class.getSimpleName();
     private Context mContext;
     private int selectedWorkingModeIndex = 0;
 
@@ -104,9 +103,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             String param2 = bundle.getString(Const.INTENT_EXTRA_PARAM_2);
             String param3 = bundle.getString(Const.INTENT_EXTRA_PARAM_3);
 
-            Log.d(TAG, "Bundle param1 = " + param1);
-            Log.d(TAG, "Bundle param2 = " + param2);
-            Log.d(TAG, "Bundle param3 = " + param3);
+            LogUtil.d(this.getClass(), "Bundle param1 =", param1);
+            LogUtil.d(this.getClass(), "Bundle param2 =", param2);
+            LogUtil.d(this.getClass(), "Bundle param3 =", param3);
 
             if (param1 != null && param2 != null && param3 != null) {
                 if (param2.isEmpty() && param3.isEmpty()) {
@@ -130,7 +129,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     void checkWorkingPermission() {
-        Log.d(TAG, "workingMode = " + GlobalValues.sWorkingMode);
+        LogUtil.d(this.getClass(), "workingMode =", GlobalValues.sWorkingMode);
         selectedWorkingModeIndex = 0;
         if (GlobalValues.sWorkingMode != null) {
             if (GlobalValues.sWorkingMode.isEmpty()) {
@@ -149,7 +148,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                                     mViewModel.getWorkingMode().setValue(Const.WORKING_MODE_SHIZUKU);
                                     break;
                                 default:
-                                    Log.d(TAG, "default");
+                                    LogUtil.d(this.getClass(), "default");
                             }
                             checkWorkingPermission();
                         })
@@ -178,7 +177,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
                         startCollector();
                     } else {
-                        Log.d(TAG, "ROOT permission denied.");
+                        LogUtil.d(this.getClass(), "ROOT permission denied.");
                         ToastUtil.makeText(R.string.toast_root_permission_denied);
                         actionBar.setTitle("Nowhere-");
                     }
@@ -327,7 +326,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getBackground().observe(this, backgroundObserver);
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            Log.d(TAG, "backgroundUri = " + GlobalValues.sBackgroundUri);
+            LogUtil.d(this.getClass(), "backgroundUri =", GlobalValues.sBackgroundUri);
             mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
         }
     }

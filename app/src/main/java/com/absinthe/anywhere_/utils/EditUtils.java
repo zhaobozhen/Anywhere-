@@ -6,7 +6,6 @@ import com.absinthe.anywhere_.ui.main.MainFragment;
 import java.util.List;
 
 public class EditUtils {
-    private static final String TAG = "EditUtils";
 
     public static boolean hasSameAppName(String param1, String param2) {
         List<AnywhereEntity> list = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();

@@ -5,7 +5,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -15,7 +14,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 
 public class TextUtils {
-    private static final String TAG = TextUtils.class.getSimpleName();
+    private static final Class klass = TextUtils.class;
 
     /**
      * process and obtain adb result
@@ -33,8 +32,8 @@ public class TextUtils {
         packageName = result.substring(result.indexOf(" u0 ") + 4, result.indexOf("/"));
         className = result.substring(result.indexOf("/") + 1, result.lastIndexOf(" "));
 
-        Log.d(TAG, "packageName = " + packageName);
-        Log.d(TAG, "className = " + className);
+        LogUtil.d(klass, "packageName =", packageName);
+        LogUtil.d(klass, "className =", className);
 
         if (String.valueOf(className.charAt(0)).equals(".")) {
             return new String[]{packageName, className, Const.SHORT_CLASS_NAME_TYPE + ""};
@@ -91,7 +90,7 @@ public class TextUtils {
             packageName = item.getParam1();
             className = item.getParam2();
             classNameType = Integer.valueOf(item.getParam3());
-            Log.d(TAG, "packageName = " + packageName + ", className = " + className + ", classNameType = " + classNameType);
+            LogUtil.d(klass, "packageName =", packageName, "className =", className, "classNameType =" + classNameType);
 
             if (classNameType == Const.FULL_CLASS_NAME_TYPE) {
                 cmd = "am start -n " + packageName + "/" + className;
@@ -100,7 +99,7 @@ public class TextUtils {
             }
         } else if (type == AnywhereType.URL_SCHEME) {
             urlScheme = item.getParam1();
-            Log.d(TAG, "urlScheme = " + urlScheme);
+            LogUtil.d(klass, "urlScheme =", urlScheme);
 
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                 cmd = urlScheme;
@@ -111,7 +110,7 @@ public class TextUtils {
         } else if (type == AnywhereType.MINI_PROGRAM) {
             //Todo
         } else {
-            Log.d(TAG, "AnywhereType has problem.");
+            LogUtil.d(klass, "AnywhereType has problem.");
         }
         return cmd;
     }
@@ -129,7 +128,7 @@ public class TextUtils {
             packageName = item.getmParam1();
             className = item.getmParam2();
             classNameType = Integer.valueOf(item.getmParam3());
-            Log.d(TAG, "packageName = " + packageName + ", className = " + className + ", classNameType = " + classNameType);
+            LogUtil.d(klass, "packageName =", packageName, "className =", className, "classNameType =" + classNameType);
 
             if (classNameType == Const.FULL_CLASS_NAME_TYPE) {
                 cmd = "am start -n " + packageName + "/" + className;
@@ -138,7 +137,7 @@ public class TextUtils {
             }
         } else if (type == AnywhereType.URL_SCHEME) {
             urlScheme = item.getmParam1();
-            Log.d(TAG, "urlScheme = " + urlScheme);
+            LogUtil.d(klass, "urlScheme =", urlScheme);
 
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                 cmd = urlScheme;
@@ -149,7 +148,7 @@ public class TextUtils {
         } else if (type == AnywhereType.MINI_PROGRAM) {
             //Todo
         } else {
-            Log.d(TAG, "AnywhereType has problem.");
+            LogUtil.d(klass, "AnywhereType has problem.");
         }
         return cmd;
     }
