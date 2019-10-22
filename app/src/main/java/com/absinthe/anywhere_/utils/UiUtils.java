@@ -2,7 +2,9 @@ package com.absinthe.anywhere_.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -39,6 +41,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class UiUtils {
     private static final Class klass = UiUtils.class;
@@ -54,7 +57,12 @@ public class UiUtils {
 
         switch (type) {
             case AnywhereType.URL_SCHEME:
-                apkTempPackageName = item.getParam2() == null ? "" : item.getParam2();
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(item.getParam1()));
+                List<ResolveInfo> resolveInfo = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                if (resolveInfo.size() != 0) {
+                    apkTempPackageName = resolveInfo.get(0).activityInfo.packageName;
+                }
                 break;
             case AnywhereType.ACTIVITY:
                 apkTempPackageName = item.getParam1();
@@ -65,11 +73,7 @@ public class UiUtils {
 
         Drawable drawable;
         try{
-            if (type == AnywhereType.URL_SCHEME) {
-                drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
-            } else {
-                drawable = context.getPackageManager().getApplicationIcon(apkTempPackageName);
-            }
+            drawable = context.getPackageManager().getApplicationIcon(apkTempPackageName);
         }
         catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();

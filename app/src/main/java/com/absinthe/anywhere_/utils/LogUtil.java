@@ -7,7 +7,11 @@ public class LogUtil {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
-            sb.append(obj.toString()).append(" ");
+            if (obj == null) {
+                sb.append("NULL").append(" ");
+            } else {
+                sb.append(obj.toString()).append(" ");
+            }
         }
 
         Log.v(klass.getSimpleName(), sb.toString());
@@ -17,7 +21,11 @@ public class LogUtil {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
-            sb.append(obj.toString()).append(" ");
+            if (obj == null) {
+                sb.append("NULL").append(" ");
+            } else {
+                sb.append(obj.toString()).append(" ");
+            }
         }
 
         Log.d(klass.getSimpleName(), sb.toString());
@@ -27,7 +35,11 @@ public class LogUtil {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
-            sb.append(obj.toString()).append(" ");
+            if (obj == null) {
+                sb.append("NULL").append(" ");
+            } else {
+                sb.append(obj.toString()).append(" ");
+            }
         }
 
         Log.i(klass.getSimpleName(), sb.toString());
@@ -37,7 +49,11 @@ public class LogUtil {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
-            sb.append(obj.toString()).append(" ");
+            if (obj == null) {
+                sb.append("NULL").append(" ");
+            } else {
+                sb.append(obj.toString()).append(" ");
+            }
         }
 
         Log.e(klass.getSimpleName(), sb.toString());
@@ -47,7 +63,11 @@ public class LogUtil {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
-            sb.append(obj.toString()).append(" ");
+            if (obj == null) {
+                sb.append("NULL").append(" ");
+            } else {
+                sb.append(obj.toString()).append(" ");
+            }
         }
 
         Log.w(klass.getSimpleName(), sb.toString());

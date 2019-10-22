@@ -44,7 +44,8 @@ public class ShortcutsUtil {
                 .setIntent(intent)
                 .build();
         infos.add(info);
-        if (getInstance().getMaxShortcutCountPerActivity() <= 3) {
+        if (getInstance().getDynamicShortcuts().size() <= 3) {
+            LogUtil.runningHere(ShortcutsUtil.getInstance().getClass());
             getInstance().addDynamicShortcuts(infos);
         }
 
