@@ -219,7 +219,7 @@ public class Editor {
             TextInputEditText tietDescription = mBottomSheetDialog.findViewById(R.id.tiet_description);
 
             if (tietAppName != null) {
-                tietAppName.setText(R.string.bsd_new_url_scheme_name);
+                tietAppName.setText(mItem.getAppName());
             }
             if (tietUrlScheme != null) {
                 tietUrlScheme.setText(mItem.getParam1());

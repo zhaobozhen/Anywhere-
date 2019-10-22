@@ -26,24 +26,33 @@ import com.absinthe.anywhere_.view.Editor;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCardsAdapter.ItemViewHolder> {
+public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener {
+    public static final int ADAPTER_MODE_NORMAL = 0;
+    public static final int ADAPTER_MODE_SORT = 1;
 
     private List<AnywhereEntity> items;
     private Context mContext;
     private Vibrator vibrator;
     private Editor mEditor;
+    private int mode;
 
     public SelectableCardsAdapter(Context context) {
         this.mContext = context;
         this.items = new ArrayList<>();
         this.vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        this.mode = ADAPTER_MODE_NORMAL;
     }
 
     public void setItems(List<AnywhereEntity> items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
     }
 
     @Override
@@ -67,25 +76,32 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
         int type = item.getAnywhereType();
         LogUtil.d(this.getClass(), "Type = " + type);
 
-        viewHolder.binding.itemCard.setOnClickListener(view -> openAnywhereActivity(item));
+        viewHolder.binding.itemCard.setOnClickListener(view -> {
+            if (mode == ADAPTER_MODE_NORMAL) {
+                openAnywhereActivity(item);
+            }
+        });
         viewHolder.binding.itemCard.setOnLongClickListener(view -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator.vibrate(VibrationEffect.DEFAULT_AMPLITUDE);
-            } else {
-                vibrator.vibrate(20);
-            }
+            if (mode == ADAPTER_MODE_NORMAL) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.DEFAULT_AMPLITUDE);
+                } else {
+                    vibrator.vibrate(20);
+                }
 
-            switch (type) {
-                case AnywhereType.URL_SCHEME:
-                    openEditor(item, Editor.URL_SCHEME, position);
-                    break;
-                case AnywhereType.ACTIVITY:
-                    openEditor(item, Editor.ANYWHERE, position);
-                    break;
-                case AnywhereType.MINI_PROGRAM:
-                    break;
+                switch (type) {
+                    case AnywhereType.URL_SCHEME:
+                        openEditor(item, Editor.URL_SCHEME, position);
+                        break;
+                    case AnywhereType.ACTIVITY:
+                        openEditor(item, Editor.ANYWHERE, position);
+                        break;
+                    case AnywhereType.MINI_PROGRAM:
+                        break;
+                }
+                return true;
             }
-            return true;
+            return false;
         });
 
         switch (type) {
@@ -157,6 +173,25 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    @Override
+    public void onMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(items, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(items, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onSwiped(int position) {
+
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {

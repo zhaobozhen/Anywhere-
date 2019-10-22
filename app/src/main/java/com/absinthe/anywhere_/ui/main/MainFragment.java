@@ -20,11 +20,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -54,7 +56,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private int selectedWorkingModeIndex = 0;
 
     private static AnywhereViewModel mViewModel;
+    private RecyclerView mRecyclerView;
     private SelectableCardsAdapter adapter;
+    private ItemTouchHelper mItemTouchHelper;
     private ActionBar actionBar;
 
     static MainFragment newInstance() {
@@ -217,6 +221,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         adapter.setItems(anywhereEntityList);
         recyclerView.setAdapter(adapter);
 
+        ItemTouchCallBack touchCallBack = new ItemTouchCallBack();
+        touchCallBack.setOnItemTouchListener(adapter);
+        mItemTouchHelper = new ItemTouchHelper(touchCallBack);
+        mItemTouchHelper.attachToRecyclerView(null);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
     }
 
@@ -267,9 +276,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     case R.id.sort_by_name_asc:
                         GlobalValues.setsSortMode(Const.SORT_MODE_NAME_ASC);
                         break;
-//                    case R.id.sort:
-//                        ToastUtil.makeText("Dev");
-//                        break;
+                    case R.id.sort:
+                        adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
+                        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+                        break;
                     default:
                 }
 
@@ -283,8 +293,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void initView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        setUpRecyclerView(recyclerView);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
+        setUpRecyclerView(mRecyclerView);
         setHasOptionsMenu(true);
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
