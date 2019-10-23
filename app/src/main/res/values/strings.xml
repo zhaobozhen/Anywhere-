@@ -105,7 +105,7 @@
     <string name="dialog_url_scheme_community">捷径社区</string>
     <string name="dialog_message_perm_not_ever">尚有未授予的权限，确定要进入吗？</string>
     <string name="dialog_message_same_app_name">似乎有相似的 Anywhere-，要添加吗？</string>
-    <string name="dialog_reset_shortcuts_confirm_message">确定要重置 Shortcuts 吗？</string>
+    <string name="dialog_reset_shortcuts_confirm_message">确定要重置所有 Shortcuts 吗？</string>
 
     <string name="about_text">Anywhere- 是一个 App 页面的集合 App。</string>
 

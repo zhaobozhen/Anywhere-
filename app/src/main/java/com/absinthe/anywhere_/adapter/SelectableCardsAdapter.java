@@ -22,6 +22,7 @@ import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -35,20 +36,19 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
 
     private List<AnywhereEntity> items;
     private Context mContext;
-    private Vibrator vibrator;
     private Editor mEditor;
     private int mode;
 
     public SelectableCardsAdapter(Context context) {
         this.mContext = context;
         this.items = new ArrayList<>();
-        this.vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         this.mode = ADAPTER_MODE_NORMAL;
     }
 
     public void setItems(List<AnywhereEntity> items) {
-        this.items = items;
-        notifyDataSetChanged();
+        this.items.clear();
+        this.items.addAll(items);
+        notifyItemRangeChanged(0, getItemCount());
     }
 
     public void setMode(int mode) {
@@ -87,11 +87,7 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
         });
         viewHolder.binding.itemCard.setOnLongClickListener(view -> {
             if (mode == ADAPTER_MODE_NORMAL) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.DEFAULT_AMPLITUDE);
-                } else {
-                    vibrator.vibrate(20);
-                }
+                VibratorUtil.vibrate(mContext, VibratorUtil.DEFAULT);
 
                 switch (type) {
                     case AnywhereType.URL_SCHEME:

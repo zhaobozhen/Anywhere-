@@ -22,13 +22,14 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
+import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
@@ -42,6 +43,7 @@ import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -49,6 +51,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
@@ -227,7 +230,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mItemTouchHelper = new ItemTouchHelper(touchCallBack);
         mItemTouchHelper.attachToRecyclerView(null);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
+        ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
     }
 
     @Override
@@ -296,6 +300,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
                         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
                         ((Activity)mContext).invalidateOptionsMenu();
+                        VibratorUtil.vibrate(mContext, 50);
                         break;
                     default:
                 }
