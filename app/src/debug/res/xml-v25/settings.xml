@@ -50,10 +50,15 @@
             app:summary="@string/settings_backup_summary">
 
             <intent
-                android:targetPackage="com.absinthe.anywhere_"
+                android:targetPackage="com.absinthe.anywhere_.debug"
                 android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"/>
 
         </Preference>
+
+        <Preference
+            app:key="clearShortcuts"
+            app:title="@string/settings_clear_shortcuts"
+            app:summary="@string/settings_clear_shortcuts_summary"/>
 
     </PreferenceCategory>
 
@@ -72,7 +77,7 @@
             app:summary="@string/settings_about_summary">
 
             <intent
-                android:targetPackage="com.absinthe.anywhere_"
+                android:targetPackage="com.absinthe.anywhere_.debug"
                 android:targetClass="com.absinthe.anywhere_.ui.about.AboutActivity"/>
 
         </Preference>

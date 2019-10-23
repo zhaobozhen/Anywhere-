@@ -19,7 +19,7 @@ android {
         versionCode 1010
         versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders = [appName : "Anywhere-"]
+        manifestPlaceholders = [appName: "Anywhere-"]
     }
     dataBinding {
         enabled = true
@@ -27,7 +27,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            manifestPlaceholders = [appName : "Anywhere-β"]
+            manifestPlaceholders = [appName: "Anywhere-β"]
         }
         release {
             minifyEnabled true

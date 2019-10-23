@@ -3,6 +3,7 @@
     <string name="settings_title">设置</string>
     <string name="about_title">关于</string>
     <string name="shortcuts_title">Shortcuts</string>
+    <string name="backup_title">备份</string>
     <string name="tile_collector_on">启动 Collector</string>
     <string name="tile_collector_off">关闭 Collector</string>
     <string name="shortcut_add">添加 Anywhere-</string>
@@ -59,7 +60,7 @@
     <string name="menu_sort_by_time_asc">按添加时间升序 (0–9)</string>
     <string name="menu_sort_by_name_desc">按名字降序 (Z–A)</string>
     <string name="menu_sort_by_name_asc">按名字升序 (A–Z)</string>
-    <string name="menu_sort_manually">手动排序</string>
+    <string name="menu_sort_manually">拖拽排序</string>
 
     <!--  Settings  -->
     <string name="settings_category_normal">常规</string>
@@ -72,6 +73,7 @@
     <string name="settings_dark_mode">夜间模式</string>
     <string name="settings_dark_mode_oled">OLED 夜间模式</string>
     <string name="settings_clear_shortcuts">清除 Shortcuts</string>
+    <string name="settings_backup">备份</string>
     <string name="settings_help">帮助</string>
     <string name="settings_about">关于</string>
 
@@ -81,6 +83,7 @@
     <string name="settings_dark_mode_summary">在夜晚使用夜间模式</string>
     <string name="settings_dark_mode_oled_summary">在 OLED 设备上启用纯黑背景</string>
     <string name="settings_clear_shortcuts_summary">重置所有 Shortcuts</string>
+    <string name="settings_backup_summary">导出所有的 Anywhere-</string>
     <string name="settings_help_summary">帮助文档</string>
     <string name="settings_about_summary">这里是 Anywhere- !</string>
 

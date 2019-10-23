@@ -40,22 +40,22 @@
 
     </PreferenceCategory>
 
-    <!--    <PreferenceCategory-->
-    <!--        app:key="advancedCategory"-->
-    <!--        app:title="@string/settings_category_advanced">-->
+    <PreferenceCategory
+        app:key="advancedCategory"
+        app:title="@string/settings_category_advanced">
 
-    <!--        <Preference-->
-    <!--            app:key="shortcuts"-->
-    <!--            app:title="@string/settings_shortcuts"-->
-    <!--            app:summary="@string/settings_shortcuts_summary">-->
+        <Preference
+            app:key="backup"
+            app:title="@string/settings_backup"
+            app:summary="@string/settings_backup_summary">
 
-    <!--            <intent-->
-    <!--                android:targetPackage="com.absinthe.anywhere_"-->
-    <!--                android:targetClass="com.absinthe.anywhere_.ui.shortcuts.ShortcutsSettingsActivity"/>-->
+            <intent
+                android:targetPackage="com.absinthe.anywhere_.debug"
+                android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"/>
 
-    <!--        </Preference>-->
+        </Preference>
 
-    <!--    </PreferenceCategory>-->
+    </PreferenceCategory>
 
     <PreferenceCategory
         app:key="othersCategory"

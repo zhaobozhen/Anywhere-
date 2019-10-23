@@ -45,6 +45,17 @@
         app:title="@string/settings_category_advanced">
 
         <Preference
+            app:key="backup"
+            app:title="@string/settings_backup"
+            app:summary="@string/settings_backup_summary">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_"
+                android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"/>
+
+        </Preference>
+
+        <Preference
             app:key="clearShortcuts"
             app:title="@string/settings_clear_shortcuts"
             app:summary="@string/settings_clear_shortcuts_summary"/>

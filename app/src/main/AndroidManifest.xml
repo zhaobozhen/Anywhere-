@@ -4,11 +4,9 @@
     package="com.absinthe.anywhere_">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <!-- 快捷方式 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-
     <uses-permission
         android:name="moe.shizuku.manager.permission.API"
         android:maxSdkVersion="23" />
@@ -36,18 +34,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <intent-filter> <!--URL Scheme启动-->
-                <!--必有项-->
-                <action android:name="android.intent.action.VIEW"/>
-                <!--如果希望该应用可以通过浏览器的连接启动，则添加该项-->
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <!--表示该页面可以被隐式调用，必须加上该项-->
-                <category android:name="android.intent.category.DEFAULT"/>
-                <!--协议部分-->
+            <intent-filter> <!-- URL Scheme启动 -->
+                <!-- 必有项 -->
+                <action android:name="android.intent.action.VIEW" />
+                <!-- 如果希望该应用可以通过浏览器的连接启动，则添加该项 -->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- 表示该页面可以被隐式调用，必须加上该项 -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- 协议部分 -->
                 <data
-                    android:scheme="anywhere"
-                    android:host="url"/>
+                    android:host="url"
+                    android:scheme="anywhere" />
             </intent-filter>
 
             <meta-data
@@ -58,8 +55,8 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.ActionBar"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/AppTheme.ActionBar" />
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_title"
@@ -67,12 +64,16 @@
             android:theme="@style/AppTheme.About" />
         <activity
             android:name=".ui.shortcuts.ShortcutsActivity"
-            android:theme="@style/Transparent"/>
+            android:theme="@style/Transparent" />
         <activity
             android:name=".ui.shortcuts.ShortcutsSettingsActivity"
             android:label="@string/shortcuts_title"
-            android:parentActivityName=".ui.settings.SettingsActivity">
-        </activity>
+            android:parentActivityName=".ui.settings.SettingsActivity"/>
+        <activity
+            android:name=".ui.backup.BackupActivity"
+            android:label="@string/settings_backup"
+            android:parentActivityName=".ui.settings.SettingsActivity"
+            android:theme="@style/AppTheme.ActionBar"/>
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
@@ -98,12 +99,13 @@
             android:enabled="true" />
         <service
             android:name=".services.AppRemoteViewsService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver android:name=".provider.HomeWidgetProvider">
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_home_provider_info" />
+
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.absinthe.anywhere_.action.CLICK" />
