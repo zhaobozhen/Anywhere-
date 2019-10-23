@@ -253,7 +253,7 @@ public class PermissionUtil {
                     } else {
                         ToastUtil.makeText(R.string.toast_not_install_shizuku);
                         intent = new Intent("android.intent.action.VIEW");
-                        intent.setData(Uri.parse("coolmarket://www.coolapk.com/moe.shizuku.privileged.api"));
+                        intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
                         activity.startActivity(intent);
                     }
                 })
@@ -351,7 +351,7 @@ public class PermissionUtil {
                         } else {
                             ToastUtil.makeText(R.string.toast_not_install_shizuku);
                             intent = new Intent("android.intent.action.VIEW");
-                            intent.setData(Uri.parse("coolmarket://www.coolapk.com/moe.shizuku.privileged.api"));
+                            intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
                             mContext.startActivity(intent);
                         }
                     })

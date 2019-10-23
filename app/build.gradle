@@ -27,7 +27,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            manifestPlaceholders = [appName : "Anywhere-Debug"]
+            manifestPlaceholders = [appName : "Anywhere-β"]
         }
         release {
             minifyEnabled true

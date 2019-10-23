@@ -76,6 +76,9 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public int getCount() {
+            if (mList == null) {
+                return 0;
+            }
             return mList.size();
         }
 

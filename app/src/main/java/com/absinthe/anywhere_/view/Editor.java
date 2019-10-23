@@ -16,6 +16,7 @@ import androidx.appcompat.widget.PopupMenu;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
@@ -128,12 +129,14 @@ public class Editor {
                                 && !tietPackageName.getText().toString().isEmpty()
                                 && !tietClassName.getText().toString().isEmpty()) {
                             AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, pName, cName, mItem.getParam3()
-                                    , desc, mItem.getType(), System.currentTimeMillis() + "");
+                                    , desc, mItem.getType(), mItem.getTimeStamp());
                             if (isEditMode) {
                                 if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1()) || !cName.equals(mItem.getParam2())) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                        ShortcutsUtil.removeShortcut(mItem);
-                                        ShortcutsUtil.addShortcut(ae);
+                                    if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                            ShortcutsUtil.removeShortcut(mItem);
+                                            ShortcutsUtil.addShortcut(ae);
+                                        }
                                     }
                                 }
                                 MainFragment.getViewModelInstance().update(ae);
@@ -246,13 +249,15 @@ public class Editor {
                         if (!tietAppName.getText().toString().isEmpty()
                                 && !tietUrlScheme.getText().toString().isEmpty()) {
                             AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, uScheme, null, null
-                                    , desc, mItem.getType(), System.currentTimeMillis() + "");
+                                    , desc, mItem.getType(), mItem.getTimeStamp());
 
                             if (isEditMode) {
                                 if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                        ShortcutsUtil.removeShortcut(mItem);
-                                        ShortcutsUtil.addShortcut(ae);
+                                    if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                            ShortcutsUtil.removeShortcut(mItem);
+                                            ShortcutsUtil.addShortcut(ae);
+                                        }
                                     }
                                 }
                                 MainFragment.getViewModelInstance().update(ae);
@@ -355,7 +360,7 @@ public class Editor {
 
     public interface OnEditorListener {
         void onDelete();
-        void onChange();
+//        void onChange();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
@@ -386,7 +391,6 @@ public class Editor {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-
     private void removeShortcut(Context context, AnywhereEntity ae) {
         DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
             ShortcutsUtil.removeShortcut(ae);

@@ -27,6 +27,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener {
@@ -53,6 +54,10 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
 
     public void setMode(int mode) {
         this.mode = mode;
+    }
+
+    public int getMode() {
+        return mode;
     }
 
     @Override
@@ -136,10 +141,10 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
                 deleteAnywhereActivity(mEditor, item, position);
             }
 
-            @Override
-            public void onChange() {
-                notifyItemChanged(position);
-            }
+//            @Override
+//            public void onChange() {
+//                notifyItemChanged(position);
+//            }
         };
 
         mEditor = new Editor(MainActivity.getInstance(), type)
@@ -168,6 +173,20 @@ public class SelectableCardsAdapter extends RecyclerView.Adapter<SelectableCards
                 .setNegativeButton(R.string.dialog_delete_negative_button,
                         (dialogInterface, i) -> editor.show())
                 .show();
+    }
+
+    public void updateSortedList() {
+        new Thread(() -> {
+            long startTime = System.currentTimeMillis();
+
+            for (int iter = 0; iter < items.size(); iter++) {
+                AnywhereEntity item = items.get(iter);
+                AnywhereEntity ae = new AnywhereEntity(item.getId(), item.getAppName(), item.getParam1(),
+                        item.getParam2(), item.getParam3(), item.getDescription(), item.getType(),
+                        startTime - iter * 100 + "");
+                MainFragment.getViewModelInstance().update(ae);
+            }
+        }).start();
     }
 
     @Override

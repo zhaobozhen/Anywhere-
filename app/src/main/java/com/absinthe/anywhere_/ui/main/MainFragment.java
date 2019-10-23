@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -235,6 +236,21 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        if (adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_SORT) {
+            menu.findItem(R.id.toolbar_settings).setVisible(false);
+            menu.findItem(R.id.toolbar_sort).setVisible(false);
+            menu.findItem(R.id.toolbar_done).setVisible(true);
+        } else {
+            menu.findItem(R.id.toolbar_settings).setVisible(true);
+            menu.findItem(R.id.toolbar_sort).setVisible(true);
+            menu.findItem(R.id.toolbar_done).setVisible(false);
+        }
+
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.toolbar_settings) {
             startActivity(new Intent(MainActivity.getInstance(), SettingsActivity.class));
@@ -279,6 +295,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     case R.id.sort:
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
                         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+                        ((Activity)mContext).invalidateOptionsMenu();
                         break;
                     default:
                 }
@@ -288,6 +305,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             });
 
             popup.show();
+        } else if (item.getItemId() == R.id.toolbar_done) {
+            adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
+            mItemTouchHelper.attachToRecyclerView(null);
+            ((Activity)mContext).invalidateOptionsMenu();
+            adapter.updateSortedList();
+            GlobalValues.setsSortMode(Const.SORT_MODE_TIME_DESC);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -38,7 +38,7 @@ public class ShortcutsUtil {
         intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
 
         List<ShortcutInfo> infos = new ArrayList<>();
-        ShortcutInfo info = new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getTimeStamp())
+        ShortcutInfo info = new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getId())
                 .setShortLabel(ae.getAppName())
                 .setIcon(Icon.createWithBitmap(UiUtils.drawableToBitmap(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
                 .setIntent(intent)
@@ -63,7 +63,8 @@ public class ShortcutsUtil {
         MainFragment.getViewModelInstance().update(item);
 
         List<String> shortcutsIds = new ArrayList<>();
-        shortcutsIds.add(ae.getTimeStamp());
+        shortcutsIds.add(ae.getTimeStamp());//Todo 未来版本删除
+        shortcutsIds.add(ae.getId());
         getInstance().removeDynamicShortcuts(shortcutsIds);
     }
 
@@ -101,5 +102,23 @@ public class ShortcutsUtil {
 
             ToastUtil.makeText(R.string.toast_try_to_add_pinned_shortcut);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
+    public static void clearShortcuts() {
+        getInstance().removeAllDynamicShortcuts();
+
+        new Thread(() -> {
+            List<AnywhereEntity> items = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+            if (items != null) {
+                for (int iter = 0; iter < items.size(); iter++) {
+                    AnywhereEntity item = items.get(iter);
+                    AnywhereEntity ae = new AnywhereEntity(item.getId(), item.getAppName(), item.getParam1(),
+                            item.getParam2(), item.getParam3(), item.getDescription(), item.getAnywhereType(),
+                            item.getTimeStamp());
+                    MainFragment.getViewModelInstance().update(ae);
+                }
+            }
+        }).start();
     }
 }

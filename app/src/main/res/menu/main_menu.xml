@@ -15,4 +15,11 @@
         android:title="@string/menu_settings"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/toolbar_done"
+        android:icon="@drawable/ic_done_outline_white"
+        android:title="@string/menu_done"
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
+
 </menu>
