@@ -9,9 +9,8 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.StorageUtils;
-import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.TextUtils;
 
 public class BackupFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener{
 
@@ -28,8 +27,8 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Preference backupPreference = findPreference("backup");
-        Preference restorePreference = findPreference("restore");
+        Preference backupPreference = findPreference(Const.SP_KEY_BACKUP);
+        Preference restorePreference = findPreference(Const.SP_KEY_RESTORE);
 
         if (backupPreference != null) {
             backupPreference.setOnPreferenceClickListener(this);
@@ -42,12 +41,13 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
     @Override
     public boolean onPreferenceClick(Preference preference) {
         switch (preference.getKey()) {
-            case "backup":
+            case Const.SP_KEY_BACKUP:
                 if (StorageUtils.isExternalStorageWritable()) {
-                    StorageUtils.createFile(BackupActivity.getInstance(), "*/*", System.currentTimeMillis() + ".awbackups");
+                    StorageUtils.createFile(BackupActivity.getInstance(), "*/*",
+                            "Anywhere-Backups-" + TextUtils.getCurrFormatDate() + ".awbackups");
                 }
                 break;
-            case "restore":
+            case Const.SP_KEY_RESTORE:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");

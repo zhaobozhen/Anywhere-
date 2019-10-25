@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
-import android.util.Log;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
@@ -49,6 +48,7 @@ public class StorageUtils {
         if (list != null) {
             for (AnywhereEntity ae : list) {
                 SerializableAnywhereEntity sae = new SerializableAnywhereEntity(ae);
+                sae.setmType(ae.getAnywhereType());
                 expoList.add(sae);
             }
             String s = gson.toJson(expoList);

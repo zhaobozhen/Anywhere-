@@ -50,9 +50,9 @@
 
         <Preference
             app:key="backupAndRestore"
-            app:title="@string/settings_backup"
+            app:title="@string/settings_backup_and_restore"
             app:summary="@string/settings_backup_summary"
-            android:icon="@drawable/ic_backup">
+            android:icon="@drawable/ic_backup_and_restore">
 
             <intent
                 android:targetPackage="com.absinthe.anywhere_"

@@ -2,26 +2,27 @@ package com.absinthe.anywhere_.ui.backup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.ui.settings.SettingsFragment;
+import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
+import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Objects;
 
 public class BackupActivity extends AppCompatActivity {
@@ -61,7 +62,7 @@ public class BackupActivity extends AppCompatActivity {
                             os.write(encrypted.getBytes());
                         }
                         os.close();
-                        ToastUtil.makeText("备份成功");
+                        ToastUtil.makeText(getString(R.string.toast_backup_success));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -69,20 +70,35 @@ public class BackupActivity extends AppCompatActivity {
             }
         } else if (requestCode == Const.REQUEST_CODE_RESTORE_BACKUPS && resultCode == RESULT_OK) {
             if (data != null) {
-                InputStream inputStream = null;
+                InputStream inputStream;
                 try {
                     inputStream = getContentResolver().openInputStream(Objects.requireNonNull(data.getData()));
-                    BufferedReader reader = null;
+                    BufferedReader reader;
                     if (inputStream != null) {
                         reader = new BufferedReader(new InputStreamReader(
                                 inputStream));
                         StringBuilder stringBuilder = new StringBuilder();
                         String line;
+
                         while ((line = reader.readLine()) != null) {
                             stringBuilder.append(line);
                         }
                         String content = CipherUtils.decrypt(stringBuilder.toString());
-                        LogUtil.d(BackupActivity.class, stringBuilder.toString());
+                        LogUtil.d(this.getClass(), content);
+
+                        Gson gson = new Gson();
+                        List<SerializableAnywhereEntity> list = gson.fromJson(content,
+                                new TypeToken<List<SerializableAnywhereEntity>>() {}.getType());
+
+                        if (list != null) {
+                            for (SerializableAnywhereEntity sae : list) {
+                                MainFragment.getViewModelInstance().insert(sae);
+                            }
+                            ToastUtil.makeText(getString(R.string.toast_restore_success));
+                        }
+
+                        inputStream.close();
+                        reader.close();
                     }
 
                 } catch (IOException e) {

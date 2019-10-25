@@ -9,7 +9,8 @@
         <Preference
             android:key="backup"
             android:title="@string/settings_backup_backup_title"
-            app:summary="@string/settings_backup_backup_summary"/>
+            app:summary="@string/settings_backup_backup_summary"
+            android:icon="@drawable/ic_backup"/>
 
     </PreferenceCategory>
 
@@ -20,7 +21,8 @@
         <Preference
             android:key="restore"
             android:title="@string/settings_backup_restore_title"
-            android:summary="@string/settings_backup_restore_summary"/>
+            android:summary="@string/settings_backup_restore_summary"
+            android:icon="@drawable/ic_restore"/>
 
     </PreferenceCategory>
 

@@ -13,6 +13,10 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class TextUtils {
     private static final Class klass = TextUtils.class;
 
@@ -151,5 +155,15 @@ public class TextUtils {
             LogUtil.d(klass, "AnywhereType has problem.");
         }
         return cmd;
+    }
+
+    /**
+     * Get current date
+     * @return date string
+     */
+    public static String getCurrFormatDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.getDefault());
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
     }
 }

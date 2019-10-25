@@ -73,7 +73,7 @@
     <string name="settings_dark_mode">夜间模式</string>
     <string name="settings_dark_mode_oled">OLED 夜间模式</string>
     <string name="settings_clear_shortcuts">清除 Shortcuts</string>
-    <string name="settings_backup">备份</string>
+    <string name="settings_backup_and_restore">备份和恢复</string>
     <string name="settings_help">帮助</string>
     <string name="settings_about">关于</string>
 
@@ -83,16 +83,17 @@
     <string name="settings_dark_mode_summary">在夜晚使用夜间模式</string>
     <string name="settings_dark_mode_oled_summary">在 OLED 设备上启用纯黑背景</string>
     <string name="settings_clear_shortcuts_summary">重置所有 Shortcuts</string>
-    <string name="settings_backup_summary">导出所有的 Anywhere-</string>
+    <string name="settings_backup_summary">导入和导出所有的 Anywhere-</string>
     <string name="settings_help_summary">帮助文档</string>
     <string name="settings_about_summary">这里是 Anywhere- !</string>
 
+    <string name="settings_backup">备份</string>
     <string name="settings_restore">恢复</string>
     <string name="settings_backup_backup_title">创建新的备份文件</string>
     <string name="settings_backup_restore_title">从存储文件中恢复</string>
 
-    <string name="settings_backup_backup_summary">\n在存储中创建一个备份文件来导出 Anywhere-</string>
-    <string name="settings_backup_restore_summary">\n选择一个 *.awbackups 后缀的文件来导入 Anywhere-</string>
+    <string name="settings_backup_backup_summary">在存储中创建一个备份文件来导出 Anywhere-</string>
+    <string name="settings_backup_restore_summary">选择一个 *.awbackups 后缀的文件来导入 Anywhere-</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root 权限被拒绝</string>
@@ -103,6 +104,9 @@
     <string name="toast_collector_service_launch_failed">服务启动失败</string>
     <string name="toast_adb_result_process_failed">解析错误</string>
     <string name="toast_try_to_add_pinned_shortcut">已尝试添加</string>
+    <string name="toast_backup_success">备份成功</string>
+    <string name="toast_restore_success">恢复成功</string>
+
 
     <!--  Dialog  -->
     <string name="dialog_message_shizuku_not_running">请检查 Shizuku 是否正常运行</string>

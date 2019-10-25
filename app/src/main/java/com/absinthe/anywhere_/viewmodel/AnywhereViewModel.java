@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereRepository;
+import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 
 import java.util.List;
 
@@ -31,6 +32,15 @@ public class AnywhereViewModel extends AndroidViewModel {
     }
 
     public void insert(AnywhereEntity ae) {
+        mRepository.insert(ae);
+    }
+
+    public void insert(SerializableAnywhereEntity sae) {
+        AnywhereEntity ae = new AnywhereEntity(sae.getmId(),
+                sae.getmAppName(), sae.getmParam1(),
+                sae.getmParam2(), sae.getmParam3(),
+                sae.getmDescription(), sae.getmType(),
+                sae.getmTimeStamp());
         mRepository.insert(ae);
     }
 
