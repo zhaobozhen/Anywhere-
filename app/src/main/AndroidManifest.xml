@@ -23,7 +23,7 @@
         android:label="${appName}"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:fullBackupContent="@xml/my_backup_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:theme="@style/AppTheme.SplashTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity

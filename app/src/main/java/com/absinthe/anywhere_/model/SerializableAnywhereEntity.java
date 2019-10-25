@@ -1,16 +1,46 @@
 package com.absinthe.anywhere_.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class SerializableAnywhereEntity implements Serializable {
+    @SerializedName("id")
     private String mId;
+
+    @SerializedName("appName")
     private String mAppName;
+
+    @SerializedName("param1")
     private String mParam1;
+
+    @SerializedName("param2")
     private String mParam2;
+
+    @SerializedName("param3")
     private String mParam3;
+
+    @SerializedName("desc")
     private String mDescription;
+
+    @SerializedName("type")
     private Integer mType;
+
+    @SerializedName("timeStamp")
     private String mTimeStamp;
+
+    public SerializableAnywhereEntity() {}
+
+    public SerializableAnywhereEntity(AnywhereEntity ae) {
+        this.mId = ae.getId();
+        this.mAppName = ae.getAppName();
+        this.mParam1 = ae.getParam1();
+        this.mParam2 = ae.getParam2();
+        this.mParam3 = ae.getParam3();
+        this.mDescription = ae.getDescription();
+        this.mType = ae.getType();
+        this.mTimeStamp = ae.getTimeStamp();
+    }
 
     public String getmId() {
         return mId;

@@ -4,7 +4,7 @@ apply plugin: 'io.fabric'
 android {
     signingConfigs {
         release {
-            storeFile file('D:\\key_store\\android-key.jks')
+            storeFile file('android-key.jks')
             storePassword 'yinzhua'
             keyAlias = 'absinthe-android'
             keyPassword 'yinzhua'
@@ -16,8 +16,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1010
-        versionName "1.0.1"
+        versionCode 1020
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
     }
@@ -31,6 +31,8 @@ android {
         }
         release {
             minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -47,17 +49,16 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta01'
-    implementation 'androidx.room:room-runtime:2.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-rc01'
+    implementation 'androidx.room:room-runtime:2.2.1'
     implementation "androidx.preference:preference:1.1.0"
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
-    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-beta01"
-    implementation 'com.google.android.material:material:1.1.0-beta01'
+    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-rc01"
+    implementation 'com.google.android.material:material:1.2.0-alpha01'
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
-//    implementation 'com.google.firebase:firebase-firestore:20.2.0'
 
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
     implementation 'me.weishu:free_reflection:2.1.0'
@@ -66,13 +67,14 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'com.drakeet.about:about:2.3.1'
     implementation 'com.drakeet.multitype:multitype:4.0.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    annotationProcessor 'androidx.room:room-compiler:2.2.0'
+    annotationProcessor 'androidx.room:room-compiler:2.2.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
-    androidTestImplementation 'androidx.room:room-testing:2.2.0'
+    androidTestImplementation 'androidx.room:room-testing:2.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

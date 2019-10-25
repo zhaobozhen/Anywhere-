@@ -2,8 +2,6 @@ package com.absinthe.anywhere_.adapter;
 
 import android.content.Context;
 import android.os.Build;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;

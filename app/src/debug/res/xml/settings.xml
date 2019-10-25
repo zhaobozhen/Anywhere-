@@ -37,10 +37,10 @@
             app:entryValues="@array/list_dark_mode_value"
             android:defaultValue="off"/>
 
-        <!--        <SwitchPreferenceCompat-->
-        <!--            app:key="darkModeOLED"-->
-        <!--            app:title="@string/settings_dark_mode_oled"-->
-        <!--            android:summary="@string/settings_dark_mode_oled_summary"/>-->
+<!--        <SwitchPreferenceCompat-->
+<!--            app:key="darkModeOLED"-->
+<!--            app:title="@string/settings_dark_mode_oled"-->
+<!--            android:summary="@string/settings_dark_mode_oled_summary"/>-->
 
     </PreferenceCategory>
 
@@ -49,7 +49,7 @@
         app:title="@string/settings_category_advanced">
 
         <Preference
-            app:key="backup"
+            app:key="backupAndRestore"
             app:title="@string/settings_backup"
             app:summary="@string/settings_backup_summary"
             android:icon="@drawable/ic_backup">
@@ -57,8 +57,13 @@
             <intent
                 android:targetPackage="com.absinthe.anywhere_.debug"
                 android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"/>
-
         </Preference>
+
+        <Preference
+            app:key="clearShortcuts"
+            app:title="@string/settings_clear_shortcuts"
+            app:summary="@string/settings_clear_shortcuts_summary"
+            android:icon="@drawable/ic_clear_shortcuts"/>
 
     </PreferenceCategory>
 

@@ -60,6 +60,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         if (clearShortcutsPreference != null) {
             clearShortcutsPreference.setOnPreferenceClickListener(this);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
+                clearShortcutsPreference.setVisible(false);
+            }
         }
 
     }

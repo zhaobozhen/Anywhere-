@@ -87,6 +87,13 @@
     <string name="settings_help_summary">帮助文档</string>
     <string name="settings_about_summary">这里是 Anywhere- !</string>
 
+    <string name="settings_restore">恢复</string>
+    <string name="settings_backup_backup_title">创建新的备份文件</string>
+    <string name="settings_backup_restore_title">从存储文件中恢复</string>
+
+    <string name="settings_backup_backup_summary">\n在存储中创建一个备份文件来导出 Anywhere-</string>
+    <string name="settings_backup_restore_summary">\n选择一个 *.awbackups 后缀的文件来导入 Anywhere-</string>
+
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root 权限被拒绝</string>
     <string name="toast_open_pop_up_when_background_permission">MIUI 系统请打开 后台弹出界面 权限，否则可能存在问题</string>
@@ -138,5 +145,8 @@
     <string name="welcome_logo_todo">Welcome logo</string>
     <string name="initialize_done_todo">Done</string>
     <string name="icon_badge_todo">Badge</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

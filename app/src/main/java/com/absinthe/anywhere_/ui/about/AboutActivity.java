@@ -47,6 +47,7 @@ public class AboutActivity extends AbsAboutActivity {
         items.add(new License("about-page", "drakeet", License.APACHE_2, "https://github.com/drakeet/about-page"));
         items.add(new License("Material Tap Target Prompt", "sjwall", License.APACHE_2, "https://github.com/sjwall/MaterialTapTargetPrompt"));
         items.add(new License("Glide", "bumptech", "License", "https://github.com/bumptech/glide"));
+        items.add(new License("Gson", "Google", License.APACHE_2, "https://github.com/google/gson"));
         items.add(new License("AndroidX", "Google", License.APACHE_2, "https://source.google.com"));
         items.add(new License("Android Jetpack", "Google", License.APACHE_2, "https://source.google.com"));
         items.add(new License("Palette", "Google", License.APACHE_2, "https://source.google.com"));

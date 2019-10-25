@@ -1,4 +1,7 @@
 #---------------------------------基本指令区----------------------------------
+-obfuscationdictionary dictionary-drakeet.txt       # 混淆字典
+-classobfuscationdictionary dictionary-drakeet.txt
+-packageobfuscationdictionary dictionary-drakeet.txt
 -optimizationpasses 5       # 指定代码的压缩级别
 -dontusemixedcaseclassnames     # 是否使用大小写混合
 -dontskipnonpubliclibraryclasses        # 指定不去忽略非公共的库类

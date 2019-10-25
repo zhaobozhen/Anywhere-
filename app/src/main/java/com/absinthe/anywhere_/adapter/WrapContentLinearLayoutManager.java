@@ -2,10 +2,11 @@ package com.absinthe.anywhere_.adapter;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.absinthe.anywhere_.utils.LogUtil;
 
 public class WrapContentLinearLayoutManager extends LinearLayoutManager {
     public WrapContentLinearLayoutManager(Context context) {
@@ -25,7 +26,7 @@ public class WrapContentLinearLayoutManager extends LinearLayoutManager {
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Log.e("probe", "meet a IOOBE in RecyclerView");
+            LogUtil.e(this.getClass(), "encounter an IOOBE in RecyclerView");
         }
     }
 }
