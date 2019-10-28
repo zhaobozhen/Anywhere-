@@ -75,6 +75,7 @@
     <string name="settings_reset_background">重置背景</string>
     <string name="settings_dark_mode">夜间模式</string>
     <string name="settings_dark_mode_oled">OLED 夜间模式</string>
+    <string name="settings_stream_card_mode">瀑布流卡片模式</string>
     <string name="settings_clear_shortcuts">清除 Shortcuts</string>
     <string name="settings_backup_and_restore">备份和恢复</string>
     <string name="settings_help">帮助</string>
@@ -85,6 +86,7 @@
     <string name="settings_reset_background_summary">将背景重置为空白</string>
     <string name="settings_dark_mode_summary">在夜晚使用夜间模式</string>
     <string name="settings_dark_mode_oled_summary">在 OLED 设备上启用纯黑背景</string>
+    <string name="settings_stream_card_mode_summary">使同一页面可展示更多的卡片</string>
     <string name="settings_clear_shortcuts_summary">重置所有 Shortcuts</string>
     <string name="settings_backup_summary">导入和导出所有的 Anywhere-</string>
     <string name="settings_help_summary">帮助文档</string>

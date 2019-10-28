@@ -10,6 +10,7 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
@@ -42,6 +43,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Preference resetBgPreference = findPreference(Const.SP_KEY_RESET_BACKGROUND);
         Preference helpPreference = findPreference(Const.SP_KEY_HELP);
         Preference clearShortcutsPreference = findPreference(Const.SP_KEY_CLEAR_SHORTCUTS);
+        SwitchPreferenceCompat streamCardModePreference = findPreference(Const.SP_KEY_STREAM_CARD_MODE);
 
         if (workingModePreference != null) {
             workingModePreference.setOnPreferenceChangeListener(this);
@@ -63,6 +65,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
                 clearShortcutsPreference.setVisible(false);
             }
+        }
+        if (streamCardModePreference != null) {
+            streamCardModePreference.setOnPreferenceChangeListener(this);
         }
 
     }
@@ -124,6 +129,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 AnywhereApplication.setTheme(newValue.toString());
                 GlobalValues.setsDarkMode(newValue.toString());
                 break;
+            case Const.SP_KEY_STREAM_CARD_MODE:
+                GlobalValues.setsIsStreamCardMode((boolean) newValue);
+                MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
+                return true;
             default:
         }
         return true;

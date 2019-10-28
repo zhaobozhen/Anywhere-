@@ -1,16 +1,13 @@
 package com.absinthe.anywhere_.adapter;
 
-import android.content.Context;
-import android.util.AttributeSet;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.absinthe.anywhere_.utils.LogUtil;
 
-public class WrapContentLinearLayoutManager extends LinearLayoutManager {
-    public WrapContentLinearLayoutManager(Context context) {
-        super(context);
+public class WrapContentStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
+    public WrapContentStaggeredGridLayoutManager(int spanCount, int orientation) {
+        super(spanCount, orientation);
     }
 
     @Override

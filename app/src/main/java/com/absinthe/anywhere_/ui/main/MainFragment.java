@@ -24,12 +24,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.adapter.BaseAdapter;
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
+import com.absinthe.anywhere_.adapter.StreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
+import com.absinthe.anywhere_.adapter.WrapContentStaggeredGridLayoutManager;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
@@ -61,7 +65,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private static AnywhereViewModel mViewModel;
     private RecyclerView mRecyclerView;
-    private SelectableCardsAdapter adapter;
+    private BaseAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
     private ActionBar actionBar;
 
@@ -221,7 +225,14 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private void setUpRecyclerView(RecyclerView recyclerView) {
         List<AnywhereEntity> anywhereEntityList = new ArrayList<>();
 
-        adapter = new SelectableCardsAdapter(mContext);
+        if (GlobalValues.sIsStreamCardMode) {
+            recyclerView.setLayoutManager(new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            adapter = new StreamCardsAdapter(mContext);
+        } else {
+            recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
+            adapter = new SelectableCardsAdapter(mContext);
+        }
+
         adapter.setItems(anywhereEntityList);
         recyclerView.setAdapter(adapter);
 
@@ -230,8 +241,19 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mItemTouchHelper = new ItemTouchHelper(touchCallBack);
         mItemTouchHelper.attachToRecyclerView(null);
 
-        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
         ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
+    }
+
+    private void refreshRecyclerView(RecyclerView recyclerView) {
+        if (GlobalValues.sIsStreamCardMode) {
+            recyclerView.setLayoutManager(new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            adapter = new StreamCardsAdapter(mContext);
+        } else {
+            recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
+            adapter = new SelectableCardsAdapter(mContext);
+        }
+        adapter.setItems(mViewModel.getAllAnywhereEntities().getValue());
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -362,6 +384,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             GlobalValues.setsBackgroundUri(s);
         };
         mViewModel.getBackground().observe(this, backgroundObserver);
+        mViewModel.getCardMode().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                refreshRecyclerView(mRecyclerView);
+            }
+        });
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             LogUtil.d(this.getClass(), "backgroundUri =", GlobalValues.sBackgroundUri);

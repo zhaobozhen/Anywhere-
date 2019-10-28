@@ -16,16 +16,19 @@ import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
@@ -225,6 +228,27 @@ public class UiUtils {
 
     }
 
+    public static void setCardIconColor(Context context, CardView cardView, Drawable drawable) {
+        Glide.with(context)
+                .asBitmap()
+                .load(drawable)
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        Palette.from(resource).generate(p -> {
+                            if (p != null) {
+                                String color = toRGBHexString(p.getDominantColor(context.getResources().getColor(R.color.colorPrimary)));
+                                cardView.setCardBackgroundColor(Color.parseColor(color));
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                    }
+                });
+    }
+
     /**
      * Set action bar title color and status bar and navigation bar style
      * @param activity Activity for bind action bar
@@ -310,5 +334,47 @@ public class UiUtils {
      */
     public static void setVisibility(@NonNull View view, boolean trueIsVisible) {
         view.setVisibility(trueIsVisible ? View.VISIBLE : View.GONE);
+    }
+
+    /**
+     * Convert dip to px
+     * @param context to get resource
+     * @param dipValue our target
+     */
+    public static int dipToPixels(Context context, float dipValue) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
+    }
+
+    // color -> #FF55FF
+    public static String toRGBHexString(final int color) {
+        return toRGBHexString(Color.red(color), Color.green(color), Color.blue(color));
+    }
+
+    // (r,g,b) -> #FF55FF
+    public static String toRGBHexString(int red, int green, int blue) {
+        return toARGBHexString(-1, red, green, blue);
+    }
+
+    // default prefix: "#"
+    // (a,r,g,b) -> #FF55FF55
+    public static String toARGBHexString(int alpha, int red, int green, int blue) {
+        return toARGBHexString("#", alpha, red, green, blue);
+    }
+
+    public static String toARGBHexString(String prefix, int alpha, int red, int green, int blue) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix);
+        if (alpha != -1) {
+            String mAlphaStr = Integer.toHexString(alpha);
+            sb.append(mAlphaStr.length() == 1 ? "0" + mAlphaStr : mAlphaStr);
+        }
+        String mRedStr = Integer.toHexString(red);
+        sb.append(mRedStr.length() == 1 ? "0" + mRedStr : mRedStr);
+        String mGreenStr = Integer.toHexString(green);
+        sb.append(mGreenStr.length() == 1 ? "0" + mGreenStr : mGreenStr);
+        String mBlueStr = Integer.toHexString(blue);
+        sb.append(mBlueStr.length() == 1 ? "0" + mBlueStr : mBlueStr);
+        return sb.toString().toUpperCase();
     }
 }

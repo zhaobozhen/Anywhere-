@@ -4,12 +4,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.databinding.ItemCardViewBinding;
+import com.absinthe.anywhere_.databinding.ItemStreamCardViewBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.utils.LogUtil;
@@ -18,10 +22,11 @@ import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener {
+public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener{
 
-    public SelectableCardsAdapter(Context context) {
+    public StreamCardsAdapter(Context context) {
         super(context);
         this.mContext = context;
         this.items = new ArrayList<>();
@@ -32,7 +37,7 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ItemCardViewBinding binding = ItemCardViewBinding.inflate(inflater, parent, false);
+        ItemStreamCardViewBinding binding = ItemStreamCardViewBinding.inflate(inflater, parent, false);
         return new ItemViewHolder(binding);
     }
 
@@ -43,6 +48,10 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
 
         int type = item.getAnywhereType();
         LogUtil.d(this.getClass(), "Type = " + type);
+
+//        viewHolder.binding.rlBadgeIcon.setLayoutParams(new RelativeLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                 UiUtils.dipToPixels(mContext, 50) + UiUtils.dipToPixels(mContext, new Random().nextInt(5) * 15)));
 
         viewHolder.binding.itemCard.setOnClickListener(view -> {
             if (mode == ADAPTER_MODE_NORMAL) {
@@ -68,28 +77,14 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
             return false;
         });
 
-        switch (type) {
-            case AnywhereType.URL_SCHEME:
-                viewHolder.binding.tvParam1.setVisibility(View.VISIBLE);
-                viewHolder.binding.tvParam2.setVisibility(View.GONE);
-                viewHolder.binding.tvParam3.setVisibility(View.GONE);
-                break;
-            case AnywhereType.ACTIVITY:
-            case AnywhereType.MINI_PROGRAM:
-                viewHolder.binding.tvParam1.setVisibility(View.VISIBLE);
-                viewHolder.binding.tvParam2.setVisibility(View.VISIBLE);
-                viewHolder.binding.tvParam3.setVisibility(View.GONE);
-                break;
-        }
-
         UiUtils.setVisibility(viewHolder.binding.tvDescription,
                 !viewHolder.binding.tvDescription.getText().toString().isEmpty());
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private ItemCardViewBinding binding;
+        private ItemStreamCardViewBinding binding;
 
-        ItemViewHolder(ItemCardViewBinding binding) {
+        ItemViewHolder(ItemStreamCardViewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -98,9 +93,6 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
             binding.executePendingBindings();
 
             binding.setAppName(item.getAppName());
-            binding.setParam1(item.getParam1());
-            binding.setParam2(item.getParam2());
-            binding.setParam3(item.getParam3());
             binding.setDescription(item.getDescription());
             binding.ivAppIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item));
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
@@ -109,9 +101,9 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
             } else {
                 binding.ivBadge.setVisibility(View.GONE);
             }
+            UiUtils.setCardIconColor(AnywhereApplication.sContext, binding.itemCard, UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, item));
         }
 
     }
 
 }
-

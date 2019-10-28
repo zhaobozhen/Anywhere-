@@ -20,6 +20,7 @@ public class AnywhereViewModel extends AndroidViewModel {
     private MutableLiveData<String> mCommand = null;
     private MutableLiveData<String> mWorkingMode = null;
     private MutableLiveData<String> mBackground = null;
+    private MutableLiveData<String> mCardMode = null;
 
     public AnywhereViewModel(Application application) {
         super(application);
@@ -73,8 +74,10 @@ public class AnywhereViewModel extends AndroidViewModel {
         return mBackground;
     }
 
-    public void refreshList() {
-        mRepository.refreshList();
-        mAllAnywhereEntities = mRepository.getAllAnywhereEntities();
+    public MutableLiveData<String> getCardMode() {
+        if (mCardMode == null) {
+            mCardMode = new MutableLiveData<>();
+        }
+        return mCardMode;
     }
 }

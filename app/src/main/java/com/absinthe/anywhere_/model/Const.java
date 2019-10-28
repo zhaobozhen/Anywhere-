@@ -2,12 +2,15 @@ package com.absinthe.anywhere_.model;
 
 public class Const {
     public static final String SP_NAME = "com.absinthe.anywhere__preferences";
+    public static final String SP_NAME_DEBUG = "com.absinthe.anywhere_.debug_preferences";
+
     public static final String SP_KEY_FIRST_LAUNCH = "isFirstLaunch";
     public static final String SP_KEY_WORKING_MODE = "workingMode";
     public static final String SP_KEY_DARK_MODE = "darkMode";
     public static final String SP_KEY_CHANGE_BACKGROUND = "changeBackground";
     public static final String SP_KEY_RESET_BACKGROUND = "resetBackground";
     public static final String SP_KEY_DARK_MODE_OLED = "darkModeOLED";
+    public static final String SP_KEY_STREAM_CARD_MODE = "streamCardMode";
     public static final String SP_KEY_ACTION_BAR_TITLE = "actionBarTitle";
     public static final String SP_KEY_ACTION_BAR_TYPE = "actionBarType";
     public static final String SP_KEY_HELP = "help";

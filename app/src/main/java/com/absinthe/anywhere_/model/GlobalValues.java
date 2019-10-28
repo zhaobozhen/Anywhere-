@@ -8,6 +8,7 @@ import com.absinthe.anywhere_.utils.SPUtils;
 public class GlobalValues {
     public static boolean sIsDebugMode;
     public static boolean sIsFirstLaunch;
+    public static boolean sIsStreamCardMode;
 
     public static String sWorkingMode;
     public static String sActionBarTitle;
@@ -18,7 +19,8 @@ public class GlobalValues {
 
     public static void init(Context context) {
         sIsDebugMode = false;
-        sIsFirstLaunch = SPUtils.getBoolean(context, Const.SP_KEY_FIRST_LAUNCH);
+        sIsFirstLaunch = SPUtils.getBoolean(context, Const.SP_KEY_FIRST_LAUNCH, true);
+        sIsStreamCardMode = SPUtils.getBoolean(context, Const.SP_KEY_STREAM_CARD_MODE, false);
         sWorkingMode = SPUtils.getString(context, Const.SP_KEY_WORKING_MODE);
         sActionBarTitle = SPUtils.getString(context, Const.SP_KEY_ACTION_BAR_TITLE);
         sActionBarType = SPUtils.getString(context, Const.SP_KEY_ACTION_BAR_TYPE);
@@ -30,6 +32,11 @@ public class GlobalValues {
     public static void setsIsFirstLaunch(boolean sIsFirstLaunch) {
         GlobalValues.sIsFirstLaunch = sIsFirstLaunch;
         SPUtils.putBoolean(AnywhereApplication.sContext, Const.SP_KEY_FIRST_LAUNCH, sIsFirstLaunch);
+    }
+
+    public static void setsIsStreamCardMode(boolean sIsStreamCardMode) {
+        GlobalValues.sIsStreamCardMode = sIsStreamCardMode;
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.SP_KEY_STREAM_CARD_MODE, sIsStreamCardMode);
     }
 
     public static void setsWorkingMode(String sWorkingMode) {
