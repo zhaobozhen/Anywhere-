@@ -11,17 +11,12 @@ import javax.crypto.spec.SecretKeySpec;
 public class CipherUtils {
 
     private static final String CipherMode = "AES/CFB/NoPadding";//使用 CFB 加密，需要设置 IV
-    private static final String KEY = "absinthe";
+    private static final String KEY = "absinthe" + "eeeeeeee" + "eeeeeeee" + "eeeeeeee";
 
     private static SecretKeySpec generateKey() {
         byte[] data;
-        StringBuilder sb = new StringBuilder(32);
-        sb.append(KEY);
-        while (sb.length() < 32) {
-            sb.append("e");
-        }
 
-        data = sb.toString().getBytes(StandardCharsets.UTF_8);
+        data = KEY.getBytes(StandardCharsets.UTF_8);
         return new SecretKeySpec(data, "AES");
     }
 

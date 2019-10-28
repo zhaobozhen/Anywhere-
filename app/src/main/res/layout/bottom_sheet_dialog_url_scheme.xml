@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/Widget.Design.BottomSheet.Modal">
@@ -29,7 +30,9 @@
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_more_vert"
-            android:contentDescription="@string/anywhere_more_todo"/>
+            android:tooltipText="@string/menu_more"
+            android:contentDescription="@string/anywhere_more_todo"
+            tools:targetApi="o" />
 
     </RelativeLayout>
 

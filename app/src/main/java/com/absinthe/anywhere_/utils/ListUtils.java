@@ -7,6 +7,9 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Sort the Anywhere- list
+ */
 public class ListUtils {
     public static List<AnywhereEntity> sort(List<AnywhereEntity> list) {
         switch (GlobalValues.sSortMode) {

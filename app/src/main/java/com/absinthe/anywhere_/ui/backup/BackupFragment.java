@@ -11,6 +11,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.ToastUtil;
 
 public class BackupFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener{
 
@@ -45,18 +46,20 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
                 if (StorageUtils.isExternalStorageWritable()) {
                     StorageUtils.createFile(BackupActivity.getInstance(), "*/*",
                             "Anywhere-Backups-" + TextUtils.getCurrFormatDate() + ".awbackups");
+                } else {
+                    ToastUtil.makeText("请检查设备存储状态");
                 }
-                break;
+                return true;
             case Const.SP_KEY_RESTORE:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
                 BackupActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_RESTORE_BACKUPS);
-                break;
+                return true;
             default:
                 break;
         }
-        return true;
+        return false;
     }
 
 }

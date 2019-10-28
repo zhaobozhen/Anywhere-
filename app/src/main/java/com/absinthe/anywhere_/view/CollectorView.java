@@ -25,7 +25,6 @@ public class CollectorView extends LinearLayout {
     private WindowManager.LayoutParams layoutParams;
 
     private String packageName, className;
-    private int classNameType;
 
     private boolean isClick;
     private long startTime = 0;
@@ -51,7 +50,7 @@ public class CollectorView extends LinearLayout {
                             .putExtra(CollectorService.COMMAND, CollectorService.COMMAND_CLOSE)
             );
 
-            AppUtils.openUrl(mContext, packageName, className, classNameType + "");
+            AppUtils.openUrl(mContext, packageName, className, "");
         });
 
         mIbCollector.setOnTouchListener(new OnTouchListener() {
@@ -122,8 +121,6 @@ public class CollectorView extends LinearLayout {
             if (processed != null) {
                 packageName = processed[0];
                 className = processed[1];
-                classNameType = Integer.valueOf(processed[2]);
-                LogUtil.d(this.getClass(), "classNameType =", classNameType);
             }
         } else {
             ToastUtil.makeText(R.string.toast_check_perm);

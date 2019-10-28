@@ -40,13 +40,15 @@
     <string name="bsd_text_input_layout_package_name_label">包名</string>
     <string name="bsd_text_input_layout_url_scheme_label">URL Scheme</string>
     <string name="bsd_text_input_layout_class_name_label">类名</string>
-    <string name="bsd_text_input_layout_description_label">描述（选填）</string>
+    <string name="bsd_text_input_layout_description_label">描述(选填)</string>
+    <string name="bsd_text_input_layout_intent_extra_label">添加 Intent Extras(选填)</string>
 
     <string name="bsd_text_input_layout_app_name_helper_text">给 Anywhere- 起个名字吧</string>
     <string name="bsd_text_input_layout_package_name_helper_text">App 包名，一般来说默认即可</string>
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme, 可在左上角寻找你想要的</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App 类名，一般来说默认即可</string>
     <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 吧</string>
+    <string name="bsd_text_input_layout_intent_extra_helper_text">启动 Intent 时传递参数\n格式：extraName1=value1/extraName2=value2 …</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
 
@@ -55,6 +57,7 @@
     <string name="menu_settings">设置</string>
     <string name="menu_about">关于</string>
     <string name="menu_done">完成</string>
+    <string name='menu_more'>更多</string>
 
     <string name="menu_sort_by_time_desc">按添加时间降序 (9–0)</string>
     <string name="menu_sort_by_time_asc">按添加时间升序 (0–9)</string>

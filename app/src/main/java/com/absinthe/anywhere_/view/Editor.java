@@ -50,9 +50,9 @@ public class Editor {
         isShortcut = false;
         isEditMode = false;
 
-        View contentView = View.inflate(context, R.layout.bottom_sheet_dialog_content, null);
+        View contentView = View.inflate(context, R.layout.bottom_sheet_dialog_anywhere, null);
         if (mEditorType == ANYWHERE) {
-            contentView = View.inflate(context, R.layout.bottom_sheet_dialog_content, null);
+            contentView = View.inflate(context, R.layout.bottom_sheet_dialog_anywhere, null);
         } else if (mEditorType == URL_SCHEME) {
             contentView = View.inflate(context, R.layout.bottom_sheet_dialog_url_scheme, null);
         }
@@ -89,6 +89,7 @@ public class Editor {
             TextInputEditText tietPackageName = mBottomSheetDialog.findViewById(R.id.tiet_package_name);
             TextInputEditText tietClassName = mBottomSheetDialog.findViewById(R.id.tiet_class_name);
             TextInputEditText tietDescription = mBottomSheetDialog.findViewById(R.id.tiet_description);
+            TextInputEditText tietIntentExtra = mBottomSheetDialog.findViewById(R.id.tiet_intent_extra);
 
             if (tietAppName != null) {
                 tietAppName.setText(mItem.getAppName());
@@ -106,14 +107,19 @@ public class Editor {
                 tietDescription.setText(mItem.getDescription());
             }
 
+            if (tietIntentExtra != null) {
+                tietIntentExtra.setText(mItem.getParam3());
+            }
+
             Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
             if (btnEditAnywhereDone != null) {
                 btnEditAnywhereDone.setOnClickListener(view -> {
-                    if (tietPackageName != null && tietClassName != null && tietAppName != null && tietDescription != null) {
+                    if (tietPackageName != null && tietClassName != null && tietAppName != null && tietDescription != null && tietIntentExtra != null) {
                         String pName = tietPackageName.getText() == null ? mItem.getParam1() : tietPackageName.getText().toString();
                         String cName = tietClassName.getText() == null ? mItem.getParam2() : tietClassName.getText().toString();
                         String aName = tietAppName.getText() == null ? mItem.getAppName() : tietAppName.getText().toString();
                         String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
+                        String iExtra = tietIntentExtra.getText() == null ? "" : tietIntentExtra.getText().toString();
 
                         if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
                             tilAppName.setError(mContext.getString(R.string.bsd_error_should_not_empty));
@@ -128,8 +134,8 @@ public class Editor {
                         if (!tietAppName.getText().toString().isEmpty()
                                 && !tietPackageName.getText().toString().isEmpty()
                                 && !tietClassName.getText().toString().isEmpty()) {
-                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, pName, cName, mItem.getParam3()
-                                    , desc, mItem.getType(), mItem.getTimeStamp());
+                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, pName, cName, iExtra,
+                                    desc, mItem.getType(), mItem.getTimeStamp());
                             if (isEditMode) {
                                 if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1()) || !cName.equals(mItem.getParam2())) {
                                     if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
@@ -383,7 +389,7 @@ public class Editor {
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> show());
 
-        if (ShortcutsUtil.getInstance().getDynamicShortcuts().size() < 3) {
+        if (ShortcutsUtil.Singleton.INSTANCE.getInstance().getDynamicShortcuts().size() < 3) {
             addDialog.show();
         } else {
             cantAddDialog.show();

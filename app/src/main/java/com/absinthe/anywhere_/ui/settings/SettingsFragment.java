@@ -76,7 +76,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
                 SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
-                break;
+                return true;
             case Const.SP_KEY_RESET_BACKGROUND:
                 new MaterialAlertDialogBuilder(SettingsActivity.getInstance())
                         .setTitle(R.string.dialog_reset_background_confirm_title)
@@ -86,13 +86,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> { })
                         .show();
-                break;
+                return true;
             case Const.SP_KEY_HELP:
                 String url = "https://zhaobozhen.github.io/Anywhere-Docs/";
                 CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
                         .build();
                 tabsIntent.launchUrl(Objects.requireNonNull(getActivity()), Uri.parse(url));
-                break;
+                return true;
             case Const.SP_KEY_CLEAR_SHORTCUTS:
                 new MaterialAlertDialogBuilder(SettingsActivity.getInstance())
                         .setTitle(R.string.dialog_reset_background_confirm_title)
@@ -106,10 +106,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> { })
                         .show();
-                break;
+                return true;
             default:
         }
-        return true;
+        return false;
     }
 
     @Override

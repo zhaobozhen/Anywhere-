@@ -21,14 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShortcutsUtil {
-    private static ShortcutManager mShortcutManager;
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-    public static ShortcutManager getInstance() {
-        if (mShortcutManager == null) {
-            mShortcutManager = AnywhereApplication.sContext.getSystemService(ShortcutManager.class);
+    public enum Singleton {
+        INSTANCE;
+        private ShortcutManager instance;
+
+        Singleton() {
+            instance = AnywhereApplication.sContext.getSystemService(ShortcutManager.class);
         }
-        return mShortcutManager;
+        public ShortcutManager getInstance() {
+            return instance;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
@@ -44,9 +48,9 @@ public class ShortcutsUtil {
                 .setIntent(intent)
                 .build();
         infos.add(info);
-        if (getInstance().getDynamicShortcuts().size() <= 3) {
-            LogUtil.runningHere(ShortcutsUtil.getInstance().getClass());
-            getInstance().addDynamicShortcuts(infos);
+        if (Singleton.INSTANCE.getInstance().getDynamicShortcuts().size() <= 3) {
+            LogUtil.runningHere(Singleton.INSTANCE.getInstance().getClass());
+            Singleton.INSTANCE.getInstance().addDynamicShortcuts(infos);
         }
 
         AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getAnywhereType() + 10, ae.getTimeStamp());
@@ -65,12 +69,12 @@ public class ShortcutsUtil {
         List<String> shortcutsIds = new ArrayList<>();
         shortcutsIds.add(ae.getTimeStamp());//Todo 未来版本删除
         shortcutsIds.add(ae.getId());
-        getInstance().removeDynamicShortcuts(shortcutsIds);
+        Singleton.INSTANCE.getInstance().removeDynamicShortcuts(shortcutsIds);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void addPinnedShortcut(AnywhereEntity ae) {
-        if (getInstance().isRequestPinShortcutSupported()) {
+        if (Singleton.INSTANCE.getInstance().isRequestPinShortcutSupported()) {
             // Assumes there's already a shortcut with the ID "my-shortcut".
             // The shortcut must be enabled.
             Intent intent = new Intent(AnywhereApplication.sContext, ShortcutsActivity.class);
@@ -90,14 +94,14 @@ public class ShortcutsUtil {
             // app has implemented a method called createShortcutResultIntent() that
             // returns a broadcast intent.
             Intent pinnedShortcutCallbackIntent =
-                    getInstance().createShortcutResultIntent(pinShortcutInfo);
+                    Singleton.INSTANCE.getInstance().createShortcutResultIntent(pinShortcutInfo);
 
             // Configure the intent so that your app's broadcast receiver gets
             // the callback successfully.For details, see PendingIntent.getBroadcast().
             PendingIntent successCallback = PendingIntent.getBroadcast(MainActivity.getInstance(), /* request code */ 0,
                     pinnedShortcutCallbackIntent, /* flags */ 0);
 
-            getInstance().requestPinShortcut(pinShortcutInfo,
+            Singleton.INSTANCE.getInstance().requestPinShortcut(pinShortcutInfo,
                     successCallback.getIntentSender());
 
             ToastUtil.makeText(R.string.toast_try_to_add_pinned_shortcut);
@@ -106,7 +110,7 @@ public class ShortcutsUtil {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public static void clearShortcuts() {
-        getInstance().removeAllDynamicShortcuts();
+        Singleton.INSTANCE.getInstance().removeAllDynamicShortcuts();
 
         new Thread(() -> {
             List<AnywhereEntity> items = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();

@@ -128,12 +128,13 @@ public class UiUtils {
     public static void setActionBarTransparent(Activity activity) {
         ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
         Window window = activity.getWindow();
+        int transparent = activity.getResources().getColor(R.color.transparent);
 
         if (actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(R.color.transparent)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(transparent));
         }
-        window.setStatusBarColor(activity.getResources().getColor(R.color.transparent));
-        window.setNavigationBarColor(activity.getResources().getColor(R.color.transparent));
+        window.setStatusBarColor(transparent);
+        window.setNavigationBarColor(transparent);
     }
 
     /**
@@ -170,6 +171,10 @@ public class UiUtils {
      * @param activity Activity for use Glide
      */
     public static void setAdaptiveActionBarTitleColor(Activity activity, ActionBar actionBar, String title) {
+        if (GlobalValues.sBackgroundUri.isEmpty()) {
+            return;
+        }
+
         if (!GlobalValues.sActionBarType.isEmpty()) {
             setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, title);
             return;
@@ -177,10 +182,6 @@ public class UiUtils {
 
         int actionBarHeight = 0;
         TypedValue tv = new TypedValue();
-
-        if (GlobalValues.sBackgroundUri.isEmpty()) {
-            return;
-        }
 
         if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
@@ -194,7 +195,8 @@ public class UiUtils {
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        Bitmap actionBarBitmap = Bitmap.createBitmap(resource, 0, 0, resource.getWidth(), Math.min(finalActionBarHeight, resource.getHeight()));
+                        Bitmap actionBarBitmap = Bitmap.createBitmap(resource, 0, 0,
+                                resource.getWidth(), Math.min(finalActionBarHeight, resource.getHeight()));
                         LogUtil.d(klass, "actionBarBitmap.getWidth() =", actionBarBitmap.getWidth());
                         LogUtil.d(klass, "actionBarBitmap.getHeight() =", actionBarBitmap.getHeight());
 
