@@ -34,7 +34,7 @@ public class TextUtils {
         }
 
         packageName = result.substring(result.indexOf(" u0 ") + 4, result.indexOf("/"));
-        className = result.substring(result.indexOf("/") + 1, result.lastIndexOf(" "));
+        className = result.substring(result.indexOf("/") + 1, result.indexOf(" ", result.indexOf("/") + 1));
 
         LogUtil.d(klass, "packageName =", packageName);
         LogUtil.d(klass, "className =", className);
@@ -99,7 +99,7 @@ public class TextUtils {
                 cmd.append("am start -n ").append(packageName).append("/").append(className);
             }
 
-            if (extras.contains("=")) {
+            if (extras != null && extras.contains("=")) {
                 String[] extrasList = extras.split("/");
                 for (String e : extrasList) {
                     e = e.replace("=", " ");

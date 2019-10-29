@@ -82,8 +82,7 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
                 break;
         }
 
-        UiUtils.setVisibility(viewHolder.binding.tvDescription,
-                !viewHolder.binding.tvDescription.getText().toString().isEmpty());
+        UiUtils.setVisibility(viewHolder.binding.tvDescription, !item.getDescription().isEmpty());
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {

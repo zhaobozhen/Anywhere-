@@ -245,15 +245,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void refreshRecyclerView(RecyclerView recyclerView) {
-        if (GlobalValues.sIsStreamCardMode) {
-            recyclerView.setLayoutManager(new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-            adapter = new StreamCardsAdapter(mContext);
-        } else {
-            recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
-            adapter = new SelectableCardsAdapter(mContext);
-        }
+        setUpRecyclerView(recyclerView);
         adapter.setItems(mViewModel.getAllAnywhereEntities().getValue());
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -384,12 +377,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             GlobalValues.setsBackgroundUri(s);
         };
         mViewModel.getBackground().observe(this, backgroundObserver);
-        mViewModel.getCardMode().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                refreshRecyclerView(mRecyclerView);
-            }
-        });
+        mViewModel.getCardMode().observe(this, s -> refreshRecyclerView(mRecyclerView));
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             LogUtil.d(this.getClass(), "backgroundUri =", GlobalValues.sBackgroundUri);

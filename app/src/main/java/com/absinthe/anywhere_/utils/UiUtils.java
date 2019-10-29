@@ -8,6 +8,11 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -22,13 +27,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
@@ -228,25 +231,12 @@ public class UiUtils {
 
     }
 
-    public static void setCardIconColor(Context context, CardView cardView, Drawable drawable) {
-        Glide.with(context)
-                .asBitmap()
-                .load(drawable)
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        Palette.from(resource).generate(p -> {
-                            if (p != null) {
-                                String color = toRGBHexString(p.getDominantColor(context.getResources().getColor(R.color.colorPrimary)));
-                                cardView.setCardBackgroundColor(Color.parseColor(color));
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                    }
-                });
+    public static void setCardUseIconColor(View view, Drawable drawable) {
+        Palette.from(drawableToBitmap(drawable)).generate(p -> {
+            if (p != null) {
+                createLinearGradientBitmap((ImageView) view, p.getVibrantColor(Color.TRANSPARENT), Color.TRANSPARENT);
+            }
+        });
     }
 
     /**
@@ -346,23 +336,7 @@ public class UiUtils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
 
-    // color -> #FF55FF
-    public static String toRGBHexString(final int color) {
-        return toRGBHexString(Color.red(color), Color.green(color), Color.blue(color));
-    }
-
-    // (r,g,b) -> #FF55FF
-    public static String toRGBHexString(int red, int green, int blue) {
-        return toARGBHexString(-1, red, green, blue);
-    }
-
-    // default prefix: "#"
-    // (a,r,g,b) -> #FF55FF55
-    public static String toARGBHexString(int alpha, int red, int green, int blue) {
-        return toARGBHexString("#", alpha, red, green, blue);
-    }
-
-    public static String toARGBHexString(String prefix, int alpha, int red, int green, int blue) {
+    private static String toARGBHexString(String prefix, int alpha, int red, int green, int blue) {
         StringBuilder sb = new StringBuilder();
         sb.append(prefix);
         if (alpha != -1) {
@@ -376,5 +350,23 @@ public class UiUtils {
         String mBlueStr = Integer.toHexString(blue);
         sb.append(mBlueStr.length() == 1 ? "0" + mBlueStr : mBlueStr);
         return sb.toString().toUpperCase();
+    }
+
+    private static void createLinearGradientBitmap(ImageView view, int darkColor, int color) {
+        int[] bgColors = new int[2];
+        bgColors[0] = darkColor;
+        bgColors[1] = color;
+
+        Bitmap bgBitmap = Bitmap.createBitmap(view.getWidth(),view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas();
+        Paint paint = new Paint();
+
+        canvas.setBitmap(bgBitmap);
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        LinearGradient gradient = new LinearGradient(0, 0, 0, bgBitmap.getHeight(), bgColors[0], bgColors[1], Shader.TileMode.CLAMP);
+        paint.setShader(gradient);
+        RectF rectF = new RectF(0, 0, bgBitmap.getWidth(), bgBitmap.getHeight());
+        canvas.drawRect(rectF, paint);
+        view.setImageBitmap(bgBitmap);
     }
 }

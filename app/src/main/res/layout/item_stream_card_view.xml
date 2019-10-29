@@ -21,6 +21,12 @@
         app:cardElevation="@dimen/anywhere_cardview_elevation"
         app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius">
 
+        <ImageView
+            android:id="@+id/iv_card_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/background_todo"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -74,11 +80,13 @@
 
                 <TextView
                     android:id="@+id/tv_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{description}"
                     android:textAppearance="?attr/textAppearanceSubtitle2"
-                    android:visibility="gone" />
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    android:gravity="center"/>
             </LinearLayout>
 
         </RelativeLayout>

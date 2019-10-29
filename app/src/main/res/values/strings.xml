@@ -75,7 +75,7 @@
     <string name="settings_reset_background">重置背景</string>
     <string name="settings_dark_mode">夜间模式</string>
     <string name="settings_dark_mode_oled">OLED 夜间模式</string>
-    <string name="settings_stream_card_mode">瀑布流卡片模式</string>
+    <string name="settings_stream_card_mode">瀑布流卡片模式 (Beta)</string>
     <string name="settings_clear_shortcuts">清除 Shortcuts</string>
     <string name="settings_backup_and_restore">备份和恢复</string>
     <string name="settings_help">帮助</string>

@@ -4,9 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +19,6 @@ import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener{
 
@@ -77,8 +73,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
             return false;
         });
 
-        UiUtils.setVisibility(viewHolder.binding.tvDescription,
-                !viewHolder.binding.tvDescription.getText().toString().isEmpty());
+        UiUtils.setVisibility(viewHolder.binding.tvDescription, !item.getDescription().isEmpty());
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -101,7 +96,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
             } else {
                 binding.ivBadge.setVisibility(View.GONE);
             }
-            UiUtils.setCardIconColor(AnywhereApplication.sContext, binding.itemCard, UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, item));
+            UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
         }
 
     }

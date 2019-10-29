@@ -42,6 +42,13 @@
 <!--            app:title="@string/settings_dark_mode_oled"-->
 <!--            android:summary="@string/settings_dark_mode_oled_summary"/>-->
 
+        <SwitchPreferenceCompat
+            app:key="streamCardMode"
+            app:title="@string/settings_stream_card_mode"
+            android:summary="@string/settings_stream_card_mode_summary"
+            android:icon="@drawable/ic_stream_card"
+            app:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
