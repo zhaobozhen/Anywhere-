@@ -6,6 +6,7 @@
     <dimen name="anywhere_cardview_line_spacing">4dp</dimen>
     <dimen name="anywhere_cardview_spacing">4dp</dimen>
     <dimen name="anywhere_cardview_margin">4dp</dimen>
+    <dimen name="anywhere_cardview_spacing_stream">6dp</dimen>
     <dimen name="anywhere_cardview_item_margin">10dp</dimen>
     <dimen name="anywhere_cardview_item_margin_long">15dp</dimen>
 

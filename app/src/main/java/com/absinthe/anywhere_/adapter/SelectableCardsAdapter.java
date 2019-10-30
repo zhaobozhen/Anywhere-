@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.adapter;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
+import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
 
@@ -96,7 +98,17 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
         private void bind(AnywhereEntity item) {
             binding.executePendingBindings();
 
-            binding.setAppName(item.getAppName());
+            try {
+                if (IceBox.getAppEnabledSetting(mContext, item.getParam1()) != 0) {
+                    binding.setAppName(item.getAppName() + "\u2744");
+                } else {
+                    binding.setAppName(item.getAppName());
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                binding.setAppName(item.getAppName());
+            }
+
             binding.setParam1(item.getParam1());
             binding.setParam2(item.getParam2());
             binding.setParam3(item.getParam3());

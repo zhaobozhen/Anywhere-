@@ -234,7 +234,11 @@ public class UiUtils {
     public static void setCardUseIconColor(View view, Drawable drawable) {
         Palette.from(drawableToBitmap(drawable)).generate(p -> {
             if (p != null) {
-                createLinearGradientBitmap((ImageView) view, p.getVibrantColor(Color.TRANSPARENT), Color.TRANSPARENT);
+                if (p.getVibrantColor(Color.TRANSPARENT) != Color.TRANSPARENT) {
+                    createLinearGradientBitmap((ImageView) view, p.getVibrantColor(Color.TRANSPARENT), Color.TRANSPARENT);
+                } else {
+                    createLinearGradientBitmap((ImageView) view, p.getDominantColor(Color.TRANSPARENT), Color.TRANSPARENT);
+                }
             }
         });
     }
@@ -336,22 +340,12 @@ public class UiUtils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
 
-    private static String toARGBHexString(String prefix, int alpha, int red, int green, int blue) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(prefix);
-        if (alpha != -1) {
-            String mAlphaStr = Integer.toHexString(alpha);
-            sb.append(mAlphaStr.length() == 1 ? "0" + mAlphaStr : mAlphaStr);
-        }
-        String mRedStr = Integer.toHexString(red);
-        sb.append(mRedStr.length() == 1 ? "0" + mRedStr : mRedStr);
-        String mGreenStr = Integer.toHexString(green);
-        sb.append(mGreenStr.length() == 1 ? "0" + mGreenStr : mGreenStr);
-        String mBlueStr = Integer.toHexString(blue);
-        sb.append(mBlueStr.length() == 1 ? "0" + mBlueStr : mBlueStr);
-        return sb.toString().toUpperCase();
-    }
-
+    /**
+     * Create a linear gradient bitmap picture
+     * @param view target to set background
+     * @param darkColor primary color
+     * @param color secondary color
+     */
     private static void createLinearGradientBitmap(ImageView view, int darkColor, int color) {
         int[] bgColors = new int[2];
         bgColors[0] = darkColor;

@@ -16,8 +16,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1040
-        versionName "1.0.4"
+        versionCode 1050
+        versionName "1.0.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
     }
@@ -58,7 +58,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
     implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-rc01"
     implementation 'com.google.android.material:material:1.2.0-alpha01'
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
 
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
     implementation 'me.weishu:free_reflection:2.1.0'
@@ -68,6 +68,7 @@ dependencies {
     implementation 'com.drakeet.about:about:2.3.1'
     implementation 'com.drakeet.multitype:multitype:4.0.0'
     implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.catchingnow.icebox:SDK:1.0.5'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

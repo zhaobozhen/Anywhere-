@@ -1,11 +1,17 @@
 package com.absinthe.anywhere_.adapter;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.R;
@@ -13,9 +19,11 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.view.Editor;
+import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -75,6 +83,30 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     void openAnywhereActivity(AnywhereEntity item) {
         String cmd = TextUtils.getItemCommand(item);
         if (!cmd.isEmpty()) {
+            try {
+                if (IceBox.getAppEnabledSetting(mContext, item.getParam1()) != 0) { //0 为未冻结状态
+                    if (ContextCompat.checkSelfPermission(mContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
+                        if (PermissionUtil.isMIUI()) {
+                            new MaterialAlertDialogBuilder(mContext)
+                                    .setMessage(R.string.dialog_message_ice_box_perm_not_support)
+                                    .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                                    .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, i) -> {
+                                        Intent intent = new Intent("android.intent.action.VIEW");
+                                        intent.setComponent(new ComponentName("com.android.settings",
+                                                "com.android.settings.Settings$ManageApplicationsActivity"));
+                                        mContext.startActivity(intent);
+                                    })
+                                    .show();
+                        } else {
+                            ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
+                        }
+                    } else {
+                        IceBox.setAppEnabledSettings(mContext, true, item.getParam1());
+                    }
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
             MainFragment.getViewModelInstance().getCommand().setValue(cmd);
         }
     }

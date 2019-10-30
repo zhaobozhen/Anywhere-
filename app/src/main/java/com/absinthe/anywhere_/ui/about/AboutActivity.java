@@ -45,6 +45,7 @@ public class AboutActivity extends AbsAboutActivity {
         items.add(new License("FreeReflection", "tiann", License.MIT, "https://github.com/tiann/FreeReflection"));
         items.add(new License("MultiType", "drakeet", License.APACHE_2, "https://github.com/drakeet/MultiType"));
         items.add(new License("about-page", "drakeet", License.APACHE_2, "https://github.com/drakeet/about-page"));
+        items.add(new License("IceBox-SDK", "heruoxin", License.APACHE_2, "https://github.com/heruoxin/IceBox-SDK"));
         items.add(new License("Material Tap Target Prompt", "sjwall", License.APACHE_2, "https://github.com/sjwall/MaterialTapTargetPrompt"));
         items.add(new License("Glide", "bumptech", "License", "https://github.com/bumptech/glide"));
         items.add(new License("Gson", "Google", License.APACHE_2, "https://github.com/google/gson"));

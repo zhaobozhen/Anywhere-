@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.adapter;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.databinding.ItemStreamCardViewBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -17,6 +17,7 @@ import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
+import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
 
@@ -87,16 +88,28 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
         private void bind(AnywhereEntity item) {
             binding.executePendingBindings();
 
-            binding.setAppName(item.getAppName());
+            try {
+                if (IceBox.getAppEnabledSetting(mContext, item.getParam1()) != 0) {
+                    binding.setAppName(item.getAppName() + "\u2744");
+                } else {
+                    binding.setAppName(item.getAppName());
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                binding.setAppName(item.getAppName());
+            }
+
             binding.setDescription(item.getDescription());
             binding.ivAppIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item));
+            UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
+
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
                 binding.ivBadge.setImageResource(R.drawable.ic_added_shortcut);
                 binding.ivBadge.setVisibility(View.VISIBLE);
             } else {
                 binding.ivBadge.setVisibility(View.GONE);
             }
-            UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
+
         }
 
     }

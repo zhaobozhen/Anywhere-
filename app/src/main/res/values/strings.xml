@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Anywhere-</string>
     <string name="settings_title">设置</string>
     <string name="about_title">关于</string>
@@ -24,6 +24,7 @@
     <string name="dialog_delete_message">确定要删除</string>
     <string name="dialog_delete_positive_button">确定</string>
     <string name="dialog_delete_negative_button">取消</string>
+    <string name="dialog_go_to_perm_button">去授予</string>
     <string name="dialog_add_shortcut_title">添加 Shortcuts</string>
     <string name="dialog_add_shortcut_message">确定要添加</string>
     <string name="dialog_remove_shortcut_title">删除 Shortcuts</string>
@@ -48,7 +49,7 @@
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme, 可在左上角寻找你想要的</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App 类名，一般来说默认即可</string>
     <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 吧</string>
-    <string name="bsd_text_input_layout_intent_extra_helper_text">启动 Intent 时传递参数\n格式：extraName1=value1/extraName2=value2 …</string>
+    <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">启动 Intent 时传递参数，格式：\n[--cmd] extraName1 value1\n[--cmd] extraName2 value2 …\ncmd 指令可前往帮助查看</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
 
@@ -122,6 +123,7 @@
     <string name="dialog_message_perm_not_ever">尚有未授予的权限，确定要进入吗？</string>
     <string name="dialog_message_same_app_name">似乎有相似的 Anywhere-，要添加吗？</string>
     <string name="dialog_reset_shortcuts_confirm_message">确定要重置所有 Shortcuts 吗？</string>
+    <string name="dialog_message_ice_box_perm_not_support">新版 MIUI 无法自动授予自定义权限，点击 去授予 进入原生应用管理页面并手动授予权限</string>
 
     <string name="about_text">Anywhere- 是一个 App 页面的集合 App。</string>
 

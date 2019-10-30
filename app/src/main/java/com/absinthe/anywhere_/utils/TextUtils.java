@@ -100,10 +100,9 @@ public class TextUtils {
             }
 
             if (extras != null && extras.contains("=")) {
-                String[] extrasList = extras.split("/");
-                for (String e : extrasList) {
-                    e = e.replace("=", " ");
-                    cmd.append(" --es ").append(e);
+                String[] extrasList = extras.split("\n");
+                for (String eachLine : extrasList) {
+                    cmd.append(" ").append(eachLine);
                 }
             }
         } else if (type == AnywhereType.URL_SCHEME) {
@@ -126,33 +125,41 @@ public class TextUtils {
     }
 
     public static String getItemCommand(SerializableAnywhereEntity item) {
-        String cmd = null;
+        StringBuilder cmd = new StringBuilder();
         int type = item.getAnywhereType();
 
         String packageName;
         String className;
+        String extras;
+
         String urlScheme;
-        int classNameType;
 
         if (type == AnywhereType.ACTIVITY) {
             packageName = item.getmParam1();
             className = item.getmParam2();
-            classNameType = Integer.valueOf(item.getmParam3());
-            LogUtil.d(klass, "packageName =", packageName, "className =", className, "classNameType =" + classNameType);
+            extras = item.getmParam3();
+            LogUtil.d(klass, "packageName =", packageName, "className =", className, "extras =", extras);
 
-            if (classNameType == Const.FULL_CLASS_NAME_TYPE) {
-                cmd = "am start -n " + packageName + "/" + className;
-            } else if (classNameType == Const.SHORT_CLASS_NAME_TYPE) {
-                cmd = "am start -n " + packageName + "/" + packageName + className;
+            if (className.charAt(0) == '.') {
+                cmd.append("am start -n ").append(packageName).append("/").append(packageName).append(className);
+            } else {
+                cmd.append("am start -n ").append(packageName).append("/").append(className);
+            }
+
+            if (extras != null && extras.contains("=")) {
+                String[] extrasList = extras.split("\n");
+                for (String eachLine : extrasList) {
+                    cmd.append(" ").append(eachLine);
+                }
             }
         } else if (type == AnywhereType.URL_SCHEME) {
             urlScheme = item.getmParam1();
             LogUtil.d(klass, "urlScheme =", urlScheme);
 
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
-                cmd = urlScheme;
+                cmd.append(urlScheme);
             } else {
-                cmd = "am start -a android.intent.action.VIEW -d " + urlScheme;
+                cmd.append("am start -a android.intent.action.VIEW -d ").append(urlScheme);
             }
 
         } else if (type == AnywhereType.MINI_PROGRAM) {
@@ -160,7 +167,8 @@ public class TextUtils {
         } else {
             LogUtil.d(klass, "AnywhereType has problem.");
         }
-        return cmd;
+        LogUtil.d(klass, cmd);
+        return cmd.toString();
     }
 
     /**
