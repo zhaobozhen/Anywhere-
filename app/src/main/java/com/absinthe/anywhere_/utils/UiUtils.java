@@ -351,6 +351,9 @@ public class UiUtils {
         bgColors[0] = darkColor;
         bgColors[1] = color;
 
+        if (view == null || view.getWidth() <= 0 || view.getHeight() <= 0) {
+            return;
+        }
         Bitmap bgBitmap = Bitmap.createBitmap(view.getWidth(),view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas();
         Paint paint = new Paint();

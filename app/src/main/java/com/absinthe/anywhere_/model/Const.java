@@ -19,9 +19,6 @@ public class Const {
     public static final String SP_KEY_BACKUP = "backup";
     public static final String SP_KEY_RESTORE = "restore";
 
-    public static final int SHORT_CLASS_NAME_TYPE = 0;
-    public static final int FULL_CLASS_NAME_TYPE = 1;
-
     public static final String WORKING_MODE_URL_SCHEME = "url_scheme";
     public static final String WORKING_MODE_ROOT = "root";
     public static final String WORKING_MODE_SHIZUKU = "shizuku";

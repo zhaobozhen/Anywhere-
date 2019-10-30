@@ -46,13 +46,10 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
         int type = item.getAnywhereType();
         LogUtil.d(this.getClass(), "Type = " + type);
 
-//        viewHolder.binding.rlBadgeIcon.setLayoutParams(new RelativeLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                 UiUtils.dipToPixels(mContext, 50) + UiUtils.dipToPixels(mContext, new Random().nextInt(5) * 15)));
-
         viewHolder.binding.itemCard.setOnClickListener(view -> {
             if (mode == ADAPTER_MODE_NORMAL) {
                 openAnywhereActivity(item);
+                notifyItemChanged(position);
             }
         });
         viewHolder.binding.itemCard.setOnLongClickListener(view -> {

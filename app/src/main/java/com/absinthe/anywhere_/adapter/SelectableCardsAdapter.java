@@ -49,6 +49,7 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
         viewHolder.binding.itemCard.setOnClickListener(view -> {
             if (mode == ADAPTER_MODE_NORMAL) {
                 openAnywhereActivity(item);
+                notifyItemChanged(position);
             }
         });
         viewHolder.binding.itemCard.setOnLongClickListener(view -> {

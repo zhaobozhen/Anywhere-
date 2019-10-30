@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -85,7 +85,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         if (!cmd.isEmpty()) {
             try {
                 if (IceBox.getAppEnabledSetting(mContext, item.getParam1()) != 0) { //0 为未冻结状态
-                    if (ContextCompat.checkSelfPermission(mContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                         if (PermissionUtil.isMIUI()) {
                             new MaterialAlertDialogBuilder(mContext)
                                     .setMessage(R.string.dialog_message_ice_box_perm_not_support)
@@ -102,12 +102,13 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         }
                     } else {
                         IceBox.setAppEnabledSettings(mContext, true, item.getParam1());
+                        MainFragment.getViewModelInstance().getCommand().setValue(cmd);
                     }
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
+                MainFragment.getViewModelInstance().getCommand().setValue(cmd);
             }
-            MainFragment.getViewModelInstance().getCommand().setValue(cmd);
         }
     }
 
