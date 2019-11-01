@@ -86,7 +86,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 new MaterialAlertDialogBuilder(SettingsActivity.getInstance())
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_background_confirm_message)
-                        .setCancelable(false)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().getBackground().setValue(""))
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> { })
@@ -102,7 +101,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 new MaterialAlertDialogBuilder(SettingsActivity.getInstance())
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_shortcuts_confirm_message)
-                        .setCancelable(false)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                 ShortcutsUtil.clearShortcuts();

@@ -379,14 +379,12 @@ public class Editor {
         MaterialAlertDialogBuilder addDialog =  new MaterialAlertDialogBuilder(context)
                 .setTitle(R.string.dialog_add_shortcut_title)
                 .setMessage(Html.fromHtml(context.getString(R.string.dialog_add_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show());
 
         MaterialAlertDialogBuilder cantAddDialog =  new MaterialAlertDialogBuilder(context)
                 .setTitle(R.string.dialog_cant_add_shortcut_title)
                 .setMessage(R.string.dialog_cant_add_shortcut_message)
-                .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> show());
 
         if (ShortcutsUtil.Singleton.INSTANCE.getInstance().getDynamicShortcuts().size() < 3) {
@@ -406,7 +404,6 @@ public class Editor {
         new MaterialAlertDialogBuilder(context)
                 .setTitle(R.string.dialog_remove_shortcut_title)
                 .setMessage(Html.fromHtml(context.getString(R.string.dialog_remove_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button,
                         (dialogInterface, i) -> show())

@@ -139,7 +139,6 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         new MaterialAlertDialogBuilder(mContext)
                 .setTitle(R.string.dialog_delete_title)
                 .setMessage(Html.fromHtml(mContext.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                     MainFragment.getViewModelInstance().delete(ae);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
