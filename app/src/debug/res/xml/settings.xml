@@ -81,7 +81,7 @@
         <Preference
             app:key="help"
             app:title="@string/settings_help"
-            app:summary="搭建中"
+            app:summary="@string/settings_help_summary"
             android:icon="@drawable/ic_help_outline"/>
 
         <Preference

@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -101,9 +103,15 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                             ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
                         }
                     } else {
-                        IceBox.setAppEnabledSettings(mContext, true, item.getParam1());
-                        MainFragment.getViewModelInstance().getCommand().setValue(cmd);
+                        new Thread(() -> {
+                            IceBox.setAppEnabledSettings(mContext, true, item.getParam1());
+                            ((Activity)mContext).runOnUiThread(() -> MainFragment.getViewModelInstance().getCommand().setValue(cmd));
+                        }).start();
+
+                        ToastUtil.makeText(R.string.defrosting);
                     }
+                } else {
+                    MainFragment.getViewModelInstance().getCommand().setValue(cmd);
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();

@@ -1,10 +1,12 @@
 package com.absinthe.anywhere_.ui.settings;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.ListPreference;
@@ -20,12 +22,18 @@ import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.util.Objects;
-
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+    private Context mContext;
+
     static SettingsFragment newInstance() {
         return new SettingsFragment();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = getActivity();
     }
 
     @Override
@@ -83,7 +91,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
                 return true;
             case Const.SP_KEY_RESET_BACKGROUND:
-                new MaterialAlertDialogBuilder(SettingsActivity.getInstance())
+                new MaterialAlertDialogBuilder(mContext)
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_background_confirm_message)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().getBackground().setValue(""))
@@ -95,10 +103,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 String url = "https://zhaobozhen.github.io/Anywhere-Docs/";
                 CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
                         .build();
-                tabsIntent.launchUrl(Objects.requireNonNull(getActivity()), Uri.parse(url));
+                tabsIntent.launchUrl(mContext, Uri.parse(url));
                 return true;
             case Const.SP_KEY_CLEAR_SHORTCUTS:
-                new MaterialAlertDialogBuilder(SettingsActivity.getInstance())
+                new MaterialAlertDialogBuilder(mContext)
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_shortcuts_confirm_message)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {

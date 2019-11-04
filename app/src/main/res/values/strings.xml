@@ -112,7 +112,7 @@
     <string name="toast_try_to_add_pinned_shortcut">已尝试添加</string>
     <string name="toast_backup_success">备份成功</string>
     <string name="toast_restore_success">恢复成功</string>
-
+    <string name="defrosting">正在解冻</string>
 
     <!--  Dialog  -->
     <string name="dialog_message_shizuku_not_running">请检查 Shizuku 是否正常运行</string>
