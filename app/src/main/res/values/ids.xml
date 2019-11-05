@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fab_url_scheme" type="id"/>
+    <item name="fab_activity_list" type="id"/>
+    <item name="fab_collector" type="id"/>
+</resources>

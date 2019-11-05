@@ -56,8 +56,8 @@ public class ShortcutsActivity extends Activity {
             } else if (action.equals(ACTION_START_FROM_WIDGET)) {
                 String cmd = i.getStringExtra(Const.INTENT_EXTRA_WIDGET_COMMAND);
                 if (cmd != null) {
-                    String packageName = cmd.split(" ")[3].split("/")[0];
                     try {
+                        String packageName = cmd.split(" ")[3].split("/")[0];
                         if (IceBox.getAppEnabledSetting(this, packageName) != 0) { //0 为未冻结状态
                             if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                                 if (PermissionUtil.isMIUI()) {
@@ -75,11 +75,18 @@ public class ShortcutsActivity extends Activity {
                                     ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
                                 }
                             } else {
-                                IceBox.setAppEnabledSettings(this, true, packageName);
-                                String result = PermissionUtil.execCmd(cmd);
-                                if (result == null) {
-                                    ToastUtil.makeText(R.string.toast_check_perm);
-                                }
+                                new Thread(() -> {
+                                    IceBox.setAppEnabledSettings(ShortcutsActivity.this, true, packageName);
+                                    String result = PermissionUtil.execCmd(cmd);
+                                    if (result == null) {
+                                        runOnUiThread(() -> ToastUtil.makeText(R.string.toast_check_perm));
+                                    }
+                                }).start();
+                            }
+                        } else {
+                            String result = PermissionUtil.execCmd(cmd);
+                            if (result == null) {
+                                ToastUtil.makeText(R.string.toast_check_perm);
                             }
                         }
                     } catch (PackageManager.NameNotFoundException e) {

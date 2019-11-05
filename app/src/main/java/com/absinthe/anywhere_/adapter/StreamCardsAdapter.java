@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.databinding.ItemStreamCardSingleLineBinding;
 import com.absinthe.anywhere_.databinding.ItemStreamCardViewBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -34,7 +35,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ItemStreamCardViewBinding binding = ItemStreamCardViewBinding.inflate(inflater, parent, false);
+        ItemStreamCardSingleLineBinding binding = ItemStreamCardSingleLineBinding.inflate(inflater, parent, false);
         return new ItemViewHolder(binding);
     }
 
@@ -71,13 +72,13 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
             return false;
         });
 
-        UiUtils.setVisibility(viewHolder.binding.tvDescription, !item.getDescription().isEmpty());
+//        UiUtils.setVisibility(viewHolder.binding.tvDescription, !item.getDescription().isEmpty());
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private ItemStreamCardViewBinding binding;
+        private ItemStreamCardSingleLineBinding binding;
 
-        ItemViewHolder(ItemStreamCardViewBinding binding) {
+        ItemViewHolder(ItemStreamCardSingleLineBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -96,7 +97,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
                 binding.setAppName(item.getAppName());
             }
 
-            binding.setDescription(item.getDescription());
+//            binding.setDescription(item.getDescription());
             binding.ivAppIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item));
             UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
 

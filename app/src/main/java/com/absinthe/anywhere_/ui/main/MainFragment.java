@@ -51,7 +51,8 @@ import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.leinardi.android.speeddial.SpeedDialActionItem;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +98,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (GlobalValues.sIsFirstLaunch) {
             new MaterialTapTargetPrompt.Builder(this)
                     .setTarget(R.id.fab)
-                    .setPrimaryText("创建你的第一个 Anywhere- 吧！")
+                    .setPrimaryText(R.string.first_launch_guide_title)
                     .setBackgroundColour(getResources().getColor(R.color.colorAccent))
                     .show();
             GlobalValues.setsIsFirstLaunch(false);
@@ -339,9 +340,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mRecyclerView = view.findViewById(R.id.recycler_view);
         setUpRecyclerView(mRecyclerView);
         setHasOptionsMenu(true);
+        initFab(view);
 
-        FloatingActionButton fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(clickView -> checkWorkingPermission());
         actionBar = MainActivity.getInstance().getSupportActionBar();
         UiUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
     }
@@ -383,5 +383,38 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             LogUtil.d(this.getClass(), "backgroundUri =", GlobalValues.sBackgroundUri);
             mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
         }
+    }
+
+    private void initFab(View view) {
+        SpeedDialView fab = view.findViewById(R.id.fab);
+        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_url_scheme, R.drawable.ic_url_scheme)
+                .setFabBackgroundColor(getResources().getColor(R.color.white))
+                .setLabel(getString(R.string.btn_url_scheme))
+                .setLabelClickable(false)
+                .create());
+        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_activity_list, R.drawable.ic_activity_list)
+                .setFabBackgroundColor(getResources().getColor(R.color.white))
+                .setLabel(getString(R.string.btn_activity_list))
+                .setLabelClickable(false)
+                .create());
+        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_collector, R.drawable.ic_logo)
+                .setFabBackgroundColor(getResources().getColor(R.color.white))
+                .setLabel(getString(R.string.ib_collector_todo))
+                .setLabelClickable(false)
+                .create());
+        fab.setOnActionSelectedListener(actionItem -> {
+            switch (actionItem.getId()) {
+                case R.id.fab_url_scheme:
+                    setUpUrlScheme("");
+                    return true;
+                case R.id.fab_activity_list:
+                    ToastUtil.makeText("List");
+                    return true;
+                case R.id.fab_collector:
+                    checkWorkingPermission();
+                    return true;
+            }
+            return false;
+        });
     }
 }
