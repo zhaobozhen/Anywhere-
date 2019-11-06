@@ -4,27 +4,26 @@
     package="com.absinthe.anywhere_">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <!-- 快捷方式 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
     <uses-permission
         android:name="moe.shizuku.manager.permission.API"
         android:maxSdkVersion="23" />
+
     <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
     <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
 
     <application
         android:name=".AnywhereApplication"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="${appName}"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:fullBackupContent="@xml/backup_rules"
         android:theme="@style/AppTheme.SplashTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
@@ -71,12 +70,23 @@
         <activity
             android:name=".ui.shortcuts.ShortcutsSettingsActivity"
             android:label="@string/shortcuts_title"
-            android:parentActivityName=".ui.settings.SettingsActivity"/>
+            android:parentActivityName=".ui.settings.SettingsActivity" />
         <activity
             android:name=".ui.backup.BackupActivity"
             android:label="@string/settings_backup"
             android:parentActivityName=".ui.settings.SettingsActivity"
-            android:theme="@style/AppTheme.ActionBar"/>
+            android:theme="@style/AppTheme.ActionBar" />
+        <activity
+            android:name=".ui.list.AppListActivity"
+            android:theme="@style/AppTheme.AppList"
+            android:parentActivityName=".ui.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"

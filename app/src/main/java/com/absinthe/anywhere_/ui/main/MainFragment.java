@@ -40,6 +40,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
+import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ListUtils;
@@ -413,7 +414,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     setUpUrlScheme("");
                     return true;
                 case R.id.fab_activity_list:
-                    ToastUtil.makeText("List");
+                    mContext.startActivity(new Intent(mContext, AppListActivity.class));
                     return true;
                 case R.id.fab_collector:
                     checkWorkingPermission();

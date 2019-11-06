@@ -4,6 +4,7 @@
     <string name="about_title">关于</string>
     <string name="shortcuts_title">Shortcuts</string>
     <string name="backup_title">备份</string>
+    <string name="app_list_title">活动列表</string>
     <string name="tile_collector_on">启动 Collector</string>
     <string name="tile_collector_off">关闭 Collector</string>
     <string name="shortcut_add">添加 Anywhere-</string>
@@ -60,6 +61,7 @@
     <string name="menu_done">完成</string>
     <string name='menu_more'>更多</string>
     <string name='menu_trying_run'>测试</string>
+    <string name='menu_search'>搜索</string>
 
     <string name="menu_sort_by_time_desc">按添加时间降序 (9–0)</string>
     <string name="menu_sort_by_time_asc">按添加时间升序 (0–9)</string>
