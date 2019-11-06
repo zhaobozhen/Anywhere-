@@ -59,6 +59,7 @@
     <string name="menu_about">关于</string>
     <string name="menu_done">完成</string>
     <string name='menu_more'>更多</string>
+    <string name='menu_trying_run'>测试</string>
 
     <string name="menu_sort_by_time_desc">按添加时间降序 (9–0)</string>
     <string name="menu_sort_by_time_asc">按添加时间升序 (0–9)</string>
@@ -76,7 +77,8 @@
     <string name="settings_reset_background">重置背景</string>
     <string name="settings_dark_mode">夜间模式</string>
     <string name="settings_dark_mode_oled">OLED 夜间模式</string>
-    <string name="settings_stream_card_mode">瀑布流卡片模式 (Beta)</string>
+    <string name="settings_stream_card_mode">瀑布流卡片模式</string>
+    <string name="settings_stream_card_single_line">折叠为单行</string>
     <string name="settings_clear_shortcuts">清除 Shortcuts</string>
     <string name="settings_backup_and_restore">备份和恢复</string>
     <string name="settings_help">帮助</string>
@@ -88,6 +90,7 @@
     <string name="settings_dark_mode_summary">在夜晚使用夜间模式</string>
     <string name="settings_dark_mode_oled_summary">在 OLED 设备上启用纯黑背景</string>
     <string name="settings_stream_card_mode_summary">使同一页面可展示更多的卡片</string>
+    <string name="settings_stream_card_single_line_summary">进一步压缩卡片大小</string>
     <string name="settings_clear_shortcuts_summary">重置所有 Shortcuts</string>
     <string name="settings_backup_summary">导入和导出所有的 Anywhere-</string>
     <string name="settings_help_summary">帮助文档</string>
@@ -108,6 +111,7 @@
     <string name="toast_change_work_mode">请切换工作模式</string>
     <string name="toast_check_perm">请检查权限</string>
     <string name="toast_collector_service_launch_failed">服务启动失败</string>
+    <string name="toast_wrong_cmd">指令错误</string>
     <string name="toast_adb_result_process_failed">解析错误</string>
     <string name="toast_try_to_add_pinned_shortcut">已尝试添加</string>
     <string name="toast_backup_success">备份成功</string>

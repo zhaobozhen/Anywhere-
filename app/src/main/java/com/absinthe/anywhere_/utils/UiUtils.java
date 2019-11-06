@@ -88,10 +88,6 @@ public class UiUtils {
         return drawable;
     }
 
-    public static String getPackageNameByCommand(String cmd) {
-        return null;
-    }
-
     /**
      * Set action bar title
      * @param activity Activity for bind action bar

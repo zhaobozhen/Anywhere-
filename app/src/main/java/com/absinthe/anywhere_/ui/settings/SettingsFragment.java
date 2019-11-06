@@ -52,6 +52,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Preference helpPreference = findPreference(Const.SP_KEY_HELP);
         Preference clearShortcutsPreference = findPreference(Const.SP_KEY_CLEAR_SHORTCUTS);
         SwitchPreferenceCompat streamCardModePreference = findPreference(Const.SP_KEY_STREAM_CARD_MODE);
+        SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.SP_KEY_STREAM_CARD_SINGLE_LINE);
 
         if (workingModePreference != null) {
             workingModePreference.setOnPreferenceChangeListener(this);
@@ -76,6 +77,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         if (streamCardModePreference != null) {
             streamCardModePreference.setOnPreferenceChangeListener(this);
+            if (streamCardSingleLinePreference != null) {
+                streamCardSingleLinePreference.setEnabled(streamCardModePreference.isChecked());
+                streamCardSingleLinePreference.setOnPreferenceChangeListener(this);
+            }
         }
 
     }
@@ -137,6 +142,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 break;
             case Const.SP_KEY_STREAM_CARD_MODE:
                 GlobalValues.setsIsStreamCardMode((boolean) newValue);
+                MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
+
+                SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.SP_KEY_STREAM_CARD_SINGLE_LINE);
+                if (streamCardSingleLinePreference != null) {
+                    streamCardSingleLinePreference.setEnabled((boolean) newValue);
+                }
+                return true;
+            case Const.SP_KEY_STREAM_CARD_SINGLE_LINE:
+                GlobalValues.setsIsStreamCardModeSingleLine((boolean) newValue);
                 MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
                 return true;
             default:

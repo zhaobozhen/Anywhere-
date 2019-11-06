@@ -4,9 +4,16 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
+import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.provider.HomeWidgetProvider;
+import com.catchingnow.icebox.sdk_client.IceBox;
+
+import java.util.List;
 
 public class AppUtils {
     /**
@@ -38,5 +45,34 @@ public class AppUtils {
                         HomeWidgetProvider.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.sendBroadcast(intent);
+    }
+
+    public static boolean isAppFrozen(Context context, AnywhereEntity item) {
+        int type = item.getAnywhereType();
+        String apkTempPackageName = "";
+
+        if (type == AnywhereType.URL_SCHEME) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(item.getParam1()));
+            List<ResolveInfo> resolveInfo = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if (resolveInfo.size() != 0) {
+                apkTempPackageName = resolveInfo.get(0).activityInfo.packageName;
+            }
+
+            try {
+                return IceBox.getAppEnabledSetting(context, apkTempPackageName) != 0;   //0 为未冻结状态
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else if (type == AnywhereType.ACTIVITY) {
+            try {
+                return IceBox.getAppEnabledSetting(context, item.getParam1()) != 0;   //0 为未冻结状态
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 }

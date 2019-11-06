@@ -18,18 +18,36 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
 
-            <ImageButton
-                android:id="@+id/ib_editor_menu"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_more_vert"
-                android:tooltipText="@string/menu_more"
-                android:contentDescription="@string/anywhere_more_todo"
-                tools:targetApi="o" />
+                android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end">
+
+                <ImageButton
+                    android:id="@+id/ib_trying_run"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_play"
+                    android:tooltipText="@string/menu_trying_run"
+                    android:contentDescription="@string/anywhere_more_todo"
+                    tools:targetApi="o" />
+
+                <ImageButton
+                    android:id="@+id/ib_editor_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_more_vert"
+                    android:tooltipText="@string/menu_more"
+                    android:contentDescription="@string/anywhere_more_todo"
+                    tools:targetApi="o" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 

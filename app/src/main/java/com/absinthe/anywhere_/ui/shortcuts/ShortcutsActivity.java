@@ -95,6 +95,9 @@ public class ShortcutsActivity extends Activity {
                         if (result == null) {
                             ToastUtil.makeText(R.string.toast_check_perm);
                         }
+                    } catch (IndexOutOfBoundsException e2) {
+                        e2.printStackTrace();
+                        ToastUtil.makeText(R.string.toast_wrong_cmd);
                     }
                 }
             }

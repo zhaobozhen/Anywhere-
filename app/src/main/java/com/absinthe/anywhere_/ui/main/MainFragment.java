@@ -31,6 +31,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.BaseAdapter;
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
 import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
+import com.absinthe.anywhere_.adapter.SingleLineStreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.StreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.adapter.WrapContentStaggeredGridLayoutManager;
@@ -228,7 +229,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         if (GlobalValues.sIsStreamCardMode) {
             recyclerView.setLayoutManager(new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-            adapter = new StreamCardsAdapter(mContext);
+            if (GlobalValues.sIsStreamCardModeSingleLine) {
+                adapter = new SingleLineStreamCardsAdapter(mContext);
+            } else {
+                adapter = new StreamCardsAdapter(mContext);
+            }
         } else {
             recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
             adapter = new SelectableCardsAdapter(mContext);

@@ -61,7 +61,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
 
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
-    implementation 'me.weishu:free_reflection:2.1.0'
+    implementation 'me.weishu:free_reflection:2.2.0'
     implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.github.bumptech.glide:glide:4.10.0'

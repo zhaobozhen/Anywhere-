@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
+import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -172,6 +173,23 @@ public class Editor {
                 });
             }
 
+            ImageButton ibRun = mBottomSheetDialog.findViewById(R.id.ib_trying_run);
+            if (ibRun != null) {
+                ibRun.setOnClickListener(view -> {
+                    if (tietPackageName != null && tietClassName != null) {
+                        String pName = tietPackageName.getText() == null ? mItem.getParam1() : tietPackageName.getText().toString();
+                        String cName = tietClassName.getText() == null ? mItem.getParam2() : tietClassName.getText().toString();
+
+                        if (!tietPackageName.getText().toString().isEmpty()
+                                && !tietClassName.getText().toString().isEmpty()) {
+                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", pName, cName, "",
+                                    "", mItem.getType(), mItem.getTimeStamp());
+                            MainFragment.getViewModelInstance().getCommand().setValue(TextUtils.getItemCommand(ae));
+                        }
+                    }
+                });
+            }
+
             ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
             if (ibMore != null) {
                 UiUtils.setVisibility(ibMore, isEditMode);
@@ -298,6 +316,21 @@ public class Editor {
                     Intent intent = new Intent("android.intent.action.VIEW");
                     intent.setData(Uri.parse("https://sharecuts.cn/apps"));
                     mContext.startActivity(intent);
+                });
+            }
+
+            ImageButton ibRun = mBottomSheetDialog.findViewById(R.id.ib_trying_run);
+            if (ibRun != null) {
+                ibRun.setOnClickListener(view -> {
+                    if (tietUrlScheme != null) {
+                        String uName = tietUrlScheme.getText() == null ? mItem.getParam1() : tietUrlScheme.getText().toString();
+
+                        if (!tietUrlScheme.getText().toString().isEmpty()) {
+                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", uName, "", "",
+                                    "", mItem.getType(), mItem.getTimeStamp());
+                            MainFragment.getViewModelInstance().getCommand().setValue(TextUtils.getItemCommand(ae));
+                        }
+                    }
                 });
             }
 

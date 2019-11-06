@@ -49,6 +49,12 @@
             android:icon="@drawable/ic_stream_card"
             app:defaultValue="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="streamCardModeSingleLine"
+            app:title="@string/settings_stream_card_single_line"
+            android:summary="@string/settings_stream_card_single_line_summary"
+            app:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
