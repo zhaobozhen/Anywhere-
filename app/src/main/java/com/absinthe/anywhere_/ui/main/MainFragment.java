@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.ui.main;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -129,7 +130,14 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     String appName;
                     appName = TextUtils.getAppName(mContext, param1);
                     String timeStamp = System.currentTimeMillis() + "";
-                    AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, param1, param2, param3, "", AnywhereType.ACTIVITY, timeStamp);
+                    int exported = 0;
+                    if (UiUtils.isActivityExported(mContext, new ComponentName(param1,
+                            param2.charAt(0) == '.' ? param1 + param2 : param2))) {
+                        exported = 100;
+                    }
+                    LogUtil.d(this.getClass(),"ex=",exported);
+                    AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, param1, param2, param3, "",
+                            AnywhereType.ACTIVITY + exported, timeStamp);
                     Editor editor = new Editor(MainActivity.getInstance(), Editor.ANYWHERE)
                             .item(ae)
                             .isEditorMode(false)

@@ -44,6 +44,7 @@ public class Editor {
     private int mEditorType;
     private boolean isShortcut;
     private boolean isEditMode;
+    private boolean isExported;
 
     public Editor(Context context, int editorType) {
         mContext = context;
@@ -51,6 +52,7 @@ public class Editor {
         mEditorType = editorType;
         isShortcut = false;
         isEditMode = false;
+        isExported = false;
 
         View contentView = View.inflate(context, R.layout.bottom_sheet_dialog_anywhere, null);
         if (mEditorType == ANYWHERE) {
@@ -73,6 +75,11 @@ public class Editor {
 
     public Editor isEditorMode(boolean flag) {
         isEditMode = flag;
+        return this;
+    }
+
+    public Editor isExported(boolean flag) {
+        isExported = flag;
         return this;
     }
 

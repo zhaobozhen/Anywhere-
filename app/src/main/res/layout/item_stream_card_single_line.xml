@@ -51,8 +51,8 @@
 
                 <ImageView
                     android:id="@+id/iv_badge"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
                     android:contentDescription="@string/icon_badge_todo" />

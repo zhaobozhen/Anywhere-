@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -114,19 +115,37 @@ public class PermissionUtil {
                 break;
             case Const.WORKING_MODE_URL_SCHEME:
                 if (cmd.contains("am start -n")) {
-                    ToastUtil.makeText(R.string.toast_change_work_mode);
-                    break;
-                }
-                if (cmd.contains(Const.CMD_OPEN_URL_SCHEME)) {
-                    cmd =  cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
-                }
-                try {
-                    Intent intent = new Intent("android.intent.action.VIEW");
-                    intent.setData(Uri.parse(cmd));
-                    MainActivity.getInstance().startActivity(intent);
-                    result = "android.intent.action.VIEW";
-                } catch (Exception e) {
-                    LogUtil.d(klass, "WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                    String pkgClsString = cmd.split(" ")[3];
+                    String pkg = pkgClsString.split("/")[0];
+                    String cls = pkgClsString.split("/")[1];
+                    if (cls.charAt(0) == '.') {
+                        cls = pkg + cls;
+                    }
+                    if (!UiUtils.isActivityExported(AnywhereApplication.sContext, new ComponentName(pkg, cls))) {
+                        ToastUtil.makeText(R.string.toast_change_work_mode);
+                        break;
+                    } else {
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setComponent(new ComponentName(pkg, cls));
+                            MainActivity.getInstance().startActivity(intent);
+                            result = "android.intent.action.VIEW";
+                        } catch (Exception e) {
+                            LogUtil.d(klass, "WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                        }
+                    }
+                } else {
+                    if (cmd.contains(Const.CMD_OPEN_URL_SCHEME)) {
+                        cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
+                    }
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(cmd));
+                        MainActivity.getInstance().startActivity(intent);
+                        result = "android.intent.action.VIEW";
+                    } catch (Exception e) {
+                        LogUtil.d(klass, "WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                    }
                 }
                 break;
         }

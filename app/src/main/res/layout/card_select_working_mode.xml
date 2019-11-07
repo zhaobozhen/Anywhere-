@@ -44,7 +44,7 @@
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/btn_url_scheme" />
+                    android:text="@string/btn_normal" />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_root"
                     style="?attr/materialButtonOutlinedStyle"

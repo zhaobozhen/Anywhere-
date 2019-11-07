@@ -88,6 +88,11 @@ public class AnywhereEntity {
     }
 
     @NonNull
+    public Integer getExportedType() {
+        return mType / 100;
+    }
+
+    @NonNull
     public String getTimeStamp() {
         return mTimeStamp;
     }

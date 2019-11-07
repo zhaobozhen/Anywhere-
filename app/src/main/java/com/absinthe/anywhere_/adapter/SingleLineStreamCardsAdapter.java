@@ -100,6 +100,9 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
                 binding.ivBadge.setImageResource(R.drawable.ic_added_shortcut);
                 binding.ivBadge.setVisibility(View.VISIBLE);
+            } else if (item.getExportedType() == AnywhereType.EXPORTED) {
+                binding.ivBadge.setImageResource(R.drawable.ic_exported);
+                binding.ivBadge.setVisibility(View.VISIBLE);
             } else {
                 binding.ivBadge.setVisibility(View.GONE);
             }

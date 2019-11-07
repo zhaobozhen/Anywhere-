@@ -22,7 +22,7 @@ import com.absinthe.anywhere_.utils.AppUtils;
 
 import java.util.List;
 
-public class AppListActivity extends AppCompatActivity {
+public class AppListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private ActivityAppListBinding binding;
     private AppListAdapter adapter;
 
@@ -49,6 +49,7 @@ public class AppListActivity extends AppCompatActivity {
             searchView.setIconifiedByDefault(false);
             searchView.setSubmitButtonEnabled(true);    // 显示“开始搜索”的按钮
             searchView.setQueryRefinementEnabled(true); // 提示内容右边提供一个将提示内容放到搜索框的
+            searchView.setOnQueryTextListener(this);
 
             LinearLayout searchBar = searchView.findViewById(R.id.search_bar);
             searchBar.setLayoutTransition(new LayoutTransition());
@@ -92,5 +93,16 @@ public class AppListActivity extends AppCompatActivity {
             });
 
         }).start();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return false;
     }
 }

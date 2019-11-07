@@ -113,6 +113,17 @@ public class UiUtils {
         }
     }
 
+    public static boolean isActivityExported(Context context, ComponentName cn) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            ActivityInfo info = packageManager.getActivityInfo(cn, 0);
+            return info.exported;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     /**
      * Set action bar title
      * @param activity Activity for bind action bar

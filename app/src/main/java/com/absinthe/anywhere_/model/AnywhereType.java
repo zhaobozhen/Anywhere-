@@ -6,4 +6,5 @@ public class AnywhereType {
     public static final int MINI_PROGRAM = 2;
 
     public static final int SHORTCUTS = 1;
+    public static final int EXPORTED = 1;
 }

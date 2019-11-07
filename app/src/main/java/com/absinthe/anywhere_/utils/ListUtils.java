@@ -1,5 +1,8 @@
 package com.absinthe.anywhere_.utils;
 
+import android.content.ComponentName;
+
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
@@ -53,6 +56,22 @@ public class ListUtils {
     public static List<AppListBean> sortAppListByNameAsc(List<AppListBean> list) {
         Collections.sort(list, (item, t1) ->
                 item.getAppName().compareTo(t1.getAppName()));
+        return list;
+    }
+
+    public static List<AppListBean> sortAppListByExported(List<AppListBean> list) {
+        Collections.sort(list, (item, t1) -> {
+            if (UiUtils.isActivityExported(AnywhereApplication.sContext,
+                    new ComponentName(item.getPackageName(), item.getClassName()))) {
+                return -1;
+            } else if (UiUtils.isActivityExported(AnywhereApplication.sContext,
+                    new ComponentName(t1.getPackageName(), t1.getClassName()))) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
         return list;
     }
 }

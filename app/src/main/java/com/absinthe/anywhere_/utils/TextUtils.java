@@ -180,4 +180,8 @@ public class TextUtils {
         Date date = new Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
     }
+
+    public static boolean containsIgnoreCase(String str, String subString) {
+        return str.toLowerCase().contains(subString.toLowerCase());
+    }
 }
