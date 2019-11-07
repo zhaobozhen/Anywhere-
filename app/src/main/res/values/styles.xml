@@ -37,7 +37,7 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppTheme.AppList" parent="AppTheme">
+    <style name="AppTheme.AppList" parent="AppTheme.ActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/appListColorPrimary</item>
         <item name="colorPrimaryDark">@color/appListColorPrimaryDark</item>

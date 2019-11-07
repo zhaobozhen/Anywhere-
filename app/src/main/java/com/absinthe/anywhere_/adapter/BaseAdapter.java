@@ -74,9 +74,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VH holder, int position) {
-
-    }
+    public void onBindViewHolder(@NonNull VH holder, int position) { }
 
     @Override
     public int getItemCount() {

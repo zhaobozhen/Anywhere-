@@ -40,11 +40,11 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder viewHolder, int position) {
+        super.onBindViewHolder(viewHolder, position);
         AnywhereEntity item = items.get(position);
         viewHolder.bind(item);
 
         int type = item.getAnywhereType();
-        LogUtil.d(this.getClass(), "Type = " + type);
 
         viewHolder.binding.itemCard.setOnClickListener(view -> {
             if (mode == ADAPTER_MODE_NORMAL) {

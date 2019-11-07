@@ -4,7 +4,8 @@
     package="com.absinthe.anywhere_">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 快捷方式 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
@@ -78,6 +79,7 @@
             android:theme="@style/AppTheme.ActionBar" />
         <activity
             android:name=".ui.list.AppListActivity"
+            android:label="@string/app_list_title"
             android:theme="@style/AppTheme.AppList"
             android:parentActivityName=".ui.main.MainActivity">
             <intent-filter>
@@ -86,7 +88,6 @@
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"
