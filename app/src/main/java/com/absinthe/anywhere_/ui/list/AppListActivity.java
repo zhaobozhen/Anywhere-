@@ -7,17 +7,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.AppListAdapter;
 import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding;
 import com.absinthe.anywhere_.model.AppListBean;
+import com.absinthe.anywhere_.utils.AppUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AppListActivity extends AppCompatActivity {
@@ -32,6 +34,7 @@ public class AppListActivity extends AppCompatActivity {
         initView();
         initRecyclerView();
         initData();
+
     }
 
     @Override
@@ -55,28 +58,39 @@ public class AppListActivity extends AppCompatActivity {
     }
 
     private void initView() {
-
+        binding.srlAppList.setOnRefreshListener(this::initData);
     }
 
     private void initRecyclerView() {
         binding.rvAppList.setLayoutManager(new WrapContentLinearLayoutManager(this));
-        adapter = new AppListAdapter();
+        adapter = new AppListAdapter(this, AppListAdapter.MODE_APP_LIST);
         binding.rvAppList.setAdapter(adapter);
+
+        binding.rvAppList.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                int topRowVerticalPosition =
+                        recyclerView.getChildCount() == 0 ? 0 : recyclerView.getChildAt(0).getTop();
+                binding.srlAppList.setEnabled(topRowVerticalPosition >= 0);
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
     }
 
     private void initData() {
         binding.srlAppList.setRefreshing(true);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<AppListBean> list = new ArrayList<>();
-                for (int i=0;i<100;i++){
-                    list.add(new AppListBean("App Name " + i, "Pkg Name " + i));
-                }
+        new Thread(() -> {
+            List<AppListBean> list = AppUtils.getAppList(getPackageManager());
+
+            runOnUiThread(() -> {
                 adapter.setList(list);
-                adapter.notifyDataSetChanged();
                 binding.srlAppList.setRefreshing(false);
-            }
+            });
+
         }).start();
     }
 }

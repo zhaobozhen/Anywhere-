@@ -412,15 +412,18 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             switch (actionItem.getId()) {
                 case R.id.fab_url_scheme:
                     setUpUrlScheme("");
-                    return true;
+                    break;
                 case R.id.fab_activity_list:
                     mContext.startActivity(new Intent(mContext, AppListActivity.class));
-                    return true;
+                    break;
                 case R.id.fab_collector:
                     checkWorkingPermission();
-                    return true;
+                    break;
+                default:
+                    return false;
             }
-            return false;
+            fab.close();
+            return true;
         });
     }
 }

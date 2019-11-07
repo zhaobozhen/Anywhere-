@@ -20,10 +20,14 @@ public class VibratorUtil {
 
         LogUtil.d(VibratorUtil.class, "vibrator =", vibrator);
         if (vibrator != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator.vibrate(effect);
-            } else {
-                vibrator.vibrate(20);
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(effect);
+                } else {
+                    vibrator.vibrate(20);
+                }
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
         }
     }

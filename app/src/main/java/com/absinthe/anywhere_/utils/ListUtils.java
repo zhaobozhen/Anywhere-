@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.utils;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 
@@ -46,6 +47,12 @@ public class ListUtils {
     private static List<AnywhereEntity> sortByNameAsc(List<AnywhereEntity> list) {
         Collections.sort(list, (anywhereEntity, t1) ->
                 anywhereEntity.getAppName().compareTo(t1.getAppName()));
+        return list;
+    }
+
+    public static List<AppListBean> sortAppListByNameAsc(List<AppListBean> list) {
+        Collections.sort(list, (item, t1) ->
+                item.getAppName().compareTo(t1.getAppName()));
         return list;
     }
 }

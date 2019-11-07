@@ -1,8 +1,10 @@
 package com.absinthe.anywhere_.utils;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -86,6 +88,29 @@ public class UiUtils {
             drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
         }
         return drawable;
+    }
+
+    public static Drawable getActivityIcon(Context context, ComponentName cn) {
+        Drawable drawable;
+        try{
+            drawable = context.getPackageManager().getActivityIcon(cn);
+        }
+        catch (PackageManager.NameNotFoundException e){
+            e.printStackTrace();
+            drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
+        }
+        return drawable;
+    }
+
+    public static String getActivityLabel(Context context, ComponentName cn) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            ActivityInfo info = packageManager.getActivityInfo(cn, 0);
+            return info.loadLabel(packageManager).toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     /**

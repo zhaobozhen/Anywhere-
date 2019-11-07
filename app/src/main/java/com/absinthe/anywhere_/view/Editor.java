@@ -19,6 +19,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.EditUtils;
+import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -176,15 +177,16 @@ public class Editor {
             ImageButton ibRun = mBottomSheetDialog.findViewById(R.id.ib_trying_run);
             if (ibRun != null) {
                 ibRun.setOnClickListener(view -> {
-                    if (tietPackageName != null && tietClassName != null) {
+                    if (tietPackageName != null && tietClassName != null && tietIntentExtra != null) {
                         String pName = tietPackageName.getText() == null ? mItem.getParam1() : tietPackageName.getText().toString();
                         String cName = tietClassName.getText() == null ? mItem.getParam2() : tietClassName.getText().toString();
+                        String iExtra = tietIntentExtra.getText() == null ? "" : tietIntentExtra.getText().toString();
 
                         if (!tietPackageName.getText().toString().isEmpty()
                                 && !tietClassName.getText().toString().isEmpty()) {
-                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", pName, cName, "",
-                                    "", mItem.getType(), mItem.getTimeStamp());
-                            MainFragment.getViewModelInstance().getCommand().setValue(TextUtils.getItemCommand(ae));
+                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", pName, cName, iExtra,
+                                    "", mItem.getType(), mItem.getTimeStamp());//Todo param3
+                            PermissionUtil.execCmd(TextUtils.getItemCommand(ae));
                         }
                     }
                 });
@@ -328,7 +330,7 @@ public class Editor {
                         if (!tietUrlScheme.getText().toString().isEmpty()) {
                             AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", uName, "", "",
                                     "", mItem.getType(), mItem.getTimeStamp());
-                            MainFragment.getViewModelInstance().getCommand().setValue(TextUtils.getItemCommand(ae));
+                            PermissionUtil.execCmd(TextUtils.getItemCommand(ae));
                         }
                     }
                 });

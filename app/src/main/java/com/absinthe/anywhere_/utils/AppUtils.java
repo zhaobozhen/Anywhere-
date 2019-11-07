@@ -4,15 +4,22 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.provider.HomeWidgetProvider;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AppUtils {
@@ -74,5 +81,59 @@ public class AppUtils {
             }
         }
         return false;
+    }
+
+    public static List<AppListBean> getAppList(PackageManager packageManager) {
+        List<AppListBean> list = new ArrayList<>();
+
+        try {
+            List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+            for (int i = 0; i < packageInfos.size(); i++) {
+                PackageInfo packageInfo = packageInfos.get(i);
+
+                //过滤掉系统app
+                if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0) {
+                    continue;
+                }
+
+                AppListBean bean = new AppListBean();
+                bean.setPackageName(packageInfo.packageName);
+                bean.setAppName(TextUtils.getAppName(AnywhereApplication.sContext, packageInfo.packageName));
+
+                if (packageInfo.applicationInfo.loadIcon(packageManager) == null) {
+                    continue;
+                }
+                bean.setIcon(packageInfo.applicationInfo.loadIcon(packageManager));
+                list.add(bean);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ListUtils.sortAppListByNameAsc(list);
+    }
+
+    public static List<String> getActivitiesClass(Context context, String packageName){
+        List<String> returnClassList = new ArrayList<>();
+
+        try {
+            //Get all activity classes in the AndroidManifest.xml
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+
+            if (packageInfo.activities != null) {
+                LogUtil.d(AppUtils.class, "Found ", packageInfo.activities.length, " activity in the AndroidManifest.xml");
+
+                for (ActivityInfo ai : packageInfo.activities) {
+                    returnClassList.add(ai.name);
+                    LogUtil.d(AppUtils.class, ai.name, "...OK");
+                }
+
+                LogUtil.d(AppUtils.class, "Return ", returnClassList.size(), " activity,", Arrays.toString(returnClassList.toArray()));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return returnClassList;
     }
 }
