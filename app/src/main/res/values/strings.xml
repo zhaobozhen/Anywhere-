@@ -134,6 +134,7 @@
     <string name="dialog_message_same_app_name">似乎有相似的 Anywhere-，要添加吗？</string>
     <string name="dialog_reset_shortcuts_confirm_message">确定要重置所有 Shortcuts 吗？</string>
     <string name="dialog_message_ice_box_perm_not_support">新版 MIUI 无法自动授予自定义权限，点击 去授予 进入原生应用管理页面并手动授予权限</string>
+    <string name="dialog_title_choose_icon_pack">选择图标包</string>
 
     <string name="about_text">Anywhere- 是一个 App 页面的集合 App。</string>
 

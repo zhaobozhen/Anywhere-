@@ -17,6 +17,7 @@ public class GlobalValues {
     public static String sDarkMode;
     public static String sBackgroundUri;
     public static String sSortMode;
+    public static String sIconPack;
 
     public static void init(Context context) {
         sIsDebugMode = false;
@@ -29,6 +30,7 @@ public class GlobalValues {
         sDarkMode = SPUtils.getString(context, Const.SP_KEY_DARK_MODE);
         sBackgroundUri = SPUtils.getString(context, Const.SP_KEY_CHANGE_BACKGROUND);
         sSortMode = SPUtils.getString(context, Const.SP_KEY_SORT_MODE);
+        sIconPack = SPUtils.getString(context, Const.SP_KEY_ICON_PACK);
     }
 
     public static void setsIsFirstLaunch(boolean sIsFirstLaunch) {
@@ -74,5 +76,10 @@ public class GlobalValues {
     public static void setsSortMode(String sSortMode) {
         GlobalValues.sSortMode = sSortMode;
         SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_SORT_MODE, sSortMode);
+    }
+
+    public static void setsIconPack(String sIconPack) {
+        GlobalValues.sIconPack = sIconPack;
+        SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_ICON_PACK, sIconPack);
     }
 }

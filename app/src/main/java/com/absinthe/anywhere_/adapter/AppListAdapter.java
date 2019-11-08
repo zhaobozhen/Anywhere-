@@ -20,8 +20,11 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.list.AppDetailActivity;
+import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment;
 import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.Editor;
 
@@ -31,11 +34,13 @@ import java.util.List;
 public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHolder> implements Filterable {
     public static final int MODE_APP_LIST = 0;
     public static final int MODE_APP_DETAIL = 1;
+    public static final int MODE_ICON_PACK = 2;
 
     private Context mContext;
     private List<AppListBean> mList, tempList;
     private ListFilter filter;
     private int mode;
+    private IconPackDialogFragment iconPackDialogFragment;
 
     public AppListAdapter(Context context, int mode) {
         mContext = context;
@@ -61,7 +66,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 intent.putExtra(Const.INTENT_EXTRA_APP_NAME, item.getAppName());
                 intent.putExtra(Const.INTENT_EXTRA_PKG_NAME, item.getPackageName());
                 mContext.startActivity(intent);
-            } else {
+            } else if (mode == MODE_APP_DETAIL) {
                 String timeStamp = System.currentTimeMillis() + "";
                 int exported = 0;
                 if (UiUtils.isActivityExported(mContext, new ComponentName(item.getPackageName(),
@@ -79,6 +84,12 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                         .isShortcut(false)
                         .build();
                 editor.show();
+            } else if (mode == MODE_ICON_PACK) {
+                GlobalValues.setsIconPack(item.getPackageName());
+                ToastUtil.makeText("重启生效");
+                if (iconPackDialogFragment != null) {
+                    iconPackDialogFragment.dismiss();
+                }
             }
         });
     }
@@ -121,10 +132,14 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 ivIcon.setImageDrawable(item.getIcon());
                 tvAppName.setText(item.getAppName());
                 tvPkgName.setText(item.getPackageName());
-            } else {
+            } else if (mode == MODE_APP_DETAIL) {
                 ivIcon.setImageDrawable(UiUtils.getActivityIcon(mContext, new ComponentName(item.getPackageName(), item.getClassName())));
                 tvAppName.setText(item.getAppName());
                 tvPkgName.setText(item.getClassName());
+            } else if (mode == MODE_ICON_PACK) {
+                ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item.getPackageName()));
+                tvAppName.setText(item.getAppName());
+                tvPkgName.setText(item.getPackageName());
             }
         }
     }
@@ -164,5 +179,9 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
             }
 
         }
+    }
+
+    public void setIconPackDialogFragment(IconPackDialogFragment fragment) {
+        iconPackDialogFragment = fragment;
     }
 }

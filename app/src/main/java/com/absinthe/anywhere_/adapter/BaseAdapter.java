@@ -87,7 +87,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             if (AppUtils.isAppFrozen(mContext, item)) {
                 if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                     if (PermissionUtil.isMIUI()) {
-                        new MaterialAlertDialogBuilder(mContext)
+                        new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                                 .setMessage(R.string.dialog_message_ice_box_perm_not_support)
                                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
                                 .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, i) -> {
@@ -138,7 +138,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     private void deleteAnywhereActivity(Editor editor, AnywhereEntity ae, int position) {
-        new MaterialAlertDialogBuilder(mContext)
+        new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_delete_title)
                 .setMessage(Html.fromHtml(mContext.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {

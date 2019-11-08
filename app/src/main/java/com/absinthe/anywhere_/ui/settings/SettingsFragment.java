@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -51,6 +52,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Preference resetBgPreference = findPreference(Const.SP_KEY_RESET_BACKGROUND);
         Preference helpPreference = findPreference(Const.SP_KEY_HELP);
         Preference clearShortcutsPreference = findPreference(Const.SP_KEY_CLEAR_SHORTCUTS);
+        Preference iconPackPreference = findPreference(Const.SP_KEY_ICON_PACK);
         SwitchPreferenceCompat streamCardModePreference = findPreference(Const.SP_KEY_STREAM_CARD_MODE);
         SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.SP_KEY_STREAM_CARD_SINGLE_LINE);
 
@@ -82,6 +84,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 streamCardSingleLinePreference.setOnPreferenceChangeListener(this);
             }
         }
+        if (iconPackPreference != null) {
+            iconPackPreference.setOnPreferenceClickListener(this);
+        }
 
     }
 
@@ -96,7 +101,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
                 return true;
             case Const.SP_KEY_RESET_BACKGROUND:
-                new MaterialAlertDialogBuilder(mContext)
+                new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_background_confirm_message)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().getBackground().setValue(""))
@@ -111,7 +116,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 tabsIntent.launchUrl(mContext, Uri.parse(url));
                 return true;
             case Const.SP_KEY_CLEAR_SHORTCUTS:
-                new MaterialAlertDialogBuilder(mContext)
+                new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_shortcuts_confirm_message)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
@@ -122,6 +127,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> { })
                         .show();
+                return true;
+            case Const.SP_KEY_ICON_PACK:
+                IconPackDialogFragment fragment = new IconPackDialogFragment();
+                fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "IconPackDialogFragment");
                 return true;
             default:
         }

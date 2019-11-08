@@ -16,6 +16,7 @@ public class Const {
     public static final String SP_KEY_ACTION_BAR_TYPE = "actionBarType";
     public static final String SP_KEY_HELP = "help";
     public static final String SP_KEY_CLEAR_SHORTCUTS = "clearShortcuts";
+    public static final String SP_KEY_ICON_PACK = "iconPack";
     public static final String SP_KEY_SORT_MODE = "sortMode";
     public static final String SP_KEY_BACKUP = "backup";
     public static final String SP_KEY_RESTORE = "restore";

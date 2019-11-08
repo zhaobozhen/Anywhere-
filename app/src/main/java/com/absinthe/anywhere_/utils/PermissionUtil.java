@@ -261,7 +261,7 @@ public class PermissionUtil {
      * @param activity to bind an activity to show
      */
     private static void showPermissionDialog(Activity activity) {
-        new MaterialAlertDialogBuilder(activity)
+        new MaterialAlertDialogBuilder(activity, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_permission_title)
                 .setMessage(R.string.dialog_permission_message)
                 .setCancelable(false)
@@ -361,7 +361,7 @@ public class PermissionUtil {
 
             // Shizuku v3 may not running, notify user
             LogUtil.d(klass, "Shizuku v3 may not running.");
-            new MaterialAlertDialogBuilder(mContext)
+            new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                     .setMessage(R.string.dialog_message_shizuku_not_running)
                     .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                         Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");

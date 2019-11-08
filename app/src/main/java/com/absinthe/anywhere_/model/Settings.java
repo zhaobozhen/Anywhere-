@@ -8,9 +8,15 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.utils.IconPackManager;
 import com.absinthe.anywhere_.utils.UiUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Settings {
     @SuppressLint("StaticFieldLeak")
-    public static IconPackManager mIconPackManager;
+    public static IconPackManager sIconPackManager;
+    public static IconPackManager.IconPack sIconPack;
+
+    public static final String DEFAULT_ICON_PACK = "default.icon.pack";
 
     public static void init() {
         setTheme(GlobalValues.sDarkMode);
@@ -37,7 +43,18 @@ public class Settings {
     }
 
     private static void initIconPackManager() {
-        mIconPackManager = new IconPackManager();
-        mIconPackManager.setContext(AnywhereApplication.sContext);
+        sIconPackManager = new IconPackManager();
+        sIconPackManager.setContext(AnywhereApplication.sContext);
+
+        HashMap<String, IconPackManager.IconPack> hashMap = sIconPackManager.getAvailableIconPacks(true);
+
+        for (Map.Entry<String, IconPackManager.IconPack> entry : hashMap.entrySet()) {
+            if (entry.getKey().equals(GlobalValues.sIconPack)) {
+                sIconPack = entry.getValue();
+            }
+        }
+        if (sIconPack == null) {
+            GlobalValues.setsIconPack(DEFAULT_ICON_PACK);
+        }
     }
 }

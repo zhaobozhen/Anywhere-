@@ -83,11 +83,16 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         return mViewModel;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = getActivity();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mContext = getActivity();
         MainActivity.setCurFragment(this);
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         initView(view);

@@ -42,6 +42,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.Settings;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -81,7 +82,27 @@ public class UiUtils {
 
         Drawable drawable;
         try{
-            drawable = context.getPackageManager().getApplicationIcon(apkTempPackageName);
+            if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty()) {
+                drawable = context.getPackageManager().getApplicationIcon(apkTempPackageName);
+            } else {
+                drawable = Settings.sIconPack.getDrawableIconForPackage(apkTempPackageName, context.getPackageManager().getApplicationIcon(apkTempPackageName));
+            }
+        }
+        catch (PackageManager.NameNotFoundException e){
+            e.printStackTrace();
+            drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
+        }
+        return drawable;
+    }
+
+    public static Drawable getAppIconByPackageName(Context context, String packageName){
+        Drawable drawable;
+        try{
+            if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty()) {
+                drawable = context.getPackageManager().getApplicationIcon(packageName);
+            } else {
+                drawable = Settings.sIconPack.getDrawableIconForPackage(packageName, context.getPackageManager().getApplicationIcon(packageName));
+            }
         }
         catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();

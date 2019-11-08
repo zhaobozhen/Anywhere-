@@ -9,12 +9,15 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.AppListBean;
+import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.provider.HomeWidgetProvider;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
@@ -105,7 +108,14 @@ public class AppUtils {
                 if (packageInfo.applicationInfo.loadIcon(packageManager) == null) {
                     continue;
                 }
-                bean.setIcon(packageInfo.applicationInfo.loadIcon(packageManager));
+
+                Drawable icon;
+                if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty()) {
+                    icon = packageInfo.applicationInfo.loadIcon(packageManager);
+                } else {
+                    icon = Settings.sIconPack.getDrawableIconForPackage(packageInfo.packageName, packageInfo.applicationInfo.loadIcon(packageManager));
+                }
+                bean.setIcon(icon);
                 list.add(bean);
             }
         } catch (Exception e) {

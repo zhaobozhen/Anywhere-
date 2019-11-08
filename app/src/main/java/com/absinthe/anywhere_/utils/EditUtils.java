@@ -8,6 +8,10 @@ import java.util.List;
 public class EditUtils {
 
     public static boolean hasSameAppName(String param1, String param2) {
+        if (MainFragment.getViewModelInstance().getAllAnywhereEntities() == null) {
+            return false;
+        }
+
         List<AnywhereEntity> list = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
 
         if (list != null) {

@@ -29,7 +29,7 @@ public class AnywhereApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        sContext = this;
+        sContext = getApplicationContext();
         GlobalValues.init(sContext);
         Settings.init();
     }

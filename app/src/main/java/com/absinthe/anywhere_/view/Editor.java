@@ -158,7 +158,7 @@ public class Editor {
                             } else {
                                 if (EditUtils.hasSameAppName(pName, cName)) {
                                     dismiss();
-                                    new MaterialAlertDialogBuilder(mContext)
+                                    new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                                             .setMessage(R.string.dialog_message_same_app_name)
                                             .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                                                 MainFragment.getViewModelInstance().insert(ae);
@@ -297,7 +297,7 @@ public class Editor {
                             } else {
                                 if (EditUtils.hasSameAppName(uScheme)) {
                                     dismiss();
-                                    new MaterialAlertDialogBuilder(mContext)
+                                    new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                                             .setMessage(R.string.dialog_message_same_app_name)
                                             .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                                                 MainFragment.getViewModelInstance().insert(ae);
@@ -418,13 +418,13 @@ public class Editor {
             dismiss();
         };
 
-        MaterialAlertDialogBuilder addDialog =  new MaterialAlertDialogBuilder(context)
+        MaterialAlertDialogBuilder addDialog =  new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_add_shortcut_title)
                 .setMessage(Html.fromHtml(context.getString(R.string.dialog_add_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show());
 
-        MaterialAlertDialogBuilder cantAddDialog =  new MaterialAlertDialogBuilder(context)
+        MaterialAlertDialogBuilder cantAddDialog =  new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_cant_add_shortcut_title)
                 .setMessage(R.string.dialog_cant_add_shortcut_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> show());
@@ -443,7 +443,7 @@ public class Editor {
             dismiss();
         };
 
-        new MaterialAlertDialogBuilder(context)
+        new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_remove_shortcut_title)
                 .setMessage(Html.fromHtml(context.getString(R.string.dialog_remove_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)

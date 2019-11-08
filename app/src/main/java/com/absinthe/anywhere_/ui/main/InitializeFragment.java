@@ -50,6 +50,12 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = getContext();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_initialize, container, false);
@@ -63,7 +69,6 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mContext = MainActivity.getInstance();
         mViewModel = ViewModelProviders.of(this).get(InitializeViewModel.class);
         workingMode = Const.WORKING_MODE_URL_SCHEME;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
