@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.about;
 
+import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,13 +16,26 @@ import com.drakeet.about.Card;
 import com.drakeet.about.Category;
 import com.drakeet.about.Contributor;
 import com.drakeet.about.License;
+import com.drakeet.about.OnRecommendationClickedListener;
+import com.drakeet.about.Recommendation;
+import com.drakeet.about.extension.RecommendationLoaderDelegate;
+import com.drakeet.about.extension.provided.GsonJsonConverter;
+import com.drakeet.about.provided.GlideImageLoader;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
-public class AboutActivity extends AbsAboutActivity {
+
+public class AboutActivity extends AbsAboutActivity implements OnRecommendationClickedListener {
     private int mClickCount;
     private long mStartTime, mEndTime;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setImageLoader(new GlideImageLoader());
+        setOnRecommendationClickedListener(this);
+    }
 
     @Override
     protected void onCreateHeader(@NonNull ImageView icon, @NonNull TextView slogan, @NonNull TextView version) {
@@ -54,6 +68,7 @@ public class AboutActivity extends AbsAboutActivity {
         items.add(new License("Android Jetpack", "Google", License.APACHE_2, "https://source.google.com"));
         items.add(new License("Palette", "Google", License.APACHE_2, "https://source.google.com"));
 
+        RecommendationLoaderDelegate.attach(this, items.size(), new GsonJsonConverter());
     }
 
     private View.OnClickListener createDebugListener() {
@@ -82,6 +97,11 @@ public class AboutActivity extends AbsAboutActivity {
                         .show();
             }
         };
+    }
+
+    @Override
+    public boolean onRecommendationClicked(@NonNull View itemView, @NonNull Recommendation recommendation) {
+        return false;
     }
 }
 

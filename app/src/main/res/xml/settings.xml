@@ -79,6 +79,12 @@
             app:summary="@string/settings_clear_shortcuts_summary"
             android:icon="@drawable/ic_clear_shortcuts"/>
 
+        <Preference
+            app:key="iconPack"
+            app:title="@string/settings_icon_pack"
+            app:summary="@string/settings_icon_pack_summary"
+            android:icon="@drawable/ic_icon_pack"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -14,10 +14,10 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -137,7 +137,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 }
                 break;
             case Const.SP_KEY_DARK_MODE:
-                AnywhereApplication.setTheme(newValue.toString());
+                Settings.setTheme(newValue.toString());
                 GlobalValues.setsDarkMode(newValue.toString());
                 break;
             case Const.SP_KEY_STREAM_CARD_MODE:

@@ -5,10 +5,12 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,11 +27,13 @@ import java.util.List;
 public class AppListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private ActivityAppListBinding binding;
     private AppListAdapter adapter;
+    private boolean isShowSystemApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_app_list);
+        isShowSystemApp = false;
 
         initView();
         initRecyclerView();
@@ -58,8 +62,28 @@ public class AppListActivity extends AppCompatActivity implements SearchView.OnQ
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.show_system_app) {
+            if (item.getTitle().toString().equals(getString(R.string.menu_show_system_app))) {
+                item.setTitle(R.string.menu_hide_system_app);
+                isShowSystemApp = true;
+            } else {
+                item.setTitle(R.string.menu_show_system_app);
+                isShowSystemApp = false;
+            }
+            initData(isShowSystemApp);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initView() {
-        binding.srlAppList.setOnRefreshListener(this::initData);
+        binding.srlAppList.setOnRefreshListener(() -> initData(isShowSystemApp));
+
+        //Bug of DayNight lib
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.resetColorPrimary));
+        }
     }
 
     private void initRecyclerView() {
@@ -82,10 +106,10 @@ public class AppListActivity extends AppCompatActivity implements SearchView.OnQ
         });
     }
 
-    private void initData() {
+    private void initData(boolean showSystem) {
         binding.srlAppList.setRefreshing(true);
         new Thread(() -> {
-            List<AppListBean> list = AppUtils.getAppList(getPackageManager());
+            List<AppListBean> list = AppUtils.getAppList(getPackageManager(), showSystem);
 
             runOnUiThread(() -> {
                 adapter.setList(list);
@@ -93,6 +117,10 @@ public class AppListActivity extends AppCompatActivity implements SearchView.OnQ
             });
 
         }).start();
+    }
+
+    private void initData() {
+        initData(false);
     }
 
     @Override

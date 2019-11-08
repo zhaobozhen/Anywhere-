@@ -44,6 +44,7 @@ import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
@@ -54,6 +55,7 @@ import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
@@ -72,6 +74,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private BaseAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
     private ActionBar actionBar;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     static MainFragment newInstance() {
         return new MainFragment();
@@ -106,6 +109,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     .show();
             GlobalValues.setsIsFirstLaunch(false);
         }
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
     }
 
     @Override
@@ -420,12 +424,15 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             switch (actionItem.getId()) {
                 case R.id.fab_url_scheme:
                     setUpUrlScheme("");
+                    FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_url_scheme", "click_fab_url_scheme");
                     break;
                 case R.id.fab_activity_list:
                     mContext.startActivity(new Intent(mContext, AppListActivity.class));
+                    FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_activity_list", "click_fab_activity_list");
                     break;
                 case R.id.fab_collector:
                     checkWorkingPermission();
+                    FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_collector", "click_fab_collector");
                     break;
                 default:
                     return false;

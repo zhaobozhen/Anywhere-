@@ -7,10 +7,4 @@
         android:title="@string/menu_search"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
-
-    <item
-        android:id="@+id/show_system_app"
-        android:icon="@drawable/ic_search"
-        android:title="@string/menu_show_system_app"
-        app:showAsAction="never"/>
 </menu>

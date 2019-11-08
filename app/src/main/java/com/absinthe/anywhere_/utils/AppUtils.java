@@ -83,7 +83,7 @@ public class AppUtils {
         return false;
     }
 
-    public static List<AppListBean> getAppList(PackageManager packageManager) {
+    public static List<AppListBean> getAppList(PackageManager packageManager, boolean showSystem) {
         List<AppListBean> list = new ArrayList<>();
 
         try {
@@ -92,8 +92,10 @@ public class AppUtils {
                 PackageInfo packageInfo = packageInfos.get(i);
 
                 //过滤掉系统app
-                if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0) {
-                    continue;
+                if (!showSystem) {
+                    if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0) {
+                        continue;
+                    }
                 }
 
                 AppListBean bean = new AppListBean();

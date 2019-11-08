@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Menu;
 import android.widget.ImageView;
 
@@ -14,10 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
@@ -52,12 +51,13 @@ public class MainActivity extends AppCompatActivity {
                         .commitNow();
             }
         }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        AnywhereApplication.setTheme(GlobalValues.sDarkMode);
+        Settings.setTheme(GlobalValues.sDarkMode);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else if (curFragment instanceof InitializeFragment) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (Settings.canDrawOverlays(this)) {
+                    if (android.provider.Settings.canDrawOverlays(this)) {
                         InitializeFragment.getViewModel().getIsOverlay().setValue(Boolean.TRUE);
                     }
                 }

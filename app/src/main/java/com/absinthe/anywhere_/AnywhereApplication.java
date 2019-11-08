@@ -7,12 +7,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.LogUtil;
-import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,7 +31,7 @@ public class AnywhereApplication extends Application {
         super.onCreate();
         sContext = this;
         GlobalValues.init(sContext);
-        setTheme(GlobalValues.sDarkMode);
+        Settings.init();
     }
 
     public static String getProcessName() {
@@ -98,25 +97,6 @@ public class AnywhereApplication extends Application {
                 }
             }
         });
-    }
-
-    public static void setTheme(String mode) {
-        switch (mode) {
-            case "":
-            case "off":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            case "on":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            case "system":
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                break;
-            case "auto":
-                AppCompatDelegate.setDefaultNightMode(UiUtils.getAutoDarkMode());
-                break;
-            default:
-        }
     }
 
 }

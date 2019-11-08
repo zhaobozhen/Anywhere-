@@ -8,8 +8,10 @@ import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 
+import java.text.Collator;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Sort the Anywhere- list
@@ -43,19 +45,19 @@ public class ListUtils {
 
     private static List<AnywhereEntity> sortByNameDesc(List<AnywhereEntity> list) {
         Collections.sort(list, (anywhereEntity, t1) ->
-                - anywhereEntity.getAppName().compareTo(t1.getAppName()));
+                - Collator.getInstance(Locale.getDefault()).compare(anywhereEntity.getAppName(), t1.getAppName()));
         return list;
     }
 
     private static List<AnywhereEntity> sortByNameAsc(List<AnywhereEntity> list) {
         Collections.sort(list, (anywhereEntity, t1) ->
-                anywhereEntity.getAppName().compareTo(t1.getAppName()));
+                Collator.getInstance(Locale.getDefault()).compare(anywhereEntity.getAppName(), t1.getAppName()));
         return list;
     }
 
     public static List<AppListBean> sortAppListByNameAsc(List<AppListBean> list) {
         Collections.sort(list, (item, t1) ->
-                item.getAppName().compareTo(t1.getAppName()));
+                Collator.getInstance(Locale.getDefault()).compare(item.getAppName(), t1.getAppName()));
         return list;
     }
 

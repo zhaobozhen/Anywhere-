@@ -5,11 +5,13 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -51,6 +53,11 @@ public class AppDetailActivity extends AppCompatActivity implements SearchView.O
 
     private void initView() {
         srlAppDetail = findViewById(R.id.srl_app_detail);
+
+        //Bug of DayNight lib
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.resetColorPrimary));
+        }
     }
 
     private void initRecyclerView() {
@@ -86,7 +93,7 @@ public class AppDetailActivity extends AppCompatActivity implements SearchView.O
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.app_list_menu, menu);
+        getMenuInflater().inflate(R.menu.app_detail_menu, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
