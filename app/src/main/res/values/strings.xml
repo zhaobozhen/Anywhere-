@@ -83,6 +83,7 @@
     <string name="settings_dark_mode_oled">OLED 夜间模式</string>
     <string name="settings_stream_card_mode">瀑布流卡片模式</string>
     <string name="settings_stream_card_single_line">折叠为单行</string>
+    <string name="settings_card_background">卡片背景色</string>
     <string name="settings_clear_shortcuts">清除 Shortcuts</string>
     <string name="settings_icon_pack">图标包</string>
     <string name="settings_backup_and_restore">备份和恢复</string>
@@ -96,6 +97,7 @@
     <string name="settings_dark_mode_oled_summary">在 OLED 设备上启用纯黑背景</string>
     <string name="settings_stream_card_mode_summary">使同一页面可展示更多的卡片</string>
     <string name="settings_stream_card_single_line_summary">进一步压缩卡片大小</string>
+    <string name="settings_card_background_summary">取图标主导颜色为背景</string>
     <string name="settings_clear_shortcuts_summary">重置所有 Shortcuts</string>
     <string name="settings_icon_pack_summary">更换图标包</string>
     <string name="settings_backup_summary">导入和导出所有的 Anywhere-</string>
@@ -122,7 +124,9 @@
     <string name="toast_try_to_add_pinned_shortcut">已尝试添加</string>
     <string name="toast_backup_success">备份成功</string>
     <string name="toast_restore_success">恢复成功</string>
-    <string name="defrosting">正在解冻</string>
+    <string name="toast_defrosting">正在解冻</string>
+    <string name="toast_restart_to_active">重启以生效</string>
+
 
     <!--  Dialog  -->
     <string name="dialog_message_shizuku_not_running">请检查 Shizuku 是否正常运行</string>

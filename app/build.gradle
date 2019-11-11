@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'AndResGuard'
 
 android {
     signingConfigs {
@@ -16,8 +17,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1110
-        versionName "1.1.1"
+        versionCode 1120
+        versionName "1.1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
     }
@@ -41,6 +42,13 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def versionName = variant.versionName
+            outputFileName = "Anywhere-${versionName}.apk"
+        }
+    }
 }
 
 dependencies {
@@ -58,7 +66,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
-    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-rc02"
     implementation 'com.google.android.material:material:1.2.0-alpha01'
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
 
@@ -80,6 +88,56 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.2.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     androidTestImplementation 'androidx.room:room-testing:2.2.1'
+}
+
+andResGuard {
+    // mappingFile = file("./resource_mapping.txt")
+    mappingFile = null
+    use7zip = true
+    useSign = true
+    // It will keep the origin path of your resources when it's true
+    keepRoot = false
+    // If set, name column in arsc those need to proguard will be kept to this value
+    fixedResName = "arg"
+    // It will merge the duplicated resources, but don't rely on this feature too much.
+    // it's always better to remove duplicated resource from repo
+    mergeDuplicatedRes = true
+    whiteList = [
+            // your icon
+            "R.mipmap.ic_launcher",
+            // for fabric
+            "R.string.com.crashlytics.*",
+            // for google-services
+            "R.string.google_app_id",
+            "R.string.gcm_defaultSenderId",
+            "R.string.default_web_client_id",
+            "R.string.ga_trackingId",
+            "R.string.firebase_database_url",
+            "R.string.google_api_key",
+            "R.string.google_crash_reporting_api_key"
+    ]
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+    ]
+    sevenzip {
+        artifact = 'com.tencent.mm:SevenZip:1.2.17'
+        //path = "/usr/local/bin/7za"
+    }
+
+    /**
+     * Optional: if finalApkBackupPath is null, AndResGuard will overwrite final apk
+     * to the path which assemble[Task] write to
+     **/
+    // finalApkBackupPath = "${project.rootDir}/final.apk"
+
+    /**
+     * Optional: Specifies the name of the message digest algorithm to user when digesting the entries of JAR file
+     * Only works in V1signing, default value is "SHA-1"
+     **/
+    // digestalg = "SHA-256"
 }
 
 apply plugin: 'com.google.gms.google-services'

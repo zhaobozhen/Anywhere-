@@ -13,7 +13,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.databinding.ItemStreamCardSingleLineBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
@@ -95,7 +95,9 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
             }
 
             binding.ivAppIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item));
-            UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
+            if (GlobalValues.sIsCardBackground) {
+                UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
+            }
 
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
                 binding.ivBadge.setImageResource(R.drawable.ic_added_shortcut);

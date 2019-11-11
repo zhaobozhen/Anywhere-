@@ -86,7 +86,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 editor.show();
             } else if (mode == MODE_ICON_PACK) {
                 GlobalValues.setsIconPack(item.getPackageName());
-                ToastUtil.makeText("重启生效");
+                ToastUtil.makeText(R.string.toast_restart_to_active);
                 if (iconPackDialogFragment != null) {
                     iconPackDialogFragment.dismiss();
                 }
@@ -151,7 +151,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 
             if (constraint != null && constraint.toString().trim().length() > 0) {
                 for (int i = 0; i < tempList.size(); i++) {
-                    String content = tempList.get(i).getAppName() + tempList.get(i).getClassName();
+                    //匹配 App 名字和包名
+                    String content = tempList.get(i).getAppName() + tempList.get(i).getPackageName() + tempList.get(i).getClassName();
                     if (TextUtils.containsIgnoreCase(content, constraint.toString())) {
                         newList.add(tempList.get(i));
                     }
@@ -165,11 +166,12 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
             return filterResults;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //这里对number进行过滤后重新赋值
             mList = (List<AppListBean>) results.values;
-            //如果过滤后的返回的值的个数大于等于0的话,对Adapter的界面进行刷新
+            //如果过滤后的返回的值的个数大于等于 0 的话,对 Adapter 的界面进行刷新
             if (results.count > 0) {
                 notifyDataSetChanged();
             } else {
@@ -177,7 +179,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 mList = new ArrayList<>();
                 notifyDataSetChanged();
             }
-
         }
     }
 

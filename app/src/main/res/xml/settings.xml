@@ -55,6 +55,12 @@
             android:summary="@string/settings_stream_card_single_line_summary"
             app:defaultValue="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="cardBackground"
+            app:title="@string/settings_card_background"
+            android:summary="@string/settings_card_background_summary"
+            app:defaultValue="true"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

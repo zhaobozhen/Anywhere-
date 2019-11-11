@@ -47,6 +47,7 @@ public class AppListActivity extends AppCompatActivity implements SearchView.OnQ
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+//        MenuItem showSystemApp = menu.findItem(R.id.show_system_app);
 
         if (searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -58,6 +59,12 @@ public class AppListActivity extends AppCompatActivity implements SearchView.OnQ
             LinearLayout searchBar = searchView.findViewById(R.id.search_bar);
             searchBar.setLayoutTransition(new LayoutTransition());
         }
+//        // Bug of DayNight lib
+//        if (showSystemApp != null) {
+//            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+//                showSystemApp.setTitle("Night");
+//            }
+//        }
 
         return true;
     }

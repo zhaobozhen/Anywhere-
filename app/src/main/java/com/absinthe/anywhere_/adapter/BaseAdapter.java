@@ -106,7 +106,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         ((Activity)mContext).runOnUiThread(() -> MainFragment.getViewModelInstance().getCommand().setValue(cmd));
                     }).start();
 
-                    ToastUtil.makeText(R.string.defrosting);
+                    ToastUtil.makeText(R.string.toast_defrosting);
                 }
             } else {
                 MainFragment.getViewModelInstance().getCommand().setValue(cmd);

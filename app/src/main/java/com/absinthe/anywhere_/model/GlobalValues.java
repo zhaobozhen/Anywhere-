@@ -10,6 +10,7 @@ public class GlobalValues {
     public static boolean sIsFirstLaunch;
     public static boolean sIsStreamCardMode;
     public static boolean sIsStreamCardModeSingleLine;
+    public static boolean sIsCardBackground;
 
     public static String sWorkingMode;
     public static String sActionBarTitle;
@@ -24,6 +25,7 @@ public class GlobalValues {
         sIsFirstLaunch = SPUtils.getBoolean(context, Const.SP_KEY_FIRST_LAUNCH, true);
         sIsStreamCardMode = SPUtils.getBoolean(context, Const.SP_KEY_STREAM_CARD_MODE, false);
         sIsStreamCardModeSingleLine = SPUtils.getBoolean(context, Const.SP_KEY_STREAM_CARD_SINGLE_LINE, false);
+        sIsCardBackground = SPUtils.getBoolean(context, Const.SP_KEY_CARD_BACKGROUND, true);
         sWorkingMode = SPUtils.getString(context, Const.SP_KEY_WORKING_MODE);
         sActionBarTitle = SPUtils.getString(context, Const.SP_KEY_ACTION_BAR_TITLE);
         sActionBarType = SPUtils.getString(context, Const.SP_KEY_ACTION_BAR_TYPE);
@@ -46,6 +48,11 @@ public class GlobalValues {
     public static void setsIsStreamCardModeSingleLine(boolean sIsStreamCardModeSingleLine) {
         GlobalValues.sIsStreamCardModeSingleLine = sIsStreamCardModeSingleLine;
         SPUtils.putBoolean(AnywhereApplication.sContext, Const.SP_KEY_STREAM_CARD_SINGLE_LINE, sIsStreamCardModeSingleLine);
+    }
+
+    public static void setsIsCardBackground(boolean sIsCardBackground) {
+        GlobalValues.sIsCardBackground = sIsCardBackground;
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.SP_KEY_CARD_BACKGROUND, sIsCardBackground);
     }
 
     public static void setsWorkingMode(String sWorkingMode) {
