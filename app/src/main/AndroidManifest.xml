@@ -80,9 +80,9 @@
         <activity
             android:name=".ui.list.AppListActivity"
             android:label="@string/app_list_title"
+            android:launchMode="singleTop"
             android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.AppList"
-            android:launchMode="singleTop">
+            android:theme="@style/AppTheme.AppList">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -93,8 +93,8 @@
         </activity>
         <activity
             android:name=".ui.list.AppDetailActivity"
-            android:theme="@style/AppTheme.AppList"
-            android:parentActivityName=".ui.list.AppListActivity">
+            android:parentActivityName=".ui.list.AppListActivity"
+            android:theme="@style/AppTheme.AppList">
 
         </activity>
 

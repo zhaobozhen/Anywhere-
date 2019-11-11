@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_acquire_shizuku_permission"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/anywhere_cardview_margin"
-        android:layout_marginBottom="@dimen/anywhere_cardview_margin"
         android:layout_marginStart="@dimen/anywhere_cardview_margin"
+        android:layout_marginTop="@dimen/anywhere_cardview_margin"
         android:layout_marginEnd="@dimen/anywhere_cardview_margin"
+        android:layout_marginBottom="@dimen/anywhere_cardview_margin"
         android:elevation="@dimen/anywhere_cardview_elevation"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,22 +25,22 @@
                 android:id="@+id/done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_done_outline_green"
-                android:layout_marginEnd="@dimen/anywhere_cardview_item_margin"
-                android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
+                android:layout_marginEnd="@dimen/anywhere_cardview_item_margin"
+                android:background="@drawable/ic_done_outline_green"
                 android:contentDescription="@string/initialize_done_todo"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
                 android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:text="@string/title_acquire_shizuku_permission"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 tools:ignore="RelativeOverlap" />
@@ -49,53 +49,53 @@
                 android:id="@+id/subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/title"
                 android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
                 android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
-                android:layout_below="@id/title"
                 android:text="@string/subtitle_acquire_shizuku_permission"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/subtitle_check_shizuku"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/subtitle"
                 android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
                 android:layout_marginTop="@dimen/anywhere_cardview_item_margin_long"
-                android:layout_below="@id/subtitle"
                 android:text="@string/subtitle_check_shizuku_state"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
 
             <Button
                 android:id="@+id/btn_check_shizuku_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_check_permission"
-                android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
+                android:layout_below="@id/subtitle_check_shizuku"
                 android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
-                android:layout_below="@id/subtitle_check_shizuku"/>
+                android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
+                android:text="@string/btn_check_permission" />
 
             <TextView
                 android:id="@+id/subtitle_check_shizuku_permission"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/btn_check_shizuku_state"
                 android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
                 android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
-                android:layout_below="@id/btn_check_shizuku_state"
                 android:text="@string/subtitle_check_shizuku_permission"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
 
             <Button
                 android:id="@+id/btn_acquire_permission"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/subtitle_check_shizuku_permission"
-                android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
+                android:layout_below="@id/subtitle_check_shizuku_permission"
                 android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
+                android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
                 android:layout_marginBottom="@dimen/anywhere_cardview_item_margin"
-                android:layout_below="@id/subtitle_check_shizuku_permission"/>
+                android:text="@string/subtitle_check_shizuku_permission" />
 
         </RelativeLayout>
 

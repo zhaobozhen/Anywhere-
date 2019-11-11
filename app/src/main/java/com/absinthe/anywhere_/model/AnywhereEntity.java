@@ -50,7 +50,9 @@ public class AnywhereEntity {
     }
 
     @NonNull
-    public String getId() { return mId; }
+    public String getId() {
+        return mId;
+    }
 
     @NonNull
     public String getAppName() {
@@ -75,7 +77,9 @@ public class AnywhereEntity {
     }
 
     @NonNull
-    public Integer getType() { return mType; }
+    public Integer getType() {
+        return mType;
+    }
 
     @NonNull
     public Integer getAnywhereType() {

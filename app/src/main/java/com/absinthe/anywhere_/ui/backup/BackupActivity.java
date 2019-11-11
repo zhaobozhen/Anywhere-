@@ -53,9 +53,9 @@ public class BackupActivity extends AppCompatActivity {
             if (data != null) {
                 try {
                     OutputStream os = getContentResolver().openOutputStream(
-                                    Objects.requireNonNull(
-                                            data.getData()));
-                    if( os != null ) {
+                            Objects.requireNonNull(
+                                    data.getData()));
+                    if (os != null) {
                         String content = StorageUtils.ExportAnywhereEntityJsonString();
                         String encrypted = CipherUtils.encrypt(content);
                         if (encrypted != null) {
@@ -88,7 +88,8 @@ public class BackupActivity extends AppCompatActivity {
 
                         Gson gson = new Gson();
                         List<SerializableAnywhereEntity> list = gson.fromJson(content,
-                                new TypeToken<List<SerializableAnywhereEntity>>() {}.getType());
+                                new TypeToken<List<SerializableAnywhereEntity>>() {
+                                }.getType());
 
                         if (list != null) {
                             for (SerializableAnywhereEntity sae : list) {

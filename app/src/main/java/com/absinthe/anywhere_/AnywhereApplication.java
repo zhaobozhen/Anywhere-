@@ -25,14 +25,8 @@ public class AnywhereApplication extends Application {
     public static final String ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER";
     @SuppressLint("StaticFieldLeak")
     public static Context sContext = null;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        sContext = getApplicationContext();
-        GlobalValues.init(sContext);
-        Settings.init();
-    }
+    private static boolean v3Failed;
+    private static boolean v3TokenValid;
 
     public static String getProcessName() {
         if (Build.VERSION.SDK_INT >= 28)
@@ -50,9 +44,6 @@ public class AnywhereApplication extends Application {
         }
     }
 
-    private static boolean v3Failed;
-    private static boolean v3TokenValid;
-
     public static boolean isShizukuV3Failed() {
         return v3Failed;
     }
@@ -63,6 +54,14 @@ public class AnywhereApplication extends Application {
 
     public static void setShizukuV3TokenValid(boolean v3TokenValid) {
         AnywhereApplication.v3TokenValid = v3TokenValid;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sContext = getApplicationContext();
+        GlobalValues.init(sContext);
+        Settings.init();
     }
 
     @Override

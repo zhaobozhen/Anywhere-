@@ -113,6 +113,10 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         return filter;
     }
 
+    public void setIconPackDialogFragment(IconPackDialogFragment fragment) {
+        iconPackDialogFragment = fragment;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivIcon;
         private TextView tvAppName;
@@ -180,9 +184,5 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 notifyDataSetChanged();
             }
         }
-    }
-
-    public void setIconPackDialogFragment(IconPackDialogFragment fragment) {
-        iconPackDialogFragment = fragment;
     }
 }

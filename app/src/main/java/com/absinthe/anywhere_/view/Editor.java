@@ -269,7 +269,7 @@ public class Editor {
                 btnEditAnywhereDone.setOnClickListener(view -> {
                     if (tietUrlScheme != null && tietAppName != null && tietDescription != null) {
                         String uScheme = tietUrlScheme.getText() == null ? "" : tietUrlScheme.getText().toString();
-                        String aName = tietAppName.getText() == null  ? mContext.getString(R.string.bsd_new_url_scheme_name) : tietAppName.getText().toString();
+                        String aName = tietAppName.getText() == null ? mContext.getString(R.string.bsd_new_url_scheme_name) : tietAppName.getText().toString();
                         String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
 
                         if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
@@ -406,11 +406,6 @@ public class Editor {
         mBottomSheetDialog.dismiss();
     }
 
-    public interface OnEditorListener {
-        void onDelete();
-//        void onChange();
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private void addShortcut(Context context, AnywhereEntity ae) {
         DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
@@ -418,13 +413,13 @@ public class Editor {
             dismiss();
         };
 
-        MaterialAlertDialogBuilder addDialog =  new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
+        MaterialAlertDialogBuilder addDialog = new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_add_shortcut_title)
                 .setMessage(Html.fromHtml(context.getString(R.string.dialog_add_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show());
 
-        MaterialAlertDialogBuilder cantAddDialog =  new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
+        MaterialAlertDialogBuilder cantAddDialog = new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_cant_add_shortcut_title)
                 .setMessage(R.string.dialog_cant_add_shortcut_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> show());
@@ -450,6 +445,11 @@ public class Editor {
                 .setNegativeButton(R.string.dialog_delete_negative_button,
                         (dialogInterface, i) -> show())
                 .show();
+    }
+
+    public interface OnEditorListener {
+        void onDelete();
+//        void onChange();
     }
 
 }

@@ -28,10 +28,11 @@ import java.util.List;
 public class AppUtils {
     /**
      * react the url scheme
+     *
      * @param context to launch an intent
-     * @param param1 param1
-     * @param param2 param2
-     * @param param3 param3
+     * @param param1  param1
+     * @param param2  param2
+     * @param param3  param3
      */
     public static void openUrl(Context context, String param1, String param2, String param3) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -125,7 +126,7 @@ public class AppUtils {
         return ListUtils.sortAppListByNameAsc(list);
     }
 
-    public static List<String> getActivitiesClass(Context context, String packageName){
+    public static List<String> getActivitiesClass(Context context, String packageName) {
         List<String> returnClassList = new ArrayList<>();
 
         try {

@@ -4,27 +4,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="appName" type="String" />
+
+        <variable
+            name="appName"
+            type="String" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/anywhere_cardview_spacing_stream"
-        android:layout_marginBottom="@dimen/anywhere_cardview_spacing_stream"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="@dimen/anywhere_cardview_spacing_stream"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="@dimen/anywhere_cardview_spacing_stream"
         android:clickable="true"
         android:focusable="true"
-        app:cardElevation="@dimen/anywhere_cardview_elevation"
-        app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius">
+        app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius"
+        app:cardElevation="@dimen/anywhere_cardview_elevation">
 
         <ImageView
             android:id="@+id/iv_card_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/background_todo"/>
+            android:contentDescription="@string/background_todo" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -36,9 +39,9 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/anywhere_cardview_item_margin_long"
                 android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
-                android:layout_marginBottom="@dimen/anywhere_cardview_item_margin"
-                android:layout_marginStart="@dimen/anywhere_cardview_item_margin_long">
+                android:layout_marginBottom="@dimen/anywhere_cardview_item_margin">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_app_icon"
@@ -53,8 +56,8 @@
                     android:id="@+id/iv_badge"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
                     android:contentDescription="@string/icon_badge_todo" />
 
             </RelativeLayout>
@@ -62,20 +65,20 @@
             <com.absinthe.anywhere_.view.AlwaysMarqueeTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{appName}"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
+                android:layout_marginEnd="@dimen/anywhere_cardview_item_margin"
+                android:layout_toEndOf="@id/rl_badge_icon"
                 android:ellipsize="marquee"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/rl_badge_icon"
-                android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
-                android:layout_marginEnd="@dimen/anywhere_cardview_item_margin"/>
+                android:singleLine="true"
+                android:text="@{appName}"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

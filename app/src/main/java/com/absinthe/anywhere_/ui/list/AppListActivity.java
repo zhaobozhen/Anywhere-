@@ -98,7 +98,7 @@ public class AppListActivity extends AppCompatActivity implements SearchView.OnQ
         adapter = new AppListAdapter(this, AppListAdapter.MODE_APP_LIST);
         binding.rvAppList.setAdapter(adapter);
 
-        binding.rvAppList.addOnScrollListener(new RecyclerView.OnScrollListener(){
+        binding.rvAppList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 int topRowVerticalPosition =

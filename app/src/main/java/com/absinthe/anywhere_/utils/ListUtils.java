@@ -33,7 +33,7 @@ public class ListUtils {
 
     private static List<AnywhereEntity> sortByTimeDesc(List<AnywhereEntity> list) {
         Collections.sort(list, (anywhereEntity, t1) ->
-                - anywhereEntity.getTimeStamp().compareTo(t1.getTimeStamp()));
+                -anywhereEntity.getTimeStamp().compareTo(t1.getTimeStamp()));
         return list;
     }
 
@@ -45,7 +45,7 @@ public class ListUtils {
 
     private static List<AnywhereEntity> sortByNameDesc(List<AnywhereEntity> list) {
         Collections.sort(list, (anywhereEntity, t1) ->
-                - Collator.getInstance(Locale.getDefault()).compare(anywhereEntity.getAppName(), t1.getAppName()));
+                -Collator.getInstance(Locale.getDefault()).compare(anywhereEntity.getAppName(), t1.getAppName()));
         return list;
     }
 

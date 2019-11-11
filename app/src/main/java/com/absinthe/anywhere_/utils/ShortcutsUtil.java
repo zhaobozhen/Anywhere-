@@ -23,19 +23,6 @@ import java.util.List;
 public class ShortcutsUtil {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-    public enum Singleton {
-        INSTANCE;
-        private ShortcutManager instance;
-
-        Singleton() {
-            instance = AnywhereApplication.sContext.getSystemService(ShortcutManager.class);
-        }
-        public ShortcutManager getInstance() {
-            return instance;
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public static void addShortcut(AnywhereEntity ae) {
         Intent intent = new Intent(AnywhereApplication.sContext, ShortcutsActivity.class);
         intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
@@ -124,5 +111,19 @@ public class ShortcutsUtil {
                 }
             }
         }).start();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
+    public enum Singleton {
+        INSTANCE;
+        private ShortcutManager instance;
+
+        Singleton() {
+            instance = AnywhereApplication.sContext.getSystemService(ShortcutManager.class);
+        }
+
+        public ShortcutManager getInstance() {
+            return instance;
+        }
     }
 }

@@ -1,1 +1,19 @@
-[{"outputType":{"type":"APK"},"apkData":{"type":"MAIN","splits":[],"versionCode":1120,"versionName":"1.1.2","enabled":true,"outputFile":"Anywhere-1.1.2.apk","fullName":"release","baseName":"release"},"path":"Anywhere-1.1.2.apk","properties":{}}]
+[
+  {
+    "outputType": {
+      "type": "APK"
+    },
+    "apkData": {
+      "type": "MAIN",
+      "splits": [],
+      "versionCode": 1120,
+      "versionName": "1.1.2",
+      "enabled": true,
+      "outputFile": "Anywhere-1.1.2.apk",
+      "fullName": "release",
+      "baseName": "release"
+    },
+    "path": "Anywhere-1.1.2.apk",
+    "properties": {}
+  }
+]

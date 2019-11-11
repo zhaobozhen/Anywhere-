@@ -7,19 +7,19 @@
         android:id="@+id/toolbar_sort"
         android:icon="@drawable/ic_filter_list_light"
         android:title="@string/menu_sort"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/toolbar_settings"
         android:icon="@drawable/ic_settings_outline_light"
         android:title="@string/menu_settings"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/toolbar_done"
         android:icon="@drawable/ic_done_light"
         android:title="@string/menu_done"
-        app:showAsAction="ifRoom"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
 </menu>

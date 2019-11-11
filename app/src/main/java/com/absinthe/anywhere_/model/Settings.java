@@ -12,11 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Settings {
+    public static final String DEFAULT_ICON_PACK = "default.icon.pack";
     @SuppressLint("StaticFieldLeak")
     public static IconPackManager sIconPackManager;
     public static IconPackManager.IconPack sIconPack;
-
-    public static final String DEFAULT_ICON_PACK = "default.icon.pack";
 
     public static void init() {
         setTheme(GlobalValues.sDarkMode);

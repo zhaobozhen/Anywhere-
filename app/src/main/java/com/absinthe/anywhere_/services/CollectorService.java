@@ -28,7 +28,7 @@ public class CollectorService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.i(this.getClass(),"CollectorService onCreate");
+        LogUtil.i(this.getClass(), "CollectorService onCreate");
     }
 
     @Override

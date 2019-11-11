@@ -18,6 +18,10 @@ public class CollectorTileService extends TileService {
         instance = this;
     }
 
+    public static CollectorTileService getInstance() {
+        return instance;
+    }
+
     @Override
     public void onClick() {
         Tile tile = getQsTile(); // 获取 Tile
@@ -38,9 +42,5 @@ public class CollectorTileService extends TileService {
         }
 
         tile.updateTile();
-    }
-
-    public static CollectorTileService getInstance() {
-        return instance;
     }
 }

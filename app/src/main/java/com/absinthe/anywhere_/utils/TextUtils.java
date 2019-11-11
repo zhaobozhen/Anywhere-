@@ -22,6 +22,7 @@ public class TextUtils {
 
     /**
      * process and obtain adb result
+     *
      * @param result return result
      */
     public static String[] processResultString(String result) {
@@ -44,6 +45,7 @@ public class TextUtils {
 
     /**
      * get the app name by package name
+     *
      * @param context to get PackageManager
      * @param pkgName package name
      */
@@ -61,6 +63,7 @@ public class TextUtils {
 
     /**
      * get current app package name
+     *
      * @param context to get ActivityManager
      */
     public static String getTopAppPackageName(Context context) {
@@ -75,6 +78,7 @@ public class TextUtils {
 
     /**
      * get launch command of a item
+     *
      * @param item the item
      */
     public static String getItemCommand(AnywhereEntity item) {
@@ -173,6 +177,7 @@ public class TextUtils {
 
     /**
      * Get current date
+     *
      * @return date string
      */
     public static String getCurrFormatDate() {

@@ -43,7 +43,7 @@ public class IconPackDialogFragment extends DialogFragment {
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog);
-        LayoutInflater layoutInflater = ((Activity)mContext).getLayoutInflater();
+        LayoutInflater layoutInflater = ((Activity) mContext).getLayoutInflater();
         @SuppressLint("InflateParams")
         View inflate = layoutInflater.inflate(R.layout.dialog_fragment_icon_pack, null, false);
 

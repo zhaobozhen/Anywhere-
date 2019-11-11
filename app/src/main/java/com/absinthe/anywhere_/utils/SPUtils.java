@@ -2,13 +2,13 @@ package com.absinthe.anywhere_.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.model.Const;
 
 public class SPUtils {
     private static String SPName;
+
     private static String getSPName() {
         if (SPName == null) {
             if (BuildConfig.DEBUG) {

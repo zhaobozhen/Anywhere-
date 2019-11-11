@@ -13,7 +13,7 @@ import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 
-public class BackupFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener{
+public class BackupFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
     static BackupFragment newInstance() {
         return new BackupFragment();

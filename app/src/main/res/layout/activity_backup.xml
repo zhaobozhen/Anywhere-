@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.absinthe.anywhere_.ui.backup.BackupActivity">
 
-    <include layout="@layout/fragment_backup"/>
+    <include layout="@layout/fragment_backup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
