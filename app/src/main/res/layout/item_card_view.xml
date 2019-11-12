@@ -4,40 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <variable
-            name="appName"
-            type="String" />
-
-        <variable
-            name="param1"
-            type="String" />
-
-        <variable
-            name="param2"
-            type="String" />
-
-        <variable
-            name="param3"
-            type="String" />
-
-        <variable
-            name="description"
-            type="String" />
+        <variable name="appName" type="String" />
+        <variable name="param1" type="String" />
+        <variable name="param2" type="String" />
+        <variable name="param3" type="String" />
+        <variable name="description" type="String" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="@dimen/anywhere_cardview_spacing"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="@dimen/anywhere_cardview_spacing"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
         android:focusable="true"
-        app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius"
-        app:cardElevation="@dimen/anywhere_cardview_elevation">
+        app:cardElevation="@dimen/anywhere_cardview_elevation"
+        app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -104,10 +89,10 @@
                 android:id="@+id/rl_badge_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp">
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_app_icon"
@@ -122,8 +107,8 @@
                     android:id="@+id/iv_badge"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
                     android:contentDescription="@string/icon_badge_todo" />
 
             </RelativeLayout>

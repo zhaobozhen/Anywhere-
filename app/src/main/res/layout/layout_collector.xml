@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="65dp"
-    android:layout_height="65dp"
-    android:orientation="vertical">
+    android:layout_height="65dp">
 
     <ImageButton
         android:id="@+id/ib_collector"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/ib_collector_todo"
-        android:src="@drawable/btn_collector" />
+        android:src="@drawable/btn_collector"
+        android:contentDescription="@string/ib_collector_todo" />
 
 </LinearLayout>

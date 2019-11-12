@@ -38,9 +38,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     public static final int ADAPTER_MODE_SORT = 1;
 
     protected Context mContext;
+    private Editor mEditor;
     List<AnywhereEntity> items;
     int mode;
-    private Editor mEditor;
 
     BaseAdapter(Context context) {
         this.mContext = context;
@@ -54,12 +54,12 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         notifyItemRangeChanged(0, getItemCount());
     }
 
-    public int getMode() {
-        return mode;
-    }
-
     public void setMode(int mode) {
         this.mode = mode;
+    }
+
+    public int getMode() {
+        return mode;
     }
 
     @Override
@@ -74,8 +74,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VH holder, int position) {
-    }
+    public void onBindViewHolder(@NonNull VH holder, int position) { }
 
     @Override
     public int getItemCount() {
@@ -104,7 +103,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 } else {
                     new Thread(() -> {
                         IceBox.setAppEnabledSettings(mContext, true, item.getParam1());
-                        ((Activity) mContext).runOnUiThread(() -> MainFragment.getViewModelInstance().getCommand().setValue(cmd));
+                        ((Activity)mContext).runOnUiThread(() -> MainFragment.getViewModelInstance().getCommand().setValue(cmd));
                     }).start();
 
                     ToastUtil.makeText(R.string.toast_defrosting);

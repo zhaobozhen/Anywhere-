@@ -33,7 +33,7 @@ public class CollectorView extends LinearLayout {
     public CollectorView(Context context) {
         super(context);
         mContext = context;
-        mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         initView();
     }
 
@@ -65,7 +65,7 @@ public class CollectorView extends LinearLayout {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 layoutParams = (WindowManager.LayoutParams) CollectorView.this.getLayoutParams();
-                switch (motionEvent.getAction()) {
+                switch (motionEvent.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         // 获取按下时的X，Y坐标
                         lastX = motionEvent.getRawX();

@@ -9,17 +9,22 @@ import android.view.animation.Animation.AnimationListener;
  * 动画工具
  */
 public class AnimationUtil {
+    public enum AnimationState{
+        STATE_SHOW,
+        STATE_HIDDEN,
+        STATE_GONE
+    }
+
     public static final int LONG = 1000;
     public static final int SHORT = 500;
 
     /**
      * 渐隐渐现动画
-     *
-     * @param view     需要实现动画的对象
-     * @param state    需要实现的状态
+     * @param view 需要实现动画的对象
+     * @param state 需要实现的状态
      * @param duration 动画实现的时长（ms）
      */
-    public static void showAndHiddenAnimation(final View view, AnimationState state, long duration) {
+    public static void showAndHiddenAnimation(final View view, AnimationState state, long duration){
         float start = 0f;
         float end = 0f;
 
@@ -53,12 +58,6 @@ public class AnimationUtil {
         });
         view.setAnimation(animation);
         animation.start();
-    }
-
-    public enum AnimationState {
-        STATE_SHOW,
-        STATE_HIDDEN,
-        STATE_GONE
     }
 }
 

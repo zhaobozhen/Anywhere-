@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/widget_home"
-    android:minWidth="110dp"
     android:minHeight="110dp"
-    android:previewImage="@drawable/pic_splash"
+    android:minWidth="110dp"
     android:resizeMode="horizontal|vertical"
-    android:widgetCategory="home_screen" />
+    android:previewImage="@drawable/pic_splash"
+    android:widgetCategory="home_screen"/>

@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         app:key="normalCategory"
         app:title="@string/settings_category_normal">
 
         <ListPreference
-            android:icon="@drawable/ic_working_mode"
-            app:entries="@array/list_working_mode"
-            app:entryValues="@array/list_working_mode_value"
             app:key="workingMode"
-            app:summary="@string/settings_working_mode_summary"
             app:title="@string/settings_working_mode"
-            app:useSimpleSummaryProvider="true" />
+            app:summary="@string/settings_working_mode_summary"
+            android:icon="@drawable/ic_working_mode"
+            app:useSimpleSummaryProvider="true"
+            app:entries="@array/list_working_mode"
+            app:entryValues="@array/list_working_mode_value"/>
 
         <Preference
-            android:icon="@drawable/ic_change_bg"
             app:key="changeBackground"
+            app:title="@string/settings_change_background"
             app:summary="@string/settings_change_background_summary"
-            app:title="@string/settings_change_background" />
+            android:icon="@drawable/ic_change_bg"/>
 
         <Preference
-            android:icon="@drawable/ic_reset_bg"
             app:key="resetBackground"
+            app:title="@string/settings_reset_background"
             app:summary="@string/settings_reset_background_summary"
-            app:title="@string/settings_reset_background" />
+            android:icon="@drawable/ic_reset_bg"/>
 
         <ListPreference
-            android:defaultValue="off"
+            app:key="darkMode"
+            app:title="@string/settings_dark_mode"
+            app:summary="@string/settings_dark_mode_summary"
             android:icon="@drawable/ic_dark_mode"
+            app:useSimpleSummaryProvider="true"
             app:entries="@array/list_dark_mode"
             app:entryValues="@array/list_dark_mode_value"
-            app:key="darkMode"
-            app:summary="@string/settings_dark_mode_summary"
-            app:title="@string/settings_dark_mode"
-            app:useSimpleSummaryProvider="true" />
+            android:defaultValue="off"/>
 
-        <!--        <SwitchPreferenceCompat-->
-        <!--            app:key="darkModeOLED"-->
-        <!--            app:title="@string/settings_dark_mode_oled"-->
-        <!--            android:summary="@string/settings_dark_mode_oled_summary"/>-->
+<!--        <SwitchPreferenceCompat-->
+<!--            app:key="darkModeOLED"-->
+<!--            app:title="@string/settings_dark_mode_oled"-->
+<!--            android:summary="@string/settings_dark_mode_oled_summary"/>-->
 
         <SwitchPreferenceCompat
-            android:icon="@drawable/ic_stream_card"
-            android:summary="@string/settings_stream_card_mode_summary"
-            app:defaultValue="false"
             app:key="streamCardMode"
-            app:title="@string/settings_stream_card_mode" />
+            app:title="@string/settings_stream_card_mode"
+            android:summary="@string/settings_stream_card_mode_summary"
+            android:icon="@drawable/ic_stream_card"
+            app:defaultValue="false"/>
 
         <SwitchPreferenceCompat
-            android:summary="@string/settings_stream_card_single_line_summary"
-            app:defaultValue="false"
             app:key="streamCardModeSingleLine"
-            app:title="@string/settings_stream_card_single_line" />
+            app:title="@string/settings_stream_card_single_line"
+            android:summary="@string/settings_stream_card_single_line_summary"
+            app:defaultValue="false"/>
 
         <SwitchPreferenceCompat
-            android:summary="@string/settings_card_background_summary"
-            app:defaultValue="true"
             app:key="cardBackground"
-            app:title="@string/settings_card_background" />
+            app:title="@string/settings_card_background"
+            android:summary="@string/settings_card_background_summary"
+            app:defaultValue="true"/>
 
     </PreferenceCategory>
 
@@ -68,27 +68,27 @@
         app:title="@string/settings_category_advanced">
 
         <Preference
-            android:icon="@drawable/ic_backup_and_restore"
             app:key="backupAndRestore"
+            app:title="@string/settings_backup_and_restore"
             app:summary="@string/settings_backup_summary"
-            app:title="@string/settings_backup_and_restore">
+            android:icon="@drawable/ic_backup_and_restore">
 
             <intent
-                android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"
-                android:targetPackage="com.absinthe.anywhere_.debug" />
+                android:targetPackage="com.absinthe.anywhere_.debug"
+                android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"/>
         </Preference>
 
         <Preference
-            android:icon="@drawable/ic_clear_shortcuts"
             app:key="clearShortcuts"
+            app:title="@string/settings_clear_shortcuts"
             app:summary="@string/settings_clear_shortcuts_summary"
-            app:title="@string/settings_clear_shortcuts" />
+            android:icon="@drawable/ic_clear_shortcuts"/>
 
         <Preference
-            android:icon="@drawable/ic_icon_pack"
             app:key="iconPack"
+            app:title="@string/settings_icon_pack"
             app:summary="@string/settings_icon_pack_summary"
-            app:title="@string/settings_icon_pack" />
+            android:icon="@drawable/ic_icon_pack"/>
 
     </PreferenceCategory>
 
@@ -97,20 +97,20 @@
         app:title="@string/settings_category_others">
 
         <Preference
-            android:icon="@drawable/ic_help_outline"
             app:key="help"
+            app:title="@string/settings_help"
             app:summary="@string/settings_help_summary"
-            app:title="@string/settings_help" />
+            android:icon="@drawable/ic_help_outline"/>
 
         <Preference
-            android:icon="@drawable/ic_logo_24dp"
             app:key="about"
+            app:title="@string/settings_about"
             app:summary="@string/settings_about_summary"
-            app:title="@string/settings_about">
+            android:icon="@drawable/ic_logo_24dp">
 
             <intent
-                android:targetClass="com.absinthe.anywhere_.ui.about.AboutActivity"
-                android:targetPackage="com.absinthe.anywhere_.debug" />
+                android:targetPackage="com.absinthe.anywhere_.debug"
+                android:targetClass="com.absinthe.anywhere_.ui.about.AboutActivity"/>
 
         </Preference>
 

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
         android:id="@+id/add_shortcuts"
-        android:icon="@drawable/ic_add_shortcut"
-        android:title="@string/dialog_add_shortcut_title" />
+        android:title="@string/dialog_add_shortcut_title"
+        android:icon="@drawable/ic_add_shortcut"/>
 
     <item
         android:id="@+id/add_home_shortcuts"
-        android:icon="@drawable/ic_add_home_shortcuts"
-        android:title="@string/dialog_add_home_shortcut_title" />
+        android:title="@string/dialog_add_home_shortcut_title"
+        android:icon="@drawable/ic_add_home_shortcuts"/>
 
     <item
         android:id="@+id/delete"
-        android:icon="@drawable/ic_delete"
-        android:title="@string/dialog_delete_title" />
+        android:title="@string/dialog_delete_title"
+        android:icon="@drawable/ic_delete"/>
 
 </menu>

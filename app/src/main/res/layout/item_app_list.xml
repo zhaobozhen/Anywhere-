@@ -28,8 +28,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="App Name"
-        android:textAppearance="?attr/textAppearanceBody1"
         android:textStyle="bold"
+        android:textAppearance="?attr/textAppearanceBody1"
         app:layout_constraintStart_toEndOf="@+id/iv_app_icon"
         app:layout_constraintTop_toTopOf="parent" />
 

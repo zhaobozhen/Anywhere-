@@ -21,7 +21,7 @@ import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
 
-public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener {
+public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener{
 
     public SingleLineStreamCardsAdapter(Context context) {
         super(context);

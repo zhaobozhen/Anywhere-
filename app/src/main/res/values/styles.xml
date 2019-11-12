@@ -45,8 +45,7 @@
     </style>
 
     <style name="AppTheme.Dialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.AppTheme.Dialog.Rounded
-        </item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.AppTheme.Dialog.Rounded</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.AppTheme.Dialog.Rounded" parent="">

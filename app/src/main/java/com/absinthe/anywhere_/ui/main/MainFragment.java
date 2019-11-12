@@ -66,9 +66,10 @@ import java.util.Objects;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class MainFragment extends Fragment implements LifecycleOwner {
-    private static AnywhereViewModel mViewModel;
     private Context mContext;
     private int selectedWorkingModeIndex = 0;
+
+    private static AnywhereViewModel mViewModel;
     private RecyclerView mRecyclerView;
     private BaseAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
@@ -78,7 +79,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     static MainFragment newInstance() {
         return new MainFragment();
     }
-
     public static AnywhereViewModel getViewModelInstance() {
         return mViewModel;
     }
@@ -144,7 +144,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                             param2.charAt(0) == '.' ? param1 + param2 : param2))) {
                         exported = 100;
                     }
-                    LogUtil.d(this.getClass(), "ex=", exported);
+                    LogUtil.d(this.getClass(),"ex=",exported);
                     AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, param1, param2, param3, "",
                             AnywhereType.ACTIVITY + exported, timeStamp);
                     Editor editor = new Editor(MainActivity.getInstance(), Editor.ANYWHERE)
@@ -338,7 +338,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     case R.id.sort:
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
                         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
-                        ((Activity) mContext).invalidateOptionsMenu();
+                        ((Activity)mContext).invalidateOptionsMenu();
                         VibratorUtil.vibrate(mContext, 50);
                         break;
                     default:
@@ -352,7 +352,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         } else if (item.getItemId() == R.id.toolbar_done) {
             adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
             mItemTouchHelper.attachToRecyclerView(null);
-            ((Activity) mContext).invalidateOptionsMenu();
+            ((Activity)mContext).invalidateOptionsMenu();
             adapter.updateSortedList();
             GlobalValues.setsSortMode(Const.SORT_MODE_TIME_DESC);
         }

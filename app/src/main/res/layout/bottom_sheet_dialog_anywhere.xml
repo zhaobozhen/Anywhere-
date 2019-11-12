@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,9 +8,9 @@
 
     <RelativeLayout
         android:id="@+id/bottom_sheet_anywhere"
-        style="@style/Widget.Design.BottomSheet.Modal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        style="@style/Widget.Design.BottomSheet.Modal">
 
         <RelativeLayout
             android:id="@+id/rl_buttons"
@@ -20,19 +21,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:orientation="horizontal"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
-                android:orientation="horizontal">
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end">
 
                 <ImageButton
                     android:id="@+id/ib_trying_run"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/anywhere_more_todo"
                     android:src="@drawable/ic_play"
                     android:tooltipText="@string/menu_trying_run"
+                    android:contentDescription="@string/anywhere_more_todo"
                     tools:targetApi="o" />
 
                 <ImageButton
@@ -41,9 +42,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/anywhere_more_todo"
                     android:src="@drawable/ic_more_vert"
                     android:tooltipText="@string/menu_more"
+                    android:contentDescription="@string/anywhere_more_todo"
                     tools:targetApi="o" />
 
             </LinearLayout>
@@ -52,22 +53,22 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_app_name"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_buttons"
-            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:hint="@string/bsd_text_input_layout_app_name_label"
-            app:errorEnabled="true"
             app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
-            app:helperTextEnabled="true">
+            app:helperTextEnabled="true"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tiet_app_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,8 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/til_app_name"
-            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:hint="@string/bsd_text_input_layout_package_name_label"
             app:helperText="@string/bsd_text_input_layout_package_name_helper_text"
@@ -97,8 +98,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/til_package_name"
-            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:hint="@string/bsd_text_input_layout_class_name_label"
             app:helperText="@string/bsd_text_input_layout_class_name_helper_text"
@@ -117,8 +118,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/til_class_name"
-            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:hint="@string/bsd_text_input_layout_description_label"
             app:helperText="@string/bsd_text_input_layout_description_helper_text"
@@ -137,8 +138,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/til_description"
-            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:hint="@string/bsd_text_input_layout_intent_extra_label"
             app:helperText="@string/bsd_text_input_layout_intent_extra_helper_text"
@@ -155,10 +156,10 @@
             android:id="@+id/btn_edit_anywhere_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/til_intent_extra"
-            android:layout_margin="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:text="@string/bsd_btn_done"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_below="@id/til_intent_extra"
+            android:layout_margin="@dimen/bottom_sheet_dialog_edit_text_margin_start_end" />
 
     </RelativeLayout>
 

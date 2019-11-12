@@ -22,7 +22,7 @@ import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
 
-public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener {
+public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener{
 
     public StreamCardsAdapter(Context context) {
         super(context);

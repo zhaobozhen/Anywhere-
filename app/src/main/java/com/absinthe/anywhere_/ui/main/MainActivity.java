@@ -22,17 +22,9 @@ import com.absinthe.anywhere_.utils.UiUtils;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MainFragment mainFragment;
     private static Fragment curFragment;
     private static MainActivity instance;
-    private MainFragment mainFragment;
-
-    public static MainActivity getInstance() {
-        return instance;
-    }
-
-    public static void setCurFragment(Fragment fragment) {
-        curFragment = fragment;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
+    public static void setCurFragment(Fragment fragment) {
+        curFragment = fragment;
     }
 
     public void setMainFragment(MainFragment fragment) {

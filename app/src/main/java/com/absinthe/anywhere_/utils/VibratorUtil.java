@@ -7,10 +7,11 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 
 public class VibratorUtil {
+    private static Vibrator vibrator;
+
     public static final int HEAVY_CLICK = VibrationEffect.EFFECT_HEAVY_CLICK;
     @SuppressLint("InlinedApi")
     public static final int DEFAULT = VibrationEffect.DEFAULT_AMPLITUDE;
-    private static Vibrator vibrator;
 
     public static void vibrate(Context context, int effect) {
         if (vibrator == null) {

@@ -41,7 +41,6 @@ public class PermissionUtil {
 
     /**
      * bump to miui permission management activity
-     *
      * @param context to launch an activity
      */
     public static void goToMIUIPermissionManager(Context context) {
@@ -61,7 +60,6 @@ public class PermissionUtil {
 
     /**
      * acquire su permission
-     *
      * @param pkgCodePath to get su permission of the package
      */
     public static boolean upgradeRootPermission(String pkgCodePath) {
@@ -103,7 +101,6 @@ public class PermissionUtil {
 
     /**
      * execute adb or intent command
-     *
      * @param cmd command
      */
     public static String execCmd(String cmd) {
@@ -158,7 +155,6 @@ public class PermissionUtil {
 
     /**
      * execute adb or intent command by root
-     *
      * @param cmd command
      */
     public static String execRootCmd(String cmd) {
@@ -179,7 +175,7 @@ public class PermissionUtil {
 
             int c;
             while ((c = is.read()) != -1) {
-                result.append((char) c);
+                result.append((char)c);
             }
 
             p.waitFor();
@@ -206,7 +202,6 @@ public class PermissionUtil {
 
     /**
      * execute adb or intent via shizuku manager
-     *
      * @param cmd command
      */
     public static String execShizukuCmd(String cmd) {
@@ -263,7 +258,6 @@ public class PermissionUtil {
 
     /**
      * show permission dialog
-     *
      * @param activity to bind an activity to show
      */
     private static void showPermissionDialog(Activity activity) {
@@ -288,7 +282,6 @@ public class PermissionUtil {
 
     /**
      * check shizuku permission
-     *
      * @param activity to bind an activity to show a dialog
      */
     public static boolean shizukuPermissionCheck(Activity activity) {
@@ -304,7 +297,7 @@ public class PermissionUtil {
             } else {
                 return true;
             }
-        } else if (!AnywhereApplication.isShizukuV3TokenValid()) {
+        } else if (!AnywhereApplication.isShizukuV3TokenValid()){
             // on API pre-23, Shizuku v3 uses old token, get token from Shizuku app
             Intent intent = ShizukuClientHelper.createPre23AuthorizationIntent(activity);
             if (intent != null) {
@@ -328,8 +321,7 @@ public class PermissionUtil {
 
     /**
      * check overlay permission
-     *
-     * @param activity    to start an intent to permission activity
+     * @param activity to start an intent to permission activity
      * @param requestCode get result
      */
     public static boolean checkOverlayPermission(Activity activity, int requestCode) {
@@ -353,7 +345,6 @@ public class PermissionUtil {
 
     /**
      * check whether shizuku service is on working
-     *
      * @param mContext to show a dialog
      */
     public static boolean checkShizukuOnWorking(Context mContext) {

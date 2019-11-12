@@ -29,8 +29,7 @@ public class SerializableAnywhereEntity implements Serializable {
     @SerializedName("timeStamp")
     private String mTimeStamp;
 
-    public SerializableAnywhereEntity() {
-    }
+    public SerializableAnywhereEntity() {}
 
     public SerializableAnywhereEntity(AnywhereEntity ae) {
         this.mId = ae.getId();

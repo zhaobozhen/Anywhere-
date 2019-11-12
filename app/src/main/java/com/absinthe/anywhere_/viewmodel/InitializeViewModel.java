@@ -5,17 +5,18 @@ import androidx.lifecycle.ViewModel;
 
 public class InitializeViewModel extends ViewModel {
 
-    public static final int ROOT_PERM = 1;
-    public static final int SHIZUKU_CHECK_PERM = 2;
-    public static final int SHIZUKU_PERM = 4;
-    public static final int OVERLAY_PERM = 8;
-    public static final int SHIZUKU_GROUP_PERM = 6;
     private MutableLiveData<Boolean> isRoot;
     private MutableLiveData<Boolean> isOverlay;
     private MutableLiveData<Boolean> isPopup;
     private MutableLiveData<Boolean> isShizukuCheck;
     private MutableLiveData<Boolean> isShizuku;
+
     private MutableLiveData<Integer> allPerm;
+    public static final int ROOT_PERM = 1;
+    public static final int SHIZUKU_CHECK_PERM = 2;
+    public static final int SHIZUKU_PERM = 4;
+    public static final int OVERLAY_PERM = 8;
+    public static final int SHIZUKU_GROUP_PERM = 6;
 
     public MutableLiveData<Boolean> getIsRoot() {
         if (isRoot == null) {
