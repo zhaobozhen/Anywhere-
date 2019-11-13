@@ -122,7 +122,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
         }
 
         /**
-         * 显示一个"加载"View。返回null的时候将使用默认的View
+         * 显示一个"加载" View。返回 null 的时候将使用默认的 View
          */
         @Override
         public RemoteViews getLoadingView() {
@@ -130,7 +130,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
         }
 
         /**
-         * 不同View定义的数量。默认为1
+         * 不同 View 定义的数量。默认为1
          */
         @Override
         public int getViewTypeCount() {
@@ -146,7 +146,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
         }
 
         /**
-         * 如果每个项提供的ID是稳定的，即它们不会在运行时改变，就返回true
+         * 如果每个项提供的 ID 是稳定的，即它们不会在运行时改变，就返回 true
          */
         @Override
         public boolean hasStableIds() {

@@ -27,14 +27,13 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
-public class IconPackManager
-{
+public class IconPackManager {
     //@Inject
     //private android.app.Application mContext;
 
     private Context mContext;
 
-    public void setContext (Context c) {
+    public void setContext(Context c) {
         mContext = c;
     }
 
@@ -80,9 +79,9 @@ public class IconPackManager
                 if (xpp != null) {
                     int eventType = xpp.getEventType();
                     while (eventType != XmlPullParser.END_DOCUMENT) {
-                        if(eventType == XmlPullParser.START_TAG) {
+                        if (eventType == XmlPullParser.START_TAG) {
                             if (xpp.getName().equals("iconback")) {
-                                for(int i=0; i<xpp.getAttributeCount(); i++) {
+                                for (int i = 0; i < xpp.getAttributeCount(); i++) {
                                     if (xpp.getAttributeName(i).startsWith("img")) {
                                         String drawableName = xpp.getAttributeValue(i);
                                         Bitmap iconback = loadBitmap(drawableName);
@@ -110,7 +109,7 @@ public class IconPackManager
                                 String componentName = null;
                                 String drawableName = null;
 
-                                for(int i=0; i<xpp.getAttributeCount(); i++) {
+                                for (int i = 0; i < xpp.getAttributeCount(); i++) {
                                     if (xpp.getAttributeName(i).equals("component")) {
                                         componentName = xpp.getAttributeValue(i);
                                     } else if (xpp.getAttributeName(i).equals("drawable")) {
@@ -179,10 +178,10 @@ public class IconPackManager
             } else {
                 // try to get a resource with the component filename
                 if (componentName != null) {
-                    int start = componentName.indexOf("{")+1;
-                    int end = componentName.indexOf("}",  start);
+                    int start = componentName.indexOf("{") + 1;
+                    int end = componentName.indexOf("}", start);
                     if (end > start) {
-                        drawable = componentName.substring(start,end).toLowerCase(Locale.getDefault()).replace(".","_").replace("/", "_");
+                        drawable = componentName.substring(start, end).toLowerCase(Locale.getDefault()).replace(".", "_").replace("/", "_");
                         if (iconPackres.getIdentifier(drawable, "drawable", packageName) > 0)
                             return loadDrawable(drawable);
                     }
@@ -213,10 +212,10 @@ public class IconPackManager
             } else {
                 // try to get a resource with the component filename
                 if (componentName != null) {
-                    int start = componentName.indexOf("{")+1;
-                    int end = componentName.indexOf("}",  start);
+                    int start = componentName.indexOf("{") + 1;
+                    int end = componentName.indexOf("}", start);
                     if (end > start) {
-                        drawable = componentName.substring(start,end).toLowerCase(Locale.getDefault()).replace(".","_").replace("/", "_");
+                        drawable = componentName.substring(start, end).toLowerCase(Locale.getDefault()).replace(".", "_").replace("/", "_");
                         if (iconPackres.getIdentifier(drawable, "drawable", packageName) > 0)
                             return loadBitmap(drawable);
                     }
@@ -258,8 +257,8 @@ public class IconPackManager
 
             // create a mutable mask bitmap with the same mask
             Bitmap scaledBitmap;
-            if (defaultBitmap.getWidth() > w || defaultBitmap.getHeight()> h) {
-                scaledBitmap = Bitmap.createScaledBitmap(defaultBitmap, (int)(w * mFactor), (int)(h * mFactor), false);
+            if (defaultBitmap.getWidth() > w || defaultBitmap.getHeight() > h) {
+                scaledBitmap = Bitmap.createScaledBitmap(defaultBitmap, (int) (w * mFactor), (int) (h * mFactor), false);
             } else {
                 scaledBitmap = Bitmap.createBitmap(defaultBitmap);
             }
@@ -268,23 +267,23 @@ public class IconPackManager
                 // draw the scaled bitmap with mask
                 Bitmap mutableMask = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
                 Canvas maskCanvas = new Canvas(mutableMask);
-                maskCanvas.drawBitmap(mMaskImage,0, 0, new Paint());
+                maskCanvas.drawBitmap(mMaskImage, 0, 0, new Paint());
 
                 // paint the bitmap with mask into the result
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-                mCanvas.drawBitmap(scaledBitmap, (w - scaledBitmap.getWidth())/2, (h - scaledBitmap.getHeight())/2, null);
+                mCanvas.drawBitmap(scaledBitmap, (w - scaledBitmap.getWidth()) / 2, (h - scaledBitmap.getHeight()) / 2, null);
                 mCanvas.drawBitmap(mutableMask, 0, 0, paint);
                 paint.setXfermode(null);
             } else {    // draw the scaled bitmap with the back image as mask
                 Bitmap mutableMask = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
                 Canvas maskCanvas = new Canvas(mutableMask);
-                maskCanvas.drawBitmap(backImage,0, 0, new Paint());
+                maskCanvas.drawBitmap(backImage, 0, 0, new Paint());
 
                 // paint the bitmap with mask into the result
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-                mCanvas.drawBitmap(scaledBitmap, (w - scaledBitmap.getWidth())/2, (h - scaledBitmap.getHeight())/2, null);
+                mCanvas.drawBitmap(scaledBitmap, (w - scaledBitmap.getWidth()) / 2, (h - scaledBitmap.getHeight()) / 2, null);
                 mCanvas.drawBitmap(mutableMask, 0, 0, paint);
                 paint.setXfermode(null);
 
@@ -319,14 +318,14 @@ public class IconPackManager
             List<ResolveInfo> rinfo = new ArrayList<>(adwlauncherthemes);
             rinfo.addAll(golauncherthemes);
 
-            for(ResolveInfo ri  : rinfo) {
+            for (ResolveInfo ri : rinfo) {
                 IconPack ip = new IconPack();
                 ip.packageName = ri.activityInfo.packageName;
 
                 ApplicationInfo ai;
                 try {
                     ai = pm.getApplicationInfo(ip.packageName, PackageManager.GET_META_DATA);
-                    ip.name  = mContext.getPackageManager().getApplicationLabel(ai).toString();
+                    ip.name = mContext.getPackageManager().getApplicationLabel(ai).toString();
                     iconPacks.put(ip.packageName, ip);
                 } catch (PackageManager.NameNotFoundException e) {
                     // shouldn't happen

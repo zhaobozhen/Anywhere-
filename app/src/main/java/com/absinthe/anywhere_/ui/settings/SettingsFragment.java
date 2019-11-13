@@ -19,7 +19,6 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -112,7 +111,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         .setMessage(R.string.dialog_reset_background_confirm_message)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().getBackground().setValue(""))
                         .setNegativeButton(R.string.dialog_delete_negative_button,
-                                (dialogInterface, i) -> { })
+                                (dialogInterface, i) -> {
+                                })
                         .show();
                 return true;
             case Const.SP_KEY_HELP:
@@ -131,12 +131,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                             }
                         })
                         .setNegativeButton(R.string.dialog_delete_negative_button,
-                                (dialogInterface, i) -> { })
+                                (dialogInterface, i) -> {
+                                })
                         .show();
                 return true;
             case Const.SP_KEY_ICON_PACK:
                 IconPackDialogFragment fragment = new IconPackDialogFragment();
-                fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "IconPackDialogFragment");
+                fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "IconPackDialogFragment");
                 return true;
             default:
         }

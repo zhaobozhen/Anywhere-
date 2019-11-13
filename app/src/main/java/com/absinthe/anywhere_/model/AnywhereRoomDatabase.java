@@ -13,6 +13,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 public abstract class AnywhereRoomDatabase extends RoomDatabase {
 
     public abstract AnywhereDao anywhereDao();
+
     private static AnywhereRoomDatabase INSTANCE;
 
     public static AnywhereRoomDatabase getDatabase(final Context context) {

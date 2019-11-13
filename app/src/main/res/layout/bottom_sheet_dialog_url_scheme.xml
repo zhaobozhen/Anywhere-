@@ -33,8 +33,8 @@
                 android:id="@+id/ib_trying_run"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_play"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_play"
                 android:tooltipText="@string/menu_trying_run"
                 android:contentDescription="@string/anywhere_more_todo"
                 tools:targetApi="o" />
@@ -44,8 +44,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_more_vert"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_more_vert"
                 android:tooltipText="@string/menu_more"
                 android:contentDescription="@string/anywhere_more_todo"
                 tools:targetApi="o" />

@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.utils;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -82,7 +81,7 @@ public class UiUtils {
 
         Drawable drawable;
         try{
-            if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty()) {
+            if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty() || Settings.sIconPack == null) {
                 drawable = context.getPackageManager().getApplicationIcon(apkTempPackageName);
             } else {
                 drawable = Settings.sIconPack.getDrawableIconForPackage(apkTempPackageName, context.getPackageManager().getApplicationIcon(apkTempPackageName));
@@ -150,7 +149,7 @@ public class UiUtils {
      * @param activity Activity for bind action bar
      * @param actionBar our target
      */
-    public static void setActionBarTitle(Activity activity, ActionBar actionBar) {
+    public static void setActionBarTitle(AppCompatActivity activity, ActionBar actionBar) {
         LogUtil.d(klass, "setActionBarTitle:workingMode =", GlobalValues.sWorkingMode);
         switch (GlobalValues.sWorkingMode) {
             case "":
@@ -188,7 +187,7 @@ public class UiUtils {
      * Set action bar style
      * @param activity Activity for bind action bar
      */
-    public static void setActionBarTransparent(Activity activity) {
+    public static void setActionBarTransparent(AppCompatActivity activity) {
         ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
         Window window = activity.getWindow();
         int transparent = activity.getResources().getColor(R.color.transparent);
@@ -204,7 +203,7 @@ public class UiUtils {
      * Reset action bar style
      * @param activity Activity for bind action bar
      */
-    public static void resetActionBar(Activity activity) {
+    public static void resetActionBar(AppCompatActivity activity) {
         ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
         Window window = activity.getWindow();
 
@@ -233,7 +232,7 @@ public class UiUtils {
      * Judge that the action bar title color should be
      * @param activity Activity for use Glide
      */
-    public static void setAdaptiveActionBarTitleColor(Activity activity, ActionBar actionBar, String title) {
+    public static void setAdaptiveActionBarTitleColor(AppCompatActivity activity, ActionBar actionBar, String title) {
         if (GlobalValues.sBackgroundUri.isEmpty()) {
             return;
         }
@@ -307,7 +306,7 @@ public class UiUtils {
      * @param type dark or light
      * @param title action bar title
      */
-    private static void setTopWidgetColor(Activity activity, ActionBar actionBar, String type, String title) {
+    private static void setTopWidgetColor(AppCompatActivity activity, ActionBar actionBar, String type, String title) {
 
         if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
             LogUtil.d(klass, "Dark-");

@@ -28,10 +28,11 @@ import java.util.List;
 public class AppUtils {
     /**
      * react the url scheme
+     *
      * @param context to launch an intent
-     * @param param1 param1
-     * @param param2 param2
-     * @param param3 param3
+     * @param param1  param1
+     * @param param2  param2
+     * @param param3  param3
      */
     public static void openUrl(Context context, String param1, String param2, String param3) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -45,6 +46,11 @@ public class AppUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * Update Anywhere- widget
+     *
+     * @param context context
+     */
     public static void updateWidget(Context context) {
         Intent intent = new Intent(context, HomeWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -57,6 +63,13 @@ public class AppUtils {
         context.sendBroadcast(intent);
     }
 
+    /**
+     * Judge that whether an app is frost
+     *
+     * @param context context
+     * @param item    Anywhere- entity
+     * @return true if the app is frost
+     */
     public static boolean isAppFrozen(Context context, AnywhereEntity item) {
         int type = item.getAnywhereType();
         String apkTempPackageName = "";
@@ -86,6 +99,13 @@ public class AppUtils {
         return false;
     }
 
+    /**
+     * Get apps list
+     *
+     * @param packageManager android package manager
+     * @param showSystem     true if show system apps
+     * @return apps list
+     */
     public static List<AppListBean> getAppList(PackageManager packageManager, boolean showSystem) {
         List<AppListBean> list = new ArrayList<>();
 
@@ -125,7 +145,14 @@ public class AppUtils {
         return ListUtils.sortAppListByNameAsc(list);
     }
 
-    public static List<String> getActivitiesClass(Context context, String packageName){
+    /**
+     * get all activities of an app
+     *
+     * @param context     context
+     * @param packageName package name of the app
+     * @return activities list
+     */
+    public static List<String> getActivitiesClass(Context context, String packageName) {
         List<String> returnClassList = new ArrayList<>();
 
         try {

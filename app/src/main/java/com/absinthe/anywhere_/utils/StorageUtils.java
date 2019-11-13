@@ -1,8 +1,9 @@
 package com.absinthe.anywhere_.utils;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
@@ -27,7 +28,7 @@ public class StorageUtils {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
-    public static void createFile(Activity activity, String mimeType, String fileName) {
+    public static void createFile(AppCompatActivity activity, String mimeType, String fileName) {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
 
         // Filter to only show results that can be "opened", such as

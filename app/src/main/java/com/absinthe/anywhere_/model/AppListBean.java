@@ -2,8 +2,6 @@ package com.absinthe.anywhere_.model;
 
 import android.graphics.drawable.Drawable;
 
-import java.io.Serializable;
-
 public class AppListBean {
     private String appName;
     private String packageName;

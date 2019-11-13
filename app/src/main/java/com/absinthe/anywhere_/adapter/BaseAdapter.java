@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.adapter;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.text.Html;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -74,7 +74,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VH holder, int position) { }
+    public void onBindViewHolder(@NonNull VH holder, int position) {
+    }
 
     @Override
     public int getItemCount() {
@@ -103,7 +104,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 } else {
                     new Thread(() -> {
                         IceBox.setAppEnabledSettings(mContext, true, item.getParam1());
-                        ((Activity)mContext).runOnUiThread(() -> MainFragment.getViewModelInstance().getCommand().setValue(cmd));
+                        ((AppCompatActivity) mContext).runOnUiThread(() -> MainFragment.getViewModelInstance().getCommand().setValue(cmd));
                     }).start();
 
                     ToastUtil.makeText(R.string.toast_defrosting);

@@ -30,6 +30,7 @@ public class ShortcutsUtil {
         Singleton() {
             instance = AnywhereApplication.sContext.getSystemService(ShortcutManager.class);
         }
+
         public ShortcutManager getInstance() {
             return instance;
         }

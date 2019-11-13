@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.utils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,6 +11,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
@@ -41,6 +41,7 @@ public class PermissionUtil {
 
     /**
      * bump to miui permission management activity
+     *
      * @param context to launch an activity
      */
     public static void goToMIUIPermissionManager(Context context) {
@@ -60,6 +61,7 @@ public class PermissionUtil {
 
     /**
      * acquire su permission
+     *
      * @param pkgCodePath to get su permission of the package
      */
     public static boolean upgradeRootPermission(String pkgCodePath) {
@@ -101,6 +103,7 @@ public class PermissionUtil {
 
     /**
      * execute adb or intent command
+     *
      * @param cmd command
      */
     public static String execCmd(String cmd) {
@@ -155,6 +158,7 @@ public class PermissionUtil {
 
     /**
      * execute adb or intent command by root
+     *
      * @param cmd command
      */
     public static String execRootCmd(String cmd) {
@@ -175,7 +179,7 @@ public class PermissionUtil {
 
             int c;
             while ((c = is.read()) != -1) {
-                result.append((char)c);
+                result.append((char) c);
             }
 
             p.waitFor();
@@ -202,6 +206,7 @@ public class PermissionUtil {
 
     /**
      * execute adb or intent via shizuku manager
+     *
      * @param cmd command
      */
     public static String execShizukuCmd(String cmd) {
@@ -258,9 +263,10 @@ public class PermissionUtil {
 
     /**
      * show permission dialog
+     *
      * @param activity to bind an activity to show
      */
-    private static void showPermissionDialog(Activity activity) {
+    private static void showPermissionDialog(AppCompatActivity activity) {
         new MaterialAlertDialogBuilder(activity, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_permission_title)
                 .setMessage(R.string.dialog_permission_message)
@@ -282,9 +288,10 @@ public class PermissionUtil {
 
     /**
      * check shizuku permission
+     *
      * @param activity to bind an activity to show a dialog
      */
-    public static boolean shizukuPermissionCheck(Activity activity) {
+    public static boolean shizukuPermissionCheck(AppCompatActivity activity) {
         if (!ShizukuClientHelper.isPreM()) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (ActivityCompat.checkSelfPermission(activity, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
@@ -297,7 +304,7 @@ public class PermissionUtil {
             } else {
                 return true;
             }
-        } else if (!AnywhereApplication.isShizukuV3TokenValid()){
+        } else if (!AnywhereApplication.isShizukuV3TokenValid()) {
             // on API pre-23, Shizuku v3 uses old token, get token from Shizuku app
             Intent intent = ShizukuClientHelper.createPre23AuthorizationIntent(activity);
             if (intent != null) {
@@ -321,10 +328,11 @@ public class PermissionUtil {
 
     /**
      * check overlay permission
-     * @param activity to start an intent to permission activity
+     *
+     * @param activity    to start an intent to permission activity
      * @param requestCode get result
      */
-    public static boolean checkOverlayPermission(Activity activity, int requestCode) {
+    public static boolean checkOverlayPermission(AppCompatActivity activity, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(activity)) {
                 try {
@@ -345,6 +353,7 @@ public class PermissionUtil {
 
     /**
      * check whether shizuku service is on working
+     *
      * @param mContext to show a dialog
      */
     public static boolean checkShizukuOnWorking(Context mContext) {
@@ -366,7 +375,7 @@ public class PermissionUtil {
                     .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                         Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
                         if (intent != null) {
-                            ((Activity) mContext).startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
+                            ((AppCompatActivity) mContext).startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
                         } else {
                             ToastUtil.makeText(R.string.toast_not_install_shizuku);
                             intent = new Intent("android.intent.action.VIEW");

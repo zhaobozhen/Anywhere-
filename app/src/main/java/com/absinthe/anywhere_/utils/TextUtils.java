@@ -1,10 +1,11 @@
 package com.absinthe.anywhere_.utils;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -22,6 +23,7 @@ public class TextUtils {
 
     /**
      * process and obtain adb result
+     *
      * @param result return result
      */
     public static String[] processResultString(String result) {
@@ -44,6 +46,7 @@ public class TextUtils {
 
     /**
      * get the app name by package name
+     *
      * @param context to get PackageManager
      * @param pkgName package name
      */
@@ -61,10 +64,11 @@ public class TextUtils {
 
     /**
      * get current app package name
+     *
      * @param context to get ActivityManager
      */
     public static String getTopAppPackageName(Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) context.getSystemService(AppCompatActivity.ACTIVITY_SERVICE);
 
         if (am != null) {
             return am.getRunningAppProcesses().get(0).processName;
@@ -75,6 +79,7 @@ public class TextUtils {
 
     /**
      * get launch command of a item
+     *
      * @param item the item
      */
     public static String getItemCommand(AnywhereEntity item) {
@@ -173,6 +178,7 @@ public class TextUtils {
 
     /**
      * Get current date
+     *
      * @return date string
      */
     public static String getCurrFormatDate() {

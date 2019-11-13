@@ -2,9 +2,10 @@ package com.absinthe.anywhere_.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
-public class AlwaysMarqueeTextView extends TextView {
+import androidx.appcompat.widget.AppCompatTextView;
+
+public class AlwaysMarqueeTextView extends AppCompatTextView {
     public AlwaysMarqueeTextView(Context context) {
         super(context);
     }

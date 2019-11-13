@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.main;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
@@ -201,7 +201,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         });
 
         btnShizuku.setOnClickListener(view -> {
-            boolean result = PermissionUtil.shizukuPermissionCheck((Activity) mContext);
+            boolean result = PermissionUtil.shizukuPermissionCheck((AppCompatActivity) mContext);
             mViewModel.getIsShizuku().setValue(result);
         });
 

@@ -1,12 +1,12 @@
 package com.absinthe.anywhere_.ui.shortcuts;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -22,7 +22,7 @@ import com.absinthe.anywhere_.utils.ToastUtil;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class ShortcutsActivity extends Activity {
+public class ShortcutsActivity extends AppCompatActivity {
     public static final String ACTION_START_COLLECTOR = "START_COLLECTOR";
     public static final String ACTION_START_COMMAND = "START_COMMAND";
     public static final String ACTION_START_FROM_WIDGET = "START_FROM_WIDGET";
