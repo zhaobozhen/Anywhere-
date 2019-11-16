@@ -2,11 +2,15 @@ package com.absinthe.anywhere_.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -16,6 +20,7 @@ import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class TextUtils {
@@ -189,5 +194,28 @@ public class TextUtils {
 
     public static boolean containsIgnoreCase(String str, String subString) {
         return str.toLowerCase().contains(subString.toLowerCase());
+    }
+
+    public static String getPkgNameByCommand(String cmd) {
+        String[] splits = cmd.split(" ");
+        if (cmd.contains("am start -n")) {
+            String[] splitsAgain = splits[3].split("/");
+            return splitsAgain.length > 1 ? splitsAgain[0] : "";
+        } else if (cmd.contains("am start -a")) {
+            return getPkgNameByUrlScheme(splits[3]);
+        } else {
+            return "";
+        }
+    }
+
+    public static String getPkgNameByUrlScheme(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        List<ResolveInfo> resolveInfo = AnywhereApplication.sContext.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        if (resolveInfo.size() != 0) {
+            return resolveInfo.get(0).activityInfo.packageName;
+        } else {
+            return "";
+        }
     }
 }

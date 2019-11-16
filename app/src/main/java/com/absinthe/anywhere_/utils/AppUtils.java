@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.TransactionTooLargeException;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -167,10 +168,9 @@ public class AppUtils {
                     LogUtil.d(AppUtils.class, ai.name, "...OK");
                 }
 
-                LogUtil.d(AppUtils.class, "Return ", returnClassList.size(), " activity,", Arrays.toString(returnClassList.toArray()));
             }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        } catch (PackageManager.NameNotFoundException nameNotFoundException) {
+            nameNotFoundException.printStackTrace();
         }
 
         return returnClassList;

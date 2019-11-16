@@ -9,7 +9,6 @@ import android.text.Html;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +23,6 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
-import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -102,12 +100,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
                     }
                 } else {
-                    new Thread(() -> {
-                        IceBox.setAppEnabledSettings(mContext, true, item.getParam1());
-                        ((AppCompatActivity) mContext).runOnUiThread(() -> MainFragment.getViewModelInstance().getCommand().setValue(cmd));
-                    }).start();
-
-                    ToastUtil.makeText(R.string.toast_defrosting);
+                    PermissionUtil.unfreezeApp(mContext, item.getParam1(), () ->
+                            MainFragment.getViewModelInstance().getCommand().setValue(cmd));
                 }
             } else {
                 MainFragment.getViewModelInstance().getCommand().setValue(cmd);

@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -13,12 +14,15 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.DataOutputStream;
@@ -118,24 +122,29 @@ public class PermissionUtil {
                 break;
             case Const.WORKING_MODE_URL_SCHEME:
                 if (cmd.contains("am start -n")) {
-                    String pkgClsString = cmd.split(" ")[3];
-                    String pkg = pkgClsString.split("/")[0];
-                    String cls = pkgClsString.split("/")[1];
-                    if (cls.charAt(0) == '.') {
-                        cls = pkg + cls;
-                    }
-                    if (!UiUtils.isActivityExported(AnywhereApplication.sContext, new ComponentName(pkg, cls))) {
-                        ToastUtil.makeText(R.string.toast_change_work_mode);
-                        break;
-                    } else {
-                        try {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setComponent(new ComponentName(pkg, cls));
-                            MainActivity.getInstance().startActivity(intent);
-                            result = "android.intent.action.VIEW";
-                        } catch (Exception e) {
-                            LogUtil.d(klass, "WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                    try {
+                        String pkgClsString = cmd.split(" ")[3];
+                        String pkg = pkgClsString.split("/")[0];
+                        String cls = pkgClsString.split("/")[1];
+                        if (cls.charAt(0) == '.') {
+                            cls = pkg + cls;
                         }
+                        if (!UiUtils.isActivityExported(AnywhereApplication.sContext, new ComponentName(pkg, cls))) {
+                            ToastUtil.makeText(R.string.toast_change_work_mode);
+                            break;
+                        } else {
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setComponent(new ComponentName(pkg, cls));
+                                MainActivity.getInstance().startActivity(intent);
+                                result = "android.intent.action.VIEW";
+                            } catch (Exception e) {
+                                LogUtil.d(klass, "WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                            }
+                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        e.printStackTrace();
+                        ToastUtil.makeText(R.string.toast_wrong_cmd);
                     }
                 } else {
                     if (cmd.contains(Const.CMD_OPEN_URL_SCHEME)) {
@@ -266,7 +275,7 @@ public class PermissionUtil {
      *
      * @param activity to bind an activity to show
      */
-    private static void showPermissionDialog(AppCompatActivity activity) {
+    private static void showPermissionDialog(Activity activity) {
         new MaterialAlertDialogBuilder(activity, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_permission_title)
                 .setMessage(R.string.dialog_permission_message)
@@ -291,7 +300,7 @@ public class PermissionUtil {
      *
      * @param activity to bind an activity to show a dialog
      */
-    public static boolean shizukuPermissionCheck(AppCompatActivity activity) {
+    public static boolean shizukuPermissionCheck(Activity activity) {
         if (!ShizukuClientHelper.isPreM()) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (ActivityCompat.checkSelfPermission(activity, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
@@ -332,7 +341,7 @@ public class PermissionUtil {
      * @param activity    to start an intent to permission activity
      * @param requestCode get result
      */
-    public static boolean checkOverlayPermission(AppCompatActivity activity, int requestCode) {
+    public static boolean checkOverlayPermission(Activity activity, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(activity)) {
                 try {
@@ -391,6 +400,37 @@ public class PermissionUtil {
             return true;
         }
         return false;
+    }
+
+    public static void unfreezeApp(Context context, String pkgName, OnAppUnfreezeListener listener) {
+        try {
+            if (IceBox.getAppEnabledSetting(context, pkgName) != 0) { //0 为未冻结状态
+                if (ContextCompat.checkSelfPermission(context, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
+                    if (PermissionUtil.isMIUI()) {
+                        new MaterialAlertDialogBuilder(context)
+                                .setMessage(R.string.dialog_message_ice_box_perm_not_support)
+                                .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                                .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, in) -> {
+                                    Intent intent = new Intent("android.intent.action.VIEW");
+                                    intent.setComponent(new ComponentName("com.android.settings",
+                                            "com.android.settings.Settings$ManageApplicationsActivity"));
+                                    context.startActivity(intent);
+                                })
+                                .show();
+                    } else {
+                        ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
+                    }
+                } else {
+                    new Thread(() -> {
+                        ((Activity)context).runOnUiThread(() -> ToastUtil.makeText(R.string.toast_defrosting));
+                        IceBox.setAppEnabledSettings(context, true, pkgName);
+                        ((Activity)context).runOnUiThread(listener::onAppUnfrozen);
+                    }).start();
+                }
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }
