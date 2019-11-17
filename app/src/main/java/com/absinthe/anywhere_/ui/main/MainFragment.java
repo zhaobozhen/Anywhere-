@@ -388,7 +388,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             if (s.isEmpty()) {
                 ivBackground.setBackground(null);
                 ivBackground.setVisibility(View.GONE);
-                GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
+                GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
                 UiUtils.resetActionBar(MainActivity.getInstance());
                 MainActivity.getInstance().invalidateOptionsMenu();
             } else {

@@ -65,7 +65,7 @@
                 android:text="@{appName}"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/textColorNormal"
                 android:singleLine="true"
                 android:ellipsize="marquee"
                 android:focusable="true"

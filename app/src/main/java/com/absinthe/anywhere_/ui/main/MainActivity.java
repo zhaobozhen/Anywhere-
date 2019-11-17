@@ -9,10 +9,10 @@ import android.view.Menu;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
@@ -20,7 +20,7 @@ import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private MainFragment mainFragment;
     private static Fragment curFragment;
@@ -96,9 +96,15 @@ public class MainActivity extends AppCompatActivity {
                     menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_light);
                     break;
                 case Const.ACTION_BAR_TYPE_DARK:
-                    menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_dark);
-                    menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_dark);
-                    menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_dark);
+                    if (UiUtils.isDarkMode(this)) {
+                        menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
+                        menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_light);
+                        menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_light);
+                    } else {
+                        menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_dark);
+                        menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_dark);
+                        menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_dark);
+                    }
                     break;
             }
         }

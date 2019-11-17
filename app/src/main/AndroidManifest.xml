@@ -58,8 +58,7 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
             android:launchMode="singleTask"
-            android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.ActionBar" />
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_title"
@@ -75,14 +74,12 @@
         <activity
             android:name=".ui.backup.BackupActivity"
             android:label="@string/settings_backup"
-            android:parentActivityName=".ui.settings.SettingsActivity"
-            android:theme="@style/AppTheme.ActionBar" />
+            android:parentActivityName=".ui.settings.SettingsActivity" />
         <activity
             android:name=".ui.list.AppListActivity"
             android:label="@string/app_list_title"
-            android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.AppList"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -93,9 +90,7 @@
         </activity>
         <activity
             android:name=".ui.list.AppDetailActivity"
-            android:theme="@style/AppTheme.AppList"
             android:parentActivityName=".ui.list.AppListActivity">
-
         </activity>
 
         <provider

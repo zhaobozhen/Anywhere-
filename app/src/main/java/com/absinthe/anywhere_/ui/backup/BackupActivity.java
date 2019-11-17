@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
@@ -25,7 +28,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Objects;
 
-public class BackupActivity extends AppCompatActivity {
+public class BackupActivity extends BaseActivity {
     private static BackupActivity instance;
 
     public static BackupActivity getInstance() {
@@ -37,6 +40,13 @@ public class BackupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
         instance = this;
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()

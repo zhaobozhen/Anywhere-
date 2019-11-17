@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -188,7 +189,7 @@ public class UiUtils {
      * @param activity Activity for bind action bar
      */
     public static void setActionBarTransparent(AppCompatActivity activity) {
-        ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+        ActionBar actionBar = activity.getSupportActionBar();
         Window window = activity.getWindow();
         int transparent = activity.getResources().getColor(R.color.transparent);
 
@@ -204,13 +205,13 @@ public class UiUtils {
      * @param activity Activity for bind action bar
      */
     public static void resetActionBar(AppCompatActivity activity) {
-        ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+        ActionBar actionBar = activity.getSupportActionBar();
         Window window = activity.getWindow();
 
         if (actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(R.color.resetColorPrimary)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(R.color.navigationColorNormal)));
         }
-        window.setStatusBarColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+        window.setStatusBarColor(activity.getResources().getColor(R.color.navigationColorNormal));
     }
 
     /**
@@ -312,16 +313,23 @@ public class UiUtils {
             LogUtil.d(klass, "Dark-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
+
+            if (isDarkMode(activity)) {
+                span = new ForegroundColorSpan(Color.WHITE);
+            }
+
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             actionBar.setTitle(spanString);
 
             GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
             activity.invalidateOptionsMenu();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            if (isDarkMode(activity)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                }
             }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT) || type.isEmpty()) {
             LogUtil.d(klass, "Light-");
@@ -421,5 +429,23 @@ public class UiUtils {
         RectF rectF = new RectF(0, 0, bgBitmap.getWidth(), bgBitmap.getHeight());
         canvas.drawRect(rectF, paint);
         view.setImageBitmap(bgBitmap);
+    }
+
+    public static void clearLightStatusBar(@NonNull View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = view.getSystemUiVisibility();
+            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+        }
+    }
+
+    public static boolean isDarkMode(Context context) {
+        switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                return true;
+            case Configuration.UI_MODE_NIGHT_NO:
+            default:
+                return false;
+        }
     }
 }

@@ -4,28 +4,31 @@ import android.animation.LayoutTransition;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.AppListAdapter;
 import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.util.List;
 
-public class AppListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class AppListActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     private ActivityAppListBinding binding;
     private AppListAdapter adapter;
     private boolean isShowSystemApp;
@@ -48,7 +51,7 @@ public class AppListActivity extends AppCompatActivity implements SearchView.OnQ
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
-//        MenuItem showSystemApp = menu.findItem(R.id.show_system_app);
+        MenuItem showSystemApp = menu.findItem(R.id.show_system_app);
 
         if (searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -60,12 +63,12 @@ public class AppListActivity extends AppCompatActivity implements SearchView.OnQ
             LinearLayout searchBar = searchView.findViewById(R.id.search_bar);
             searchBar.setLayoutTransition(new LayoutTransition());
         }
-//        // Bug of DayNight lib
-//        if (showSystemApp != null) {
-//            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-//                showSystemApp.setTitle("Night");
-//            }
-//        }
+        // Bug of DayNight lib
+        if (showSystemApp != null) {
+            if (UiUtils.isDarkMode(this)) {
+                showSystemApp.setTitle(Html.fromHtml("<font color='#FFFFFF'>" + showSystemApp.getTitle() + "</font>"));
+            }
+        }
 
         return true;
     }
@@ -88,8 +91,15 @@ public class AppListActivity extends AppCompatActivity implements SearchView.OnQ
     private void initView() {
         binding.srlAppList.setOnRefreshListener(() -> initData(isShowSystemApp));
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         //Bug of DayNight lib
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if (UiUtils.isDarkMode(this)) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.resetColorPrimary));
         }
     }

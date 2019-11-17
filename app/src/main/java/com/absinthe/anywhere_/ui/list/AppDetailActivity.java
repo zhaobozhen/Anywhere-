@@ -9,13 +9,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.AppListAdapter;
 import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AppDetailActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class AppDetailActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     private AppListAdapter adapter;
     private SwipeRefreshLayout srlAppDetail;
 
@@ -37,6 +38,8 @@ public class AppDetailActivity extends AppCompatActivity implements SearchView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_detail);
+
+        initView();
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -46,7 +49,6 @@ public class AppDetailActivity extends AppCompatActivity implements SearchView.O
                     .setTitle(intent.getStringExtra(Const.INTENT_EXTRA_APP_NAME));
         }
 
-        initView();
         initRecyclerView();
         initData(Objects.requireNonNull(intent).getStringExtra(Const.INTENT_EXTRA_PKG_NAME));
     }
@@ -54,8 +56,15 @@ public class AppDetailActivity extends AppCompatActivity implements SearchView.O
     private void initView() {
         srlAppDetail = findViewById(R.id.srl_app_detail);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         //Bug of DayNight lib
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if (UiUtils.isDarkMode(this)) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.resetColorPrimary));
         }
     }
