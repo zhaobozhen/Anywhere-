@@ -7,5 +7,6 @@
     <color name="textColorNormal">#FFFFFF</color>
     <color name="toolbarColorNormal">#A0A0A0</color>
     <color name="navigationColorNormal">#121212</color>
+    <color name="lollipopStatusBarColor">#121212</color>
 
 </resources>

@@ -73,6 +73,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private RecyclerView mRecyclerView;
     private BaseAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
+    private RecyclerView.LayoutManager mLayoutManager;
     private ActionBar actionBar;
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -246,14 +247,16 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         List<AnywhereEntity> anywhereEntityList = new ArrayList<>();
 
         if (GlobalValues.sIsStreamCardMode) {
-            recyclerView.setLayoutManager(new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(mLayoutManager);
             if (GlobalValues.sIsStreamCardModeSingleLine) {
                 adapter = new SingleLineStreamCardsAdapter(mContext);
             } else {
                 adapter = new StreamCardsAdapter(mContext);
             }
         } else {
-            recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
+            mLayoutManager = new WrapContentLinearLayoutManager(mContext);
+            recyclerView.setLayoutManager(mLayoutManager);
             adapter = new SelectableCardsAdapter(mContext);
         }
 
@@ -266,11 +269,24 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mItemTouchHelper.attachToRecyclerView(null);
 
         ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
+
     }
 
     private void refreshRecyclerView(RecyclerView recyclerView) {
         setUpRecyclerView(recyclerView);
         adapter.setItems(mViewModel.getAllAnywhereEntities().getValue());
+    }
+
+    private void resetSelectState() {
+        if (!adapter.getSelectedIndex().isEmpty()) {
+            for (Object index : adapter.getSelectedIndex()) {
+                View view = mLayoutManager.findViewByPosition((int) index);
+                if (view != null) {
+                    view.setScaleX(1.0f);
+                    view.setScaleY(1.0f);
+                }
+            }
+        }
     }
 
     @Override
@@ -284,10 +300,17 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             menu.findItem(R.id.toolbar_settings).setVisible(false);
             menu.findItem(R.id.toolbar_sort).setVisible(false);
             menu.findItem(R.id.toolbar_done).setVisible(true);
-        } else {
+            menu.findItem(R.id.toolbar_delete).setVisible(false);
+        } else if (adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_NORMAL) {
             menu.findItem(R.id.toolbar_settings).setVisible(true);
             menu.findItem(R.id.toolbar_sort).setVisible(true);
             menu.findItem(R.id.toolbar_done).setVisible(false);
+            menu.findItem(R.id.toolbar_delete).setVisible(false);
+        } else if (adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_SELECT) {
+            menu.findItem(R.id.toolbar_settings).setVisible(false);
+            menu.findItem(R.id.toolbar_sort).setVisible(false);
+            menu.findItem(R.id.toolbar_done).setVisible(true);
+            menu.findItem(R.id.toolbar_delete).setVisible(true);
         }
 
         super.onPrepareOptionsMenu(menu);
@@ -339,7 +362,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
                         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
                         ((Activity)mContext).invalidateOptionsMenu();
-                        VibratorUtil.vibrate(mContext, 50);
+                        VibratorUtil.vibrate(mContext, VibratorUtil.HEAVY_CLICK);
+                        break;
+                    case R.id.multi_select:
+                        adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SELECT);
+                        ((Activity)mContext).invalidateOptionsMenu();
+                        VibratorUtil.vibrate(mContext, VibratorUtil.HEAVY_CLICK);
                         break;
                     default:
                 }
@@ -350,11 +378,24 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
             popup.show();
         } else if (item.getItemId() == R.id.toolbar_done) {
-            adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
-            mItemTouchHelper.attachToRecyclerView(null);
-            ((Activity)mContext).invalidateOptionsMenu();
-            adapter.updateSortedList();
-            GlobalValues.setsSortMode(Const.SORT_MODE_TIME_DESC);
+            if (adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_SORT) {
+                adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
+                mItemTouchHelper.attachToRecyclerView(null);
+                ((Activity) mContext).invalidateOptionsMenu();
+                adapter.updateSortedList();
+                GlobalValues.setsSortMode(Const.SORT_MODE_TIME_DESC);
+            } else if (adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_SELECT) {
+                resetSelectState();
+                adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
+                ((Activity) mContext).invalidateOptionsMenu();
+            }
+        } else if (item.getItemId() == R.id.toolbar_delete) {
+            new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
+                    .setTitle("提示")
+                    .setMessage("确定删除所选项吗?")
+                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> adapter.deleteSelect())
+                    .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                    .show();
         }
         return super.onOptionsItemSelected(item);
     }

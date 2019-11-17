@@ -58,6 +58,7 @@
     <string name="menu_sort">排序</string>
     <string name="menu_settings">设置</string>
     <string name="menu_about">关于</string>
+    <string name="menu_delete">删除</string>
     <string name="menu_done">完成</string>
     <string name='menu_more'>更多</string>
     <string name='menu_trying_run'>测试</string>
@@ -70,6 +71,7 @@
     <string name="menu_sort_by_name_desc">按名字降序 (Z–A)</string>
     <string name="menu_sort_by_name_asc">按名字升序 (A–Z)</string>
     <string name="menu_sort_manually">拖拽排序</string>
+    <string name="menu_multi_select">多选删除</string>
 
     <!--  Settings  -->
     <string name="settings_category_normal">常规</string>

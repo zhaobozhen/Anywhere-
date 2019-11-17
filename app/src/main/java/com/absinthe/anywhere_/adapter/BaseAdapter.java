@@ -20,9 +20,11 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -31,18 +33,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements ItemTouchCallBack.OnItemTouchListener {
+public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
+        implements ItemTouchCallBack.OnItemTouchListener {
     public static final int ADAPTER_MODE_NORMAL = 0;
     public static final int ADAPTER_MODE_SORT = 1;
+    public static final int ADAPTER_MODE_SELECT = 2;
 
     protected Context mContext;
     private Editor mEditor;
+    private List<Integer> selectedIndex;
     List<AnywhereEntity> items;
     int mode;
 
     BaseAdapter(Context context) {
         this.mContext = context;
         this.items = new ArrayList<>();
+        this.selectedIndex = new ArrayList<>();
         this.mode = ADAPTER_MODE_NORMAL;
     }
 
@@ -60,6 +66,10 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         return mode;
     }
 
+    public List<Integer> getSelectedIndex() {
+        return selectedIndex;
+    }
+
     @Override
     public int getItemViewType(int position) {
         return 0;
@@ -73,6 +83,45 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
+        AnywhereEntity item = items.get(position);
+
+        int type = item.getAnywhereType();
+
+        holder.itemView.setOnClickListener(view -> {
+            if (mode == ADAPTER_MODE_NORMAL) {
+                openAnywhereActivity(item);
+                notifyItemChanged(position);
+            } else if (mode == ADAPTER_MODE_SELECT) {
+                if (selectedIndex.contains(position)) {
+                    holder.itemView.setScaleX(1.0f);
+                    holder.itemView.setScaleY(1.0f);
+                    selectedIndex.remove((Integer) position);
+                } else {
+                    holder.itemView.setScaleX(0.9f);
+                    holder.itemView.setScaleY(0.9f);
+                    selectedIndex.add(position);
+                }
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(view -> {
+            if (mode == ADAPTER_MODE_NORMAL) {
+                VibratorUtil.vibrate(mContext, VibratorUtil.DEFAULT);
+
+                switch (type) {
+                    case AnywhereType.URL_SCHEME:
+                        openEditor(item, Editor.URL_SCHEME, position);
+                        break;
+                    case AnywhereType.ACTIVITY:
+                        openEditor(item, Editor.ANYWHERE, position);
+                        break;
+                    case AnywhereType.MINI_PROGRAM:
+                        break;
+                }
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -80,7 +129,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         return items.size();
     }
 
-    void openAnywhereActivity(AnywhereEntity item) {
+    private void openAnywhereActivity(AnywhereEntity item) {
         String cmd = TextUtils.getItemCommand(item);
         if (!cmd.isEmpty()) {
             if (AppUtils.isAppFrozen(mContext, item)) {
@@ -109,7 +158,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         }
     }
 
-    void openEditor(AnywhereEntity item, int type, int position) {
+    private void openEditor(AnywhereEntity item, int type, int position) {
         Editor.OnEditorListener listener = new Editor.OnEditorListener() {
             @Override
             public void onDelete() {
@@ -181,4 +230,20 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     public void onSwiped(int position) {
 
     }
+
+    public void deleteSelect() {
+        List<AnywhereEntity> list = new ArrayList<>();
+        for (int index : selectedIndex) {
+            LogUtil.d(this.getClass(), "index=",index);
+            list.add(items.get(index));
+        }
+        for (AnywhereEntity ae : list) {
+            int index = items.indexOf(ae);
+            items.remove(index);
+            MainFragment.getViewModelInstance().delete(ae);
+            notifyItemRemoved(index);
+        }
+        selectedIndex.clear();
+    }
+
 }

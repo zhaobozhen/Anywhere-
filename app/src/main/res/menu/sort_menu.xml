@@ -27,4 +27,9 @@
         android:title="@string/menu_sort_manually"
         android:icon="@drawable/ic_manual_sort"/>
 
+    <item
+        android:id="@+id/multi_select"
+        android:title="@string/menu_multi_select"
+        android:icon="@drawable/ic_select_all"/>
+
 </menu>

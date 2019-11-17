@@ -9,10 +9,12 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
+    <!--  DayNight colors  -->
     <color name="cardColor">#EEFFFFFF</color>
     <color name="textColorNormal">#000000</color>
     <color name="toolbarColorNormal">#000000</color>
     <color name="navigationColorNormal">#FFFFFF</color>
+    <color name="lollipopStatusBarColor">#DDDDDD</color>
 
     <color name="appListColorPrimary">#607D8B</color>
     <color name="appListColorPrimaryDark">#455A64</color>

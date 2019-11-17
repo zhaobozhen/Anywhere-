@@ -45,32 +45,6 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
         viewHolder.bind(item);
 
         int type = item.getAnywhereType();
-        LogUtil.d(this.getClass(), "Type = " + type);
-
-        viewHolder.binding.itemCard.setOnClickListener(view -> {
-            if (mode == ADAPTER_MODE_NORMAL) {
-                openAnywhereActivity(item);
-                notifyItemChanged(position);
-            }
-        });
-        viewHolder.binding.itemCard.setOnLongClickListener(view -> {
-            if (mode == ADAPTER_MODE_NORMAL) {
-                VibratorUtil.vibrate(mContext, VibratorUtil.DEFAULT);
-
-                switch (type) {
-                    case AnywhereType.URL_SCHEME:
-                        openEditor(item, Editor.URL_SCHEME, position);
-                        break;
-                    case AnywhereType.ACTIVITY:
-                        openEditor(item, Editor.ANYWHERE, position);
-                        break;
-                    case AnywhereType.MINI_PROGRAM:
-                        break;
-                }
-                return true;
-            }
-            return false;
-        });
 
         switch (type) {
             case AnywhereType.URL_SCHEME:

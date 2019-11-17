@@ -93,16 +93,19 @@ public class MainActivity extends BaseActivity {
                 case Const.ACTION_BAR_TYPE_LIGHT:
                     menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
                     menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_light);
+                    menu.findItem(R.id.toolbar_delete).setIcon(R.drawable.ic_delete_light);
                     menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_light);
                     break;
                 case Const.ACTION_BAR_TYPE_DARK:
                     if (UiUtils.isDarkMode(this)) {
                         menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
                         menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_light);
+                        menu.findItem(R.id.toolbar_delete).setIcon(R.drawable.ic_delete_light);
                         menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_light);
                     } else {
                         menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_dark);
                         menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_dark);
+                        menu.findItem(R.id.toolbar_delete).setIcon(R.drawable.ic_delete_dark);
                         menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_dark);
                     }
                     break;
