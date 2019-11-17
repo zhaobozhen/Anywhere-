@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="65dp"
     android:layout_height="65dp">
@@ -9,8 +8,8 @@
         android:id="@+id/ib_collector"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/btn_collector"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/btn_collector"
         android:contentDescription="@string/ib_collector_todo" />
 
 </LinearLayout>

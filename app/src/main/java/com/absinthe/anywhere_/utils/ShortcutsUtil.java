@@ -50,7 +50,6 @@ public class ShortcutsUtil {
                 .build();
         infos.add(info);
         if (Singleton.INSTANCE.getInstance().getDynamicShortcuts().size() <= 3) {
-            LogUtil.runningHere(Singleton.INSTANCE.getInstance().getClass());
             Singleton.INSTANCE.getInstance().addDynamicShortcuts(infos);
         }
 

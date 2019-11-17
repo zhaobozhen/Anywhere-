@@ -431,8 +431,8 @@ public class UiUtils {
         canvas.drawRect(rectF, paint);
         Glide.with(AnywhereApplication.sContext)
                 .load(bgBitmap)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .transition(DrawableTransitionOptions.withCrossFade())
+//                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+//                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(view);
     }
 
