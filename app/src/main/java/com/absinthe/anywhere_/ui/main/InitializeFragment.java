@@ -171,7 +171,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 MainActivity.getInstance().setMainFragment(fragment);
             } else {
                 MainFragment fragment = MainFragment.newInstance();
-                new MaterialAlertDialogBuilder(mContext)
+                new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                         .setMessage(R.string.dialog_message_perm_not_ever)
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                             MainActivity.getInstance()

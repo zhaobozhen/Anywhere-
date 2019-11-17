@@ -54,6 +54,7 @@ import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
@@ -284,6 +285,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 if (view != null) {
                     view.setScaleX(1.0f);
                     view.setScaleY(1.0f);
+                    ((MaterialCardView)view).setChecked(false);
                 }
             }
         }

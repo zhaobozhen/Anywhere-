@@ -27,6 +27,7 @@ import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.catchingnow.icebox.sdk_client.IceBox;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -95,10 +96,12 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 if (selectedIndex.contains(position)) {
                     holder.itemView.setScaleX(1.0f);
                     holder.itemView.setScaleY(1.0f);
+                    ((MaterialCardView)holder.itemView).setChecked(false);
                     selectedIndex.remove((Integer) position);
                 } else {
                     holder.itemView.setScaleX(0.9f);
                     holder.itemView.setScaleY(0.9f);
+                    ((MaterialCardView)holder.itemView).setChecked(true);
                     selectedIndex.add(position);
                 }
             }

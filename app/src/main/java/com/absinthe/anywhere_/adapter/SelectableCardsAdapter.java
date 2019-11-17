@@ -13,10 +13,10 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.databinding.ItemCardViewBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.utils.VibratorUtil;
-import com.absinthe.anywhere_.view.Editor;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
@@ -89,7 +89,13 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
             binding.setParam2(item.getParam2());
             binding.setParam3(item.getParam3());
             binding.setDescription(item.getDescription());
-            binding.ivAppIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item));
+
+            Glide.with(mContext)
+                    .load(UiUtils.getAppIconByPackageName(mContext, item))
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(binding.ivAppIcon);
+
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
                 binding.ivBadge.setImageResource(R.drawable.ic_added_shortcut);
                 binding.ivBadge.setVisibility(View.VISIBLE);

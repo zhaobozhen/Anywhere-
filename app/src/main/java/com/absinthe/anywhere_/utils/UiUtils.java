@@ -37,6 +37,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -309,7 +310,7 @@ public class UiUtils {
      */
     private static void setTopWidgetColor(AppCompatActivity activity, ActionBar actionBar, String type, String title) {
 
-        if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
+        if (type.equals(Const.ACTION_BAR_TYPE_DARK) || type.isEmpty()) {
             LogUtil.d(klass, "Dark-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
@@ -331,7 +332,7 @@ public class UiUtils {
                     activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 }
             }
-        } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT) || type.isEmpty()) {
+        } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
             LogUtil.d(klass, "Light-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
@@ -428,7 +429,11 @@ public class UiUtils {
         paint.setShader(gradient);
         RectF rectF = new RectF(0, 0, bgBitmap.getWidth(), bgBitmap.getHeight());
         canvas.drawRect(rectF, paint);
-        view.setImageBitmap(bgBitmap);
+        Glide.with(AnywhereApplication.sContext)
+                .load(bgBitmap)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(view);
     }
 
     public static void clearLightStatusBar(@NonNull View view) {

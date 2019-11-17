@@ -15,8 +15,9 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.utils.VibratorUtil;
-import com.absinthe.anywhere_.view.Editor;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
@@ -68,7 +69,11 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
                 binding.setAppName(item.getAppName());
             }
 
-            binding.ivAppIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item));
+            Glide.with(mContext)
+                    .load(UiUtils.getAppIconByPackageName(mContext, item))
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(binding.ivAppIcon);
             if (GlobalValues.sIsCardBackground) {
                 UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
             }
