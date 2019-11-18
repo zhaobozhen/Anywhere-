@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.utils.AnimationUtil;
 import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -33,9 +32,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.Objects;
 
 public class InitializeFragment extends Fragment implements MaterialButtonToggleGroup.OnButtonCheckedListener, LifecycleOwner {
+    private static final int CARD_ROOT = 1;
+    private static final int CARD_SHIZUKU = 2;
+    private static final int CARD_OVERLAY = 3;
+    private static final int CARD_POPUP = 4;
+
     private static InitializeViewModel mViewModel;
 
     private Context mContext;
+    private ViewGroup mContainerView, vgRoot, vgShizuku, vgOverlay, vgPopup;
     private MaterialCardView cvRoot, cvShizuku, cvOverlay, cvPopup;
     private Button btnRoot, btnShizukuCheck, btnShizuku, btnOverlay, btnPopup;
 
@@ -79,27 +84,9 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     }
 
     private void initView(View view) {
-        cvRoot = view.findViewById(R.id.cv_acquire_root_permission);
-        cvShizuku = view.findViewById(R.id.cv_acquire_shizuku_permission);
-        cvOverlay = view.findViewById(R.id.cv_acquire_overlay_permission);
-        cvPopup = view.findViewById(R.id.cv_acquire_popup_permission);
-
-        cvRoot.setVisibility(View.GONE);
-        cvShizuku.setVisibility(View.GONE);
-        cvOverlay.setVisibility(View.GONE);
-        cvPopup.setVisibility(View.GONE);
-
-        btnRoot = cvRoot.findViewById(R.id.btn_acquire_root_permission);
-        btnShizuku = cvShizuku.findViewById(R.id.btn_acquire_permission);
-        btnShizukuCheck = cvShizuku.findViewById(R.id.btn_check_shizuku_state);
-        btnOverlay = cvOverlay.findViewById(R.id.btn_acquire_overlay_permission);
-        btnPopup = cvPopup.findViewById(R.id.btn_acquire_popup_permission);
-        btnShizuku.setEnabled(false);
-
-        setOnClickListener();
+        mContainerView = view.findViewById(R.id.container);
 
         setHasOptionsMenu(true);
-
         MaterialButtonToggleGroup toggleGroup = view.findViewById(R.id.toggle_group);
         toggleGroup.addOnButtonCheckedListener(this);
     }
@@ -111,21 +98,28 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         switch (checkedId) {
             case R.id.btn_url_scheme:
                 if (isChecked) {
-                    hidePermissionCard();
+                    actCards(CARD_ROOT, false);
+                    actCards(CARD_SHIZUKU, false);
+                    actCards(CARD_OVERLAY, false);
+                    actCards(CARD_POPUP, false);
                     workingMode = Const.WORKING_MODE_URL_SCHEME;
                 }
                 break;
             case R.id.btn_root:
                 if (isChecked) {
-                    hidePermissionCard();
-                    showRootCard();
+                    actCards(CARD_SHIZUKU, false);
+                    actCards(CARD_ROOT, true);
+                    actCards(CARD_OVERLAY, true);
+                    actCards(CARD_POPUP, true);
                     workingMode = Const.WORKING_MODE_ROOT;
                 }
                 break;
             case R.id.btn_shizuku:
                 if (isChecked) {
-                    hidePermissionCard();
-                    showShizukuCard();
+                    actCards(CARD_ROOT, false);
+                    actCards(CARD_SHIZUKU, true);
+                    actCards(CARD_OVERLAY, true);
+                    actCards(CARD_POPUP, true);
                     workingMode = Const.WORKING_MODE_SHIZUKU;
                 }
                 break;
@@ -189,34 +183,6 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         return super.onOptionsItemSelected(item);
     }
 
-    private void setOnClickListener() {
-        btnRoot.setOnClickListener(view -> {
-            boolean result = PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath());
-            mViewModel.getIsRoot().setValue(result);
-        });
-
-        btnShizukuCheck.setOnClickListener(view -> {
-            boolean result = PermissionUtil.checkShizukuOnWorking(mContext);
-            mViewModel.getIsShizukuCheck().setValue(result);
-        });
-
-        btnShizuku.setOnClickListener(view -> {
-            boolean result = PermissionUtil.shizukuPermissionCheck((AppCompatActivity) mContext);
-            mViewModel.getIsShizuku().setValue(result);
-        });
-
-        btnOverlay.setOnClickListener(view -> {
-            boolean result = PermissionUtil.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
-            mViewModel.getIsOverlay().setValue(result);
-        });
-
-        btnPopup.setOnClickListener(view -> {
-            if (PermissionUtil.isMIUI()) {
-                PermissionUtil.goToMIUIPermissionManager(mContext);
-            }
-        });
-    }
-
     private void initObserver() {
         mViewModel.getIsRoot().observe(this, aBoolean -> {
             if (aBoolean) {
@@ -267,52 +233,91 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     }
 
-    private void hidePermissionCard() {
-        LogUtil.d(this.getClass(), "hidePermissionCard");
+    private void actCards(int card, boolean isAdd) {
 
-        if (cvRoot.getVisibility() == View.VISIBLE) {
-            AnimationUtil.showAndHiddenAnimation(cvRoot, AnimationUtil.AnimationState.STATE_GONE, AnimationUtil.SHORT);
+        switch (card) {
+            case CARD_ROOT:
+                if (vgRoot == null) {
+                    vgRoot = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                            R.layout.card_acquire_root_permission, mContainerView, false);
+                }
+                cvRoot = vgRoot.findViewById(R.id.cv_acquire_root_permission);
+                btnRoot = cvRoot.findViewById(R.id.btn_acquire_root_permission);
+                btnRoot.setOnClickListener(view -> {
+                    boolean result = PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath());
+                    mViewModel.getIsRoot().setValue(result);
+                });
+                if (isAdd) {
+                    mContainerView.removeView(vgRoot);
+                    mContainerView.addView(vgRoot, -1);
+                } else {
+                    mContainerView.removeView(vgRoot);
+                }
+                break;
+            case CARD_SHIZUKU:
+                if (vgShizuku == null) {
+                    vgShizuku = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                            R.layout.card_acquire_shizuku_permission, mContainerView, false);
+                }
+                cvShizuku = vgShizuku.findViewById(R.id.cv_acquire_shizuku_permission);
+                btnShizuku = cvShizuku.findViewById(R.id.btn_acquire_permission);
+                btnShizukuCheck = cvShizuku.findViewById(R.id.btn_check_shizuku_state);
+                btnShizuku.setEnabled(false);
+                btnShizukuCheck.setOnClickListener(view -> {
+                    boolean result = PermissionUtil.checkShizukuOnWorking(mContext);
+                    mViewModel.getIsShizukuCheck().setValue(result);
+                });
+
+                btnShizuku.setOnClickListener(view -> {
+                    boolean result = PermissionUtil.shizukuPermissionCheck((AppCompatActivity) mContext);
+                    mViewModel.getIsShizuku().setValue(result);
+                });
+                if (isAdd) {
+                    mContainerView.removeView(vgShizuku);
+                    mContainerView.addView(vgShizuku, -1);
+                } else {
+                    mContainerView.removeView(vgShizuku);
+                }
+                break;
+            case CARD_OVERLAY:
+                if (vgOverlay == null) {
+                    vgOverlay = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                            R.layout.card_acquire_overlay_permission, mContainerView, false);
+                }
+                cvOverlay = vgOverlay.findViewById(R.id.cv_acquire_overlay_permission);
+                btnOverlay = cvOverlay.findViewById(R.id.btn_acquire_overlay_permission);
+                btnOverlay.setOnClickListener(view -> {
+                    boolean result = PermissionUtil.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
+                    mViewModel.getIsOverlay().setValue(result);
+                });
+                if (isAdd) {
+                    mContainerView.removeView(vgOverlay);
+                    mContainerView.addView(vgOverlay, -1);
+                } else {
+                    mContainerView.removeView(vgOverlay);
+                }
+                break;
+            case CARD_POPUP:
+            default:
+                if (vgPopup == null) {
+                    vgPopup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                            R.layout.card_acquire_popup_permission, mContainerView, false);
+                }
+                cvPopup = vgPopup.findViewById(R.id.cv_acquire_popup_permission);
+                btnPopup = cvPopup.findViewById(R.id.btn_acquire_popup_permission);
+                btnPopup.setOnClickListener(view -> {
+                    if (PermissionUtil.isMIUI()) {
+                        PermissionUtil.goToMIUIPermissionManager(mContext);
+                    }
+                });
+                if (isAdd) {
+                    mContainerView.removeView(vgPopup);
+                    mContainerView.addView(vgPopup, -1);
+                } else {
+                    mContainerView.removeView(vgPopup);
+                }
+                break;
         }
 
-        if (cvShizuku.getVisibility() == View.VISIBLE) {
-            AnimationUtil.showAndHiddenAnimation(cvShizuku, AnimationUtil.AnimationState.STATE_GONE, AnimationUtil.SHORT);
-        }
-
-        if (cvOverlay.getVisibility() == View.VISIBLE) {
-            AnimationUtil.showAndHiddenAnimation(cvOverlay, AnimationUtil.AnimationState.STATE_GONE, AnimationUtil.SHORT);
-        }
-
-        if (cvPopup.getVisibility() == View.VISIBLE) {
-            AnimationUtil.showAndHiddenAnimation(cvPopup, AnimationUtil.AnimationState.STATE_GONE, AnimationUtil.SHORT);
-        }
     }
-
-    private void showRootCard() {
-        if (cvRoot.getVisibility() == View.GONE) {
-            AnimationUtil.showAndHiddenAnimation(cvRoot, AnimationUtil.AnimationState.STATE_SHOW, AnimationUtil.SHORT);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && cvOverlay.getVisibility() == View.GONE) {
-            AnimationUtil.showAndHiddenAnimation(cvOverlay, AnimationUtil.AnimationState.STATE_SHOW, AnimationUtil.SHORT);
-        }
-
-        if (PermissionUtil.isMIUI() && cvPopup.getVisibility() == View.GONE) {
-            AnimationUtil.showAndHiddenAnimation(cvPopup, AnimationUtil.AnimationState.STATE_SHOW, AnimationUtil.SHORT);
-        }
-    }
-
-    private void showShizukuCard() {
-        if (cvShizuku.getVisibility() == View.GONE) {
-            AnimationUtil.showAndHiddenAnimation(cvShizuku, AnimationUtil.AnimationState.STATE_SHOW, AnimationUtil.SHORT);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && cvOverlay.getVisibility() == View.GONE) {
-            AnimationUtil.showAndHiddenAnimation(cvOverlay, AnimationUtil.AnimationState.STATE_SHOW, AnimationUtil.SHORT);
-        }
-
-        if (PermissionUtil.isMIUI() && cvPopup.getVisibility() == View.GONE) {
-            AnimationUtil.showAndHiddenAnimation(cvPopup, AnimationUtil.AnimationState.STATE_SHOW, AnimationUtil.SHORT);
-        }
-    }
-
 }
