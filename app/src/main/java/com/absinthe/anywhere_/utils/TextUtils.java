@@ -192,10 +192,23 @@ public class TextUtils {
         return simpleDateFormat.format(date);
     }
 
+    /**
+     * Judge that whether a string contains the other string **ignore case**
+     *
+     * @param str main string
+     * @param subString our target
+     * @return true if contains
+     */
     public static boolean containsIgnoreCase(String str, String subString) {
         return str.toLowerCase().contains(subString.toLowerCase());
     }
 
+    /**
+     * Get package name by adb command
+     *
+     * @param cmd adb command
+     * @return package name
+     */
     public static String getPkgNameByCommand(String cmd) {
         String[] splits = cmd.split(" ");
         if (cmd.contains("am start -n")) {
@@ -208,6 +221,12 @@ public class TextUtils {
         }
     }
 
+    /**
+     * Get package name by URL Scheme
+     *
+     * @param url URL Scheme
+     * @return package name
+     */
     public static String getPkgNameByUrlScheme(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));

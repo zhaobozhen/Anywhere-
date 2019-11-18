@@ -10,7 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class CipherUtils {
 
-    private static final String CipherMode = "AES/CFB/NoPadding";//使用 CFB 加密，需要设置 IV
+    private static final String CipherMode = "AES/CFB/NoPadding";   //Use CFB to encrypt, IV is need
     private static final String KEY = "absinthe" + "eeeeeeee" + "eeeeeeee" + "eeeeeeee";
 
     private static SecretKeySpec generateKey() {
@@ -21,10 +21,10 @@ public class CipherUtils {
     }
 
     /**
-     * 对字符串加密
+     * Encrypt a string
      *
-     * @param data 源字符串
-     * @return 加密后的字符串
+     * @param data Source string
+     * @return Encrypted string
      */
     public static String encrypt(String data) {
         try {
@@ -41,10 +41,10 @@ public class CipherUtils {
     }
 
     /**
-     * 对字符串解密
+     * Decrypted a string
      *
-     * @param data 已被加密的字符串
-     * @return 解密得到的字符串
+     * @param data Encrypted string
+     * @return Decrypted string
      */
     public static String decrypt(String data) {
         try {

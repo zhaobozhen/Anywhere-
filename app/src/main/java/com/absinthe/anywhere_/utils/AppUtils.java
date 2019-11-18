@@ -115,7 +115,7 @@ public class AppUtils {
             for (int i = 0; i < packageInfos.size(); i++) {
                 PackageInfo packageInfo = packageInfos.get(i);
 
-                //过滤掉系统app
+                //Filter system apps
                 if (!showSystem) {
                     if ((ApplicationInfo.FLAG_SYSTEM & packageInfo.applicationInfo.flags) != 0) {
                         continue;

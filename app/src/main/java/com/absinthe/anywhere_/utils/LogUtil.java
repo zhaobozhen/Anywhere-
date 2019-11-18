@@ -2,7 +2,11 @@ package com.absinthe.anywhere_.utils;
 
 import android.util.Log;
 
+/**
+ * Logger
+ */
 public class LogUtil {
+
     public static void v(Class klass, Object... contents) {
         StringBuilder sb = new StringBuilder();
 

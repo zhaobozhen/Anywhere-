@@ -58,10 +58,11 @@ public class UiUtils {
 
     /**
      * Get app icon by package name
+     *
      * @param context for get manager
-     * @param item for get package name
+     * @param item    for get package name
      */
-    public static Drawable getAppIconByPackageName(Context context, AnywhereEntity item){
+    public static Drawable getAppIconByPackageName(Context context, AnywhereEntity item) {
         int type = item.getAnywhereType();
         String apkTempPackageName = "";
 
@@ -82,48 +83,59 @@ public class UiUtils {
         }
 
         Drawable drawable;
-        try{
+        try {
             if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty() || Settings.sIconPack == null) {
                 drawable = context.getPackageManager().getApplicationIcon(apkTempPackageName);
             } else {
                 drawable = Settings.sIconPack.getDrawableIconForPackage(apkTempPackageName, context.getPackageManager().getApplicationIcon(apkTempPackageName));
             }
-        }
-        catch (PackageManager.NameNotFoundException e){
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
         }
         return drawable;
     }
 
-    public static Drawable getAppIconByPackageName(Context context, String packageName){
+    public static Drawable getAppIconByPackageName(Context context, String packageName) {
         Drawable drawable;
-        try{
+        try {
             if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty() || Settings.sIconPack == null) {
                 drawable = context.getPackageManager().getApplicationIcon(packageName);
             } else {
                 drawable = Settings.sIconPack.getDrawableIconForPackage(packageName, context.getPackageManager().getApplicationIcon(packageName));
             }
-        }
-        catch (PackageManager.NameNotFoundException e){
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
         }
         return drawable;
     }
 
+    /**
+     * Get activity icon
+     *
+     * @param context context
+     * @param cn      componentName
+     * @return activity icon
+     */
     public static Drawable getActivityIcon(Context context, ComponentName cn) {
         Drawable drawable;
-        try{
+        try {
             drawable = context.getPackageManager().getActivityIcon(cn);
-        }
-        catch (PackageManager.NameNotFoundException e){
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
         }
         return drawable;
     }
 
+    /**
+     * Get activity label name
+     *
+     * @param context context
+     * @param cn      componentName
+     * @return activity label name
+     */
     public static String getActivityLabel(Context context, ComponentName cn) {
         PackageManager packageManager = context.getPackageManager();
         try {
@@ -135,6 +147,13 @@ public class UiUtils {
         }
     }
 
+    /**
+     * Judge that whether an activity is exported
+     *
+     * @param context context
+     * @param cn      componentName
+     * @return true if the activity is exported
+     */
     public static boolean isActivityExported(Context context, ComponentName cn) {
         PackageManager packageManager = context.getPackageManager();
         try {
@@ -148,7 +167,8 @@ public class UiUtils {
 
     /**
      * Set action bar title
-     * @param activity Activity for bind action bar
+     *
+     * @param activity  Activity for bind action bar
      * @param actionBar our target
      */
     public static void setActionBarTitle(AppCompatActivity activity, ActionBar actionBar) {
@@ -170,6 +190,8 @@ public class UiUtils {
 
     /**
      * get action bar title by working mode
+     *
+     * @return action bar title
      */
     public static String getActionBarTitle() {
         switch (GlobalValues.sWorkingMode) {
@@ -187,6 +209,7 @@ public class UiUtils {
 
     /**
      * Set action bar style
+     *
      * @param activity Activity for bind action bar
      */
     public static void setActionBarTransparent(AppCompatActivity activity) {
@@ -203,6 +226,7 @@ public class UiUtils {
 
     /**
      * Reset action bar style
+     *
      * @param activity Activity for bind action bar
      */
     public static void resetActionBar(AppCompatActivity activity) {
@@ -217,7 +241,8 @@ public class UiUtils {
 
     /**
      * Load custom background pic
-     * @param context Context for use Glide
+     *
+     * @param context   Context for use Glide
      * @param imageView Load pic in this view
      */
     public static void loadBackgroundPic(Context context, ImageView imageView) {
@@ -232,6 +257,7 @@ public class UiUtils {
 
     /**
      * Judge that the action bar title color should be
+     *
      * @param activity Activity for use Glide
      */
     public static void setAdaptiveActionBarTitleColor(AppCompatActivity activity, ActionBar actionBar, String title) {
@@ -289,6 +315,12 @@ public class UiUtils {
 
     }
 
+    /**
+     * Make the card use icon's color
+     *
+     * @param view card view
+     * @param drawable icon drawable
+     */
     public static void setCardUseIconColor(View view, Drawable drawable) {
         Palette.from(drawableToBitmap(drawable)).generate(p -> {
             if (p != null) {
@@ -303,10 +335,11 @@ public class UiUtils {
 
     /**
      * Set action bar title color and status bar and navigation bar style
-     * @param activity Activity for bind action bar
+     *
+     * @param activity  Activity for bind action bar
      * @param actionBar our target
-     * @param type dark or light
-     * @param title action bar title
+     * @param type      dark or light
+     * @param title     action bar title
      */
     private static void setTopWidgetColor(AppCompatActivity activity, ActionBar actionBar, String type, String title) {
         if (GlobalValues.sBackgroundUri.isEmpty() && type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
@@ -352,6 +385,8 @@ public class UiUtils {
 
     /**
      * Judge that whether open the dark mode
+     *
+     * @return MODE_NIGHT_YES or MODE_NIGHT_NO
      */
     public static int getAutoDarkMode() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -366,19 +401,20 @@ public class UiUtils {
 
     /**
      * transform drawable object to a bitmap object
+     *
      * @param drawable our target
      */
-    public static Bitmap drawableToBitmap (Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if(bitmapDrawable.getBitmap() != null) {
+            if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }
         }
 
-        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
             bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
         } else {
             bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -392,7 +428,8 @@ public class UiUtils {
 
     /**
      * Set visibility of a view
-     * @param view our target
+     *
+     * @param view          our target
      * @param trueIsVisible if is true that set visible
      */
     public static void setVisibility(@NonNull View view, boolean trueIsVisible) {
@@ -401,7 +438,8 @@ public class UiUtils {
 
     /**
      * Convert dip to px
-     * @param context to get resource
+     *
+     * @param context  to get resource
      * @param dipValue our target
      */
     public static int dipToPixels(Context context, float dipValue) {
@@ -411,9 +449,10 @@ public class UiUtils {
 
     /**
      * Create a linear gradient bitmap picture
-     * @param view target to set background
+     *
+     * @param view      target to set background
      * @param darkColor primary color
-     * @param color secondary color
+     * @param color     secondary color
      */
     private static void createLinearGradientBitmap(ImageView view, int darkColor, int color) {
         int[] bgColors = new int[2];
@@ -423,7 +462,7 @@ public class UiUtils {
         if (view == null || view.getWidth() <= 0 || view.getHeight() <= 0) {
             return;
         }
-        Bitmap bgBitmap = Bitmap.createBitmap(view.getWidth(),view.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bgBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas();
         Paint paint = new Paint();
 
@@ -440,6 +479,11 @@ public class UiUtils {
                 .into(view);
     }
 
+    /**
+     * Clear light status bar state
+     *
+     * @param view decor view
+     */
     public static void clearLightStatusBar(@NonNull View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int flags = view.getSystemUiVisibility();
@@ -448,6 +492,12 @@ public class UiUtils {
         }
     }
 
+    /**
+     * Judge that whether is dark mode
+     *
+     * @param context context
+     * @return true if is dark mode
+     */
     public static boolean isDarkMode(Context context) {
         switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
             case Configuration.UI_MODE_NIGHT_YES:

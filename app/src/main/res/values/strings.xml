@@ -74,7 +74,7 @@
     <string name="settings_category_others">Others</string>
 
     <string name="settings_working_mode">Working Mode</string>
-    <string name="settings_change_background">Change the Background</string>
+    <string name="settings_change_background">Change Background</string>
     <string name="settings_reset_background">Reset Background</string>
     <string name="settings_dark_mode">Dark Mode</string>
     <string name="settings_dark_mode_oled">OLED dark mode</string>
@@ -177,7 +177,7 @@
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
     <string name="settings_backup">Backup</string>
-    <string name="settings_category_normal">Generally</string>
+    <string name="settings_category_normal">General</string>
     <string name="settings_dark_mode_summary">Enable dark mode at night</string>
 
     <!--  Settings  -->

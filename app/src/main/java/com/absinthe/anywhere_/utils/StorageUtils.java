@@ -28,6 +28,13 @@ public class StorageUtils {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
+    /**
+     * Create a file
+     *
+     * @param activity context
+     * @param mimeType MIME type of the file
+     * @param fileName file name
+     */
     public static void createFile(AppCompatActivity activity, String mimeType, String fileName) {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
 
@@ -41,6 +48,11 @@ public class StorageUtils {
         activity.startActivityForResult(intent, Const.REQUEST_CODE_WRITE_FILE);
     }
 
+    /**
+     * Export Anywhere- entities to json string
+     *
+     * @return json string
+     */
     public static String ExportAnywhereEntityJsonString() {
         Gson gson = new Gson();
 

@@ -154,7 +154,7 @@ public class IconPackManager {
             return null;
         }
 
-        public Drawable getDrawableIconForPackage(String appPackageName, Drawable defaultDrawable) {
+        Drawable getDrawableIconForPackage(String appPackageName, Drawable defaultDrawable) {
             if (!mLoaded) {
                 load();
             }
@@ -199,7 +199,10 @@ public class IconPackManager {
             Intent launchIntent = pm.getLaunchIntentForPackage(appPackageName);
             String componentName = null;
             if (launchIntent != null) {
-                componentName = pm.getLaunchIntentForPackage(appPackageName).getComponent().toString();
+                componentName = Objects.requireNonNull(
+                        Objects.requireNonNull(
+                        pm.getLaunchIntentForPackage(appPackageName))
+                        .getComponent()).toString();
             }
             String drawable = mPackagesDrawables.get(componentName);
             if (drawable != null) {

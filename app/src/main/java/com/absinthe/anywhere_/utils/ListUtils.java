@@ -17,6 +17,7 @@ import java.util.Locale;
  * Sort the Anywhere- list
  */
 public class ListUtils {
+
     public static List<AnywhereEntity> sort(List<AnywhereEntity> list) {
         switch (GlobalValues.sSortMode) {
             case Const.SORT_MODE_TIME_DESC:

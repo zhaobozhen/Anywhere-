@@ -1,0 +1,188 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Anywhere-</string>
+    <string name="settings_title">設置</string>
+    <string name="about_title">關於</string>
+    <string name="shortcuts_title">Shortcuts</string>
+    <string name="backup_title">備份</string>
+    <string name="app_list_title">活動列表</string>
+    <string name="tile_collector_on">啟動 Collector</string>
+    <string name="tile_collector_off">關閉 Collector</string>
+    <string name="shortcut_add">添加 Anywhere-</string>
+    <string name="slogan">Anywhere- 去你想去的地方</string>
+    <string name="welcome_title">歡迎使用 Anywhere-</string>
+    <string name="welcome_start_button">開始</string>
+
+    <!--  Collector  -->
+    <string name="toast_permission_overlap">請先授予 \"Anywhere-\" 懸浮窗權限</string>
+    <string name="toast_collector_opened">已開啟 Collector</string>
+    <string name="ib_collector_todo">Collector</string>
+    <string name="accessibility_service_description">開啟功能, 以選擇當前 Activity</string>
+    <string name="dialog_permission_title">需要權限</string>
+    <string name="dialog_permission_message">需要 Shizuku 權限，MIUI 由於系統限制，請到 Shizuku 打開</string>
+
+    <!--  RecyclerView Adapter  -->
+    <string name="dialog_delete_title">刪除</string>
+    <string name="dialog_delete_message">確定要刪除</string>
+    <string name="dialog_delete_positive_button">確定</string>
+    <string name="dialog_delete_negative_button">取消</string>
+    <string name="dialog_go_to_perm_button">去授予</string>
+    <string name="dialog_add_shortcut_title">添加 Shortcuts</string>
+    <string name="dialog_add_shortcut_message">確定要添加</string>
+    <string name="dialog_remove_shortcut_title">刪除 Shortcuts</string>
+    <string name="dialog_remove_shortcut_message">確定要刪除</string>
+    <string name="dialog_cant_add_shortcut_title">無法添加 Shortcuts</string>
+    <string name="dialog_cant_add_shortcut_message">最多只可添加 3 個 Shortcuts</string>
+    <string name="dialog_add_home_shortcut_title">添加桌面快捷方式</string>
+
+    <!--  BottomSheetDialog  -->
+    <string name="bsd_btn_done">完成</string>
+    <string name="bsd_error_should_not_empty">不能為空</string>
+
+    <string name="bsd_text_input_layout_app_name_label">App 名稱</string>
+    <string name="bsd_text_input_layout_package_name_label">包名</string>
+    <string name="bsd_text_input_layout_url_scheme_label">URL Scheme</string>
+    <string name="bsd_text_input_layout_class_name_label">類名</string>
+    <string name="bsd_text_input_layout_description_label">描述(選填)</string>
+    <string name="bsd_text_input_layout_intent_extra_label">添加 Intent Extras(選填)</string>
+
+    <string name="bsd_text_input_layout_app_name_helper_text">給 Anywhere- 起個名字吧</string>
+    <string name="bsd_text_input_layout_package_name_helper_text">App 包名，一般來說默認即可</string>
+    <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme,可在捷徑社區尋找</string>
+    <string name="bsd_text_input_layout_class_name_helper_text">App 類名，一般來說默認即可</string>
+    <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 吧</string>
+    <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">啟動 Intent 時傳遞參數，格式：\n[--cmd] extraName1 value1\n[--cmd] extraName2 value2 …\ncmd 指令可前往幫助查看</string>
+
+    <string name="bsd_new_url_scheme_name">New URL Scheme</string>
+
+    <!--  AppBarMenu  -->
+    <string name="menu_sort">排序</string>
+    <string name="menu_settings">設置</string>
+    <string name="menu_about">關於</string>
+    <string name="menu_delete">刪除</string>
+    <string name="menu_done">完成</string>
+    <string name='menu_more'>更多</string>
+    <string name='menu_trying_run'>測試</string>
+    <string name='menu_search'>搜索</string>
+    <string name='menu_show_system_app'>顯示系統應用</string>
+    <string name='menu_hide_system_app'>隱藏系統應用</string>
+
+    <string name="menu_sort_by_time_desc">按添加時間降序 (9–0)</string>
+    <string name="menu_sort_by_time_asc">按添加時間升序 (0–9)</string>
+    <string name="menu_sort_by_name_desc">按名字降序 (Z–A)</string>
+    <string name="menu_sort_by_name_asc">按名字升序 (A–Z)</string>
+    <string name="menu_sort_manually">拖拽排序</string>
+    <string name="menu_multi_select">多選刪除</string>
+
+    <!--  Settings  -->
+    <string name="settings_category_normal">常規</string>
+    <string name="settings_category_advanced">高級</string>
+    <string name="settings_category_others">其他</string>
+
+    <string name="settings_working_mode">工作模式</string>
+    <string name="settings_change_background">更換背景圖片</string>
+    <string name="settings_reset_background">重置背景</string>
+    <string name="settings_dark_mode">夜間模式</string>
+    <string name="settings_dark_mode_oled">OLED 夜間模式</string>
+    <string name="settings_stream_card_mode">瀑布流卡片模式</string>
+    <string name="settings_stream_card_single_line">摺疊為單行</string>
+    <string name="settings_card_background">卡片背景色</string>
+    <string name="settings_clear_shortcuts">清除 Shortcuts</string>
+    <string name="settings_icon_pack">圖標包</string>
+    <string name="settings_backup_and_restore">備份和恢復</string>
+    <string name="settings_help">幫助</string>
+    <string name="settings_about">關於</string>
+
+    <string name="settings_working_mode_summary">選擇一個工作模式</string>
+    <string name="settings_change_background_summary">為主頁更換一張背景圖片吧</string>
+    <string name="settings_reset_background_summary">將背景重置為空白</string>
+    <string name="settings_dark_mode_summary">在夜晚使用夜間模式</string>
+    <string name="settings_dark_mode_oled_summary">在 OLED 設備上啟用純黑背景</string>
+    <string name="settings_stream_card_mode_summary">使同一頁面可展示更多的卡片</string>
+    <string name="settings_stream_card_single_line_summary">進一步壓縮卡片大小</string>
+    <string name="settings_card_background_summary">取圖標主導顏色為背景</string>
+    <string name="settings_clear_shortcuts_summary">重置所有 Shortcuts</string>
+    <string name="settings_icon_pack_summary">更換圖標包</string>
+    <string name="settings_backup_summary">導入和導出所有的 Anywhere-</string>
+    <string name="settings_help_summary">幫助文檔</string>
+    <string name="settings_about_summary">這裏是 Anywhere- !</string>
+
+    <string name="settings_backup">備份</string>
+    <string name="settings_restore">恢復</string>
+    <string name="settings_backup_backup_title">創建新的備份文件</string>
+    <string name="settings_backup_restore_title">從存儲文件中恢復</string>
+
+    <string name="settings_backup_backup_summary">在存儲中創建一個備份文件來導出 Anywhere-</string>
+    <string name="settings_backup_restore_summary">選擇一個 *.awbackups 後綴的文件來導入 Anywhere-</string>
+
+    <!--  Toast  -->
+    <string name="toast_root_permission_denied">Root 權限被拒絕</string>
+    <string name="toast_open_pop_up_when_background_permission">MIUI 系統請打開 後台彈出界面 權限，否則可能存在問題</string>
+    <string name="toast_not_install_shizuku">未安裝 Shizuku</string>
+    <string name="toast_change_work_mode">請切換工作模式</string>
+    <string name="toast_check_perm">請檢查權限</string>
+    <string name="toast_collector_service_launch_failed">服務啟動失敗</string>
+    <string name="toast_wrong_cmd">指令錯誤</string>
+    <string name="toast_adb_result_process_failed">解析錯誤</string>
+    <string name="toast_try_to_add_pinned_shortcut">已嘗試添加</string>
+    <string name="toast_backup_success">備份成功</string>
+    <string name="toast_restore_success">恢復成功</string>
+    <string name="toast_defrosting">正在解凍</string>
+    <string name="toast_restart_to_active">重啟以生效</string>
+
+
+    <!--  Dialog  -->
+    <string name="dialog_reset_background_confirm_title">重置</string>
+    <string name="dialog_setup_url_scheme_title">設置 URL Scheme</string>
+    <string name="dialog_delete_selected_title">提示</string>
+
+    <string name="dialog_message_shizuku_not_running">請檢查 Shizuku 是否正常運行</string>
+    <string name="dialog_reset_background_confirm_message">確定要重置背景嗎？</string>
+    <string name="dialog_url_scheme_community">捷徑社區</string>
+    <string name="dialog_message_perm_not_ever">尚有未授予的權限，確定要進入嗎？</string>
+    <string name="dialog_message_same_app_name">似乎有相似的 Anywhere-，要添加嗎？</string>
+    <string name="dialog_reset_shortcuts_confirm_message">確定要重置所有 Shortcuts 嗎？</string>
+    <string name="dialog_message_ice_box_perm_not_support">新版 MIUI 無法自動授予自定義權限，點擊 去授予 進入原生應用管理頁面並手動授予權限</string>
+    <string name="dialog_title_choose_icon_pack">選擇圖標包</string>
+    <string name="dialog_delete_selected_message">確定刪除所選項嗎?</string>
+
+    <string name="about_text">Anywhere- 是一個 App 頁面的集合 App。</string>
+
+    <!--  Initialize  -->
+    <string name="title_select_working_mode">選擇工作模式</string>
+    <string name="title_acquire_root_permission">獲取 Root 權限</string>
+    <string name="subtitle_acquire_root_permission">使用 Root 權限執行 adb 指令</string>
+    <string name="title_acquire_overlay_permission">獲取懸浮窗權限</string>
+    <string name="subtitle_acquire_overlay_permission">懸浮窗權限用於生成一個懸浮按鈕來選擇頁面</string>
+    <string name="title_acquire_popup_permission">獲取後台彈出界面權限</string>
+    <string name="subtitle_acquire_popup_permission">MIUI 可能需要獲取此權限來使應用正常運行，此權限非標準權限，無法獲取授權狀態</string>
+    <string name="title_acquire_shizuku_permission">獲取 Shizuku 權限</string>
+    <string name="subtitle_acquire_shizuku_permission">使用 Shizuku 權限執行 adb 指令</string>
+    <string name="subtitle_check_shizuku_state">檢查 Shizuku 服務狀態</string>
+    <string name="subtitle_check_shizuku_permission">獲取 Shizuku 權限</string>
+    <string name="first_launch_guide_title">創建你的第一個 Anywhere- 吧！</string>
+
+    <string name="btn_url_scheme">URL Scheme</string>
+    <string name="btn_normal">Normal</string>
+    <string name="btn_root">Root</string>
+    <string name="btn_shizuku">Shizuku</string>
+    <string name="btn_activity_list">活動列表</string>
+
+    <string name="btn_acquire_permission">點擊獲取</string>
+    <string name="btn_acquired">已獲取</string>
+
+    <string name="btn_check_permission">點擊檢查</string>
+    <string name="btn_checked">已檢查</string>
+
+    <!--  Description  -->
+    <string name="background_todo">Main page background</string>
+    <string name="anywhere_more_todo">More</string>
+    <string name="welcome_logo_todo">Welcome logo</string>
+    <string name="initialize_done_todo">Done</string>
+    <string name="icon_badge_todo">Badge</string>
+
+    <!--  Settings  -->
+    <string name="array_dark_mode_off">關閉</string>
+    <string name="array_dark_mode_on">開啟</string>
+    <string name="array_dark_mode_auto">自動</string>
+    <string name="array_dark_mode_system">跟隨系統</string>
+</resources>

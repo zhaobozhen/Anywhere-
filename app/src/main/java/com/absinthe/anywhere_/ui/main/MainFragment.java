@@ -243,7 +243,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
-        List<AnywhereEntity> anywhereEntityList = new ArrayList<>();
+        List<AnywhereEntity> anywhereEntityList = new ArrayList<>();    //Todo Gradle warning 使用了未经检查或不安全的操作
 
         if (GlobalValues.sIsStreamCardMode) {
             mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -362,12 +362,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
                         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
                         ((Activity) mContext).invalidateOptionsMenu();
-                        VibratorUtil.vibrate(mContext, VibratorUtil.HEAVY_CLICK);
+                        VibratorUtil.vibrate(mContext, 50);
                         break;
                     case R.id.multi_select:
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SELECT);
                         ((Activity) mContext).invalidateOptionsMenu();
-                        VibratorUtil.vibrate(mContext, VibratorUtil.HEAVY_CLICK);
+                        VibratorUtil.vibrate(mContext, 50);
                         break;
                     default:
                 }
