@@ -71,8 +71,7 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
 
             Glide.with(mContext)
                     .load(UiUtils.getAppIconByPackageName(mContext, item))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into(binding.ivAppIcon);
             if (GlobalValues.sIsCardBackground) {
                 UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));

@@ -24,7 +24,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.absinthe.anywhere_.AnywhereApplication;
@@ -62,7 +61,6 @@ import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
@@ -81,6 +79,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     static MainFragment newInstance() {
         return new MainFragment();
     }
+
     public static AnywhereViewModel getViewModelInstance() {
         return mViewModel;
     }
@@ -146,7 +145,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                             param2.charAt(0) == '.' ? param1 + param2 : param2))) {
                         exported = 100;
                     }
-                    LogUtil.d(this.getClass(),"ex=",exported);
                     AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, param1, param2, param3, "",
                             AnywhereType.ACTIVITY + exported, timeStamp);
                     Editor editor = new Editor(MainActivity.getInstance(), Editor.ANYWHERE)
@@ -269,7 +267,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mItemTouchHelper = new ItemTouchHelper(touchCallBack);
         mItemTouchHelper.attachToRecyclerView(null);
 
-        ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
+//        ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
 
     }
 
@@ -285,7 +283,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 if (view != null) {
                     view.setScaleX(1.0f);
                     view.setScaleY(1.0f);
-                    ((MaterialCardView)view).setChecked(false);
+                    ((MaterialCardView) view).setChecked(false);
                 }
             }
         }
@@ -363,18 +361,23 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     case R.id.sort:
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
                         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
-                        ((Activity)mContext).invalidateOptionsMenu();
+                        ((Activity) mContext).invalidateOptionsMenu();
                         VibratorUtil.vibrate(mContext, VibratorUtil.HEAVY_CLICK);
                         break;
                     case R.id.multi_select:
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SELECT);
-                        ((Activity)mContext).invalidateOptionsMenu();
+                        ((Activity) mContext).invalidateOptionsMenu();
                         VibratorUtil.vibrate(mContext, VibratorUtil.HEAVY_CLICK);
                         break;
                     default:
                 }
 
-                adapter.setItems(ListUtils.sort(getViewModelInstance().getAllAnywhereEntities().getValue()));
+                if (popupItem.getItemId() == R.id.sort_by_time_desc ||
+                        popupItem.getItemId() == R.id.sort_by_time_asc ||
+                        popupItem.getItemId() == R.id.sort_by_name_desc ||
+                        popupItem.getItemId() == R.id.sort_by_name_asc) {
+                    adapter.setItems(ListUtils.sort(getViewModelInstance().getAllAnywhereEntities().getValue()));
+                }
                 return true;
             });
 
@@ -393,9 +396,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
         } else if (item.getItemId() == R.id.toolbar_delete) {
             new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                    .setTitle("提示")
-                    .setMessage("确定删除所选项吗?")
-                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> adapter.deleteSelect())
+                    .setTitle(R.string.dialog_delete_selected_title)
+                    .setMessage(R.string.dialog_delete_selected_message)
+                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                        resetSelectState();
+                        adapter.deleteSelect();
+                    })
                     .setNegativeButton(R.string.dialog_delete_negative_button, null)
                     .show();
         }
@@ -418,7 +424,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         mViewModel.getCommand().observe(this, PermissionUtil::execCmd);
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
-            adapter.setItems(anywhereEntities);
+            if (!mViewModel.refreshLock) {
+                adapter.setItems(anywhereEntities);
+            }
             AppUtils.updateWidget(AnywhereApplication.sContext);
         });
         mViewModel.getWorkingMode().observe(this, s -> {

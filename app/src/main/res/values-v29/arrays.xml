@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="list_dark_mode" tools:ignore="InconsistentArrays">
-        <item>关闭</item>
-        <item>开启</item>
-        <item>自动</item>
-        <item>跟随系统</item>
+        <item>@string/array_dark_mode_off</item>
+        <item>@string/array_dark_mode_on</item>
+        <item>@string/array_dark_mode_auto</item>
+        <item>@string/array_dark_mode_system</item>
     </string-array>
 
     <string-array name="list_dark_mode_value" tools:ignore="InconsistentArrays">

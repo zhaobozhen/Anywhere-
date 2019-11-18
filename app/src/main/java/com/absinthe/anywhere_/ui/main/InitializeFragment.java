@@ -43,6 +43,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     private ViewGroup mContainerView, vgRoot, vgShizuku, vgOverlay, vgPopup;
     private MaterialCardView cvRoot, cvShizuku, cvOverlay, cvPopup;
     private Button btnRoot, btnShizukuCheck, btnShizuku, btnOverlay, btnPopup;
+    private boolean bRoot, bShizuku, bOverlay, bPopup;
 
     private String workingMode;
 
@@ -85,6 +86,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     private void initView(View view) {
         mContainerView = view.findViewById(R.id.container);
+        bRoot = bShizuku = bOverlay = bPopup = false;
 
         setHasOptionsMenu(true);
         MaterialButtonToggleGroup toggleGroup = view.findViewById(R.id.toggle_group);
@@ -248,10 +250,13 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                     mViewModel.getIsRoot().setValue(result);
                 });
                 if (isAdd) {
-                    mContainerView.removeView(vgRoot);
-                    mContainerView.addView(vgRoot, -1);
+                    if (!bRoot) {
+                        mContainerView.addView(vgRoot, 1);
+                        bRoot = true;
+                    }
                 } else {
                     mContainerView.removeView(vgRoot);
+                    bRoot = false;
                 }
                 break;
             case CARD_SHIZUKU:
@@ -273,10 +278,13 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                     mViewModel.getIsShizuku().setValue(result);
                 });
                 if (isAdd) {
-                    mContainerView.removeView(vgShizuku);
-                    mContainerView.addView(vgShizuku, -1);
+                    if (!bShizuku) {
+                        mContainerView.addView(vgShizuku, 1);
+                        bShizuku = true;
+                    }
                 } else {
                     mContainerView.removeView(vgShizuku);
+                    bShizuku = false;
                 }
                 break;
             case CARD_OVERLAY:
@@ -291,10 +299,13 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                     mViewModel.getIsOverlay().setValue(result);
                 });
                 if (isAdd) {
-                    mContainerView.removeView(vgOverlay);
-                    mContainerView.addView(vgOverlay, -1);
+                    if (!bOverlay) {
+                        mContainerView.addView(vgOverlay, -1);
+                        bOverlay = true;
+                    }
                 } else {
                     mContainerView.removeView(vgOverlay);
+                    bOverlay = false;
                 }
                 break;
             case CARD_POPUP:
@@ -311,10 +322,13 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                     }
                 });
                 if (isAdd) {
-                    mContainerView.removeView(vgPopup);
-                    mContainerView.addView(vgPopup, -1);
+                    if (!bPopup) {
+                        mContainerView.addView(vgPopup, -1);
+                        bPopup = true;
+                    }
                 } else {
                     mContainerView.removeView(vgPopup);
+                    bPopup = false;
                 }
                 break;
         }

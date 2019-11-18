@@ -20,7 +20,6 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
-import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
@@ -162,17 +161,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     private void openEditor(AnywhereEntity item, int type, int position) {
-        Editor.OnEditorListener listener = new Editor.OnEditorListener() {
-            @Override
-            public void onDelete() {
-                deleteAnywhereActivity(mEditor, item, position);
-            }
-
-//            @Override
-//            public void onChange() {
-//                notifyItemChanged(position);
-//            }
-        };
+        Editor.OnEditorListener listener = () -> deleteAnywhereActivity(mEditor, item, position);
 
         mEditor = new Editor(MainActivity.getInstance(), type)
                 .item(item)
@@ -203,6 +192,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
     public void updateSortedList() {
         new Thread(() -> {
+            MainFragment.getViewModelInstance().refreshLock = true;
             long startTime = System.currentTimeMillis();
 
             for (int iter = 0; iter < items.size(); iter++) {
@@ -212,6 +202,12 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         startTime - iter * 100 + "");
                 MainFragment.getViewModelInstance().update(ae);
             }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            MainFragment.getViewModelInstance().refreshLock = false;
         }).start();
     }
 
@@ -237,7 +233,6 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     public void deleteSelect() {
         List<AnywhereEntity> list = new ArrayList<>();
         for (int index : selectedIndex) {
-            LogUtil.d(this.getClass(), "index=",index);
             list.add(items.get(index));
         }
         for (AnywhereEntity ae : list) {

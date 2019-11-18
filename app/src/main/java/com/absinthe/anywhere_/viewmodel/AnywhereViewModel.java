@@ -22,6 +22,8 @@ public class AnywhereViewModel extends AndroidViewModel {
     private MutableLiveData<String> mBackground = null;
     private MutableLiveData<String> mCardMode = null;
 
+    public boolean refreshLock = false;
+
     public AnywhereViewModel(Application application) {
         super(application);
         mRepository = new AnywhereRepository(application);

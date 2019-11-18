@@ -309,6 +309,10 @@ public class UiUtils {
      * @param title action bar title
      */
     private static void setTopWidgetColor(AppCompatActivity activity, ActionBar actionBar, String type, String title) {
+        if (GlobalValues.sBackgroundUri.isEmpty() && type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
+            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
+            type = Const.ACTION_BAR_TYPE_DARK;
+        }
 
         if (type.equals(Const.ACTION_BAR_TYPE_DARK) || type.isEmpty()) {
             LogUtil.d(klass, "Dark-");
@@ -431,8 +435,8 @@ public class UiUtils {
         canvas.drawRect(rectF, paint);
         Glide.with(AnywhereApplication.sContext)
                 .load(bgBitmap)
-//                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-//                .transition(DrawableTransitionOptions.withCrossFade())
+//                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(view);
     }
 

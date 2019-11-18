@@ -5,4 +5,5 @@
     android:minWidth="110dp"
     android:resizeMode="horizontal|vertical"
     android:previewImage="@drawable/pic_splash"
-    android:widgetCategory="home_screen"/>
+    android:widgetCategory="home_screen"
+    android:updatePeriodMillis="10800000"/>
