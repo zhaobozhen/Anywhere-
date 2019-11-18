@@ -73,7 +73,7 @@ public class SecurityUtils {
      * @param context context
      * @return MD5 value of signature
      */
-    public static String getSignatueMD5Value(Context context) {
+    public static String getSignatureMD5Value(Context context) {
         try {
             @SuppressLint("PackageManagerGetSignatures")
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);

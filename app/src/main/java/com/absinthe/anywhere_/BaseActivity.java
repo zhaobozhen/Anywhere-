@@ -3,7 +3,6 @@ package com.absinthe.anywhere_;
 import android.annotation.SuppressLint;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.absinthe.anywhere_.utils.UiUtils;
 

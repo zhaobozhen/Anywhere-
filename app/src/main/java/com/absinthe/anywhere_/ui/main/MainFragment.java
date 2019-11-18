@@ -243,7 +243,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
-        List<AnywhereEntity> anywhereEntityList = new ArrayList<>();    //Todo Gradle warning 使用了未经检查或不安全的操作
+        ArrayList<AnywhereEntity> anywhereEntityList = new ArrayList<>();
 
         if (GlobalValues.sIsStreamCardMode) {
             mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);

@@ -16,8 +16,4 @@
     <color name="navigationColorNormal">#FFFFFF</color>
     <color name="lollipopStatusBarColor">#DDDDDD</color>
 
-    <color name="appListColorPrimary">#607D8B</color>
-    <color name="appListColorPrimaryDark">#455A64</color>
-    <color name="appListColorAccent">#B0BEC5</color>
-
 </resources>
