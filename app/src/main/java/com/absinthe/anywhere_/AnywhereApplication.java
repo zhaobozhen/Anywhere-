@@ -12,6 +12,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.SecurityUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -29,6 +30,11 @@ public class AnywhereApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (!BuildConfig.DEBUG && !SecurityUtils.getSignatueMD5Value(this).equals(SecurityUtils.getMySignatureMD5(this))) {
+            System.exit(0);
+        }
+
         sContext = getApplicationContext();
         GlobalValues.init(sContext);
         Settings.init();

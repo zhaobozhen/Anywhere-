@@ -12,6 +12,15 @@
     <string name="welcome_title">Welcome to Anywhere-</string>
     <string name="welcome_start_button">Start</string>
 
+    <string name="sig_md5_a" translatable="false">d689</string>
+    <string name="sig_md5_b" translatable="false">b2d1</string>
+    <string name="sig_md5_e" translatable="false">ddf3</string>
+    <string name="sig_md5_h" translatable="false">08c4</string>
+    <string name="sig_md5_i" translatable="false">d9c1</string>
+    <string name="sig_md5_n" translatable="false">f7e4</string>
+    <string name="sig_md5_s" translatable="false">b05a</string>
+    <string name="sig_md5_t" translatable="false">1b46</string>
+
     <!--  Collector  -->
     <string name="toast_permission_overlap">Please grant Overlay permission to \"Anywhere-\"</string>
     <string name="toast_collector_opened">Collector opened</string>
