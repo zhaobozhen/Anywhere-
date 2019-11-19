@@ -2,6 +2,7 @@ package com.absinthe.anywhere_;
 
 import android.annotation.SuppressLint;
 import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,14 +16,15 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
 
         Window window = getWindow();
-        int transparent = getResources().getColor(R.color.transparent);
         int nav_color = getResources().getColor(R.color.navigationColorNormal);
+
+        window.setStatusBarColor(nav_color);
         window.setNavigationBarColor(nav_color);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         if (UiUtils.isDarkMode(this)) {
             UiUtils.clearLightStatusBarAndNavigationBar(getWindow().getDecorView());
-        } else {
-            window.setStatusBarColor(transparent);
         }
     }
 }

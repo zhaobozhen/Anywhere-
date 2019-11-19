@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.drakeet.about.AbsAboutActivity;
 import com.drakeet.about.Card;
 import com.drakeet.about.Category;
@@ -25,7 +26,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
-
 public class AboutActivity extends AbsAboutActivity implements OnRecommendationClickedListener {
     private int mClickCount;
     private long mStartTime, mEndTime;
@@ -33,6 +33,7 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initView();
         setImageLoader(new GlideImageLoader());
         setOnRecommendationClickedListener(this);
     }
@@ -62,9 +63,11 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
         items.add(new License("IceBox-SDK", "heruoxin", License.APACHE_2, "https://github.com/heruoxin/IceBox-SDK"));
         items.add(new License("Material Tap Target Prompt", "sjwall", License.APACHE_2, "https://github.com/sjwall/MaterialTapTargetPrompt"));
         items.add(new License("FloatingActionButtonSpeedDial", "leinardi", License.APACHE_2, "https://github.com/leinardi/FloatingActionButtonSpeedDial"));
-        items.add(new License("Glide", "bumptech", "License", "https://github.com/bumptech/glide"));
-        items.add(new License("Gson", "Google", License.APACHE_2, "https://github.com/google/gson"));
-        items.add(new License("AndroidX", "Google", License.APACHE_2, "https://source.google.com"));
+        items.add(new License("glide", "bumptech", "License", "https://github.com/bumptech/glide"));
+        items.add(new License("gson", "Google", License.APACHE_2, "https://github.com/google/gson"));
+        items.add(new License("AndResGuard", "shwenzhang", License.APACHE_2, "https://github.com/shwenzhang/AndResGuard"));
+        items.add(new License("Robfuscate", "heruoxin", License.APACHE_2, "https://github.com/heruoxin/Robfuscate"));
+        items.add(new License("androidx", "Google", License.APACHE_2, "https://source.google.com"));
         items.add(new License("Android Jetpack", "Google", License.APACHE_2, "https://source.google.com"));
         items.add(new License("Palette", "Google", License.APACHE_2, "https://source.google.com"));
 
@@ -90,10 +93,10 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
                         .setTitle("Debug info")
                         .setMessage(Html.fromHtml(
                                 "<b>workingMode</b> = " + GlobalValues.sWorkingMode + "<br>"
-                                + "<b>backgroundUri</b> = " + GlobalValues.sBackgroundUri + "<br>"
-                                + "<b>actionBarType</b> = " + GlobalValues.sActionBarType + "<br>"
-                                + "<b>sortMode</b> = " + GlobalValues.sSortMode + "<br>"
-                                + "<b>iconPack</b> = " + GlobalValues.sIconPack + "<br>"))
+                                        + "<b>backgroundUri</b> = " + GlobalValues.sBackgroundUri + "<br>"
+                                        + "<b>actionBarType</b> = " + GlobalValues.sActionBarType + "<br>"
+                                        + "<b>sortMode</b> = " + GlobalValues.sSortMode + "<br>"
+                                        + "<b>iconPack</b> = " + GlobalValues.sIconPack + "<br>"))
                         .setPositiveButton(R.string.dialog_delete_positive_button, null)
                         .setCancelable(false)
                         .show();
@@ -104,6 +107,13 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
     @Override
     public boolean onRecommendationClicked(@NonNull View itemView, @NonNull Recommendation recommendation) {
         return false;
+    }
+
+    private void initView() {
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.transparent));
+        if (UiUtils.isDarkMode(this)) {
+            UiUtils.clearLightStatusBarAndNavigationBar(getWindow().getDecorView());
+        }
     }
 }
 
