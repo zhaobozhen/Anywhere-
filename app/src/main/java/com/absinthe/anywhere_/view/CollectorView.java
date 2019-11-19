@@ -43,7 +43,7 @@ public class CollectorView extends LinearLayout {
         ImageButton mIbCollector = findViewById(R.id.ib_collector);
 
         mIbCollector.setOnClickListener(v -> {
-            LogUtil.d(this.getClass(), "Collector clicked!");
+            LogUtil.d("Collector clicked!");
             collectActivity();
             mContext.startService(
                     new Intent(mContext, CollectorService.class)
@@ -70,7 +70,7 @@ public class CollectorView extends LinearLayout {
                         // 获取按下时的X，Y坐标
                         lastX = motionEvent.getRawX();
                         lastY = motionEvent.getRawY();
-                        LogUtil.d(this.getClass(), "MotionEvent.ACTION_DOWN last:", lastX, lastY);
+                        LogUtil.d("MotionEvent.ACTION_DOWN last:", lastX, lastY);
 
                         isClick = false;
                         startTime = System.currentTimeMillis();
@@ -81,12 +81,12 @@ public class CollectorView extends LinearLayout {
                         // 获取移动时的X，Y坐标
                         nowX = motionEvent.getRawX();
                         nowY = motionEvent.getRawY();
-                        LogUtil.d(this.getClass(), "MotionEvent.ACTION_MOVE now:", nowX, nowY);
+                        LogUtil.d("MotionEvent.ACTION_MOVE now:", nowX, nowY);
 
                         // 计算XY坐标偏移量
                         tranX = nowX - lastX;
                         tranY = nowY - lastY;
-                        LogUtil.d(this.getClass(), "MotionEvent.ACTION_MOVE tran:", tranX, tranY);
+                        LogUtil.d("MotionEvent.ACTION_MOVE tran:", tranX, tranY);
 
                         // 移动悬浮窗
                         layoutParams.x -= tranX;
@@ -100,7 +100,7 @@ public class CollectorView extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         endTime = System.currentTimeMillis();
-                        LogUtil.d(this.getClass(), "Touch period =", (endTime - startTime));
+                        LogUtil.d("Touch period =", (endTime - startTime));
                         isClick = (endTime - startTime) > 0.2 * 1000L;
                         break;
                 }
@@ -113,7 +113,7 @@ public class CollectorView extends LinearLayout {
         String cmd = Const.CMD_GET_TOP_STACK_ACTIVITY;
         String result = PermissionUtil.execCmd(cmd);
 
-        LogUtil.d(this.getClass(), "Shell result =", result);
+        LogUtil.d("Shell result =", result);
 
         if (result != null) {
             String[] processed = TextUtils.processResultString(result);

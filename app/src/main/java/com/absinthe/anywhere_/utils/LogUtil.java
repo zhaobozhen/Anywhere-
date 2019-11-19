@@ -7,7 +7,13 @@ import android.util.Log;
  */
 public class LogUtil {
 
-    public static void v(Class klass, Object... contents) {
+    private static boolean isDebugMode;
+
+    public static void setDebugMode(boolean debugMode) {
+        isDebugMode = debugMode;
+    }
+
+    public static int v(Object... contents) {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
@@ -18,10 +24,14 @@ public class LogUtil {
             }
         }
 
-        Log.v(klass.getSimpleName(), sb.toString());
+        String clsName = new Throwable().getStackTrace()[1].getClassName();
+        clsName = clsName.substring(clsName.lastIndexOf(".") + 1);
+        String TAG = "|" + clsName + "#" + new Throwable().getStackTrace()[1].getMethodName() + "()|";
+
+        return isDebugMode ? Log.v(TAG, sb.toString()) : -1;
     }
 
-    public static void d(Class klass, Object... contents) {
+    public static int d(Object... contents) {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
@@ -32,10 +42,14 @@ public class LogUtil {
             }
         }
 
-        Log.d(klass.getSimpleName(), sb.toString());
+        String clsName = new Throwable().getStackTrace()[1].getClassName();
+        clsName = clsName.substring(clsName.lastIndexOf(".") + 1);
+        String TAG = "|" + clsName + "#" + new Throwable().getStackTrace()[1].getMethodName() + "()|";
+
+        return isDebugMode ? Log.d(TAG, sb.toString()) : -1;
     }
 
-    public static void i(Class klass, Object... contents) {
+    public static int i(Object... contents) {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
@@ -46,10 +60,14 @@ public class LogUtil {
             }
         }
 
-        Log.i(klass.getSimpleName(), sb.toString());
+        String clsName = new Throwable().getStackTrace()[1].getClassName();
+        clsName = clsName.substring(clsName.lastIndexOf(".") + 1);
+        String TAG = "|" + clsName + "#" + new Throwable().getStackTrace()[1].getMethodName() + "()|";
+
+        return isDebugMode ? Log.i(TAG, sb.toString()) : -1;
     }
 
-    public static void e(Class klass, Object... contents) {
+    public static int e(Object... contents) {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
@@ -60,10 +78,14 @@ public class LogUtil {
             }
         }
 
-        Log.e(klass.getSimpleName(), sb.toString());
+        String clsName = new Throwable().getStackTrace()[1].getClassName();
+        clsName = clsName.substring(clsName.lastIndexOf(".") + 1);
+        String TAG = "|" + clsName + "#" + new Throwable().getStackTrace()[1].getMethodName() + "()|";
+
+        return isDebugMode ? Log.e(TAG, sb.toString()) : -1;
     }
 
-    public static void w(Class klass, Object... contents) {
+    public static int w(Object... contents) {
         StringBuilder sb = new StringBuilder();
 
         for (Object obj : contents) {
@@ -74,10 +96,19 @@ public class LogUtil {
             }
         }
 
-        Log.w(klass.getSimpleName(), sb.toString());
+        String clsName = new Throwable().getStackTrace()[1].getClassName();
+        clsName = clsName.substring(clsName.lastIndexOf(".") + 1);
+        String TAG = "|" + clsName + "#" + new Throwable().getStackTrace()[1].getMethodName() + "()|";
+
+        return isDebugMode ? Log.w(TAG, sb.toString()) : -1;
     }
 
-    public static void runningHere(Class klass) {
-        Log.d(klass.getSimpleName(), klass.getSimpleName() + " is running here");
+    public static int runningHere() {
+
+        String clsName = new Throwable().getStackTrace()[1].getClassName();
+        clsName = clsName.substring(clsName.lastIndexOf(".") + 1);
+        String TAG = "|" + clsName + "#" + new Throwable().getStackTrace()[1].getMethodName() + "()|";
+
+        return isDebugMode ? Log.d(TAG, " is running here") : -1;
     }
 }

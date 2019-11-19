@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class TextUtils {
-    private static final Class klass = TextUtils.class;
 
     /**
      * process and obtain adb result
@@ -43,8 +42,8 @@ public class TextUtils {
         packageName = result.substring(result.indexOf(" u0 ") + 4, result.indexOf("/"));
         className = result.substring(result.indexOf("/") + 1, result.indexOf(" ", result.indexOf("/") + 1));
 
-        LogUtil.d(klass, "packageName =", packageName);
-        LogUtil.d(klass, "className =", className);
+        LogUtil.d("packageName =", packageName);
+        LogUtil.d("className =", className);
 
         return new String[]{packageName, className};
     }
@@ -101,7 +100,7 @@ public class TextUtils {
             packageName = item.getParam1();
             className = item.getParam2();
             extras = item.getParam3();
-            LogUtil.d(klass, "packageName =", packageName, "className =", className, "extras =", extras);
+            LogUtil.d("packageName =", packageName, "className =", className, "extras =", extras);
 
             if (className.charAt(0) == '.') {
                 cmd.append("am start -n ").append(packageName).append("/").append(packageName).append(className);
@@ -117,7 +116,7 @@ public class TextUtils {
             }
         } else if (type == AnywhereType.URL_SCHEME) {
             urlScheme = item.getParam1();
-            LogUtil.d(klass, "urlScheme =", urlScheme);
+            LogUtil.d("urlScheme =", urlScheme);
 
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                 cmd.append(urlScheme);
@@ -128,9 +127,9 @@ public class TextUtils {
         } else if (type == AnywhereType.MINI_PROGRAM) {
             //Todo
         } else {
-            LogUtil.d(klass, "AnywhereType has problem.");
+            LogUtil.d("AnywhereType has problem.");
         }
-        LogUtil.d(klass, cmd);
+        LogUtil.d(cmd);
         return cmd.toString();
     }
 
@@ -148,7 +147,7 @@ public class TextUtils {
             packageName = item.getmParam1();
             className = item.getmParam2();
             extras = item.getmParam3();
-            LogUtil.d(klass, "packageName =", packageName, "className =", className, "extras =", extras);
+            LogUtil.d("packageName =", packageName, "className =", className, "extras =", extras);
 
             if (className.charAt(0) == '.') {
                 cmd.append("am start -n ").append(packageName).append("/").append(packageName).append(className);
@@ -164,7 +163,7 @@ public class TextUtils {
             }
         } else if (type == AnywhereType.URL_SCHEME) {
             urlScheme = item.getmParam1();
-            LogUtil.d(klass, "urlScheme =", urlScheme);
+            LogUtil.d("urlScheme =", urlScheme);
 
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                 cmd.append(urlScheme);
@@ -175,9 +174,9 @@ public class TextUtils {
         } else if (type == AnywhereType.MINI_PROGRAM) {
             //Todo
         } else {
-            LogUtil.d(klass, "AnywhereType has problem.");
+            LogUtil.d("AnywhereType has problem.");
         }
-        LogUtil.d(klass, cmd);
+        LogUtil.d(cmd);
         return cmd.toString();
     }
 

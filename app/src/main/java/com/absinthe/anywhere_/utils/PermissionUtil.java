@@ -39,7 +39,6 @@ import moe.shizuku.api.ShizukuClientHelper;
 import moe.shizuku.api.ShizukuService;
 
 public class PermissionUtil {
-    private static final Class klass = PermissionUtil.class;
     private static final int REQUEST_CODE_PERMISSION_V3 = 1001;
     private static final int REQUEST_CODE_AUTHORIZATION_V3 = 1002;
 
@@ -74,7 +73,7 @@ public class PermissionUtil {
 
         try {
             String cmd = "chmod 777 " + pkgCodePath;
-            LogUtil.d(klass, "root cmd =", cmd);
+            LogUtil.d("root cmd =", cmd);
             process = Runtime.getRuntime().exec("su"); //切换到 root 账户
             os = new DataOutputStream(process.getOutputStream());
             os.writeBytes(cmd + "\n");
@@ -82,7 +81,7 @@ public class PermissionUtil {
             os.flush();
             process.waitFor();
         } catch (Exception e) {
-            LogUtil.d(klass, "upgradeRootPermission:", e.toString());
+            LogUtil.d("upgradeRootPermission:", e.toString());
             return false;
         } finally {
             try {
@@ -139,7 +138,7 @@ public class PermissionUtil {
                                 MainActivity.getInstance().startActivity(intent);
                                 result = "android.intent.action.VIEW";
                             } catch (Exception e) {
-                                LogUtil.d(klass, "WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                                LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
                             }
                         }
                     } catch (IndexOutOfBoundsException e) {
@@ -156,12 +155,12 @@ public class PermissionUtil {
                         MainActivity.getInstance().startActivity(intent);
                         result = "android.intent.action.VIEW";
                     } catch (Exception e) {
-                        LogUtil.d(klass, "WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                        LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
                     }
                 }
                 break;
         }
-        LogUtil.d(klass, "execCmd result = ", result);
+        LogUtil.d("execCmd result = ", result);
         return result;
     }
 
@@ -180,7 +179,7 @@ public class PermissionUtil {
             os = p.getOutputStream();
             is = p.getInputStream();
 
-            LogUtil.i(klass, cmd);
+            LogUtil.i(cmd);
             os.write((cmd + "\n").getBytes());
             os.flush();
             os.write("exit\n".getBytes());
@@ -234,13 +233,13 @@ public class PermissionUtil {
             }
             is.close();
 
-            LogUtil.d(klass, "newProcess: " + remoteProcess);
-            LogUtil.d(klass, "waitFor: " + remoteProcess.waitFor());
-            LogUtil.d(klass, "output: " + sb);
+            LogUtil.d("newProcess: " + remoteProcess);
+            LogUtil.d("waitFor: " + remoteProcess.waitFor());
+            LogUtil.d("output: " + sb);
 
             return sb.toString();
         } catch (Throwable tr) {
-            Log.e(klass.getSimpleName(), "newProcess", tr);
+            Log.e(PermissionUtil.class.getSimpleName(), "newProcess", tr);
             return null;
         }
     }
@@ -251,7 +250,7 @@ public class PermissionUtil {
     public static boolean isMIUI() {
         try {
             String brand = android.os.Build.BRAND.toLowerCase();
-            LogUtil.d(klass, "brand =", brand);
+            LogUtil.d("brand =", brand);
             if (!brand.contains("xiaomi") && !brand.contains("redmi")) {
                 return false;
             }
@@ -326,7 +325,7 @@ public class PermissionUtil {
                 }
             } else {
                 // activity not found
-                LogUtil.d(klass, "activity not found.");
+                LogUtil.d("activity not found.");
                 ToastUtil.makeText("activity not found.");
                 return false;
             }
@@ -378,7 +377,7 @@ public class PermissionUtil {
             }
 
             // Shizuku v3 may not running, notify user
-            LogUtil.d(klass, "Shizuku v3 may not running.");
+            LogUtil.d("Shizuku v3 may not running.");
             new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                     .setMessage(R.string.dialog_message_shizuku_not_running)
                     .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {

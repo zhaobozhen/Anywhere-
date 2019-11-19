@@ -28,7 +28,7 @@ public class CollectorService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.i(this.getClass(),"CollectorService onCreate");
+        LogUtil.i("CollectorService onCreate");
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CollectorService extends Service {
                 if (command.equals(COMMAND_OPEN)) {
                     mCollectorWindowManager.addView();
                 } else if (command.equals(COMMAND_CLOSE)) {
-                    LogUtil.d(this.getClass(), "Intent:COMMAND_CLOSE");
+                    LogUtil.d("Intent:COMMAND_CLOSE");
                     mCollectorWindowManager.removeView();
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -70,7 +70,7 @@ public class CollectorService extends Service {
 
     @Override
     public void onDestroy() {
-        LogUtil.d(this.getClass(), "CollectorService onDestroy.");
+        LogUtil.d("CollectorService onDestroy.");
         super.onDestroy();
     }
 }

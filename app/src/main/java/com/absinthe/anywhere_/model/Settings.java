@@ -5,7 +5,9 @@ import android.annotation.SuppressLint;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.utils.IconPackManager;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.util.HashMap;
@@ -19,6 +21,7 @@ public class Settings {
     public static final String DEFAULT_ICON_PACK = "default.icon.pack";
 
     public static void init() {
+        setLogger();
         setTheme(GlobalValues.sDarkMode);
         initIconPackManager();
     }
@@ -56,5 +59,9 @@ public class Settings {
         if (sIconPack == null) {
             GlobalValues.setsIconPack(DEFAULT_ICON_PACK);
         }
+    }
+
+    private static void setLogger() {
+        LogUtil.setDebugMode(BuildConfig.DEBUG);
     }
 }

@@ -27,7 +27,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public int getMovementFlags(RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        LogUtil.i(this.getClass(), "getMovementFlags");
+        LogUtil.i("getMovementFlags");
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager ||
                 recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
             //此处不需要进行滑动操作，可设置为除4和8之外的整数，这里设为0
@@ -51,7 +51,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        LogUtil.i(this.getClass(), "onMove");
+        LogUtil.i("onMove");
         int fromPosition = viewHolder.getAdapterPosition();
         int toPosition = target.getAdapterPosition();
         onItemTouchListener.onMove(fromPosition, toPosition);
@@ -67,7 +67,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        LogUtil.i(this.getClass(), "onSwiped");
+        LogUtil.i("onSwiped");
         //此处是侧滑删除的主要代码
         int position = viewHolder.getAdapterPosition();
         onItemTouchListener.onSwiped(position);
@@ -81,7 +81,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-        LogUtil.i(this.getClass(), "onSelectedChanged");
+        LogUtil.i("onSelectedChanged");
         //...
         super.onSelectedChanged(viewHolder, actionState);
     }
@@ -94,7 +94,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        LogUtil.i(this.getClass(), "clearView");
+        LogUtil.i("clearView");
         //...
         super.clearView(recyclerView, viewHolder);
     }

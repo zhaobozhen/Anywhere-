@@ -78,14 +78,14 @@ public class AnywhereApplication extends Application {
         super.attachBaseContext(base);
         Reflection.unseal(base);
 
-        LogUtil.d(this.getClass(), "initialize ", ShizukuMultiProcessHelper.initialize(this, !getProcessName().endsWith(":test")));
+        LogUtil.d("initialize ", ShizukuMultiProcessHelper.initialize(this, !getProcessName().endsWith(":test")));
 
         ShizukuClientHelper.setBinderReceivedListener(() -> {
-            LogUtil.d(this.getClass(), "onBinderReceived");
+            LogUtil.d("onBinderReceived");
 
             if (ShizukuService.getBinder() == null) {
                 // ShizukuBinderReceiveProvider started without binder, should never happened
-                LogUtil.d(this.getClass(), "binder is null");
+                LogUtil.d("binder is null");
                 v3Failed = true;
             } else {
                 try {

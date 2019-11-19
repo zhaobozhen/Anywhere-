@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        LogUtil.d(this.getClass(), "onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
+        LogUtil.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
 
         if (menu.findItem(R.id.toolbar_settings) != null) {
             switch (GlobalValues.sActionBarType) {
@@ -131,13 +131,13 @@ public class MainActivity extends BaseActivity {
         if (uri == null) {
             return;
         } else {
-            LogUtil.d(this.getClass(), "Received Url =", uri.toString());
+            LogUtil.d("Received Url =", uri.toString());
         }
         String scheme = uri.getScheme();
         String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
         String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
         String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
-        LogUtil.d(this.getClass(), "Url param =", param1, param2, param3);
+        LogUtil.d("Url param =", param1, param2, param3);
 
         Bundle bundle = new Bundle();
         bundle.putString(Const.INTENT_EXTRA_PARAM_1, param1);
@@ -153,10 +153,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtil.d(this.getClass(), "curFragment =" + curFragment);
+        LogUtil.d("curFragment =" + curFragment);
 
         if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
-            LogUtil.d(this.getClass(), "REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
+            LogUtil.d("REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
             if (curFragment instanceof MainFragment) {
                 if (mainFragment == null) {
                     mainFragment = (MainFragment) curFragment;
@@ -172,7 +172,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
-            LogUtil.d(this.getClass(), "REQUEST_CODE_SHIZUKU_PERMISSION");
+            LogUtil.d("REQUEST_CODE_SHIZUKU_PERMISSION");
             if (curFragment instanceof InitializeFragment) {
                 InitializeFragment.getViewModel().getIsShizuku().setValue(Boolean.TRUE);
             }

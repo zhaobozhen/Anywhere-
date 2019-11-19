@@ -54,7 +54,7 @@ public class SettingsActivity extends BaseActivity {
                     if (data != null) {
                         Uri backgroundUri = data.getData();
                         if (backgroundUri != null) {
-                            LogUtil.d(this.getClass(), "backgroundUri = " + backgroundUri);
+                            LogUtil.d("backgroundUri = " + backgroundUri);
                             GlobalValues.setsBackgroundUri(backgroundUri.toString());
                             GlobalValues.setsActionBarType("");
                             if (MainFragment.getViewModelInstance() != null) {
@@ -62,7 +62,7 @@ public class SettingsActivity extends BaseActivity {
                             }
                         }
                     } else {
-                        LogUtil.d(this.getClass(), "onActivityResult: REQUEST_CODE_IMAGE_CAPTURE: data = null.");
+                        LogUtil.d("onActivityResult: REQUEST_CODE_IMAGE_CAPTURE: data = null.");
                     }
                 }
                 break;

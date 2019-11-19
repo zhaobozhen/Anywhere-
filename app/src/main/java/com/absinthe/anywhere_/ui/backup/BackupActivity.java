@@ -94,7 +94,7 @@ public class BackupActivity extends BaseActivity {
                             stringBuilder.append(line);
                         }
                         String content = CipherUtils.decrypt(stringBuilder.toString());
-                        LogUtil.d(this.getClass(), content);
+                        LogUtil.d(content);
 
                         Gson gson = new Gson();
                         List<SerializableAnywhereEntity> list = gson.fromJson(content,

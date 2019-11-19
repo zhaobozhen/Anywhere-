@@ -48,7 +48,7 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
 
     @Override
     protected void onItemsCreated(@NonNull List<Object> items) {
-        items.add(new Category("这是什么"));
+        items.add(new Category(getString(R.string.whats_this)));
         items.add(new Card(getString(R.string.about_text)));
 
         items.add(new Category("Developers"));

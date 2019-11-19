@@ -95,7 +95,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     @Override
     public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-        LogUtil.d(this.getClass(), "onButtonChecked");
+        LogUtil.d("onButtonChecked");
 
         switch (checkedId) {
             case R.id.btn_url_scheme:
@@ -192,10 +192,10 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 btnRoot.setEnabled(false);
                 cvRoot.findViewById(R.id.done).setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.ROOT_PERM);
-                LogUtil.d(this.getClass(), "allPerm = " + mViewModel.getAllPerm().getValue());
+                LogUtil.d("allPerm = " + mViewModel.getAllPerm().getValue());
 
             } else {
-                LogUtil.d(this.getClass(), "ROOT permission denied.");
+                LogUtil.d("ROOT permission denied.");
                 ToastUtil.makeText(R.string.toast_root_permission_denied);
             }
         });
@@ -229,7 +229,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 btnOverlay.setEnabled(false);
                 cvOverlay.findViewById(R.id.done).setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.OVERLAY_PERM);
-                LogUtil.d(this.getClass(), "allPerm = " + mViewModel.getAllPerm().getValue());
+                LogUtil.d("allPerm = " + mViewModel.getAllPerm().getValue());
             }
         });
 

@@ -14,10 +14,10 @@ import com.absinthe.anywhere_.databinding.ItemStreamCardViewBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
@@ -67,6 +67,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
+                LogUtil.e(e.getMessage());
                 binding.setAppName(item.getAppName());
             }
 

@@ -54,7 +54,6 @@ import java.util.Calendar;
 import java.util.List;
 
 public class UiUtils {
-    private static final Class klass = UiUtils.class;
 
     /**
      * Get app icon by package name
@@ -172,7 +171,7 @@ public class UiUtils {
      * @param actionBar our target
      */
     public static void setActionBarTitle(AppCompatActivity activity, ActionBar actionBar) {
-        LogUtil.d(klass, "setActionBarTitle:workingMode =", GlobalValues.sWorkingMode);
+        LogUtil.d("setActionBarTitle:workingMode =", GlobalValues.sWorkingMode);
         switch (GlobalValues.sWorkingMode) {
             case "":
                 setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, "Nowhere-");
@@ -275,7 +274,7 @@ public class UiUtils {
 
         if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
-            LogUtil.d(klass, "actionBarHeight = " + actionBarHeight);
+            LogUtil.d("actionBarHeight = " + actionBarHeight);
         }
 
         int finalActionBarHeight = actionBarHeight;
@@ -287,8 +286,8 @@ public class UiUtils {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Bitmap actionBarBitmap = Bitmap.createBitmap(resource, 0, 0,
                                 resource.getWidth(), Math.min(finalActionBarHeight, resource.getHeight()));
-                        LogUtil.d(klass, "actionBarBitmap.getWidth() =", actionBarBitmap.getWidth());
-                        LogUtil.d(klass, "actionBarBitmap.getHeight() =", actionBarBitmap.getHeight());
+                        LogUtil.d("actionBarBitmap.getWidth() =", actionBarBitmap.getWidth());
+                        LogUtil.d("actionBarBitmap.getHeight() =", actionBarBitmap.getHeight());
 
                         Palette.from(actionBarBitmap).generate(p -> {
                             if (p != null) {
@@ -348,7 +347,7 @@ public class UiUtils {
         }
 
         if (type.equals(Const.ACTION_BAR_TYPE_DARK) || type.isEmpty()) {
-            LogUtil.d(klass, "Dark-");
+            LogUtil.d("Dark-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
 
@@ -370,7 +369,7 @@ public class UiUtils {
                 }
             }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
-            LogUtil.d(klass, "Light-");
+            LogUtil.d("Light-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -390,7 +389,7 @@ public class UiUtils {
      */
     public static int getAutoDarkMode() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        LogUtil.d(klass, "Current hour =", hour);
+        LogUtil.d("Current hour =", hour);
 
         if (hour >= 22 || hour <= 7) {
             return AppCompatDelegate.MODE_NIGHT_YES;

@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,7 +51,6 @@ import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.card.MaterialCardView;
@@ -128,9 +128,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             String param2 = bundle.getString(Const.INTENT_EXTRA_PARAM_2);
             String param3 = bundle.getString(Const.INTENT_EXTRA_PARAM_3);
 
-            LogUtil.d(this.getClass(), "Bundle param1 =", param1);
-            LogUtil.d(this.getClass(), "Bundle param2 =", param2);
-            LogUtil.d(this.getClass(), "Bundle param3 =", param3);
+            LogUtil.d("Bundle param1 =", param1);
+            LogUtil.d("Bundle param2 =", param2);
+            LogUtil.d("Bundle param3 =", param3);
 
             if (param1 != null && param2 != null && param3 != null) {
                 if (param2.isEmpty() && param3.isEmpty()) {
@@ -160,7 +160,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     void checkWorkingPermission() {
-        LogUtil.d(this.getClass(), "workingMode =", GlobalValues.sWorkingMode);
+        LogUtil.d("workingMode =", GlobalValues.sWorkingMode);
         selectedWorkingModeIndex = 0;
         if (GlobalValues.sWorkingMode != null) {
             if (GlobalValues.sWorkingMode.isEmpty()) {
@@ -179,7 +179,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                                     mViewModel.getWorkingMode().setValue(Const.WORKING_MODE_SHIZUKU);
                                     break;
                                 default:
-                                    LogUtil.d(this.getClass(), "default");
+                                    LogUtil.d("default");
                             }
                             checkWorkingPermission();
                         })
@@ -208,7 +208,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
                         startCollector();
                     } else {
-                        LogUtil.d(this.getClass(), "ROOT permission denied.");
+                        LogUtil.d("ROOT permission denied.");
                         ToastUtil.makeText(R.string.toast_root_permission_denied);
                         actionBar.setTitle("Nowhere-");
                     }
@@ -361,12 +361,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
                         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
                         ((Activity) mContext).invalidateOptionsMenu();
-                        VibratorUtil.vibrate(mContext, 50);
+                        mRecyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         break;
                     case R.id.multi_select:
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SELECT);
                         ((Activity) mContext).invalidateOptionsMenu();
-                        VibratorUtil.vibrate(mContext, 50);
+                        mRecyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         break;
                     default:
                 }
@@ -453,7 +453,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getCardMode().observe(this, s -> refreshRecyclerView(mRecyclerView));
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            LogUtil.d(this.getClass(), "backgroundUri =", GlobalValues.sBackgroundUri);
+            LogUtil.d("backgroundUri =", GlobalValues.sBackgroundUri);
             mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
         }
     }

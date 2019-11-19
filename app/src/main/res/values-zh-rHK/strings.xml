@@ -185,4 +185,5 @@
     <string name="array_dark_mode_on">開啟</string>
     <string name="array_dark_mode_auto">自動</string>
     <string name="array_dark_mode_system">跟隨系統</string>
+    <string name="whats_this">這是甚麼</string>
 </resources>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.Html;
+import android.view.HapticFeedbackConstants;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,6 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
-import com.absinthe.anywhere_.utils.VibratorUtil;
 import com.absinthe.anywhere_.view.Editor;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.card.MaterialCardView;
@@ -108,7 +108,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
         holder.itemView.setOnLongClickListener(view -> {
             if (mode == ADAPTER_MODE_NORMAL) {
-                VibratorUtil.vibrate(mContext, VibratorUtil.DEFAULT);
+
+                holder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 
                 switch (type) {
                     case AnywhereType.URL_SCHEME:
