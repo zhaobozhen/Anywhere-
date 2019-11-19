@@ -484,10 +484,15 @@ public class UiUtils {
      *
      * @param view decor view
      */
-    public static void clearLightStatusBar(@NonNull View view) {
+    public static void clearLightStatusBarAndNavigationBar(@NonNull View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int flags = view.getSystemUiVisibility();
             flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            int flags = view.getSystemUiVisibility();
+            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
             view.setSystemUiVisibility(flags);
         }
     }

@@ -13,7 +13,7 @@
     <color name="cardColor">#EEFFFFFF</color>
     <color name="textColorNormal">#000000</color>
     <color name="toolbarColorNormal">#000000</color>
-    <color name="navigationColorNormal">#FFFFFF</color>
+    <color name="navigationColorNormal">#00000000</color>
     <color name="lollipopStatusBarColor">#DDDDDD</color>
 
 </resources>

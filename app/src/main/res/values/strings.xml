@@ -100,9 +100,9 @@
     <string name="settings_change_background_summary">Choose an image as background to home page</string>
     <string name="settings_reset_background_summary">Reset home page background to blank</string>
     <string name="settings_dark_mode_oled_summary">Enable pure dark background on OLED devices</string>
-    <string name="settings_stream_card_mode_summary">Make more cards available on the whole page</string>
-    <string name="settings_stream_card_single_line_summary">Compress card size adically</string>
-    <string name="settings_card_background_summary">Take the dominate color of the icon as the background</string>
+    <string name="settings_stream_card_mode_summary">Make more cards available on a whole page</string>
+    <string name="settings_stream_card_single_line_summary">Further compress card size</string>
+    <string name="settings_card_background_summary">Take the dominate color of the icon as background</string>
     <string name="settings_clear_shortcuts_summary">Reset all Shortcuts</string>
     <string name="settings_icon_pack_summary">Choose an icon pack</string>
     <string name="settings_backup_summary">Import/Export all Anywhere-</string>
@@ -118,7 +118,7 @@
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root permission denied</string>
-    <string name="toast_open_pop_up_when_background_permission">MIUI ROM please grant the pop-up permission, or may has problems</string>
+    <string name="toast_open_pop_up_when_background_permission">MIUI ROM should grant the pop-up permission, or may has problems</string>
     <string name="toast_not_install_shizuku">Shizuku not install</string>
     <string name="toast_change_work_mode">Please switch the working mode</string>
     <string name="toast_check_perm">Please check the permissions</string>
@@ -128,7 +128,7 @@
     <string name="toast_try_to_add_pinned_shortcut">Tried to add it</string>
     <string name="toast_backup_success">Backup success</string>
     <string name="toast_restore_success">Restore success</string>
-    <string name="toast_defrosting">Defreezing</string>
+    <string name="toast_defrosting">Thawing</string>
     <string name="toast_restart_to_active">Restart to take effect</string>
 
 

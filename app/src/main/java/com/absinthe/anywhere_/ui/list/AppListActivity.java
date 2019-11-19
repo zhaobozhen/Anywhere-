@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,7 +49,7 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
         getMenuInflater().inflate(R.menu.app_list_menu, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         MenuItem showSystemApp = menu.findItem(R.id.show_system_app);
 
         if (searchManager != null) {
@@ -78,9 +77,15 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
         if (item.getItemId() == R.id.show_system_app) {
             if (item.getTitle().toString().equals(getString(R.string.menu_show_system_app))) {
                 item.setTitle(R.string.menu_hide_system_app);
+                if (UiUtils.isDarkMode(this)) {
+                    item.setTitle(Html.fromHtml("<font color='#FFFFFF'>" + item.getTitle() + "</font>"));
+                }
                 isShowSystemApp = true;
             } else {
                 item.setTitle(R.string.menu_show_system_app);
+                if (UiUtils.isDarkMode(this)) {
+                    item.setTitle(Html.fromHtml("<font color='#FFFFFF'>" + item.getTitle() + "</font>"));
+                }
                 isShowSystemApp = false;
             }
             initData(isShowSystemApp);

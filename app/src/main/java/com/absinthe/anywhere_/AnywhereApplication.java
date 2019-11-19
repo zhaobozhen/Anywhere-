@@ -34,7 +34,7 @@ public class AnywhereApplication extends Application {
         if (!BuildConfig.DEBUG &&
                 !SecurityUtils.getSignatureMD5Value(this)
                 .equals(SecurityUtils.getMySignatureMD5(this))) {
-            System.exit(0);
+            SecurityUtils.exit();
         }
 
         sContext = getApplicationContext();

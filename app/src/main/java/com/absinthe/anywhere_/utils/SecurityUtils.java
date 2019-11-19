@@ -101,4 +101,8 @@ public class SecurityUtils {
                 context.getString(R.string.sig_md5_h) +
                 context.getString(R.string.sig_md5_e);
     }
+
+    public static void exit() {
+        System.exit(0);
+    }
 }
