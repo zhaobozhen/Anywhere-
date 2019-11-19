@@ -7,6 +7,6 @@
     <shape
         android:shape="rectangle">
         <corners android:radius="8dp"/>
-        <solid android:color="@color/white"/>
+        <solid android:color="@color/navigationColorNormal"/>
     </shape>
 </inset>
