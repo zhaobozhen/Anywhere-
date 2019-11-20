@@ -18,6 +18,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 public class MainActivity extends BaseActivity {
@@ -72,6 +73,8 @@ public class MainActivity extends BaseActivity {
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             UiUtils.loadBackgroundPic(this, ivBackground);
             UiUtils.setActionBarTransparent(this);
+            UiUtils.setMargins(findViewById(R.id.cl_main), 0, StatusBarUtil.getStatusBarHeight(this),
+                    0, StatusBarUtil.getNavigationBarHeight(this));
         }
     }
 
