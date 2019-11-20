@@ -74,8 +74,8 @@ public class MainActivity extends BaseActivity {
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             UiUtils.loadBackgroundPic(this, ivBackground);
             UiUtils.setActionBarTransparent(this);
-            UiUtils.setMargins(findViewById(R.id.cl_main), 0, StatusBarUtil.getStatusBarHeight(this),
-                    0, StatusBarUtil.getNavigationBarHeight(this));
+            UiUtils.setMargins(findViewById(R.id.cl_main), StatusBarUtil.getStatusBarHeight(this),
+                    StatusBarUtil.getNavigationBarHeight(this));
         }
     }
 

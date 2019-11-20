@@ -506,10 +506,10 @@ public class UiUtils {
         }
     }
 
-    public static void setMargins (View v, int l, int t, int r, int b) {
+    public static void setMargins (View v, int t, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            p.setMargins(l, t, r, b);
+            p.setMargins(p.leftMargin, t, p.rightMargin, b);
             v.requestLayout();
         }
     }

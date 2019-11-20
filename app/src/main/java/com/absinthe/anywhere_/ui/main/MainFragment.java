@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -276,6 +277,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void resetSelectState() {
+        LogUtil.d("getSelectedIndex() = ",adapter.getSelectedIndex());
         if (!adapter.getSelectedIndex().isEmpty()) {
             for (Object index : adapter.getSelectedIndex()) {
                 View view = mLayoutManager.findViewByPosition((int) index);
@@ -320,7 +322,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (item.getItemId() == R.id.toolbar_settings) {
             startActivity(new Intent(MainActivity.getInstance(), SettingsActivity.class));
         } else if (item.getItemId() == R.id.toolbar_sort) {
-            PopupMenu popup = new PopupMenu(mContext, MainActivity.getInstance().findViewById(R.id.toolbar_sort));
+            PopupMenu popup = new PopupMenu(mContext, MainActivity.getInstance().findViewById(R.id.toolbar_sort), Gravity.RIGHT);
             popup.getMenuInflater()
                     .inflate(R.menu.sort_menu, popup.getMenu());
             if (popup.getMenu() instanceof MenuBuilder) {
@@ -390,6 +392,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 GlobalValues.setsSortMode(Const.SORT_MODE_TIME_DESC);
             } else if (adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_SELECT) {
                 resetSelectState();
+                adapter.clearSelect();
                 adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
                 ((Activity) mContext).invalidateOptionsMenu();
             }
@@ -398,8 +401,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     .setTitle(R.string.dialog_delete_selected_title)
                     .setMessage(R.string.dialog_delete_selected_message)
                     .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                        resetSelectState();
                         adapter.deleteSelect();
+                        resetSelectState();
                     })
                     .setNegativeButton(R.string.dialog_delete_negative_button, null)
                     .show();

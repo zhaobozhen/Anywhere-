@@ -242,7 +242,10 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             MainFragment.getViewModelInstance().delete(ae);
             notifyItemRemoved(index);
         }
-        selectedIndex.clear();
+        clearSelect();
     }
 
+    public void clearSelect() {
+        selectedIndex.clear();
+    }
 }
