@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -629,7 +630,10 @@ public class StatusBarUtil {
      * @return 导航栏高度
      */
     public static int getNavigationBarHeight(Context context) {
-        // 获得状态栏高度
+        if (Settings.Global.getInt(context.getContentResolver(), "force_fsg_nav_bar", 0) != 0) {
+            return 0;
+        }
+
         int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         return context.getResources().getDimensionPixelSize(resourceId);
     }

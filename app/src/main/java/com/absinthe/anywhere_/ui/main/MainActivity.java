@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity {
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         ImageView ivBackground = findViewById(R.id.iv_background);
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             UiUtils.loadBackgroundPic(this, ivBackground);
