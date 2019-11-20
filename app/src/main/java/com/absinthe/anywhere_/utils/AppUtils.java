@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.TransactionTooLargeException;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -23,7 +22,6 @@ import com.absinthe.anywhere_.provider.HomeWidgetProvider;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AppUtils {
@@ -175,4 +173,5 @@ public class AppUtils {
 
         return returnClassList;
     }
+
 }

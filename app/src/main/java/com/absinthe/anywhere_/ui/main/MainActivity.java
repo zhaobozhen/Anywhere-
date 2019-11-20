@@ -70,8 +70,8 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         ImageView ivBackground = findViewById(R.id.iv_background);
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            UiUtils.setActionBarTransparent(this);
             UiUtils.loadBackgroundPic(this, ivBackground);
+            UiUtils.setActionBarTransparent(this);
         }
     }
 
@@ -177,5 +177,11 @@ public class MainActivity extends BaseActivity {
                 InitializeFragment.getViewModel().getIsShizuku().setValue(Boolean.TRUE);
             }
         }
+    }
+
+    public void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }

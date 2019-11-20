@@ -27,6 +27,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -193,17 +194,19 @@ public class UiUtils {
      * @return action bar title
      */
     public static String getActionBarTitle() {
+        StringBuilder title = new StringBuilder();
+
         switch (GlobalValues.sWorkingMode) {
             case "":
-                return "Nowhere-";
+                title.append("Nowhere-");
             case Const.WORKING_MODE_URL_SCHEME:
-                return "Somewhere-";
+                title.append("Somewhere-");
             case Const.WORKING_MODE_ROOT:
             case Const.WORKING_MODE_SHIZUKU:
-                return "Anywhere-";
             default:
+                title.append("Anywhere-");
         }
-        return "Anywhere-";
+        return title.toString();
     }
 
     /**
@@ -214,28 +217,18 @@ public class UiUtils {
     public static void setActionBarTransparent(AppCompatActivity activity) {
         ActionBar actionBar = activity.getSupportActionBar();
         Window window = activity.getWindow();
-        int transparent = activity.getResources().getColor(R.color.transparent);
 
         if (actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(transparent));
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
-        window.setStatusBarColor(transparent);
-        window.setNavigationBarColor(transparent);
-    }
 
-    /**
-     * Reset action bar style
-     *
-     * @param activity Activity for bind action bar
-     */
-    public static void resetActionBar(AppCompatActivity activity) {
-        ActionBar actionBar = activity.getSupportActionBar();
-        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-        if (actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(R.color.navigationColorNormal)));
-        }
-        window.setStatusBarColor(activity.getResources().getColor(R.color.navigationColorNormal));
+        window.setStatusBarColor(Color.TRANSPARENT);
+        window.setNavigationBarColor(Color.TRANSPARENT);
+
     }
 
     /**

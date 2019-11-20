@@ -435,17 +435,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         final Observer<String> backgroundObserver = s -> {
             ImageView ivBackground = MainActivity.getInstance().findViewById(R.id.iv_background);
-            if (s.isEmpty()) {
-                ivBackground.setBackground(null);
-                ivBackground.setVisibility(View.GONE);
-                GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
-                UiUtils.resetActionBar(MainActivity.getInstance());
-                MainActivity.getInstance().invalidateOptionsMenu();
-            } else {
+            if (!s.isEmpty()) {
                 UiUtils.loadBackgroundPic(mContext, ivBackground);
+                ivBackground.setVisibility(View.VISIBLE);   //Todo Use ViewStub instead
                 UiUtils.setActionBarTransparent(MainActivity.getInstance());
                 UiUtils.setAdaptiveActionBarTitleColor(MainActivity.getInstance(), actionBar, UiUtils.getActionBarTitle());
-                ivBackground.setVisibility(View.VISIBLE);
             }
             GlobalValues.setsBackgroundUri(s);
         };

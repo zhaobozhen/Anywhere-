@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.settings;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -109,7 +111,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                         .setTitle(R.string.dialog_reset_background_confirm_title)
                         .setMessage(R.string.dialog_reset_background_confirm_message)
-                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> MainFragment.getViewModelInstance().getBackground().setValue(""))
+                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                            GlobalValues.setsBackgroundUri("");
+                            MainActivity.getInstance().restartActivity();
+                            ((Activity) mContext).finish();
+                        })
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> {
                                 })

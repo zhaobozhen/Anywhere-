@@ -77,17 +77,24 @@
                     android:text="@{appName}"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textStyle="bold"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:ellipsize="marquee" />
 
-                <TextView
+                <com.absinthe.anywhere_.view.AlwaysMarqueeTextView
                     android:id="@+id/tv_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{description}"
                     android:textAppearance="?attr/textAppearanceSubtitle2"
                     android:textStyle="bold"
-                    android:visibility="gone"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"/>
             </LinearLayout>
 
         </RelativeLayout>

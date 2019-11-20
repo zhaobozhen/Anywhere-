@@ -6,13 +6,13 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.LogUtil;
 
@@ -59,6 +59,8 @@ public class SettingsActivity extends BaseActivity {
                             GlobalValues.setsActionBarType("");
                             if (MainFragment.getViewModelInstance() != null) {
                                 MainFragment.getViewModelInstance().getBackground().setValue(backgroundUri.toString());
+                                MainActivity.getInstance().restartActivity();
+                                finish();
                             }
                         }
                     } else {
