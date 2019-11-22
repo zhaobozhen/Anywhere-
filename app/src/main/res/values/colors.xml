@@ -16,4 +16,8 @@
     <color name="navigationColorNormal">#FFFFFF</color>
     <color name="lollipopStatusBarColor">#DDDDDD</color>
 
+    <!--  Fab  -->
+    <color name="fabBackgroundColor">#03A9F4</color>
+    <color name="fabIconColor">#FFFFFF</color>
+
 </resources>

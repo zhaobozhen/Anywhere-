@@ -173,20 +173,7 @@ public class UiUtils {
      * @param actionBar our target
      */
     public static void setActionBarTitle(AppCompatActivity activity, ActionBar actionBar) {
-        LogUtil.d("setActionBarTitle:workingMode =", GlobalValues.sWorkingMode);
-        switch (GlobalValues.sWorkingMode) {
-            case "":
-                setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, "Nowhere-");
-                break;
-            case Const.WORKING_MODE_URL_SCHEME:
-                setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, "Somewhere-");
-                break;
-            case Const.WORKING_MODE_ROOT:
-            case Const.WORKING_MODE_SHIZUKU:
-                setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, "Anywhere-");
-                break;
-            default:
-        }
+        setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, getActionBarTitle());
     }
 
     /**
@@ -200,13 +187,22 @@ public class UiUtils {
         switch (GlobalValues.sWorkingMode) {
             case "":
                 title.append("Nowhere-");
+                break;
             case Const.WORKING_MODE_URL_SCHEME:
                 title.append("Somewhere-");
+                break;
             case Const.WORKING_MODE_ROOT:
             case Const.WORKING_MODE_SHIZUKU:
             default:
                 title.append("Anywhere-");
+                break;
         }
+
+        if (Settings.sDate.equals("12-25")) {
+            title.append(" \uD83C\uDF84");
+            LogUtil.d("title = ", title);
+        }
+
         return title.toString();
     }
 
@@ -506,6 +502,13 @@ public class UiUtils {
         }
     }
 
+    /**
+     * Set view margins on vertical
+     *
+     * @param v view
+     * @param t top margin
+     * @param b bottom margin
+     */
     public static void setMargins (View v, int t, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();

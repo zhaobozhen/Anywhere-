@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.drakeet.about.AbsAboutActivity;
 import com.drakeet.about.Card;
@@ -98,6 +99,7 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
                                         + "<b>sortMode</b> = " + GlobalValues.sSortMode + "<br>"
                                         + "<b>iconPack</b> = " + GlobalValues.sIconPack + "<br>"))
                         .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                        .setNeutralButton("LOGCAT", (dialogInterface, i) -> Settings.setLogger())
                         .setCancelable(false)
                         .show();
             }

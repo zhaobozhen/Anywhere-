@@ -34,6 +34,10 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="10dp"
         app:sdMainFabClosedSrc="@drawable/ic_add"
+        app:sdMainFabClosedBackgroundColor="@color/fabBackgroundColor"
+        app:sdMainFabOpenedBackgroundColor="@color/fabBackgroundColor"
+        app:sdMainFabClosedIconColor="@color/fabIconColor"
+        app:sdMainFabOpenedIconColor="@color/fabIconColor"
         app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

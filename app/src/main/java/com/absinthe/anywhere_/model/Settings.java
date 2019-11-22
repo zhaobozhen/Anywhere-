@@ -10,13 +10,17 @@ import com.absinthe.anywhere_.utils.IconPackManager;
 import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Settings {
     @SuppressLint("StaticFieldLeak")
     public static IconPackManager sIconPackManager;
     public static IconPackManager.IconPack sIconPack;
+    public static String sDate;
 
     public static final String DEFAULT_ICON_PACK = "default.icon.pack";
 
@@ -24,6 +28,7 @@ public class Settings {
         setLogger();
         setTheme(GlobalValues.sDarkMode);
         initIconPackManager();
+        setDate();
     }
 
     public static void setTheme(String mode) {
@@ -45,6 +50,10 @@ public class Settings {
         }
     }
 
+    public static void setLogger() {
+        LogUtil.setDebugMode(BuildConfig.DEBUG | GlobalValues.sIsDebugMode);
+    }
+
     private static void initIconPackManager() {
         sIconPackManager = new IconPackManager();
         sIconPackManager.setContext(AnywhereApplication.sContext);
@@ -61,7 +70,9 @@ public class Settings {
         }
     }
 
-    private static void setLogger() {
-        LogUtil.setDebugMode(BuildConfig.DEBUG);
+    private static void setDate() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd", Locale.getDefault());
+        sDate = dateFormat.format(date);
     }
 }
