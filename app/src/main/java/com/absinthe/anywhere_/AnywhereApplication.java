@@ -31,7 +31,9 @@ public class AnywhereApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        SecurityUtils.checkSignature();
+        if (!BuildConfig.DEBUG) {
+            SecurityUtils.checkSignature();
+        }
 
         sContext = getApplicationContext();
         GlobalValues.init(sContext);
