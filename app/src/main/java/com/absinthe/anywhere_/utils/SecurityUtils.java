@@ -6,12 +6,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 
-import com.absinthe.anywhere_.R;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class SecurityUtils {
+
+    static {
+        System.loadLibrary("native-lib");
+    }
+
+    public static native void checkSignature();
 
     /**
      * Get application signature
@@ -84,25 +88,5 @@ public class SecurityUtils {
             e.printStackTrace();
             return "";
         }
-    }
-
-    /**
-     * Get MD5 value of my signature
-     *
-     * @return MD5 value of my signature
-     */
-    public static String getMySignatureMD5(Context context) {
-        return context.getString(R.string.sig_md5_a) +
-                context.getString(R.string.sig_md5_b) +
-                context.getString(R.string.sig_md5_s) +
-                context.getString(R.string.sig_md5_i) +
-                context.getString(R.string.sig_md5_n) +
-                context.getString(R.string.sig_md5_t) +
-                context.getString(R.string.sig_md5_h) +
-                context.getString(R.string.sig_md5_e);
-    }
-
-    public static void exit() {
-        System.exit(0);
     }
 }

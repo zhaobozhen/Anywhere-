@@ -31,11 +31,7 @@ public class AnywhereApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (!BuildConfig.DEBUG &&
-                !SecurityUtils.getSignatureMD5Value(this)
-                .equals(SecurityUtils.getMySignatureMD5(this))) {
-            SecurityUtils.exit();
-        }
+        SecurityUtils.checkSignature();
 
         sContext = getApplicationContext();
         GlobalValues.init(sContext);

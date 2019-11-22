@@ -23,6 +23,14 @@ android {
         versionName "1.2.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+            ndk {
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
+            }
+        }
     }
 
     dataBinding {
@@ -62,6 +70,11 @@ android {
     }
 
     def build_param = "${build}"
+    externalNativeBuild {
+        cmake {
+            path file('CMakeLists.txt')
+        }
+    }
 
     if (build_param != "dev") {
         //exclude production build

@@ -17,6 +17,9 @@ out/
 .gradle/
 build/
 
+# CMake
+app/.cxx
+
 # Local configuration file (sdk path, etc)
 local.properties
 
