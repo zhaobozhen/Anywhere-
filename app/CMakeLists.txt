@@ -11,13 +11,13 @@
     # automatically packages shared libraries with your APK.
 
     add_library( # Specifies the name of the library.
-                 native
+                 izuko
 
                  # Sets the library as a shared library.
                  SHARED
 
                  # Provides a relative path to your source file(s).
-            src/main/cpp/native.cpp)
+            src/main/cpp/izuko.cpp)
 
     # Specifies a path to native header files.
     include_directories(src/main/cpp/include/)

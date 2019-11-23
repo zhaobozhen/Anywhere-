@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
 public class SecurityUtils {
 
     static {
-        System.loadLibrary("native");
+        System.loadLibrary("izuko");
     }
 
     public static native void checkSignature();

@@ -6,7 +6,7 @@
 #include <string>
 #include <cstring>
 #include <malloc.h>
-#include "native.h"
+#include "izuko.h"
 
 extern "C"
 const char *PACKAGE_NAME = "com.absinthe.anywhere_";
