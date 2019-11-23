@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -25,6 +26,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -246,21 +248,18 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         ArrayList<AnywhereEntity> anywhereEntityList = new ArrayList<>();
 
         if (GlobalValues.sIsStreamCardMode) {
-            mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(mLayoutManager);
             if (GlobalValues.sIsStreamCardModeSingleLine) {
                 adapter = new SingleLineStreamCardsAdapter(mContext);
             } else {
                 adapter = new StreamCardsAdapter(mContext);
             }
         } else {
-            mLayoutManager = new WrapContentLinearLayoutManager(mContext);
-            recyclerView.setLayoutManager(mLayoutManager);
             adapter = new SelectableCardsAdapter(mContext);
         }
-
         adapter.setItems(anywhereEntityList);
         recyclerView.setAdapter(adapter);
+
+        setRecyclerViewLayoutManager(mContext.getResources().getConfiguration());
 
         ItemTouchCallBack touchCallBack = new ItemTouchCallBack();
         touchCallBack.setOnItemTouchListener(adapter);
@@ -288,6 +287,30 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 }
             }
         }
+    }
+
+    private void setRecyclerViewLayoutManager(Configuration configuration) {
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (GlobalValues.sIsStreamCardMode) {
+                mLayoutManager = new WrapContentStaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+            } else {
+                mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            }
+        } else {
+            if (GlobalValues.sIsStreamCardMode) {
+                mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            } else {
+                mLayoutManager = new WrapContentLinearLayoutManager(mContext);
+            }
+        }
+        mRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        setRecyclerViewLayoutManager(newConfig);
     }
 
     @Override

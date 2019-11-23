@@ -239,7 +239,7 @@ public class UiUtils {
             Glide.with(context)
                     .load(Uri.parse(GlobalValues.sBackgroundUri))
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into(imageView);
         }
     }
