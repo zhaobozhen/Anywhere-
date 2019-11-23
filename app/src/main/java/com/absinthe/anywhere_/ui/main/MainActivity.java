@@ -6,14 +6,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.databinding.ActivityMainBinding;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
@@ -22,7 +22,7 @@ import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 public class MainActivity extends BaseActivity {
-
+    private ActivityMainBinding binding;
     private MainFragment mainFragment;
     private static Fragment curFragment;
     private static MainActivity instance;
@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initView();
         instance = this;
 
@@ -67,12 +67,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
 
-        ImageView ivBackground = findViewById(R.id.iv_background);
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            UiUtils.loadBackgroundPic(this, ivBackground);
+            UiUtils.loadBackgroundPic(this, binding.ivBackground);
             UiUtils.setActionBarTransparent(this);
             UiUtils.setMargins(findViewById(R.id.cl_main), StatusBarUtil.getStatusBarHeight(this),
                     StatusBarUtil.getNavigationBarHeight(this));
@@ -82,9 +80,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ImageView ivBackground = findViewById(R.id.iv_background);
 
-        UiUtils.loadBackgroundPic(this, ivBackground);
+        UiUtils.loadBackgroundPic(this, binding.ivBackground);
     }
 
     @Override
@@ -137,7 +134,6 @@ public class MainActivity extends BaseActivity {
         } else {
             LogUtil.d("Received Url =", uri.toString());
         }
-        String scheme = uri.getScheme();
         String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
         String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
         String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);

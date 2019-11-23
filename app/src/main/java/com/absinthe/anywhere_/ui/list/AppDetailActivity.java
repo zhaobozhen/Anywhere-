@@ -11,14 +11,13 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.databinding.DataBindingUtil;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.AppListAdapter;
 import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
+import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.AppUtils;
@@ -30,13 +29,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class AppDetailActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+    private ActivityAppDetailBinding binding;
     private AppListAdapter adapter;
-    private SwipeRefreshLayout srlAppDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app_detail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_detail);
 
         initView();
 
@@ -44,8 +43,7 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
         if (intent == null) {
             finish();
         } else {
-            Objects.requireNonNull(getSupportActionBar())
-                    .setTitle(intent.getStringExtra(Const.INTENT_EXTRA_APP_NAME));
+            binding.setAppName(intent.getStringExtra(Const.INTENT_EXTRA_APP_NAME));
         }
 
         initRecyclerView();
@@ -53,10 +51,7 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
     }
 
     private void initView() {
-        srlAppDetail = findViewById(R.id.srl_app_detail);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -69,15 +64,14 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.rv_app_list);
-        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this));
+        binding.rvAppList.setLayoutManager(new WrapContentLinearLayoutManager(this));
         adapter = new AppListAdapter(this, AppListAdapter.MODE_APP_DETAIL);
-        recyclerView.setAdapter(adapter);
+        binding.rvAppList.setAdapter(adapter);
     }
 
     private void initData(String pkgName) {
-        srlAppDetail.setEnabled(true);
-        srlAppDetail.setRefreshing(true);
+        binding.srlAppDetail.setEnabled(true);
+        binding.srlAppDetail.setRefreshing(true);
         new Thread(() -> {
             List<AppListBean> list = new ArrayList<>();
             List<String> clazz = AppUtils.getActivitiesClass(this, pkgName);
@@ -92,8 +86,8 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
 
             runOnUiThread(() -> {
                 adapter.setList(ListUtils.sortAppListByExported(list));
-                srlAppDetail.setRefreshing(false);
-                srlAppDetail.setEnabled(false);
+                binding.srlAppDetail.setRefreshing(false);
+                binding.srlAppDetail.setEnabled(false);
             });
 
         }).start();
