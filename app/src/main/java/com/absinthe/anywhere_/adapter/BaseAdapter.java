@@ -168,6 +168,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 .item(item)
                 .isEditorMode(true)
                 .isShortcut(item.getShortcutType() == AnywhereType.SHORTCUTS)
+                .isExported(item.getExportedType() == AnywhereType.EXPORTED)
                 .setOnEditorListener(listener)
                 .build();
 

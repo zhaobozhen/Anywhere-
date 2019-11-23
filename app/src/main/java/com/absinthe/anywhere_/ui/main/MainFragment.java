@@ -26,7 +26,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -345,7 +344,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (item.getItemId() == R.id.toolbar_settings) {
             startActivity(new Intent(MainActivity.getInstance(), SettingsActivity.class));
         } else if (item.getItemId() == R.id.toolbar_sort) {
-            PopupMenu popup = new PopupMenu(mContext, MainActivity.getInstance().findViewById(R.id.toolbar_sort), Gravity.RIGHT);
+            PopupMenu popup = new PopupMenu(mContext, MainActivity.getInstance().findViewById(R.id.toolbar_sort), Gravity.END);
             popup.getMenuInflater()
                     .inflate(R.menu.sort_menu, popup.getMenu());
             if (popup.getMenu() instanceof MenuBuilder) {
@@ -419,6 +418,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
                 ((Activity) mContext).invalidateOptionsMenu();
             }
+            mRecyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         } else if (item.getItemId() == R.id.toolbar_delete) {
             new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                     .setTitle(R.string.dialog_delete_selected_title)

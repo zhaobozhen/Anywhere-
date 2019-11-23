@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -88,6 +89,7 @@ public class Editor {
         return this;
     }
 
+    @SuppressLint("RestrictedApi")
     public Editor build() {
         if (mEditorType == ANYWHERE) {
             TextInputLayout tilAppName = mBottomSheetDialog.findViewById(R.id.til_app_name);

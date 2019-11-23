@@ -111,7 +111,7 @@ static jstring ToMd5(JNIEnv *env, jbyteArray source) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_absinthe_anywhere_1_utils_SecurityUtils_checkSignature(JNIEnv *env) {
+Java_com_absinthe_anywhere_1_utils_SecurityUtils_checkSignature(JNIEnv *env, jclass clazz) {
 
     jobject context = getApplication(env);
     // get Context object

@@ -41,7 +41,7 @@ public class AnywhereApplication extends Application {
     }
 
     public static String getProcessName() {
-        if (Build.VERSION.SDK_INT >= 28)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
             return Application.getProcessName();
         else {
             try {
@@ -90,7 +90,7 @@ public class AnywhereApplication extends Application {
                     // test the binder first
                     ShizukuService.pingBinder();
 
-                    if (Build.VERSION.SDK_INT < 23) {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                         String token = ShizukuClientHelper.loadPre23Token(base);
                         v3TokenValid = ShizukuService.setCurrentProcessTokenPre23(token);
                     }
