@@ -187,4 +187,7 @@
     <string name="array_dark_mode_auto">Auto</string>
     <string name="array_dark_mode_system">Follow System</string>
 
+    <string name="activity_list_empty_title">Empty list</string>
+    <string name="activity_list_empty_subtitle">Have you disabled/frozen this app?</string>
+
 </resources>

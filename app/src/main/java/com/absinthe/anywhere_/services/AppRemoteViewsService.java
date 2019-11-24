@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.services;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -11,7 +12,9 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.LogUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +94,16 @@ public class AppRemoteViewsService extends RemoteViewsService {
                 return null;
             }
             String content = mList.get(position).getAppName();
+
+            try {
+                if (IceBox.getAppEnabledSetting(mContext, mList.get(position).getParam1()) != 0) {
+                    content = content + "\u2744";
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                LogUtil.e(e.getMessage());
+            }
+
             // 创建在当前索引位置要显示的View
             final RemoteViews rv = new RemoteViews(mContext.getPackageName(),
                     R.layout.item_widget_list);

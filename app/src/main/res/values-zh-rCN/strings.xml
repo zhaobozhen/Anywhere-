@@ -9,6 +9,7 @@
     <string name="tile_collector_off">关闭 Collector</string>
     <string name="shortcut_add">添加 Anywhere-</string>
     <string name="slogan">Anywhere- 去你想去的地方</string>
+    <string name="whats_this">这是什么</string>
     <string name="welcome_title">欢迎使用 Anywhere-</string>
     <string name="welcome_start_button">开始</string>
 
@@ -185,5 +186,7 @@
     <string name="array_dark_mode_on">开启</string>
     <string name="array_dark_mode_auto">自动</string>
     <string name="array_dark_mode_system">跟随系统</string>
-    <string name="whats_this">这是什么</string>
+
+    <string name="activity_list_empty_title">空列表</string>
+    <string name="activity_list_empty_subtitle">您是否 停用/冻结 了此 App?</string>
 </resources>

@@ -85,7 +85,12 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
             }
 
             runOnUiThread(() -> {
-                adapter.setList(ListUtils.sortAppListByExported(list));
+                if (list.isEmpty()) {
+                    binding.vfContainer.setDisplayedChild(1);
+                } else {
+                    adapter.setList(ListUtils.sortAppListByExported(list));
+                    binding.vfContainer.setDisplayedChild(0);
+                }
                 binding.srlAppDetail.setRefreshing(false);
                 binding.srlAppDetail.setEnabled(false);
             });

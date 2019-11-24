@@ -22,6 +22,7 @@ import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -111,55 +112,47 @@ public class PermissionUtil {
      */
     public static String execCmd(String cmd) {
         String result = null;
+        String pkgClsString = cmd.split(" ")[3];
+        String pkg = pkgClsString.split("/")[0];
+        String cls = pkgClsString.split("/")[1];
 
-        switch (GlobalValues.sWorkingMode) {
-            case Const.WORKING_MODE_SHIZUKU:
-                result = execShizukuCmd(cmd);
-                break;
-            case Const.WORKING_MODE_ROOT:
-                result = execRootCmd(cmd);
-                break;
-            case Const.WORKING_MODE_URL_SCHEME:
-                if (cmd.contains("am start -n")) {
-                    try {
-                        String pkgClsString = cmd.split(" ")[3];
-                        String pkg = pkgClsString.split("/")[0];
-                        String cls = pkgClsString.split("/")[1];
-                        if (cls.charAt(0) == '.') {
-                            cls = pkg + cls;
+        if (UiUtils.isActivityExported(AnywhereApplication.sContext, new ComponentName(pkg, cls))) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setComponent(new ComponentName(pkg, cls));
+                MainActivity.getInstance().startActivity(intent);
+                result = "android.intent.action.VIEW";
+            } catch (Exception e) {
+                LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+            }
+        } else {
+            switch (GlobalValues.sWorkingMode) {
+                case Const.WORKING_MODE_SHIZUKU:
+                    result = execShizukuCmd(cmd);
+                    break;
+                case Const.WORKING_MODE_ROOT:
+                    result = execRootCmd(cmd);
+                    break;
+                case Const.WORKING_MODE_URL_SCHEME:
+                    if (cmd.contains("am start -n")) {
+                        ToastUtil.makeText(R.string.toast_change_work_mode);
+                    } else {
+                        if (cmd.contains(Const.CMD_OPEN_URL_SCHEME)) {
+                            cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
                         }
-                        if (!UiUtils.isActivityExported(AnywhereApplication.sContext, new ComponentName(pkg, cls))) {
-                            ToastUtil.makeText(R.string.toast_change_work_mode);
-                            break;
-                        } else {
-                            try {
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setComponent(new ComponentName(pkg, cls));
-                                MainActivity.getInstance().startActivity(intent);
-                                result = "android.intent.action.VIEW";
-                            } catch (Exception e) {
-                                LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
-                            }
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse(cmd));
+                            MainActivity.getInstance().startActivity(intent);
+                            result = "android.intent.action.VIEW";
+                        } catch (Exception e) {
+                            LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
                         }
-                    } catch (IndexOutOfBoundsException e) {
-                        e.printStackTrace();
-                        ToastUtil.makeText(R.string.toast_wrong_cmd);
                     }
-                } else {
-                    if (cmd.contains(Const.CMD_OPEN_URL_SCHEME)) {
-                        cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
-                    }
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(cmd));
-                        MainActivity.getInstance().startActivity(intent);
-                        result = "android.intent.action.VIEW";
-                    } catch (Exception e) {
-                        LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
-                    }
-                }
-                break;
+                    break;
+            }
         }
+
         LogUtil.d("execCmd result = ", result);
         return result;
     }
@@ -406,7 +399,12 @@ public class PermissionUtil {
             if (IceBox.getAppEnabledSetting(context, pkgName) != 0) { //0 为未冻结状态
                 if (ContextCompat.checkSelfPermission(context, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                     if (PermissionUtil.isMIUI()) {
-                        new MaterialAlertDialogBuilder(context)
+                        Context c = context;
+                        if (context instanceof ShortcutsActivity) {
+                            context.startActivity(new Intent(context, MainActivity.class));
+                            c = MainActivity.getInstance();
+                        }
+                        new MaterialAlertDialogBuilder(c, R.style.AppTheme_Dialog)
                                 .setMessage(R.string.dialog_message_ice_box_perm_not_support)
                                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
                                 .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, in) -> {
