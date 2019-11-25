@@ -112,44 +112,52 @@ public class PermissionUtil {
      */
     public static String execCmd(String cmd) {
         String result = null;
-        String pkgClsString = cmd.split(" ")[3];
-        String pkg = pkgClsString.split("/")[0];
-        String cls = pkgClsString.split("/")[1];
+        if (cmd.contains("am start")) {
+            String pkgClsString = cmd.split(" ")[3];
+            String pkg = pkgClsString.split("/")[0];
+            String cls = pkgClsString.split("/")[1];
 
-        if (UiUtils.isActivityExported(AnywhereApplication.sContext, new ComponentName(pkg, cls))) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setComponent(new ComponentName(pkg, cls));
-                MainActivity.getInstance().startActivity(intent);
-                result = "android.intent.action.VIEW";
-            } catch (Exception e) {
-                LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+            if (UiUtils.isActivityExported(AnywhereApplication.sContext, new ComponentName(pkg, cls))) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setComponent(new ComponentName(pkg, cls));
+                    MainActivity.getInstance().startActivity(intent);
+                    result = "android.intent.action.VIEW";
+                } catch (Exception e) {
+                    LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                }
+            } else {
+                switch (GlobalValues.sWorkingMode) {
+                    case Const.WORKING_MODE_SHIZUKU:
+                        result = execShizukuCmd(cmd);
+                        break;
+                    case Const.WORKING_MODE_ROOT:
+                        result = execRootCmd(cmd);
+                        break;
+                    case Const.WORKING_MODE_URL_SCHEME:
+                        if (cmd.contains("am start -n")) {
+                            ToastUtil.makeText(R.string.toast_change_work_mode);
+                        } else {
+                            if (cmd.contains(Const.CMD_OPEN_URL_SCHEME)) {
+                                cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
+                            }
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse(cmd));
+                                MainActivity.getInstance().startActivity(intent);
+                                result = "android.intent.action.VIEW";
+                            } catch (Exception e) {
+                                LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                            }
+                        }
+                        break;
+                }
             }
         } else {
-            switch (GlobalValues.sWorkingMode) {
-                case Const.WORKING_MODE_SHIZUKU:
-                    result = execShizukuCmd(cmd);
-                    break;
-                case Const.WORKING_MODE_ROOT:
-                    result = execRootCmd(cmd);
-                    break;
-                case Const.WORKING_MODE_URL_SCHEME:
-                    if (cmd.contains("am start -n")) {
-                        ToastUtil.makeText(R.string.toast_change_work_mode);
-                    } else {
-                        if (cmd.contains(Const.CMD_OPEN_URL_SCHEME)) {
-                            cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
-                        }
-                        try {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse(cmd));
-                            MainActivity.getInstance().startActivity(intent);
-                            result = "android.intent.action.VIEW";
-                        } catch (Exception e) {
-                            LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
-                        }
-                    }
-                    break;
+            if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_SHIZUKU)) {
+                result = execShizukuCmd(cmd);
+            } else if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_ROOT)) {
+                result = execRootCmd(cmd);
             }
         }
 
@@ -162,7 +170,7 @@ public class PermissionUtil {
      *
      * @param cmd command
      */
-    public static String execRootCmd(String cmd) {
+    private static String execRootCmd(String cmd) {
         StringBuilder result = new StringBuilder();
         OutputStream os = null;
         InputStream is = null;
@@ -210,7 +218,7 @@ public class PermissionUtil {
      *
      * @param cmd command
      */
-    public static String execShizukuCmd(String cmd) {
+    private static String execShizukuCmd(String cmd) {
         try {
             RemoteProcess remoteProcess = ShizukuService.newProcess(new String[]{"sh"}, null, null);
             InputStream is = remoteProcess.getInputStream();
