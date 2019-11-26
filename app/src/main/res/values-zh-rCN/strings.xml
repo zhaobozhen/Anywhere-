@@ -51,7 +51,7 @@
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme,可在捷径社区寻找</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App 类名，一般来说默认即可</string>
     <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 吧</string>
-    <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">启动 Intent 时传递参数，格式：\n[--cmd] extraName1 value1\n[--cmd] extraName2 value2 …\ncmd 指令可前往帮助查看</string>
+    <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">启动 Intent 时传递参数，格式：\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\ncmd 指令可前往帮助查看</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
 

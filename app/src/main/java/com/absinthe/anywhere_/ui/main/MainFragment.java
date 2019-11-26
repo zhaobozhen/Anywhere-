@@ -38,6 +38,7 @@ import com.absinthe.anywhere_.adapter.SingleLineStreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.StreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.adapter.WrapContentStaggeredGridLayoutManager;
+import com.absinthe.anywhere_.databinding.ActivityMainBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
@@ -344,7 +345,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (item.getItemId() == R.id.toolbar_settings) {
             startActivity(new Intent(MainActivity.getInstance(), SettingsActivity.class));
         } else if (item.getItemId() == R.id.toolbar_sort) {
-            PopupMenu popup = new PopupMenu(mContext, MainActivity.getInstance().findViewById(R.id.toolbar_sort), Gravity.END);
+            PopupMenu popup = new PopupMenu(mContext, MainActivity.getInstance().findViewById(R.id.toolbar_sort));
             popup.getMenuInflater()
                     .inflate(R.menu.sort_menu, popup.getMenu());
             if (popup.getMenu() instanceof MenuBuilder) {
@@ -471,11 +472,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         };
         mViewModel.getBackground().observe(this, backgroundObserver);
         mViewModel.getCardMode().observe(this, s -> refreshRecyclerView(mRecyclerView));
-
-        if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            LogUtil.d("backgroundUri =", GlobalValues.sBackgroundUri);
-            mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
-        }
     }
 
     private void initFab(View view) {

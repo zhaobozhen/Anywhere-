@@ -634,6 +634,10 @@ public class StatusBarUtil {
             return 0;
         }
 
+        if (Settings.Global.getInt(context.getContentResolver(), "navigationbar_is_min", 0) != 0) {
+            return 0;
+        }
+
         int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         return context.getResources().getDimensionPixelSize(resourceId);
     }

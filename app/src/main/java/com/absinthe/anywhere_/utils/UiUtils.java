@@ -214,18 +214,19 @@ public class UiUtils {
     public static void setActionBarTransparent(AppCompatActivity activity) {
         ActionBar actionBar = activity.getSupportActionBar();
         Window window = activity.getWindow();
+        View view = window.getDecorView();
 
         if (actionBar != null) {
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
+        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         window.setStatusBarColor(Color.TRANSPARENT);
         window.setNavigationBarColor(Color.TRANSPARENT);
-
     }
 
     /**
@@ -239,7 +240,7 @@ public class UiUtils {
             Glide.with(context)
                     .load(Uri.parse(GlobalValues.sBackgroundUri))
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(imageView);
         }
     }
@@ -351,12 +352,14 @@ public class UiUtils {
             GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
             activity.invalidateOptionsMenu();
 
-            if (isDarkMode(activity)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                activity.getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR |
+                                activity.getWindow().getDecorView().getSystemUiVisibility());
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                activity.getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR |
+                                activity.getWindow().getDecorView().getSystemUiVisibility());
             }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
             LogUtil.d("Light-");
@@ -368,7 +371,9 @@ public class UiUtils {
             GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
             activity.invalidateOptionsMenu();
 
-            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            activity.getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_VISIBLE |
+                            activity.getWindow().getDecorView().getSystemUiVisibility());
         }
     }
 

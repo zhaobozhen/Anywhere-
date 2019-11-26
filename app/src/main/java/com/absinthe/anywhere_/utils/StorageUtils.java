@@ -61,7 +61,7 @@ public class StorageUtils {
         if (list != null) {
             for (AnywhereEntity ae : list) {
                 SerializableAnywhereEntity sae = new SerializableAnywhereEntity(ae);
-                sae.setmType(ae.getAnywhereType());
+                sae.setmType(ae.getAnywhereType() + ae.getExportedType() * 100);
                 expoList.add(sae);
             }
             String s = gson.toJson(expoList);

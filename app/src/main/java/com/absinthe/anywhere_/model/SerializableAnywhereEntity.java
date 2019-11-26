@@ -112,6 +112,6 @@ public class SerializableAnywhereEntity implements Serializable {
     }
 
     public Integer getShortcutType() {
-        return mType / 10;
+        return ( mType / 10 ) % 10;
     }
 }

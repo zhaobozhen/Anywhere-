@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -71,9 +72,9 @@ public class MainActivity extends BaseActivity {
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             UiUtils.loadBackgroundPic(this, binding.ivBackground);
+            binding.ivBackground.setVisibility(View.VISIBLE);
             UiUtils.setActionBarTransparent(this);
-            UiUtils.setMargins(findViewById(R.id.cl_main), StatusBarUtil.getStatusBarHeight(this),
-                    StatusBarUtil.getNavigationBarHeight(this));
+            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }
     }
 

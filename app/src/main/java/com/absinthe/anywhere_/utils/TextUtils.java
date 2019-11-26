@@ -108,7 +108,7 @@ public class TextUtils {
                 cmd.append("am start -n ").append(packageName).append("/").append(className);
             }
 
-            if (extras != null && extras.contains("=")) {
+            if (extras != null) {
                 String[] extrasList = extras.split("\n");
                 for (String eachLine : extrasList) {
                     cmd.append(" ").append(eachLine);
@@ -155,7 +155,7 @@ public class TextUtils {
                 cmd.append("am start -n ").append(packageName).append("/").append(className);
             }
 
-            if (extras != null && extras.contains("=")) {
+            if (extras != null) {
                 String[] extrasList = extras.split("\n");
                 for (String eachLine : extrasList) {
                     cmd.append(" ").append(eachLine);
