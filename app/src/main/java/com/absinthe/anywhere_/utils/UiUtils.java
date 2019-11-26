@@ -342,7 +342,7 @@ public class UiUtils {
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
 
-            if (isDarkMode(activity)) {
+            if (isDarkMode(activity) && GlobalValues.sBackgroundUri.isEmpty()) {
                 span = new ForegroundColorSpan(Color.WHITE);
             }
 

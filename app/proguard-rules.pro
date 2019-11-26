@@ -15,6 +15,7 @@
 #----------------------------------------------------------------------------
 -ignorewarnings     # 是否忽略检测，（是）
 #---------------------------------默认保留区---------------------------------
+
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
@@ -89,6 +90,7 @@
 -dontwarn com.google.android.gms.**
 -keep class com.google.android.gms.** { *; }
 -keep class com.crashlytics.** { *; }
+-keep class io.fabric.sdk.** { *; }
 -dontwarn com.crashlytics.**
 
 #Glide
@@ -97,30 +99,3 @@
    **[] $VALUES;
    public *;
 }
-
-#Fabric
--keep class io.fabric.sdk.android.services.events.EventsStorageListener
--keep class io.fabric.sdk.android.services.events.EventsStorage
--keep class io.fabric.sdk.android.services.common.CurrentTimeProvider
--keep class io.fabric.sdk.android.services.events.EventTransform
--keep class io.fabric.sdk.android.services.concurrency.Task
--keep class io.fabric.sdk.android.services.network.HttpMethod
--keep class io.fabric.sdk.android.services.network.HttpRequestFactory
--keep class io.fabric.sdk.android.Kit
--keep class io.fabric.sdk.android.services.common.IdManager
--keep class io.fabric.sdk.android.InitializationCallback
--keep class io.fabric.sdk.android.Fabric
--keep class io.fabric.sdk.android.services.common.IdManager$DeviceIdentifierType
--keep class io.fabric.sdk.android.services.persistence.PreferenceStore
--keep class io.fabric.sdk.android.services.persistence.FileStore
--keep class io.fabric.sdk.android.services.settings.PromptSettingsData
--keep class io.fabric.sdk.android.services.network.HttpRequest
--keep class io.fabric.sdk.android.services.settings.SessionSettingsData
--keep class io.fabric.sdk.android.services.settings.SettingsData
--keep class io.fabric.sdk.android.services.settings.BetaSettingsData
--keep class io.fabric.sdk.android.ActivityLifecycleManager
--keep class io.fabric.sdk.android.services.settings.AnalyticsSettingsData
--keep class io.fabric.sdk.android.services.concurrency.internal.RetryState
--keep class io.fabric.sdk.android.services.concurrency.internal.Backoff
--keep class io.fabric.sdk.android.services.common.Crash$LoggedException
--keep class io.fabric.sdk.android.services.common.Crash$FatalException

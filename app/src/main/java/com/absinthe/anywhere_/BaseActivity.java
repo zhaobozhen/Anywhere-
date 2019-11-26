@@ -23,7 +23,11 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         if (UiUtils.isDarkMode(this)) {
-            UiUtils.clearLightStatusBarAndNavigationBar(getWindow().getDecorView());
+            if (GlobalValues.sBackgroundUri.isEmpty() || !(this instanceof MainActivity)) {
+                UiUtils.clearLightStatusBarAndNavigationBar(getWindow().getDecorView());
+            } else {
+                UiUtils.setActionBarTitle(this, getSupportActionBar());
+            }
         }
     }
 }

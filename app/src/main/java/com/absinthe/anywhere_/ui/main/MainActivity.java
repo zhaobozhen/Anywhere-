@@ -19,7 +19,6 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.LogUtil;
-import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 public class MainActivity extends BaseActivity {
@@ -99,7 +98,7 @@ public class MainActivity extends BaseActivity {
                     menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_light);
                     break;
                 case Const.ACTION_BAR_TYPE_DARK:
-                    if (UiUtils.isDarkMode(this)) {
+                    if (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty()) {
                         menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
                         menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_light);
                         menu.findItem(R.id.toolbar_delete).setIcon(R.drawable.ic_delete_light);
