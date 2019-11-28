@@ -25,18 +25,21 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.palette.graphics.Palette;
 
 import com.absinthe.anywhere_.AnywhereApplication;
@@ -522,4 +525,33 @@ public class UiUtils {
         }
     }
 
+    /**
+     * Tint the menu icon
+     *
+     * @param context context
+     * @param item a menu item
+     * @param color color
+     */
+    public static void tintMenuIcon(Context context, MenuItem item, @ColorRes int color) {
+        Drawable normalDrawable = item.getIcon();
+        Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+        DrawableCompat.setTint(wrapDrawable, context.getResources().getColor(color));
+
+        item.setIcon(wrapDrawable);
+    }
+
+    /**
+     * Tint the icon
+     *
+     * @param context context
+     * @param view a view
+     * @param color color
+     */
+    public static void tintView(Context context, View view, @ColorRes int color) {
+        Drawable normalDrawable = view.getBackground();
+        Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+        DrawableCompat.setTint(wrapDrawable, context.getResources().getColor(color));
+
+        view.setBackground(wrapDrawable);
+    }
 }

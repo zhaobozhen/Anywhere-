@@ -142,7 +142,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                                 .setMessage(R.string.dialog_message_ice_box_perm_not_support)
                                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
                                 .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, i) -> {
-                                    Intent intent = new Intent("android.intent.action.VIEW");
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.setComponent(new ComponentName("com.android.settings",
                                             "com.android.settings.Settings$ManageApplicationsActivity"));
                                     mContext.startActivity(intent);

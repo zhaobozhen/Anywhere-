@@ -75,7 +75,7 @@ public class PermissionUtil {
         try {
             String cmd = "chmod 777 " + pkgCodePath;
             LogUtil.d("root cmd =", cmd);
-            process = Runtime.getRuntime().exec("su"); //切换到 root 账户
+            process = Runtime.getRuntime().exec("su"); //change to super user
             os = new DataOutputStream(process.getOutputStream());
             os.writeBytes(cmd + "\n");
             os.writeBytes("exit\n");
@@ -106,13 +106,47 @@ public class PermissionUtil {
     }
 
     /**
+     * execute adb command
+     *
+     * @param cmd command
+     */
+    public static String execAdbCmd(String cmd) {
+        String result = null;
+
+        switch (GlobalValues.sWorkingMode) {
+            case Const.WORKING_MODE_SHIZUKU:
+                result = execShizukuCmd(cmd);
+                break;
+            case Const.WORKING_MODE_ROOT:
+                result = execRootCmd(cmd);
+                break;
+            case Const.WORKING_MODE_URL_SCHEME:
+                ToastUtil.makeText(R.string.toast_change_work_mode);
+                break;
+        }
+        LogUtil.d("execCmd result = ", result);
+        return result;
+    }
+
+    /**
      * execute adb or intent command
      *
      * @param cmd command
      */
     public static String execCmd(String cmd) {
         String result = null;
-        if (cmd.contains("am start")) {
+
+        if (cmd.contains("am start -a") || !cmd.contains("am start")) {
+            cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(cmd));
+                MainActivity.getInstance().startActivity(intent);
+                result = Intent.ACTION_VIEW;
+            } catch (Exception e) {
+                LogUtil.d("URL_SCHEME:Exception:", e.getMessage());
+            }
+        } else {
             String pkgClsString = cmd.split(" ")[3];
             String pkg = pkgClsString.split("/")[0];
             String cls = pkgClsString.split("/")[1];
@@ -121,8 +155,8 @@ public class PermissionUtil {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setComponent(new ComponentName(pkg, cls));
-                    MainActivity.getInstance().startActivity(intent);
-                    result = "android.intent.action.VIEW";
+                    AnywhereApplication.sContext.startActivity(intent);
+                    result = Intent.ACTION_VIEW;
                 } catch (Exception e) {
                     LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
                 }
@@ -135,29 +169,9 @@ public class PermissionUtil {
                         result = execRootCmd(cmd);
                         break;
                     case Const.WORKING_MODE_URL_SCHEME:
-                        if (cmd.contains("am start -n")) {
-                            ToastUtil.makeText(R.string.toast_change_work_mode);
-                        } else {
-                            if (cmd.contains(Const.CMD_OPEN_URL_SCHEME)) {
-                                cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
-                            }
-                            try {
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setData(Uri.parse(cmd));
-                                MainActivity.getInstance().startActivity(intent);
-                                result = "android.intent.action.VIEW";
-                            } catch (Exception e) {
-                                LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
-                            }
-                        }
+                        ToastUtil.makeText(R.string.toast_change_work_mode);
                         break;
                 }
-            }
-        } else {
-            if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_SHIZUKU)) {
-                result = execShizukuCmd(cmd);
-            } else if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_ROOT)) {
-                result = execRootCmd(cmd);
             }
         }
 
@@ -286,7 +300,7 @@ public class PermissionUtil {
                         activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
                     } else {
                         ToastUtil.makeText(R.string.toast_not_install_shizuku);
-                        intent = new Intent("android.intent.action.VIEW");
+                        intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
                         activity.startActivity(intent);
                     }
@@ -387,7 +401,7 @@ public class PermissionUtil {
                             ((AppCompatActivity) mContext).startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
                         } else {
                             ToastUtil.makeText(R.string.toast_not_install_shizuku);
-                            intent = new Intent("android.intent.action.VIEW");
+                            intent = new Intent(Intent.ACTION_VIEW);
                             intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
                             mContext.startActivity(intent);
                         }
@@ -416,7 +430,7 @@ public class PermissionUtil {
                                 .setMessage(R.string.dialog_message_ice_box_perm_not_support)
                                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
                                 .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, in) -> {
-                                    Intent intent = new Intent("android.intent.action.VIEW");
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.setComponent(new ComponentName("com.android.settings",
                                             "com.android.settings.Settings$ManageApplicationsActivity"));
                                     context.startActivity(intent);

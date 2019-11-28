@@ -89,27 +89,16 @@ public class MainActivity extends BaseActivity {
         LogUtil.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
 
         if (menu.findItem(R.id.toolbar_settings) != null) {
-            switch (GlobalValues.sActionBarType) {
-                case "":
-                case Const.ACTION_BAR_TYPE_LIGHT:
-                    menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
-                    menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_light);
-                    menu.findItem(R.id.toolbar_delete).setIcon(R.drawable.ic_delete_light);
-                    menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_light);
-                    break;
-                case Const.ACTION_BAR_TYPE_DARK:
-                    if (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty()) {
-                        menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_light);
-                        menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_light);
-                        menu.findItem(R.id.toolbar_delete).setIcon(R.drawable.ic_delete_light);
-                        menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_light);
-                    } else {
-                        menu.findItem(R.id.toolbar_settings).setIcon(R.drawable.ic_settings_outline_dark);
-                        menu.findItem(R.id.toolbar_sort).setIcon(R.drawable.ic_filter_list_dark);
-                        menu.findItem(R.id.toolbar_delete).setIcon(R.drawable.ic_delete_dark);
-                        menu.findItem(R.id.toolbar_done).setIcon(R.drawable.ic_done_dark);
-                    }
-                    break;
+            if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT) || ( UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty() )) {
+                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_settings), R.color.white);
+                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_sort), R.color.white);
+                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_delete), R.color.white);
+                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), R.color.white);
+            } else {
+                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_settings), R.color.black);
+                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_sort), R.color.black);
+                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_delete), R.color.black);
+                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), R.color.black);
             }
         }
         return super.onPrepareOptionsMenu(menu);

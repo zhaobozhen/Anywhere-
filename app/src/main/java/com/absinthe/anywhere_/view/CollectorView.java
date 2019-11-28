@@ -111,7 +111,7 @@ public class CollectorView extends LinearLayout {
 
     private void collectActivity() {
         String cmd = Const.CMD_GET_TOP_STACK_ACTIVITY;
-        String result = PermissionUtil.execCmd(cmd);
+        String result = PermissionUtil.execAdbCmd(cmd);
 
         LogUtil.d("Shell result =", result);
 

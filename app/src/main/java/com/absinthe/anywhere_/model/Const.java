@@ -45,7 +45,8 @@ public class Const {
     public static final String INTENT_EXTRA_PKG_NAME = "pkgName";
 
     public static final String CMD_GET_TOP_STACK_ACTIVITY = "dumpsys activity activities | grep mResumedActivity";
-    public static final String CMD_OPEN_URL_SCHEME = "am start -a android.intent.action.VIEW -d ";
+    public static final String CMD_OPEN_URL_SCHEME = "am start -a android.intent.action.VIEW -d %s";
+    public static final String CMD_OPEN_ACTIVITY = "am start -n %s/%s";
 
     public static final int REQUEST_CODE_SHIZUKU_PERMISSION = 1001;
     public static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1002;

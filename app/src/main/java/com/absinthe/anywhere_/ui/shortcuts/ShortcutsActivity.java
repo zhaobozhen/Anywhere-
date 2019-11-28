@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.shortcuts;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,7 +20,6 @@ public class ShortcutsActivity extends Activity {
     public static final String ACTION_START_COMMAND = "START_COMMAND";
     public static final String ACTION_START_FROM_WIDGET = "START_FROM_WIDGET";
 
-    @SuppressLint("WrongThread")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

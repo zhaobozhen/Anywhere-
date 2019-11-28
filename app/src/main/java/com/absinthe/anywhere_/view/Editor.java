@@ -214,8 +214,10 @@ public class Editor {
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                         if (isShortcut) {
-                            popup.getMenu().getItem(0).setIcon(R.drawable.ic_added_shortcut);
+                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.colorAccent);
                             popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
+                        } else {
+                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.textColorNormal);
                         }
                     }
                     popup.setOnMenuItemClickListener(item -> {
@@ -358,8 +360,10 @@ public class Editor {
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                         if (isShortcut) {
-                            popup.getMenu().getItem(0).setIcon(R.drawable.ic_added_shortcut);
+                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.colorAccent);
                             popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
+                        } else {
+                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.textColorNormal);
                         }
                     }
                     popup.setOnMenuItemClickListener(item -> {

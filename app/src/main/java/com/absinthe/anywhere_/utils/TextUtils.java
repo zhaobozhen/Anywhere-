@@ -1,14 +1,11 @@
 package com.absinthe.anywhere_.utils;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
@@ -67,21 +64,6 @@ public class TextUtils {
     }
 
     /**
-     * get current app package name
-     *
-     * @param context to get ActivityManager
-     */
-    public static String getTopAppPackageName(Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(AppCompatActivity.ACTIVITY_SERVICE);
-
-        if (am != null) {
-            return am.getRunningAppProcesses().get(0).processName;
-        }
-
-        return "";
-    }
-
-    /**
      * get launch command of a item
      *
      * @param item the item
@@ -103,9 +85,9 @@ public class TextUtils {
             LogUtil.d("packageName =", packageName, "className =", className, "extras =", extras);
 
             if (className.charAt(0) == '.') {
-                cmd.append("am start -n ").append(packageName).append("/").append(packageName).append(className);
+                cmd.append(String.format(Const.CMD_OPEN_ACTIVITY, packageName, packageName + className));
             } else {
-                cmd.append("am start -n ").append(packageName).append("/").append(className);
+                cmd.append(String.format(Const.CMD_OPEN_ACTIVITY, packageName, className));
             }
 
             if (extras != null) {
@@ -121,9 +103,8 @@ public class TextUtils {
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                 cmd.append(urlScheme);
             } else {
-                cmd.append("am start -a android.intent.action.VIEW -d ").append(urlScheme);
+                cmd.append(String.format(Const.CMD_OPEN_URL_SCHEME, urlScheme));
             }
-
         } else if (type == AnywhereType.MINI_PROGRAM) {
             //Todo
         } else {
@@ -134,50 +115,16 @@ public class TextUtils {
     }
 
     public static String getItemCommand(SerializableAnywhereEntity item) {
-        StringBuilder cmd = new StringBuilder();
-        int type = item.getAnywhereType();
-
-        String packageName;
-        String className;
-        String extras;
-
-        String urlScheme;
-
-        if (type == AnywhereType.ACTIVITY) {
-            packageName = item.getmParam1();
-            className = item.getmParam2();
-            extras = item.getmParam3();
-            LogUtil.d("packageName =", packageName, "className =", className, "extras =", extras);
-
-            if (className.charAt(0) == '.') {
-                cmd.append("am start -n ").append(packageName).append("/").append(packageName).append(className);
-            } else {
-                cmd.append("am start -n ").append(packageName).append("/").append(className);
-            }
-
-            if (extras != null) {
-                String[] extrasList = extras.split("\n");
-                for (String eachLine : extrasList) {
-                    cmd.append(" ").append(eachLine);
-                }
-            }
-        } else if (type == AnywhereType.URL_SCHEME) {
-            urlScheme = item.getmParam1();
-            LogUtil.d("urlScheme =", urlScheme);
-
-            if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
-                cmd.append(urlScheme);
-            } else {
-                cmd.append("am start -a android.intent.action.VIEW -d ").append(urlScheme);
-            }
-
-        } else if (type == AnywhereType.MINI_PROGRAM) {
-            //Todo
-        } else {
-            LogUtil.d("AnywhereType has problem.");
-        }
-        LogUtil.d(cmd);
-        return cmd.toString();
+        AnywhereEntity ae = new AnywhereEntity(
+                item.getmId(),
+                item.getmAppName(),
+                item.getmParam1(),
+                item.getmParam2(),
+                item.getmParam3(),
+                item.getmDescription(),
+                item.getmType(),
+                item.getmTimeStamp());
+        return getItemCommand(ae);
     }
 
     /**

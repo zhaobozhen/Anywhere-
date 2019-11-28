@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.adapter;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +98,8 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
                     .into(binding.ivAppIcon);
 
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
-                binding.ivBadge.setImageResource(R.drawable.ic_added_shortcut);
+                binding.ivBadge.setImageResource(R.drawable.ic_add_shortcut);
+                binding.ivBadge.setColorFilter(mContext.getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
                 binding.ivBadge.setVisibility(View.VISIBLE);
             } else if (item.getExportedType() == AnywhereType.EXPORTED) {
                 binding.ivBadge.setImageResource(R.drawable.ic_exported);

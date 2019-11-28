@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/toolbar_initialize_done"
-        android:icon="@drawable/ic_done_dark"
+        android:icon="@drawable/ic_done"
         android:title="@string/menu_done"
         app:showAsAction="always"/>
 </menu>
