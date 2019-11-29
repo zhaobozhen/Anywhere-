@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity {
         if (GlobalValues.sIsFirstLaunch) {
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
         } else {
@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity {
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                        .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                         .replace(R.id.container, mainFragment)
                         .commitNow();
             }

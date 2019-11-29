@@ -90,6 +90,17 @@
             app:summary="@string/settings_icon_pack_summary"
             android:icon="@drawable/ic_icon_pack"/>
 
+        <Preference
+            app:key="tiles"
+            app:title="@string/settings_tiles"
+            app:summary="@string/settings_tiles_summary"
+            android:icon="@drawable/ic_android">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_.debug"
+                android:targetClass="com.absinthe.anywhere_.ui.settings.TileSettingsActivity"/>
+        </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory

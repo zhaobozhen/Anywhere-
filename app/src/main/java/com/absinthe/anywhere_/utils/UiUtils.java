@@ -539,19 +539,4 @@ public class UiUtils {
 
         item.setIcon(wrapDrawable);
     }
-
-    /**
-     * Tint the icon
-     *
-     * @param context context
-     * @param view a view
-     * @param color color
-     */
-    public static void tintView(Context context, View view, @ColorRes int color) {
-        Drawable normalDrawable = view.getBackground();
-        Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-        DrawableCompat.setTint(wrapDrawable, context.getResources().getColor(color));
-
-        view.setBackground(wrapDrawable);
-    }
 }

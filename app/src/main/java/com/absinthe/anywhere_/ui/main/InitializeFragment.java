@@ -161,7 +161,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 MainFragment fragment = MainFragment.newInstance();
                 MainActivity.getInstance()
                         .getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                        .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                         .replace(R.id.container, fragment)
                         .commitNow();
                 MainActivity.getInstance().setMainFragment(fragment);
@@ -172,7 +172,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                             MainActivity.getInstance()
                                     .getSupportFragmentManager().beginTransaction()
-                                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                                     .replace(R.id.container, fragment)
                                     .commitNow();
                             MainActivity.getInstance().setMainFragment(fragment);

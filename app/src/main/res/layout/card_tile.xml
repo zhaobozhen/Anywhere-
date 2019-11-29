@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tile_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    app:cardElevation="3dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Tile"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_app_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:backgroundTint="@color/material_on_surface_emphasis_medium"
+            app:backgroundTintMode="add"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+
+        <TextView
+            android:id="@+id/tv_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="AppName"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/iv_app_icon"
+            app:layout_constraintTop_toTopOf="@+id/iv_app_icon" />
+
+        <TextView
+            android:id="@+id/tv_param_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Param1"
+            android:textAppearance="?attr/textAppearanceListItemSecondary"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="@+id/tv_app_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
+
+        <TextView
+            android:id="@+id/tv_param_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Param2"
+            android:textAppearance="?attr/textAppearanceListItemSecondary"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="@+id/tv_param_1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_param_1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_select"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_param_2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

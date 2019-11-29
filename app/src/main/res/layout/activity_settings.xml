@@ -14,7 +14,6 @@
         android:background="@color/navigationColorNormal"
         android:elevation="3dp"
         android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toTopOf="@+id/container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

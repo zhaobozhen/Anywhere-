@@ -5,9 +5,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 
-/**
- * 动画工具
- */
 public class AnimationUtil {
     public enum AnimationState {
         STATE_SHOW,
@@ -19,11 +16,11 @@ public class AnimationUtil {
     public static final int SHORT = 500;
 
     /**
-     * 渐隐渐现动画
+     * Fade in/out animation
      *
-     * @param view     需要实现动画的对象
-     * @param state    需要实现的状态
-     * @param duration 动画实现的时长（ms）
+     * @param view     triggered view
+     * @param state    fade state
+     * @param duration fade duration (ms)
      */
     public static void showAndHiddenAnimation(final View view, AnimationState state, long duration) {
         float start = 0f;

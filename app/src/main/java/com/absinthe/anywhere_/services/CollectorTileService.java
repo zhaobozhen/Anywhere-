@@ -20,7 +20,7 @@ public class CollectorTileService extends TileService {
 
     @Override
     public void onClick() {
-        Tile tile = getQsTile(); // 获取 Tile
+        Tile tile = getQsTile(); // Get Tile
         if (tile.getState() == Tile.STATE_ACTIVE) {
             Intent intent = new Intent(this, CollectorService.class);
             intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_CLOSE);

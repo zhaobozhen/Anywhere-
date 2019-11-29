@@ -45,6 +45,7 @@ import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.LogUtil;
@@ -352,6 +353,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
 
             switch (GlobalValues.sSortMode) {
+                default:
                 case Const.SORT_MODE_TIME_DESC:
                     popup.getMenu().getItem(0).setChecked(true);
                     break;
@@ -446,7 +448,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
 
-        mViewModel.getCommand().observe(this, PermissionUtil::execCmd);
+        mViewModel.getCommand().observe(this, CommandUtils::execCmd);
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
             if (!mViewModel.refreshLock) {
                 adapter.setItems(anywhereEntities);

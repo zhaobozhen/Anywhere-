@@ -13,8 +13,8 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.LogUtil;
-import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 
@@ -111,7 +111,7 @@ public class CollectorView extends LinearLayout {
 
     private void collectActivity() {
         String cmd = Const.CMD_GET_TOP_STACK_ACTIVITY;
-        String result = PermissionUtil.execAdbCmd(cmd);
+        String result = CommandUtils.execAdbCmd(cmd);
 
         LogUtil.d("Shell result =", result);
 

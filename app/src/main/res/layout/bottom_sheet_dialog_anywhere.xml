@@ -157,7 +157,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/bsd_btn_done"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAllCaps="true"
             android:layout_below="@id/til_intent_extra"
             android:layout_margin="@dimen/bottom_sheet_dialog_edit_text_margin_start_end" />
 

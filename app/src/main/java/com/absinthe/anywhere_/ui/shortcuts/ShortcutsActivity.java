@@ -10,6 +10,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -44,20 +45,20 @@ public class ShortcutsActivity extends Activity {
                     try {
                         if (IceBox.getAppEnabledSetting(this, packageName) != 0) {
                             PermissionUtil.unfreezeApp(this, packageName, () -> {
-                                String result = PermissionUtil.execCmd(cmd);
+                                String result = CommandUtils.execCmd(cmd);
                                 if (result == null) {
                                     ToastUtil.makeText(R.string.toast_check_perm);
                                 }
                             });
                         } else {
-                            String result = PermissionUtil.execCmd(cmd);
+                            String result = CommandUtils.execCmd(cmd);
                             if (result == null) {
                                 ToastUtil.makeText(R.string.toast_check_perm);
                             }
                         }
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
-                        String result = PermissionUtil.execCmd(cmd);
+                        String result = CommandUtils.execCmd(cmd);
                         if (result == null) {
                             ToastUtil.makeText(R.string.toast_check_perm);
                         }
@@ -70,20 +71,20 @@ public class ShortcutsActivity extends Activity {
                         String packageName = TextUtils.getPkgNameByCommand(cmd);
                         if (IceBox.getAppEnabledSetting(this, packageName) != 0) { //0 为未冻结状态
                             PermissionUtil.unfreezeApp(this, packageName, () -> {
-                                String result = PermissionUtil.execCmd(cmd);
+                                String result = CommandUtils.execCmd(cmd);
                                 if (result == null) {
                                     ToastUtil.makeText(R.string.toast_check_perm);
                                 }
                             });
                         } else {
-                            String result = PermissionUtil.execCmd(cmd);
+                            String result = CommandUtils.execCmd(cmd);
                             if (result == null) {
                                 ToastUtil.makeText(R.string.toast_check_perm);
                             }
                         }
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
-                        String result = PermissionUtil.execCmd(cmd);
+                        String result = CommandUtils.execCmd(cmd);
                         if (result == null) {
                             ToastUtil.makeText(R.string.toast_check_perm);
                         }

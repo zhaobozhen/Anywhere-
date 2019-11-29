@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -20,21 +19,16 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-import moe.shizuku.api.RemoteProcess;
 import moe.shizuku.api.ShizukuApiConstants;
 import moe.shizuku.api.ShizukuClientHelper;
 import moe.shizuku.api.ShizukuService;
@@ -103,160 +97,6 @@ public class PermissionUtil {
             e.printStackTrace();
         }
         return false;
-    }
-
-    /**
-     * execute adb command
-     *
-     * @param cmd command
-     */
-    public static String execAdbCmd(String cmd) {
-        String result = null;
-
-        switch (GlobalValues.sWorkingMode) {
-            case Const.WORKING_MODE_SHIZUKU:
-                result = execShizukuCmd(cmd);
-                break;
-            case Const.WORKING_MODE_ROOT:
-                result = execRootCmd(cmd);
-                break;
-            case Const.WORKING_MODE_URL_SCHEME:
-                ToastUtil.makeText(R.string.toast_change_work_mode);
-                break;
-        }
-        LogUtil.d("execCmd result = ", result);
-        return result;
-    }
-
-    /**
-     * execute adb or intent command
-     *
-     * @param cmd command
-     */
-    public static String execCmd(String cmd) {
-        String result = null;
-
-        if (cmd.contains("am start -a") || !cmd.contains("am start")) {
-            cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(cmd));
-                MainActivity.getInstance().startActivity(intent);
-                result = Intent.ACTION_VIEW;
-            } catch (Exception e) {
-                LogUtil.d("URL_SCHEME:Exception:", e.getMessage());
-            }
-        } else {
-            String pkgClsString = cmd.split(" ")[3];
-            String pkg = pkgClsString.split("/")[0];
-            String cls = pkgClsString.split("/")[1];
-
-            if (UiUtils.isActivityExported(AnywhereApplication.sContext, new ComponentName(pkg, cls))) {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setComponent(new ComponentName(pkg, cls));
-                    AnywhereApplication.sContext.startActivity(intent);
-                    result = Intent.ACTION_VIEW;
-                } catch (Exception e) {
-                    LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
-                }
-            } else {
-                switch (GlobalValues.sWorkingMode) {
-                    case Const.WORKING_MODE_SHIZUKU:
-                        result = execShizukuCmd(cmd);
-                        break;
-                    case Const.WORKING_MODE_ROOT:
-                        result = execRootCmd(cmd);
-                        break;
-                    case Const.WORKING_MODE_URL_SCHEME:
-                        ToastUtil.makeText(R.string.toast_change_work_mode);
-                        break;
-                }
-            }
-        }
-
-        LogUtil.d("execCmd result = ", result);
-        return result;
-    }
-
-    /**
-     * execute adb or intent command by root
-     *
-     * @param cmd command
-     */
-    private static String execRootCmd(String cmd) {
-        StringBuilder result = new StringBuilder();
-        OutputStream os = null;
-        InputStream is = null;
-
-        try {
-            Process p = Runtime.getRuntime().exec("su");// 经过 Root 处理的 android 系统即有 su 命令
-            os = p.getOutputStream();
-            is = p.getInputStream();
-
-            LogUtil.i(cmd);
-            os.write((cmd + "\n").getBytes());
-            os.flush();
-            os.write("exit\n".getBytes());
-            os.flush();
-
-            int c;
-            while ((c = is.read()) != -1) {
-                result.append((char) c);
-            }
-
-            p.waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (os != null) {
-                try {
-                    os.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return result.toString();
-    }
-
-    /**
-     * execute adb or intent via shizuku manager
-     *
-     * @param cmd command
-     */
-    private static String execShizukuCmd(String cmd) {
-        try {
-            RemoteProcess remoteProcess = ShizukuService.newProcess(new String[]{"sh"}, null, null);
-            InputStream is = remoteProcess.getInputStream();
-            OutputStream os = remoteProcess.getOutputStream();
-            os.write((cmd + "\n").getBytes());
-            os.write("exit\n".getBytes());
-            os.close();
-
-            StringBuilder sb = new StringBuilder();
-            int c;
-            while ((c = is.read()) != -1) {
-                sb.append((char) c);
-            }
-            is.close();
-
-            LogUtil.d("newProcess: " + remoteProcess);
-            LogUtil.d("waitFor: " + remoteProcess.waitFor());
-            LogUtil.d("output: " + sb);
-
-            return sb.toString();
-        } catch (Throwable tr) {
-            Log.e(PermissionUtil.class.getSimpleName(), "newProcess", tr);
-            return null;
-        }
     }
 
     /**

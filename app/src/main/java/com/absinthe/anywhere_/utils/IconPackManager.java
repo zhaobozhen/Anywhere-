@@ -80,46 +80,52 @@ public class IconPackManager {
                     int eventType = xpp.getEventType();
                     while (eventType != XmlPullParser.END_DOCUMENT) {
                         if (eventType == XmlPullParser.START_TAG) {
-                            if (xpp.getName().equals("iconback")) {
-                                for (int i = 0; i < xpp.getAttributeCount(); i++) {
-                                    if (xpp.getAttributeName(i).startsWith("img")) {
-                                        String drawableName = xpp.getAttributeValue(i);
-                                        Bitmap iconback = loadBitmap(drawableName);
-                                        if (iconback != null) {
-                                            mBackImages.add(iconback);
+                            switch (xpp.getName()) {
+                                case "iconback":
+                                    for (int i = 0; i < xpp.getAttributeCount(); i++) {
+                                        if (xpp.getAttributeName(i).startsWith("img")) {
+                                            String drawableName = xpp.getAttributeValue(i);
+                                            Bitmap iconback = loadBitmap(drawableName);
+                                            if (iconback != null) {
+                                                mBackImages.add(iconback);
+                                            }
                                         }
                                     }
-                                }
-                            } else if (xpp.getName().equals("iconmask")) {
-                                if (xpp.getAttributeCount() > 0 && xpp.getAttributeName(0).equals("img1")) {
-                                    String drawableName = xpp.getAttributeValue(0);
-                                    mMaskImage = loadBitmap(drawableName);
-                                }
-                            } else if (xpp.getName().equals("iconupon")) {
-                                if (xpp.getAttributeCount() > 0 && xpp.getAttributeName(0).equals("img1")) {
-                                    String drawableName = xpp.getAttributeValue(0);
-                                    mFrontImage = loadBitmap(drawableName);
-                                }
-                            } else if (xpp.getName().equals("scale")) {
-                                // mFactor
-                                if (xpp.getAttributeCount() > 0 && xpp.getAttributeName(0).equals("factor")) {
-                                    mFactor = Float.valueOf(xpp.getAttributeValue(0));
-                                }
-                            } else if (xpp.getName().equals("item")) {
-                                String componentName = null;
-                                String drawableName = null;
-
-                                for (int i = 0; i < xpp.getAttributeCount(); i++) {
-                                    if (xpp.getAttributeName(i).equals("component")) {
-                                        componentName = xpp.getAttributeValue(i);
-                                    } else if (xpp.getAttributeName(i).equals("drawable")) {
-                                        drawableName = xpp.getAttributeValue(i);
+                                    break;
+                                case "iconmask":
+                                    if (xpp.getAttributeCount() > 0 && xpp.getAttributeName(0).equals("img1")) {
+                                        String drawableName = xpp.getAttributeValue(0);
+                                        mMaskImage = loadBitmap(drawableName);
                                     }
-                                }
-                                if (!mPackagesDrawables.containsKey(componentName)) {
-                                    mPackagesDrawables.put(componentName, drawableName);
-                                    totalIcons = totalIcons + 1;
-                                }
+                                    break;
+                                case "iconupon":
+                                    if (xpp.getAttributeCount() > 0 && xpp.getAttributeName(0).equals("img1")) {
+                                        String drawableName = xpp.getAttributeValue(0);
+                                        mFrontImage = loadBitmap(drawableName);
+                                    }
+                                    break;
+                                case "scale":
+                                    // mFactor
+                                    if (xpp.getAttributeCount() > 0 && xpp.getAttributeName(0).equals("factor")) {
+                                        mFactor = Float.valueOf(xpp.getAttributeValue(0));
+                                    }
+                                    break;
+                                case "item":
+                                    String componentName = null;
+                                    String drawableName = null;
+
+                                    for (int i = 0; i < xpp.getAttributeCount(); i++) {
+                                        if (xpp.getAttributeName(i).equals("component")) {
+                                            componentName = xpp.getAttributeValue(i);
+                                        } else if (xpp.getAttributeName(i).equals("drawable")) {
+                                            drawableName = xpp.getAttributeValue(i);
+                                        }
+                                    }
+                                    if (!mPackagesDrawables.containsKey(componentName)) {
+                                        mPackagesDrawables.put(componentName, drawableName);
+                                        totalIcons = totalIcons + 1;
+                                    }
+                                    break;
                             }
                         }
                         eventType = xpp.next();
@@ -208,7 +214,7 @@ public class IconPackManager {
             if (drawable != null) {
                 Bitmap BMP = loadBitmap(drawable);
                 if (BMP == null) {
-                    return generateBitmap(appPackageName, defaultBitmap);
+                    return generateBitmap(defaultBitmap);
                 } else {
                     return BMP;
                 }
@@ -224,22 +230,14 @@ public class IconPackManager {
                     }
                 }
             }
-            return generateBitmap(appPackageName, defaultBitmap);
+            return generateBitmap(defaultBitmap);
         }
 
         public int getTotalIcons() {
             return totalIcons;
         }
 
-        private Bitmap generateBitmap(String appPackageName, Bitmap defaultBitmap) {
-            // the key for the cache is the icon pack package name and the app package name
-            String key = packageName + ":" + appPackageName;
-
-            // if generated bitmaps cache already contains the package name return it
-//            Bitmap cachedBitmap = BitmapCache.getInstance(mContext).getBitmap(key);
-//            if (cachedBitmap != null)
-//                return cachedBitmap;
-
+        private Bitmap generateBitmap(Bitmap defaultBitmap) {
             // if no support images in the icon pack return the bitmap itself
             if (mBackImages.size() == 0) {
                 return defaultBitmap;

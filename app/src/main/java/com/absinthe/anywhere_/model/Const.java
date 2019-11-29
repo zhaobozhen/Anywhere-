@@ -21,6 +21,12 @@ public class Const {
     public static final String SP_KEY_SORT_MODE = "sortMode";
     public static final String SP_KEY_BACKUP = "backup";
     public static final String SP_KEY_RESTORE = "restore";
+    public static final String SP_KEY_TILE_ONE = "tileOne";
+    public static final String SP_KEY_TILE_TWO = "tileTwo";
+    public static final String SP_KEY_TILE_THREE = "tileThree";
+    public static final String SP_KEY_TILE_ONE_CMD = "tileOneCmd";
+    public static final String SP_KEY_TILE_TWO_CMD = "tileTwoCmd";
+    public static final String SP_KEY_TILE_THREE_CMD = "tileThreeCmd";
 
     public static final String WORKING_MODE_URL_SCHEME = "url_scheme";
     public static final String WORKING_MODE_ROOT = "root";

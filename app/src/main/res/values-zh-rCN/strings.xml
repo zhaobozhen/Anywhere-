@@ -189,4 +189,6 @@
 
     <string name="activity_list_empty_title">空列表</string>
     <string name="activity_list_empty_subtitle">您是否 停用/冻结 了此 App?</string>
+    <string name="settings_tiles">磁贴</string>
+    <string name="settings_tiles_summary">在通知栏快速打开 Anywhere-</string>
 </resources>
