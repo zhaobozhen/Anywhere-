@@ -85,9 +85,9 @@ public class TextUtils {
             LogUtil.d("packageName =", packageName, "className =", className, "extras =", extras);
 
             if (className.charAt(0) == '.') {
-                cmd.append(String.format(Const.CMD_OPEN_ACTIVITY, packageName, packageName + className));
+                cmd.append(String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, packageName, packageName + className));
             } else {
-                cmd.append(String.format(Const.CMD_OPEN_ACTIVITY, packageName, className));
+                cmd.append(String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, packageName, className));
             }
 
             if (extras != null) {
@@ -103,7 +103,7 @@ public class TextUtils {
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                 cmd.append(urlScheme);
             } else {
-                cmd.append(String.format(Const.CMD_OPEN_URL_SCHEME, urlScheme));
+                cmd.append(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, urlScheme));
             }
         } else if (type == AnywhereType.MINI_PROGRAM) {
             //Todo

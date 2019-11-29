@@ -103,6 +103,7 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
                 binding.ivBadge.setVisibility(View.VISIBLE);
             } else if (item.getExportedType() == AnywhereType.EXPORTED) {
                 binding.ivBadge.setImageResource(R.drawable.ic_exported);
+                binding.ivBadge.setColorFilter(mContext.getResources().getColor(R.color.exported_tint), PorterDuff.Mode.SRC_IN);
                 binding.ivBadge.setVisibility(View.VISIBLE);
             } else {
                 binding.ivBadge.setVisibility(View.GONE);

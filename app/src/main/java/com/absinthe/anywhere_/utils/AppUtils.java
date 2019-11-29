@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.TransactionTooLargeException;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -167,8 +168,8 @@ public class AppUtils {
                 }
 
             }
-        } catch (PackageManager.NameNotFoundException nameNotFoundException) {
-            nameNotFoundException.printStackTrace();
+        } catch (PackageManager.NameNotFoundException | RuntimeException exception) {
+            exception.printStackTrace();
         }
 
         return returnClassList;

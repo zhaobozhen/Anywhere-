@@ -85,7 +85,7 @@
     <string name="settings_clear_shortcuts">Clear Shortcuts</string>
     <string name="settings_icon_pack">Icon Pack</string>
     <string name="settings_backup_and_restore">Backup &amp; Restore</string>
-    <string name="settings_tiles">Tiles</string>
+    <string name="settings_tiles">Tiles(Beta)</string>
     <string name="settings_help">Help</string>
     <string name="settings_about">About</string>
 
@@ -168,6 +168,8 @@
 
     <string name="btn_check_permission">Check</string>
     <string name="btn_checked">Checked</string>
+
+    <string name="btn_tile_select">Select</string>
 
     <!--  Description  -->
     <string name="background_todo">Main page background</string>

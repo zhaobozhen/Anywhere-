@@ -18,6 +18,7 @@ public class Const {
     public static final String SP_KEY_HELP = "help";
     public static final String SP_KEY_CLEAR_SHORTCUTS = "clearShortcuts";
     public static final String SP_KEY_ICON_PACK = "iconPack";
+    public static final String SP_KEY_TILES = "tiles";
     public static final String SP_KEY_SORT_MODE = "sortMode";
     public static final String SP_KEY_BACKUP = "backup";
     public static final String SP_KEY_RESTORE = "restore";
@@ -51,8 +52,10 @@ public class Const {
     public static final String INTENT_EXTRA_PKG_NAME = "pkgName";
 
     public static final String CMD_GET_TOP_STACK_ACTIVITY = "dumpsys activity activities | grep mResumedActivity";
-    public static final String CMD_OPEN_URL_SCHEME = "am start -a android.intent.action.VIEW -d %s";
-    public static final String CMD_OPEN_ACTIVITY = "am start -n %s/%s";
+    public static final String CMD_OPEN_URL_SCHEME = "am start -a android.intent.action.VIEW -d ";
+    public static final String CMD_OPEN_ACTIVITY = "am start -n ";
+    public static final String CMD_OPEN_URL_SCHEME_FORMAT = "am start -a android.intent.action.VIEW -d %s";
+    public static final String CMD_OPEN_ACTIVITY_FORMAT = "am start -n %s/%s";
 
     public static final int REQUEST_CODE_SHIZUKU_PERMISSION = 1001;
     public static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1002;

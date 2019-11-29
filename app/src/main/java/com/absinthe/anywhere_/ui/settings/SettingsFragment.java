@@ -55,6 +55,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Preference helpPreference = findPreference(Const.SP_KEY_HELP);
         Preference clearShortcutsPreference = findPreference(Const.SP_KEY_CLEAR_SHORTCUTS);
         Preference iconPackPreference = findPreference(Const.SP_KEY_ICON_PACK);
+        Preference tilesPreference = findPreference(Const.SP_KEY_TILES);
         SwitchPreferenceCompat streamCardModePreference = findPreference(Const.SP_KEY_STREAM_CARD_MODE);
         SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.SP_KEY_STREAM_CARD_SINGLE_LINE);
         SwitchPreferenceCompat cardBackgroundPreference = findPreference(Const.SP_KEY_CARD_BACKGROUND);
@@ -95,6 +96,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             iconPackPreference.setOnPreferenceClickListener(this);
         }
 
+        if (tilesPreference != null) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                tilesPreference.setVisible(false);
+            }
+        }
     }
 
     @Override

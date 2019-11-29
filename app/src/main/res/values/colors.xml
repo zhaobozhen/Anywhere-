@@ -9,6 +9,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="green_done">#4CAF50</color>
+    <color name="exported_tint">#444444</color>
 
     <!--  DayNight colors  -->
     <color name="cardColor">#EEFFFFFF</color>
