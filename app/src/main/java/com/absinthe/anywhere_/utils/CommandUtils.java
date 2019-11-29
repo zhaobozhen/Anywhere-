@@ -9,7 +9,6 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,7 +56,7 @@ public class CommandUtils {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setData(Uri.parse(cmd));
-                MainActivity.getInstance().startActivity(intent);
+                AnywhereApplication.sContext.startActivity(intent);
                 result = Intent.ACTION_VIEW;
             } catch (Exception e) {
                 LogUtil.d("URL_SCHEME:Exception:", e.getMessage());

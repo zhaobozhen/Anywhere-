@@ -326,7 +326,7 @@ public class Editor {
             Button btnUrlSchemeCommunity = mBottomSheetDialog.findViewById(R.id.btn_url_scheme_community);
             if (btnUrlSchemeCommunity != null) {
                 btnUrlSchemeCommunity.setOnClickListener(view -> {
-                    Intent intent = new Intent("android.intent.action.VIEW");
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("https://sharecuts.cn/apps"));
                     mContext.startActivity(intent);
                 });

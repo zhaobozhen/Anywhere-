@@ -98,7 +98,7 @@ public class ShortcutsUtil {
 
             // Configure the intent so that your app's broadcast receiver gets
             // the callback successfully.For details, see PendingIntent.getBroadcast().
-            PendingIntent successCallback = PendingIntent.getBroadcast(MainActivity.getInstance(), /* request code */ 0,
+            PendingIntent successCallback = PendingIntent.getBroadcast(AnywhereApplication.sContext, /* request code */ 0,
                     pinnedShortcutCallbackIntent, /* flags */ 0);
 
             Singleton.INSTANCE.getInstance().requestPinShortcut(pinShortcutInfo,
