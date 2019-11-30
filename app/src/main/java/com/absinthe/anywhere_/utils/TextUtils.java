@@ -13,6 +13,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 
 import java.text.SimpleDateFormat;
@@ -107,6 +108,8 @@ public class TextUtils {
             }
         } else if (type == AnywhereType.MINI_PROGRAM) {
             //Todo
+        } else if (type == AnywhereType.QR_CODE) {
+            cmd.append(QREntity.PREFIX).append(item.getParam1());
         } else {
             LogUtil.d("AnywhereType has problem.");
         }

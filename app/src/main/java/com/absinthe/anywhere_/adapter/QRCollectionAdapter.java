@@ -26,6 +26,9 @@ public class QRCollectionAdapter extends StreamCardsAdapter {
                 case QRCollection.wechatPayId:
                     QRCollection.Singleton.INSTANCE.getInstance().wechatPay.launch();
                     break;
+                case QRCollection.wechatCollectId:
+                    QRCollection.Singleton.INSTANCE.getInstance().wechatCollect.launch();
+                    break;
                 case QRCollection.alipayScanId:
                     QRCollection.Singleton.INSTANCE.getInstance().alipayScan.launch();
                     break;
@@ -34,6 +37,12 @@ public class QRCollectionAdapter extends StreamCardsAdapter {
                     break;
                 case QRCollection.alipayBusId:
                     QRCollection.Singleton.INSTANCE.getInstance().alipayBus.launch();
+                    break;
+                case QRCollection.alipayCollectId:
+                    QRCollection.Singleton.INSTANCE.getInstance().alipayCollect.launch();
+                    break;
+                case QRCollection.qqScanId:
+                    QRCollection.Singleton.INSTANCE.getInstance().qqScan.launch();
                     break;
             }
         });

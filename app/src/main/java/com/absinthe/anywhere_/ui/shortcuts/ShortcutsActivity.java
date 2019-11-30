@@ -99,6 +99,7 @@ public class ShortcutsActivity extends Activity {
             } else if (action.equals(ACTION_START_QR_CODE)) {
                 String id = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
                 if (id != null) {
+                    id = id.replace(QREntity.PREFIX, "");
                     QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(id);
                     if (entity != null) {
                         entity.launch();

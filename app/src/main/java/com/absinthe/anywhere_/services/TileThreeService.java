@@ -8,6 +8,7 @@ import android.service.quicksettings.TileService;
 import androidx.annotation.RequiresApi;
 
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.SPUtils;
 
@@ -26,7 +27,11 @@ public class TileThreeService extends TileService {
         String cmd = SPUtils.getString(this, Const.SP_KEY_TILE_THREE_CMD);
         Intent intent = new Intent(this, ShortcutsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
+        if (cmd.contains(QREntity.PREFIX)) {
+            intent.setAction(ShortcutsActivity.ACTION_START_QR_CODE);
+        } else {
+            intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
+        }
         intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, cmd);
         if (!cmd.isEmpty()) {
             startActivity(intent);

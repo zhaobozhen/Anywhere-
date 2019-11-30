@@ -33,9 +33,12 @@ public class QRCollection {
         mList = new ArrayList<>();
         mList.add(genWechatScan());
         mList.add(genWechatPay());
+        mList.add(genWechatCollect());
         mList.add(genAlipayScan());
         mList.add(genAlipayPay());
         mList.add(genAlipayBus());
+        mList.add(genAlipayCollect());
+        mList.add(genQqScan());
     }
 
     public ArrayList<AnywhereEntity> getList() {
@@ -48,12 +51,18 @@ public class QRCollection {
                 return wechatScan;
             case wechatPayId:
                 return wechatPay;
+            case wechatCollectId:
+                return wechatCollect;
             case alipayScanId:
                 return alipayScan;
             case alipayPayId:
                 return alipayPay;
             case alipayBusId:
                 return alipayBus;
+            case alipayCollectId:
+                return alipayCollect;
+            case qqScanId:
+                return qqScan;
             default:
                 return null;
         }
@@ -108,6 +117,26 @@ public class QRCollection {
     }
 
     /**
+     * Wechat collect page
+     */
+    public static final String wechatCollectId = "wechatCollect";
+    public QREntity wechatCollect;
+    private AnywhereEntity genWechatCollect() {
+        String pkgName = "com.tencent.mm";
+        String clsName = ".plugin.collect.ui.CollectMainUI";
+        String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
+
+        wechatPay = new QREntity(() -> CommandUtils.execCmd(cmd));
+
+        wechatPay.setPkgName(pkgName);
+        wechatPay.setClsName(clsName);
+
+        return new AnywhereEntity(wechatCollectId, "Wechat Collect", pkgName,
+                clsName, "", mContext.getString(R.string.desc_need_root),
+                AnywhereType.QR_CODE, "2");
+    }
+
+    /**
      * Alipay scan page
      */
     public static final String alipayScanId = "alipayScan";
@@ -131,7 +160,7 @@ public class QRCollection {
 
         return new AnywhereEntity(alipayScanId, "Alipay Scan", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
-                AnywhereType.QR_CODE, "2");
+                AnywhereType.QR_CODE, "3");
     }
 
     /**
@@ -156,9 +185,9 @@ public class QRCollection {
 
         alipayScan.setUrlScheme(urlScheme);
 
-        return new AnywhereEntity(alipayScanId, "Alipay Pay", pkgName,
+        return new AnywhereEntity(alipayPayId, "Alipay Pay", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
-                AnywhereType.QR_CODE, "3");
+                AnywhereType.QR_CODE, "4");
     }
 
     /**
@@ -183,8 +212,55 @@ public class QRCollection {
 
         alipayScan.setUrlScheme(urlScheme);
 
-        return new AnywhereEntity(alipayScanId, "Alipay Bus", pkgName,
+        return new AnywhereEntity(alipayBusId, "Alipay Bus", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
-                AnywhereType.QR_CODE, "4");
+                AnywhereType.QR_CODE, "5");
+    }
+
+    /**
+     * Alipay collect page
+     */
+    public static final String alipayCollectId = "alipayCollect";
+    public QREntity alipayCollect;
+    private AnywhereEntity genAlipayCollect() {
+        String urlScheme = "alipays://platformapi/startapp?appId=200000123";
+        String pkgName = "com.eg.android.AlipayGphone";
+
+        alipayScan = new QREntity(() -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(urlScheme));
+                mContext.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        alipayScan.setUrlScheme(urlScheme);
+
+        return new AnywhereEntity(alipayCollectId, "Alipay Collect", pkgName,
+                "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
+                AnywhereType.QR_CODE, "6");
+    }
+
+    /**
+     * QQ scan page
+     */
+    public static final String qqScanId = "qqScan";
+    public QREntity qqScan;
+    private AnywhereEntity genQqScan() {
+        String pkgName = "com.tencent.mobileqq";
+        String clsName = ".olympic.activity.ScanTorchActivity";
+        String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
+
+        wechatPay = new QREntity(() -> CommandUtils.execCmd(cmd));
+
+        wechatPay.setPkgName(pkgName);
+        wechatPay.setClsName(clsName);
+
+        return new AnywhereEntity(qqScanId, "QQ Scan", pkgName,
+                clsName, "", mContext.getString(R.string.desc_need_root),
+                AnywhereType.QR_CODE, "7");
     }
 }
