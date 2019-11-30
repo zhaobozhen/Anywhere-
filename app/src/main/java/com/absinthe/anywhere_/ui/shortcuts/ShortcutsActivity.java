@@ -8,6 +8,8 @@ import android.os.Bundle;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.QRCollection;
+import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
@@ -20,6 +22,7 @@ public class ShortcutsActivity extends Activity {
     public static final String ACTION_START_COLLECTOR = "START_COLLECTOR";
     public static final String ACTION_START_COMMAND = "START_COMMAND";
     public static final String ACTION_START_FROM_WIDGET = "START_FROM_WIDGET";
+    public static final String ACTION_START_QR_CODE = "START_QR_CODE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +94,14 @@ public class ShortcutsActivity extends Activity {
                     } catch (IndexOutOfBoundsException e2) {
                         e2.printStackTrace();
                         ToastUtil.makeText(R.string.toast_wrong_cmd);
+                    }
+                }
+            } else if (action.equals(ACTION_START_QR_CODE)) {
+                String id = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
+                if (id != null) {
+                    QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(id);
+                    if (entity != null) {
+                        entity.launch();
                     }
                 }
             }

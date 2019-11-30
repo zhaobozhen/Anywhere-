@@ -18,6 +18,8 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.QRCollection;
+import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
@@ -40,9 +42,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     public static final int ADAPTER_MODE_SELECT = 2;
 
     protected Context mContext;
-    private Editor mEditor;
     private List<Integer> selectedIndex;
     List<AnywhereEntity> items;
+    Editor mEditor;
     int mode;
 
     BaseAdapter(Context context) {
@@ -120,6 +122,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         break;
                     case AnywhereType.MINI_PROGRAM:
                         break;
+                    case AnywhereType.QR_CODE:
+                        openEditor(item, Editor.QR_CODE, position);
+                        break;
                 }
                 return true;
             }
@@ -133,38 +138,45 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     private void openAnywhereActivity(AnywhereEntity item) {
-        String cmd = TextUtils.getItemCommand(item);
-        if (!cmd.isEmpty()) {
-            if (AppUtils.isAppFrozen(mContext, item)) {
-                if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                    if (PermissionUtil.isMIUI()) {
-                        new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                                .setMessage(R.string.dialog_message_ice_box_perm_not_support)
-                                .setPositiveButton(R.string.dialog_delete_positive_button, null)
-                                .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, i) -> {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setComponent(new ComponentName("com.android.settings",
-                                            "com.android.settings.Settings$ManageApplicationsActivity"));
-                                    mContext.startActivity(intent);
-                                })
-                                .show();
+        if (item.getAnywhereType() != AnywhereType.QR_CODE) {
+            String cmd = TextUtils.getItemCommand(item);
+            if (!cmd.isEmpty()) {
+                if (AppUtils.isAppFrozen(mContext, item)) {
+                    if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
+                        if (PermissionUtil.isMIUI()) {
+                            new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
+                                    .setMessage(R.string.dialog_message_ice_box_perm_not_support)
+                                    .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                                    .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, i) -> {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setComponent(new ComponentName("com.android.settings",
+                                                "com.android.settings.Settings$ManageApplicationsActivity"));
+                                        mContext.startActivity(intent);
+                                    })
+                                    .show();
+                        } else {
+                            ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
+                        }
                     } else {
-                        ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
+                        PermissionUtil.unfreezeApp(mContext, item.getParam1(), () ->
+                                MainFragment.getViewModelInstance().getCommand().setValue(cmd));
                     }
                 } else {
-                    PermissionUtil.unfreezeApp(mContext, item.getParam1(), () ->
-                            MainFragment.getViewModelInstance().getCommand().setValue(cmd));
+                    MainFragment.getViewModelInstance().getCommand().setValue(cmd);
                 }
-            } else {
-                MainFragment.getViewModelInstance().getCommand().setValue(cmd);
+            }
+        } else {
+            QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(item.getParam2());
+            if (entity != null) {
+                entity.launch();
             }
         }
     }
 
-    private void openEditor(AnywhereEntity item, int type, int position) {
+    void openEditor(AnywhereEntity item, int type, int position) {
         Editor.OnEditorListener listener = () -> deleteAnywhereActivity(mEditor, item, position);
 
-        mEditor = new Editor(MainActivity.getInstance(), type)
+        mEditor = new Editor(mContext, type)
                 .item(item)
                 .isEditorMode(true)
                 .isShortcut(item.getShortcutType() == AnywhereType.SHORTCUTS)

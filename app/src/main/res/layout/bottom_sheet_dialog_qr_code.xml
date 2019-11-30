@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/Widget.Design.BottomSheet.Modal">
+
+    <RelativeLayout
+        android:id="@+id/rl_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <ImageButton
+            android:id="@+id/ib_editor_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_more_vert"
+            android:tooltipText="@string/menu_more"
+            android:contentDescription="@string/anywhere_more_todo"
+            tools:targetApi="o" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_buttons"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:hint="@string/bsd_text_input_layout_app_name_label"
+        app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
+        app:helperTextEnabled="true"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_description"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/til_app_name"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:hint="@string/bsd_text_input_layout_description_label"
+        app:helperText="@string/bsd_text_input_layout_description_helper_text"
+        app:helperTextEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_edit_anywhere_done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bsd_btn_done"
+        android:textAllCaps="true"
+        android:layout_below="@id/til_description"
+        android:layout_margin="@dimen/bottom_sheet_dialog_edit_text_margin_start_end" />
+
+</RelativeLayout>

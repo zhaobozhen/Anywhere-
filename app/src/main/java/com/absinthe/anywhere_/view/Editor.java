@@ -36,6 +36,7 @@ import java.util.Objects;
 public class Editor {
     public static final int ANYWHERE = 1;
     public static final int URL_SCHEME = 2;
+    public static final int QR_CODE = 3;
 
     private Context mContext;
     private BottomSheetDialog mBottomSheetDialog;
@@ -60,6 +61,8 @@ public class Editor {
             contentView = View.inflate(context, R.layout.bottom_sheet_dialog_anywhere, null);
         } else if (mEditorType == URL_SCHEME) {
             contentView = View.inflate(context, R.layout.bottom_sheet_dialog_url_scheme, null);
+        } else if (mEditorType == QR_CODE) {
+            contentView = View.inflate(context, R.layout.bottom_sheet_dialog_qr_code, null);
         }
 
         mBottomSheetDialog.setContentView(contentView);
@@ -343,6 +346,104 @@ public class Editor {
                                     "", mItem.getType(), mItem.getTimeStamp());
                             CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                         }
+                    }
+                });
+            }
+
+            ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
+            if (ibMore != null) {
+                UiUtils.setVisibility(ibMore, isEditMode);
+                ibMore.setOnClickListener(view -> {
+                    PopupMenu popup = new PopupMenu(mContext, ibMore);
+                    popup.getMenuInflater()
+                            .inflate(R.menu.editor_menu, popup.getMenu());
+                    if (popup.getMenu() instanceof MenuBuilder) {
+                        MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
+                        menuBuilder.setOptionalIconsVisible(true);
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                        if (isShortcut) {
+                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.colorAccent);
+                            popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
+                        } else {
+                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.textColorNormal);
+                        }
+                    }
+                    popup.setOnMenuItemClickListener(item -> {
+                        switch (item.getItemId()) {
+                            case R.id.add_shortcuts:
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                    dismiss();
+                                    if (!isShortcut) {
+                                        addShortcut(mContext, mItem);
+                                    } else {
+                                        removeShortcut(mContext, mItem);
+                                    }
+                                }
+                                break;
+                            case R.id.add_home_shortcuts:
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    ShortcutsUtil.addPinnedShortcut(mItem);
+                                }
+                                break;
+                            case R.id.delete:
+                                dismiss();
+                                mListener.onDelete();
+                                break;
+                            default:
+                        }
+                        return true;
+                    });
+
+                    popup.show();
+                });
+            }
+        } else if (mEditorType == QR_CODE) {
+            TextInputLayout tilAppName = mBottomSheetDialog.findViewById(R.id.til_app_name);
+
+            TextInputEditText tietAppName = mBottomSheetDialog.findViewById(R.id.tiet_app_name);
+            TextInputEditText tietDescription = mBottomSheetDialog.findViewById(R.id.tiet_description);
+
+            if (tietAppName != null) {
+                tietAppName.setText(mItem.getAppName());
+            }
+            if (tietDescription != null) {
+                tietDescription.setText(mItem.getDescription());
+            }
+
+            Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
+            if (btnEditAnywhereDone != null) {
+                btnEditAnywhereDone.setOnClickListener(view -> {
+                    if (tietAppName != null && tietDescription != null) {
+                        String aName = tietAppName.getText() == null ? mContext.getString(R.string.bsd_new_url_scheme_name) : tietAppName.getText().toString();
+                        String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
+
+                        if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
+                            tilAppName.setError(mContext.getString(R.string.bsd_error_should_not_empty));
+                        }
+
+                        if (!tietAppName.getText().toString().isEmpty()) {
+                            String timeStamp = System.currentTimeMillis() + "";
+                            AnywhereEntity ae = new AnywhereEntity(timeStamp, aName, mItem.getParam1(), mItem.getId(), null
+                                    , desc, mItem.getType(), timeStamp);
+
+                            if (isEditMode) {
+                                if (!aName.equals(mItem.getAppName())) {
+                                    if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                            ShortcutsUtil.removeShortcut(mItem);
+                                            ShortcutsUtil.addShortcut(ae);
+                                        }
+                                    }
+                                }
+                                MainFragment.getViewModelInstance().update(ae);
+                            } else {
+                                MainFragment.getViewModelInstance().insert(ae);
+                            }
+                            dismiss();
+                        }
+                    } else {
+                        ToastUtil.makeText("error data.");
                     }
                 });
             }

@@ -46,7 +46,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
         AnywhereEntity item = items.get(position);
         viewHolder.bind(item);
 
-        UiUtils.setVisibility(viewHolder.binding.tvDescription, !item.getDescription().isEmpty());
+//        UiUtils.setVisibility(viewHolder.binding.tvDescription, !item.getDescription().isEmpty());
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +57,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
             this.binding = binding;
         }
 
-        private void bind(AnywhereEntity item) {
+        void bind(AnywhereEntity item) {
             binding.executePendingBindings();
 
             try {

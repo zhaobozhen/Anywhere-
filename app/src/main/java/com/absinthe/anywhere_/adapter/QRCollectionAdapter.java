@@ -1,13 +1,16 @@
 package com.absinthe.anywhere_.adapter;
 
 import android.content.Context;
+import android.view.HapticFeedbackConstants;
 
 import androidx.annotation.NonNull;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.QRCollection;
+import com.absinthe.anywhere_.view.Editor;
 
-public class QRCollectionAdapter extends SingleLineStreamCardsAdapter {
+public class QRCollectionAdapter extends StreamCardsAdapter {
     public QRCollectionAdapter(Context context) {
         super(context);
     }
@@ -17,13 +20,30 @@ public class QRCollectionAdapter extends SingleLineStreamCardsAdapter {
         AnywhereEntity item = items.get(position);
         viewHolder.bind(item);
         viewHolder.itemView.setOnClickListener(view -> {
-            if (items.get(position).getParam1().equals("com.tencent.mm")) {
-                QRCollection.Singleton.INSTANCE.getInstance().wechatScan.launch();
+            switch (items.get(position).getId()) {
+                case QRCollection.wechatScanId:
+                    QRCollection.Singleton.INSTANCE.getInstance().wechatScan.launch();
+                    break;
+                case QRCollection.wechatPayId:
+                    QRCollection.Singleton.INSTANCE.getInstance().wechatPay.launch();
+                    break;
             }
         });
 
         viewHolder.itemView.setOnLongClickListener(view -> {
-            return false;
+            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            openEditor(item, Editor.QR_CODE, position);
+            return true;
         });
+    }
+
+    @Override
+    void openEditor(AnywhereEntity item, int type, int position) {
+        mEditor = new Editor(mContext, type)
+                .item(item)
+                .isEditorMode(false)
+                .build();
+
+        mEditor.show();
     }
 }

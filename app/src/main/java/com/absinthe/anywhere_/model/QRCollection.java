@@ -3,6 +3,9 @@ package com.absinthe.anywhere_.model;
 import android.content.Context;
 import android.content.Intent;
 
+import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.utils.CommandUtils;
+
 import java.util.ArrayList;
 
 public class QRCollection {
@@ -24,18 +27,31 @@ public class QRCollection {
     private ArrayList<AnywhereEntity> mList;
 
     private QRCollection() {
+        mContext = AnywhereApplication.sContext;
         mList = new ArrayList<>();
         mList.add(genWechatScan());
-    }
-
-    public void setContext(Context context) {
-        mContext = context;
+        mList.add(genWechatPay());
     }
 
     public ArrayList<AnywhereEntity> getList() {
         return mList;
     }
 
+    public QREntity getQREntity(String id) {
+        switch (id) {
+            case wechatScanId:
+                return wechatScan;
+            case wechatPayId:
+                return wechatPay;
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Wechat scan page
+     */
+    public static final String wechatScanId = "wechatScan";
     public QREntity wechatScan;
     private AnywhereEntity genWechatScan() {
         String pkgName = "com.tencent.mm";
@@ -55,8 +71,28 @@ public class QRCollection {
 
         wechatScan.setPkgName(pkgName);
 
-        return new AnywhereEntity("", "Wechat Scan", pkgName,
-                "", "", "",
-                AnywhereType.QR_CODE, "");
+        return new AnywhereEntity(wechatScanId, "Wechat Scan", pkgName,
+                "", "", "Work at any mode",
+                AnywhereType.QR_CODE, "0");
+    }
+
+    /**
+     * Wechat pay page
+     */
+    public static final String wechatPayId = "wechatPay";
+    public QREntity wechatPay;
+    private AnywhereEntity genWechatPay() {
+        String pkgName = "com.tencent.mm";
+        String clsName = ".plugin.offline.ui.WalletOfflineCoinPurseUI";
+        String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
+
+        wechatPay = new QREntity(() -> CommandUtils.execCmd(cmd));
+
+        wechatPay.setPkgName(pkgName);
+        wechatPay.setClsName(clsName);
+
+        return new AnywhereEntity(wechatPayId, "Wechat Pay", pkgName,
+                clsName, "", "Need Root",
+                AnywhereType.QR_CODE, "1");
     }
 }

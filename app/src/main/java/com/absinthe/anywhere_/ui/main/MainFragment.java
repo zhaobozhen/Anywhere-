@@ -487,14 +487,14 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 .setLabel(getString(R.string.btn_activity_list))
                 .setLabelClickable(false)
                 .create());
-        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_collector, R.drawable.ic_logo)
-                .setFabBackgroundColor(getResources().getColor(R.color.white))
-                .setLabel(getString(R.string.ib_collector_todo))
-                .setLabelClickable(false)
-                .create());
         fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_qr_code_collection, R.drawable.ic_qr_code)
                 .setFabBackgroundColor(getResources().getColor(R.color.white))
                 .setLabel(getString(R.string.btn_qr_code_collection))
+                .setLabelClickable(false)
+                .create());
+        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_collector, R.drawable.ic_logo)
+                .setFabBackgroundColor(getResources().getColor(R.color.white))
+                .setLabel(getString(R.string.ib_collector_todo))
                 .setLabelClickable(false)
                 .create());
         fab.setOnActionSelectedListener(actionItem -> {

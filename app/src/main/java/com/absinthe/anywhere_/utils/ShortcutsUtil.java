@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
@@ -39,8 +40,13 @@ public class ShortcutsUtil {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public static void addShortcut(AnywhereEntity ae) {
         Intent intent = new Intent(AnywhereApplication.sContext, ShortcutsActivity.class);
-        intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
-        intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
+        if (ae.getAnywhereType() == AnywhereType.QR_CODE) {
+            intent.setAction(ShortcutsActivity.ACTION_START_QR_CODE);
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam2());
+        } else {
+            intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
+        }
 
         List<ShortcutInfo> infos = new ArrayList<>();
         ShortcutInfo info = new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getId())
@@ -67,7 +73,6 @@ public class ShortcutsUtil {
         MainFragment.getViewModelInstance().update(item);
 
         List<String> shortcutsIds = new ArrayList<>();
-        shortcutsIds.add(ae.getTimeStamp());//Todo 未来版本删除
         shortcutsIds.add(ae.getId());
         Singleton.INSTANCE.getInstance().removeDynamicShortcuts(shortcutsIds);
     }
