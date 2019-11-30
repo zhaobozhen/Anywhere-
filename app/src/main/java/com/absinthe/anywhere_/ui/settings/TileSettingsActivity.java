@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.settings;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.quicksettings.Tile;
@@ -22,6 +23,7 @@ import com.absinthe.anywhere_.services.TileOneService;
 import com.absinthe.anywhere_.services.TileThreeService;
 import com.absinthe.anywhere_.services.TileTwoService;
 import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
@@ -117,14 +119,26 @@ public class TileSettingsActivity extends BaseActivity {
                         if (cardView == cvTileOne) {
                             tile = Const.SP_KEY_TILE_ONE;
                             tileCmd = Const.SP_KEY_TILE_ONE_CMD;
+
+                            if (!AppUtils.isServiceRunning(this, TileOneService.class.getName())) {
+                                startService(new Intent(this, TileOneService.class));
+                            }
                             quickTile = TileOneService.getInstance().getQsTile();
                         } else if (cardView == cvTileTwo) {
                             tile = Const.SP_KEY_TILE_TWO;
                             tileCmd = Const.SP_KEY_TILE_TWO_CMD;
+
+                            if (!AppUtils.isServiceRunning(this, TileTwoService.class.getName())) {
+                                startService(new Intent(this, TileTwoService.class));
+                            }
                             quickTile = TileTwoService.getInstance().getQsTile();
                         } else if (cardView == cvTileThree) {
                             tile = Const.SP_KEY_TILE_THREE;
                             tileCmd = Const.SP_KEY_TILE_THREE_CMD;
+
+                            if (!AppUtils.isServiceRunning(this, TileThreeService.class.getName())) {
+                                startService(new Intent(this, TileThreeService.class));
+                            }
                             quickTile = TileThreeService.getInstance().getQsTile();
                         }
                         SPUtils.putString(mContext, tile, mList.get(i).getId());

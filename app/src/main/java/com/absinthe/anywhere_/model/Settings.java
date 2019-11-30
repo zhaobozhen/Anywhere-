@@ -29,6 +29,7 @@ public class Settings {
         setTheme(GlobalValues.sDarkMode);
         initIconPackManager();
         setDate();
+        initQRCollection();
     }
 
     public static void setTheme(String mode) {
@@ -74,5 +75,9 @@ public class Settings {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd", Locale.getDefault());
         sDate = dateFormat.format(date);
+    }
+
+    private static void initQRCollection() {
+        QRCollection.Singleton.INSTANCE.getInstance().setContext(AnywhereApplication.sContext);
     }
 }

@@ -192,4 +192,5 @@
     <string name="settings_tiles">磁贴(Beta)</string>
     <string name="settings_tiles_summary">在通知栏快速打开 Anywhere-</string>
     <string name="btn_tile_select">选择</string>
+    <string name="btn_qr_code_collection">扫码合集</string>
 </resources>

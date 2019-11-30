@@ -37,6 +37,7 @@ public class CollectorTileService extends TileService {
             tile.setLabel(getString(R.string.tile_collector_off));
         }
 
+        sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
         tile.updateTile();
     }
 

@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.adapter;
+package com.absinthe.anywhere_.adapter;//打包 康姆点艾伯森斯点安妮薇儿下划线点鹅带坡特儿
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -33,9 +33,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
+public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>//公共 类 基于鹅带坡特儿《威欸吃 扩展 回收者浏览了点景观持有人》扩展 回收者浏览了点鹅带坡特儿
         implements ItemTouchCallBack.OnItemTouchListener {
-    public static final int ADAPTER_MODE_NORMAL = 0;
+    public static final int ADAPTER_MODE_NORMAL = 0;//公共 静态 最终 整型 鹅带坡特儿下划线模式下划线普通的 等于 零
     public static final int ADAPTER_MODE_SORT = 1;
     public static final int ADAPTER_MODE_SELECT = 2;
 

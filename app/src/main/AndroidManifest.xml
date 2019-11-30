@@ -85,11 +85,15 @@
         </activity>
         <activity
             android:name=".ui.list.AppDetailActivity"
-            android:parentActivityName=".ui.list.AppListActivity"/>
+            android:parentActivityName=".ui.list.AppListActivity" />
         <activity
             android:name=".ui.settings.TileSettingsActivity"
             android:label="@string/settings_tiles"
-            android:parentActivityName=".ui.settings.SettingsActivity"/>
+            android:parentActivityName=".ui.settings.SettingsActivity" />
+        <activity
+            android:name=".ui.qrcode.QRCodeCollectionActivity"
+            android:label="@string/btn_qr_code_collection"
+            android:parentActivityName=".ui.main.MainActivity"/>
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"

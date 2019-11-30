@@ -81,6 +81,10 @@ public class UiUtils {
                 break;
             case AnywhereType.ACTIVITY:
                 apkTempPackageName = item.getParam1();
+                break;
+            case AnywhereType.QR_CODE:
+                apkTempPackageName = item.getParam1();
+                break;
             case AnywhereType.MINI_PROGRAM:
                 //Todo
                 break;

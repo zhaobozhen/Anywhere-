@@ -56,7 +56,7 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
             this.binding = binding;
         }
 
-        private void bind(AnywhereEntity item) {
+        void bind(AnywhereEntity item) {
             binding.executePendingBindings();
 
             try {

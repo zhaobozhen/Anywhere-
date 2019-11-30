@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils;
 
+import android.app.ActivityManager;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.TransactionTooLargeException;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -175,4 +175,23 @@ public class AppUtils {
         return returnClassList;
     }
 
+    public static boolean isServiceRunning(Context context, String clazz) {
+        if (android.text.TextUtils.isEmpty(clazz)) {
+            return false;
+        }
+
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager != null) {
+            ArrayList<ActivityManager.RunningServiceInfo> runningServiceInfos =
+                    (ArrayList<ActivityManager.RunningServiceInfo>) manager.getRunningServices(30);
+            for (ActivityManager.RunningServiceInfo info : runningServiceInfos) {
+                if (info.service.getClassName().equals(clazz)) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
 }

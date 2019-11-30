@@ -31,6 +31,7 @@ public class TileOneService extends TileService {
         if (!cmd.isEmpty()) {
             startActivity(intent);
         }
+        sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 
         tile.updateTile();
     }

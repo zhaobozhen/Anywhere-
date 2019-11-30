@@ -43,6 +43,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.list.AppListActivity;
+import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
@@ -491,6 +492,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 .setLabel(getString(R.string.ib_collector_todo))
                 .setLabelClickable(false)
                 .create());
+        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_qr_code_collection, R.drawable.ic_qr_code)
+                .setFabBackgroundColor(getResources().getColor(R.color.white))
+                .setLabel(getString(R.string.btn_qr_code_collection))
+                .setLabelClickable(false)
+                .create());
         fab.setOnActionSelectedListener(actionItem -> {
             switch (actionItem.getId()) {
                 case R.id.fab_url_scheme:
@@ -504,6 +510,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 case R.id.fab_collector:
                     checkWorkingPermission();
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_collector", "click_fab_collector");
+                    break;
+                case R.id.fab_qr_code_collection:
+                    mContext.startActivity(new Intent(mContext, QRCodeCollectionActivity.class));
+                    FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_qr_code_collection", "click_fab_qr_code_collection");
                     break;
                 default:
                     return false;
