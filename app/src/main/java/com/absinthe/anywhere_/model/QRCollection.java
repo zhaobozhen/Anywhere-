@@ -2,8 +2,10 @@ package com.absinthe.anywhere_.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.CommandUtils;
 
 import java.util.ArrayList;
@@ -31,6 +33,9 @@ public class QRCollection {
         mList = new ArrayList<>();
         mList.add(genWechatScan());
         mList.add(genWechatPay());
+        mList.add(genAlipayScan());
+        mList.add(genAlipayPay());
+        mList.add(genAlipayBus());
     }
 
     public ArrayList<AnywhereEntity> getList() {
@@ -43,6 +48,12 @@ public class QRCollection {
                 return wechatScan;
             case wechatPayId:
                 return wechatPay;
+            case alipayScanId:
+                return alipayScan;
+            case alipayPayId:
+                return alipayPay;
+            case alipayBusId:
+                return alipayBus;
             default:
                 return null;
         }
@@ -72,7 +83,7 @@ public class QRCollection {
         wechatScan.setPkgName(pkgName);
 
         return new AnywhereEntity(wechatScanId, "Wechat Scan", pkgName,
-                "", "", "Work at any mode",
+                "", "", mContext.getString(R.string.desc_work_at_any_mode),
                 AnywhereType.QR_CODE, "0");
     }
 
@@ -92,7 +103,88 @@ public class QRCollection {
         wechatPay.setClsName(clsName);
 
         return new AnywhereEntity(wechatPayId, "Wechat Pay", pkgName,
-                clsName, "", "Need Root",
+                clsName, "", mContext.getString(R.string.desc_need_root),
                 AnywhereType.QR_CODE, "1");
+    }
+
+    /**
+     * Alipay scan page
+     */
+    public static final String alipayScanId = "alipayScan";
+    public QREntity alipayScan;
+    private AnywhereEntity genAlipayScan() {
+        String urlScheme = "alipayqr://platformapi/startapp?saId=10000007";
+        String pkgName = "com.eg.android.AlipayGphone";
+
+        alipayScan = new QREntity(() -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(urlScheme));
+                mContext.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        alipayScan.setUrlScheme(urlScheme);
+
+        return new AnywhereEntity(alipayScanId, "Alipay Scan", pkgName,
+                "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
+                AnywhereType.QR_CODE, "2");
+    }
+
+    /**
+     * Alipay pay page
+     */
+    public static final String alipayPayId = "alipayPay";
+    public QREntity alipayPay;
+    private AnywhereEntity genAlipayPay() {
+        String urlScheme = "alipays://platformapi/startapp?appId=20000056";
+        String pkgName = "com.eg.android.AlipayGphone";
+
+        alipayScan = new QREntity(() -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(urlScheme));
+                mContext.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        alipayScan.setUrlScheme(urlScheme);
+
+        return new AnywhereEntity(alipayScanId, "Alipay Pay", pkgName,
+                "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
+                AnywhereType.QR_CODE, "3");
+    }
+
+    /**
+     * Alipay bus page
+     */
+    public static final String alipayBusId = "alipayBus";
+    public QREntity alipayBus;
+    private AnywhereEntity genAlipayBus() {
+        String urlScheme = "alipayqr://platformapi/startapp?saId=200011235";
+        String pkgName = "com.eg.android.AlipayGphone";
+
+        alipayScan = new QREntity(() -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(urlScheme));
+                mContext.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        alipayScan.setUrlScheme(urlScheme);
+
+        return new AnywhereEntity(alipayScanId, "Alipay Bus", pkgName,
+                "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
+                AnywhereType.QR_CODE, "4");
     }
 }

@@ -195,4 +195,7 @@
     <string name="activity_list_empty_title">Empty list</string>
     <string name="activity_list_empty_subtitle">Have you disabled/frozen this app?</string>
 
+    <!--  QR Code  -->
+    <string name="desc_work_at_any_mode">Work at any mode</string>
+    <string name="desc_need_root">Need Root</string>
 </resources>

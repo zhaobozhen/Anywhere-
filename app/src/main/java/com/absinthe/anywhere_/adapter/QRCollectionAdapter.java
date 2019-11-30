@@ -6,7 +6,6 @@ import android.view.HapticFeedbackConstants;
 import androidx.annotation.NonNull;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.view.Editor;
 
@@ -26,6 +25,15 @@ public class QRCollectionAdapter extends StreamCardsAdapter {
                     break;
                 case QRCollection.wechatPayId:
                     QRCollection.Singleton.INSTANCE.getInstance().wechatPay.launch();
+                    break;
+                case QRCollection.alipayScanId:
+                    QRCollection.Singleton.INSTANCE.getInstance().alipayScan.launch();
+                    break;
+                case QRCollection.alipayPayId:
+                    QRCollection.Singleton.INSTANCE.getInstance().alipayPay.launch();
+                    break;
+                case QRCollection.alipayBusId:
+                    QRCollection.Singleton.INSTANCE.getInstance().alipayBus.launch();
                     break;
             }
         });
