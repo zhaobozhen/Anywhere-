@@ -109,7 +109,7 @@ public class TextUtils {
         } else if (type == AnywhereType.MINI_PROGRAM) {
             //Todo
         } else if (type == AnywhereType.QR_CODE) {
-            cmd.append(QREntity.PREFIX).append(item.getParam1());
+            cmd.append(QREntity.PREFIX).append(item.getParam2());
         } else {
             LogUtil.d("AnywhereType has problem.");
         }
