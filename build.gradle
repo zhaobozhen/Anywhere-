@@ -16,8 +16,6 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.31.0'  // Crashlytics plugin
         classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.17' // Resource obfuscate
         classpath 'com.github.heruoxin:Robfuscate:master'   // R obfuscate
-        classpath 'com.github.megatronking.stringfog:gradle-plugin:2.2.0'   //StringFog
-        classpath 'com.github.megatronking.stringfog:xor:1.1.0'
     }
 }
 

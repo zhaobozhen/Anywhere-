@@ -17,6 +17,7 @@ import com.absinthe.anywhere_.utils.SecurityUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import jonathanfinerty.once.Once;
 import me.weishu.reflection.Reflection;
 import moe.shizuku.api.ShizukuClientHelper;
 import moe.shizuku.api.ShizukuMultiProcessHelper;
@@ -37,6 +38,7 @@ public class AnywhereApplication extends Application {
 
         sContext = getApplicationContext();
         GlobalValues.init(sContext);
+        Once.initialise(this);
         Settings.init();
     }
 

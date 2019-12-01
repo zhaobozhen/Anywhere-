@@ -13,7 +13,6 @@ public class Const {
     public static final String SP_KEY_STREAM_CARD_MODE = "streamCardMode";
     public static final String SP_KEY_STREAM_CARD_SINGLE_LINE = "streamCardModeSingleLine";
     public static final String SP_KEY_CARD_BACKGROUND = "cardBackground";
-    public static final String SP_KEY_ACTION_BAR_TITLE = "actionBarTitle";
     public static final String SP_KEY_ACTION_BAR_TYPE = "actionBarType";
     public static final String SP_KEY_HELP = "help";
     public static final String SP_KEY_CLEAR_SHORTCUTS = "clearShortcuts";

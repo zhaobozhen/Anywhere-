@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply from: 'and_res_guard.gradle'
 apply plugin: 'com.catchingnow.robfuscate'
-apply plugin: 'stringfog'
 
 android {
     signingConfigs {
@@ -89,17 +88,6 @@ android {
             }
         }
     }
-
-    stringfog {
-        // encrypt key
-        key 'Absinthe'
-        // toggle
-        enable true
-        // 加解密库的实现类路径，需和上面配置的加解密算法库一致
-        implementation 'com.github.megatronking.stringfog.xor.StringFogImpl'
-        // 指定需加密的代码包路径，可配置多个，未指定将默认全部加密
-        fogPackages = ['com.absinthe.anywhere_']
-    }
 }
 
 dependencies {
@@ -132,7 +120,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.catchingnow.icebox:SDK:1.0.5'
     implementation "com.leinardi.android:speed-dial:3.1.1"
-    implementation 'com.github.megatronking.stringfog:xor:1.1.0'
+    implementation 'com.jonathanfinerty.once:once:1.3.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

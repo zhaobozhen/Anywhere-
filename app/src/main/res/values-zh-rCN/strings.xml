@@ -195,4 +195,6 @@
     <string name="btn_qr_code_collection">扫码合集</string>
     <string name="desc_need_root">需要 Root</string>
     <string name="desc_work_at_any_mode">无需权限</string>
+    <string name="qr_tip_title">长按以保存 Anywhere-</string>
+    <string name="qr_tip_subtitle">这个页面的 Anywhere- 与其它的不同，它们是主动适配的。未来将会适配更多的 App。</string>
 </resources>

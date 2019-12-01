@@ -41,6 +41,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity;
@@ -64,6 +65,7 @@ import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
 
+import jonathanfinerty.once.Once;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class MainFragment extends Fragment implements LifecycleOwner {
@@ -109,13 +111,13 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         initObserver();
 
-        if (GlobalValues.sIsFirstLaunch) {
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE)) {
             new MaterialTapTargetPrompt.Builder(this)
                     .setTarget(R.id.fab)
                     .setPrimaryText(R.string.first_launch_guide_title)
                     .setBackgroundColour(getResources().getColor(R.color.colorAccent))
                     .show();
-            GlobalValues.setsIsFirstLaunch(false);
+            Once.markDone(OnceTag.FAB_GUIDE);
         }
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
     }

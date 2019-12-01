@@ -17,9 +17,13 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.databinding.ActivityMainBinding;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+
+import jonathanfinerty.once.Once;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
@@ -35,7 +39,8 @@ public class MainActivity extends BaseActivity {
         initView();
         instance = this;
 
-        if (GlobalValues.sIsFirstLaunch) {
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) &&
+                SPUtils.getBoolean(this, Const.SP_KEY_FIRST_LAUNCH, true)) {
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)

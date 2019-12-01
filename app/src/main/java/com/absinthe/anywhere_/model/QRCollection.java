@@ -126,10 +126,10 @@ public class QRCollection {
         String clsName = ".plugin.collect.ui.CollectMainUI";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatPay = new QREntity(() -> CommandUtils.execCmd(cmd));
+        wechatCollect = new QREntity(() -> CommandUtils.execCmd(cmd));
 
-        wechatPay.setPkgName(pkgName);
-        wechatPay.setClsName(clsName);
+        wechatCollect.setPkgName(pkgName);
+        wechatCollect.setClsName(clsName);
 
         return new AnywhereEntity(wechatCollectId, "Wechat Collect", pkgName,
                 clsName, "", mContext.getString(R.string.desc_need_root),
@@ -172,7 +172,7 @@ public class QRCollection {
         String urlScheme = "alipays://platformapi/startapp?appId=20000056";
         String pkgName = "com.eg.android.AlipayGphone";
 
-        alipayScan = new QREntity(() -> {
+        alipayPay = new QREntity(() -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -183,7 +183,7 @@ public class QRCollection {
             }
         });
 
-        alipayScan.setUrlScheme(urlScheme);
+        alipayPay.setUrlScheme(urlScheme);
 
         return new AnywhereEntity(alipayPayId, "Alipay Pay", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
@@ -199,7 +199,7 @@ public class QRCollection {
         String urlScheme = "alipayqr://platformapi/startapp?saId=200011235";
         String pkgName = "com.eg.android.AlipayGphone";
 
-        alipayScan = new QREntity(() -> {
+        alipayBus = new QREntity(() -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -210,7 +210,7 @@ public class QRCollection {
             }
         });
 
-        alipayScan.setUrlScheme(urlScheme);
+        alipayBus.setUrlScheme(urlScheme);
 
         return new AnywhereEntity(alipayBusId, "Alipay Bus", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
@@ -226,7 +226,7 @@ public class QRCollection {
         String urlScheme = "alipays://platformapi/startapp?appId=200000123";
         String pkgName = "com.eg.android.AlipayGphone";
 
-        alipayScan = new QREntity(() -> {
+        alipayCollect = new QREntity(() -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -237,7 +237,7 @@ public class QRCollection {
             }
         });
 
-        alipayScan.setUrlScheme(urlScheme);
+        alipayCollect.setUrlScheme(urlScheme);
 
         return new AnywhereEntity(alipayCollectId, "Alipay Collect", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
@@ -254,10 +254,10 @@ public class QRCollection {
         String clsName = ".olympic.activity.ScanTorchActivity";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatPay = new QREntity(() -> CommandUtils.execCmd(cmd));
+        qqScan = new QREntity(() -> CommandUtils.execCmd(cmd));
 
-        wechatPay.setPkgName(pkgName);
-        wechatPay.setClsName(clsName);
+        qqScan.setPkgName(pkgName);
+        qqScan.setClsName(clsName);
 
         return new AnywhereEntity(qqScanId, "QQ Scan", pkgName,
                 clsName, "", mContext.getString(R.string.desc_need_root),
