@@ -11,12 +11,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class SecurityUtils {
 
-    static {
-        System.loadLibrary("izuko");
-    }
-
-    public static native void checkSignature();
-
     /**
      * Get application signature
      *

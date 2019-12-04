@@ -12,7 +12,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.Logger;
-import com.absinthe.anywhere_.utils.SecurityUtils;
 import com.absinthe.anywhere_.utils.TimeRecorder;
 
 import java.lang.reflect.InvocationTargetException;
@@ -30,12 +29,19 @@ public class AnywhereApplication extends Application {
     public static Context sContext = null;
     public static TimeRecorder timeRecorder;
 
+    static {
+        System.loadLibrary("izuko");
+    }
+
+    public static native void checkSignature();
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+
         if (!BuildConfig.DEBUG) {
-            SecurityUtils.checkSignature();
+            checkSignature();
         }
 
         sContext = getApplicationContext();
