@@ -40,8 +40,8 @@ public class TextUtils {
         packageName = result.substring(result.indexOf(" u0 ") + 4, result.indexOf("/"));
         className = result.substring(result.indexOf("/") + 1, result.indexOf(" ", result.indexOf("/") + 1));
 
-        LogUtil.d("packageName =", packageName);
-        LogUtil.d("className =", className);
+        Logger.d("packageName =", packageName);
+        Logger.d("className =", className);
 
         return new String[]{packageName, className};
     }
@@ -83,7 +83,7 @@ public class TextUtils {
             packageName = item.getParam1();
             className = item.getParam2();
             extras = item.getParam3();
-            LogUtil.d("packageName =", packageName, "className =", className, "extras =", extras);
+            Logger.d("packageName =", packageName, "className =", className, "extras =", extras);
 
             if (className.charAt(0) == '.') {
                 cmd.append(String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, packageName, packageName + className));
@@ -99,7 +99,7 @@ public class TextUtils {
             }
         } else if (type == AnywhereType.URL_SCHEME) {
             urlScheme = item.getParam1();
-            LogUtil.d("urlScheme =", urlScheme);
+            Logger.d("urlScheme =", urlScheme);
 
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                 cmd.append(urlScheme);
@@ -111,9 +111,9 @@ public class TextUtils {
         } else if (type == AnywhereType.QR_CODE) {
             cmd.append(QREntity.PREFIX).append(item.getParam2());
         } else {
-            LogUtil.d("AnywhereType has problem.");
+            Logger.d("AnywhereType has problem.");
         }
-        LogUtil.d(cmd);
+        Logger.d(cmd);
         return cmd.toString();
     }
 

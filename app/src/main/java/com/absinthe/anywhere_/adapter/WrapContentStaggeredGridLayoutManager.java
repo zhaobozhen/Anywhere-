@@ -3,7 +3,7 @@ package com.absinthe.anywhere_.adapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 
 public class WrapContentStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
     public WrapContentStaggeredGridLayoutManager(int spanCount, int orientation) {
@@ -15,7 +15,7 @@ public class WrapContentStaggeredGridLayoutManager extends StaggeredGridLayoutMa
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            LogUtil.e("encounter an IOOBE in RecyclerView");
+            Logger.e("encounter an IOOBE in RecyclerView");
         }
     }
 }

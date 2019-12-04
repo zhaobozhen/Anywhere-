@@ -14,7 +14,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 
 public class SettingsActivity extends BaseActivity {
     private static SettingsActivity instance;
@@ -54,7 +54,7 @@ public class SettingsActivity extends BaseActivity {
                     if (data != null) {
                         Uri backgroundUri = data.getData();
                         if (backgroundUri != null) {
-                            LogUtil.d("backgroundUri = " + backgroundUri);
+                            Logger.d("backgroundUri = " + backgroundUri);
                             GlobalValues.setsBackgroundUri(backgroundUri.toString());
                             GlobalValues.setsActionBarType("");
                             if (MainFragment.getViewModelInstance() != null) {
@@ -64,7 +64,7 @@ public class SettingsActivity extends BaseActivity {
                             }
                         }
                     } else {
-                        LogUtil.d("onActivityResult: REQUEST_CODE_IMAGE_CAPTURE: data = null.");
+                        Logger.d("onActivityResult: REQUEST_CODE_IMAGE_CAPTURE: data = null.");
                     }
                 }
                 break;

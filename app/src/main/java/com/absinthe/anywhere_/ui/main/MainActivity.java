@@ -19,7 +19,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.model.Settings;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 
@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        LogUtil.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
+        Logger.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
 
         if (menu.findItem(R.id.toolbar_settings) != null) {
             if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT) || ( UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty() )) {
@@ -126,12 +126,12 @@ public class MainActivity extends BaseActivity {
         if (uri == null) {
             return;
         } else {
-            LogUtil.d("Received Url =", uri.toString());
+            Logger.d("Received Url =", uri.toString());
         }
         String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
         String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
         String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
-        LogUtil.d("Url param =", param1, param2, param3);
+        Logger.d("Url param =", param1, param2, param3);
 
         Bundle bundle = new Bundle();
         bundle.putString(Const.INTENT_EXTRA_PARAM_1, param1);
@@ -147,10 +147,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtil.d("curFragment =" + curFragment);
+        Logger.d("curFragment =" + curFragment);
 
         if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
-            LogUtil.d("REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
+            Logger.d("REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
             if (curFragment instanceof MainFragment) {
                 if (mainFragment == null) {
                     mainFragment = (MainFragment) curFragment;
@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
-            LogUtil.d("REQUEST_CODE_SHIZUKU_PERMISSION");
+            Logger.d("REQUEST_CODE_SHIZUKU_PERMISSION");
             if (curFragment instanceof InitializeFragment) {
                 InitializeFragment.getViewModel().getIsShizuku().setValue(Boolean.TRUE);
             }

@@ -223,7 +223,7 @@ public class QRCollection {
     public static final String alipayCollectId = "alipayCollect";
     public QREntity alipayCollect;
     private AnywhereEntity genAlipayCollect() {
-        String urlScheme = "alipays://platformapi/startapp?appId=200000123";
+        String urlScheme = "alipays://platformapi/startapp?appId=20000123";
         String pkgName = "com.eg.android.AlipayGphone";
 
         alipayCollect = new QREntity(() -> {

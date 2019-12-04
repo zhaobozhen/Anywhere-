@@ -65,7 +65,7 @@ public class StorageUtils {
                 expoList.add(sae);
             }
             String s = gson.toJson(expoList);
-            LogUtil.d(s);
+            Logger.d(s);
             return s;
         }
         return null;

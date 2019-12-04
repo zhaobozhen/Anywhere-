@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * Logger
  */
-public class LogUtil {
+public class Logger {
 
     private static boolean isDebugMode;
 

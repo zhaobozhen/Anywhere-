@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
@@ -95,7 +95,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     @Override
     public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-        LogUtil.d("onButtonChecked");
+        Logger.d("onButtonChecked");
 
         switch (checkedId) {
             case R.id.btn_url_scheme:
@@ -192,10 +192,10 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 btnRoot.setEnabled(false);
                 cvRoot.findViewById(R.id.done).setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.ROOT_PERM);
-                LogUtil.d("allPerm = " + mViewModel.getAllPerm().getValue());
+                Logger.d("allPerm = " + mViewModel.getAllPerm().getValue());
 
             } else {
-                LogUtil.d("ROOT permission denied.");
+                Logger.d("ROOT permission denied.");
                 ToastUtil.makeText(R.string.toast_root_permission_denied);
             }
         });
@@ -229,7 +229,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 btnOverlay.setEnabled(false);
                 cvOverlay.findViewById(R.id.done).setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.OVERLAY_PERM);
-                LogUtil.d("allPerm = " + mViewModel.getAllPerm().getValue());
+                Logger.d("allPerm = " + mViewModel.getAllPerm().getValue());
             }
         });
 

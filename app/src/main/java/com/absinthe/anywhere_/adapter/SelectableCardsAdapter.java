@@ -14,7 +14,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.databinding.ItemCardViewBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -83,7 +83,7 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
-                LogUtil.e(e.getMessage());
+                Logger.e(e.getMessage());
                 binding.setAppName(item.getAppName());
             }
 

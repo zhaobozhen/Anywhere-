@@ -50,7 +50,7 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.ListUtils;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -133,9 +133,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             String param2 = bundle.getString(Const.INTENT_EXTRA_PARAM_2);
             String param3 = bundle.getString(Const.INTENT_EXTRA_PARAM_3);
 
-            LogUtil.d("Bundle param1 =", param1);
-            LogUtil.d("Bundle param2 =", param2);
-            LogUtil.d("Bundle param3 =", param3);
+            Logger.d("Bundle param1 =", param1);
+            Logger.d("Bundle param2 =", param2);
+            Logger.d("Bundle param3 =", param3);
 
             if (param1 != null && param2 != null && param3 != null) {
                 if (param2.isEmpty() && param3.isEmpty()) {
@@ -162,10 +162,16 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
         }
 
+        if (Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) && AnywhereApplication.timeRecorder != null) {
+            AnywhereApplication.timeRecorder.end();
+            AnywhereApplication.timeRecorder.log();
+            AnywhereApplication.timeRecorder.logEvent(mFirebaseAnalytics);
+            AnywhereApplication.timeRecorder = null;
+        }
     }
 
     void checkWorkingPermission() {
-        LogUtil.d("workingMode =", GlobalValues.sWorkingMode);
+        Logger.d("workingMode =", GlobalValues.sWorkingMode);
         selectedWorkingModeIndex = 0;
         if (GlobalValues.sWorkingMode != null) {
             if (GlobalValues.sWorkingMode.isEmpty()) {
@@ -184,7 +190,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                                     mViewModel.getWorkingMode().setValue(Const.WORKING_MODE_SHIZUKU);
                                     break;
                                 default:
-                                    LogUtil.d("default");
+                                    Logger.d("default");
                             }
                             checkWorkingPermission();
                         })
@@ -213,7 +219,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
                         startCollector();
                     } else {
-                        LogUtil.d("ROOT permission denied.");
+                        Logger.d("ROOT permission denied.");
                         ToastUtil.makeText(R.string.toast_root_permission_denied);
                         actionBar.setTitle("Nowhere-");
                     }
@@ -278,7 +284,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void resetSelectState() {
-        LogUtil.d("getSelectedIndex() = ",adapter.getSelectedIndex());
+        Logger.d("getSelectedIndex() = ",adapter.getSelectedIndex());
         if (!adapter.getSelectedIndex().isEmpty()) {
             for (Object index : adapter.getSelectedIndex()) {
                 View view = mLayoutManager.findViewByPosition((int) index);

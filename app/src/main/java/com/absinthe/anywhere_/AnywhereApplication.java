@@ -11,8 +11,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.SecurityUtils;
+import com.absinthe.anywhere_.utils.TimeRecorder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,6 +28,7 @@ public class AnywhereApplication extends Application {
     public static final String ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER";
     @SuppressLint("StaticFieldLeak")
     public static Context sContext = null;
+    public static TimeRecorder timeRecorder;
 
     @Override
     public void onCreate() {
@@ -76,16 +78,19 @@ public class AnywhereApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+
+        timeRecorder = new TimeRecorder("LaunchTime");
+        timeRecorder.start();
         Reflection.unseal(base);
 
-        LogUtil.d("initialize ", ShizukuMultiProcessHelper.initialize(this, !getProcessName().endsWith(":test")));
+        Logger.d("initialize ", ShizukuMultiProcessHelper.initialize(this, !getProcessName().endsWith(":test")));
 
         ShizukuClientHelper.setBinderReceivedListener(() -> {
-            LogUtil.d("onBinderReceived");
+            Logger.d("onBinderReceived");
 
             if (ShizukuService.getBinder() == null) {
                 // ShizukuBinderReceiveProvider started without binder, should never happened
-                LogUtil.d("binder is null");
+                Logger.d("binder is null");
                 v3Failed = true;
             } else {
                 try {

@@ -38,7 +38,7 @@ public class CommandUtils {
                 ToastUtil.makeText(R.string.toast_change_work_mode);
                 break;
         }
-        LogUtil.d("execCmd result = ", result);
+        Logger.d("execCmd result = ", result);
         return result;
     }
 
@@ -59,7 +59,7 @@ public class CommandUtils {
                 AnywhereApplication.sContext.startActivity(intent);
                 result = Intent.ACTION_VIEW;
             } catch (Exception e) {
-                LogUtil.d("URL_SCHEME:Exception:", e.getMessage());
+                Logger.d("URL_SCHEME:Exception:", e.getMessage());
             }
         } else {
             String pkgClsString = cmd.split(" ")[3];
@@ -74,7 +74,7 @@ public class CommandUtils {
                     AnywhereApplication.sContext.startActivity(intent);
                     result = Intent.ACTION_VIEW;
                 } catch (Exception e) {
-                    LogUtil.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                    Logger.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
                 }
             } else {
                 switch (GlobalValues.sWorkingMode) {
@@ -91,7 +91,7 @@ public class CommandUtils {
             }
         }
 
-        LogUtil.d("execCmd result = ", result);
+        Logger.d("execCmd result = ", result);
         return result;
     }
 
@@ -110,7 +110,7 @@ public class CommandUtils {
             os = p.getOutputStream();
             is = p.getInputStream();
 
-            LogUtil.i(cmd);
+            Logger.i(cmd);
             os.write((cmd + "\n").getBytes());
             os.flush();
             os.write("exit\n".getBytes());
@@ -164,9 +164,9 @@ public class CommandUtils {
             }
             is.close();
 
-            LogUtil.d("newProcess: " + remoteProcess);
-            LogUtil.d("waitFor: " + remoteProcess.waitFor());
-            LogUtil.d("output: " + sb);
+            Logger.d("newProcess: " + remoteProcess);
+            Logger.d("waitFor: " + remoteProcess.waitFor());
+            Logger.d("output: " + sb);
 
             return sb.toString();
         } catch (Throwable tr) {

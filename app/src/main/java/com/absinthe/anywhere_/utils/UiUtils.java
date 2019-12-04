@@ -207,7 +207,7 @@ public class UiUtils {
 
         if (Settings.sDate.equals("12-25")) {
             title.append(" \uD83C\uDF84");
-            LogUtil.d("title = ", title);
+            Logger.d("title = ", title);
         }
 
         return title.toString();
@@ -227,13 +227,18 @@ public class UiUtils {
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
-        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        view.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         window.setStatusBarColor(Color.TRANSPARENT);
         window.setNavigationBarColor(Color.TRANSPARENT);
+
     }
 
     /**
@@ -272,7 +277,7 @@ public class UiUtils {
 
         if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
-            LogUtil.d("actionBarHeight = " + actionBarHeight);
+            Logger.d("actionBarHeight = " + actionBarHeight);
         }
 
         int finalActionBarHeight = actionBarHeight;
@@ -284,8 +289,8 @@ public class UiUtils {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Bitmap actionBarBitmap = Bitmap.createBitmap(resource, 0, 0,
                                 resource.getWidth(), Math.min(finalActionBarHeight, resource.getHeight()));
-                        LogUtil.d("actionBarBitmap.getWidth() =", actionBarBitmap.getWidth());
-                        LogUtil.d("actionBarBitmap.getHeight() =", actionBarBitmap.getHeight());
+                        Logger.d("actionBarBitmap.getWidth() =", actionBarBitmap.getWidth());
+                        Logger.d("actionBarBitmap.getHeight() =", actionBarBitmap.getHeight());
 
                         Palette.from(actionBarBitmap).generate(p -> {
                             if (p != null) {
@@ -345,7 +350,7 @@ public class UiUtils {
         }
 
         if (type.equals(Const.ACTION_BAR_TYPE_DARK) || type.isEmpty()) {
-            LogUtil.d("Dark-");
+            Logger.d("Dark-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
 
@@ -368,8 +373,11 @@ public class UiUtils {
                         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR |
                                 activity.getWindow().getDecorView().getSystemUiVisibility());
             }
+            if (!GlobalValues.sBackgroundUri.isEmpty()) {
+                setActionBarTransparent(activity);
+            }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
-            LogUtil.d("Light-");
+            Logger.d("Light-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -378,9 +386,9 @@ public class UiUtils {
             GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
             activity.invalidateOptionsMenu();
 
-            activity.getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_VISIBLE |
-                            activity.getWindow().getDecorView().getSystemUiVisibility());
+//            activity.getWindow().getDecorView().setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_VISIBLE |
+//                            activity.getWindow().getDecorView().getSystemUiVisibility());
         }
     }
 
@@ -391,7 +399,7 @@ public class UiUtils {
      */
     public static int getAutoDarkMode() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        LogUtil.d("Current hour =", hour);
+        Logger.d("Current hour =", hour);
 
         if (hour >= 22 || hour <= 7) {
             return AppCompatDelegate.MODE_NIGHT_YES;

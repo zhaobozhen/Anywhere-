@@ -35,7 +35,7 @@ public class CipherUtils {
             return Base64.encodeToString(encrypted, Base64.DEFAULT);
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtil.e(CipherUtils.class, e.getMessage());
+            Logger.e(CipherUtils.class, e.getMessage());
             return null;
         }
     }

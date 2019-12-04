@@ -68,7 +68,7 @@ public class PermissionUtil {
 
         try {
             String cmd = "chmod 777 " + pkgCodePath;
-            LogUtil.d("root cmd =", cmd);
+            Logger.d("root cmd =", cmd);
             process = Runtime.getRuntime().exec("su"); //change to super user
             os = new DataOutputStream(process.getOutputStream());
             os.writeBytes(cmd + "\n");
@@ -76,7 +76,7 @@ public class PermissionUtil {
             os.flush();
             process.waitFor();
         } catch (Exception e) {
-            LogUtil.d("upgradeRootPermission:", e.toString());
+            Logger.d("upgradeRootPermission:", e.toString());
             return false;
         } finally {
             try {
@@ -105,7 +105,7 @@ public class PermissionUtil {
     public static boolean isMIUI() {
         try {
             String brand = android.os.Build.BRAND.toLowerCase();
-            LogUtil.d("brand =", brand);
+            Logger.d("brand =", brand);
             if (!brand.contains("xiaomi") && !brand.contains("redmi")) {
                 return false;
             }
@@ -180,7 +180,7 @@ public class PermissionUtil {
                 }
             } else {
                 // activity not found
-                LogUtil.d("activity not found.");
+                Logger.d("activity not found.");
                 ToastUtil.makeText("activity not found.");
                 return false;
             }
@@ -232,7 +232,7 @@ public class PermissionUtil {
             }
 
             // Shizuku v3 may not running, notify user
-            LogUtil.d("Shizuku v3 may not running.");
+            Logger.d("Shizuku v3 may not running.");
             new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                     .setMessage(R.string.dialog_message_shizuku_not_running)
                     .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {

@@ -12,7 +12,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
@@ -101,7 +101,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
-                LogUtil.e(e.getMessage());
+                Logger.e(e.getMessage());
             }
 
             // 创建在当前索引位置要显示的View

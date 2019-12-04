@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.CollectorWindowManager;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.ToastUtil;
 
 public class CollectorService extends Service {
@@ -28,7 +28,7 @@ public class CollectorService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.i("CollectorService onCreate");
+        Logger.i("CollectorService onCreate");
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CollectorService extends Service {
                 if (command.equals(COMMAND_OPEN)) {
                     mCollectorWindowManager.addView();
                 } else if (command.equals(COMMAND_CLOSE)) {
-                    LogUtil.d("Intent:COMMAND_CLOSE");
+                    Logger.d("Intent:COMMAND_CLOSE");
                     mCollectorWindowManager.removeView();
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -70,7 +70,7 @@ public class CollectorService extends Service {
 
     @Override
     public void onDestroy() {
-        LogUtil.d("CollectorService onDestroy.");
+        Logger.d("CollectorService onDestroy.");
         super.onDestroy();
     }
 }

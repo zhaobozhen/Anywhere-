@@ -160,11 +160,11 @@ public class AppUtils {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
 
             if (packageInfo.activities != null) {
-                LogUtil.d(AppUtils.class, "Found ", packageInfo.activities.length, " activity in the AndroidManifest.xml");
+                Logger.d(AppUtils.class, "Found ", packageInfo.activities.length, " activity in the AndroidManifest.xml");
 
                 for (ActivityInfo ai : packageInfo.activities) {
                     returnClassList.add(ai.name);
-                    LogUtil.d(AppUtils.class, ai.name, "...OK");
+                    Logger.d(AppUtils.class, ai.name, "...OK");
                 }
 
             }

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.utils.IconPackManager;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.text.SimpleDateFormat;
@@ -51,7 +51,7 @@ public class Settings {
     }
 
     public static void setLogger() {
-        LogUtil.setDebugMode(BuildConfig.DEBUG | GlobalValues.sIsDebugMode);
+        Logger.setDebugMode(BuildConfig.DEBUG | GlobalValues.sIsDebugMode);
     }
 
     private static void initIconPackManager() {

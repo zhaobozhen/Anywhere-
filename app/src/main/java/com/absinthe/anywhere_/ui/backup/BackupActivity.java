@@ -13,7 +13,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.CipherUtils;
-import com.absinthe.anywhere_.utils.LogUtil;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -93,7 +93,7 @@ public class BackupActivity extends BaseActivity {
                             stringBuilder.append(line);
                         }
                         String content = CipherUtils.decrypt(stringBuilder.toString());
-                        LogUtil.d(content);
+                        Logger.d(content);
 
                         Gson gson = new Gson();
                         List<SerializableAnywhereEntity> list = gson.fromJson(content,
