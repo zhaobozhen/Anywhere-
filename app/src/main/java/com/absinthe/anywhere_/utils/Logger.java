@@ -64,7 +64,7 @@ public class Logger {
         clsName = clsName.substring(clsName.lastIndexOf(".") + 1);
         String TAG = "|" + clsName + "#" + new Throwable().getStackTrace()[1].getMethodName() + "()|";
 
-        return isDebugMode ? Log.i(TAG, sb.toString()) : -1;
+        return Log.i(TAG, sb.toString());
     }
 
     public static int e(Object... contents) {
@@ -82,7 +82,7 @@ public class Logger {
         clsName = clsName.substring(clsName.lastIndexOf(".") + 1);
         String TAG = "|" + clsName + "#" + new Throwable().getStackTrace()[1].getMethodName() + "()|";
 
-        return isDebugMode ? Log.e(TAG, sb.toString()) : -1;
+        return Log.e(TAG, sb.toString());
     }
 
     public static int w(Object... contents) {
