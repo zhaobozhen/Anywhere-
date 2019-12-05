@@ -165,7 +165,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         if (Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) && AnywhereApplication.timeRecorder != null) {
             AnywhereApplication.timeRecorder.end();
             AnywhereApplication.timeRecorder.log();
-            AnywhereApplication.timeRecorder.logEvent(mFirebaseAnalytics);
+//            AnywhereApplication.timeRecorder.logEvent(mFirebaseAnalytics);
             AnywhereApplication.timeRecorder = null;
         }
     }

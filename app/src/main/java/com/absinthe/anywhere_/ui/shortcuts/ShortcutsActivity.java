@@ -1,10 +1,13 @@
 package com.absinthe.anywhere_.ui.shortcuts;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
@@ -17,12 +20,14 @@ import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.catchingnow.icebox.sdk_client.IceBox;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ShortcutsActivity extends Activity {
     public static final String ACTION_START_COLLECTOR = "START_COLLECTOR";
     public static final String ACTION_START_COMMAND = "START_COMMAND";
     public static final String ACTION_START_FROM_WIDGET = "START_FROM_WIDGET";
     public static final String ACTION_START_QR_CODE = "START_QR_CODE";
+    public static final String ACTION_START_SELECTOR = "START_SELECTOR";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +119,15 @@ public class ShortcutsActivity extends Activity {
                 intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_add));
                 intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_shortcut_start_collector));
                 setResult(RESULT_OK, intent);
+            } else if (action.equals(ACTION_START_SELECTOR)) {
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AnywhereApplication.sContext, android.R.layout.select_dialog_singlechoice);
+                new MaterialAlertDialogBuilder(AnywhereApplication.sContext)
+                        .setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
             }
         }
         finish();
