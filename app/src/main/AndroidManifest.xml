@@ -65,7 +65,12 @@
             android:theme="@style/AppTheme.About" />
         <activity
             android:name=".ui.shortcuts.ShortcutsActivity"
-            android:theme="@style/Transparent" />
+            android:label="@string/shortcut_add"
+            android:theme="@style/Transparent" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.backup.BackupActivity"
             android:label="@string/settings_backup"

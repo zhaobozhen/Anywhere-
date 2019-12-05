@@ -105,6 +105,15 @@ public class ShortcutsActivity extends Activity {
                         entity.launch();
                     }
                 }
+            } else if (action.equals(Intent.ACTION_CREATE_SHORTCUT)) {
+                Intent shortcutIntent = new Intent(this, ShortcutsActivity.class);
+                shortcutIntent.setAction(ACTION_START_COLLECTOR);
+
+                Intent intent = new Intent();
+                intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+                intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_add));
+                intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_shortcut_start_collector));
+                setResult(RESULT_OK, intent);
             }
         }
         finish();
