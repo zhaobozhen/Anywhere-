@@ -245,6 +245,10 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     public void deleteSelect() {
+        if (selectedIndex.size() == 0) {
+            return;
+        }
+
         List<AnywhereEntity> list = new ArrayList<>();
         for (int index : selectedIndex) {
             list.add(items.get(index));

@@ -189,12 +189,15 @@
 
     <string name="activity_list_empty_title">空列表</string>
     <string name="activity_list_empty_subtitle">您是否 停用/冻结 了此 App?</string>
-    <string name="settings_tiles">磁贴(Beta)</string>
+    <string name="settings_tiles">磁贴</string>
     <string name="settings_tiles_summary">在通知栏快速打开 Anywhere-</string>
     <string name="btn_tile_select">选择</string>
-    <string name="btn_qr_code_collection">扫码合集(Beta)</string>
+    <string name="btn_qr_code_collection">扫码合集</string>
     <string name="desc_need_root">需要 Root</string>
     <string name="desc_work_at_any_mode">无需权限</string>
-    <string name="qr_tip_title">长按以保存 Anywhere-</string>
+    <string name="qr_tip_title">长按以添加 Anywhere-</string>
     <string name="qr_tip_subtitle">这个页面的 Anywhere- 与其它的不同，它们是主动适配的。未来将会适配更多的 App。</string>
+    <string name="shortcut_open">打开 Anywhere-</string>
+    <string name="settings_lab">实验室</string>
+    <string name="settings_lab_summary">实验性功能</string>
 </resources>

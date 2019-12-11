@@ -1,14 +1,17 @@
 package com.absinthe.anywhere_.ui.shortcuts;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QRCollection;
@@ -16,22 +19,27 @@ import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class ShortcutsActivity extends Activity {
+import java.util.Objects;
+
+public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwner {
     public static final String ACTION_START_COLLECTOR = "START_COLLECTOR";
     public static final String ACTION_START_COMMAND = "START_COMMAND";
     public static final String ACTION_START_FROM_WIDGET = "START_FROM_WIDGET";
     public static final String ACTION_START_QR_CODE = "START_QR_CODE";
-    public static final String ACTION_START_SELECTOR = "START_SELECTOR";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AnywhereViewModel viewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
         Intent i = getIntent();
         String action = i.getAction();
 
@@ -46,6 +54,7 @@ public class ShortcutsActivity extends Activity {
                         startService(intent);
                     }
                 }
+                finish();
             } else if (action.equals(ACTION_START_COMMAND)) {
                 String cmd = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
                 if (cmd != null) {
@@ -72,6 +81,7 @@ public class ShortcutsActivity extends Activity {
                         }
                     }
                 }
+                finish();
             } else if (action.equals(ACTION_START_FROM_WIDGET)) {
                 String cmd = i.getStringExtra(Const.INTENT_EXTRA_WIDGET_COMMAND);
                 if (cmd != null) {
@@ -101,6 +111,7 @@ public class ShortcutsActivity extends Activity {
                         ToastUtil.makeText(R.string.toast_wrong_cmd);
                     }
                 }
+                finish();
             } else if (action.equals(ACTION_START_QR_CODE)) {
                 String id = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
                 if (id != null) {
@@ -110,26 +121,39 @@ public class ShortcutsActivity extends Activity {
                         entity.launch();
                     }
                 }
+                finish();
             } else if (action.equals(Intent.ACTION_CREATE_SHORTCUT)) {
-                Intent shortcutIntent = new Intent(this, ShortcutsActivity.class);
-                shortcutIntent.setAction(ACTION_START_COLLECTOR);
+                viewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AnywhereApplication.sContext, android.R.layout.select_dialog_singlechoice);
+                    Logger.d("list=", anywhereEntities);
+                    if (anywhereEntities != null) {
+                        for (AnywhereEntity ae : anywhereEntities) {
+                            arrayAdapter.add(ae.getAppName());
+                        }
+                    }
+                    new MaterialAlertDialogBuilder(ShortcutsActivity.this, R.style.AppTheme_Dialog)
+                            .setAdapter(arrayAdapter, (dialogInterface, i1) -> {
+                                Intent shortcutIntent = new Intent(ShortcutsActivity.this, ShortcutsActivity.class);
+                                String cmd = TextUtils.getItemCommand(
+                                        Objects.requireNonNull(anywhereEntities).get(i1));
+                                if (cmd.startsWith(QREntity.PREFIX)) {
+                                    shortcutIntent.setAction(ACTION_START_QR_CODE);
+                                } else {
+                                    shortcutIntent.setAction(ACTION_START_COMMAND);
+                                }
+                                shortcutIntent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, cmd);
 
-                Intent intent = new Intent();
-                intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-                intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_add));
-                intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_shortcut_start_collector));
-                setResult(RESULT_OK, intent);
-            } else if (action.equals(ACTION_START_SELECTOR)) {
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AnywhereApplication.sContext, android.R.layout.select_dialog_singlechoice);
-                new MaterialAlertDialogBuilder(AnywhereApplication.sContext)
-                        .setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
+                                Intent intent = new Intent();
+                                intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+                                intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_open));
+                                intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ShortcutsActivity.this, R.drawable.ic_shortcut_start_collector));
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            })
+                            .setOnCancelListener(dialog -> finish())
+                            .show();
+                });
             }
         }
-        finish();
     }
 }

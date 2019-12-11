@@ -65,11 +65,11 @@
             android:theme="@style/AppTheme.About" />
         <activity
             android:name=".ui.shortcuts.ShortcutsActivity"
-            android:label="@string/shortcut_add"
-            android:theme="@style/Transparent"
-            android:excludeFromRecents="true" >
+            android:excludeFromRecents="true"
+            android:label="@string/shortcut_open"
+            android:theme="@style/Transparent">
             <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
             </intent-filter>
         </activity>
         <activity
@@ -99,7 +99,11 @@
         <activity
             android:name=".ui.qrcode.QRCodeCollectionActivity"
             android:label="@string/btn_qr_code_collection"
-            android:parentActivityName=".ui.main.MainActivity"/>
+            android:parentActivityName=".ui.main.MainActivity" />
+        <activity
+            android:name=".ui.settings.LabActivity"
+            android:label="@string/settings_lab"
+            android:parentActivityName=".ui.settings.SettingsActivity" />
 
         <provider
             android:name="moe.shizuku.api.ShizukuBinderReceiveProvider"

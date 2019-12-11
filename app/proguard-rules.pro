@@ -99,3 +99,6 @@
    **[] $VALUES;
    public *;
 }
+
+# HokoBlur
+-keep class com.hoko.blur.opengl.functor.** { *; }

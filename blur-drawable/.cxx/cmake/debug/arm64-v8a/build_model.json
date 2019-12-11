@@ -1,0 +1,74 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "E:\\Projects\\Anywhere-",
+      "sdkFolder": "C:\\Users\\bozhen.zhao\\AppData\\Local\\Android\\Sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "E:\\Projects\\Anywhere-\\blur-drawable\\build\\intermediates",
+      "gradleModulePathName": ":blur-drawable",
+      "moduleRootFolder": "E:\\Projects\\Anywhere-\\blur-drawable",
+      "makeFile": "E:\\Projects\\Anywhere-\\blur-drawable\\src\\main\\jni\\CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "compilerSettingsCacheFolder": "E:\\Projects\\Anywhere-\\.cxx",
+      "cxxFolder": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx",
+      "ndkFolder": "C:\\Users\\bozhen.zhao\\AppData\\Local\\Android\\Sdk\\ndk\\20.0.5594570",
+      "ndkVersion": "20.0.5594570",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [
+      "-DANDROID_PLATFORM\u003dandroid-13",
+      "-DANDROID_TOOLCHAIN\u003dclang"
+    ],
+    "cFlagList": [],
+    "cppFlagsList": [
+      "-std\u003dc++11 -frtti -fexceptions"
+    ],
+    "variantName": "debug",
+    "soFolder": "E:\\Projects\\Anywhere-\\blur-drawable\\build\\intermediates\\cmake\\debug\\lib",
+    "objFolder": "E:\\Projects\\Anywhere-\\blur-drawable\\build\\intermediates\\cmake\\debug\\obj",
+    "jsonFolder": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cmake\\debug",
+    "gradleBuildOutputFolder": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cxx\\debug",
+    "isDebuggableEnabled": true,
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86"
+    ],
+    "buildTargetSet": []
+  },
+  "abi": "ARM64_V8A",
+  "abiPlatformVersion": 21,
+  "cxxBuildFolder": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cmake\\debug\\arm64-v8a",
+  "jsonFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cmake\\debug\\arm64-v8a\\android_gradle_build.json",
+  "gradleBuildOutputFolder": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cxx\\debug\\arm64-v8a",
+  "objFolder": "E:\\Projects\\Anywhere-\\blur-drawable\\build\\intermediates\\cmake\\debug\\obj\\arm64-v8a",
+  "buildCommandFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cmake\\debug\\arm64-v8a\\build_command.txt",
+  "buildOutputFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cmake\\debug\\arm64-v8a\\build_output.txt",
+  "modelOutputFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cmake\\debug\\arm64-v8a\\build_model.json",
+  "cmake": {
+    "cmakeListsWrapperFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cxx\\debug\\arm64-v8a\\CMakeLists.txt",
+    "toolchainWrapperFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cxx\\debug\\arm64-v8a\\android_gradle_build.toolchain.cmake",
+    "buildGenerationStateFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cxx\\debug\\arm64-v8a\\build_generation_state.json",
+    "cacheKeyFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cxx\\debug\\arm64-v8a\\compiler_cache_key.json",
+    "compilerCacheUseFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cxx\\debug\\arm64-v8a\\compiler_cache_use.json",
+    "compilerCacheWriteFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cxx\\debug\\arm64-v8a\\compiler_cache_write.json",
+    "toolchainSettingsFromCacheFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cxx\\debug\\arm64-v8a\\compiler_settings_cache.cmake",
+    "cmakeWrappingBaseFolder": "."
+  },
+  "jsonGenerationLoggingRecordFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cmake\\debug\\arm64-v8a\\json_generation_record.json",
+  "compileCommandsJsonFile": "E:\\Projects\\Anywhere-\\blur-drawable\\.cxx\\cmake\\debug\\arm64-v8a\\compile_commands.json"
+}

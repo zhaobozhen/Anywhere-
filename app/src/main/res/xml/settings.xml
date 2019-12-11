@@ -102,6 +102,17 @@
                 android:targetClass="com.absinthe.anywhere_.ui.settings.TileSettingsActivity"/>
         </Preference>
 
+        <Preference
+            app:key="lab"
+            app:title="@string/settings_lab"
+            app:summary="@string/settings_lab_summary"
+            android:icon="@drawable/ic_lab">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_"
+                android:targetClass="com.absinthe.anywhere_.ui.settings.LabActivity"/>
+        </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory

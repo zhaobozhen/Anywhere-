@@ -38,7 +38,9 @@ public class TileTwoService extends TileService {
         }
         sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 
-        tile.updateTile();
+        if (tile != null) {
+            tile.updateTile();
+        }
     }
 
     public static TileTwoService getInstance() {

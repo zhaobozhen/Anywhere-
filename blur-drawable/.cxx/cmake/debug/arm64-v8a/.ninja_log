@@ -1,0 +1,5 @@
+# ninja log v5
+16	275	0	CMakeFiles/hoko_blur.dir/ScopeJEnv.cpp.o	eeaae0523cde463c
+9	277	0	CMakeFiles/hoko_blur.dir/DrawFunctor.cpp.o	284482b84327e99f
+1	289	0	CMakeFiles/hoko_blur.dir/BlurDrawable.cpp.o	5659b2d2dd3f5284
+289	477	0	E:/Projects/Anywhere-/blur-drawable/build/intermediates/cmake/debug/obj/arm64-v8a/libhoko_blur.so	c71e99c6da3f3baf

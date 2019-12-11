@@ -8,6 +8,7 @@
     <string name="tile_collector_on">Open Collector</string>
     <string name="tile_collector_off">Close Collector</string>
     <string name="shortcut_add">Add an Anywhere-</string>
+    <string name="shortcut_open">Open an Anywhere-</string>
     <string name="slogan">Anywhere- To where u want to</string>
     <string name="whats_this">What\'s this</string>
     <string name="welcome_title">Welcome to Anywhere-</string>
@@ -85,7 +86,8 @@
     <string name="settings_clear_shortcuts">Clear Shortcuts</string>
     <string name="settings_icon_pack">Icon Pack</string>
     <string name="settings_backup_and_restore">Backup &amp; Restore</string>
-    <string name="settings_tiles">Tiles(Beta)</string>
+    <string name="settings_tiles">Tiles</string>
+    <string name="settings_lab">Lab</string>
     <string name="settings_help">Help</string>
     <string name="settings_about">About</string>
 
@@ -100,6 +102,7 @@
     <string name="settings_icon_pack_summary">Choose an icon pack</string>
     <string name="settings_backup_summary">Import/Export all Anywhere-</string>
     <string name="settings_tiles_summary">Quickly open an Anywhere- on Notification bar</string>
+    <string name="settings_lab_summary">Experimental features</string>
     <string name="settings_help_summary">Help document</string>
     <string name="settings_about_summary">This is Anywhere- !</string>
 
@@ -162,7 +165,7 @@
     <string name="btn_root">Root</string>
     <string name="btn_shizuku">Shizuku</string>
     <string name="btn_activity_list">Activities List</string>
-    <string name="btn_qr_code_collection">QR Codes(Beta)</string>
+    <string name="btn_qr_code_collection">QR Codes</string>
 
     <string name="btn_acquire_permission">Grant</string>
     <string name="btn_acquired">Granted</string>
