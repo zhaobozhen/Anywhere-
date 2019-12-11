@@ -29,14 +29,6 @@ allprojects {
     }
 }
 
-ext {
-    minSdkVersion = 21
-    compileSdkVersion = 29
-    targetSdkVersion = 29
-    renderscriptTargetApi = 29
-    renderscriptSupportModeEnabled = true
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

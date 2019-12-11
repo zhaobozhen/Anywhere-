@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Anywhere-.iml" filepath="$PROJECT_DIR$/Anywhere-.iml" group="Anywhere-" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Anywhere-/app" />
-      <module fileurl="file://$PROJECT_DIR$/blur-drawable/blur-drawable.iml" filepath="$PROJECT_DIR$/blur-drawable/blur-drawable.iml" />
     </modules>
   </component>
 </project>
