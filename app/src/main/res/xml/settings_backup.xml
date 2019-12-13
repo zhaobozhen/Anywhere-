@@ -12,6 +12,12 @@
             app:summary="@string/settings_backup_backup_summary"
             android:icon="@drawable/ic_backup"/>
 
+        <Preference
+            android:key="backupShare"
+            android:title="@string/settings_backup_share_title"
+            app:summary="@string/settings_backup_share_summary"
+            android:icon="@drawable/ic_share"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -23,6 +29,12 @@
             android:title="@string/settings_backup_restore_title"
             android:summary="@string/settings_backup_restore_summary"
             android:icon="@drawable/ic_restore"/>
+
+        <Preference
+            android:key="restoreApply"
+            android:title="@string/settings_backup_apply_title"
+            android:summary="@string/settings_backup_apply_summary"
+            android:icon="@drawable/ic_apply_restore"/>
 
     </PreferenceCategory>
 

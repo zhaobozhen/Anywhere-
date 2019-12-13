@@ -31,8 +31,8 @@
 
             <ImageButton
                 android:id="@+id/ib_trying_run"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 app:srcCompat="@drawable/ic_play"
                 android:tooltipText="@string/menu_trying_run"
@@ -41,9 +41,9 @@
 
             <ImageButton
                 android:id="@+id/ib_editor_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 app:srcCompat="@drawable/ic_more_vert"
                 android:tooltipText="@string/menu_more"

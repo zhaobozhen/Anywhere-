@@ -1,0 +1,1 @@
+rd/s/q E:\Projects\Anywhere-\app\build\intermediates\signing_config

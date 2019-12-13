@@ -200,4 +200,14 @@
     <string name="shortcut_open">打开 Anywhere-</string>
     <string name="settings_lab">實驗室</string>
     <string name="settings_lab_summary">實驗性功能</string>
+    <string name="btn_apply">應用</string>
+    <string name="btn_backup_copy">複製</string>
+    <string name="btn_backup_share">分享</string>
+    <string name="dialog_restore_apply_paste_hint">粘貼配置</string>
+    <string name="settings_backup_apply_summary">添加分享的 Anywhere- pei\'zhi</string>
+    <string name="settings_backup_apply_title">應用配置</string>
+    <string name="settings_backup_share_summary">複製和分享 Anywhere-</string>
+    <string name="settings_backup_share_title">分享配置</string>
+    <string name="toast_check_device_storage_state">請檢查設備存儲狀態</string>
+    <string name="toast_copied">已複製到剪貼板</string>
 </resources>

@@ -40,6 +40,8 @@
     <string name="bsd_btn_done">Done</string>
     <string name="bsd_error_should_not_empty">Can\'t be empty</string>
 
+    <string name="bsd_text_input_layout_class_name_label">Class Name</string>
+    <string name="bsd_text_input_layout_package_name_label">Package Name</string>
     <string name="bsd_text_input_layout_app_name_label">App Name</string>
     <string name="bsd_text_input_layout_url_scheme_label">URL Scheme</string>
     <string name="bsd_text_input_layout_description_label">Description(Optional)</string>
@@ -108,10 +110,14 @@
 
     <string name="settings_restore">Restore</string>
     <string name="settings_backup_backup_title">Create a new backup file</string>
+    <string name="settings_backup_share_title">Share configurations</string>
     <string name="settings_backup_restore_title">Restore from a storage file</string>
+    <string name="settings_backup_apply_title">Apply configurations</string>
 
     <string name="settings_backup_backup_summary">Create a backup file in storage to export Anywhere-</string>
+    <string name="settings_backup_share_summary">Copy &amp; share your Anywhere-</string>
     <string name="settings_backup_restore_summary">Select a *.awbackups suffix file to import Anywhere-</string>
+    <string name="settings_backup_apply_summary">Apply shared Anywhere- configurations</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root permission denied</string>
@@ -127,7 +133,8 @@
     <string name="toast_restore_success">Restore success</string>
     <string name="toast_defrosting">Thawing</string>
     <string name="toast_restart_to_active">Restart to take effect</string>
-
+    <string name="toast_check_device_storage_state">Please check the storage state of device</string>
+    <string name="toast_copied">Copied to clipboard</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>
@@ -143,6 +150,7 @@
     <string name="dialog_message_ice_box_perm_not_support">MIUI ROM cannot grant the custom permissions, click to go to origin Package Manager and grant permission manually</string>
     <string name="dialog_title_choose_icon_pack">Choose an Icon Pack</string>
     <string name="dialog_delete_selected_message">Are you sure to delete the selected item?</string>
+    <string name="dialog_restore_apply_paste_hint">Paste configurations</string>
 
     <string name="about_text">Anywhere- is a collection of apps.</string>
 
@@ -160,6 +168,7 @@
     <string name="subtitle_check_shizuku_permission">Check Shizuku permission</string>
     <string name="first_launch_guide_title">Create your first Anywhere-!</string>
 
+    <!--  Button  -->
     <string name="btn_url_scheme">URL Scheme</string>
     <string name="btn_normal">Normal</string>
     <string name="btn_root">Root</string>
@@ -174,6 +183,9 @@
     <string name="btn_checked">Checked</string>
 
     <string name="btn_tile_select">Select</string>
+    <string name="btn_backup_copy">Copy</string>
+    <string name="btn_backup_share">Share</string>
+    <string name="btn_apply">Apply</string>
 
     <!--  Description  -->
     <string name="background_todo">Main page background</string>
@@ -181,8 +193,6 @@
     <string name="welcome_logo_todo">Welcome logo</string>
     <string name="initialize_done_todo">Done</string>
     <string name="icon_badge_todo">Badge</string>
-    <string name="bsd_text_input_layout_class_name_label">Class Name</string>
-    <string name="bsd_text_input_layout_package_name_label">Package Name</string>
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
     <string name="settings_backup">Backup</string>

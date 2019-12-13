@@ -20,7 +20,9 @@ public class Const {
     public static final String SP_KEY_TILES = "tiles";
     public static final String SP_KEY_SORT_MODE = "sortMode";
     public static final String SP_KEY_BACKUP = "backup";
+    public static final String SP_KEY_BACKUP_SHARE = "backupShare";
     public static final String SP_KEY_RESTORE = "restore";
+    public static final String SP_KEY_RESTORE_APPLY = "restoreApply";
     public static final String SP_KEY_TILE_ONE = "tileOne";
     public static final String SP_KEY_TILE_TWO = "tileTwo";
     public static final String SP_KEY_TILE_THREE = "tileThree";

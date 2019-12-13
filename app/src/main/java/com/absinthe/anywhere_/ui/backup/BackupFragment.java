@@ -1,27 +1,47 @@
 package com.absinthe.anywhere_.ui.backup;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
+import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 public class BackupFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
     static BackupFragment newInstance() {
         return new BackupFragment();
     }
+    private Context mContext;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings_backup, rootKey);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = getActivity();
     }
 
     @Override
@@ -30,12 +50,20 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
 
         Preference backupPreference = findPreference(Const.SP_KEY_BACKUP);
         Preference restorePreference = findPreference(Const.SP_KEY_RESTORE);
+        Preference sharePreference = findPreference(Const.SP_KEY_BACKUP_SHARE);
+        Preference applyPreference = findPreference(Const.SP_KEY_RESTORE_APPLY);
 
         if (backupPreference != null) {
             backupPreference.setOnPreferenceClickListener(this);
         }
         if (restorePreference != null) {
             restorePreference.setOnPreferenceClickListener(this);
+        }
+        if (sharePreference != null) {
+            sharePreference.setOnPreferenceClickListener(this);
+        }
+        if (applyPreference != null) {
+            applyPreference.setOnPreferenceClickListener(this);
         }
     }
 
@@ -47,7 +75,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
                     StorageUtils.createFile(BackupActivity.getInstance(), "*/*",
                             "Anywhere-Backups-" + TextUtils.getCurrFormatDate() + ".awbackups");
                 } else {
-                    ToastUtil.makeText("请检查设备存储状态");
+                    ToastUtil.makeText(R.string.toast_check_device_storage_state);
                 }
                 return true;
             case Const.SP_KEY_RESTORE:
@@ -55,6 +83,36 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
                 BackupActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_RESTORE_BACKUPS);
+                return true;
+            case Const.SP_KEY_BACKUP_SHARE:
+                String content = StorageUtils.ExportAnywhereEntityJsonString();
+                String encrypted = CipherUtils.encrypt(content);
+
+                if (encrypted != null) {
+                    new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
+                            .setTitle(R.string.settings_backup_share_title)
+                            .setMessage(encrypted.substring(0, 50) + "…")
+                            .setPositiveButton(R.string.btn_backup_copy, (dialog, which) -> {
+                                ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData mClipData = ClipData.newPlainText("Label", encrypted);
+                                if (cm != null) {
+                                    cm.setPrimaryClip(mClipData);
+                                    ToastUtil.makeText(R.string.toast_copied);
+                                }
+                            })
+                            .setNeutralButton(R.string.btn_backup_share, (dialog, which) -> {
+                                Intent textIntent = new Intent(Intent.ACTION_SEND);
+                                textIntent.setType("text/plain");
+                                textIntent.putExtra(Intent.EXTRA_TEXT, encrypted);
+                                startActivity(Intent.createChooser(textIntent, getString(R.string.settings_backup_share_title)));
+                            })
+                            .show();
+                }
+                return true;
+            case Const.SP_KEY_RESTORE_APPLY:
+                RestoreApplyFragmentDialog dialog = new RestoreApplyFragmentDialog();
+                dialog.show(((AppCompatActivity) mContext).getSupportFragmentManager(),
+                        RestoreApplyFragmentDialog.class.getSimpleName());
                 return true;
             default:
                 break;

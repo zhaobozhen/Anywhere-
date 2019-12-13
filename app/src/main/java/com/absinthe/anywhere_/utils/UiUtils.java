@@ -331,7 +331,12 @@ public class UiUtils {
      * @param drawable icon drawable
      */
     public static void setCardUseIconColor(View view, Drawable drawable) {
-        Palette.from(drawableToBitmap(drawable)).generate(p -> {
+        Bitmap bitmap = drawableToBitmap(drawable);
+        if (bitmap == null) {
+            return;
+        }
+
+        Palette.from(bitmap).generate(p -> {
             if (p != null) {
                 if (p.getVibrantColor(Color.TRANSPARENT) != Color.TRANSPARENT) {
                     createLinearGradientBitmap((ImageView) view, p.getVibrantColor(Color.TRANSPARENT), Color.TRANSPARENT);
@@ -426,6 +431,10 @@ public class UiUtils {
             if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }
+        }
+
+        if (drawable == null) {
+            return null;
         }
 
         if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
