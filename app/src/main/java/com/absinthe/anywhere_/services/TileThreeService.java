@@ -21,6 +21,22 @@ public class TileThreeService extends TileService {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+
+        Tile tile = getQsTile(); // Get Tile
+
+        String label = SPUtils.getString(this, Const.SP_KEY_TILE_THREE_LABEL);
+        if (!label.isEmpty()) {
+            tile.setLabel(label);
+        }
+
+        if (tile != null) {
+            tile.updateTile();
+        }
+    }
+
+    @Override
     public void onClick() {
         Tile tile = getQsTile(); // Get Tile
 

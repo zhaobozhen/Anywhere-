@@ -91,7 +91,7 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
 
             if (mClickCount == 9) {
                 GlobalValues.sIsDebugMode = true;
-                new MaterialAlertDialogBuilder(this)
+                new MaterialAlertDialogBuilder(this, R.style.AppTheme_Dialog)
                         .setTitle("Debug info")
                         .setMessage(Html.fromHtml(
                                 "<b>workingMode</b> = " + GlobalValues.sWorkingMode + "<br>"

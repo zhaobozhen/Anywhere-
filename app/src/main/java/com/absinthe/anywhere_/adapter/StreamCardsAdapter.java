@@ -60,8 +60,14 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
         void bind(AnywhereEntity item) {
             binding.executePendingBindings();
 
+            String pkgName;
+            if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
+                pkgName = item.getParam2();
+            } else {
+                pkgName = item.getParam1();
+            }
             try {
-                if (IceBox.getAppEnabledSetting(mContext, item.getParam1()) != 0) {
+                if (IceBox.getAppEnabledSetting(mContext, pkgName) != 0) {
                     binding.setAppName(item.getAppName() + "\u2744");
                 } else {
                     binding.setAppName(item.getAppName());

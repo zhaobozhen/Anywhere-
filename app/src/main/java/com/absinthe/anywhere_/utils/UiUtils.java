@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -59,6 +60,22 @@ import java.util.Calendar;
 import java.util.List;
 
 public class UiUtils {
+    /**
+     * Get package name by url scheme
+     *
+     * @param context for get manager
+     * @param url     for get package name
+     */
+    public static String getPkgNameByUrl(Context context, String url) {
+        String apkTempPackageName = "";
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        List<ResolveInfo> resolveInfo = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        if (resolveInfo.size() != 0) {
+            apkTempPackageName = resolveInfo.get(0).activityInfo.packageName;
+        }
+        return apkTempPackageName;
+    }
 
     /**
      * Get app icon by package name
@@ -72,16 +89,13 @@ public class UiUtils {
 
         switch (type) {
             case AnywhereType.URL_SCHEME:
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(item.getParam1()));
-                List<ResolveInfo> resolveInfo = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-                if (resolveInfo.size() != 0) {
-                    apkTempPackageName = resolveInfo.get(0).activityInfo.packageName;
+                if (TextUtils.isEmpty(item.getParam2())) {
+                    apkTempPackageName = getPkgNameByUrl(context, item.getParam1());
+                } else {
+                    apkTempPackageName = item.getParam2();
                 }
                 break;
             case AnywhereType.ACTIVITY:
-                apkTempPackageName = item.getParam1();
-                break;
             case AnywhereType.QR_CODE:
                 apkTempPackageName = item.getParam1();
                 break;

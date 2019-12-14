@@ -106,7 +106,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
-    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-rc02"
+    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-rc03"
     implementation 'com.google.android.material:material:1.2.0-alpha02'
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
 

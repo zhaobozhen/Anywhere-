@@ -114,10 +114,12 @@ public class TileSettingsActivity extends BaseActivity {
                         loadCard(cardView, mList.get(i));
 
                         String tile = "";
+                        String tileLabel = "";
                         String tileCmd = "";
                         Tile quickTile = null;
                         if (cardView == cvTileOne) {
                             tile = Const.SP_KEY_TILE_ONE;
+                            tileLabel = Const.SP_KEY_TILE_ONE_LABEL;
                             tileCmd = Const.SP_KEY_TILE_ONE_CMD;
 
                             if (!AppUtils.isServiceRunning(this, TileOneService.class.getName())) {
@@ -126,6 +128,7 @@ public class TileSettingsActivity extends BaseActivity {
                             quickTile = TileOneService.getInstance().getQsTile();
                         } else if (cardView == cvTileTwo) {
                             tile = Const.SP_KEY_TILE_TWO;
+                            tileLabel = Const.SP_KEY_TILE_TWO_LABEL;
                             tileCmd = Const.SP_KEY_TILE_TWO_CMD;
 
                             if (!AppUtils.isServiceRunning(this, TileTwoService.class.getName())) {
@@ -134,6 +137,7 @@ public class TileSettingsActivity extends BaseActivity {
                             quickTile = TileTwoService.getInstance().getQsTile();
                         } else if (cardView == cvTileThree) {
                             tile = Const.SP_KEY_TILE_THREE;
+                            tileLabel = Const.SP_KEY_TILE_THREE_LABEL;
                             tileCmd = Const.SP_KEY_TILE_THREE_CMD;
 
                             if (!AppUtils.isServiceRunning(this, TileThreeService.class.getName())) {
@@ -142,6 +146,7 @@ public class TileSettingsActivity extends BaseActivity {
                             quickTile = TileThreeService.getInstance().getQsTile();
                         }
                         SPUtils.putString(mContext, tile, mList.get(i).getId());
+                        SPUtils.putString(mContext, tileLabel, mList.get(i).getAppName());
                         SPUtils.putString(mContext, tileCmd, TextUtils.getItemCommand(mList.get(i)));
                         if (quickTile != null) {
                             quickTile.setLabel(mList.get(i).getAppName());

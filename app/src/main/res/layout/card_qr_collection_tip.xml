@@ -23,7 +23,7 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
                 android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
@@ -35,10 +35,9 @@
 
             <TextView
                 android:id="@+id/subtitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/anywhere_cardview_item_margin"
-                android:layout_marginTop="@dimen/anywhere_cardview_item_margin"
+                android:layout_margin="@dimen/anywhere_cardview_item_margin"
                 android:text="@string/qr_tip_subtitle"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:textStyle="italic"

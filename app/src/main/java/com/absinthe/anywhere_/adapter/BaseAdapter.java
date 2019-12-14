@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.interfaces.DiffListCallback;
+import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.QRCollection;
@@ -26,6 +29,7 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.ShortcutsUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.Editor;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.card.MaterialCardView;
@@ -60,6 +64,11 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         notifyItemRangeChanged(0, getItemCount());
     }
 
+    public void updateItems(List<AnywhereEntity> items) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffListCallback(this.items, items));
+        diffResult.dispatchUpdatesTo(this);
+    }
+
     public void setMode(int mode) {
         this.mode = mode;
     }
@@ -91,8 +100,12 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
         holder.itemView.setOnClickListener(view -> {
             if (mode == ADAPTER_MODE_NORMAL) {
-                openAnywhereActivity(item);
-                notifyItemChanged(position);
+                if (AppUtils.isAppFrozen(mContext, item)) {
+                    openAnywhereActivity(item);
+                    notifyItemChanged(position);
+                } else {
+                    openAnywhereActivity(item);
+                }
             } else if (mode == ADAPTER_MODE_SELECT) {
                 if (selectedIndex.contains(position)) {
                     holder.itemView.setScaleX(1.0f);
@@ -130,6 +143,12 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             }
             return false;
         });
+
+        if (!selectedIndex.contains(position)) {
+            holder.itemView.setScaleX(1.0f);
+            holder.itemView.setScaleY(1.0f);
+            ((MaterialCardView)holder.itemView).setChecked(false);
+        }
     }
 
     @Override
@@ -138,6 +157,21 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     private void openAnywhereActivity(AnywhereEntity item) {
+        //Todo Will delete in future version
+        if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
+            if (android.text.TextUtils.isEmpty(item.getParam2())) {
+                AnywhereEntity ae = new AnywhereEntity(item.getId(),
+                        item.getAppName(),
+                        item.getParam1(),
+                        UiUtils.getPkgNameByUrl(mContext, item.getParam1()),
+                        item.getParam3(),
+                        item.getDescription(),
+                        item.getType(),
+                        item.getTimeStamp());
+                MainFragment.getViewModelInstance().update(ae);
+            }
+        }
+
         if (item.getAnywhereType() != AnywhereType.QR_CODE) {
             String cmd = TextUtils.getItemCommand(item);
             if (!cmd.isEmpty()) {
@@ -158,8 +192,13 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                             ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
                         }
                     } else {
-                        PermissionUtil.unfreezeApp(mContext, item.getParam1(), () ->
-                                MainFragment.getViewModelInstance().getCommand().setValue(cmd));
+                        final OnAppUnfreezeListener onAppUnfreezeListener = () ->
+                                MainFragment.getViewModelInstance().getCommand().setValue(cmd);
+                        if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
+                            PermissionUtil.unfreezeApp(mContext, item.getParam2(), onAppUnfreezeListener);
+                        } else {
+                            PermissionUtil.unfreezeApp(mContext, item.getParam1(), onAppUnfreezeListener);
+                        }
                     }
                 } else {
                     MainFragment.getViewModelInstance().getCommand().setValue(cmd);

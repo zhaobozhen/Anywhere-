@@ -45,22 +45,6 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
         AnywhereEntity item = items.get(position);
         viewHolder.bind(item);
 
-        int type = item.getAnywhereType();
-
-        switch (type) {
-            case AnywhereType.URL_SCHEME:
-                viewHolder.binding.tvParam1.setVisibility(View.VISIBLE);
-                viewHolder.binding.tvParam2.setVisibility(View.GONE);
-                viewHolder.binding.tvParam3.setVisibility(View.GONE);
-                break;
-            case AnywhereType.ACTIVITY:
-            case AnywhereType.MINI_PROGRAM:
-                viewHolder.binding.tvParam1.setVisibility(View.VISIBLE);
-                viewHolder.binding.tvParam2.setVisibility(View.VISIBLE);
-                viewHolder.binding.tvParam3.setVisibility(View.GONE);
-                break;
-        }
-
         UiUtils.setVisibility(viewHolder.binding.tvDescription, !item.getDescription().isEmpty());
     }
 
@@ -75,8 +59,16 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
         private void bind(AnywhereEntity item) {
             binding.executePendingBindings();
 
+            int type = item.getAnywhereType();
+            String pkgName;
+
+            if (type == AnywhereType.URL_SCHEME) {
+                pkgName = item.getParam2();
+            } else {
+                pkgName = item.getParam1();
+            }
             try {
-                if (IceBox.getAppEnabledSetting(mContext, item.getParam1()) != 0) {
+                if (IceBox.getAppEnabledSetting(mContext, pkgName) != 0) {
                     binding.setAppName(item.getAppName() + "\u2744");
                 } else {
                     binding.setAppName(item.getAppName());
@@ -89,8 +81,17 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
 
             binding.setParam1(item.getParam1());
             binding.setParam2(item.getParam2());
-            binding.setParam3(item.getParam3());
             binding.setDescription(item.getDescription());
+
+            switch (type) {
+                case AnywhereType.URL_SCHEME:
+                    binding.tvParam2.setVisibility(View.GONE);
+                    break;
+                case AnywhereType.QR_CODE:
+                    binding.tvParam1.setVisibility(View.GONE);
+                    binding.tvParam2.setVisibility(View.GONE);
+                    break;
+            }
 
             Glide.with(mContext)
                     .load(UiUtils.getAppIconByPackageName(mContext, item))

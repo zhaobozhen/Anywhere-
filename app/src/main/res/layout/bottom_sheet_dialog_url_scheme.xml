@@ -1,64 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/Widget.Design.BottomSheet.Modal">
 
-    <RelativeLayout
-        android:id="@+id/rl_buttons"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btn_url_scheme_community"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:text="@string/dialog_url_scheme_community"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ll_buttons" />
 
-        <Button
-            android:id="@+id/btn_url_scheme_community"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
-            android:gravity="center_vertical"
-            android:text="@string/dialog_url_scheme_community" />
+    <LinearLayout
+        android:id="@+id/ll_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end">
+        <ImageButton
+            android:id="@+id/ib_trying_run"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/anywhere_more_todo"
+            android:tooltipText="@string/menu_trying_run"
+            app:srcCompat="@drawable/ic_play"
+            tools:targetApi="o" />
 
-            <ImageButton
-                android:id="@+id/ib_trying_run"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_play"
-                android:tooltipText="@string/menu_trying_run"
-                android:contentDescription="@string/anywhere_more_todo"
-                tools:targetApi="o" />
+        <ImageButton
+            android:id="@+id/ib_editor_menu"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/anywhere_more_todo"
+            android:tooltipText="@string/menu_more"
+            app:srcCompat="@drawable/ic_more_vert"
+            tools:targetApi="o" />
 
-            <ImageButton
-                android:id="@+id/ib_editor_menu"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="10dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_more_vert"
-                android:tooltipText="@string/menu_more"
-                android:contentDescription="@string/anywhere_more_todo"
-                tools:targetApi="o" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_buttons"
+        app:layout_constraintTop_toBottomOf="@id/btn_url_scheme_community"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_marginTop="20dp"
         android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
@@ -80,7 +75,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/til_app_name"
+        app:layout_constraintTop_toBottomOf="@id/til_app_name"
         android:layout_marginTop="5dp"
         android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
         android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
@@ -101,7 +96,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/til_url_scheme"
+        app:layout_constraintTop_toBottomOf="@id/til_url_scheme"
         android:layout_marginTop="5dp"
         android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
         android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
@@ -122,7 +117,8 @@
         android:layout_height="wrap_content"
         android:text="@string/bsd_btn_done"
         android:textAllCaps="true"
-        android:layout_below="@id/til_description"
+        app:layout_constraintTop_toBottomOf="@id/til_description"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="@dimen/bottom_sheet_dialog_edit_text_margin_start_end" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

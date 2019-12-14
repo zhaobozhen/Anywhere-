@@ -288,8 +288,8 @@ public class Editor {
 
                         if (!tietAppName.getText().toString().isEmpty()
                                 && !tietUrlScheme.getText().toString().isEmpty()) {
-                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, uScheme, null, null
-                                    , desc, mItem.getType(), mItem.getTimeStamp());
+                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, uScheme, UiUtils.getPkgNameByUrl(mContext, uScheme),
+                                    null, desc, mItem.getType(), mItem.getTimeStamp());
 
                             if (isEditMode) {
                                 if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {

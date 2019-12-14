@@ -26,6 +26,9 @@ public class Const {
     public static final String SP_KEY_TILE_ONE = "tileOne";
     public static final String SP_KEY_TILE_TWO = "tileTwo";
     public static final String SP_KEY_TILE_THREE = "tileThree";
+    public static final String SP_KEY_TILE_ONE_LABEL = "tileOneLabel";
+    public static final String SP_KEY_TILE_TWO_LABEL = "tileTwoLabel";
+    public static final String SP_KEY_TILE_THREE_LABEL = "tileThreeLabel";
     public static final String SP_KEY_TILE_ONE_CMD = "tileOneCmd";
     public static final String SP_KEY_TILE_TWO_CMD = "tileTwoCmd";
     public static final String SP_KEY_TILE_THREE_CMD = "tileThreeCmd";

@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
@@ -72,14 +71,13 @@ public class AppUtils {
      */
     public static boolean isAppFrozen(Context context, AnywhereEntity item) {
         int type = item.getAnywhereType();
-        String apkTempPackageName = "";
+        String apkTempPackageName;
 
         if (type == AnywhereType.URL_SCHEME) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(item.getParam1()));
-            List<ResolveInfo> resolveInfo = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            if (resolveInfo.size() != 0) {
-                apkTempPackageName = resolveInfo.get(0).activityInfo.packageName;
+            if (android.text.TextUtils.isEmpty(item.getParam2())) {
+                apkTempPackageName = UiUtils.getPkgNameByUrl(context, item.getParam1());
+            } else {
+                apkTempPackageName = item.getParam2();
             }
 
             try {

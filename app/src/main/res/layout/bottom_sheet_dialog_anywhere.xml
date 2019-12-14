@@ -6,56 +6,50 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet_anywhere"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.Design.BottomSheet.Modal">
 
-        <RelativeLayout
-            android:id="@+id/rl_buttons"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/ll_buttons"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
-                android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/ib_trying_run"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/anywhere_more_todo"
+                android:tooltipText="@string/menu_trying_run"
+                app:srcCompat="@drawable/ic_play"
+                tools:targetApi="o" />
 
-                <ImageButton
-                    android:id="@+id/ib_trying_run"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/anywhere_more_todo"
-                    android:tooltipText="@string/menu_trying_run"
-                    app:srcCompat="@drawable/ic_play"
-                    tools:targetApi="o" />
+            <ImageButton
+                android:id="@+id/ib_editor_menu"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/anywhere_more_todo"
+                android:tooltipText="@string/menu_more"
+                app:srcCompat="@drawable/ic_more_vert"
+                tools:targetApi="o" />
 
-                <ImageButton
-                    android:id="@+id/ib_editor_menu"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginStart="10dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/anywhere_more_todo"
-                    android:tooltipText="@string/menu_more"
-                    app:srcCompat="@drawable/ic_more_vert"
-                    tools:targetApi="o" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rl_buttons"
+            app:layout_constraintTop_toBottomOf="@id/ll_buttons"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="20dp"
             android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
@@ -77,7 +71,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/til_app_name"
+            app:layout_constraintTop_toBottomOf="@id/til_app_name"
             android:layout_marginTop="5dp"
             android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
@@ -97,7 +91,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/til_package_name"
+            app:layout_constraintTop_toBottomOf="@id/til_package_name"
             android:layout_marginTop="5dp"
             android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
@@ -117,7 +111,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/til_class_name"
+            app:layout_constraintTop_toBottomOf="@id/til_class_name"
             android:layout_marginTop="5dp"
             android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
@@ -137,7 +131,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/til_description"
+            app:layout_constraintTop_toBottomOf="@id/til_description"
             android:layout_marginTop="5dp"
             android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
             android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
@@ -158,9 +152,10 @@
             android:layout_height="wrap_content"
             android:text="@string/bsd_btn_done"
             android:textAllCaps="true"
-            android:layout_below="@id/til_intent_extra"
+            app:layout_constraintTop_toBottomOf="@id/til_intent_extra"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="@dimen/bottom_sheet_dialog_edit_text_margin_start_end" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

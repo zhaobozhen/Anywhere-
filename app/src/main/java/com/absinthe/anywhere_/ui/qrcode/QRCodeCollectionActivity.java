@@ -53,6 +53,5 @@ public class QRCodeCollectionActivity extends BaseActivity {
 
         QRCollection collection = QRCollection.Singleton.INSTANCE.getInstance();
         adapter.setItems(collection.getList());
-        adapter.notifyDataSetChanged();
     }
 }

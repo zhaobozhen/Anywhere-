@@ -7,7 +7,6 @@
         <variable name="appName" type="String" />
         <variable name="param1" type="String" />
         <variable name="param2" type="String" />
-        <variable name="param3" type="String" />
         <variable name="description" type="String" />
     </data>
 
@@ -49,41 +48,28 @@
 
                 <TextView
                     android:id="@+id/tv_param_1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
                     android:text="@{param1}"
                     android:textAppearance="?attr/textAppearanceBody2"
-                    android:textStyle="italic"
-                    android:visibility="gone" />
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/tv_param_2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
                     android:text="@{param2}"
                     android:textAppearance="?attr/textAppearanceBody2"
-                    android:textStyle="italic"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tv_param_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
-                    android:text="@{param3}"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textStyle="italic"
-                    android:visibility="gone" />
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/tv_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{description}"
-                    android:textAppearance="?attr/textAppearanceSubtitle2"
-                    android:visibility="gone" />
+                    android:textAppearance="?attr/textAppearanceSubtitle2" />
             </LinearLayout>
 
             <RelativeLayout
