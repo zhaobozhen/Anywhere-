@@ -59,13 +59,14 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     public void setItems(List<AnywhereEntity> items) {
-        this.items.clear();
         this.items.addAll(items);
         notifyItemRangeChanged(0, getItemCount());
     }
 
     public void updateItems(List<AnywhereEntity> items) {
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffListCallback(this.items, items));
+        this.items.clear();
+        this.items.addAll(items);
         diffResult.dispatchUpdatesTo(this);
     }
 

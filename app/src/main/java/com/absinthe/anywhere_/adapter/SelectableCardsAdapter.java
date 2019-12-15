@@ -91,6 +91,7 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
                     binding.tvParam1.setVisibility(View.GONE);
                     binding.tvParam2.setVisibility(View.GONE);
                     break;
+                default:
             }
 
             Glide.with(mContext)

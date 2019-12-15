@@ -16,6 +16,7 @@ public class AnywhereViewModel extends AndroidViewModel {
 
     private AnywhereRepository mRepository;
     private LiveData<List<AnywhereEntity>> mAllAnywhereEntities;
+    private Application mApplicaiton;
 
     private MutableLiveData<String> mCommand = null;
     private MutableLiveData<String> mWorkingMode = null;
@@ -26,6 +27,7 @@ public class AnywhereViewModel extends AndroidViewModel {
 
     public AnywhereViewModel(Application application) {
         super(application);
+        mApplicaiton = application;
         mRepository = new AnywhereRepository(application);
         mAllAnywhereEntities = mRepository.getAllAnywhereEntities();
     }
@@ -81,5 +83,10 @@ public class AnywhereViewModel extends AndroidViewModel {
             mCardMode = new MutableLiveData<>();
         }
         return mCardMode;
+    }
+
+    public void refreshDB() {
+        mRepository = new AnywhereRepository(mApplicaiton);
+        mAllAnywhereEntities = mRepository.getAllAnywhereEntities();
     }
 }

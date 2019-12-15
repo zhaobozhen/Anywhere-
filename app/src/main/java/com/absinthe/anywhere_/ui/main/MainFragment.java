@@ -49,7 +49,6 @@ import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
-import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.PermissionUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
@@ -409,7 +408,17 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         popupItem.getItemId() == R.id.sort_by_time_asc ||
                         popupItem.getItemId() == R.id.sort_by_name_desc ||
                         popupItem.getItemId() == R.id.sort_by_name_asc) {
-                    adapter.setItems(ListUtils.sort(getViewModelInstance().getAllAnywhereEntities().getValue()));
+                    mViewModel.refreshDB();
+                    mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
+                        if (!mViewModel.refreshLock) {
+                            if (adapter.getItemCount() == 0) {
+                                adapter.setItems(anywhereEntities);
+                            } else {
+                                adapter.updateItems(anywhereEntities);
+                            }
+                        }
+                        AppUtils.updateWidget(AnywhereApplication.sContext);
+                    });
                 }
                 return true;
             });
@@ -460,7 +469,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getCommand().observe(this, CommandUtils::execCmd);
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
             if (!mViewModel.refreshLock) {
-                adapter.setItems(anywhereEntities);
+                if (adapter.getItemCount() == 0) {
+                    adapter.setItems(anywhereEntities);
+                } else {
+                    adapter.updateItems(anywhereEntities);
+                }
             }
             AppUtils.updateWidget(AnywhereApplication.sContext);
         });

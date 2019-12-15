@@ -1,5 +1,7 @@
 package com.absinthe.anywhere_.interfaces;
 
+import android.text.TextUtils;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 
@@ -29,16 +31,16 @@ public class DiffListCallback extends DiffUtil.Callback{
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).getAppName().equals(newList.get(newItemPosition).getAppName()) &&
-                oldList.get(oldItemPosition).getParam1().equals(newList.get(newItemPosition).getParam1()) &&
-                oldList.get(oldItemPosition).getParam2().equals(newList.get(newItemPosition).getParam2()) &&
-                oldList.get(oldItemPosition).getDescription().equals(newList.get(newItemPosition).getDescription()) &&
-                oldList.get(oldItemPosition).getType().equals(newList.get(newItemPosition).getType());
+        return oldList.get(oldItemPosition).getId().equals(newList.get(newItemPosition).getId());
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+        return TextUtils.equals(oldList.get(oldItemPosition).getAppName(), newList.get(newItemPosition).getAppName()) &&
+                TextUtils.equals(oldList.get(oldItemPosition).getParam1(), newList.get(newItemPosition).getParam1()) &&
+                TextUtils.equals(oldList.get(oldItemPosition).getParam2(), newList.get(newItemPosition).getParam2()) &&
+                TextUtils.equals(oldList.get(oldItemPosition).getDescription(), newList.get(newItemPosition).getDescription()) &&
+                TextUtils.equals(oldList.get(oldItemPosition).getType() + "", newList.get(newItemPosition).getType() + "");
     }
 
     @Nullable

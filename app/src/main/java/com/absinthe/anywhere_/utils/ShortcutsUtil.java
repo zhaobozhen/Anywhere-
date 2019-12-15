@@ -59,7 +59,7 @@ public class ShortcutsUtil {
             Singleton.INSTANCE.getInstance().addDynamicShortcuts(infos);
         }
 
-        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getAnywhereType() + 10, ae.getTimeStamp());
+        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getType() + 10, ae.getTimeStamp());
         MainFragment.getViewModelInstance().update(item);
     }
 
@@ -69,7 +69,7 @@ public class ShortcutsUtil {
             return;
         }
 
-        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getAnywhereType(), ae.getTimeStamp());
+        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getType() - 10, ae.getTimeStamp());
         MainFragment.getViewModelInstance().update(item);
 
         List<String> shortcutsIds = new ArrayList<>();
