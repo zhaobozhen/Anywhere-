@@ -1,16 +1,24 @@
 package com.absinthe.anywhere_;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 @SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Logger.i(this.getClass().getSimpleName(), "onCreate");
+    }
 
     @Override
     protected void onResume() {

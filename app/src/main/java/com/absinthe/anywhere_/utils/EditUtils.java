@@ -15,7 +15,7 @@ public class EditUtils {
      * @return true if has same Anywhere-
      */
     public static boolean hasSameAppName(String param1, String param2) {
-        if (MainFragment.getViewModelInstance().getAllAnywhereEntities() == null) {
+        if (MainFragment.getViewModelInstance() == null || MainFragment.getViewModelInstance().getAllAnywhereEntities() == null) {
             return false;
         }
 

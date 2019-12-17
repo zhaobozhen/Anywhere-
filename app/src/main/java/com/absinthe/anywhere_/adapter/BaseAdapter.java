@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.interfaces.DiffListCallback;
 import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -291,7 +290,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
         List<AnywhereEntity> list = new ArrayList<>();
         for (int index : selectedIndex) {
-            list.add(items.get(index));
+            if (index < items.size()) {
+                list.add(items.get(index));
+            }
         }
         for (AnywhereEntity ae : list) {
             int index = items.indexOf(ae);

@@ -14,17 +14,11 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
-import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.List;
 
 public class BackupFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
@@ -89,9 +83,10 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
                 String encrypted = CipherUtils.encrypt(content);
 
                 if (encrypted != null) {
+                    String dig = encrypted.length() > 50 ? encrypted.substring(0, 50) + "…" : encrypted;
                     new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                             .setTitle(R.string.settings_backup_share_title)
-                            .setMessage(encrypted.substring(0, 50) + "…")
+                            .setMessage(dig)
                             .setPositiveButton(R.string.btn_backup_copy, (dialog, which) -> {
                                 ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData mClipData = ClipData.newPlainText("Label", encrypted);

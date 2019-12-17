@@ -14,24 +14,19 @@ import com.absinthe.anywhere_.utils.SPUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class TileThreeService extends TileService {
-    private static TileThreeService instance;
-
-    public TileThreeService() {
-        instance = this;
-    }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    public void onStartListening() {
+        super.onStartListening();
 
         Tile tile = getQsTile(); // Get Tile
 
-        String label = SPUtils.getString(this, Const.SP_KEY_TILE_THREE_LABEL);
-        if (!label.isEmpty()) {
-            tile.setLabel(label);
-        }
-
         if (tile != null) {
+            String label = SPUtils.getString(this, Const.SP_KEY_TILE_THREE_LABEL);
+            if (!label.isEmpty()) {
+                tile.setLabel(label);
+            }
+
             tile.updateTile();
         }
     }
@@ -59,10 +54,4 @@ public class TileThreeService extends TileService {
         }
     }
 
-    public static TileThreeService getInstance() {
-        if (instance == null) {
-            new TileThreeService();
-        }
-        return instance;
-    }
 }

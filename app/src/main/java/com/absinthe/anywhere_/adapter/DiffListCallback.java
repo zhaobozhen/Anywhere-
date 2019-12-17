@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.interfaces;
+package com.absinthe.anywhere_.adapter;
 
 import android.text.TextUtils;
 

@@ -3,15 +3,14 @@ package com.absinthe.anywhere_.model;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.view.CollectorView;
 
 public class CollectorWindowManager {
-    private static final String TAG = "CollectorWindowManager";
     private final Context mContext;
     private final WindowManager mWindowManager;
 
@@ -48,7 +47,7 @@ public class CollectorWindowManager {
             mFloatingView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 
             mWindowManager.addView(mFloatingView, LAYOUT_PARAMS);
-            Log.d(TAG, "Collector addView.");
+            Logger.d("Collector addView.");
         }
     }
 
@@ -56,7 +55,7 @@ public class CollectorWindowManager {
         if (mFloatingView != null) {
             mWindowManager.removeView(mFloatingView);
             mFloatingView = null;
-            Log.d(TAG, "Collector removeView.");
+            Logger.d("Collector removeView.");
         }
     }
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.service.quicksettings.Tile;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +13,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
@@ -22,11 +23,11 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.services.TileOneService;
 import com.absinthe.anywhere_.services.TileThreeService;
 import com.absinthe.anywhere_.services.TileTwoService;
-import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -36,9 +37,10 @@ import java.util.List;
 import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class TileSettingsActivity extends BaseActivity {
+public class TileSettingsActivity extends BaseActivity implements LifecycleOwner {
     private Context mContext;
     private CardView cvTileOne, cvTileTwo, cvTileThree;
+    private AnywhereViewModel mViewModel;
     private List<AnywhereEntity> mList;
 
     @Override
@@ -61,100 +63,12 @@ public class TileSettingsActivity extends BaseActivity {
         cvTileOne = findViewById(R.id.cv_tile_one);
         cvTileTwo = findViewById(R.id.cv_tile_two);
         cvTileThree = findViewById(R.id.cv_tile_three);
-        mList = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
-
-        List<CardView> cardList = new ArrayList<>();
-        cardList.add(cvTileOne);
-        cardList.add(cvTileTwo);
-        cardList.add(cvTileThree);
-
-        if (SPUtils.getString(this, Const.SP_KEY_TILE_ONE).isEmpty()) {
-            initCard(cvTileOne, 1);
-        } else {
-            String id = SPUtils.getString(mContext, Const.SP_KEY_TILE_ONE);
-            for (AnywhereEntity ae : mList) {
-                if (ae.getId().equals(id)) {
-                    loadCard(cvTileOne, ae);
-                    break;
-                }
-            }
-        }
-        if (SPUtils.getString(this, Const.SP_KEY_TILE_TWO).isEmpty()) {
-            initCard(cvTileTwo, 2);
-        } else {
-            String id = SPUtils.getString(mContext, Const.SP_KEY_TILE_TWO);
-            for (AnywhereEntity ae : mList) {
-                if (ae.getId().equals(id)) {
-                    loadCard(cvTileTwo, ae);
-                    break;
-                }
-            }
-        }
-        if (SPUtils.getString(this, Const.SP_KEY_TILE_THREE).isEmpty()) {
-            initCard(cvTileThree, 3);
-        } else {
-            String id = SPUtils.getString(mContext, Const.SP_KEY_TILE_THREE);
-            for (AnywhereEntity ae : mList) {
-                if (ae.getId().equals(id)) {
-                    loadCard(cvTileThree, ae);
-                    break;
-                }
-            }
-        }
-
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_singlechoice);
-        for (AnywhereEntity ae : Objects.requireNonNull(mList)) {
-            arrayAdapter.add(ae.getAppName());
-        }
-
-        for (CardView cardView : cardList) {
-            cardView.findViewById(R.id.btn_select).setOnClickListener(view ->
-                    new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                    .setAdapter(arrayAdapter, (dialogInterface, i) -> {
-                        loadCard(cardView, mList.get(i));
-
-                        String tile = "";
-                        String tileLabel = "";
-                        String tileCmd = "";
-                        Tile quickTile = null;
-                        if (cardView == cvTileOne) {
-                            tile = Const.SP_KEY_TILE_ONE;
-                            tileLabel = Const.SP_KEY_TILE_ONE_LABEL;
-                            tileCmd = Const.SP_KEY_TILE_ONE_CMD;
-
-                            if (!AppUtils.isServiceRunning(this, TileOneService.class.getName())) {
-                                startService(new Intent(this, TileOneService.class));
-                            }
-                            quickTile = TileOneService.getInstance().getQsTile();
-                        } else if (cardView == cvTileTwo) {
-                            tile = Const.SP_KEY_TILE_TWO;
-                            tileLabel = Const.SP_KEY_TILE_TWO_LABEL;
-                            tileCmd = Const.SP_KEY_TILE_TWO_CMD;
-
-                            if (!AppUtils.isServiceRunning(this, TileTwoService.class.getName())) {
-                                startService(new Intent(this, TileTwoService.class));
-                            }
-                            quickTile = TileTwoService.getInstance().getQsTile();
-                        } else if (cardView == cvTileThree) {
-                            tile = Const.SP_KEY_TILE_THREE;
-                            tileLabel = Const.SP_KEY_TILE_THREE_LABEL;
-                            tileCmd = Const.SP_KEY_TILE_THREE_CMD;
-
-                            if (!AppUtils.isServiceRunning(this, TileThreeService.class.getName())) {
-                                startService(new Intent(this, TileThreeService.class));
-                            }
-                            quickTile = TileThreeService.getInstance().getQsTile();
-                        }
-                        SPUtils.putString(mContext, tile, mList.get(i).getId());
-                        SPUtils.putString(mContext, tileLabel, mList.get(i).getAppName());
-                        SPUtils.putString(mContext, tileCmd, TextUtils.getItemCommand(mList.get(i)));
-                        if (quickTile != null) {
-                            quickTile.setLabel(mList.get(i).getAppName());
-                            quickTile.updateTile();
-                        }
-                    })
-                    .show());
-        }
+        mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        mViewModel.getAllAnywhereEntities().observe(this,
+                anywhereEntities -> {
+                    mList = anywhereEntities;
+                    load();
+                });
 
     }
 
@@ -199,5 +113,92 @@ public class TileSettingsActivity extends BaseActivity {
                 .load(UiUtils.getAppIconByPackageName(mContext, ae))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into((ImageView) cardView.findViewById(R.id.iv_app_icon));
+    }
+
+    private void load() {
+        if (SPUtils.getString(this, Const.SP_KEY_TILE_ONE).isEmpty()) {
+            initCard(cvTileOne, 1);
+        } else {
+            String id = SPUtils.getString(mContext, Const.SP_KEY_TILE_ONE);
+            for (AnywhereEntity ae : mList) {
+                if (ae.getId().equals(id)) {
+                    loadCard(cvTileOne, ae);
+                    break;
+                }
+            }
+        }
+        if (SPUtils.getString(this, Const.SP_KEY_TILE_TWO).isEmpty()) {
+            initCard(cvTileTwo, 2);
+        } else {
+            String id = SPUtils.getString(mContext, Const.SP_KEY_TILE_TWO);
+            for (AnywhereEntity ae : mList) {
+                if (ae.getId().equals(id)) {
+                    loadCard(cvTileTwo, ae);
+                    break;
+                }
+            }
+        }
+        if (SPUtils.getString(this, Const.SP_KEY_TILE_THREE).isEmpty()) {
+            initCard(cvTileThree, 3);
+        } else {
+            String id = SPUtils.getString(mContext, Const.SP_KEY_TILE_THREE);
+            for (AnywhereEntity ae : mList) {
+                if (ae.getId().equals(id)) {
+                    loadCard(cvTileThree, ae);
+                    break;
+                }
+            }
+        }
+
+        List<CardView> cardList = new ArrayList<>();
+        cardList.add(cvTileOne);
+        cardList.add(cvTileTwo);
+        cardList.add(cvTileThree);
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_singlechoice);
+        for (AnywhereEntity ae : Objects.requireNonNull(mList)) {
+            arrayAdapter.add(ae.getAppName());
+        }
+
+        for (CardView cardView : cardList) {
+            cardView.findViewById(R.id.btn_select).setOnClickListener(view ->
+                    new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
+                            .setAdapter(arrayAdapter, (dialogInterface, i) -> {
+                                loadCard(cardView, mList.get(i));
+
+                                String tile = "";
+                                String tileLabel = "";
+                                String tileCmd = "";
+                                if (cardView == cvTileOne) {
+                                    tile = Const.SP_KEY_TILE_ONE;
+                                    tileLabel = Const.SP_KEY_TILE_ONE_LABEL;
+                                    tileCmd = Const.SP_KEY_TILE_ONE_CMD;
+
+                                    if (!AppUtils.isServiceRunning(this, TileOneService.class.getName())) {
+                                        startService(new Intent(this, TileOneService.class));
+                                    }
+                                } else if (cardView == cvTileTwo) {
+                                    tile = Const.SP_KEY_TILE_TWO;
+                                    tileLabel = Const.SP_KEY_TILE_TWO_LABEL;
+                                    tileCmd = Const.SP_KEY_TILE_TWO_CMD;
+
+                                    if (!AppUtils.isServiceRunning(this, TileTwoService.class.getName())) {
+                                        startService(new Intent(this, TileTwoService.class));
+                                    }
+                                } else if (cardView == cvTileThree) {
+                                    tile = Const.SP_KEY_TILE_THREE;
+                                    tileLabel = Const.SP_KEY_TILE_THREE_LABEL;
+                                    tileCmd = Const.SP_KEY_TILE_THREE_CMD;
+
+                                    if (!AppUtils.isServiceRunning(this, TileThreeService.class.getName())) {
+                                        startService(new Intent(this, TileThreeService.class));
+                                    }
+                                }
+                                SPUtils.putString(mContext, tile, mList.get(i).getId());
+                                SPUtils.putString(mContext, tileLabel, mList.get(i).getAppName());
+                                SPUtils.putString(mContext, tileCmd, TextUtils.getItemCommand(mList.get(i)));
+                            })
+                            .show());
+        }
     }
 }
