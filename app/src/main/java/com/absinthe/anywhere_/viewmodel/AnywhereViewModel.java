@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereRepository;
+import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 
 import java.util.List;
@@ -16,7 +18,6 @@ public class AnywhereViewModel extends AndroidViewModel {
 
     private AnywhereRepository mRepository;
     private LiveData<List<AnywhereEntity>> mAllAnywhereEntities;
-    private Application mApplicaiton;
 
     private MutableLiveData<String> mCommand = null;
     private MutableLiveData<String> mWorkingMode = null;
@@ -27,7 +28,6 @@ public class AnywhereViewModel extends AndroidViewModel {
 
     public AnywhereViewModel(Application application) {
         super(application);
-        mApplicaiton = application;
         mRepository = new AnywhereRepository(application);
         mAllAnywhereEntities = mRepository.getAllAnywhereEntities();
     }
@@ -86,7 +86,20 @@ public class AnywhereViewModel extends AndroidViewModel {
     }
 
     public void refreshDB() {
-        mRepository = new AnywhereRepository(mApplicaiton);
-        mAllAnywhereEntities = mRepository.getAllAnywhereEntities();
+        switch (GlobalValues.sSortMode) {
+            case Const.SORT_MODE_TIME_DESC:
+            default:
+                mAllAnywhereEntities = mRepository.getSortedByTimeDesc();
+                break;
+            case Const.SORT_MODE_TIME_ASC:
+                mAllAnywhereEntities = mRepository.getSortedByTimeAsc();
+                break;
+            case Const.SORT_MODE_NAME_DESC:
+                mAllAnywhereEntities = mRepository.getSortedByNameDesc();
+                break;
+            case Const.SORT_MODE_NAME_ASC:
+                mAllAnywhereEntities = mRepository.getSortedByNameAsc();
+                break;
+        }
     }
 }

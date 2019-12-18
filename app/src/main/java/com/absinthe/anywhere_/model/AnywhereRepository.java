@@ -21,6 +21,22 @@ public class AnywhereRepository {
         return mAllAnywhereEntities;
     }
 
+    public LiveData<List<AnywhereEntity>> getSortedByTimeDesc() {
+        return mAnywhereDao.getAllAnywhereEntitiesOrderByTimeDesc();
+    }
+
+    public LiveData<List<AnywhereEntity>> getSortedByTimeAsc() {
+        return mAnywhereDao.getAllAnywhereEntitiesOrderByTimeAsc();
+    }
+
+    public LiveData<List<AnywhereEntity>> getSortedByNameDesc() {
+        return mAnywhereDao.getAllAnywhereEntitiesOrderByNameDesc();
+    }
+
+    public LiveData<List<AnywhereEntity>> getSortedByNameAsc() {
+        return mAnywhereDao.getAllAnywhereEntitiesOrderByNameAsc();
+    }
+
     public void insert(AnywhereEntity ae) {
         new insertAsyncTask(mAnywhereDao).execute(ae);
     }

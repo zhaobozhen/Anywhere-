@@ -63,6 +63,7 @@ import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jonathanfinerty.once.Once;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
@@ -77,6 +78,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView.LayoutManager mLayoutManager;
     private ActionBar actionBar;
+    private SpeedDialView fab;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     static MainFragment newInstance() {
@@ -168,6 +170,24 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             AnywhereApplication.timeRecorder = null;
         }
     }
+
+    private Observer<List<AnywhereEntity>> listObserver = new Observer<List<AnywhereEntity>>() {
+        @Override
+        public void onChanged(List<AnywhereEntity> anywhereEntities) {
+            if (!mViewModel.refreshLock) {
+                if (adapter.getItemCount() == 0) {
+                    adapter.setItems(anywhereEntities);
+                } else {
+                    adapter.updateItems(anywhereEntities);
+                }
+
+                if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
+                    fab.show();
+                }
+            }
+            AppUtils.updateWidget(AnywhereApplication.sContext);
+        }
+    };
 
     void checkWorkingPermission() {
         Logger.d("workingMode =", GlobalValues.sWorkingMode);
@@ -409,16 +429,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         popupItem.getItemId() == R.id.sort_by_name_desc ||
                         popupItem.getItemId() == R.id.sort_by_name_asc) {
                     mViewModel.refreshDB();
-                    mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
-                        if (!mViewModel.refreshLock) {
-                            if (adapter.getItemCount() == 0) {
-                                adapter.setItems(anywhereEntities);
-                            } else {
-                                adapter.updateItems(anywhereEntities);
-                            }
-                        }
-                        AppUtils.updateWidget(AnywhereApplication.sContext);
-                    });
+                    mViewModel.getAllAnywhereEntities().observe(this, listObserver);
                 }
                 return true;
             });
@@ -467,16 +478,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
 
         mViewModel.getCommand().observe(this, CommandUtils::execCmd);
-        mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
-            if (!mViewModel.refreshLock) {
-                if (adapter.getItemCount() == 0) {
-                    adapter.setItems(anywhereEntities);
-                } else {
-                    adapter.updateItems(anywhereEntities);
-                }
-            }
-            AppUtils.updateWidget(AnywhereApplication.sContext);
-        });
+        mViewModel.getAllAnywhereEntities().observe(this, listObserver);
         mViewModel.getWorkingMode().observe(this, s -> {
             GlobalValues.setsWorkingMode(s);
             UiUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
@@ -497,7 +499,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void initFab(View view) {
-        SpeedDialView fab = view.findViewById(R.id.fab);
+        fab = view.findViewById(R.id.fab);
         fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_url_scheme, R.drawable.ic_url_scheme)
                 .setFabBackgroundColor(getResources().getColor(R.color.white))
                 .setLabel(getString(R.string.btn_url_scheme))

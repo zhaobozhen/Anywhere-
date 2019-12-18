@@ -6,7 +6,7 @@
         app:key="normalCategory"
         app:title="@string/settings_category_normal">
 
-        <ListPreference
+        <DropDownPreference
             app:key="workingMode"
             app:title="@string/settings_working_mode"
             app:summary="@string/settings_working_mode_summary"
@@ -27,7 +27,7 @@
             app:summary="@string/settings_reset_background_summary"
             android:icon="@drawable/ic_reset_bg"/>
 
-        <ListPreference
+        <DropDownPreference
             app:key="darkMode"
             app:title="@string/settings_dark_mode"
             app:summary="@string/settings_dark_mode_summary"

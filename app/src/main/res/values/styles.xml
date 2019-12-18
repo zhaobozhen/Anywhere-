@@ -6,10 +6,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="preferenceTheme">@style/AppTheme.Preference</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:statusBarColor">@color/lollipopStatusBarColor</item>
         <item name="actionBarStyle">@style/CustomActionBar</item>
+    </style>
+
+    <style name="AppTheme.Preference" parent="PreferenceThemeOverlay">
+        <item name="dropdownPreferenceStyle">@style/AppTheme.Preference.DropDown</item>
+    </style>
+
+    <style name="AppTheme.Preference.DropDown" parent="Preference.DropDown.Material">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
     </style>
 
     <style name="AppTheme.SplashTheme" parent="AppTheme">

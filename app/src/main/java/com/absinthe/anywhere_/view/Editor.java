@@ -424,8 +424,8 @@ public class Editor {
 
                         if (!tietAppName.getText().toString().isEmpty()) {
                             String timeStamp = System.currentTimeMillis() + "";
-                            AnywhereEntity ae = new AnywhereEntity(timeStamp, aName, mItem.getParam1(), mItem.getId(), null
-                                    , desc, mItem.getType(), timeStamp);
+                            AnywhereEntity ae = new AnywhereEntity(timeStamp, aName, mItem.getParam1(), mItem.getId(), null,
+                                    desc, mItem.getType(), timeStamp);
 
                             if (isEditMode) {
                                 if (!aName.equals(mItem.getAppName())) {

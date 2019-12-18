@@ -9,12 +9,12 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 
 import java.util.List;
 
-public class DiffListCallback extends DiffUtil.Callback{
+public class DiffListCallback extends DiffUtil.Callback {
 
     private List<AnywhereEntity> oldList;
     private List<AnywhereEntity> newList;
 
-    public DiffListCallback(List<AnywhereEntity> newList, List<AnywhereEntity> oldList) {
+    DiffListCallback(List<AnywhereEntity> newList, List<AnywhereEntity> oldList) {
         this.newList = newList;
         this.oldList = oldList;
     }
@@ -39,6 +39,7 @@ public class DiffListCallback extends DiffUtil.Callback{
         return TextUtils.equals(oldList.get(oldItemPosition).getAppName(), newList.get(newItemPosition).getAppName()) &&
                 TextUtils.equals(oldList.get(oldItemPosition).getParam1(), newList.get(newItemPosition).getParam1()) &&
                 TextUtils.equals(oldList.get(oldItemPosition).getParam2(), newList.get(newItemPosition).getParam2()) &&
+                TextUtils.equals(oldList.get(oldItemPosition).getParam3(), newList.get(newItemPosition).getParam3()) &&
                 TextUtils.equals(oldList.get(oldItemPosition).getDescription(), newList.get(newItemPosition).getDescription()) &&
                 TextUtils.equals(oldList.get(oldItemPosition).getType() + "", newList.get(newItemPosition).getType() + "");
     }
