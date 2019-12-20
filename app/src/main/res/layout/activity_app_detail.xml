@@ -13,10 +13,16 @@
         android:fitsSystemWindows="true"
         tools:context="com.absinthe.anywhere_.ui.list.AppDetailActivity">
 
-        <include layout="@layout/toolbar"
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:layout_constraintTop_toBottomOf="parent"
-            app:title="@{appName}" />
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/navigationColorNormal"
+            android:elevation="3dp"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{appName}"
+            app:titleTextColor="@color/toolbarColorNormal" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/srl_app_detail"

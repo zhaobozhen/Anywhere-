@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="title" type="String" />
+
     </data>
 
     <androidx.appcompat.widget.Toolbar
@@ -14,6 +14,5 @@
         android:elevation="3dp"
         android:translationZ="3dp"
         android:theme="?attr/actionBarTheme"
-        app:title="@{title}"
         app:titleTextColor="@color/toolbarColorNormal" />
 </layout>

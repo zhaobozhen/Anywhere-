@@ -51,7 +51,7 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
     }
 
     private void initView() {
-        setSupportActionBar(binding.toolbar.toolbar);
+        setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
