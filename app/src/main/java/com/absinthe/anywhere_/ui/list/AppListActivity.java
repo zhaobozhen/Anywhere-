@@ -29,7 +29,7 @@ import java.util.List;
 
 public class AppListActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     private ActivityAppListBinding binding;
-    private AppListAdapter adapter;
+    private AppListAdapter mAdapter;
     private boolean isShowSystemApp;
 
     @Override
@@ -111,8 +111,8 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
 
     private void initRecyclerView() {
         binding.rvAppList.setLayoutManager(new WrapContentLinearLayoutManager(this));
-        adapter = new AppListAdapter(this, AppListAdapter.MODE_APP_LIST);
-        binding.rvAppList.setAdapter(adapter);
+        mAdapter = new AppListAdapter(this, AppListAdapter.MODE_APP_LIST);
+        binding.rvAppList.setAdapter(mAdapter);
 
         binding.rvAppList.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
@@ -135,7 +135,7 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
             List<AppListBean> list = AppUtils.getAppList(getPackageManager(), showSystem);
 
             runOnUiThread(() -> {
-                adapter.setList(list);
+                mAdapter.setList(list);
                 binding.srlAppList.setRefreshing(false);
             });
 
@@ -153,7 +153,7 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        adapter.getFilter().filter(newText);
+        mAdapter.getFilter().filter(newText);
         return false;
     }
 }

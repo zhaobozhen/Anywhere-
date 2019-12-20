@@ -22,7 +22,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.Logger;
-import com.absinthe.anywhere_.utils.PermissionUtil;
+import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -246,7 +246,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 cvRoot = vgRoot.findViewById(R.id.cv_acquire_root_permission);
                 btnRoot = cvRoot.findViewById(R.id.btn_acquire_root_permission);
                 btnRoot.setOnClickListener(view -> {
-                    boolean result = PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath());
+                    boolean result = PermissionUtils.upgradeRootPermission(mContext.getPackageCodePath());
                     mViewModel.getIsRoot().setValue(result);
                 });
                 if (isAdd) {
@@ -269,12 +269,12 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 btnShizukuCheck = cvShizuku.findViewById(R.id.btn_check_shizuku_state);
                 btnShizuku.setEnabled(false);
                 btnShizukuCheck.setOnClickListener(view -> {
-                    boolean result = PermissionUtil.checkShizukuOnWorking(mContext);
+                    boolean result = PermissionUtils.checkShizukuOnWorking(mContext);
                     mViewModel.getIsShizukuCheck().setValue(result);
                 });
 
                 btnShizuku.setOnClickListener(view -> {
-                    boolean result = PermissionUtil.shizukuPermissionCheck((AppCompatActivity) mContext);
+                    boolean result = PermissionUtils.shizukuPermissionCheck((AppCompatActivity) mContext);
                     mViewModel.getIsShizuku().setValue(result);
                 });
                 if (isAdd) {
@@ -295,7 +295,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 cvOverlay = vgOverlay.findViewById(R.id.cv_acquire_overlay_permission);
                 btnOverlay = cvOverlay.findViewById(R.id.btn_acquire_overlay_permission);
                 btnOverlay.setOnClickListener(view -> {
-                    boolean result = PermissionUtil.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
+                    boolean result = PermissionUtils.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
                     mViewModel.getIsOverlay().setValue(result);
                 });
                 if (isAdd) {
@@ -317,8 +317,8 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 cvPopup = vgPopup.findViewById(R.id.cv_acquire_popup_permission);
                 btnPopup = cvPopup.findViewById(R.id.btn_acquire_popup_permission);
                 btnPopup.setOnClickListener(view -> {
-                    if (PermissionUtil.isMIUI()) {
-                        PermissionUtil.goToMIUIPermissionManager(mContext);
+                    if (PermissionUtils.isMIUI()) {
+                        PermissionUtils.goToMIUIPermissionManager(mContext);
                     }
                 });
                 if (isAdd) {

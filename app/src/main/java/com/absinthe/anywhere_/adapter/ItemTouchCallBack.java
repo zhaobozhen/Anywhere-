@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.absinthe.anywhere_.utils.Logger;
 
 public class ItemTouchCallBack extends ItemTouchHelper.Callback {
-    private OnItemTouchListener onItemTouchListener;
+    private OnItemTouchListener mListener;
 
     public void setOnItemTouchListener(OnItemTouchListener onItemTouchListener) {
-        this.onItemTouchListener = onItemTouchListener;
+        this.mListener = onItemTouchListener;
     }
 
     /**
@@ -54,7 +54,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
         Logger.i("onMove");
         int fromPosition = viewHolder.getAdapterPosition();
         int toPosition = target.getAdapterPosition();
-        onItemTouchListener.onMove(fromPosition, toPosition);
+        mListener.onMove(fromPosition, toPosition);
         return true;
     }
 
@@ -70,7 +70,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
         Logger.i("onSwiped");
         //此处是侧滑删除的主要代码
         int position = viewHolder.getAdapterPosition();
-        onItemTouchListener.onSwiped(position);
+        mListener.onSwiped(position);
     }
 
     /**

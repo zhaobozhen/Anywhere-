@@ -16,10 +16,10 @@ public class QRCollectionAdapter extends StreamCardsAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder viewHolder, int position) {
-        AnywhereEntity item = items.get(position);
+        AnywhereEntity item = mItems.get(position);
         viewHolder.bind(item);
         viewHolder.itemView.setOnClickListener(view -> {
-            switch (items.get(position).getId()) {
+            switch (mItems.get(position).getId()) {
                 case QRCollection.wechatScanId:
                     QRCollection.Singleton.INSTANCE.getInstance().wechatScan.launch();
                     break;

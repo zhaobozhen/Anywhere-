@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/iv_app_icon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="@dimen/app_icon_size"
+        android:layout_height="@dimen/app_icon_size"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:src="@drawable/ic_logo"

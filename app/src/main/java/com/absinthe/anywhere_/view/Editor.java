@@ -21,7 +21,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.EditUtils;
-import com.absinthe.anywhere_.utils.ShortcutsUtil;
+import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
@@ -154,8 +154,8 @@ public class Editor {
                                 if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1()) || !cName.equals(mItem.getParam2())) {
                                     if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                            ShortcutsUtil.removeShortcut(mItem);
-                                            ShortcutsUtil.addShortcut(ae);
+                                            ShortcutsUtils.removeShortcut(mItem);
+                                            ShortcutsUtils.addShortcut(ae);
                                         }
                                     }
                                 }
@@ -168,7 +168,7 @@ public class Editor {
                                             .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                                                 MainFragment.getViewModelInstance().insert(ae);
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                                    ShortcutsUtil.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(mItem.getParam1(), mItem.getParam2())));
+                                                    ShortcutsUtils.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(mItem.getParam1(), mItem.getParam2())));
                                                 }
                                             })
                                             .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
@@ -237,7 +237,7 @@ public class Editor {
                                 break;
                             case R.id.add_home_shortcuts:
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    ShortcutsUtil.addPinnedShortcut(mItem);
+                                    ShortcutsUtils.addPinnedShortcut(mItem);
                                 }
                                 break;
                             case R.id.delete:
@@ -295,8 +295,8 @@ public class Editor {
                                 if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
                                     if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                            ShortcutsUtil.removeShortcut(mItem);
-                                            ShortcutsUtil.addShortcut(ae);
+                                            ShortcutsUtils.removeShortcut(mItem);
+                                            ShortcutsUtils.addShortcut(ae);
                                         }
                                     }
                                 }
@@ -309,7 +309,7 @@ public class Editor {
                                             .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                                                 MainFragment.getViewModelInstance().insert(ae);
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                                    ShortcutsUtil.removeShortcut(EditUtils.hasSameAppNameEntity(mItem.getParam1()));
+                                                    ShortcutsUtils.removeShortcut(EditUtils.hasSameAppNameEntity(mItem.getParam1()));
                                                 }
                                             })
                                             .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
@@ -383,7 +383,7 @@ public class Editor {
                                 break;
                             case R.id.add_home_shortcuts:
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    ShortcutsUtil.addPinnedShortcut(mItem);
+                                    ShortcutsUtils.addPinnedShortcut(mItem);
                                 }
                                 break;
                             case R.id.delete:
@@ -431,8 +431,8 @@ public class Editor {
                                 if (!aName.equals(mItem.getAppName())) {
                                     if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                            ShortcutsUtil.removeShortcut(mItem);
-                                            ShortcutsUtil.addShortcut(ae);
+                                            ShortcutsUtils.removeShortcut(mItem);
+                                            ShortcutsUtils.addShortcut(ae);
                                         }
                                     }
                                 }
@@ -481,7 +481,7 @@ public class Editor {
                                 break;
                             case R.id.add_home_shortcuts:
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    ShortcutsUtil.addPinnedShortcut(mItem);
+                                    ShortcutsUtils.addPinnedShortcut(mItem);
                                 }
                                 break;
                             case R.id.delete:
@@ -521,7 +521,7 @@ public class Editor {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private void addShortcut(Context context, AnywhereEntity ae) {
         DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
-            ShortcutsUtil.addShortcut(ae);
+            ShortcutsUtils.addShortcut(ae);
             dismiss();
         };
 
@@ -536,7 +536,7 @@ public class Editor {
                 .setMessage(R.string.dialog_cant_add_shortcut_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> show());
 
-        if (ShortcutsUtil.Singleton.INSTANCE.getInstance().getDynamicShortcuts().size() < 3) {
+        if (ShortcutsUtils.Singleton.INSTANCE.getInstance().getDynamicShortcuts().size() < 3) {
             addDialog.show();
         } else {
             cantAddDialog.show();
@@ -546,7 +546,7 @@ public class Editor {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private void removeShortcut(Context context, AnywhereEntity ae) {
         DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
-            ShortcutsUtil.removeShortcut(ae);
+            ShortcutsUtils.removeShortcut(ae);
             dismiss();
         };
 

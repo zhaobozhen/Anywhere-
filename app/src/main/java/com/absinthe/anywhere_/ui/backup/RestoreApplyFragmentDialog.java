@@ -27,7 +27,7 @@ import java.util.List;
 
 public class RestoreApplyFragmentDialog extends DialogFragment {
     private Context mContext;
-    private TextInputEditText editText;
+    private TextInputEditText mEditText;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -47,7 +47,7 @@ public class RestoreApplyFragmentDialog extends DialogFragment {
         @SuppressLint("InflateParams")
         View inflate = layoutInflater.inflate(R.layout.dialog_fragment_restore_apply, null, false);
 
-        editText = inflate.findViewById(R.id.tiet_paste);
+        mEditText = inflate.findViewById(R.id.tiet_paste);
         DialogInterface.OnClickListener listener = (d, which) -> {
             String encrypted1 = getText();
             if (encrypted1 != null) {
@@ -73,8 +73,8 @@ public class RestoreApplyFragmentDialog extends DialogFragment {
     }
 
     public String getText() {
-        if (editText != null && editText.getText() != null) {
-            return editText.getText().toString();
+        if (mEditText != null && mEditText.getText() != null) {
+            return mEditText.getText().toString();
         } else {
             return null;
         }

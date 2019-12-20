@@ -3,52 +3,52 @@ package com.absinthe.anywhere_.model;
 import android.graphics.drawable.Drawable;
 
 public class AppListBean {
-    private String appName;
-    private String packageName;
-    private String className;
-    private Drawable icon;
+    private String mAppName;
+    private String mPackageName;
+    private String mClassName;
+    private Drawable mIcon;
 
     public AppListBean() {
-        appName = "";
-        packageName = "";
-        className = "";
+        mAppName = "";
+        mPackageName = "";
+        mClassName = "";
     }
 
     public AppListBean(String appName, String packageName, String className) {
-        this.appName = appName;
-        this.packageName = packageName;
-        this.className = className;
+        this.mAppName = appName;
+        this.mPackageName = packageName;
+        this.mClassName = className;
     }
 
     public String getAppName() {
-        return appName;
+        return mAppName;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
+    public void setAppName(String mAppName) {
+        this.mAppName = mAppName;
     }
 
     public String getPackageName() {
-        return packageName;
+        return mPackageName;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
+    public void setPackageName(String mPackageName) {
+        this.mPackageName = mPackageName;
     }
 
     public String getClassName() {
-        return className;
+        return mClassName;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setClassName(String mClassName) {
+        this.mClassName = mClassName;
     }
 
     public Drawable getIcon() {
-        return icon;
+        return mIcon;
     }
 
-    public void setIcon(Drawable icon) {
-        this.icon = icon;
+    public void setIcon(Drawable mIcon) {
+        this.mIcon = mIcon;
     }
 }

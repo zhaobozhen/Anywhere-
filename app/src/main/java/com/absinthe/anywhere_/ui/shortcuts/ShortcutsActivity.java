@@ -20,7 +20,7 @@ import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.Logger;
-import com.absinthe.anywhere_.utils.PermissionUtil;
+import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
@@ -48,7 +48,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                 if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                     AppUtils.openUrl(this, "", "", "");
                 } else {
-                    if (PermissionUtil.checkOverlayPermission(this, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    if (PermissionUtils.checkOverlayPermission(this, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         Intent intent = new Intent(this, CollectorService.class);
                         intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
                         startService(intent);
@@ -61,7 +61,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                     String packageName = TextUtils.getPkgNameByCommand(cmd);
                     try {
                         if (IceBox.getAppEnabledSetting(this, packageName) != 0) {
-                            PermissionUtil.unfreezeApp(this, packageName, () -> {
+                            PermissionUtils.unfreezeApp(this, packageName, () -> {
                                 String result = CommandUtils.execCmd(cmd);
                                 if (result == null) {
                                     ToastUtil.makeText(R.string.toast_check_perm);
@@ -88,7 +88,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                     try {
                         String packageName = TextUtils.getPkgNameByCommand(cmd);
                         if (IceBox.getAppEnabledSetting(this, packageName) != 0) { //0 为未冻结状态
-                            PermissionUtil.unfreezeApp(this, packageName, () -> {
+                            PermissionUtils.unfreezeApp(this, packageName, () -> {
                                 String result = CommandUtils.execCmd(cmd);
                                 if (result == null) {
                                     ToastUtil.makeText(R.string.toast_check_perm);

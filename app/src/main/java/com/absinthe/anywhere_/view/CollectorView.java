@@ -22,13 +22,13 @@ public class CollectorView extends LinearLayout {
 
     private final Context mContext;
     private final WindowManager mWindowManager;
-    private WindowManager.LayoutParams layoutParams;
+    private WindowManager.LayoutParams mLayoutParams;
 
-    private String packageName, className;
+    private String mPackageName, mClassName;
 
     private boolean isClick;
-    private long startTime = 0;
-    private long endTime = 0;
+    private long mStartTime = 0;
+    private long mEndTime = 0;
 
     public CollectorView(Context context) {
         super(context);
@@ -50,7 +50,7 @@ public class CollectorView extends LinearLayout {
                             .putExtra(CollectorService.COMMAND, CollectorService.COMMAND_CLOSE)
             );
 
-            AppUtils.openUrl(mContext, packageName, className, "");
+            AppUtils.openUrl(mContext, mPackageName, mClassName, "");
         });
 
         mIbCollector.setOnTouchListener(new OnTouchListener() {
@@ -64,7 +64,7 @@ public class CollectorView extends LinearLayout {
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                layoutParams = (WindowManager.LayoutParams) CollectorView.this.getLayoutParams();
+                mLayoutParams = (WindowManager.LayoutParams) CollectorView.this.getLayoutParams();
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         // 获取按下时的X，Y坐标
@@ -73,7 +73,7 @@ public class CollectorView extends LinearLayout {
                         Logger.d("MotionEvent.ACTION_DOWN last:", lastX, lastY);
 
                         isClick = false;
-                        startTime = System.currentTimeMillis();
+                        mStartTime = System.currentTimeMillis();
                         break;
                     case MotionEvent.ACTION_MOVE:
                         isClick = true;
@@ -89,19 +89,19 @@ public class CollectorView extends LinearLayout {
                         Logger.d("MotionEvent.ACTION_MOVE tran:", tranX, tranY);
 
                         // 移动悬浮窗
-                        layoutParams.x -= tranX;
-                        layoutParams.y += tranY;
+                        mLayoutParams.x -= tranX;
+                        mLayoutParams.y += tranY;
                         //更新悬浮窗位置
-                        mWindowManager.updateViewLayout(CollectorView.this, layoutParams);
+                        mWindowManager.updateViewLayout(CollectorView.this, mLayoutParams);
                         //记录当前坐标作为下一次计算的上一次移动的位置坐标
                         lastX = nowX;
                         lastY = nowY;
 
                         break;
                     case MotionEvent.ACTION_UP:
-                        endTime = System.currentTimeMillis();
-                        Logger.d("Touch period =", (endTime - startTime));
-                        isClick = (endTime - startTime) > 0.2 * 1000L;
+                        mEndTime = System.currentTimeMillis();
+                        Logger.d("Touch period =", (mEndTime - mStartTime));
+                        isClick = (mEndTime - mStartTime) > 0.2 * 1000L;
                         break;
                 }
                 return isClick;
@@ -119,8 +119,8 @@ public class CollectorView extends LinearLayout {
             String[] processed = TextUtils.processResultString(result);
 
             if (processed != null) {
-                packageName = processed[0];
-                className = processed[1];
+                mPackageName = processed[0];
+                mClassName = processed[1];
             }
         } else {
             ToastUtil.makeText(R.string.toast_check_perm);

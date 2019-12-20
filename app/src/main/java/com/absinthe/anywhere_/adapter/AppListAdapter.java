@@ -39,15 +39,15 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
     public static final int MODE_ICON_PACK = 2;
 
     private Context mContext;
-    private List<AppListBean> mList, tempList;
-    private ListFilter filter;
-    private int mode;
-    private IconPackDialogFragment iconPackDialogFragment;
+    private List<AppListBean> mList, mTempList;
+    private ListFilter mFilter;
+    private int mMode;
+    private IconPackDialogFragment mIconPackDialogFragment;
 
     public AppListAdapter(Context context, int mode) {
         mContext = context;
         mList = new ArrayList<>();
-        this.mode = mode;
+        this.mMode = mode;
     }
 
     @NonNull
@@ -63,12 +63,12 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         AppListBean item = mList.get(position);
 
         holder.clAppList.setOnClickListener(view -> {
-            if (mode == MODE_APP_LIST) {
+            if (mMode == MODE_APP_LIST) {
                 Intent intent = new Intent(mContext, AppDetailActivity.class);
                 intent.putExtra(Const.INTENT_EXTRA_APP_NAME, item.getAppName());
                 intent.putExtra(Const.INTENT_EXTRA_PKG_NAME, item.getPackageName());
                 mContext.startActivity(intent);
-            } else if (mode == MODE_APP_DETAIL) {
+            } else if (mMode == MODE_APP_DETAIL) {
                 String timeStamp = System.currentTimeMillis() + "";
                 int exported = 0;
                 if (UiUtils.isActivityExported(mContext, new ComponentName(item.getPackageName(),
@@ -86,13 +86,13 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                         .isShortcut(false)
                         .build();
                 editor.show();
-            } else if (mode == MODE_ICON_PACK) {
+            } else if (mMode == MODE_ICON_PACK) {
                 GlobalValues.setsIconPack(item.getPackageName());
                 MainActivity.getInstance().restartActivity();
-                Objects.requireNonNull(iconPackDialogFragment.getActivity()).finish();
+                Objects.requireNonNull(mIconPackDialogFragment.getActivity()).finish();
                 ToastUtil.makeText(R.string.toast_restart_to_active);
-                if (iconPackDialogFragment != null) {
-                    iconPackDialogFragment.dismiss();
+                if (mIconPackDialogFragment != null) {
+                    mIconPackDialogFragment.dismiss();
                 }
             }
         });
@@ -105,16 +105,16 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 
     public void setList(List<AppListBean> list) {
         mList = list;
-        tempList = list;
+        mTempList = list;
         notifyDataSetChanged();
     }
 
     @Override
     public Filter getFilter() {
-        if (filter == null) {
-            filter = new ListFilter();
+        if (mFilter == null) {
+            mFilter = new ListFilter();
         }
-        return filter;
+        return mFilter;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -132,15 +132,15 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         }
 
         private void bind(AppListBean item) {
-            if (mode == MODE_APP_LIST) {
+            if (mMode == MODE_APP_LIST) {
                 ivIcon.setImageDrawable(item.getIcon());
                 tvAppName.setText(item.getAppName());
                 tvPkgName.setText(item.getPackageName());
-            } else if (mode == MODE_APP_DETAIL) {
+            } else if (mMode == MODE_APP_DETAIL) {
                 ivIcon.setImageDrawable(UiUtils.getActivityIcon(mContext, new ComponentName(item.getPackageName(), item.getClassName())));
                 tvAppName.setText(item.getAppName());
                 tvPkgName.setText(item.getClassName());
-            } else if (mode == MODE_ICON_PACK) {
+            } else if (mMode == MODE_ICON_PACK) {
                 ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item.getPackageName()));
                 tvAppName.setText(item.getAppName());
                 tvPkgName.setText(item.getPackageName());
@@ -154,15 +154,16 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
             List<AppListBean> newList = new ArrayList<>();
 
             if (constraint != null && constraint.toString().trim().length() > 0) {
-                for (int i = 0; i < tempList.size(); i++) {
+                for (int i = 0, len = mTempList.size(); i < len; i++) {
                     //匹配 App 名字和包名
-                    String content = tempList.get(i).getAppName() + tempList.get(i).getPackageName() + tempList.get(i).getClassName();
+                    AppListBean bean = mTempList.get(i);
+                    String content = bean.getAppName() + bean.getPackageName() + bean.getClassName();
                     if (TextUtils.containsIgnoreCase(content, constraint.toString())) {
-                        newList.add(tempList.get(i));
+                        newList.add(mTempList.get(i));
                     }
                 }
             } else {
-                newList = tempList;
+                newList = mTempList;
             }
             FilterResults filterResults = new FilterResults();
             filterResults.count = newList.size();
@@ -187,6 +188,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
     }
 
     public void setIconPackDialogFragment(IconPackDialogFragment fragment) {
-        iconPackDialogFragment = fragment;
+        mIconPackDialogFragment = fragment;
     }
 }

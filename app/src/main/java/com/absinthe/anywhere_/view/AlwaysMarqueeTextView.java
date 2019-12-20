@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatTextView;
 
 public class AlwaysMarqueeTextView extends AppCompatTextView {
+
     public AlwaysMarqueeTextView(Context context) {
         super(context);
     }

@@ -20,59 +20,59 @@ public class GlobalValues {
 
     public static void init(Context context) {
         sIsDebugMode = false;
-        sIsStreamCardMode = SPUtils.getBoolean(context, Const.SP_KEY_STREAM_CARD_MODE, false);
-        sIsStreamCardModeSingleLine = SPUtils.getBoolean(context, Const.SP_KEY_STREAM_CARD_SINGLE_LINE, false);
-        sIsCardBackground = SPUtils.getBoolean(context, Const.SP_KEY_CARD_BACKGROUND, true);
-        sWorkingMode = SPUtils.getString(context, Const.SP_KEY_WORKING_MODE);
-        sActionBarType = SPUtils.getString(context, Const.SP_KEY_ACTION_BAR_TYPE);
-        sDarkMode = SPUtils.getString(context, Const.SP_KEY_DARK_MODE);
-        sBackgroundUri = SPUtils.getString(context, Const.SP_KEY_CHANGE_BACKGROUND);
-        sSortMode = SPUtils.getString(context, Const.SP_KEY_SORT_MODE);
-        sIconPack = SPUtils.getString(context, Const.SP_KEY_ICON_PACK);
+        sIsStreamCardMode = SPUtils.getBoolean(context, Const.PREF_STREAM_CARD_MODE, false);
+        sIsStreamCardModeSingleLine = SPUtils.getBoolean(context, Const.PREF_STREAM_CARD_SINGLE_LINE, false);
+        sIsCardBackground = SPUtils.getBoolean(context, Const.PREF_CARD_BACKGROUND, true);
+        sWorkingMode = SPUtils.getString(context, Const.PREF_WORKING_MODE);
+        sActionBarType = SPUtils.getString(context, Const.PREF_ACTION_BAR_TYPE);
+        sDarkMode = SPUtils.getString(context, Const.PREF_DARK_MODE);
+        sBackgroundUri = SPUtils.getString(context, Const.PREF_CHANGE_BACKGROUND);
+        sSortMode = SPUtils.getString(context, Const.PREF_SORT_MODE);
+        sIconPack = SPUtils.getString(context, Const.PREF_ICON_PACK);
     }
 
     public static void setsIsStreamCardMode(boolean sIsStreamCardMode) {
         GlobalValues.sIsStreamCardMode = sIsStreamCardMode;
-        SPUtils.putBoolean(AnywhereApplication.sContext, Const.SP_KEY_STREAM_CARD_MODE, sIsStreamCardMode);
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_STREAM_CARD_MODE, sIsStreamCardMode);
     }
 
     public static void setsIsStreamCardModeSingleLine(boolean sIsStreamCardModeSingleLine) {
         GlobalValues.sIsStreamCardModeSingleLine = sIsStreamCardModeSingleLine;
-        SPUtils.putBoolean(AnywhereApplication.sContext, Const.SP_KEY_STREAM_CARD_SINGLE_LINE, sIsStreamCardModeSingleLine);
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_STREAM_CARD_SINGLE_LINE, sIsStreamCardModeSingleLine);
     }
 
     public static void setsIsCardBackground(boolean sIsCardBackground) {
         GlobalValues.sIsCardBackground = sIsCardBackground;
-        SPUtils.putBoolean(AnywhereApplication.sContext, Const.SP_KEY_CARD_BACKGROUND, sIsCardBackground);
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_CARD_BACKGROUND, sIsCardBackground);
     }
 
     public static void setsWorkingMode(String sWorkingMode) {
         GlobalValues.sWorkingMode = sWorkingMode;
-        SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_WORKING_MODE, sWorkingMode);
+        SPUtils.putString(AnywhereApplication.sContext, Const.PREF_WORKING_MODE, sWorkingMode);
     }
 
     public static void setsActionBarType(String sActionBarType) {
         GlobalValues.sActionBarType = sActionBarType;
-        SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_ACTION_BAR_TYPE, sActionBarType);
+        SPUtils.putString(AnywhereApplication.sContext, Const.PREF_ACTION_BAR_TYPE, sActionBarType);
     }
 
     public static void setsDarkMode(String sDarkMode) {
         GlobalValues.sDarkMode = sDarkMode;
-        SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_DARK_MODE, sDarkMode);
+        SPUtils.putString(AnywhereApplication.sContext, Const.PREF_DARK_MODE, sDarkMode);
     }
 
     public static void setsBackgroundUri(String sBackgroundUri) {
         GlobalValues.sBackgroundUri = sBackgroundUri;
-        SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_CHANGE_BACKGROUND, sBackgroundUri);
+        SPUtils.putString(AnywhereApplication.sContext, Const.PREF_CHANGE_BACKGROUND, sBackgroundUri);
     }
 
     public static void setsSortMode(String sSortMode) {
         GlobalValues.sSortMode = sSortMode;
-        SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_SORT_MODE, sSortMode);
+        SPUtils.putString(AnywhereApplication.sContext, Const.PREF_SORT_MODE, sSortMode);
     }
 
     public static void setsIconPack(String sIconPack) {
         GlobalValues.sIconPack = sIconPack;
-        SPUtils.putString(AnywhereApplication.sContext, Const.SP_KEY_ICON_PACK, sIconPack);
+        SPUtils.putString(AnywhereApplication.sContext, Const.PREF_ICON_PACK, sIconPack);
     }
 }

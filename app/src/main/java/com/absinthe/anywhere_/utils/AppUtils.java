@@ -109,7 +109,7 @@ public class AppUtils {
 
         try {
             List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
-            for (int i = 0; i < packageInfos.size(); i++) {
+            for (int i = 0, len = packageInfos.size(); i < len; i++) {
                 PackageInfo packageInfo = packageInfos.get(i);
 
                 //Filter system apps

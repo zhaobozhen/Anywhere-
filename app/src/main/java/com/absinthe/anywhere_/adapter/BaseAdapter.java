@@ -25,8 +25,8 @@ import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
-import com.absinthe.anywhere_.utils.PermissionUtil;
-import com.absinthe.anywhere_.utils.ShortcutsUtil;
+import com.absinthe.anywhere_.utils.PermissionUtils;
+import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.Editor;
@@ -45,27 +45,27 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     public static final int ADAPTER_MODE_SELECT = 2;
 
     protected Context mContext;
-    private List<Integer> selectedIndex;
-    List<AnywhereEntity> items;
+    private List<Integer> mSelectedIndex;
+    List<AnywhereEntity> mItems;
     Editor mEditor;
     int mode;
 
     BaseAdapter(Context context) {
         this.mContext = context;
-        this.items = new ArrayList<>();
-        this.selectedIndex = new ArrayList<>();
+        this.mItems = new ArrayList<>();
+        this.mSelectedIndex = new ArrayList<>();
         this.mode = ADAPTER_MODE_NORMAL;
     }
 
     public void setItems(List<AnywhereEntity> items) {
-        this.items.addAll(items);
+        this.mItems.addAll(items);
         notifyItemRangeChanged(0, getItemCount());
     }
 
     public void updateItems(List<AnywhereEntity> items) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffListCallback(items, this.items));
-        this.items.clear();
-        this.items.addAll(items);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffListCallback(items, this.mItems));
+        this.mItems.clear();
+        this.mItems.addAll(items);
         diffResult.dispatchUpdatesTo(this);
     }
 
@@ -78,7 +78,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     public List<Integer> getSelectedIndex() {
-        return selectedIndex;
+        return mSelectedIndex;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        AnywhereEntity item = items.get(position);
+        AnywhereEntity item = mItems.get(position);
 
         int type = item.getAnywhereType();
 
@@ -107,16 +107,16 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                     openAnywhereActivity(item);
                 }
             } else if (mode == ADAPTER_MODE_SELECT) {
-                if (selectedIndex.contains(position)) {
+                if (mSelectedIndex.contains(position)) {
                     holder.itemView.setScaleX(1.0f);
                     holder.itemView.setScaleY(1.0f);
                     ((MaterialCardView)holder.itemView).setChecked(false);
-                    selectedIndex.remove((Integer) position);
+                    mSelectedIndex.remove((Integer) position);
                 } else {
                     holder.itemView.setScaleX(0.9f);
                     holder.itemView.setScaleY(0.9f);
                     ((MaterialCardView)holder.itemView).setChecked(true);
-                    selectedIndex.add(position);
+                    mSelectedIndex.add(position);
                 }
             }
         });
@@ -144,7 +144,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             return false;
         });
 
-        if (!selectedIndex.contains(position)) {
+        if (!mSelectedIndex.contains(position)) {
             holder.itemView.setScaleX(1.0f);
             holder.itemView.setScaleY(1.0f);
             ((MaterialCardView)holder.itemView).setChecked(false);
@@ -153,7 +153,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return mItems.size();
     }
 
     private void openAnywhereActivity(AnywhereEntity item) {
@@ -177,7 +177,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             if (!cmd.isEmpty()) {
                 if (AppUtils.isAppFrozen(mContext, item)) {
                     if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                        if (PermissionUtil.isMIUI()) {
+                        if (PermissionUtils.isMIUI()) {
                             new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                                     .setMessage(R.string.dialog_message_ice_box_perm_not_support)
                                     .setPositiveButton(R.string.dialog_delete_positive_button, null)
@@ -195,9 +195,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         final OnAppUnfreezeListener onAppUnfreezeListener = () ->
                                 MainFragment.getViewModelInstance().getCommand().setValue(cmd);
                         if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
-                            PermissionUtil.unfreezeApp(mContext, item.getParam2(), onAppUnfreezeListener);
+                            PermissionUtils.unfreezeApp(mContext, item.getParam2(), onAppUnfreezeListener);
                         } else {
-                            PermissionUtil.unfreezeApp(mContext, item.getParam1(), onAppUnfreezeListener);
+                            PermissionUtils.unfreezeApp(mContext, item.getParam1(), onAppUnfreezeListener);
                         }
                     }
                 } else {
@@ -233,7 +233,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                     MainFragment.getViewModelInstance().delete(ae);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                        ShortcutsUtil.removeShortcut(ae);
+                        ShortcutsUtils.removeShortcut(ae);
                     }
                     editor.dismiss();
                     notifyItemRemoved(position);
@@ -248,8 +248,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             MainFragment.getViewModelInstance().refreshLock = true;
             long startTime = System.currentTimeMillis();
 
-            for (int iter = 0; iter < items.size(); iter++) {
-                AnywhereEntity item = items.get(iter);
+            for (int iter = 0, len = mItems.size(); iter < len; iter++) {
+                AnywhereEntity item = mItems.get(iter);
                 AnywhereEntity ae = new AnywhereEntity(item.getId(), item.getAppName(), item.getParam1(),
                         item.getParam2(), item.getParam3(), item.getDescription(), item.getType(),
                         startTime - iter * 100 + "");
@@ -268,11 +268,11 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     public void onMove(int fromPosition, int toPosition) {
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(items, i, i + 1);
+                Collections.swap(mItems, i, i + 1);
             }
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(items, i, i - 1);
+                Collections.swap(mItems, i, i - 1);
             }
         }
         notifyItemMoved(fromPosition, toPosition);
@@ -284,19 +284,19 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     public void deleteSelect() {
-        if (selectedIndex.size() == 0) {
+        if (mSelectedIndex.size() == 0) {
             return;
         }
 
         List<AnywhereEntity> list = new ArrayList<>();
-        for (int index : selectedIndex) {
-            if (index < items.size()) {
-                list.add(items.get(index));
+        for (int index : mSelectedIndex) {
+            if (index < mItems.size()) {
+                list.add(mItems.get(index));
             }
         }
         for (AnywhereEntity ae : list) {
-            int index = items.indexOf(ae);
-            items.remove(index);
+            int index = mItems.indexOf(ae);
+            mItems.remove(index);
             MainFragment.getViewModelInstance().delete(ae);
             notifyItemRemoved(index);
         }
@@ -304,6 +304,6 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     public void clearSelect() {
-        selectedIndex.clear();
+        mSelectedIndex.clear();
     }
 }

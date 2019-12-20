@@ -33,7 +33,7 @@ import moe.shizuku.api.ShizukuApiConstants;
 import moe.shizuku.api.ShizukuClientHelper;
 import moe.shizuku.api.ShizukuService;
 
-public class PermissionUtil {
+public class PermissionUtils {
     private static final int REQUEST_CODE_PERMISSION_V3 = 1001;
     private static final int REQUEST_CODE_AUTHORIZATION_V3 = 1002;
 
@@ -106,6 +106,7 @@ public class PermissionUtil {
         try {
             String brand = android.os.Build.BRAND.toLowerCase();
             Logger.d("brand =", brand);
+
             if (!brand.contains("xiaomi") && !brand.contains("redmi")) {
                 return false;
             }
@@ -114,9 +115,11 @@ public class PermissionUtil {
             Class<?> c = Class.forName("android.os.SystemProperties");
             Method get = c.getMethod("get", String.class);
             String result = (String) get.invoke(c, "ro.miui.ui.version.code");
+
             if (result != null) {
                 return !result.isEmpty();
             }
+
             return false;
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
@@ -158,7 +161,7 @@ public class PermissionUtil {
         if (!ShizukuClientHelper.isPreM()) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (ActivityCompat.checkSelfPermission(activity, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                if (PermissionUtil.isMIUI()) {
+                if (PermissionUtils.isMIUI()) {
                     showPermissionDialog(activity);
                 } else {
                     ActivityCompat.requestPermissions(Objects.requireNonNull(activity), new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
@@ -260,7 +263,7 @@ public class PermissionUtil {
         try {
             if (IceBox.getAppEnabledSetting(context, pkgName) != 0) { //0 为未冻结状态
                 if (ContextCompat.checkSelfPermission(context, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                    if (PermissionUtil.isMIUI()) {
+                    if (PermissionUtils.isMIUI()) {
                         Context c = context;
                         if (context instanceof ShortcutsActivity) {
                             context.startActivity(new Intent(context, MainActivity.class));
@@ -281,9 +284,9 @@ public class PermissionUtil {
                     }
                 } else {
                     new Thread(() -> {
-                        ((Activity)context).runOnUiThread(() -> ToastUtil.makeText(R.string.toast_defrosting));
+                        ((Activity) context).runOnUiThread(() -> ToastUtil.makeText(R.string.toast_defrosting));
                         IceBox.setAppEnabledSettings(context, true, pkgName);
-                        ((Activity)context).runOnUiThread(listener::onAppUnfrozen);
+                        ((Activity) context).runOnUiThread(listener::onAppUnfrozen);
                     }).start();
                 }
             }

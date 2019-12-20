@@ -28,7 +28,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
     public StreamCardsAdapter(Context context) {
         super(context);
         this.mContext = context;
-        this.items = new ArrayList<>();
+        this.mItems = new ArrayList<>();
         this.mode = ADAPTER_MODE_NORMAL;
     }
 
@@ -43,7 +43,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder viewHolder, int position) {
         super.onBindViewHolder(viewHolder, position);
-        AnywhereEntity item = items.get(position);
+        AnywhereEntity item = mItems.get(position);
         viewHolder.bind(item);
 
 //        UiUtils.setVisibility(viewHolder.binding.tvDescription, !item.getDescription().isEmpty());

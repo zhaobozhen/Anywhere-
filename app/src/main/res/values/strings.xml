@@ -211,6 +211,6 @@
     <!--  QR Code  -->
     <string name="desc_work_at_any_mode">Work at any mode</string>
     <string name="desc_need_root">Need Root</string>
-    <string name="qr_tip_title">LONG press to save Anywhere-</string>
+    <string name="qr_tip_title">LONG press to add Anywhere-</string>
     <string name="qr_tip_subtitle">This page\'s Anywhere-\'s are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
 </resources>

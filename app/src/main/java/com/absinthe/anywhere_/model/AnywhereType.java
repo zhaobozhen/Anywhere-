@@ -8,4 +8,9 @@ public class AnywhereType {
 
     public static final int SHORTCUTS = 1;
     public static final int EXPORTED = 1;
+
+    public static final String ANYWHERE = "Anywhere-";
+    public static final String SOMEWHERE = "Somewhere-";
+    public static final String NOWHERE = "Nowhere-";
+
 }

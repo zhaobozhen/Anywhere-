@@ -12,15 +12,16 @@
         android:id="@+id/item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/anywhere_cardview_spacing_stream"
-        android:layout_marginBottom="@dimen/anywhere_cardview_spacing_stream"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/cardview_spacing_stream"
+        android:layout_marginBottom="@dimen/cardview_spacing_stream"
+        android:layout_marginStart="@dimen/cardview_margin_parent_horizontal"
+        android:layout_marginEnd="@dimen/cardview_margin_parent_horizontal"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
-        app:cardElevation="@dimen/anywhere_cardview_elevation"
-        app:cardCornerRadius="@dimen/anywhere_cardview_corner_radius">
+        app:cardElevation="@dimen/cardview_elevation"
+        android:translationZ="@dimen/cardview_elevation"
+        app:cardCornerRadius="@dimen/cardview_corner_radius">
 
         <ImageView
             android:id="@+id/iv_card_bg"
@@ -43,8 +44,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_app_icon"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="@dimen/app_icon_size"
+                    android:layout_height="@dimen/app_icon_size"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
                     app:backgroundTint="@color/material_on_surface_emphasis_medium"
@@ -73,7 +74,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/anywhere_cardview_line_spacing"
+                    android:layout_marginBottom="@dimen/cardview_line_spacing"
                     android:text="@{appName}"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textStyle="bold"

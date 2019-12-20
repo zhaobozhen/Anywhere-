@@ -27,9 +27,9 @@ import jonathanfinerty.once.Once;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
-    private MainFragment mainFragment;
-    private static Fragment curFragment;
-    private static MainActivity instance;
+    private MainFragment mMainFragment;
+    private static Fragment sCurFragment;
+    private static MainActivity sInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,23 +37,23 @@ public class MainActivity extends BaseActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initView();
-        instance = this;
+        sInstance = this;
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) &&
-                SPUtils.getBoolean(this, Const.SP_KEY_FIRST_LAUNCH, true)) {
+                SPUtils.getBoolean(this, Const.PREF_FIRST_LAUNCH, true)) {
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
         } else {
-            mainFragment = MainFragment.newInstance();
+            mMainFragment = MainFragment.newInstance();
             getAnywhereIntent(getIntent());
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                        .replace(R.id.container, mainFragment)
+                        .replace(R.id.container, mMainFragment)
                         .commitNow();
             }
         }
@@ -110,15 +110,15 @@ public class MainActivity extends BaseActivity {
     }
 
     public static MainActivity getInstance() {
-        return instance;
+        return sInstance;
     }
 
     public static void setCurFragment(Fragment fragment) {
-        curFragment = fragment;
+        sCurFragment = fragment;
     }
 
     public void setMainFragment(MainFragment fragment) {
-        mainFragment = fragment;
+        mMainFragment = fragment;
     }
 
     private void getAnywhereIntent(Intent intent) {
@@ -138,27 +138,27 @@ public class MainActivity extends BaseActivity {
         bundle.putString(Const.INTENT_EXTRA_PARAM_2, param2);
         bundle.putString(Const.INTENT_EXTRA_PARAM_3, param3);
 
-        if (mainFragment == null) {
-            mainFragment = MainFragment.newInstance();
+        if (mMainFragment == null) {
+            mMainFragment = MainFragment.newInstance();
         }
-        mainFragment.setArguments(bundle);
+        mMainFragment.setArguments(bundle);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Logger.d("curFragment =" + curFragment);
+        Logger.d("curFragment =" + sCurFragment);
 
         if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
             Logger.d("REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
-            if (curFragment instanceof MainFragment) {
-                if (mainFragment == null) {
-                    mainFragment = (MainFragment) curFragment;
+            if (sCurFragment instanceof MainFragment) {
+                if (mMainFragment == null) {
+                    mMainFragment = (MainFragment) sCurFragment;
                 }
                 if (resultCode == RESULT_OK) {
-                    mainFragment.checkWorkingPermission();
+                    mMainFragment.checkWorkingPermission();
                 }
-            } else if (curFragment instanceof InitializeFragment) {
+            } else if (sCurFragment instanceof InitializeFragment) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (android.provider.Settings.canDrawOverlays(this)) {
                         InitializeFragment.getViewModel().getIsOverlay().setValue(Boolean.TRUE);
@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity {
             }
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
             Logger.d("REQUEST_CODE_SHIZUKU_PERMISSION");
-            if (curFragment instanceof InitializeFragment) {
+            if (sCurFragment instanceof InitializeFragment) {
                 InitializeFragment.getViewModel().getIsShizuku().setValue(Boolean.TRUE);
             }
         }

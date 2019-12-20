@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  CardView  -->
-    <dimen name="anywhere_cardview_elevation">5dp</dimen>
-    <dimen name="anywhere_cardview_corner_radius">10dp</dimen>
-    <dimen name="anywhere_cardview_line_spacing">4dp</dimen>
-    <dimen name="anywhere_cardview_spacing">4dp</dimen>
-    <dimen name="anywhere_cardview_margin">4dp</dimen>
-    <dimen name="anywhere_cardview_spacing_stream">6dp</dimen>
-    <dimen name="anywhere_cardview_item_margin">10dp</dimen>
-    <dimen name="anywhere_cardview_item_margin_long">15dp</dimen>
+    <dimen name="cardview_elevation">5dp</dimen>
+    <dimen name="cardview_corner_radius">10dp</dimen>
+    <dimen name="cardview_line_spacing">4dp</dimen>
+    <dimen name="cardview_spacing">4dp</dimen>
+    <dimen name="cardview_margin">4dp</dimen>
+    <dimen name="cardview_spacing_stream">6dp</dimen>
+    <dimen name="cardview_item_margin">10dp</dimen>
+    <dimen name="cardview_item_margin_long">15dp</dimen>
+    <dimen name="cardview_margin_parent_horizontal">16dp</dimen>
+    
+    <dimen name="app_icon_size">45dp</dimen>
 
     <!--  BottomSheetDialog  -->
-    <dimen name="bottom_sheet_dialog_edit_text_margin_start_end">30dp</dimen>
-    <dimen name="bottom_sheet_dialog_function_button_margin">40dp</dimen>
+    <dimen name="bsd_content_margin_top">20dp</dimen>
+    <dimen name="bsd_edit_text_margin_horizontal">30dp</dimen>
+    <dimen name="bsd_function_button_margin">10dp</dimen>
+    <dimen name="bsd_tool_size">36dp</dimen>
+    <dimen name="bsd_item_margin_vertical">5dp</dimen>
 
 </resources>

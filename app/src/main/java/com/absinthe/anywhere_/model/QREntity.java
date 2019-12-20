@@ -4,40 +4,48 @@ import com.absinthe.anywhere_.interfaces.OnQRLaunchedListener;
 
 public class QREntity {
     public static final String PREFIX = "[QR_Code]";
-    private String pkgName;
-    private String clsName;
-    private String urlScheme;
-    private OnQRLaunchedListener listener;
+    private String mPkgName;
+    private String mClsName;
+    private String mUrlScheme;
+    private OnQRLaunchedListener mListener;
 
     QREntity(OnQRLaunchedListener listener) {
-        this.listener = listener;
+        this.mListener = listener;
     }
 
     public void launch() {
-        listener.onLaunched();
+        mListener.onLaunched();
     }
 
     public String getPkgName() {
-        return pkgName;
+        return mPkgName;
     }
 
-    public void setPkgName(String pkgName) {
-        this.pkgName = pkgName;
+    public void setPkgName(String mPkgName) {
+        this.mPkgName = mPkgName;
     }
 
     public String getClsName() {
-        return clsName;
+        return mClsName;
     }
 
-    public void setClsName(String clsName) {
-        this.clsName = clsName;
+    public void setClsName(String mClsName) {
+        this.mClsName = mClsName;
     }
 
     public String getUrlScheme() {
-        return urlScheme;
+        return mUrlScheme;
     }
 
-    public void setUrlScheme(String urlScheme) {
-        this.urlScheme = urlScheme;
+    public void setUrlScheme(String mUrlScheme) {
+        this.mUrlScheme = mUrlScheme;
+    }
+
+    public OnQRLaunchedListener getListener() {
+        return mListener;
+    }
+
+    public void setListener(OnQRLaunchedListener mListener) {
+        this.mListener = mListener;
     }
 }

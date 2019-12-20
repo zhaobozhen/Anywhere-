@@ -6,16 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.absinthe.anywhere_.ui.settings.LabActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <include layout="@layout/toolbar"
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/navigationColorNormal"
-        android:elevation="3dp"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/textColorNormal" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

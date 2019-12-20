@@ -12,10 +12,10 @@ import com.absinthe.anywhere_.utils.ToastUtil;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class CollectorTileService extends TileService {
-    private static CollectorTileService instance;
+    private static CollectorTileService sInstance;
 
     public CollectorTileService() {
-        instance = this;
+        sInstance = this;
     }
 
     @Override
@@ -42,6 +42,6 @@ public class CollectorTileService extends TileService {
     }
 
     public static CollectorTileService getInstance() {
-        return instance;
+        return sInstance;
     }
 }

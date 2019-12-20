@@ -27,7 +27,7 @@ public class AnywhereApplication extends Application {
     public static final String ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER";
     @SuppressLint("StaticFieldLeak")
     public static Context sContext = null;
-    public static TimeRecorder timeRecorder;
+    public static TimeRecorder sTimeRecorder;
 
     static {
         System.loadLibrary("izuko");
@@ -85,8 +85,8 @@ public class AnywhereApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
 
-        timeRecorder = new TimeRecorder("LaunchTime");
-        timeRecorder.start();
+        sTimeRecorder = new TimeRecorder("LaunchTime");
+        sTimeRecorder.start();
         Reflection.unseal(base);
 
         Logger.d("initialize ", ShizukuMultiProcessHelper.initialize(this, !getProcessName().endsWith(":test")));

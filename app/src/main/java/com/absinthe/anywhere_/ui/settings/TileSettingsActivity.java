@@ -40,7 +40,6 @@ import java.util.Objects;
 public class TileSettingsActivity extends BaseActivity implements LifecycleOwner {
     private Context mContext;
     private CardView cvTileOne, cvTileTwo, cvTileThree;
-    private AnywhereViewModel mViewModel;
     private List<AnywhereEntity> mList;
 
     @Override
@@ -63,8 +62,8 @@ public class TileSettingsActivity extends BaseActivity implements LifecycleOwner
         cvTileOne = findViewById(R.id.cv_tile_one);
         cvTileTwo = findViewById(R.id.cv_tile_two);
         cvTileThree = findViewById(R.id.cv_tile_three);
-        mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
-        mViewModel.getAllAnywhereEntities().observe(this,
+        AnywhereViewModel viewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        viewModel.getAllAnywhereEntities().observe(this,
                 anywhereEntities -> {
                     mList = anywhereEntities;
                     load();
@@ -116,10 +115,10 @@ public class TileSettingsActivity extends BaseActivity implements LifecycleOwner
     }
 
     private void load() {
-        if (SPUtils.getString(this, Const.SP_KEY_TILE_ONE).isEmpty()) {
+        if (SPUtils.getString(this, Const.PREF_TILE_ONE).isEmpty()) {
             initCard(cvTileOne, 1);
         } else {
-            String id = SPUtils.getString(mContext, Const.SP_KEY_TILE_ONE);
+            String id = SPUtils.getString(mContext, Const.PREF_TILE_ONE);
             for (AnywhereEntity ae : mList) {
                 if (ae.getId().equals(id)) {
                     loadCard(cvTileOne, ae);
@@ -127,10 +126,10 @@ public class TileSettingsActivity extends BaseActivity implements LifecycleOwner
                 }
             }
         }
-        if (SPUtils.getString(this, Const.SP_KEY_TILE_TWO).isEmpty()) {
+        if (SPUtils.getString(this, Const.PREF_TILE_TWO).isEmpty()) {
             initCard(cvTileTwo, 2);
         } else {
-            String id = SPUtils.getString(mContext, Const.SP_KEY_TILE_TWO);
+            String id = SPUtils.getString(mContext, Const.PREF_TILE_TWO);
             for (AnywhereEntity ae : mList) {
                 if (ae.getId().equals(id)) {
                     loadCard(cvTileTwo, ae);
@@ -138,10 +137,10 @@ public class TileSettingsActivity extends BaseActivity implements LifecycleOwner
                 }
             }
         }
-        if (SPUtils.getString(this, Const.SP_KEY_TILE_THREE).isEmpty()) {
+        if (SPUtils.getString(this, Const.PREF_TILE_THREE).isEmpty()) {
             initCard(cvTileThree, 3);
         } else {
-            String id = SPUtils.getString(mContext, Const.SP_KEY_TILE_THREE);
+            String id = SPUtils.getString(mContext, Const.PREF_TILE_THREE);
             for (AnywhereEntity ae : mList) {
                 if (ae.getId().equals(id)) {
                     loadCard(cvTileThree, ae);
@@ -170,25 +169,25 @@ public class TileSettingsActivity extends BaseActivity implements LifecycleOwner
                                 String tileLabel = "";
                                 String tileCmd = "";
                                 if (cardView == cvTileOne) {
-                                    tile = Const.SP_KEY_TILE_ONE;
-                                    tileLabel = Const.SP_KEY_TILE_ONE_LABEL;
-                                    tileCmd = Const.SP_KEY_TILE_ONE_CMD;
+                                    tile = Const.PREF_TILE_ONE;
+                                    tileLabel = Const.PREF_TILE_ONE_LABEL;
+                                    tileCmd = Const.PREF_TILE_ONE_CMD;
 
                                     if (!AppUtils.isServiceRunning(this, TileOneService.class.getName())) {
                                         startService(new Intent(this, TileOneService.class));
                                     }
                                 } else if (cardView == cvTileTwo) {
-                                    tile = Const.SP_KEY_TILE_TWO;
-                                    tileLabel = Const.SP_KEY_TILE_TWO_LABEL;
-                                    tileCmd = Const.SP_KEY_TILE_TWO_CMD;
+                                    tile = Const.PREF_TILE_TWO;
+                                    tileLabel = Const.PREF_TILE_TWO_LABEL;
+                                    tileCmd = Const.PREF_TILE_TWO_CMD;
 
                                     if (!AppUtils.isServiceRunning(this, TileTwoService.class.getName())) {
                                         startService(new Intent(this, TileTwoService.class));
                                     }
                                 } else if (cardView == cvTileThree) {
-                                    tile = Const.SP_KEY_TILE_THREE;
-                                    tileLabel = Const.SP_KEY_TILE_THREE_LABEL;
-                                    tileCmd = Const.SP_KEY_TILE_THREE_CMD;
+                                    tile = Const.PREF_TILE_THREE;
+                                    tileLabel = Const.PREF_TILE_THREE_LABEL;
+                                    tileCmd = Const.PREF_TILE_THREE_CMD;
 
                                     if (!AppUtils.isServiceRunning(this, TileThreeService.class.getName())) {
                                         startService(new Intent(this, TileThreeService.class));

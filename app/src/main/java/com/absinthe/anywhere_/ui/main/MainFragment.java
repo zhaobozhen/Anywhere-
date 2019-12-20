@@ -50,7 +50,7 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.Logger;
-import com.absinthe.anywhere_.utils.PermissionUtil;
+import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
@@ -163,11 +163,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
         }
 
-        if (Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) && AnywhereApplication.timeRecorder != null) {
-            AnywhereApplication.timeRecorder.end();
-            AnywhereApplication.timeRecorder.log();
+        if (Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) && AnywhereApplication.sTimeRecorder != null) {
+            AnywhereApplication.sTimeRecorder.end();
+            AnywhereApplication.sTimeRecorder.log();
 //            AnywhereApplication.timeRecorder.logEvent(mFirebaseAnalytics);
-            AnywhereApplication.timeRecorder = null;
+            AnywhereApplication.sTimeRecorder = null;
         }
     }
 
@@ -222,20 +222,20 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     setUpUrlScheme("");
                     break;
                 case Const.WORKING_MODE_SHIZUKU:
-                    if (!PermissionUtil.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    if (!PermissionUtils.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
-                    if (PermissionUtil.checkShizukuOnWorking(mContext) && PermissionUtil.shizukuPermissionCheck(getActivity())) {
+                    if (PermissionUtils.checkShizukuOnWorking(mContext) && PermissionUtils.shizukuPermissionCheck(getActivity())) {
                         startCollector();
                     } else {
                         actionBar.setTitle("Nowhere-");
                     }
                     break;
                 case Const.WORKING_MODE_ROOT:
-                    if (!PermissionUtil.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    if (!PermissionUtils.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
-                    if (PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath())) {
+                    if (PermissionUtils.upgradeRootPermission(mContext.getPackageCodePath())) {
                         startCollector();
                     } else {
                         Logger.d("ROOT permission denied.");

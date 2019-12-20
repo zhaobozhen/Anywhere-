@@ -22,7 +22,7 @@ public class TileThreeService extends TileService {
         Tile tile = getQsTile(); // Get Tile
 
         if (tile != null) {
-            String label = SPUtils.getString(this, Const.SP_KEY_TILE_THREE_LABEL);
+            String label = SPUtils.getString(this, Const.PREF_TILE_THREE_LABEL);
             if (!label.isEmpty()) {
                 tile.setLabel(label);
             }
@@ -35,7 +35,7 @@ public class TileThreeService extends TileService {
     public void onClick() {
         Tile tile = getQsTile(); // Get Tile
 
-        String cmd = SPUtils.getString(this, Const.SP_KEY_TILE_THREE_CMD);
+        String cmd = SPUtils.getString(this, Const.PREF_TILE_THREE_CMD);
         Intent intent = new Intent(this, ShortcutsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (cmd.contains(QREntity.PREFIX)) {

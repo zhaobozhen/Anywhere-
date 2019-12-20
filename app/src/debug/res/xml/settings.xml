@@ -27,7 +27,7 @@
             app:summary="@string/settings_reset_background_summary"
             android:icon="@drawable/ic_reset_bg"/>
 
-        <DropDownPreference
+        <ListPreference
             app:key="darkMode"
             app:title="@string/settings_dark_mode"
             app:summary="@string/settings_dark_mode_summary"

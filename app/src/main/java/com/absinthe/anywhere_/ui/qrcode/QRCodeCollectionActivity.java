@@ -20,7 +20,7 @@ import jonathanfinerty.once.Once;
 
 public class QRCodeCollectionActivity extends BaseActivity {
     ActivityQrcodeCollectionBinding binding;
-    QRCollectionAdapter adapter;
+    QRCollectionAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class QRCodeCollectionActivity extends BaseActivity {
     }
 
     private void initView() {
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(binding.toolbar.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -47,11 +47,11 @@ public class QRCodeCollectionActivity extends BaseActivity {
             });
         }
 
-        adapter = new QRCollectionAdapter(this);
-        binding.recyclerView.setAdapter(adapter);
+        mAdapter = new QRCollectionAdapter(this);
+        binding.recyclerView.setAdapter(mAdapter);
         binding.recyclerView.setLayoutManager(new WrapContentStaggeredGridLayoutManager(2, RecyclerView.VERTICAL));
 
         QRCollection collection = QRCollection.Singleton.INSTANCE.getInstance();
-        adapter.setItems(collection.getList());
+        mAdapter.setItems(collection.getList());
     }
 }

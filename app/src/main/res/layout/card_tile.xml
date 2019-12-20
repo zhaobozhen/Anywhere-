@@ -4,6 +4,7 @@
     android:id="@+id/tile_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/cardview_spacing"
     android:clickable="false"
     app:cardElevation="3dp">
 
@@ -16,8 +17,8 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="@dimen/cardview_item_margin"
+            android:layout_marginTop="@dimen/cardview_item_margin"
             android:text="Tile"
             android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,21 +26,20 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_app_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:layout_marginStart="@dimen/cardview_item_margin"
+            android:layout_marginTop="@dimen/cardview_item_margin"
             app:backgroundTint="@color/material_on_surface_emphasis_medium"
             app:backgroundTintMode="add"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
-
         <TextView
             android:id="@+id/tv_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/cardview_item_margin"
             android:text="AppName"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textStyle="bold"
@@ -65,7 +65,7 @@
             android:textAppearance="?attr/textAppearanceListItemSecondary"
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="@+id/tv_param_1"
-            app:layout_constraintTop_toBottomOf="@+id/tv_param_1"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_param_1" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_select"

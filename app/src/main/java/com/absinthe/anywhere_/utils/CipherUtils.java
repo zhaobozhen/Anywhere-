@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils;
 
+import android.text.TextUtils;
 import android.util.Base64;
 
 import java.nio.charset.StandardCharsets;
@@ -27,6 +28,10 @@ public class CipherUtils {
      * @return Encrypted string
      */
     public static String encrypt(String data) {
+        if (TextUtils.isEmpty(data)) {
+            return null;
+        }
+
         try {
             Cipher cipher = Cipher.getInstance(CipherMode);
             cipher.init(Cipher.ENCRYPT_MODE, generateKey(), new IvParameterSpec(
@@ -35,7 +40,7 @@ public class CipherUtils {
             return Base64.encodeToString(encrypted, Base64.DEFAULT);
         } catch (Exception e) {
             e.printStackTrace();
-            Logger.e(CipherUtils.class, e.getMessage());
+            Logger.e(e.getMessage());
             return null;
         }
     }

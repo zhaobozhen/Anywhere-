@@ -207,15 +207,15 @@ public class UiUtils {
 
         switch (GlobalValues.sWorkingMode) {
             case "":
-                title.append("Nowhere-");
+                title.append(AnywhereType.NOWHERE);
                 break;
             case Const.WORKING_MODE_URL_SCHEME:
-                title.append("Somewhere-");
+                title.append(AnywhereType.SOMEWHERE);
                 break;
             case Const.WORKING_MODE_ROOT:
             case Const.WORKING_MODE_SHIZUKU:
             default:
-                title.append("Anywhere-");
+                title.append(AnywhereType.ANYWHERE);
                 break;
         }
 
@@ -244,9 +244,7 @@ public class UiUtils {
         int flag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-//            flag |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-//        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             flag |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
         }
@@ -259,7 +257,6 @@ public class UiUtils {
 
         window.setStatusBarColor(Color.TRANSPARENT);
         window.setNavigationBarColor(Color.TRANSPARENT);
-
     }
 
     /**
@@ -341,7 +338,7 @@ public class UiUtils {
     /**
      * Make the card use icon's color
      *
-     * @param view card view
+     * @param view     card view
      * @param drawable icon drawable
      */
     public static void setCardUseIconColor(View view, Drawable drawable) {
@@ -557,7 +554,7 @@ public class UiUtils {
      * @param t top margin
      * @param b bottom margin
      */
-    public static void setMargins (View v, int t, int b) {
+    public static void setMargins(View v, int t, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
             p.setMargins(p.leftMargin, t, p.rightMargin, b);
@@ -569,8 +566,8 @@ public class UiUtils {
      * Tint the menu icon
      *
      * @param context context
-     * @param item a menu item
-     * @param color color
+     * @param item    a menu item
+     * @param color   color
      */
     public static void tintMenuIcon(Context context, MenuItem item, @ColorRes int color) {
         Drawable normalDrawable = item.getIcon();

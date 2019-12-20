@@ -28,17 +28,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class BackupActivity extends BaseActivity {
-    private static BackupActivity instance;
+    private static BackupActivity sInstance;
 
     public static BackupActivity getInstance() {
-        return instance;
+        return sInstance;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
-        instance = this;
+        sInstance = this;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

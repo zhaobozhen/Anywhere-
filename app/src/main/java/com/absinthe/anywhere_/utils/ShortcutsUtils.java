@@ -21,7 +21,7 @@ import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShortcutsUtil {
+public class ShortcutsUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public enum Singleton {
@@ -120,7 +120,7 @@ public class ShortcutsUtil {
         new Thread(() -> {
             List<AnywhereEntity> items = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
             if (items != null) {
-                for (int iter = 0; iter < items.size(); iter++) {
+                for (int iter = 0, len = items.size(); iter < len; iter++) {
                     AnywhereEntity item = items.get(iter);
                     AnywhereEntity ae = new AnywhereEntity(item.getId(), item.getAppName(), item.getParam1(),
                             item.getParam2(), item.getParam3(), item.getDescription(), item.getAnywhereType(),

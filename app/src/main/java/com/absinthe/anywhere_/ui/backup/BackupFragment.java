@@ -42,10 +42,10 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Preference backupPreference = findPreference(Const.SP_KEY_BACKUP);
-        Preference restorePreference = findPreference(Const.SP_KEY_RESTORE);
-        Preference sharePreference = findPreference(Const.SP_KEY_BACKUP_SHARE);
-        Preference applyPreference = findPreference(Const.SP_KEY_RESTORE_APPLY);
+        Preference backupPreference = findPreference(Const.PREF_BACKUP);
+        Preference restorePreference = findPreference(Const.PREF_RESTORE);
+        Preference sharePreference = findPreference(Const.PREF_BACKUP_SHARE);
+        Preference applyPreference = findPreference(Const.PREF_RESTORE_APPLY);
 
         if (backupPreference != null) {
             backupPreference.setOnPreferenceClickListener(this);
@@ -64,7 +64,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
     @Override
     public boolean onPreferenceClick(Preference preference) {
         switch (preference.getKey()) {
-            case Const.SP_KEY_BACKUP:
+            case Const.PREF_BACKUP:
                 if (StorageUtils.isExternalStorageWritable()) {
                     StorageUtils.createFile(BackupActivity.getInstance(), "*/*",
                             "Anywhere-Backups-" + TextUtils.getCurrFormatDate() + ".awbackups");
@@ -72,13 +72,13 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
                     ToastUtil.makeText(R.string.toast_check_device_storage_state);
                 }
                 return true;
-            case Const.SP_KEY_RESTORE:
+            case Const.PREF_RESTORE:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
                 BackupActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_RESTORE_BACKUPS);
                 return true;
-            case Const.SP_KEY_BACKUP_SHARE:
+            case Const.PREF_BACKUP_SHARE:
                 String content = StorageUtils.ExportAnywhereEntityJsonString();
                 String encrypted = CipherUtils.encrypt(content);
 
@@ -104,7 +104,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
                             .show();
                 }
                 return true;
-            case Const.SP_KEY_RESTORE_APPLY:
+            case Const.PREF_RESTORE_APPLY:
                 RestoreApplyFragmentDialog dialog = new RestoreApplyFragmentDialog();
                 dialog.show(((AppCompatActivity) mContext).getSupportFragmentManager(),
                         RestoreApplyFragmentDialog.class.getSimpleName());

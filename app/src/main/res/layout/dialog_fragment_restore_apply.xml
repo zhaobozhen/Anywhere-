@@ -9,9 +9,9 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/dialog_restore_apply_paste_hint">
 
         <com.google.android.material.textfield.TextInputEditText

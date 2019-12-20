@@ -7,17 +7,9 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.settings.SettingsActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <include layout="@layout/toolbar"
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/navigationColorNormal"
-        android:elevation="3dp"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/textColorNormal" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <include
         layout="@layout/fragment_settings"

@@ -17,17 +17,17 @@ import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.Logger;
 
 public class SettingsActivity extends BaseActivity {
-    private static SettingsActivity instance;
+    private static SettingsActivity sInstance;
 
     public static SettingsActivity getInstance() {
-        return instance;
+        return sInstance;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        instance = this;
+        sInstance = this;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

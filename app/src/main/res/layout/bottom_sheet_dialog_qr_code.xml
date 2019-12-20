@@ -8,10 +8,10 @@
 
     <ImageButton
         android:id="@+id/ib_editor_menu"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_width="@dimen/bsd_tool_size"
+        android:layout_height="@dimen/bsd_tool_size"
+        android:layout_marginTop="@dimen/bsd_content_margin_top"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -26,9 +26,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/ib_editor_menu"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
-        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_marginTop="@dimen/bsd_content_margin_top"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_app_name_label"
         app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
         app:helperTextEnabled="true"
@@ -47,9 +47,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/til_app_name"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
-        android:layout_marginEnd="@dimen/bottom_sheet_dialog_edit_text_margin_start_end"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_description_label"
         app:helperText="@string/bsd_text_input_layout_description_helper_text"
         app:helperTextEnabled="true">
@@ -69,6 +69,6 @@
         android:textAllCaps="true"
         app:layout_constraintTop_toBottomOf="@id/til_description"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="@dimen/bottom_sheet_dialog_edit_text_margin_start_end" />
+        android:layout_margin="@dimen/bsd_edit_text_margin_horizontal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

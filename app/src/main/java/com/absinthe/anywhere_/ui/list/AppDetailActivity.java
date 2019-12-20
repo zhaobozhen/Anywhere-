@@ -30,7 +30,7 @@ import java.util.Objects;
 
 public class AppDetailActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     private ActivityAppDetailBinding binding;
-    private AppListAdapter adapter;
+    private AppListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
     }
 
     private void initView() {
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(binding.toolbar.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -65,8 +65,8 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
 
     private void initRecyclerView() {
         binding.rvAppList.setLayoutManager(new WrapContentLinearLayoutManager(this));
-        adapter = new AppListAdapter(this, AppListAdapter.MODE_APP_DETAIL);
-        binding.rvAppList.setAdapter(adapter);
+        mAdapter = new AppListAdapter(this, AppListAdapter.MODE_APP_DETAIL);
+        binding.rvAppList.setAdapter(mAdapter);
     }
 
     private void initData(String pkgName) {
@@ -88,7 +88,7 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
                 if (list.isEmpty()) {
                     binding.vfContainer.setDisplayedChild(1);
                 } else {
-                    adapter.setList(ListUtils.sortAppListByExported(list));
+                    mAdapter.setList(ListUtils.sortAppListByExported(list));
                     binding.vfContainer.setDisplayedChild(0);
                 }
                 binding.srlAppDetail.setRefreshing(false);
@@ -126,7 +126,7 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        adapter.getFilter().filter(newText);
+        mAdapter.getFilter().filter(newText);
         return false;
     }
 }

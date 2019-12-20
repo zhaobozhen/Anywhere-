@@ -59,7 +59,7 @@ public class CommandUtils {
                 AnywhereApplication.sContext.startActivity(intent);
                 result = Intent.ACTION_VIEW;
             } catch (Exception e) {
-                Logger.d("URL_SCHEME:Exception:", e.getMessage());
+                Logger.e("URL_SCHEME:Exception:", e.getMessage());
             }
         } else {
             String pkgClsString = cmd.split(" ")[3];
@@ -106,7 +106,7 @@ public class CommandUtils {
         InputStream is = null;
 
         try {
-            Process p = Runtime.getRuntime().exec("su");// 经过 Root 处理的 android 系统即有 su 命令
+            Process p = Runtime.getRuntime().exec("su");// Rooted device has su command
             os = p.getOutputStream();
             is = p.getInputStream();
 
@@ -170,7 +170,7 @@ public class CommandUtils {
 
             return sb.toString();
         } catch (Throwable tr) {
-            Log.e(PermissionUtil.class.getSimpleName(), "newProcess", tr);
+            Log.e(PermissionUtils.class.getSimpleName(), "newProcess", tr);
             return null;
         }
     }
