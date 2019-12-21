@@ -10,6 +10,8 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.QRCollection;
+import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 
 import java.io.IOException;
@@ -53,15 +55,24 @@ public class CommandUtils {
         String result = null;
 
         if (cmd.contains("am start -a") || !cmd.contains("am start")) {
-            cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setData(Uri.parse(cmd));
-                AnywhereApplication.sContext.startActivity(intent);
-                result = Intent.ACTION_VIEW;
-            } catch (Exception e) {
-                Logger.e("URL_SCHEME:Exception:", e.getMessage());
+            if (cmd.contains(QREntity.PREFIX)) {
+                cmd = cmd.replace(QREntity.PREFIX, "");
+                QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(cmd);
+                if (entity != null) {
+                    entity.launch();
+                }
+                result = QREntity.PREFIX;
+            } else {
+                cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setData(Uri.parse(cmd));
+                    AnywhereApplication.sContext.startActivity(intent);
+                    result = Intent.ACTION_VIEW;
+                } catch (Exception e) {
+                    Logger.e("URL_SCHEME:Exception:", e.getMessage());
+                }
             }
         } else {
             String pkgClsString = cmd.split(" ")[3];

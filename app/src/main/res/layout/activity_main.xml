@@ -25,50 +25,50 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true">
 
-            <!--        <FrameLayout-->
-            <!--            android:id="@+id/fl_toolbar"-->
-            <!--            android:layout_width="0dp"-->
-            <!--            android:layout_height="60dp"-->
-            <!--            android:background="@drawable/bg_toolbar_frame"-->
-            <!--            android:clipToPadding="false"-->
-            <!--            app:layout_constraintStart_toStartOf="parent"-->
-            <!--            app:layout_constraintEnd_toEndOf="parent"-->
-            <!--            app:layout_constraintTop_toTopOf="parent">-->
+                    <FrameLayout
+                        android:id="@+id/fl_toolbar"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/bg_toolbar_frame"
+                        android:clipToPadding="false"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-            <!--            <com.google.android.material.appbar.AppBarLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:background="@drawable/bg_toolbar"-->
-            <!--                android:translationZ="3dp"-->
-            <!--                app:elevation="3dp">-->
+                        <com.google.android.material.appbar.AppBarLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_toolbar"
+                            android:translationZ="3dp"
+                            app:elevation="3dp">
 
-            <!--                <androidx.appcompat.widget.Toolbar-->
-            <!--                    android:id="@+id/toolbar"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    app:titleTextColor="@color/textColorNormal" />-->
+                            <androidx.appcompat.widget.Toolbar
+                                android:id="@+id/toolbar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:titleTextColor="@color/black" />
 
-            <!--            </com.google.android.material.appbar.AppBarLayout>-->
+                        </com.google.android.material.appbar.AppBarLayout>
 
-            <!--        </FrameLayout>-->
+                    </FrameLayout>
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/navigationColorNormal"
-                android:elevation="3dp"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:layout_constraintTop_toTopOf="parent"
-                app:titleTextColor="@color/black" />
+<!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/navigationColorNormal"-->
+<!--                android:elevation="3dp"-->
+<!--                android:minHeight="?attr/actionBarSize"-->
+<!--                android:theme="?attr/actionBarTheme"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:titleTextColor="@color/black" />-->
 
             <FrameLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+                app:layout_constraintTop_toBottomOf="@id/fl_toolbar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
