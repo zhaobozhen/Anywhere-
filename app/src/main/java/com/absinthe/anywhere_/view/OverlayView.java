@@ -3,12 +3,16 @@ package com.absinthe.anywhere_.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.OverlayService;
@@ -17,6 +21,8 @@ import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 public class OverlayView extends LinearLayout {
+
+    private static final int MSG_REMOVE_WINDOW = 1001;
 
     private final Context mContext;
     private final WindowManager mWindowManager;
@@ -29,6 +35,19 @@ public class OverlayView extends LinearLayout {
     private boolean isClick;
     private long mStartTime = 0;
     private long mEndTime = 0;
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        public void handleMessage(@NonNull Message msg) {
+            if (msg.what == MSG_REMOVE_WINDOW) {
+                ibIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                mContext.startService(
+                        new Intent(mContext, OverlayService.class)
+                                .putExtra(OverlayService.COMMAND, OverlayService.COMMAND_CLOSE)
+                );
+            }
+        }
+    };
 
     public OverlayView(Context context) {
         super(context);
@@ -69,6 +88,7 @@ public class OverlayView extends LinearLayout {
 
                         isClick = false;
                         mStartTime = System.currentTimeMillis();
+                        mHandler.sendEmptyMessageDelayed(MSG_REMOVE_WINDOW, 1500);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         isClick = true;
@@ -97,14 +117,8 @@ public class OverlayView extends LinearLayout {
                         mEndTime = System.currentTimeMillis();
                         Logger.d("Touch period =", (mEndTime - mStartTime));
 
-                        isClick = 0.2 * 1000L < (mEndTime - mStartTime) && (mEndTime - mStartTime) < 2.0 * 1000L;
-                        if ((mEndTime - mStartTime) >= 2.0 * 1000L) {
-                            ibIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                            mContext.startService(
-                                    new Intent(mContext, OverlayService.class)
-                                            .putExtra(OverlayService.COMMAND, OverlayService.COMMAND_CLOSE)
-                            );
-                        }
+                        isClick = (mEndTime - mStartTime) > 0.2 * 1000L;
+                        mHandler.removeMessages(MSG_REMOVE_WINDOW);
                         break;
                 }
                 return isClick;

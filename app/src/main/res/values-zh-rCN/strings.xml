@@ -211,5 +211,5 @@
     <string name="toast_check_device_storage_state">请检查设备存储状态</string>
     <string name="toast_copied">已复制到剪贴板</string>
     <string name="menu_overlay">悬浮窗</string>
-    <string name="toast_overlay_tip">长按 2 秒以移除xuan\'fu\'chuang</string>
+    <string name="toast_overlay_tip">长按 2 秒以移除悬浮窗</string>
 </resources>
