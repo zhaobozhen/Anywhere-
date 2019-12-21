@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,9 +19,12 @@ import androidx.appcompat.widget.PopupMenu;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.OnceTag;
+import com.absinthe.anywhere_.services.OverlayService;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.EditUtils;
+import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -32,6 +36,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
+
+import jonathanfinerty.once.Once;
 
 public class Editor {
     public static final int ANYWHERE = 1;
@@ -186,6 +192,11 @@ public class Editor {
                 });
             }
 
+            ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
+            if (ibOverlay != null) {
+                ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
+            }
+
             ImageButton ibRun = mBottomSheetDialog.findViewById(R.id.ib_trying_run);
             if (ibRun != null) {
                 ibRun.setOnClickListener(view -> {
@@ -335,6 +346,11 @@ public class Editor {
                 });
             }
 
+            ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
+            if (ibOverlay != null) {
+                ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
+            }
+
             ImageButton ibRun = mBottomSheetDialog.findViewById(R.id.ib_trying_run);
             if (ibRun != null) {
                 ibRun.setOnClickListener(view -> {
@@ -448,6 +464,11 @@ public class Editor {
                 });
             }
 
+            ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
+            if (ibOverlay != null) {
+                ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
+            }
+
             ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
             if (ibMore != null) {
                 UiUtils.setVisibility(ibMore, isEditMode);
@@ -557,6 +578,32 @@ public class Editor {
                 .setNegativeButton(R.string.dialog_delete_negative_button,
                         (dialogInterface, i) -> show())
                 .show();
+    }
+
+    private void startOverlay(String cmd) {
+        if (PermissionUtils.checkOverlayPermission((Activity) mContext, -1)) {
+            Intent intent = new Intent(mContext, OverlayService.class);
+            intent.putExtra(OverlayService.COMMAND, OverlayService.COMMAND_OPEN);
+            intent.putExtra(OverlayService.COMMAND_STR, cmd);
+            String pkgName;
+            if (mEditorType == URL_SCHEME) {
+                pkgName = mItem.getParam2();
+            } else {
+                pkgName = mItem.getParam1();
+            }
+            intent.putExtra(OverlayService.PKG_NAME, pkgName);
+            mContext.startService(intent);
+
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            homeIntent.addCategory(Intent.CATEGORY_HOME);
+            mContext.startActivity(homeIntent);
+
+            if (!Once.beenDone(OnceTag.OVERLAY_TIP)) {
+                ToastUtil.makeText(R.string.toast_overlay_tip);
+                Once.markDone(OnceTag.OVERLAY_TIP);
+            }
+        }
     }
 
 }

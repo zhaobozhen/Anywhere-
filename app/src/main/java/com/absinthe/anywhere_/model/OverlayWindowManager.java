@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.absinthe.anywhere_.utils.Logger;
-import com.absinthe.anywhere_.view.CollectorView;
+import com.absinthe.anywhere_.view.OverlayView;
 
-public class CollectorWindowManager {
+public class OverlayWindowManager {
     private static final WindowManager.LayoutParams LAYOUT_PARAMS;
 
     private final Context mContext;
     private final WindowManager mWindowManager;
 
-    private View mFloatingView;
+    private OverlayView mOverlayView;
+    private String mCommand;
+    private String mPkgName;
 
     static {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
@@ -36,27 +38,31 @@ public class CollectorWindowManager {
         LAYOUT_PARAMS = params;
     }
 
-    public CollectorWindowManager(Context context) {
+    public OverlayWindowManager(Context context, String cmd, String pkgName) {
         mContext = context;
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        mCommand = cmd;
+        mPkgName = pkgName;
     }
 
     public void addView() {
-        if (mFloatingView == null) {
-            mFloatingView = new CollectorView(mContext);
-            mFloatingView.setLayoutParams(LAYOUT_PARAMS);
-            mFloatingView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        if (mOverlayView == null) {
+            mOverlayView = new OverlayView(mContext);
+            mOverlayView.setCommand(mCommand);
+            mOverlayView.setPkgName(mPkgName);
+            mOverlayView.setLayoutParams(LAYOUT_PARAMS);
+            mOverlayView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 
-            mWindowManager.addView(mFloatingView, LAYOUT_PARAMS);
-            Logger.d("Collector addView.");
+            mWindowManager.addView(mOverlayView, LAYOUT_PARAMS);
+            Logger.d("Overlay window addView.");
         }
     }
 
     public void removeView() {
-        if (mFloatingView != null) {
-            mWindowManager.removeView(mFloatingView);
-            mFloatingView = null;
-            Logger.d("Collector removeView.");
+        if (mOverlayView != null) {
+            mWindowManager.removeView(mOverlayView);
+            mOverlayView = null;
+            Logger.d("Overlay window removeView.");
         }
     }
 }

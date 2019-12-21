@@ -63,6 +63,7 @@
     <string name="menu_done">Done</string>
     <string name='menu_more'>More</string>
     <string name='menu_trying_run'>Test</string>
+    <string name='menu_overlay'>Overlay window</string>
     <string name='menu_show_system_app'>Show system apps</string>
     <string name='menu_hide_system_app'>Hide system apps</string>
 
@@ -135,6 +136,7 @@
     <string name="toast_restart_to_active">Restart to take effect</string>
     <string name="toast_check_device_storage_state">Please check the storage state of device</string>
     <string name="toast_copied">Copied to clipboard</string>
+    <string name="toast_overlay_tip">Long press for 2s to remove the overlay window</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>
@@ -143,7 +145,7 @@
 
     <string name="dialog_message_shizuku_not_running">Please check whether Shizuku service is running normally</string>
     <string name="dialog_reset_background_confirm_message">Are you sure to reset the background image?</string>
-    <string name="dialog_url_scheme_community">Shortcuts Community</string>
+    <string name="dialog_url_scheme_community">Community</string>
     <string name="dialog_message_perm_not_ever">There still has ungranted permissions, are you sure to enter?</string>
     <string name="dialog_message_same_app_name">It seems that there is a similar Anywhere-, are you sure to add it?</string>
     <string name="dialog_reset_shortcuts_confirm_message">Are you sure to reset all Shortcuts?</string>

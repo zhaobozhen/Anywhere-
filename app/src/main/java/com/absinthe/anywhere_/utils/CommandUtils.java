@@ -3,12 +3,14 @@ package com.absinthe.anywhere_.utils;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,7 +81,10 @@ public class CommandUtils {
             } else {
                 switch (GlobalValues.sWorkingMode) {
                     case Const.WORKING_MODE_SHIZUKU:
-                        result = execShizukuCmd(cmd);
+                        if (PermissionUtils.checkShizukuOnWorking(AnywhereApplication.sContext)
+                                && PermissionUtils.shizukuPermissionCheck(MainActivity.getInstance())) {
+                            result = execShizukuCmd(cmd);
+                        }
                         break;
                     case Const.WORKING_MODE_ROOT:
                         result = execRootCmd(cmd);
@@ -92,6 +97,9 @@ public class CommandUtils {
         }
 
         Logger.d("execCmd result = ", result);
+        if (TextUtils.isEmpty(result)) {
+            ToastUtil.makeText(R.string.toast_check_perm);
+        }
         return result;
     }
 

@@ -210,4 +210,5 @@
     <string name="settings_backup_share_title">分享配置</string>
     <string name="toast_check_device_storage_state">請檢查設備存儲狀態</string>
     <string name="toast_copied">已複製到剪貼板</string>
+    <string name="menu_overlay">懸浮窗</string>
 </resources>

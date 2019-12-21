@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter;//打包 康姆点艾伯森斯点安妮薇儿下划线点鹅带坡特儿
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +23,6 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
@@ -110,12 +110,12 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 if (mSelectedIndex.contains(position)) {
                     holder.itemView.setScaleX(1.0f);
                     holder.itemView.setScaleY(1.0f);
-                    ((MaterialCardView)holder.itemView).setChecked(false);
+                    ((MaterialCardView) holder.itemView).setChecked(false);
                     mSelectedIndex.remove((Integer) position);
                 } else {
                     holder.itemView.setScaleX(0.9f);
                     holder.itemView.setScaleY(0.9f);
-                    ((MaterialCardView)holder.itemView).setChecked(true);
+                    ((MaterialCardView) holder.itemView).setChecked(true);
                     mSelectedIndex.add(position);
                 }
             }
@@ -147,7 +147,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         if (!mSelectedIndex.contains(position)) {
             holder.itemView.setScaleX(1.0f);
             holder.itemView.setScaleY(1.0f);
-            ((MaterialCardView)holder.itemView).setChecked(false);
+            ((MaterialCardView) holder.itemView).setChecked(false);
         }
     }
 
@@ -189,7 +189,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                                     })
                                     .show();
                         } else {
-                            ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
+                            ActivityCompat.requestPermissions((Activity) mContext, new String[]{IceBox.SDK_PERMISSION}, 0x233);
                         }
                     } else {
                         final OnAppUnfreezeListener onAppUnfreezeListener = () ->

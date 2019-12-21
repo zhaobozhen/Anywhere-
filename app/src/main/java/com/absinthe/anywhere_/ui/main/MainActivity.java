@@ -21,6 +21,7 @@ import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.SPUtils;
+import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 import jonathanfinerty.once.Once;
@@ -71,17 +72,6 @@ public class MainActivity extends BaseActivity {
         getAnywhereIntent(intent);
     }
 
-    private void initView() {
-        setSupportActionBar(binding.toolbar);
-
-        if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            UiUtils.loadBackgroundPic(this, binding.ivBackground);
-            binding.ivBackground.setVisibility(View.VISIBLE);
-            UiUtils.setActionBarTransparent(this);
-            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
-        }
-    }
-
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -95,15 +85,9 @@ public class MainActivity extends BaseActivity {
 
         if (menu.findItem(R.id.toolbar_settings) != null) {
             if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT) || ( UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty() )) {
-                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_settings), R.color.white);
-                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_sort), R.color.white);
-                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_delete), R.color.white);
-                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), R.color.white);
+                tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_LIGHT);
             } else {
-                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_settings), R.color.black);
-                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_sort), R.color.black);
-                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_delete), R.color.black);
-                UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), R.color.black);
+                tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_DARK);
             }
         }
         return super.onPrepareOptionsMenu(menu);
@@ -121,27 +105,62 @@ public class MainActivity extends BaseActivity {
         mMainFragment = fragment;
     }
 
+    public void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
+    private void initView() {
+        setSupportActionBar(binding.toolbar);
+
+        if (!GlobalValues.sBackgroundUri.isEmpty()) {
+            UiUtils.loadBackgroundPic(this, binding.ivBackground);
+            binding.ivBackground.setVisibility(View.VISIBLE);
+            UiUtils.setActionBarTransparent(this);
+            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
+        }
+    }
+
     private void getAnywhereIntent(Intent intent) {
-        Uri uri = intent.getData();
-        if (uri == null) {
-            return;
-        } else {
-            Logger.d("Received Url =", uri.toString());
-        }
-        String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
-        String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
-        String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
-        Logger.d("Url param =", param1, param2, param3);
+        String action = intent.getAction();
 
-        Bundle bundle = new Bundle();
-        bundle.putString(Const.INTENT_EXTRA_PARAM_1, param1);
-        bundle.putString(Const.INTENT_EXTRA_PARAM_2, param2);
-        bundle.putString(Const.INTENT_EXTRA_PARAM_3, param3);
+        if (action != null) {
+            if (action.equals(Intent.ACTION_VIEW)) {
+                Uri uri = intent.getData();
+                if (uri == null) {
+                    return;
+                } else {
+                    Logger.d("Received Url =", uri.toString());
+                }
+                String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
+                String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
+                String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
+                Logger.d("Url param =", param1, param2, param3);
 
-        if (mMainFragment == null) {
-            mMainFragment = MainFragment.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putString(Const.INTENT_EXTRA_PARAM_1, param1);
+                bundle.putString(Const.INTENT_EXTRA_PARAM_2, param2);
+                bundle.putString(Const.INTENT_EXTRA_PARAM_3, param3);
+
+                if (mMainFragment == null) {
+                    mMainFragment = MainFragment.newInstance();
+                }
+                mMainFragment.setArguments(bundle);
+            } else if (action.equals(Intent.ACTION_SEND)) {
+                String sharing = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+                Bundle bundle = new Bundle();
+                bundle.putString(Const.INTENT_EXTRA_PARAM_1, TextUtils.parseUrlFromSharingText(sharing));
+                bundle.putString(Const.INTENT_EXTRA_PARAM_2, "");
+                bundle.putString(Const.INTENT_EXTRA_PARAM_3, "");
+
+                if (mMainFragment == null) {
+                    mMainFragment = MainFragment.newInstance();
+                }
+                mMainFragment.setArguments(bundle);
+            }
         }
-        mMainFragment.setArguments(bundle);
     }
 
     @Override
@@ -173,9 +192,17 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void restartActivity() {
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
+    private void tintToolbarIcon(Menu menu, String type) {
+        int colorRes;
+        if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
+            colorRes = R.color.black;
+        } else {
+            colorRes = R.color.white;
+        }
+
+        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_settings), colorRes);
+        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_sort), colorRes);
+        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_delete), colorRes);
+        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), colorRes);
     }
 }

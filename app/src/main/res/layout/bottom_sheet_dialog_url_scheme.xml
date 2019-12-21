@@ -27,9 +27,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
+            android:id="@+id/ib_overlay"
+            android:layout_width="@dimen/bsd_tool_size"
+            android:layout_height="@dimen/bsd_tool_size"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/anywhere_more_todo"
+            android:tooltipText="@string/menu_overlay"
+            app:srcCompat="@drawable/ic_float"
+            tools:targetApi="o" />
+
+        <ImageButton
             android:id="@+id/ib_trying_run"
             android:layout_width="@dimen/bsd_tool_size"
             android:layout_height="@dimen/bsd_tool_size"
+            android:layout_marginStart="@dimen/bsd_function_button_margin"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/anywhere_more_todo"
             android:tooltipText="@string/menu_trying_run"

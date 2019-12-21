@@ -61,24 +61,14 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                     String packageName = TextUtils.getPkgNameByCommand(cmd);
                     try {
                         if (IceBox.getAppEnabledSetting(this, packageName) != 0) {
-                            PermissionUtils.unfreezeApp(this, packageName, () -> {
-                                String result = CommandUtils.execCmd(cmd);
-                                if (result == null) {
-                                    ToastUtil.makeText(R.string.toast_check_perm);
-                                }
-                            });
+                            PermissionUtils.unfreezeApp(this, packageName, () ->
+                                    CommandUtils.execCmd(cmd));
                         } else {
-                            String result = CommandUtils.execCmd(cmd);
-                            if (result == null) {
-                                ToastUtil.makeText(R.string.toast_check_perm);
-                            }
+                            CommandUtils.execCmd(cmd);
                         }
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
-                        String result = CommandUtils.execCmd(cmd);
-                        if (result == null) {
-                            ToastUtil.makeText(R.string.toast_check_perm);
-                        }
+                        CommandUtils.execCmd(cmd);
                     }
                 }
                 finish();
@@ -88,24 +78,14 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                     try {
                         String packageName = TextUtils.getPkgNameByCommand(cmd);
                         if (IceBox.getAppEnabledSetting(this, packageName) != 0) { //0 为未冻结状态
-                            PermissionUtils.unfreezeApp(this, packageName, () -> {
-                                String result = CommandUtils.execCmd(cmd);
-                                if (result == null) {
-                                    ToastUtil.makeText(R.string.toast_check_perm);
-                                }
-                            });
+                            PermissionUtils.unfreezeApp(this, packageName, () ->
+                                    CommandUtils.execCmd(cmd));
                         } else {
-                            String result = CommandUtils.execCmd(cmd);
-                            if (result == null) {
-                                ToastUtil.makeText(R.string.toast_check_perm);
-                            }
+                            CommandUtils.execCmd(cmd);
                         }
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
-                        String result = CommandUtils.execCmd(cmd);
-                        if (result == null) {
-                            ToastUtil.makeText(R.string.toast_check_perm);
-                        }
+                        CommandUtils.execCmd(cmd);
                     } catch (IndexOutOfBoundsException e2) {
                         e2.printStackTrace();
                         ToastUtil.makeText(R.string.toast_wrong_cmd);

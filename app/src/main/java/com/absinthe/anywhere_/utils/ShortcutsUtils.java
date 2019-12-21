@@ -14,7 +14,6 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 
@@ -87,7 +86,7 @@ public class ShortcutsUtils {
             intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
 
             ShortcutInfo pinShortcutInfo =
-                    new ShortcutInfo.Builder(MainActivity.getInstance(), ae.getId())
+                    new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getId())
                             .setShortLabel(ae.getAppName())
                             .setIcon(Icon.createWithBitmap(UiUtils.drawableToBitmap(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
                             .setIntent(intent)

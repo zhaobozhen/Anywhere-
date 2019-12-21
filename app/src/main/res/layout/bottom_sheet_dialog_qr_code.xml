@@ -7,6 +7,20 @@
     style="@style/Widget.Design.BottomSheet.Modal">
 
     <ImageButton
+        android:id="@+id/ib_overlay"
+        android:layout_width="@dimen/bsd_tool_size"
+        android:layout_height="@dimen/bsd_tool_size"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/anywhere_more_todo"
+        android:tooltipText="@string/menu_overlay"
+        app:srcCompat="@drawable/ic_float"
+        tools:targetApi="o"
+        app:layout_constraintTop_toTopOf="@id/ib_editor_menu"
+        app:layout_constraintBottom_toBottomOf="@id/ib_editor_menu"
+        app:layout_constraintEnd_toStartOf="@id/ib_editor_menu"
+        android:layout_marginStart="@dimen/bsd_function_button_margin" />
+
+    <ImageButton
         android:id="@+id/ib_editor_menu"
         android:layout_width="@dimen/bsd_tool_size"
         android:layout_height="@dimen/bsd_tool_size"

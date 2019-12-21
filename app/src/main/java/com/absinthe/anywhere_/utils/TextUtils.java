@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.util.Patterns;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
@@ -20,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TextUtils {
 
@@ -144,7 +147,7 @@ public class TextUtils {
     /**
      * Judge that whether a string contains the other string **ignore case**
      *
-     * @param str main string
+     * @param str       main string
      * @param subString our target
      * @return true if contains
      */
@@ -184,6 +187,23 @@ public class TextUtils {
             return resolveInfo.get(0).activityInfo.packageName;
         } else {
             return "";
+        }
+    }
+
+    /**
+     * Parse URL from a sharing text
+     *
+     * @param sharing original text
+     * @return URL
+     */
+    public static String parseUrlFromSharingText(String sharing) {
+        Pattern pattern = Patterns.WEB_URL;
+        Matcher matcher = pattern.matcher(sharing);
+
+        if (matcher.find()) {
+            return matcher.group().split("\\?")[0];
+        } else {
+            return null;
         }
     }
 }

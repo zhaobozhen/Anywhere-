@@ -26,6 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -37,7 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter> <!-- Start from URL Scheme -->
-                <!-- Must has -->
+                <!-- Required -->
                 <action android:name="android.intent.action.VIEW" />
                 <!-- Start from a browser -->
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -47,6 +48,13 @@
                 <data
                     android:host="url"
                     android:scheme="anywhere" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
             </intent-filter>
 
             <meta-data
@@ -124,6 +132,10 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+        <service
+            android:name=".services.OverlayService"
+            android:enabled="true"
+            android:exported="false" />
         <service
             android:name=".services.TileOneService"
             android:enabled="true"
