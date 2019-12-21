@@ -108,8 +108,8 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
         if (searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setIconifiedByDefault(false);
-            searchView.setSubmitButtonEnabled(true);    // 显示“开始搜索”的按钮
-            searchView.setQueryRefinementEnabled(true); // 提示内容右边提供一个将提示内容放到搜索框的
+            searchView.setSubmitButtonEnabled(true);    // Display "Start search" button
+            searchView.setQueryRefinementEnabled(true);
             searchView.setOnQueryTextListener(this);
 
             LinearLayout searchBar = searchView.findViewById(R.id.search_bar);

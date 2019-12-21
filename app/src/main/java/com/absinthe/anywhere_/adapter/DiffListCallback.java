@@ -36,12 +36,15 @@ public class DiffListCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return TextUtils.equals(mOldList.get(oldItemPosition).getAppName(), mNewList.get(newItemPosition).getAppName()) &&
-                TextUtils.equals(mOldList.get(oldItemPosition).getParam1(), mNewList.get(newItemPosition).getParam1()) &&
-                TextUtils.equals(mOldList.get(oldItemPosition).getParam2(), mNewList.get(newItemPosition).getParam2()) &&
-                TextUtils.equals(mOldList.get(oldItemPosition).getParam3(), mNewList.get(newItemPosition).getParam3()) &&
-                TextUtils.equals(mOldList.get(oldItemPosition).getDescription(), mNewList.get(newItemPosition).getDescription()) &&
-                TextUtils.equals(mOldList.get(oldItemPosition).getType() + "", mNewList.get(newItemPosition).getType() + "");
+        AnywhereEntity oldItem = mOldList.get(oldItemPosition);
+        AnywhereEntity newItem = mNewList.get(newItemPosition);
+
+        return TextUtils.equals(oldItem.getAppName(), newItem.getAppName()) &&
+                TextUtils.equals(oldItem.getParam1(), newItem.getParam1()) &&
+                TextUtils.equals(oldItem.getParam2(), newItem.getParam2()) &&
+                TextUtils.equals(oldItem.getParam3(), newItem.getParam3()) &&
+                TextUtils.equals(oldItem.getDescription(), newItem.getDescription()) &&
+                TextUtils.equals(oldItem.getType() + "", newItem.getType() + "");
     }
 
     @Nullable
