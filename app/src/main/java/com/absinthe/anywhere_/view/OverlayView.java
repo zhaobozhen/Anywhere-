@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
-import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.OverlayService;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.Logger;
@@ -58,8 +57,17 @@ public class OverlayView extends LinearLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
-        inflate(mContext, R.layout.layout_overlay, this);
-        ibIcon = findViewById(R.id.ib_icon);
+        int width = UiUtils.dipToPixels(mContext, 65);
+        int height = UiUtils.dipToPixels(mContext, 65);
+        setLayoutParams(new LinearLayout.LayoutParams(width, height));
+
+        ibIcon = new ImageButton(mContext);
+        LinearLayout.LayoutParams layoutParams = new LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT);
+        ibIcon.setLayoutParams(layoutParams);
+        ibIcon.setBackground(null);
+        addView(ibIcon);
 
         ibIcon.setOnClickListener(v -> {
             Logger.d("Overlay window clicked!");
@@ -88,10 +96,11 @@ public class OverlayView extends LinearLayout {
 
                         isClick = false;
                         mStartTime = System.currentTimeMillis();
-                        mHandler.sendEmptyMessageDelayed(MSG_REMOVE_WINDOW, 1500);
+                        mHandler.sendEmptyMessageDelayed(MSG_REMOVE_WINDOW, 1000);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         isClick = true;
+                        mHandler.removeMessages(MSG_REMOVE_WINDOW);
 
                         // 获取移动时的X，Y坐标
                         nowX = motionEvent.getRawX();

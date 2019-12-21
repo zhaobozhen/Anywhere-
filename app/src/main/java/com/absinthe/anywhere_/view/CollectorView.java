@@ -17,6 +17,7 @@ import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.UiUtils;
 
 public class CollectorView extends LinearLayout {
 
@@ -39,10 +40,20 @@ public class CollectorView extends LinearLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
-        inflate(mContext, R.layout.layout_collector, this);
-        ImageButton mIbCollector = findViewById(R.id.ib_collector);
+        int width = UiUtils.dipToPixels(mContext, 65);
+        int height = UiUtils.dipToPixels(mContext, 65);
+        setLayoutParams(new LinearLayout.LayoutParams(width, height));
 
-        mIbCollector.setOnClickListener(v -> {
+        ImageButton ibCollector = new ImageButton(mContext);
+        LinearLayout.LayoutParams layoutParams = new LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT);
+        ibCollector.setLayoutParams(layoutParams);
+        ibCollector.setImageResource(R.drawable.btn_collector);
+        ibCollector.setBackground(null);
+        addView(ibCollector);
+
+        ibCollector.setOnClickListener(v -> {
             Logger.d("Collector clicked!");
             collectActivity();
             mContext.startService(
@@ -53,7 +64,7 @@ public class CollectorView extends LinearLayout {
             AppUtils.openUrl(mContext, mPackageName, mClassName, "");
         });
 
-        mIbCollector.setOnTouchListener(new OnTouchListener() {
+        ibCollector.setOnTouchListener(new OnTouchListener() {
 
             private float lastX; //上一次位置的X.Y坐标
             private float lastY;
