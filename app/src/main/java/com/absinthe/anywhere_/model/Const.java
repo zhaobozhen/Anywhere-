@@ -23,6 +23,7 @@ public class Const {
     public static final String PREF_BACKUP_SHARE = "backupShare";
     public static final String PREF_RESTORE = "restore";
     public static final String PREF_RESTORE_APPLY = "restoreApply";
+    public static final String PREF_MD2_TOOLBAR = "md2Toolbar";
     public static final String PREF_TILE_ONE = "tileOne";
     public static final String PREF_TILE_TWO = "tileTwo";
     public static final String PREF_TILE_THREE = "tileThree";

@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.settings;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -120,7 +119,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                             GlobalValues.setsBackgroundUri("");
                             MainActivity.getInstance().restartActivity();
-                            ((Activity) mContext).finish();
+                            SettingsActivity.getInstance().finish();
                         })
                         .setNegativeButton(R.string.dialog_delete_negative_button,
                                 (dialogInterface, i) -> {

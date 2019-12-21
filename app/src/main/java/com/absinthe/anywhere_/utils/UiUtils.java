@@ -39,6 +39,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.palette.graphics.Palette;
@@ -575,5 +576,20 @@ public class UiUtils {
         DrawableCompat.setTint(wrapDrawable, context.getResources().getColor(color));
 
         item.setIcon(wrapDrawable);
+    }
+
+    /**
+     * Tint the Toolbar home icon
+     *
+     * @param toolbar toolbar
+     * @param color color
+     */
+    public static void setOverflowButtonColor(Context context, Toolbar toolbar, @ColorRes int color) {
+        Drawable drawable = toolbar.getOverflowIcon();
+        if(drawable != null) {
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable.mutate(), context.getResources().getColor(color));
+            toolbar.setOverflowIcon(drawable);
+        }
     }
 }

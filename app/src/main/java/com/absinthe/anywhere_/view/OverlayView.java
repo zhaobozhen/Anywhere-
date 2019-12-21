@@ -8,6 +8,7 @@ import android.os.Message;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -25,6 +26,8 @@ public class OverlayView extends LinearLayout {
 
     private final Context mContext;
     private final WindowManager mWindowManager;
+    private final int mTouchSlop;
+
     private WindowManager.LayoutParams mLayoutParams;
     private ImageButton ibIcon;
 
@@ -52,6 +55,7 @@ public class OverlayView extends LinearLayout {
         super(context);
         mContext = context;
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        mTouchSlop = ViewConfiguration.get(mContext).getScaledTouchSlop();
         initView();
     }
 
@@ -62,9 +66,7 @@ public class OverlayView extends LinearLayout {
         setLayoutParams(new LinearLayout.LayoutParams(width, height));
 
         ibIcon = new ImageButton(mContext);
-        LinearLayout.LayoutParams layoutParams = new LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams layoutParams = new LayoutParams(width, height);
         ibIcon.setLayoutParams(layoutParams);
         ibIcon.setBackground(null);
         addView(ibIcon);
@@ -100,7 +102,6 @@ public class OverlayView extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_MOVE:
                         isClick = true;
-                        mHandler.removeMessages(MSG_REMOVE_WINDOW);
 
                         // 获取移动时的X，Y坐标
                         nowX = motionEvent.getRawX();
@@ -111,6 +112,10 @@ public class OverlayView extends LinearLayout {
                         tranX = nowX - lastX;
                         tranY = nowY - lastY;
                         Logger.d("MotionEvent.ACTION_MOVE tran:", tranX, tranY);
+
+                        if (tranX * tranX + tranY * tranY > mTouchSlop * mTouchSlop) {
+                            mHandler.removeMessages(MSG_REMOVE_WINDOW);
+                        }
 
                         // 移动悬浮窗
                         mLayoutParams.x -= tranX;

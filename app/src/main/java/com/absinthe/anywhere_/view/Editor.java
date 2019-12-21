@@ -594,6 +594,8 @@ public class Editor {
             intent.putExtra(OverlayService.PKG_NAME, pkgName);
             mContext.startService(intent);
 
+            mBottomSheetDialog.dismiss();
+
             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             homeIntent.addCategory(Intent.CATEGORY_HOME);

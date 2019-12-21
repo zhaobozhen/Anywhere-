@@ -1,20 +1,27 @@
 package com.absinthe.anywhere_.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.databinding.ActivityMainBinding;
+import com.absinthe.anywhere_.databinding.ActivityMainMd2Binding;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.OnceTag;
@@ -24,19 +31,36 @@ import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 
+import java.util.Objects;
+
 import jonathanfinerty.once.Once;
 
 public class MainActivity extends BaseActivity {
-    private ActivityMainBinding binding;
-    private MainFragment mMainFragment;
-    private static Fragment sCurFragment;
+    @SuppressLint("StaticFieldLeak")
     private static MainActivity sInstance;
+    private static Fragment sCurFragment;
+
+    private MainFragment mMainFragment;
+    private boolean isMd2Theme = false;
+
+    private ImageView ivBackground;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        isMd2Theme = SPUtils.getBoolean(this, Const.PREF_MD2_TOOLBAR, false);
+
+        if (isMd2Theme) {
+            ActivityMainMd2Binding binding2 = DataBindingUtil.setContentView(this, R.layout.activity_main_md2);
+            ivBackground = binding2.ivBackground;
+            toolbar = binding2.toolbar;
+        } else {
+            ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+            ivBackground = binding.ivBackground;
+            toolbar = binding.toolbar;
+        }
         initView();
         sInstance = this;
 
@@ -76,7 +100,7 @@ public class MainActivity extends BaseActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        UiUtils.loadBackgroundPic(this, binding.ivBackground);
+        UiUtils.loadBackgroundPic(this, ivBackground);
     }
 
     @Override
@@ -112,11 +136,19 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (isMd2Theme) {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            }
+        }
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            UiUtils.loadBackgroundPic(this, binding.ivBackground);
-            binding.ivBackground.setVisibility(View.VISIBLE);
+            UiUtils.loadBackgroundPic(this, ivBackground);
+            ivBackground.setVisibility(View.VISIBLE);
             UiUtils.setActionBarTransparent(this);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }
@@ -204,5 +236,11 @@ public class MainActivity extends BaseActivity {
         UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_sort), colorRes);
         UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_delete), colorRes);
         UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), colorRes);
+        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), colorRes);
+
+        final Drawable home = getResources().getDrawable(R.drawable.ic_menu);
+        DrawableCompat.setTint(home, getResources().getColor(colorRes));
+        Objects.requireNonNull(
+                getSupportActionBar()).setHomeAsUpIndicator(home);
     }
 }

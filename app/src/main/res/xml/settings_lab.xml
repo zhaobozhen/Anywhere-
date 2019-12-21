@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="normalCategory"
+        android:title="@string/settings_category_normal">
+
+        <SwitchPreference
+            android:key="md2Toolbar"
+            android:title="@string/settings_md2_toolbar_title"
+            app:summary="@string/settings_md2_toolbar_summary"
+            android:icon="@drawable/ic_material" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

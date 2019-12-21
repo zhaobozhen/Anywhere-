@@ -212,4 +212,6 @@
     <string name="toast_copied">已复制到剪贴板</string>
     <string name="menu_overlay">悬浮窗</string>
     <string name="toast_overlay_tip">长按 2 秒以移除悬浮窗</string>
+    <string name="settings_md2_toolbar_title">Material Design 2 顶栏</string>
+    <string name="settings_md2_toolbar_summary">此功能尚不稳定,且暂不支持自定义背景</string>
 </resources>

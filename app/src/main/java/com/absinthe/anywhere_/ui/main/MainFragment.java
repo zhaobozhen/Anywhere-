@@ -459,6 +459,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     })
                     .setNegativeButton(R.string.dialog_delete_negative_button, null)
                     .show();
+        } else if (item.getItemId() == android.R.id.home) {
+            ToastUtil.makeText("制作中");
         }
         return super.onOptionsItemSelected(item);
     }

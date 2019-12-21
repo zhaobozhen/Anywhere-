@@ -120,6 +120,10 @@
     <string name="settings_backup_restore_summary">Select a *.awbackups suffix file to import Anywhere-</string>
     <string name="settings_backup_apply_summary">Apply shared Anywhere- configurations</string>
 
+    <string name="settings_md2_toolbar_title">Material Design 2 Toolbar</string>
+
+    <string name="settings_md2_toolbar_summary">This function is not yet stable and not support for custom background</string>
+
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root permission denied</string>
     <string name="toast_open_pop_up_when_background_permission">MIUI ROM should grant the pop-up permission, or may has problems</string>
@@ -215,4 +219,5 @@
     <string name="desc_need_root">Need Root</string>
     <string name="qr_tip_title">LONG press to add Anywhere-</string>
     <string name="qr_tip_subtitle">This page\'s Anywhere-\'s are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
+
 </resources>
