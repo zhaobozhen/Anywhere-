@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -19,6 +18,7 @@ import com.absinthe.anywhere_.services.OverlayService;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.viewbuilder.OverlayBuilder;
 
 public class OverlayView extends LinearLayout {
 
@@ -26,10 +26,10 @@ public class OverlayView extends LinearLayout {
 
     private final Context mContext;
     private final WindowManager mWindowManager;
+    private OverlayBuilder mBuilder;
     private final int mTouchSlop;
 
     private WindowManager.LayoutParams mLayoutParams;
-    private ImageButton ibIcon;
 
     private String mCommand;
     private String mPkgName;
@@ -42,7 +42,7 @@ public class OverlayView extends LinearLayout {
     private Handler mHandler = new Handler() {
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == MSG_REMOVE_WINDOW) {
-                ibIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                mBuilder.ibIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 mContext.startService(
                         new Intent(mContext, OverlayService.class)
                                 .putExtra(OverlayService.COMMAND, OverlayService.COMMAND_CLOSE)
@@ -61,23 +61,15 @@ public class OverlayView extends LinearLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
-        int width = UiUtils.dipToPixels(mContext, 65);
-        int height = UiUtils.dipToPixels(mContext, 65);
-        setLayoutParams(new LinearLayout.LayoutParams(width, height));
+        mBuilder = new OverlayBuilder(mContext, this);
 
-        ibIcon = new ImageButton(mContext);
-        LinearLayout.LayoutParams layoutParams = new LayoutParams(width, height);
-        ibIcon.setLayoutParams(layoutParams);
-        ibIcon.setBackground(null);
-        addView(ibIcon);
-
-        ibIcon.setOnClickListener(v -> {
+        mBuilder.ibIcon.setOnClickListener(v -> {
             Logger.d("Overlay window clicked!");
 
             CommandUtils.execCmd(mCommand);
         });
 
-        ibIcon.setOnTouchListener(new OnTouchListener() {
+        mBuilder.ibIcon.setOnTouchListener(new OnTouchListener() {
 
             private float lastX; //上一次位置的X.Y坐标
             private float lastY;
@@ -154,7 +146,7 @@ public class OverlayView extends LinearLayout {
 
     public void setPkgName(String mPkgName) {
         this.mPkgName = mPkgName;
-        ibIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, mPkgName));
+        mBuilder.ibIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, mPkgName));
     }
 }
 

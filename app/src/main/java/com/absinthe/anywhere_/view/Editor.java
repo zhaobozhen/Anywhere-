@@ -116,6 +116,10 @@ public abstract class Editor<T extends Editor<?>> {
 
     protected abstract void setBottomSheetDialog();
 
+    protected abstract void setDoneButton();
+
+    protected abstract void setRunButton();
+
     protected void initView() {
         tilAppName = mBottomSheetDialog.findViewById(R.id.til_app_name);
         tietAppName = mBottomSheetDialog.findViewById(R.id.tiet_app_name);
@@ -129,19 +133,6 @@ public abstract class Editor<T extends Editor<?>> {
             tietDescription.setText(mItem.getDescription());
         }
     }
-
-    void setBottomSheetDialogImpl(Context context, @LayoutRes int layout) {
-        View contentView = View.inflate(context, layout, null);
-        mBottomSheetDialog.setContentView(contentView);
-        mBottomSheetDialog.setDismissWithAnimation(true);
-        View parent = (View) contentView.getParent();
-        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
-        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-    }
-
-    protected abstract void setDoneButton();
-
-    protected abstract void setRunButton();
 
     private void setOverlayButton() {
         ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
@@ -190,6 +181,15 @@ public abstract class Editor<T extends Editor<?>> {
                 .setNegativeButton(R.string.dialog_delete_negative_button,
                         (dialogInterface, i) -> show())
                 .show();
+    }
+
+    void setBottomSheetDialogImpl(Context context, @LayoutRes int layout) {
+        View contentView = View.inflate(context, layout, null);
+        mBottomSheetDialog.setContentView(contentView);
+        mBottomSheetDialog.setDismissWithAnimation(true);
+        View parent = (View) contentView.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     private void startOverlay(String cmd) {

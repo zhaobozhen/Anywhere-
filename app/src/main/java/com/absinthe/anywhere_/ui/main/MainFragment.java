@@ -305,7 +305,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void resetSelectState() {
-        Logger.d("getSelectedIndex() = ",adapter.getSelectedIndex());
+        Logger.d("getSelectedIndex() = ", adapter.getSelectedIndex());
         if (!adapter.getSelectedIndex().isEmpty()) {
             for (Object index : adapter.getSelectedIndex()) {
                 View view = mLayoutManager.findViewByPosition((int) index);

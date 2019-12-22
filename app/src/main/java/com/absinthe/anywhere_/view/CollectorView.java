@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.R;
@@ -17,7 +16,7 @@ import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.viewbuilder.CollectorBuilder;
 
 public class CollectorView extends LinearLayout {
 
@@ -40,20 +39,9 @@ public class CollectorView extends LinearLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
-        int width = UiUtils.dipToPixels(mContext, 65);
-        int height = UiUtils.dipToPixels(mContext, 65);
-        setLayoutParams(new LinearLayout.LayoutParams(width, height));
+        CollectorBuilder builder = new CollectorBuilder(mContext, this);
 
-        ImageButton ibCollector = new ImageButton(mContext);
-        LinearLayout.LayoutParams layoutParams = new LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.MATCH_PARENT);
-        ibCollector.setLayoutParams(layoutParams);
-        ibCollector.setImageResource(R.drawable.btn_collector);
-        ibCollector.setBackground(null);
-        addView(ibCollector);
-
-        ibCollector.setOnClickListener(v -> {
+        builder.ibCollector.setOnClickListener(v -> {
             Logger.d("Collector clicked!");
             collectActivity();
             mContext.startService(
@@ -64,7 +52,7 @@ public class CollectorView extends LinearLayout {
             AppUtils.openUrl(mContext, mPackageName, mClassName, "");
         });
 
-        ibCollector.setOnTouchListener(new OnTouchListener() {
+        builder.ibCollector.setOnTouchListener(new OnTouchListener() {
 
             private float lastX; //上一次位置的X.Y坐标
             private float lastY;
