@@ -194,6 +194,7 @@ public class Editor {
 
             ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
             if (ibOverlay != null) {
+                UiUtils.setVisibility(ibOverlay, isEditMode);
                 ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
             }
 
@@ -348,6 +349,7 @@ public class Editor {
 
             ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
             if (ibOverlay != null) {
+                UiUtils.setVisibility(ibOverlay, isEditMode);
                 ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
             }
 
@@ -466,6 +468,7 @@ public class Editor {
 
             ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
             if (ibOverlay != null) {
+                UiUtils.setVisibility(ibOverlay, isEditMode);
                 ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
             }
 
