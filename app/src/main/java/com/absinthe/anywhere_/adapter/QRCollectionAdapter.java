@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.view.Editor;
+import com.absinthe.anywhere_.view.QRCodeEditor;
 
 public class QRCollectionAdapter extends StreamCardsAdapter {
     public QRCollectionAdapter(Context context) {
@@ -56,7 +57,7 @@ public class QRCollectionAdapter extends StreamCardsAdapter {
 
     @Override
     void openEditor(AnywhereEntity item, int type, int position) {
-        mEditor = new Editor(mContext, type)
+        mEditor = new QRCodeEditor(mContext)
                 .item(item)
                 .isEditorMode(false)
                 .build();

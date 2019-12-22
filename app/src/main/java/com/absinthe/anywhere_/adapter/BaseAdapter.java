@@ -29,7 +29,10 @@ import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
+import com.absinthe.anywhere_.view.QRCodeEditor;
+import com.absinthe.anywhere_.view.SchemeEditor;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -215,8 +218,19 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     void openEditor(AnywhereEntity item, int type, int position) {
         Editor.OnEditorListener listener = () -> deleteAnywhereActivity(mEditor, item, position);
 
-        mEditor = new Editor(mContext, type)
-                .item(item)
+        switch (type) {
+            case Editor.ANYWHERE:
+                mEditor = new AnywhereEditor(mContext);
+                break;
+            case Editor.URL_SCHEME:
+                mEditor = new SchemeEditor(mContext);
+                break;
+            case Editor.QR_CODE:
+                mEditor = new QRCodeEditor(mContext);
+                break;
+        }
+
+        mEditor.item(item)
                 .isEditorMode(true)
                 .isShortcut(item.getShortcutType() == AnywhereType.SHORTCUTS)
                 .isExported(item.getExportedType() == AnywhereType.EXPORTED)

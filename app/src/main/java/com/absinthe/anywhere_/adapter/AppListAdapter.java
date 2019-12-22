@@ -27,7 +27,7 @@ import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.view.Editor;
+import com.absinthe.anywhere_.view.AnywhereEditor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                         item.getPackageName(),
                         item.getClassName().replace(item.getPackageName(), ""),
                         "", "", AnywhereType.ACTIVITY + exported, timeStamp);
-                Editor editor = new Editor(mContext, Editor.ANYWHERE)
+                AnywhereEditor editor = new AnywhereEditor(mContext)
                         .item(ae)
                         .isEditorMode(false)
                         .isShortcut(false)

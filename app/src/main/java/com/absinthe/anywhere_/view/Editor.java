@@ -1,29 +1,23 @@
 package com.absinthe.anywhere_.view;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.services.OverlayService;
-import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.utils.CommandUtils;
-import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
@@ -35,26 +29,27 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.Objects;
-
 import jonathanfinerty.once.Once;
 
-public class Editor {
+public abstract class Editor<T extends Editor<?>> {
     public static final int ANYWHERE = 1;
     public static final int URL_SCHEME = 2;
     public static final int QR_CODE = 3;
 
-    private Context mContext;
-    private BottomSheetDialog mBottomSheetDialog;
-    private AnywhereEntity mItem;
+    protected Context mContext;
     private OnEditorListener mListener;
 
-    private int mEditorType;
-    private boolean isShortcut;
-    private boolean isEditMode;
-    private boolean isExported;
+    BottomSheetDialog mBottomSheetDialog;
+    AnywhereEntity mItem;
+    TextInputLayout tilAppName;
+    TextInputEditText tietAppName, tietDescription;
 
-    public Editor(Context context, int editorType) {
+    private int mEditorType;
+    private boolean isExported;
+    private boolean isShortcut;
+    boolean isEditMode;
+
+    Editor(Context context, int editorType) {
         mContext = context;
         mBottomSheetDialog = new BottomSheetDialog(context);
         mEditorType = editorType;
@@ -62,471 +57,42 @@ public class Editor {
         isEditMode = false;
         isExported = false;
 
-        View contentView = View.inflate(context, R.layout.bottom_sheet_dialog_anywhere, null);
-        if (mEditorType == ANYWHERE) {
-            contentView = View.inflate(context, R.layout.bottom_sheet_dialog_anywhere, null);
-        } else if (mEditorType == URL_SCHEME) {
-            contentView = View.inflate(context, R.layout.bottom_sheet_dialog_url_scheme, null);
-        } else if (mEditorType == QR_CODE) {
-            contentView = View.inflate(context, R.layout.bottom_sheet_dialog_qr_code, null);
-        }
-
-        mBottomSheetDialog.setContentView(contentView);
-        mBottomSheetDialog.setDismissWithAnimation(true);
-        View parent = (View) contentView.getParent();
-        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
-        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        setBottomSheetDialog();
     }
 
-    public Editor isShortcut(boolean flag) {
+    public T build() {
+        initView();
+        setDoneButton();
+        setRunButton();
+        setMoreButton();
+        setOverlayButton();
+
+        return getThis();
+    }
+
+    public T isShortcut(boolean flag) {
         isShortcut = flag;
-        return this;
+        return getThis();
     }
 
-    public Editor isEditorMode(boolean flag) {
+    public T isEditorMode(boolean flag) {
         isEditMode = flag;
-        return this;
+        return getThis();
     }
 
-    public Editor isExported(boolean flag) {
+    public T isExported(boolean flag) {
         isExported = flag;
-        return this;
+        return getThis();
     }
 
-    public Editor item(AnywhereEntity item) {
+    public T item(AnywhereEntity item) {
         mItem = item;
-        return this;
+        return getThis();
     }
 
-    @SuppressLint("RestrictedApi")
-    public Editor build() {
-        if (mEditorType == ANYWHERE) {
-            TextInputLayout tilAppName = mBottomSheetDialog.findViewById(R.id.til_app_name);
-            TextInputLayout tilPackageName = mBottomSheetDialog.findViewById(R.id.til_package_name);
-            TextInputLayout tilClassName = mBottomSheetDialog.findViewById(R.id.til_class_name);
-
-            TextInputEditText tietAppName = mBottomSheetDialog.findViewById(R.id.tiet_app_name);
-            TextInputEditText tietPackageName = mBottomSheetDialog.findViewById(R.id.tiet_package_name);
-            TextInputEditText tietClassName = mBottomSheetDialog.findViewById(R.id.tiet_class_name);
-            TextInputEditText tietDescription = mBottomSheetDialog.findViewById(R.id.tiet_description);
-            TextInputEditText tietIntentExtra = mBottomSheetDialog.findViewById(R.id.tiet_intent_extra);
-
-            if (tietAppName != null) {
-                tietAppName.setText(mItem.getAppName());
-            }
-
-            if (tietPackageName != null) {
-                tietPackageName.setText(mItem.getParam1());
-            }
-
-            if (tietClassName != null) {
-                tietClassName.setText(mItem.getParam2());
-            }
-
-            if (tietDescription != null) {
-                tietDescription.setText(mItem.getDescription());
-            }
-
-            if (tietIntentExtra != null) {
-                tietIntentExtra.setText(mItem.getParam3());
-            }
-
-            Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
-            if (btnEditAnywhereDone != null) {
-                btnEditAnywhereDone.setOnClickListener(view -> {
-                    if (tietPackageName != null && tietClassName != null && tietAppName != null && tietDescription != null && tietIntentExtra != null) {
-                        String pName = tietPackageName.getText() == null ? mItem.getParam1() : tietPackageName.getText().toString();
-                        String cName = tietClassName.getText() == null ? mItem.getParam2() : tietClassName.getText().toString();
-                        String aName = tietAppName.getText() == null ? mItem.getAppName() : tietAppName.getText().toString();
-                        String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
-                        String iExtra = tietIntentExtra.getText() == null ? "" : tietIntentExtra.getText().toString();
-
-                        if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
-                            tilAppName.setError(mContext.getString(R.string.bsd_error_should_not_empty));
-                        }
-                        if (tietPackageName.getText().toString().isEmpty() && tilPackageName != null) {
-                            tilPackageName.setError(mContext.getString(R.string.bsd_error_should_not_empty));
-                        }
-                        if (tietClassName.getText().toString().isEmpty() && tilClassName != null) {
-                            tilClassName.setError(mContext.getString(R.string.bsd_error_should_not_empty));
-                        }
-
-                        if (!tietAppName.getText().toString().isEmpty()
-                                && !tietPackageName.getText().toString().isEmpty()
-                                && !tietClassName.getText().toString().isEmpty()) {
-                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, pName, cName, iExtra,
-                                    desc, mItem.getType(), mItem.getTimeStamp());
-                            if (isEditMode) {
-                                if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1()) || !cName.equals(mItem.getParam2())) {
-                                    if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                            ShortcutsUtils.removeShortcut(mItem);
-                                            ShortcutsUtils.addShortcut(ae);
-                                        }
-                                    }
-                                }
-                                MainFragment.getViewModelInstance().update(ae);
-                            } else {
-                                if (EditUtils.hasSameAppName(pName, cName)) {
-                                    dismiss();
-                                    new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                                            .setMessage(R.string.dialog_message_same_app_name)
-                                            .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                                                MainFragment.getViewModelInstance().insert(ae);
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                                    ShortcutsUtils.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(mItem.getParam1(), mItem.getParam2())));
-                                                }
-                                            })
-                                            .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
-                                            .show();
-                                } else {
-                                    MainFragment.getViewModelInstance().insert(ae);
-                                }
-                            }
-                            dismiss();
-                        }
-
-                    } else {
-                        ToastUtil.makeText("error data.");
-                    }
-                });
-            }
-
-            ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
-            if (ibOverlay != null) {
-                UiUtils.setVisibility(ibOverlay, isEditMode);
-                ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
-            }
-
-            ImageButton ibRun = mBottomSheetDialog.findViewById(R.id.ib_trying_run);
-            if (ibRun != null) {
-                ibRun.setOnClickListener(view -> {
-                    if (tietPackageName != null && tietClassName != null && tietIntentExtra != null) {
-                        String pName = tietPackageName.getText() == null ? mItem.getParam1() : tietPackageName.getText().toString();
-                        String cName = tietClassName.getText() == null ? mItem.getParam2() : tietClassName.getText().toString();
-                        String iExtra = tietIntentExtra.getText() == null ? "" : tietIntentExtra.getText().toString();
-
-                        if (!tietPackageName.getText().toString().isEmpty()
-                                && !tietClassName.getText().toString().isEmpty()) {
-                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", pName, cName, iExtra,
-                                    "", mItem.getType(), mItem.getTimeStamp());//Todo param3
-                            CommandUtils.execCmd(TextUtils.getItemCommand(ae));
-                        }
-                    }
-                });
-            }
-
-            ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
-            if (ibMore != null) {
-                UiUtils.setVisibility(ibMore, isEditMode);
-                ibMore.setOnClickListener(view -> {
-                    PopupMenu popup = new PopupMenu(mContext, ibMore);
-                    popup.getMenuInflater()
-                            .inflate(R.menu.editor_menu, popup.getMenu());
-                    if (popup.getMenu() instanceof MenuBuilder) {
-                        MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
-                        menuBuilder.setOptionalIconsVisible(true);
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                        if (isShortcut) {
-                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.colorAccent);
-                            popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
-                        } else {
-                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.textColorNormal);
-                        }
-                    }
-                    popup.setOnMenuItemClickListener(item -> {
-                        switch (item.getItemId()) {
-                            case R.id.add_shortcuts:
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                    dismiss();
-                                    if (!isShortcut) {
-                                        addShortcut(mContext, mItem);
-                                    } else {
-                                        removeShortcut(mContext, mItem);
-                                    }
-                                }
-                                break;
-                            case R.id.add_home_shortcuts:
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    ShortcutsUtils.addPinnedShortcut(mItem);
-                                }
-                                break;
-                            case R.id.delete:
-                                dismiss();
-                                mListener.onDelete();
-                                break;
-                            default:
-                        }
-                        return true;
-                    });
-
-                    popup.show();
-                });
-            }
-
-        } else if (mEditorType == URL_SCHEME) {
-            TextInputLayout tilAppName = mBottomSheetDialog.findViewById(R.id.til_app_name);
-            TextInputLayout tilUrlScheme = mBottomSheetDialog.findViewById(R.id.til_url_scheme);
-
-            TextInputEditText tietAppName = mBottomSheetDialog.findViewById(R.id.tiet_app_name);
-            TextInputEditText tietUrlScheme = mBottomSheetDialog.findViewById(R.id.tiet_url_scheme);
-            TextInputEditText tietDescription = mBottomSheetDialog.findViewById(R.id.tiet_description);
-
-            if (tietAppName != null) {
-                tietAppName.setText(mItem.getAppName());
-            }
-            if (tietUrlScheme != null) {
-                tietUrlScheme.setText(mItem.getParam1());
-            }
-            if (tietDescription != null) {
-                tietDescription.setText(mItem.getDescription());
-            }
-
-            Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
-            if (btnEditAnywhereDone != null) {
-                btnEditAnywhereDone.setOnClickListener(view -> {
-                    if (tietUrlScheme != null && tietAppName != null && tietDescription != null) {
-                        String uScheme = tietUrlScheme.getText() == null ? "" : tietUrlScheme.getText().toString();
-                        String aName = tietAppName.getText() == null ? mContext.getString(R.string.bsd_new_url_scheme_name) : tietAppName.getText().toString();
-                        String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
-
-                        if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
-                            tilAppName.setError(mContext.getString(R.string.bsd_error_should_not_empty));
-                        }
-                        if (tietUrlScheme.getText().toString().isEmpty() && tilUrlScheme != null) {
-                            tilUrlScheme.setError(mContext.getString(R.string.bsd_error_should_not_empty));
-                        }
-
-                        if (!tietAppName.getText().toString().isEmpty()
-                                && !tietUrlScheme.getText().toString().isEmpty()) {
-                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, uScheme, UiUtils.getPkgNameByUrl(mContext, uScheme),
-                                    null, desc, mItem.getType(), mItem.getTimeStamp());
-
-                            if (isEditMode) {
-                                if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
-                                    if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                            ShortcutsUtils.removeShortcut(mItem);
-                                            ShortcutsUtils.addShortcut(ae);
-                                        }
-                                    }
-                                }
-                                MainFragment.getViewModelInstance().update(ae);
-                            } else {
-                                if (EditUtils.hasSameAppName(uScheme)) {
-                                    dismiss();
-                                    new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                                            .setMessage(R.string.dialog_message_same_app_name)
-                                            .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                                                MainFragment.getViewModelInstance().insert(ae);
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                                    ShortcutsUtils.removeShortcut(EditUtils.hasSameAppNameEntity(mItem.getParam1()));
-                                                }
-                                            })
-                                            .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
-                                            .show();
-                                } else {
-                                    MainFragment.getViewModelInstance().insert(ae);
-                                }
-                            }
-                            dismiss();
-                        }
-                    } else {
-                        ToastUtil.makeText("error data.");
-                    }
-                });
-            }
-
-            Button btnUrlSchemeCommunity = mBottomSheetDialog.findViewById(R.id.btn_url_scheme_community);
-            if (btnUrlSchemeCommunity != null) {
-                btnUrlSchemeCommunity.setOnClickListener(view -> {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://sharecuts.cn/apps"));
-                    mContext.startActivity(intent);
-                });
-            }
-
-            ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
-            if (ibOverlay != null) {
-                UiUtils.setVisibility(ibOverlay, isEditMode);
-                ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
-            }
-
-            ImageButton ibRun = mBottomSheetDialog.findViewById(R.id.ib_trying_run);
-            if (ibRun != null) {
-                ibRun.setOnClickListener(view -> {
-                    if (tietUrlScheme != null) {
-                        String uName = tietUrlScheme.getText() == null ? mItem.getParam1() : tietUrlScheme.getText().toString();
-
-                        if (!tietUrlScheme.getText().toString().isEmpty()) {
-                            AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", uName, "", "",
-                                    "", mItem.getType(), mItem.getTimeStamp());
-                            CommandUtils.execCmd(TextUtils.getItemCommand(ae));
-                        }
-                    }
-                });
-            }
-
-            ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
-            if (ibMore != null) {
-                UiUtils.setVisibility(ibMore, isEditMode);
-                ibMore.setOnClickListener(view -> {
-                    PopupMenu popup = new PopupMenu(mContext, ibMore);
-                    popup.getMenuInflater()
-                            .inflate(R.menu.editor_menu, popup.getMenu());
-                    if (popup.getMenu() instanceof MenuBuilder) {
-                        MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
-                        menuBuilder.setOptionalIconsVisible(true);
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                        if (isShortcut) {
-                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.colorAccent);
-                            popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
-                        } else {
-                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.textColorNormal);
-                        }
-                    }
-                    popup.setOnMenuItemClickListener(item -> {
-                        switch (item.getItemId()) {
-                            case R.id.add_shortcuts:
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                    dismiss();
-                                    if (!isShortcut) {
-                                        addShortcut(mContext, mItem);
-                                    } else {
-                                        removeShortcut(mContext, mItem);
-                                    }
-                                }
-                                break;
-                            case R.id.add_home_shortcuts:
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    ShortcutsUtils.addPinnedShortcut(mItem);
-                                }
-                                break;
-                            case R.id.delete:
-                                dismiss();
-                                mListener.onDelete();
-                                break;
-                            default:
-                        }
-                        return true;
-                    });
-
-                    popup.show();
-                });
-            }
-        } else if (mEditorType == QR_CODE) {
-            TextInputLayout tilAppName = mBottomSheetDialog.findViewById(R.id.til_app_name);
-
-            TextInputEditText tietAppName = mBottomSheetDialog.findViewById(R.id.tiet_app_name);
-            TextInputEditText tietDescription = mBottomSheetDialog.findViewById(R.id.tiet_description);
-
-            if (tietAppName != null) {
-                tietAppName.setText(mItem.getAppName());
-            }
-            if (tietDescription != null) {
-                tietDescription.setText(mItem.getDescription());
-            }
-
-            Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
-            if (btnEditAnywhereDone != null) {
-                btnEditAnywhereDone.setOnClickListener(view -> {
-                    if (tietAppName != null && tietDescription != null) {
-                        String aName = tietAppName.getText() == null ? mContext.getString(R.string.bsd_new_url_scheme_name) : tietAppName.getText().toString();
-                        String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
-
-                        if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
-                            tilAppName.setError(mContext.getString(R.string.bsd_error_should_not_empty));
-                        }
-
-                        if (!tietAppName.getText().toString().isEmpty()) {
-                            String timeStamp = System.currentTimeMillis() + "";
-                            AnywhereEntity ae = new AnywhereEntity(timeStamp, aName, mItem.getParam1(), mItem.getId(), null,
-                                    desc, mItem.getType(), timeStamp);
-
-                            if (isEditMode) {
-                                if (!aName.equals(mItem.getAppName())) {
-                                    if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                            ShortcutsUtils.removeShortcut(mItem);
-                                            ShortcutsUtils.addShortcut(ae);
-                                        }
-                                    }
-                                }
-                                MainFragment.getViewModelInstance().update(ae);
-                            } else {
-                                MainFragment.getViewModelInstance().insert(ae);
-                            }
-                            dismiss();
-                        }
-                    } else {
-                        ToastUtil.makeText("error data.");
-                    }
-                });
-            }
-
-            ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
-            if (ibOverlay != null) {
-                UiUtils.setVisibility(ibOverlay, isEditMode);
-                ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
-            }
-
-            ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
-            if (ibMore != null) {
-                UiUtils.setVisibility(ibMore, isEditMode);
-                ibMore.setOnClickListener(view -> {
-                    PopupMenu popup = new PopupMenu(mContext, ibMore);
-                    popup.getMenuInflater()
-                            .inflate(R.menu.editor_menu, popup.getMenu());
-                    if (popup.getMenu() instanceof MenuBuilder) {
-                        MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
-                        menuBuilder.setOptionalIconsVisible(true);
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                        if (isShortcut) {
-                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.colorAccent);
-                            popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
-                        } else {
-                            UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.textColorNormal);
-                        }
-                    }
-                    popup.setOnMenuItemClickListener(item -> {
-                        switch (item.getItemId()) {
-                            case R.id.add_shortcuts:
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                    dismiss();
-                                    if (!isShortcut) {
-                                        addShortcut(mContext, mItem);
-                                    } else {
-                                        removeShortcut(mContext, mItem);
-                                    }
-                                }
-                                break;
-                            case R.id.add_home_shortcuts:
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    ShortcutsUtils.addPinnedShortcut(mItem);
-                                }
-                                break;
-                            case R.id.delete:
-                                dismiss();
-                                mListener.onDelete();
-                                break;
-                            default:
-                        }
-                        return true;
-                    });
-
-                    popup.show();
-                });
-            }
-        }
-        return this;
-    }
-
-    public Editor setOnEditorListener(OnEditorListener listener) {
+    public T setOnEditorListener(OnEditorListener listener) {
         mListener = listener;
-        return this;
+        return getThis();
     }
 
     public void show() {
@@ -539,7 +105,50 @@ public class Editor {
 
     public interface OnEditorListener {
         void onDelete();
-//        void onChange();
+
+        /*void onChange();*/
+    }
+
+    @SuppressWarnings("unchecked")
+    protected T getThis() {
+        return (T) this;
+    }
+
+    protected abstract void setBottomSheetDialog();
+
+    protected void initView() {
+        tilAppName = mBottomSheetDialog.findViewById(R.id.til_app_name);
+        tietAppName = mBottomSheetDialog.findViewById(R.id.tiet_app_name);
+        tietDescription = mBottomSheetDialog.findViewById(R.id.tiet_description);
+
+        if (tietAppName != null) {
+            tietAppName.setText(mItem.getAppName());
+        }
+
+        if (tietDescription != null) {
+            tietDescription.setText(mItem.getDescription());
+        }
+    }
+
+    void setBottomSheetDialogImpl(Context context, @LayoutRes int layout) {
+        View contentView = View.inflate(context, layout, null);
+        mBottomSheetDialog.setContentView(contentView);
+        mBottomSheetDialog.setDismissWithAnimation(true);
+        View parent = (View) contentView.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    protected abstract void setDoneButton();
+
+    protected abstract void setRunButton();
+
+    private void setOverlayButton() {
+        ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
+        if (ibOverlay != null) {
+            UiUtils.setVisibility(ibOverlay, isEditMode);
+            ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
@@ -608,6 +217,57 @@ public class Editor {
                 ToastUtil.makeText(R.string.toast_overlay_tip);
                 Once.markDone(OnceTag.OVERLAY_TIP);
             }
+        }
+    }
+
+    private void setMoreButton() {
+        ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
+        if (ibMore != null) {
+            UiUtils.setVisibility(ibMore, isEditMode);
+            ibMore.setOnClickListener(view -> {
+                PopupMenu popup = new PopupMenu(mContext, ibMore);
+                popup.getMenuInflater()
+                        .inflate(R.menu.editor_menu, popup.getMenu());
+                if (popup.getMenu() instanceof MenuBuilder) {
+                    MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
+                    menuBuilder.setOptionalIconsVisible(true);
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    if (isShortcut) {
+                        UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.colorAccent);
+                        popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
+                    } else {
+                        UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.textColorNormal);
+                    }
+                }
+                popup.setOnMenuItemClickListener(item -> {
+                    switch (item.getItemId()) {
+                        case R.id.add_shortcuts:
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                dismiss();
+                                if (!isShortcut) {
+                                    addShortcut(mContext, mItem);
+                                } else {
+                                    removeShortcut(mContext, mItem);
+                                }
+                            }
+                            break;
+                        case R.id.add_home_shortcuts:
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                ShortcutsUtils.addPinnedShortcut(mItem);
+                            }
+                            break;
+                        case R.id.delete:
+                            dismiss();
+                            mListener.onDelete();
+                            break;
+                        default:
+                    }
+                    return true;
+                });
+
+                popup.show();
+            });
         }
     }
 

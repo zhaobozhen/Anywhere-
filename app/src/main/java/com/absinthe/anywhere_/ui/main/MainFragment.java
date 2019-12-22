@@ -54,7 +54,9 @@ import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
+import com.absinthe.anywhere_.view.SchemeEditor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -152,7 +154,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     }
                     AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, param1, param2, param3, "",
                             AnywhereType.ACTIVITY + exported, timeStamp);
-                    Editor editor = new Editor(MainActivity.getInstance(), Editor.ANYWHERE)
+                    Editor editor = new AnywhereEditor(MainActivity.getInstance())
                             .item(ae)
                             .isEditorMode(false)
                             .isShortcut(false)
@@ -263,7 +265,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private void setUpUrlScheme(String url) {
         String timeStamp = System.currentTimeMillis() + "";
         AnywhereEntity ae = new AnywhereEntity(timeStamp, getString(R.string.bsd_new_url_scheme_name), url, null, null, "", AnywhereType.URL_SCHEME, timeStamp);
-        Editor editor = new Editor(MainActivity.getInstance(), Editor.URL_SCHEME)
+        Editor editor = new SchemeEditor(MainActivity.getInstance())
                 .item(ae)
                 .isEditorMode(false)
                 .isShortcut(false)
