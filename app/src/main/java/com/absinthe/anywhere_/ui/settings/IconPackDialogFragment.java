@@ -1,24 +1,19 @@
 package com.absinthe.anywhere_.ui.settings;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.AppListAdapter;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.IconPackManager;
+import com.absinthe.anywhere_.viewbuilder.IconPackDialogBuilder;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -28,6 +23,7 @@ import java.util.Map;
 
 public class IconPackDialogFragment extends DialogFragment {
     private Context mContext;
+    private IconPackDialogBuilder mBuilder;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -35,32 +31,22 @@ public class IconPackDialogFragment extends DialogFragment {
         mContext = getActivity();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_fragment_icon_pack, container, false);
-    }
-
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog);
-        LayoutInflater layoutInflater = ((Activity)mContext).getLayoutInflater();
-        @SuppressLint("InflateParams")
-        View inflate = layoutInflater.inflate(R.layout.dialog_fragment_icon_pack, null, false);
+        mBuilder = new IconPackDialogBuilder(mContext);
+        initView();
 
-        initView(inflate);
-
-        return builder.setView(inflate)
+        return builder.setView(mBuilder.getRoot())
                 .setTitle(R.string.dialog_title_choose_icon_pack)
                 .create();
     }
 
-    private void initView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.rv_app_list);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+    private void initView() {
+        mBuilder.rvIconPack.setLayoutManager(new LinearLayoutManager(mContext));
         AppListAdapter adapter = new AppListAdapter(mContext, AppListAdapter.MODE_ICON_PACK);
         adapter.setIconPackDialogFragment(this);
-        recyclerView.setAdapter(adapter);
+        mBuilder.rvIconPack.setAdapter(adapter);
 
         HashMap<String, IconPackManager.IconPack> hashMap = Settings.sIconPackManager.getAvailableIconPacks(true);
         List<AppListBean> listBeans = new ArrayList<>();

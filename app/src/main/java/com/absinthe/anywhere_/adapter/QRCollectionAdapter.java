@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.QRCollection;
-import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.view.QRCodeEditor;
 
 public class QRCollectionAdapter extends StreamCardsAdapter {
@@ -50,13 +49,12 @@ public class QRCollectionAdapter extends StreamCardsAdapter {
 
         viewHolder.itemView.setOnLongClickListener(view -> {
             viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-            openEditor(item, Editor.QR_CODE, position);
+            openEditor(item);
             return true;
         });
     }
 
-    @Override
-    void openEditor(AnywhereEntity item, int type, int position) {
+    private void openEditor(AnywhereEntity item) {
         mEditor = new QRCodeEditor(mContext)
                 .item(item)
                 .isEditorMode(false)

@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -294,9 +293,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         touchCallBack.setOnItemTouchListener(adapter);
         mItemTouchHelper = new ItemTouchHelper(touchCallBack);
         mItemTouchHelper.attachToRecyclerView(null);
-
-//        ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
-
     }
 
     private void refreshRecyclerView(RecyclerView recyclerView) {
@@ -306,14 +302,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void resetSelectState() {
         Logger.d("getSelectedIndex() = ", adapter.getSelectedIndex());
-        if (!adapter.getSelectedIndex().isEmpty()) {
-            for (Object index : adapter.getSelectedIndex()) {
-                View view = mLayoutManager.findViewByPosition((int) index);
-                if (view != null) {
-                    view.setScaleX(1.0f);
-                    view.setScaleY(1.0f);
-                    ((MaterialCardView) view).setChecked(false);
-                }
+        for (int iter = 0, len = adapter.getItemCount(); iter < len; iter++) {
+            View view = mLayoutManager.findViewByPosition(iter);
+            if (view != null) {
+                view.setScaleX(1.0f);
+                view.setScaleY(1.0f);
+                ((MaterialCardView) view).setChecked(false);
             }
         }
     }
@@ -489,10 +483,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         });
 
         final Observer<String> backgroundObserver = s -> {
-            ImageView ivBackground = MainActivity.getInstance().findViewById(R.id.iv_background);
             if (!s.isEmpty()) {
-                UiUtils.loadBackgroundPic(mContext, ivBackground);
-                ivBackground.setVisibility(View.VISIBLE);   //Todo Use ViewStub instead
+                UiUtils.loadBackgroundPic(mContext, MainActivity.getInstance().ivBackground);
                 UiUtils.setActionBarTransparent(MainActivity.getInstance());
                 UiUtils.setAdaptiveActionBarTitleColor(MainActivity.getInstance(), actionBar, UiUtils.getActionBarTitle());
             }

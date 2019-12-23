@@ -267,6 +267,10 @@ public class UiUtils {
      * @param imageView Load pic in this view
      */
     public static void loadBackgroundPic(Context context, ImageView imageView) {
+        if (imageView == null) {
+            return;
+        }
+
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             Glide.with(context)
                     .load(Uri.parse(GlobalValues.sBackgroundUri))

@@ -12,12 +12,11 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity">
 
-        <ImageView
-            android:id="@+id/iv_background"
+        <ViewStub
+            android:id="@+id/stub_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/background_todo" />
+            android:layout="@layout/stub_background" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_main"

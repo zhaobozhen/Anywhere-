@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -43,7 +42,7 @@ public class MainActivity extends BaseActivity {
     private MainFragment mMainFragment;
     private boolean isMd2Theme = false;
 
-    private ImageView ivBackground;
+    public ImageView ivBackground;
     private Toolbar toolbar;
 
     @Override
@@ -54,11 +53,15 @@ public class MainActivity extends BaseActivity {
 
         if (isMd2Theme) {
             ActivityMainMd2Binding binding2 = DataBindingUtil.setContentView(this, R.layout.activity_main_md2);
-            ivBackground = binding2.ivBackground;
+            if (!GlobalValues.sBackgroundUri.isEmpty()) {
+                ivBackground = (ImageView) Objects.requireNonNull(binding2.stubBg.getViewStub()).inflate();
+            }
             toolbar = binding2.toolbar;
         } else {
             ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-            ivBackground = binding.ivBackground;
+            if (!GlobalValues.sBackgroundUri.isEmpty()) {
+                ivBackground = (ImageView) Objects.requireNonNull(binding.stubBg.getViewStub()).inflate();
+            }
             toolbar = binding.toolbar;
         }
         initView();
@@ -108,7 +111,7 @@ public class MainActivity extends BaseActivity {
         Logger.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
 
         if (menu.findItem(R.id.toolbar_settings) != null) {
-            if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT) || ( UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty() )) {
+            if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT) || (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty())) {
                 tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_LIGHT);
             } else {
                 tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_DARK);
@@ -148,7 +151,6 @@ public class MainActivity extends BaseActivity {
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             UiUtils.loadBackgroundPic(this, ivBackground);
-            ivBackground.setVisibility(View.VISIBLE);
             UiUtils.setActionBarTransparent(this);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }

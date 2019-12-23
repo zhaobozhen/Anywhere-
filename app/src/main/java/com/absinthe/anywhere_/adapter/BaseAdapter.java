@@ -131,15 +131,15 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
                 switch (type) {
                     case AnywhereType.URL_SCHEME:
-                        openEditor(item, Editor.URL_SCHEME, position);
+                        openEditor(item, Editor.URL_SCHEME);
                         break;
                     case AnywhereType.ACTIVITY:
-                        openEditor(item, Editor.ANYWHERE, position);
+                        openEditor(item, Editor.ANYWHERE);
                         break;
                     case AnywhereType.MINI_PROGRAM:
                         break;
                     case AnywhereType.QR_CODE:
-                        openEditor(item, Editor.QR_CODE, position);
+                        openEditor(item, Editor.QR_CODE);
                         break;
                 }
                 return true;
@@ -215,8 +215,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         }
     }
 
-    void openEditor(AnywhereEntity item, int type, int position) {
-        Editor.OnEditorListener listener = () -> deleteAnywhereActivity(mEditor, item, position);
+    private void openEditor(AnywhereEntity item, int type) {
+        Editor.OnEditorListener listener = () -> deleteAnywhereActivity(mEditor, item);
 
         switch (type) {
             case Editor.ANYWHERE:
@@ -240,7 +240,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         mEditor.show();
     }
 
-    private void deleteAnywhereActivity(Editor editor, AnywhereEntity ae, int position) {
+    private void deleteAnywhereActivity(Editor editor, AnywhereEntity ae) {
         new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                 .setTitle(R.string.dialog_delete_title)
                 .setMessage(Html.fromHtml(mContext.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
@@ -250,7 +250,6 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         ShortcutsUtils.removeShortcut(ae);
                     }
                     editor.dismiss();
-                    notifyItemRemoved(position);
                 })
                 .setNegativeButton(R.string.dialog_delete_negative_button,
                         (dialogInterface, i) -> editor.show())
@@ -309,10 +308,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             }
         }
         for (AnywhereEntity ae : list) {
-            int index = mItems.indexOf(ae);
-            mItems.remove(index);
+            mItems.remove(ae);
             MainFragment.getViewModelInstance().delete(ae);
-            notifyItemRemoved(index);
         }
         clearSelect();
     }
