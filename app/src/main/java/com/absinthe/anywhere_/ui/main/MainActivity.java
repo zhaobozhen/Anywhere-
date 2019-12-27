@@ -18,9 +18,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.adapter.PageListAdapter;
 import com.absinthe.anywhere_.databinding.ActivityMainBinding;
 import com.absinthe.anywhere_.databinding.ActivityMainMd2Binding;
 import com.absinthe.anywhere_.model.Const;
@@ -47,7 +50,6 @@ public class MainActivity extends BaseActivity {
     public ImageView mIvBackground;
     public RoundLinerLayoutNormal mToolbarContainer;
     private Toolbar mToolbar;
-    private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mToggle;
 
     @Override
@@ -61,7 +63,7 @@ public class MainActivity extends BaseActivity {
             }
             mToolbar = binding2.toolbar;
             mToolbarContainer = binding2.toolbarContainer;
-            mDrawer = binding2.drawer;
+            initDrawer(binding2.drawer);
         } else {
             ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
             if (!GlobalValues.sBackgroundUri.isEmpty()) {
@@ -165,20 +167,26 @@ public class MainActivity extends BaseActivity {
     private void initView() {
         setSupportActionBar(mToolbar);
 
-        if (GlobalValues.sIsMd2Toolbar) {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                mToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                mDrawer.addDrawerListener(mToggle);
-            }
-        }
-
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             UiUtils.loadBackgroundPic(this, mIvBackground);
             UiUtils.setActionBarTransparent(this);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }
+    }
+
+    private void initDrawer(DrawerLayout drawer) {
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            mToggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            drawer.addDrawerListener(mToggle);
+        }
+
+        RecyclerView recyclerView = drawer.findViewById(R.id.rv_pages);
+        PageListAdapter adapter = new PageListAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void getAnywhereIntent(Intent intent) {

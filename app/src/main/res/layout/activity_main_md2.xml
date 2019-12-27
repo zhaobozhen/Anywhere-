@@ -64,13 +64,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                app:headerLayout="@layout/layout_nav_header"
-                app:insetForeground="@color/transparent">
+                android:maxWidth="500dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_pages"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/layout_nav_header" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_pages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
             </com.google.android.material.navigation.NavigationView>
 
