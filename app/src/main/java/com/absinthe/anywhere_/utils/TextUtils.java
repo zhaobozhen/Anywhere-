@@ -197,6 +197,10 @@ public class TextUtils {
      * @return URL
      */
     public static String parseUrlFromSharingText(String sharing) {
+        if (android.text.TextUtils.isEmpty(sharing)) {
+            return "Error";
+        }
+
         Pattern pattern = Patterns.WEB_URL;
         Matcher matcher = pattern.matcher(sharing);
 

@@ -19,8 +19,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1402
-        versionName "1.4.0"
+        versionCode 1410
+        versionName "1.4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
         externalNativeBuild {
@@ -97,7 +97,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.fragment:fragment:1.1.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.room:room-runtime:2.2.3'

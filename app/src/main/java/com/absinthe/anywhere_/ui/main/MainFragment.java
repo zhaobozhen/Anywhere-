@@ -455,8 +455,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     })
                     .setNegativeButton(R.string.dialog_delete_negative_button, null)
                     .show();
-        } else if (item.getItemId() == android.R.id.home) {
-            ToastUtil.makeText("制作中");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -484,7 +482,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
         final Observer<String> backgroundObserver = s -> {
             if (!s.isEmpty()) {
-                UiUtils.loadBackgroundPic(mContext, MainActivity.getInstance().ivBackground);
+                UiUtils.loadBackgroundPic(mContext, MainActivity.getInstance().mIvBackground);
                 UiUtils.setActionBarTransparent(MainActivity.getInstance());
                 UiUtils.setAdaptiveActionBarTitleColor(MainActivity.getInstance(), actionBar, UiUtils.getActionBarTitle());
             }

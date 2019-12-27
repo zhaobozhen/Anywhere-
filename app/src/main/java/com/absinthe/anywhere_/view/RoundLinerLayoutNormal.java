@@ -32,14 +32,14 @@ public class RoundLinerLayoutNormal extends LinearLayout {
                 R.dimen.toolbar_radius_corner,
                 R.color.shadow,
                 R.dimen.toolbar_elevation,
-                Gravity.BOTTOM));
+                Gravity.CENTER));
     }
 
-    public void setBack(Drawable drawable) {
-        setBackground(ViewUtils.generateBackgroundWithShadow(this, R.color.navigationColorNormal,
+    public void setCustomBackground(Drawable drawable) {
+        setBackground(ViewUtils.generateBackgroundWithShadow(this, drawable,
                 R.dimen.toolbar_radius_corner,
                 R.color.shadow,
                 R.dimen.toolbar_elevation,
-                Gravity.BOTTOM));
+                Gravity.CENTER));
     }
 }

@@ -214,4 +214,7 @@
     <string name="toast_overlay_tip">长按 2 秒以移除悬浮窗</string>
     <string name="settings_md2_toolbar_title">Material Design 2 顶栏</string>
     <string name="settings_md2_toolbar_summary">此功能尚不稳定,且暂不支持自定义背景</string>
+    <string name="toast_no_react_url">没有 App 可以响应此 URL</string>
+    <string name="drawer_tool_add">添加页</string>
+    <string name="drawer_title">页</string>
 </resources>

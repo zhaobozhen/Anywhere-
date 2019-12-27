@@ -39,7 +39,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.palette.graphics.Palette;
@@ -51,10 +50,15 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
+import com.absinthe.anywhere_.view.RoundLinerLayoutNormal;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Calendar;
@@ -280,6 +284,45 @@ public class UiUtils {
         }
     }
 
+    public static void loadBackgroundPic(Context context, ImageView imageView, RoundLinerLayoutNormal toolbarContainer) {
+        if (imageView == null) {
+            return;
+        }
+
+        if (!GlobalValues.sBackgroundUri.isEmpty()) {
+            Glide.with(context)
+                    .load(Uri.parse(GlobalValues.sBackgroundUri))
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            imageView.setImageDrawable(resource);
+                            toolbarContainer.setCustomBackground(getMD2ToolbarBackground(context, resource));
+                            return true;
+                        }
+                    })
+                    .into(imageView);
+        }
+    }
+
+    /**
+     * Judge that whether is light color
+     *
+     * @param color target color
+     * @return true if is light color
+     */
+    public static boolean isLightColor(int color) {
+        //RGB 转化为 YUV 计算颜色灰阶判断深浅
+        int grayScale = (int) (Color.red(color) * 0.299 + Color.green(color) * 0.587 + Color.blue(color) * 0.114);
+        return grayScale >= 192;
+    }
+
     /**
      * Judge that the action bar title color should be
      *
@@ -303,7 +346,7 @@ public class UiUtils {
             Logger.d("actionBarHeight = " + actionBarHeight);
         }
 
-        int finalActionBarHeight = actionBarHeight;
+        final int finalActionBarHeight = actionBarHeight;
         Glide.with(activity)
                 .asBitmap()
                 .load(Uri.parse(GlobalValues.sBackgroundUri))
@@ -320,9 +363,7 @@ public class UiUtils {
                                 //主导颜色,如果分析不出来，则返回默认颜色
                                 int dominantColor = p.getDominantColor(activity.getResources().getColor(R.color.colorPrimary));
 
-                                //RGB 转化为 YUV 计算颜色灰阶判断深浅
-                                int grayScale = (int) (Color.red(dominantColor) * 0.299 + Color.green(dominantColor) * 0.587 + Color.blue(dominantColor) * 0.114);
-                                if (grayScale > 192) {
+                                if (isLightColor(dominantColor)) {
                                     // 深色字体
                                     setTopWidgetColor(activity, actionBar, Const.ACTION_BAR_TYPE_DARK, title);
                                 } else {
@@ -379,18 +420,21 @@ public class UiUtils {
 
         if (type.equals(Const.ACTION_BAR_TYPE_DARK) || type.isEmpty()) {
             Logger.d("Dark-");
-            SpannableString spanString = new SpannableString(title);
-            ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
 
-            if (isDarkMode(activity) && GlobalValues.sBackgroundUri.isEmpty()) {
-                span = new ForegroundColorSpan(Color.WHITE);
+            if (!GlobalValues.sIsMd2Toolbar) {
+                SpannableString spanString = new SpannableString(title);
+                ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
+
+                if (isDarkMode(activity) && GlobalValues.sBackgroundUri.isEmpty()) {
+                    span = new ForegroundColorSpan(Color.WHITE);
+                }
+
+                spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                actionBar.setTitle(spanString);
+
+                GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
+                activity.invalidateOptionsMenu();
             }
-
-            spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            actionBar.setTitle(spanString);
-
-            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
-            activity.invalidateOptionsMenu();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(
@@ -401,18 +445,20 @@ public class UiUtils {
                         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR |
                                 activity.getWindow().getDecorView().getSystemUiVisibility());
             }
-            if (!GlobalValues.sBackgroundUri.isEmpty()) {
+            if (!GlobalValues.sBackgroundUri.isEmpty() || GlobalValues.sIsMd2Toolbar) {
                 setActionBarTransparent(activity);
             }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
             Logger.d("Light-");
-            SpannableString spanString = new SpannableString(title);
-            ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
-            spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            actionBar.setTitle(spanString);
+            if (!GlobalValues.sIsMd2Toolbar) {
+                SpannableString spanString = new SpannableString(title);
+                ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
+                spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                actionBar.setTitle(spanString);
 
-            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
-            activity.invalidateOptionsMenu();
+                GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
+                activity.invalidateOptionsMenu();
+            }
 
             clearLightStatusBarAndNavigationBar(activity.getWindow().getDecorView());
         }
@@ -582,18 +628,14 @@ public class UiUtils {
         item.setIcon(wrapDrawable);
     }
 
-    /**
-     * Tint the Toolbar home icon
-     *
-     * @param toolbar toolbar
-     * @param color color
-     */
-    public static void setOverflowButtonColor(Context context, Toolbar toolbar, @ColorRes int color) {
-        Drawable drawable = toolbar.getOverflowIcon();
-        if(drawable != null) {
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable.mutate(), context.getResources().getColor(color));
-            toolbar.setOverflowIcon(drawable);
-        }
+    public static Drawable getMD2ToolbarBackground(Context context, Drawable homeBg) {
+        Bitmap homeBgBitmap = drawableToBitmap(homeBg);
+        Bitmap toolbarBitmap = Bitmap.createBitmap(homeBgBitmap,
+                dipToPixels(context, context.getResources().getDimension(R.dimen.toolbar_margin_horizontal)),
+                dipToPixels(context, context.getResources().getDimension(R.dimen.toolbar_margin_vertical)),
+                homeBgBitmap.getWidth() - 2 * dipToPixels(context, context.getResources().getDimension(R.dimen.toolbar_margin_horizontal)),
+                dipToPixels(context, 60));
+
+        return new BitmapDrawable(context.getResources(), toolbarBitmap);
     }
 }

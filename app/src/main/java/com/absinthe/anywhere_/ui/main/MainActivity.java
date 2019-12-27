@@ -3,18 +3,20 @@ package com.absinthe.anywhere_.ui.main;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.absinthe.anywhere_.BaseActivity;
@@ -29,6 +31,7 @@ import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.view.RoundLinerLayoutNormal;
 
 import java.util.Objects;
 
@@ -40,29 +43,31 @@ public class MainActivity extends BaseActivity {
     private static Fragment sCurFragment;
 
     private MainFragment mMainFragment;
-    private boolean isMd2Theme = false;
 
-    public ImageView ivBackground;
-    private Toolbar toolbar;
+    public ImageView mIvBackground;
+    public RoundLinerLayoutNormal mToolbarContainer;
+    private Toolbar mToolbar;
+    private DrawerLayout mDrawer;
+    private ActionBarDrawerToggle mToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        isMd2Theme = SPUtils.getBoolean(this, Const.PREF_MD2_TOOLBAR, false);
-
-        if (isMd2Theme) {
+        if (GlobalValues.sIsMd2Toolbar) {
             ActivityMainMd2Binding binding2 = DataBindingUtil.setContentView(this, R.layout.activity_main_md2);
             if (!GlobalValues.sBackgroundUri.isEmpty()) {
-                ivBackground = (ImageView) Objects.requireNonNull(binding2.stubBg.getViewStub()).inflate();
+                mIvBackground = (ImageView) Objects.requireNonNull(binding2.stubBg.getViewStub()).inflate();
             }
-            toolbar = binding2.toolbar;
+            mToolbar = binding2.toolbar;
+            mToolbarContainer = binding2.toolbarContainer;
+            mDrawer = binding2.drawer;
         } else {
             ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
             if (!GlobalValues.sBackgroundUri.isEmpty()) {
-                ivBackground = (ImageView) Objects.requireNonNull(binding.stubBg.getViewStub()).inflate();
+                mIvBackground = (ImageView) Objects.requireNonNull(binding.stubBg.getViewStub()).inflate();
             }
-            toolbar = binding.toolbar;
+            mToolbar = binding.toolbar;
         }
         initView();
         sInstance = this;
@@ -100,18 +105,37 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (mToggle != null) {
+            mToggle.syncState();
+        }
+    }
+
+    @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-        UiUtils.loadBackgroundPic(this, ivBackground);
+        UiUtils.loadBackgroundPic(this, mIvBackground);
+        if (mToggle != null) {
+            mToggle.onConfigurationChanged(newConfig);
+        }
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         Logger.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
 
-        if (menu.findItem(R.id.toolbar_settings) != null) {
-            if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT) || (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty())) {
+        if (!GlobalValues.sIsMd2Toolbar) {
+            if (menu.findItem(R.id.toolbar_settings) != null) {
+                if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT)
+                        || (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty())) {
+                    tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_LIGHT);
+                } else {
+                    tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_DARK);
+                }
+            }
+        } else {
+            if (UiUtils.isDarkMode(this)) {
                 tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_LIGHT);
             } else {
                 tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_DARK);
@@ -139,18 +163,19 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
-        if (isMd2Theme) {
+        if (GlobalValues.sIsMd2Toolbar) {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
+                mToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
                 actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+                mDrawer.addDrawerListener(mToggle);
             }
         }
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            UiUtils.loadBackgroundPic(this, ivBackground);
+            UiUtils.loadBackgroundPic(this, mIvBackground);
             UiUtils.setActionBarTransparent(this);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }
@@ -198,6 +223,15 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (mToggle != null && mToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Logger.d("curFragment =" + sCurFragment);
@@ -240,9 +274,12 @@ public class MainActivity extends BaseActivity {
         UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), colorRes);
         UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), colorRes);
 
-        final Drawable home = getResources().getDrawable(R.drawable.ic_menu);
-        DrawableCompat.setTint(home, getResources().getColor(colorRes));
-        Objects.requireNonNull(
-                getSupportActionBar()).setHomeAsUpIndicator(home);
+        if (mToggle != null) {
+            if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
+                mToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
+            } else {
+                mToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
+            }
+        }
     }
 }

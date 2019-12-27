@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.CommandResult;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QRCollection;
@@ -61,7 +62,7 @@ public class CommandUtils {
                 if (entity != null) {
                     entity.launch();
                 }
-                result = QREntity.PREFIX;
+                result = CommandResult.RESULT_SUCCESS;
             } else {
                 cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
                 try {
@@ -69,9 +70,10 @@ public class CommandUtils {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.setData(Uri.parse(cmd));
                     AnywhereApplication.sContext.startActivity(intent);
-                    result = Intent.ACTION_VIEW;
+                    result = CommandResult.RESULT_SUCCESS;
                 } catch (Exception e) {
                     Logger.e("URL_SCHEME:Exception:", e.getMessage());
+                    result = CommandResult.RESULT_NO_REACT_URL;
                 }
             }
         } else {
@@ -85,17 +87,15 @@ public class CommandUtils {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.setComponent(new ComponentName(pkg, cls));
                     AnywhereApplication.sContext.startActivity(intent);
-                    result = Intent.ACTION_VIEW;
+                    result = CommandResult.RESULT_SUCCESS;
                 } catch (Exception e) {
                     Logger.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                    result = CommandResult.RESULT_NO_REACT_URL;
                 }
             } else {
                 switch (GlobalValues.sWorkingMode) {
                     case Const.WORKING_MODE_SHIZUKU:
-                        if (PermissionUtils.checkShizukuOnWorking(AnywhereApplication.sContext)
-                                && PermissionUtils.shizukuPermissionCheck(MainActivity.getInstance())) {
-                            result = execShizukuCmd(cmd);
-                        }
+                        result = execShizukuCmd(cmd);
                         break;
                     case Const.WORKING_MODE_ROOT:
                         result = execRootCmd(cmd);
@@ -108,8 +108,23 @@ public class CommandUtils {
         }
 
         Logger.d("execCmd result = ", result);
-        if (TextUtils.isEmpty(result)) {
-            ToastUtil.makeText(R.string.toast_check_perm);
+        if (!TextUtils.isEmpty(result)) {
+            switch (result) {
+                case CommandResult.RESULT_NO_REACT_URL:
+                    ToastUtil.makeText(R.string.toast_no_react_url);
+                    break;
+                case CommandResult.RESULT_ROOT_PERM_ERROR:
+                    ToastUtil.makeText(R.string.toast_check_perm);
+                    break;
+                case CommandResult.RESULT_SHIZUKU_PERM_ERROR:
+                    ToastUtil.makeText(R.string.toast_check_perm);
+                    try {
+                        PermissionUtils.shizukuPermissionCheck(MainActivity.getInstance());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
         }
         return result;
     }
@@ -143,6 +158,7 @@ public class CommandUtils {
             p.waitFor();
         } catch (Exception e) {
             e.printStackTrace();
+            result.append(CommandResult.RESULT_ROOT_PERM_ERROR);
         } finally {
             if (os != null) {
                 try {
@@ -159,6 +175,9 @@ public class CommandUtils {
                 }
             }
         }
+        if (result.toString().isEmpty()) {
+            result.append(CommandResult.RESULT_ROOT_PERM_ERROR);
+        }
         return result.toString();
     }
 
@@ -168,6 +187,7 @@ public class CommandUtils {
      * @param cmd command
      */
     private static String execShizukuCmd(String cmd) {
+        StringBuilder sb = new StringBuilder();
         try {
             RemoteProcess remoteProcess = ShizukuService.newProcess(new String[]{"sh"}, null, null);
             InputStream is = remoteProcess.getInputStream();
@@ -176,7 +196,6 @@ public class CommandUtils {
             os.write("exit\n".getBytes());
             os.close();
 
-            StringBuilder sb = new StringBuilder();
             int c;
             while ((c = is.read()) != -1) {
                 sb.append((char) c);
@@ -186,12 +205,11 @@ public class CommandUtils {
             Logger.d("newProcess: " + remoteProcess);
             Logger.d("waitFor: " + remoteProcess.waitFor());
             Logger.d("output: " + sb);
-
-            return sb.toString();
         } catch (Throwable tr) {
             Log.e(PermissionUtils.class.getSimpleName(), "newProcess", tr);
-            return null;
+            sb.append(CommandResult.RESULT_SHIZUKU_PERM_ERROR);
         }
+        return sb.toString();
     }
 
 }

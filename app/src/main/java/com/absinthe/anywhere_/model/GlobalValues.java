@@ -10,6 +10,7 @@ public class GlobalValues {
     public static boolean sIsStreamCardMode;
     public static boolean sIsStreamCardModeSingleLine;
     public static boolean sIsCardBackground;
+    public static boolean sIsMd2Toolbar;
 
     public static String sWorkingMode;
     public static String sActionBarType;
@@ -23,6 +24,7 @@ public class GlobalValues {
         sIsStreamCardMode = SPUtils.getBoolean(context, Const.PREF_STREAM_CARD_MODE, false);
         sIsStreamCardModeSingleLine = SPUtils.getBoolean(context, Const.PREF_STREAM_CARD_SINGLE_LINE, false);
         sIsCardBackground = SPUtils.getBoolean(context, Const.PREF_CARD_BACKGROUND, true);
+        sIsMd2Toolbar = SPUtils.getBoolean(context, Const.PREF_MD2_TOOLBAR, false);
         sWorkingMode = SPUtils.getString(context, Const.PREF_WORKING_MODE);
         sActionBarType = SPUtils.getString(context, Const.PREF_ACTION_BAR_TYPE);
         sDarkMode = SPUtils.getString(context, Const.PREF_DARK_MODE);
@@ -74,5 +76,10 @@ public class GlobalValues {
     public static void setsIconPack(String sIconPack) {
         GlobalValues.sIconPack = sIconPack;
         SPUtils.putString(AnywhereApplication.sContext, Const.PREF_ICON_PACK, sIconPack);
+    }
+
+    public static void setsIsMd2Toolbar(boolean sIsMd2Toolbar) {
+        GlobalValues.sIsMd2Toolbar = sIsMd2Toolbar;
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_MD2_TOOLBAR, false);
     }
 }

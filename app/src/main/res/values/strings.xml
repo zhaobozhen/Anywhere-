@@ -13,6 +13,8 @@
     <string name="whats_this">What\'s this</string>
     <string name="welcome_title">Welcome to Anywhere-</string>
     <string name="welcome_start_button">Start</string>
+    <string name="drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="drawer_close" translatable="false">Close navigation drawer</string>
 
     <!--  Collector  -->
     <string name="toast_permission_overlap">Please grant Overlay permission to \"Anywhere-\"</string>
@@ -141,6 +143,7 @@
     <string name="toast_check_device_storage_state">Please check the storage state of device</string>
     <string name="toast_copied">Copied to clipboard</string>
     <string name="toast_overlay_tip">Long press for 2s to remove the overlay window</string>
+    <string name="toast_no_react_url">There\'s no apps can react the URL</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>
@@ -220,4 +223,7 @@
     <string name="qr_tip_title">LONG press to add Anywhere-</string>
     <string name="qr_tip_subtitle">This page\'s Anywhere-\'s are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
 
+    <!--  Drawer  -->
+    <string name="drawer_title">Pages</string>
+    <string name="drawer_tool_add">Add page</string>
 </resources>

@@ -96,7 +96,7 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
 
             Glide.with(mContext)
                     .load(UiUtils.getAppIconByPackageName(mContext, item))
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(binding.ivAppIcon);
 
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {

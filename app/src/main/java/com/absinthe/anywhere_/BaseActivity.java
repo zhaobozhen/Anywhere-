@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
 
         int nav_color = getResources().getColor(R.color.navigationColorNormal);
 
-        if (GlobalValues.sBackgroundUri.isEmpty() || !(this instanceof MainActivity)) {
+        if ((GlobalValues.sBackgroundUri.isEmpty() && !GlobalValues.sIsMd2Toolbar) || !(this instanceof MainActivity)) {
             StatusBarUtil.setColorNoTranslucent(this, nav_color);
         }
 
