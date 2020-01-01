@@ -14,7 +14,6 @@ import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.google.android.material.chip.Chip;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
@@ -24,10 +23,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
 
     public ChipAdapter(Context context) {
         mContext = context;
-        mList = new ArrayList<>();
-        for (int i = 0 ; i < 5; i++) {
-            mList.add(new AnywhereEntity("","","","","","",1,""));
-        }
+        mList = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
     }
 
     @NonNull
@@ -39,7 +35,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        holder.bind(mList.get(position));
     }
 
     @Override

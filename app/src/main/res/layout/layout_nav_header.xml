@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="30dp"
-    android:fitsSystemWindows="false">
+    android:fitsSystemWindows="false"
+    android:paddingTop="30dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,8 +20,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
+        android:id="@+id/ib_add"
+        android:layout_width="@dimen/bsd_tool_size"
+        android:layout_height="@dimen/bsd_tool_size"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/anywhere_more_todo"
         android:tint="@color/textColorNormal"
@@ -29,6 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="5dp"
         app:srcCompat="@drawable/ic_add"
         tools:targetApi="o" />
 

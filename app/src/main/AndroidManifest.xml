@@ -49,6 +49,18 @@
                     android:host="url"
                     android:scheme="anywhere" />
             </intent-filter>
+            <intent-filter> <!-- Start from URL Scheme -->
+                <!-- Required -->
+                <action android:name="android.intent.action.VIEW" />
+                <!-- Start from a browser -->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Implicit intent -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Protocol -->
+                <data
+                    android:host="open"
+                    android:scheme="anywhere" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 

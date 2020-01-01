@@ -46,6 +46,7 @@ public class Const {
     public static final String SORT_MODE_NAME_ASC = "NAME_ASC";
     public static final String SORT_MODE_NAME_DESC = "NAME_DESC";
 
+    public static final String INTENT_EXTRA_URI_HOST = "uriHost";
     public static final String INTENT_EXTRA_PARAM_1 = "param1";
     public static final String INTENT_EXTRA_PARAM_2 = "param2";
     public static final String INTENT_EXTRA_PARAM_3 = "param3";

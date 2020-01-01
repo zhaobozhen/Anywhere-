@@ -628,6 +628,15 @@ public class UiUtils {
         item.setIcon(wrapDrawable);
     }
 
+    public static void tintMenuIconWithAlpha(Context context, MenuItem item, @ColorRes int color, int alpha) {
+        Drawable normalDrawable = item.getIcon();
+        Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+        DrawableCompat.setTint(wrapDrawable, context.getResources().getColor(color));
+        wrapDrawable.setAlpha(alpha);
+
+        item.setIcon(wrapDrawable);
+    }
+
     public static Drawable getMD2ToolbarBackground(Context context, Drawable homeBg) {
         Bitmap homeBgBitmap = drawableToBitmap(homeBg);
         Bitmap toolbarBitmap = Bitmap.createBitmap(homeBgBitmap,

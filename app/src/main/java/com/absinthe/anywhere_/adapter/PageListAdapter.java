@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,14 @@ import java.util.List;
 public class PageListAdapter extends RecyclerView.Adapter<PageListAdapter.ViewHolder> {
     private Context mContext;
     private List<String> mList;
+    private List<Boolean> mClickList;
 
     public PageListAdapter(Context context) {
         mContext = context;
         mList = new ArrayList<>();
+        mClickList = new ArrayList<>();
         mList.add("Default");
+        mClickList.add(true);
     }
 
     @NonNull
@@ -34,7 +38,12 @@ public class PageListAdapter extends RecyclerView.Adapter<PageListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(mList.get(position));
+        holder.bind(mList.get(position), mClickList.get(position));
+
+        holder.tvTitle.setOnClickListener(v -> {
+            mClickList.set(position, !mClickList.get(position));
+            notifyItemChanged(position);
+        });
     }
 
     @Override
@@ -52,11 +61,18 @@ public class PageListAdapter extends RecyclerView.Adapter<PageListAdapter.ViewHo
             rvChip = itemView.findViewById(R.id.rv_chip);
         }
 
-        private void bind(String title) {
+        private void bind(String title, boolean isShowChip) {
             tvTitle.setText(title);
             ChipAdapter adapter = new ChipAdapter(mContext);
             rvChip.setAdapter(adapter);
-            rvChip.setLayoutManager(new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.HORIZONTAL));
+            rvChip.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
+            UiUtils.setVisibility(rvChip, isShowChip);
         }
+    }
+
+    public void addPage() {
+        mList.add("Default");
+        mClickList.add(true);
+        notifyItemInserted(mList.size() - 1);
     }
 }

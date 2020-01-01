@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,7 @@ import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.RoundLinerLayoutNormal;
+import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 
 import java.util.Objects;
 
@@ -56,6 +58,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        AnywhereViewModel viewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+
         if (GlobalValues.sIsMd2Toolbar) {
             ActivityMainMd2Binding binding2 = DataBindingUtil.setContentView(this, R.layout.activity_main_md2);
             if (!GlobalValues.sBackgroundUri.isEmpty()) {
@@ -63,7 +67,7 @@ public class MainActivity extends BaseActivity {
             }
             mToolbar = binding2.toolbar;
             mToolbarContainer = binding2.toolbarContainer;
-            initDrawer(binding2.drawer);
+            viewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> initDrawer(binding2.drawer));
         } else {
             ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
             if (!GlobalValues.sBackgroundUri.isEmpty()) {
@@ -181,40 +185,24 @@ public class MainActivity extends BaseActivity {
             mToggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
             actionBar.setDisplayHomeAsUpEnabled(true);
             drawer.addDrawerListener(mToggle);
+            mToggle.syncState();
         }
 
         RecyclerView recyclerView = drawer.findViewById(R.id.rv_pages);
         PageListAdapter adapter = new PageListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        drawer.findViewById(R.id.ib_add).setOnClickListener(v -> adapter.addPage());
     }
 
     private void getAnywhereIntent(Intent intent) {
         String action = intent.getAction();
 
+        Logger.d("action = ", action);
+
         if (action != null) {
-            if (action.equals(Intent.ACTION_VIEW)) {
-                Uri uri = intent.getData();
-                if (uri == null) {
-                    return;
-                } else {
-                    Logger.d("Received Url =", uri.toString());
-                }
-                String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
-                String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
-                String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
-                Logger.d("Url param =", param1, param2, param3);
-
-                Bundle bundle = new Bundle();
-                bundle.putString(Const.INTENT_EXTRA_PARAM_1, param1);
-                bundle.putString(Const.INTENT_EXTRA_PARAM_2, param2);
-                bundle.putString(Const.INTENT_EXTRA_PARAM_3, param3);
-
-                if (mMainFragment == null) {
-                    mMainFragment = MainFragment.newInstance();
-                }
-                mMainFragment.setArguments(bundle);
-            } else if (action.equals(Intent.ACTION_SEND)) {
+            if (action.equals(Intent.ACTION_SEND)) {
                 String sharing = intent.getStringExtra(Intent.EXTRA_TEXT);
 
                 Bundle bundle = new Bundle();
@@ -227,6 +215,31 @@ public class MainActivity extends BaseActivity {
                 }
                 mMainFragment.setArguments(bundle);
             }
+        } else {
+            Uri uri = intent.getData();
+
+            if (uri == null) {
+                return;
+            } else {
+                Logger.d("Received Url =", uri.toString());
+            }
+
+            String host = uri.getHost();
+            String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
+            String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
+            String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
+            Logger.d("Url param =", param1, param2, param3);
+
+            Bundle bundle = new Bundle();
+            bundle.putString(Const.INTENT_EXTRA_URI_HOST, host);
+            bundle.putString(Const.INTENT_EXTRA_PARAM_1, param1);
+            bundle.putString(Const.INTENT_EXTRA_PARAM_2, param2);
+            bundle.putString(Const.INTENT_EXTRA_PARAM_3, param3);
+
+            if (mMainFragment == null) {
+                mMainFragment = MainFragment.newInstance();
+            }
+            mMainFragment.setArguments(bundle);
         }
     }
 
