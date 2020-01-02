@@ -1,7 +1,12 @@
 package com.absinthe.anywhere_.ui.about;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -117,6 +122,27 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
         if (UiUtils.isDarkMode(this)) {
             UiUtils.clearLightStatusBarAndNavigationBar(getWindow().getDecorView());
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.about_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.toolbar_rate) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse("market://details?id=" + "com.absinthe.anywhere_"));
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }
 

@@ -46,7 +46,6 @@ public class Const {
     public static final String SORT_MODE_NAME_ASC = "NAME_ASC";
     public static final String SORT_MODE_NAME_DESC = "NAME_DESC";
 
-    public static final String INTENT_EXTRA_URI_HOST = "uriHost";
     public static final String INTENT_EXTRA_PARAM_1 = "param1";
     public static final String INTENT_EXTRA_PARAM_2 = "param2";
     public static final String INTENT_EXTRA_PARAM_3 = "param3";
@@ -69,5 +68,8 @@ public class Const {
     public static final int REQUEST_CODE_IMAGE_CAPTURE = 1004;
     public static final int REQUEST_CODE_WRITE_FILE = 1005;
     public static final int REQUEST_CODE_RESTORE_BACKUPS = 1006;
+
+    public static final String HOST_URL = "url";
+    public static final String HOST_OPEN = "open";
 
 }

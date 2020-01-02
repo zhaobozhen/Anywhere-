@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.widget.Button;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -54,9 +55,9 @@ public class QRCodeEditor extends Editor<QRCodeEditor> {
                                     }
                                 }
                             }
-                            MainFragment.getViewModelInstance().update(ae);
+                            AnywhereApplication.sRepository.update(ae);
                         } else {
-                            MainFragment.getViewModelInstance().insert(ae);
+                            AnywhereApplication.sRepository.insert(ae);
                         }
                         dismiss();
                     }

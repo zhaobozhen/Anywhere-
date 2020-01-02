@@ -68,6 +68,7 @@
     <string name='menu_overlay'>Overlay window</string>
     <string name='menu_show_system_app'>Show system apps</string>
     <string name='menu_hide_system_app'>Hide system apps</string>
+    <string name="menu_rate">Rate</string>
 
     <string name="menu_sort_by_time_desc">Descending by creating time(9–0)</string>
     <string name="menu_sort_by_time_asc">Ascending by creating time(0–9)</string>
@@ -224,6 +225,6 @@
     <string name="qr_tip_subtitle">This page\'s Anywhere-\'s are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
 
     <!--  Drawer  -->
-    <string name="drawer_title">Pages</string>
+    <string name="drawer_title">Pages(Developing)</string>
     <string name="drawer_tool_add">Add page</string>
 </resources>

@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.shortcuts;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QRCollection;
@@ -133,6 +135,37 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                             .setOnCancelListener(dialog -> finish())
                             .show();
                 });
+            } else if (action.equals(Intent.ACTION_VIEW)) {
+                Uri uri = i.getData();
+                if (uri != null) {
+                    String host = uri.getHost();
+
+                    if (android.text.TextUtils.equals(host, Const.HOST_OPEN)) {
+                        String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
+                        String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
+                        String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
+
+                        if (param1 != null && param2 != null && param3 != null) {
+                            if (param2.isEmpty() && param3.isEmpty()) {
+                                try {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.setData(Uri.parse(param1));
+                                    startActivity(intent);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                AnywhereEntity ae = new AnywhereEntity("", "",
+                                        param1, param2, param3, "",
+                                        AnywhereType.ACTIVITY, "");
+
+                                CommandUtils.execCmd(TextUtils.getItemCommand(ae));
+                            }
+                        }
+                    }
+                }
+                finish();
             }
         }
     }

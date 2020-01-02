@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.view;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,10 +8,10 @@ import android.os.Build;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
@@ -49,9 +50,14 @@ public class SchemeEditor extends Editor<SchemeEditor> {
         Button btnUrlSchemeCommunity = mBottomSheetDialog.findViewById(R.id.btn_url_scheme_community);
         if (btnUrlSchemeCommunity != null) {
             btnUrlSchemeCommunity.setOnClickListener(view -> {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://sharecuts.cn/apps"));
-                mContext.startActivity(intent);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://sharecuts.cn/apps"));
+                    mContext.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    ToastUtil.makeText(R.string.toast_no_react_url);
+                }
             });
         }
     }
@@ -87,14 +93,14 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                     }
                                 }
                             }
-                            MainFragment.getViewModelInstance().update(ae);
+                            AnywhereApplication.sRepository.update(ae);
                         } else {
                             if (EditUtils.hasSameAppName(uScheme)) {
                                 dismiss();
                                 new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                                         .setMessage(R.string.dialog_message_same_app_name)
                                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                                            MainFragment.getViewModelInstance().insert(ae);
+                                            AnywhereApplication.sRepository.insert(ae);
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                                 ShortcutsUtils.removeShortcut(EditUtils.hasSameAppNameEntity(mItem.getParam1()));
                                             }
@@ -102,7 +108,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                         .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
                                         .show();
                             } else {
-                                MainFragment.getViewModelInstance().insert(ae);
+                                AnywhereApplication.sRepository.insert(ae);
                             }
                         }
                         dismiss();

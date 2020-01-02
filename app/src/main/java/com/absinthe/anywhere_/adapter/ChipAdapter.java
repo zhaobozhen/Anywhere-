@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.google.android.material.chip.Chip;
 
@@ -23,7 +23,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
 
     public ChipAdapter(Context context) {
         mContext = context;
-        mList = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
+        mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
     }
 
     @NonNull

@@ -5,11 +5,10 @@ import android.os.Environment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
-import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -57,12 +56,7 @@ public class StorageUtils {
     public static String ExportAnywhereEntityJsonString() {
         Gson gson = new Gson();
 
-        AnywhereViewModel viewModel = MainFragment.getViewModelInstance();
-        if (viewModel == null || viewModel.getAllAnywhereEntities() == null) {
-            return null;
-        }
-
-        List<AnywhereEntity> list = viewModel.getAllAnywhereEntities().getValue();
+        List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
         List<SerializableAnywhereEntity> expoList = new ArrayList<>();
         if (list != null) {
             for (AnywhereEntity ae : list) {

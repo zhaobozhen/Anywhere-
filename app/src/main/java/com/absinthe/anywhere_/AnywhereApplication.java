@@ -9,6 +9,7 @@ import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.absinthe.anywhere_.model.AnywhereRepository;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.Logger;
@@ -28,6 +29,7 @@ public class AnywhereApplication extends Application {
     @SuppressLint("StaticFieldLeak")
     public static Context sContext = null;
     public static TimeRecorder sTimeRecorder;
+    public static AnywhereRepository sRepository;
 
     static {
         System.loadLibrary("izuko");
@@ -39,13 +41,13 @@ public class AnywhereApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-
         if (!BuildConfig.DEBUG) {
             checkSignature();
         }
 
         sContext = getApplicationContext();
-        GlobalValues.init(sContext);
+        GlobalValues.init(this);
+        sRepository = new AnywhereRepository(this);
         Once.initialise(this);
         Settings.init();
     }

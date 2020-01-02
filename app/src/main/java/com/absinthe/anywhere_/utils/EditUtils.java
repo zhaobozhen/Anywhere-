@@ -1,8 +1,7 @@
 package com.absinthe.anywhere_.utils;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 
 import java.util.List;
 
@@ -16,12 +15,7 @@ public class EditUtils {
      * @return true if has same Anywhere-
      */
     public static boolean hasSameAppName(String param1, String param2) {
-        AnywhereViewModel viewModel = MainFragment.getViewModelInstance();
-        if (viewModel == null || viewModel.getAllAnywhereEntities() == null) {
-            return false;
-        }
-
-        List<AnywhereEntity> list = viewModel.getAllAnywhereEntities().getValue();
+        List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
 
         if (list != null) {
             for (AnywhereEntity ae : list) {
@@ -41,12 +35,7 @@ public class EditUtils {
      * @return true if has same Anywhere-
      */
     public static AnywhereEntity hasSameAppNameEntity(String param1, String param2) {
-        AnywhereViewModel viewModel = MainFragment.getViewModelInstance();
-        if (viewModel == null || viewModel.getAllAnywhereEntities() == null) {
-            return null;
-        }
-
-        List<AnywhereEntity> list = viewModel.getAllAnywhereEntities().getValue();
+        List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
 
         if (list != null) {
             for (AnywhereEntity ae : list) {
@@ -65,12 +54,7 @@ public class EditUtils {
      * @return true if has same Anywhere-
      */
     public static boolean hasSameAppName(String param1) {
-        AnywhereViewModel viewModel = MainFragment.getViewModelInstance();
-        if (viewModel == null || viewModel.getAllAnywhereEntities() == null) {
-            return false;
-        }
-
-        List<AnywhereEntity> list = viewModel.getAllAnywhereEntities().getValue();
+        List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
 
         if (list != null) {
             for (AnywhereEntity ae : list) {
@@ -89,12 +73,7 @@ public class EditUtils {
      * @return true if has same Anywhere-
      */
     public static AnywhereEntity hasSameAppNameEntity(String param1) {
-        AnywhereViewModel viewModel = MainFragment.getViewModelInstance();
-        if (viewModel == null || viewModel.getAllAnywhereEntities() == null) {
-            return null;
-        }
-
-        List<AnywhereEntity> list = viewModel.getAllAnywhereEntities().getValue();
+        List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
 
         if (list != null) {
             for (AnywhereEntity ae : list) {

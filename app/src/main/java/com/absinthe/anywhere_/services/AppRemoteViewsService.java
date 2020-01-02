@@ -1,17 +1,16 @@
 package com.absinthe.anywhere_.services;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
-import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppRemoteViewsService extends RemoteViewsService {
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
 
@@ -44,26 +44,20 @@ public class AppRemoteViewsService extends RemoteViewsService {
          * AppRemoteViewsFactory 调用时执行，这个方法执行时间超过 20 秒会报错
          * 如果耗时长的任务应该在 onDataSetChanged 或者 getViewAt 中处理
          */
-        @SuppressLint("StaticFieldLeak")
         @Override
         public void onCreate() {
             // 需要显示的数据
-            if (MainFragment.getViewModelInstance() != null) {
-                mList = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
-            }
+            mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
         }
 
         /**
          * 当调用 notifyAppWidgetViewDataChanged 方法时，触发这个方法
          * 例如：AppRemoteViewsFactory.notifyAppWidgetViewDataChanged();
          */
-        @SuppressLint("StaticFieldLeak")
         @Override
         public void onDataSetChanged() {
             // 需要显示的数据
-            if (MainFragment.getViewModelInstance() != null) {
-                mList = MainFragment.getViewModelInstance().getAllAnywhereEntities().getValue();
-            }
+            mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
         }
 
         /**

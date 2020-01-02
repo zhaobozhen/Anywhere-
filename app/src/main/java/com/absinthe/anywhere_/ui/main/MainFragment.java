@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -132,30 +131,17 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         Bundle bundle = getArguments();
 
         if (bundle != null) {
-            String host = bundle.getString(Const.INTENT_EXTRA_URI_HOST);
             String param1 = bundle.getString(Const.INTENT_EXTRA_PARAM_1);
             String param2 = bundle.getString(Const.INTENT_EXTRA_PARAM_2);
             String param3 = bundle.getString(Const.INTENT_EXTRA_PARAM_3);
 
-            Logger.d("Bundle host =", host);
             Logger.d("Bundle param1 =", param1);
             Logger.d("Bundle param2 =", param2);
             Logger.d("Bundle param3 =", param3);
 
-            if (host != null && param1 != null && param2 != null && param3 != null) {
+            if (param1 != null && param2 != null && param3 != null) {
                 if (param2.isEmpty() && param3.isEmpty()) {
-                    if (host.equals("url")) {
-                        setUpUrlScheme(param1);
-                    } else if (host.equals("open")) {
-                        try {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.setData(Uri.parse(param1));
-                            mContext.startActivity(intent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    setUpUrlScheme(param1);
                 } else {
                     String appName;
                     appName = TextUtils.getAppName(mContext, param1);
@@ -168,16 +154,12 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                     AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, param1, param2, param3, "",
                             AnywhereType.ACTIVITY + exported, timeStamp);
 
-                    if (host.equals("url")) {
-                        Editor editor = new AnywhereEditor(MainActivity.getInstance())
-                                .item(ae)
-                                .isEditorMode(false)
-                                .isShortcut(false)
-                                .build();
-                        editor.show();
-                    } else if (host.equals("open")) {
-                        CommandUtils.execCmd(TextUtils.getItemCommand(ae));
-                    }
+                    Editor editor = new AnywhereEditor(MainActivity.getInstance())
+                            .item(ae)
+                            .isEditorMode(false)
+                            .isShortcut(false)
+                            .build();
+                    editor.show();
                 }
                 bundle.clear();
             }

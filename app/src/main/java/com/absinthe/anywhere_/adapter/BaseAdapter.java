@@ -171,7 +171,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         item.getDescription(),
                         item.getType(),
                         item.getTimeStamp());
-                MainFragment.getViewModelInstance().update(ae);
+                AnywhereApplication.sRepository.update(ae);
             }
         }
 
@@ -245,7 +245,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 .setTitle(R.string.dialog_delete_title)
                 .setMessage(Html.fromHtml(mContext.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                    MainFragment.getViewModelInstance().delete(ae);
+                    AnywhereApplication.sRepository.delete(ae);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                         ShortcutsUtils.removeShortcut(ae);
                     }
@@ -266,7 +266,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 AnywhereEntity ae = new AnywhereEntity(item.getId(), item.getAppName(), item.getParam1(),
                         item.getParam2(), item.getParam3(), item.getDescription(), item.getType(),
                         startTime - iter * 100 + "");
-                MainFragment.getViewModelInstance().update(ae);
+                AnywhereApplication.sRepository.update(ae);
             }
             try {
                 Thread.sleep(1000);
@@ -309,7 +309,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         }
         for (AnywhereEntity ae : list) {
             mItems.remove(ae);
-            MainFragment.getViewModelInstance().delete(ae);
+            AnywhereApplication.sRepository.delete(ae);
         }
         clearSelect();
     }

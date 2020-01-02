@@ -5,10 +5,10 @@ import android.os.Build;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
@@ -95,14 +95,14 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                                     }
                                 }
                             }
-                            MainFragment.getViewModelInstance().update(ae);
+                            AnywhereApplication.sRepository.update(ae);
                         } else {
                             if (EditUtils.hasSameAppName(pName, cName)) {
                                 dismiss();
                                 new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                                         .setMessage(R.string.dialog_message_same_app_name)
                                         .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                                            MainFragment.getViewModelInstance().insert(ae);
+                                            AnywhereApplication.sRepository.insert(ae);
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                                 ShortcutsUtils.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(mItem.getParam1(), mItem.getParam2())));
                                             }
@@ -110,7 +110,7 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                                         .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
                                         .show();
                             } else {
-                                MainFragment.getViewModelInstance().insert(ae);
+                                AnywhereApplication.sRepository.insert(ae);
                             }
                         }
                         dismiss();

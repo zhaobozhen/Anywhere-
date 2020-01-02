@@ -13,7 +13,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.absinthe.anywhere_.BaseActivity;
@@ -37,7 +36,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class TileSettingsActivity extends BaseActivity implements LifecycleOwner {
+public class TileSettingsActivity extends BaseActivity {
     private Context mContext;
     private CardView cvTileOne, cvTileTwo, cvTileThree;
     private List<AnywhereEntity> mList;

@@ -205,7 +205,7 @@ public class PermissionUtils {
                     activity.startActivityForResult(
                             new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName())),
                             requestCode);
-                } catch (NullPointerException e) {
+                } catch (ActivityNotFoundException e) {
                     e.printStackTrace();
                 }
                 ToastUtil.makeText(R.string.toast_permission_overlap);
