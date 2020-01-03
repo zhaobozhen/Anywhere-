@@ -163,16 +163,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         //Todo Will delete in future version
         if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
             if (android.text.TextUtils.isEmpty(item.getParam2())) {
-                AnywhereEntity ae = new AnywhereEntity(item.getId(),
-                        item.getAppName(),
-                        item.getParam1(),
-                        UiUtils.getPkgNameByUrl(mContext, item.getParam1()),
-                        item.getParam3(),
-                        item.getDescription(),
-                        item.getType(),
-                        item.getCategory(),
-                        item.getTimeStamp());
-                AnywhereApplication.sRepository.update(ae);
+                item.setParam2(UiUtils.getPkgNameByUrl(mContext, item.getParam1()));
+                AnywhereApplication.sRepository.update(item);
             }
         }
 
@@ -264,10 +256,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
             for (int iter = 0, len = mItems.size(); iter < len; iter++) {
                 AnywhereEntity item = mItems.get(iter);
-                AnywhereEntity ae = new AnywhereEntity(item.getId(), item.getAppName(), item.getParam1(),
-                        item.getParam2(), item.getParam3(), item.getDescription(), item.getType(),
-                        item.getCategory(), startTime - iter * 100 + "");
-                AnywhereApplication.sRepository.update(ae);
+                item.setTimeStamp(startTime - iter * 100 + "");
+                AnywhereApplication.sRepository.update(item);
             }
             try {
                 Thread.sleep(1000);

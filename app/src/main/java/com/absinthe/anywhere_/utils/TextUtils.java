@@ -120,17 +120,17 @@ public class TextUtils {
         return cmd.toString();
     }
 
-    public static String getItemCommand(SerializableAnywhereEntity item) {
-        AnywhereEntity ae = new AnywhereEntity(
-                item.getmId(),
-                item.getmAppName(),
-                item.getmParam1(),
-                item.getmParam2(),
-                item.getmParam3(),
-                item.getmDescription(),
-                item.getmType(),
-                item.getmCategory(),
-                item.getmTimeStamp());
+    public static String getItemCommand(SerializableAnywhereEntity sae) {
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(sae.getmId());
+        ae.setAppName(sae.getmAppName());
+        ae.setParam1(sae.getmParam1());
+        ae.setParam2(sae.getmParam2());
+        ae.setParam3(sae.getmParam3());
+        ae.setDescription(sae.getmDescription());
+        ae.setType(sae.getmType());
+        ae.setCategory(sae.getmCategory());
+        ae.setTimeStamp(sae.getmTimeStamp());
         return getItemCommand(ae);
     }
 

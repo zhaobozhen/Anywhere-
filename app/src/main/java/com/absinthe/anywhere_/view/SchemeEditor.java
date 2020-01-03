@@ -81,8 +81,15 @@ public class SchemeEditor extends Editor<SchemeEditor> {
 
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietUrlScheme.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, uScheme, UiUtils.getPkgNameByUrl(mContext, uScheme),
-                                null, desc, mItem.getType(), mItem.getCategory(), mItem.getTimeStamp());
+                        AnywhereEntity ae = AnywhereEntity.Builder()
+                                .setId(mItem.getId())
+                                .setAppName(aName)
+                                .setParam1(uScheme)
+                                .setParam2(UiUtils.getPkgNameByUrl(mContext, uScheme))
+                                .setDescription(desc)
+                                .setType(mItem.getType())
+                                .setCategory(mItem.getCategory())
+                                .setTimeStamp(mItem.getTimeStamp());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
@@ -129,8 +136,13 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                     String uName = tietUrlScheme.getText() == null ? mItem.getParam1() : tietUrlScheme.getText().toString();
 
                     if (!tietUrlScheme.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", uName, "", "",
-                                "", mItem.getType(), mItem.getCategory(), mItem.getTimeStamp());
+                        AnywhereEntity ae = AnywhereEntity.Builder()
+                                .setId(mItem.getId())
+                                .setParam1(uName)
+                                .setType(mItem.getType())
+                                .setCategory(mItem.getCategory())
+                                .setTimeStamp(mItem.getTimeStamp());
+
                         CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                     }
                 }

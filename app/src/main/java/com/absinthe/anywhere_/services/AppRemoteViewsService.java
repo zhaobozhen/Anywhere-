@@ -120,6 +120,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
             sae.setmParam3(ae.getParam3());
             sae.setmDescription(ae.getDescription());
             sae.setmType(ae.getType());
+            sae.setmCategory(ae.getCategory());
             sae.setmTimeStamp(ae.getTimeStamp());
 
             intent.putExtra(Const.INTENT_EXTRA_WIDGET_ENTITY, sae);

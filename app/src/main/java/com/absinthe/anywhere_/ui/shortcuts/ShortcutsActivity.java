@@ -156,9 +156,11 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                                     e.printStackTrace();
                                 }
                             } else {
-                                AnywhereEntity ae = new AnywhereEntity("", "",
-                                        param1, param2, param3, "",
-                                        AnywhereType.ACTIVITY, GlobalValues.sCategory, "");
+                                AnywhereEntity ae = AnywhereEntity.Builder()
+                                        .setParam1(param1)
+                                        .setParam2(param2)
+                                        .setParam3(param3)
+                                        .setType(AnywhereType.ACTIVITY);
 
                                 CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                             }

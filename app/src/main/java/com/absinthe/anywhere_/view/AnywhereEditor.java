@@ -85,8 +85,16 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietPackageName.getText().toString().isEmpty()
                             && !tietClassName.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, pName, cName, iExtra,
-                                desc, mItem.getType(), GlobalValues.sCategory, mItem.getTimeStamp());
+                        AnywhereEntity ae = AnywhereEntity.Builder()
+                                .setId(mItem.getId())
+                                .setAppName(aName)
+                                .setParam1(pName)
+                                .setParam2(cName)
+                                .setParam3(iExtra)
+                                .setDescription(desc)
+                                .setType(mItem.getType())
+                                .setCategory(GlobalValues.sCategory)
+                                .setTimeStamp(mItem.getTimeStamp());
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1()) || !cName.equals(mItem.getParam2())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
@@ -136,8 +144,14 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
 
                     if (!tietPackageName.getText().toString().isEmpty()
                             && !tietClassName.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", pName, cName, iExtra,
-                                "", mItem.getType(), GlobalValues.sCategory, mItem.getTimeStamp());//Todo param3
+                        AnywhereEntity ae = AnywhereEntity.Builder()
+                                .setId(mItem.getId())
+                                .setParam1(pName)
+                                .setParam2(cName)
+                                .setParam3(iExtra)//Todo param3
+                                .setType(mItem.getType())
+                                .setTimeStamp(mItem.getTimeStamp());
+
                         CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                     }
                 }

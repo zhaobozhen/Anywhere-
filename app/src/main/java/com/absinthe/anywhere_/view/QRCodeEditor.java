@@ -41,9 +41,13 @@ public class QRCodeEditor extends Editor<QRCodeEditor> {
                     }
 
                     if (!tietAppName.getText().toString().isEmpty()) {
-                        String timeStamp = System.currentTimeMillis() + "";
-                        AnywhereEntity ae = new AnywhereEntity(timeStamp, aName, mItem.getParam1(), mItem.getId(), null,
-                                desc, mItem.getType(), mItem.getCategory(), timeStamp);
+                        AnywhereEntity ae = AnywhereEntity.Builder()
+                                .setAppName(aName)
+                                .setParam1(mItem.getParam1())
+                                .setParam2(mItem.getId())
+                                .setDescription(desc)
+                                .setType(mItem.getType())
+                                .setCategory(mItem.getCategory());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName())) {

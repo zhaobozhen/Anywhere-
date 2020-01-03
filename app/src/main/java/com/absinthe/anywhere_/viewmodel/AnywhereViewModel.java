@@ -42,12 +42,16 @@ public class AnywhereViewModel extends AndroidViewModel {
     }
 
     public void insert(SerializableAnywhereEntity sae) {
-        AnywhereEntity ae = new AnywhereEntity(sae.getmId(),
-                sae.getmAppName(), sae.getmParam1(),
-                sae.getmParam2(), sae.getmParam3(),
-                sae.getmDescription(), sae.getmType(),
-                sae.getmCategory(),
-                sae.getmTimeStamp());
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(sae.getmId());
+        ae.setAppName(sae.getmAppName());
+        ae.setParam1(sae.getmParam1());
+        ae.setParam2(sae.getmParam2());
+        ae.setParam3(sae.getmParam3());
+        ae.setDescription(sae.getmDescription());
+        ae.setType(sae.getmType());
+        ae.setCategory(sae.getmCategory());
+        ae.setTimeStamp(sae.getmTimeStamp());
         mRepository.insert(ae);
     }
 

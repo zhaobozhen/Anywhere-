@@ -69,17 +69,18 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 intent.putExtra(Const.INTENT_EXTRA_PKG_NAME, item.getPackageName());
                 mContext.startActivity(intent);
             } else if (mMode == MODE_APP_DETAIL) {
-                String timeStamp = System.currentTimeMillis() + "";
                 int exported = 0;
                 if (UiUtils.isActivityExported(mContext, new ComponentName(item.getPackageName(),
                         item.getClassName()))) {
                     exported = 100;
                 }
 
-                AnywhereEntity ae = new AnywhereEntity(timeStamp, item.getAppName(),
-                        item.getPackageName(),
-                        item.getClassName().replace(item.getPackageName(), ""),
-                        "", "", AnywhereType.ACTIVITY + exported, GlobalValues.sCategory, timeStamp);
+                AnywhereEntity ae = AnywhereEntity.Builder()
+                        .setAppName(item.getAppName())
+                        .setParam1(item.getPackageName())
+                        .setParam2(item.getClassName().trim().replace(item.getPackageName(), ""))
+                        .setType(AnywhereType.ACTIVITY + exported);
+
                 AnywhereEditor editor = new AnywhereEditor(mContext)
                         .item(ae)
                         .isEditorMode(false)

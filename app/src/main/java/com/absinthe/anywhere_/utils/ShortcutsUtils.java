@@ -14,7 +14,6 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 
 import java.util.ArrayList;
@@ -58,9 +57,8 @@ public class ShortcutsUtils {
             Singleton.INSTANCE.getInstance().addDynamicShortcuts(infos);
         }
 
-        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(),
-                ae.getParam3(), ae.getDescription(), ae.getType() + 10, GlobalValues.sCategory, ae.getTimeStamp());
-        AnywhereApplication.sRepository.update(item);
+        ae.setType(ae.getType() + 10);
+        AnywhereApplication.sRepository.update(ae);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
@@ -69,9 +67,8 @@ public class ShortcutsUtils {
             return;
         }
 
-        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(),
-                ae.getParam3(), ae.getDescription(), ae.getType() - 10, GlobalValues.sCategory, ae.getTimeStamp());
-        AnywhereApplication.sRepository.update(item);
+        ae.setType(ae.getType() - 10);
+        AnywhereApplication.sRepository.update(ae);
 
         List<String> shortcutsIds = new ArrayList<>();
         shortcutsIds.add(ae.getId());
@@ -123,10 +120,8 @@ public class ShortcutsUtils {
             if (items != null) {
                 for (int iter = 0, len = items.size(); iter < len; iter++) {
                     AnywhereEntity item = items.get(iter);
-                    AnywhereEntity ae = new AnywhereEntity(item.getId(), item.getAppName(), item.getParam1(),
-                            item.getParam2(), item.getParam3(), item.getDescription(), item.getAnywhereType(),
-                            GlobalValues.sCategory, item.getTimeStamp());
-                    AnywhereApplication.sRepository.update(ae);
+                    item.setType(item.getAnywhereType());
+                    AnywhereApplication.sRepository.update(item);
                 }
             }
         }).start();
