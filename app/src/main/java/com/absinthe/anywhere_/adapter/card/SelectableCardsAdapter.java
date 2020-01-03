@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.adapter;
+package com.absinthe.anywhere_.adapter.card;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.adapter.BaseAdapter;
+import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
 import com.absinthe.anywhere_.databinding.ItemCardViewBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;

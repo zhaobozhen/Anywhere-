@@ -14,7 +14,7 @@ public class DiffListCallback extends DiffUtil.Callback {
     private List<AnywhereEntity> mOldList;
     private List<AnywhereEntity> mNewList;
 
-    DiffListCallback(List<AnywhereEntity> newList, List<AnywhereEntity> oldList) {
+    public DiffListCallback(List<AnywhereEntity> newList, List<AnywhereEntity> oldList) {
         this.mNewList = newList;
         this.mOldList = oldList;
     }

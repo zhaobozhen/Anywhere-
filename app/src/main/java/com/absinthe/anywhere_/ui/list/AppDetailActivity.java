@@ -16,7 +16,7 @@ import androidx.databinding.DataBindingUtil;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.AppListAdapter;
-import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
+import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;

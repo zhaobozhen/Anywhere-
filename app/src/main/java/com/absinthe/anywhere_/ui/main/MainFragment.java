@@ -31,11 +31,11 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.BaseAdapter;
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
-import com.absinthe.anywhere_.adapter.SelectableCardsAdapter;
-import com.absinthe.anywhere_.adapter.SingleLineStreamCardsAdapter;
-import com.absinthe.anywhere_.adapter.StreamCardsAdapter;
-import com.absinthe.anywhere_.adapter.WrapContentLinearLayoutManager;
-import com.absinthe.anywhere_.adapter.WrapContentStaggeredGridLayoutManager;
+import com.absinthe.anywhere_.adapter.card.SelectableCardsAdapter;
+import com.absinthe.anywhere_.adapter.card.SingleLineStreamCardsAdapter;
+import com.absinthe.anywhere_.adapter.card.StreamCardsAdapter;
+import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager;
+import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
@@ -152,7 +152,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         exported = 100;
                     }
                     AnywhereEntity ae = new AnywhereEntity(timeStamp, appName, param1, param2, param3, "",
-                            AnywhereType.ACTIVITY + exported, timeStamp);
+                            AnywhereType.ACTIVITY + exported,GlobalValues.sCategory, timeStamp);
 
                     Editor editor = new AnywhereEditor(MainActivity.getInstance())
                             .item(ae)
@@ -264,7 +264,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void setUpUrlScheme(String url) {
         String timeStamp = System.currentTimeMillis() + "";
-        AnywhereEntity ae = new AnywhereEntity(timeStamp, getString(R.string.bsd_new_url_scheme_name), url, null, null, "", AnywhereType.URL_SCHEME, timeStamp);
+        AnywhereEntity ae = new AnywhereEntity(timeStamp, getString(R.string.bsd_new_url_scheme_name), url, null, null, "",
+                AnywhereType.URL_SCHEME,GlobalValues.sCategory, timeStamp);
         Editor editor = new SchemeEditor(MainActivity.getInstance())
                 .item(ae)
                 .isEditorMode(false)

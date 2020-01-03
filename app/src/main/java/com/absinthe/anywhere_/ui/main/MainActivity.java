@@ -25,7 +25,9 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.adapter.PageListAdapter;
+import com.absinthe.anywhere_.adapter.page.PageListAdapter;
+import com.absinthe.anywhere_.adapter.page.PageNode;
+import com.absinthe.anywhere_.adapter.page.PageTitleNode;
 import com.absinthe.anywhere_.databinding.ActivityMainBinding;
 import com.absinthe.anywhere_.databinding.ActivityMainMd2Binding;
 import com.absinthe.anywhere_.model.Const;
@@ -36,7 +38,10 @@ import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.chad.library.adapter.base.entity.node.BaseNode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jonathanfinerty.once.Once;
@@ -187,13 +192,27 @@ public class MainActivity extends BaseActivity {
 
     private void initDrawer(DrawerLayout drawer) {
         RecyclerView recyclerView = drawer.findViewById(R.id.rv_pages);
-        PageListAdapter adapter = new PageListAdapter(this);
+
+        PageListAdapter adapter = new PageListAdapter();
+        adapter.addData(getEntity());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ((SimpleItemAnimator) Objects.requireNonNull(
                 recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
 
-        drawer.findViewById(R.id.ib_add).setOnClickListener(v -> adapter.addPage());
+        drawer.findViewById(R.id.ib_add).setOnClickListener(v -> {
+            adapter.addData(getEntity());
+        });
+    }
+
+    private PageTitleNode getEntity() {
+        List<BaseNode> pageNodeList = new ArrayList<>();
+        PageNode pageNode = new PageNode();
+        pageNodeList.add(pageNode);
+        PageTitleNode pageTitle = new PageTitleNode(pageNodeList, "Page");
+        pageTitle.setExpanded(true);
+        return pageTitle;
     }
 
     private void getAnywhereIntent(Intent intent) {

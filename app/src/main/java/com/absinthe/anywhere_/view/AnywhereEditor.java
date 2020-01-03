@@ -9,6 +9,7 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
@@ -85,7 +86,7 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                             && !tietPackageName.getText().toString().isEmpty()
                             && !tietClassName.getText().toString().isEmpty()) {
                         AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, pName, cName, iExtra,
-                                desc, mItem.getType(), mItem.getTimeStamp());
+                                desc, mItem.getType(), GlobalValues.sCategory, mItem.getTimeStamp());
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1()) || !cName.equals(mItem.getParam2())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
@@ -136,7 +137,7 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                     if (!tietPackageName.getText().toString().isEmpty()
                             && !tietClassName.getText().toString().isEmpty()) {
                         AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", pName, cName, iExtra,
-                                "", mItem.getType(), mItem.getTimeStamp());//Todo param3
+                                "", mItem.getType(), GlobalValues.sCategory, mItem.getTimeStamp());//Todo param3
                         CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                     }
                 }

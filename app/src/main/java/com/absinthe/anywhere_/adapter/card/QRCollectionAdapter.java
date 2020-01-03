@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.adapter;
+package com.absinthe.anywhere_.adapter.card;
 
 import android.content.Context;
 import android.view.HapticFeedbackConstants;

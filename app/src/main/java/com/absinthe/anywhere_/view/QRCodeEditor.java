@@ -8,7 +8,6 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 
@@ -44,7 +43,7 @@ public class QRCodeEditor extends Editor<QRCodeEditor> {
                     if (!tietAppName.getText().toString().isEmpty()) {
                         String timeStamp = System.currentTimeMillis() + "";
                         AnywhereEntity ae = new AnywhereEntity(timeStamp, aName, mItem.getParam1(), mItem.getId(), null,
-                                desc, mItem.getType(), timeStamp);
+                                desc, mItem.getType(), mItem.getCategory(), timeStamp);
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName())) {

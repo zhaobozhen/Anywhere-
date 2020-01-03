@@ -34,11 +34,14 @@ public class AnywhereEntity {
     @ColumnInfo(name = "type")
     private Integer mType;
 
+    @ColumnInfo(name = "category")
+    private String mCategory;
+
     @NonNull
     @ColumnInfo(name = "time_stamp")
     private String mTimeStamp;
 
-    public AnywhereEntity(@NonNull String id, @NonNull String appName, @NonNull String param1, String param2, String param3, String description, @NonNull Integer type, @NonNull String timeStamp) {
+    public AnywhereEntity(@NonNull String id, @NonNull String appName, @NonNull String param1, String param2, String param3, String description, @NonNull Integer type, String category, @NonNull String timeStamp) {
         mId = id;
         mAppName = appName;
         mParam1 = param1;
@@ -46,6 +49,7 @@ public class AnywhereEntity {
         mParam3 = param3;
         mDescription = description;
         mType = type;
+        mCategory = category;
         mTimeStamp = timeStamp;
     }
 
@@ -99,5 +103,13 @@ public class AnywhereEntity {
     @NonNull
     public String getTimeStamp() {
         return mTimeStamp;
+    }
+
+    public String getCategory() {
+        return mCategory;
+    }
+
+    public void setCategory(String mCategory) {
+        this.mCategory = mCategory;
     }
 }

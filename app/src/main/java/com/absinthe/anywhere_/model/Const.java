@@ -33,6 +33,7 @@ public class Const {
     public static final String PREF_TILE_ONE_CMD = "tileOneCmd";
     public static final String PREF_TILE_TWO_CMD = "tileTwoCmd";
     public static final String PREF_TILE_THREE_CMD = "tileThreeCmd";
+    public static final String PREF_CURR_CATEGORY = "currCategory";
 
     public static final String WORKING_MODE_URL_SCHEME = "url_scheme";
     public static final String WORKING_MODE_ROOT = "root";

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.adapter.QRCollectionAdapter;
-import com.absinthe.anywhere_.adapter.WrapContentStaggeredGridLayoutManager;
+import com.absinthe.anywhere_.adapter.card.QRCollectionAdapter;
+import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityQrcodeCollectionBinding;
 import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.model.QRCollection;

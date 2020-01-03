@@ -73,10 +73,17 @@
 
                     <include layout="@layout/layout_nav_header" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_pages"
+                    <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_pages"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </ScrollView>
 
                 </LinearLayout>
 

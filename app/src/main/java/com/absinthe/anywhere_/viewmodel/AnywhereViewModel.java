@@ -46,6 +46,7 @@ public class AnywhereViewModel extends AndroidViewModel {
                 sae.getmAppName(), sae.getmParam1(),
                 sae.getmParam2(), sae.getmParam3(),
                 sae.getmDescription(), sae.getmType(),
+                sae.getmCategory(),
                 sae.getmTimeStamp());
         mRepository.insert(ae);
     }

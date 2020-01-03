@@ -14,6 +14,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 
 import java.util.ArrayList;
@@ -57,7 +58,8 @@ public class ShortcutsUtils {
             Singleton.INSTANCE.getInstance().addDynamicShortcuts(infos);
         }
 
-        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getType() + 10, ae.getTimeStamp());
+        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(),
+                ae.getParam3(), ae.getDescription(), ae.getType() + 10, GlobalValues.sCategory, ae.getTimeStamp());
         AnywhereApplication.sRepository.update(item);
     }
 
@@ -67,7 +69,8 @@ public class ShortcutsUtils {
             return;
         }
 
-        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getParam3(), ae.getDescription(), ae.getType() - 10, ae.getTimeStamp());
+        AnywhereEntity item = new AnywhereEntity(ae.getId(), ae.getAppName(), ae.getParam1(), ae.getParam2(),
+                ae.getParam3(), ae.getDescription(), ae.getType() - 10, GlobalValues.sCategory, ae.getTimeStamp());
         AnywhereApplication.sRepository.update(item);
 
         List<String> shortcutsIds = new ArrayList<>();
@@ -122,7 +125,7 @@ public class ShortcutsUtils {
                     AnywhereEntity item = items.get(iter);
                     AnywhereEntity ae = new AnywhereEntity(item.getId(), item.getAppName(), item.getParam1(),
                             item.getParam2(), item.getParam3(), item.getDescription(), item.getAnywhereType(),
-                            item.getTimeStamp());
+                            GlobalValues.sCategory, item.getTimeStamp());
                     AnywhereApplication.sRepository.update(ae);
                 }
             }

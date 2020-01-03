@@ -48,12 +48,12 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     public static final int ADAPTER_MODE_SELECT = 2;
 
     protected Context mContext;
+    protected List<AnywhereEntity> mItems;
+    protected Editor mEditor;
+    protected int mode;
     private List<Integer> mSelectedIndex;
-    List<AnywhereEntity> mItems;
-    Editor mEditor;
-    int mode;
 
-    BaseAdapter(Context context) {
+    protected BaseAdapter(Context context) {
         this.mContext = context;
         this.mItems = new ArrayList<>();
         this.mSelectedIndex = new ArrayList<>();
@@ -170,6 +170,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         item.getParam3(),
                         item.getDescription(),
                         item.getType(),
+                        item.getCategory(),
                         item.getTimeStamp());
                 AnywhereApplication.sRepository.update(ae);
             }
@@ -265,7 +266,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 AnywhereEntity item = mItems.get(iter);
                 AnywhereEntity ae = new AnywhereEntity(item.getId(), item.getAppName(), item.getParam1(),
                         item.getParam2(), item.getParam3(), item.getDescription(), item.getType(),
-                        startTime - iter * 100 + "");
+                        item.getCategory(), startTime - iter * 100 + "");
                 AnywhereApplication.sRepository.update(ae);
             }
             try {

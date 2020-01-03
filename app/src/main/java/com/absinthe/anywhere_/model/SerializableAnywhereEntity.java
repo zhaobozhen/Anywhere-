@@ -1,5 +1,7 @@
 package com.absinthe.anywhere_.model;
 
+import androidx.room.ColumnInfo;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -22,6 +24,9 @@ public class SerializableAnywhereEntity implements Serializable {
 
     @SerializedName("desc")
     private String mDescription;
+
+    @ColumnInfo(name = "category")
+    private String mCategory;
 
     @SerializedName("type")
     private Integer mType;
@@ -113,5 +118,13 @@ public class SerializableAnywhereEntity implements Serializable {
 
     public Integer getShortcutType() {
         return ( mType / 10 ) % 10;
+    }
+
+    public String getmCategory() {
+        return mCategory;
+    }
+
+    public void setmCategory(String mCategory) {
+        this.mCategory = mCategory;
     }
 }

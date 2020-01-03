@@ -175,7 +175,7 @@
     <string name="btn_checked">已检查</string>
 
     <!--  Description  -->
-    <string name="background_todo">Main page background</string>
+    <string name="background_todo">Main pageTitle background</string>
     <string name="anywhere_more_todo">More</string>
     <string name="welcome_logo_todo">Welcome logo</string>
     <string name="initialize_done_todo">Done</string>

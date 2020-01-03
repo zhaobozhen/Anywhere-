@@ -129,6 +129,7 @@ public class TextUtils {
                 item.getmParam3(),
                 item.getmDescription(),
                 item.getmType(),
+                item.getmCategory(),
                 item.getmTimeStamp());
         return getItemCommand(ae);
     }

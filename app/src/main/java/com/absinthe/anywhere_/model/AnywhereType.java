@@ -13,4 +13,5 @@ public class AnywhereType {
     public static final String SOMEWHERE = "Somewhere-";
     public static final String NOWHERE = "Nowhere-";
 
+    public static final String DEFAULT_CATEGORY = "Default";
 }

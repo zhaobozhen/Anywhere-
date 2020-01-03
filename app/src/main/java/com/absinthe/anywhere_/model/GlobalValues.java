@@ -18,6 +18,7 @@ public class GlobalValues {
     public static String sBackgroundUri;
     public static String sSortMode;
     public static String sIconPack;
+    public static String sCategory;
 
     public static void init(Context context) {
         sIsDebugMode = false;
@@ -31,6 +32,7 @@ public class GlobalValues {
         sBackgroundUri = SPUtils.getString(context, Const.PREF_CHANGE_BACKGROUND);
         sSortMode = SPUtils.getString(context, Const.PREF_SORT_MODE);
         sIconPack = SPUtils.getString(context, Const.PREF_ICON_PACK);
+        sCategory = SPUtils.getString(context, Const.PREF_CURR_CATEGORY, AnywhereType.DEFAULT_CATEGORY);
     }
 
     public static void setsIsStreamCardMode(boolean sIsStreamCardMode) {
@@ -81,5 +83,10 @@ public class GlobalValues {
     public static void setsIsMd2Toolbar(boolean sIsMd2Toolbar) {
         GlobalValues.sIsMd2Toolbar = sIsMd2Toolbar;
         SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_MD2_TOOLBAR, false);
+    }
+
+    public static void setsCategory(String sCategory) {
+        GlobalValues.sCategory = sCategory;
+        SPUtils.putString(AnywhereApplication.sContext, Const.PREF_CURR_CATEGORY, sCategory);
     }
 }

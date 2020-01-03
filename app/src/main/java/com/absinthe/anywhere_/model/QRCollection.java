@@ -73,6 +73,7 @@ public class QRCollection {
      */
     public static final String wechatScanId = "wechatScan";
     public QREntity wechatScan;
+
     private AnywhereEntity genWechatScan() {
         String pkgName = "com.tencent.mm";
 
@@ -93,7 +94,7 @@ public class QRCollection {
 
         return new AnywhereEntity(wechatScanId, "微信扫码", pkgName,
                 "", "", mContext.getString(R.string.desc_work_at_any_mode),
-                AnywhereType.QR_CODE, "0");
+                AnywhereType.QR_CODE, GlobalValues.sCategory, "0");
     }
 
     /**
@@ -101,6 +102,7 @@ public class QRCollection {
      */
     public static final String wechatPayId = "wechatPay";
     public QREntity wechatPay;
+
     private AnywhereEntity genWechatPay() {
         String pkgName = "com.tencent.mm";
         String clsName = ".plugin.offline.ui.WalletOfflineCoinPurseUI";
@@ -113,7 +115,7 @@ public class QRCollection {
 
         return new AnywhereEntity(wechatPayId, "微信支付", pkgName,
                 clsName, "", mContext.getString(R.string.desc_need_root),
-                AnywhereType.QR_CODE, "1");
+                AnywhereType.QR_CODE, GlobalValues.sCategory, "1");
     }
 
     /**
@@ -121,6 +123,7 @@ public class QRCollection {
      */
     public static final String wechatCollectId = "wechatCollect";
     public QREntity wechatCollect;
+
     private AnywhereEntity genWechatCollect() {
         String pkgName = "com.tencent.mm";
         String clsName = ".plugin.collect.ui.CollectMainUI";
@@ -133,7 +136,7 @@ public class QRCollection {
 
         return new AnywhereEntity(wechatCollectId, "微信收款", pkgName,
                 clsName, "", mContext.getString(R.string.desc_need_root),
-                AnywhereType.QR_CODE, "2");
+                AnywhereType.QR_CODE, GlobalValues.sCategory, "2");
     }
 
     /**
@@ -141,6 +144,7 @@ public class QRCollection {
      */
     public static final String alipayScanId = "alipayScan";
     public QREntity alipayScan;
+
     private AnywhereEntity genAlipayScan() {
         String urlScheme = "alipayqr://platformapi/startapp?saId=10000007";
         String pkgName = "com.eg.android.AlipayGphone";
@@ -160,7 +164,7 @@ public class QRCollection {
 
         return new AnywhereEntity(alipayScanId, "支付宝扫码", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
-                AnywhereType.QR_CODE, "3");
+                AnywhereType.QR_CODE, GlobalValues.sCategory, "3");
     }
 
     /**
@@ -168,6 +172,7 @@ public class QRCollection {
      */
     public static final String alipayPayId = "alipayPay";
     public QREntity alipayPay;
+
     private AnywhereEntity genAlipayPay() {
         String urlScheme = "alipays://platformapi/startapp?appId=20000056";
         String pkgName = "com.eg.android.AlipayGphone";
@@ -187,7 +192,7 @@ public class QRCollection {
 
         return new AnywhereEntity(alipayPayId, "支付宝付款", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
-                AnywhereType.QR_CODE, "4");
+                AnywhereType.QR_CODE, GlobalValues.sCategory, "4");
     }
 
     /**
@@ -195,6 +200,7 @@ public class QRCollection {
      */
     public static final String alipayBusId = "alipayBus";
     public QREntity alipayBus;
+
     private AnywhereEntity genAlipayBus() {
         String urlScheme = "alipayqr://platformapi/startapp?saId=200011235";
         String pkgName = "com.eg.android.AlipayGphone";
@@ -214,7 +220,7 @@ public class QRCollection {
 
         return new AnywhereEntity(alipayBusId, "支付宝公交码", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
-                AnywhereType.QR_CODE, "5");
+                AnywhereType.QR_CODE, GlobalValues.sCategory, "5");
     }
 
     /**
@@ -222,6 +228,7 @@ public class QRCollection {
      */
     public static final String alipayCollectId = "alipayCollect";
     public QREntity alipayCollect;
+
     private AnywhereEntity genAlipayCollect() {
         String urlScheme = "alipays://platformapi/startapp?appId=20000123";
         String pkgName = "com.eg.android.AlipayGphone";
@@ -241,7 +248,7 @@ public class QRCollection {
 
         return new AnywhereEntity(alipayCollectId, "支付宝收款", pkgName,
                 "", urlScheme, mContext.getString(R.string.desc_work_at_any_mode),
-                AnywhereType.QR_CODE, "6");
+                AnywhereType.QR_CODE, GlobalValues.sCategory, "6");
     }
 
     /**
@@ -249,6 +256,7 @@ public class QRCollection {
      */
     public static final String qqScanId = "qqScan";
     public QREntity qqScan;
+
     private AnywhereEntity genQqScan() {
         String pkgName = "com.tencent.mobileqq";
         String clsName = ".olympic.activity.ScanTorchActivity";
@@ -261,6 +269,6 @@ public class QRCollection {
 
         return new AnywhereEntity(qqScanId, "QQ扫码", pkgName,
                 clsName, "", mContext.getString(R.string.desc_need_root),
-                AnywhereType.QR_CODE, "7");
+                AnywhereType.QR_CODE, GlobalValues.sCategory, "7");
     }
 }

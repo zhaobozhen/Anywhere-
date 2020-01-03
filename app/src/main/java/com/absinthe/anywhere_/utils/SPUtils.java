@@ -31,6 +31,11 @@ public class SPUtils {
         return sp.getString(key, "");
     }
 
+    public static String getString(Context context, String key, String defaultValue) {
+        SharedPreferences sp = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE);
+        return sp.getString(key, defaultValue);
+    }
+
     public static void putBoolean(Context context, String key, boolean value) {
         SharedPreferences.Editor editor = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE).edit();
         editor.putBoolean(key, value);

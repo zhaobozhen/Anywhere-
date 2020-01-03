@@ -79,7 +79,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 AnywhereEntity ae = new AnywhereEntity(timeStamp, item.getAppName(),
                         item.getPackageName(),
                         item.getClassName().replace(item.getPackageName(), ""),
-                        "", "", AnywhereType.ACTIVITY + exported, timeStamp);
+                        "", "", AnywhereType.ACTIVITY + exported, GlobalValues.sCategory, timeStamp);
                 AnywhereEditor editor = new AnywhereEditor(mContext)
                         .item(ae)
                         .isEditorMode(false)

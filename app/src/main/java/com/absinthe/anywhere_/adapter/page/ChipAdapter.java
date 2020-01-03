@@ -1,6 +1,6 @@
-package com.absinthe.anywhere_.adapter;
+package com.absinthe.anywhere_.adapter.page;
 
-import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +11,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.google.android.material.chip.Chip;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
 
-    private Context mContext;
     private List<AnywhereEntity> mList;
+    private String mCategory;
 
-    public ChipAdapter(Context context) {
-        mContext = context;
-        mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+    ChipAdapter(String category) {
+        mCategory = category;
+        mList = new ArrayList<>();
+
+        List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+        if (list != null) {
+            for (AnywhereEntity item : list) {
+                if ((TextUtils.isEmpty(item.getCategory()) && mCategory.equals(AnywhereType.DEFAULT_CATEGORY))
+                || item.getCategory().equals(mCategory)) {
+                    mList.add(item);
+                }
+            }
+        }
     }
 
     @NonNull
@@ -53,7 +65,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
 
         private void bind(AnywhereEntity item) {
             chip.setText(item.getAppName());
-            chip.setChipIcon(UiUtils.getAppIconByPackageName(mContext, item.getParam1()));
+            chip.setChipIcon(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, item.getParam1()));
         }
     }
 }

@@ -54,7 +54,7 @@
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme, you can have a look in Shortcuts Community</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App\'s class name, generally by default</string>
     <string name="bsd_text_input_layout_description_helper_text">Describe your Anywhere-</string>
-    <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from HELP page</string>
+    <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from HELP pageTitle</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
 
@@ -98,10 +98,10 @@
     <string name="settings_about">About</string>
 
     <string name="settings_working_mode_summary">Select a working mode</string>
-    <string name="settings_change_background_summary">Choose an image as background to home page</string>
-    <string name="settings_reset_background_summary">Reset home page background to blank</string>
+    <string name="settings_change_background_summary">Choose an image as background to home pageTitle</string>
+    <string name="settings_reset_background_summary">Reset home pageTitle background to blank</string>
     <string name="settings_dark_mode_oled_summary">Enable pure dark background on OLED devices</string>
-    <string name="settings_stream_card_mode_summary">Make more cards available on a whole page</string>
+    <string name="settings_stream_card_mode_summary">Make more cards available on a whole pageTitle</string>
     <string name="settings_stream_card_single_line_summary">Further compress card size</string>
     <string name="settings_card_background_summary">Take the dominate color of the icon as background</string>
     <string name="settings_clear_shortcuts_summary">Reset all Shortcuts</string>
@@ -169,7 +169,7 @@
     <string name="title_acquire_root_permission">Grant ROOT permission</string>
     <string name="subtitle_acquire_root_permission">Execute the adb commands by ROOT permission</string>
     <string name="title_acquire_overlay_permission">Grant Overlay permission</string>
-    <string name="subtitle_acquire_overlay_permission">Overlay permission is used to generate a hover button to select a page</string>
+    <string name="subtitle_acquire_overlay_permission">Overlay permission is used to generate a hover button to select a pageTitle</string>
     <string name="title_acquire_popup_permission">Grant Pop-up permission</string>
     <string name="subtitle_acquire_popup_permission">MIUI ROM may need to obtain this permission to make the app work properly. This permission is not a standard privilege and cannot obtain an authorization status.</string>
     <string name="title_acquire_shizuku_permission">Grant Shizuku permission</string>
@@ -198,7 +198,7 @@
     <string name="btn_apply">Apply</string>
 
     <!--  Description  -->
-    <string name="background_todo">Main page background</string>
+    <string name="background_todo">Main pageTitle background</string>
     <string name="anywhere_more_todo">More</string>
     <string name="welcome_logo_todo">Welcome logo</string>
     <string name="initialize_done_todo">Done</string>
@@ -222,9 +222,9 @@
     <string name="desc_work_at_any_mode">Work at any mode</string>
     <string name="desc_need_root">Need Root</string>
     <string name="qr_tip_title">LONG press to add Anywhere-</string>
-    <string name="qr_tip_subtitle">This page\'s Anywhere-\'s are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
+    <string name="qr_tip_subtitle">This pageTitle\'s Anywhere-\'s are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
 
     <!--  Drawer  -->
     <string name="drawer_title">Pages(Developing)</string>
-    <string name="drawer_tool_add">Add page</string>
+    <string name="drawer_tool_add">Add pageTitle</string>
 </resources>

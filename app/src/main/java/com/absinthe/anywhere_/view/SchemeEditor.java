@@ -82,7 +82,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietUrlScheme.getText().toString().isEmpty()) {
                         AnywhereEntity ae = new AnywhereEntity(mItem.getId(), aName, uScheme, UiUtils.getPkgNameByUrl(mContext, uScheme),
-                                null, desc, mItem.getType(), mItem.getTimeStamp());
+                                null, desc, mItem.getType(), mItem.getCategory(), mItem.getTimeStamp());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
@@ -130,7 +130,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
 
                     if (!tietUrlScheme.getText().toString().isEmpty()) {
                         AnywhereEntity ae = new AnywhereEntity(mItem.getId(), "", uName, "", "",
-                                "", mItem.getType(), mItem.getTimeStamp());
+                                "", mItem.getType(), mItem.getCategory(), mItem.getTimeStamp());
                         CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                     }
                 }
