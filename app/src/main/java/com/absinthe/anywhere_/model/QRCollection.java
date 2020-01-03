@@ -92,13 +92,14 @@ public class QRCollection {
 
         wechatScan.setPkgName(pkgName);
 
-        return AnywhereEntity.Builder()
-                .setId(wechatScanId)
-                .setAppName("微信扫码")
-                .setParam1(pkgName)
-                .setDescription(mContext.getString(R.string.desc_work_at_any_mode))
-                .setType(AnywhereType.QR_CODE)
-                .setTimeStamp("0");
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(wechatScanId);
+        ae.setAppName("微信扫码");
+        ae.setParam1(pkgName);
+        ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp("0");
+        return ae;
     }
 
     /**
@@ -117,14 +118,15 @@ public class QRCollection {
         wechatPay.setPkgName(pkgName);
         wechatPay.setClsName(clsName);
 
-        return AnywhereEntity.Builder()
-                .setId(wechatPayId)
-                .setAppName("微信支付")
-                .setParam1(pkgName)
-                .setParam2(clsName)
-                .setDescription(mContext.getString(R.string.desc_need_root))
-                .setType(AnywhereType.QR_CODE)
-                .setTimeStamp("1");
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(wechatPayId);
+        ae.setAppName("微信支付");
+        ae.setParam1(pkgName);
+        ae.setParam2(clsName);
+        ae.setDescription(mContext.getString(R.string.desc_need_root));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp("1");
+        return ae;
     }
 
     /**
@@ -143,14 +145,15 @@ public class QRCollection {
         wechatCollect.setPkgName(pkgName);
         wechatCollect.setClsName(clsName);
 
-        return AnywhereEntity.Builder()
-                .setId(wechatCollectId)
-                .setAppName("微信收款")
-                .setParam1(pkgName)
-                .setParam2(clsName)
-                .setDescription(mContext.getString(R.string.desc_need_root))
-                .setType(AnywhereType.QR_CODE)
-                .setTimeStamp("2");
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(wechatCollectId);
+        ae.setAppName("微信收款");
+        ae.setParam1(pkgName);
+        ae.setParam2(clsName);
+        ae.setDescription(mContext.getString(R.string.desc_need_root));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp("2");
+        return ae;
     }
 
     /**
@@ -176,14 +179,15 @@ public class QRCollection {
 
         alipayScan.setUrlScheme(urlScheme);
 
-        return AnywhereEntity.Builder()
-                .setId(alipayScanId)
-                .setAppName("支付宝扫码")
-                .setParam1(pkgName)
-                .setParam3(urlScheme)
-                .setDescription(mContext.getString(R.string.desc_work_at_any_mode))
-                .setType(AnywhereType.QR_CODE)
-                .setTimeStamp("3");
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(alipayScanId);
+        ae.setAppName("支付宝扫码");
+        ae.setParam1(pkgName);
+        ae.setParam3(urlScheme);
+        ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp("3");
+        return ae;
     }
 
     /**
@@ -209,14 +213,15 @@ public class QRCollection {
 
         alipayPay.setUrlScheme(urlScheme);
 
-        return AnywhereEntity.Builder()
-                .setId(alipayPayId)
-                .setAppName("支付宝付款")
-                .setParam1(pkgName)
-                .setParam3(urlScheme)
-                .setDescription(mContext.getString(R.string.desc_work_at_any_mode))
-                .setType(AnywhereType.QR_CODE)
-                .setTimeStamp("4");
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(alipayPayId);
+        ae.setAppName("支付宝付款");
+        ae.setParam1(pkgName);
+        ae.setParam3(urlScheme);
+        ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp("4");
+        return ae;
     }
 
     /**
@@ -242,14 +247,15 @@ public class QRCollection {
 
         alipayBus.setUrlScheme(urlScheme);
 
-        return AnywhereEntity.Builder()
-                .setId(alipayBusId)
-                .setAppName("支付宝公交码")
-                .setParam1(pkgName)
-                .setParam3(urlScheme)
-                .setDescription(mContext.getString(R.string.desc_work_at_any_mode))
-                .setType(AnywhereType.QR_CODE)
-                .setTimeStamp("5");
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(alipayBusId);
+        ae.setAppName("支付宝公交码");
+        ae.setParam1(pkgName);
+        ae.setParam3(urlScheme);
+        ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp("5");
+        return ae;
     }
 
     /**
@@ -275,14 +281,15 @@ public class QRCollection {
 
         alipayCollect.setUrlScheme(urlScheme);
 
-        return AnywhereEntity.Builder()
-                .setId(alipayCollectId)
-                .setAppName("支付宝收款")
-                .setParam1(pkgName)
-                .setParam3(urlScheme)
-                .setDescription(mContext.getString(R.string.desc_work_at_any_mode))
-                .setType(AnywhereType.QR_CODE)
-                .setTimeStamp("6");
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(alipayCollectId);
+        ae.setAppName("支付宝收款");
+        ae.setParam1(pkgName);
+        ae.setParam3(urlScheme);
+        ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp("6");
+        return ae;
     }
 
     /**
@@ -301,13 +308,14 @@ public class QRCollection {
         qqScan.setPkgName(pkgName);
         qqScan.setClsName(clsName);
 
-        return AnywhereEntity.Builder()
-                .setId(qqScanId)
-                .setAppName("QQ 扫码")
-                .setParam1(pkgName)
-                .setParam2(clsName)
-                .setDescription(mContext.getString(R.string.desc_need_root))
-                .setType(AnywhereType.QR_CODE)
-                .setTimeStamp("7");
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(qqScanId);
+        ae.setAppName("QQ 扫码");
+        ae.setParam1(pkgName);
+        ae.setParam2(clsName);
+        ae.setDescription(mContext.getString(R.string.desc_need_root));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp("7");
+        return ae;
     }
 }

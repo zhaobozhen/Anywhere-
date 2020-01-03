@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {AnywhereEntity.class}, version = 4, exportSchema = false)
+@Database(entities = {AnywhereEntity.class, PageEntity.class}, version = 4, exportSchema = false)
 public abstract class AnywhereRoomDatabase extends RoomDatabase {
 
     public abstract AnywhereDao anywhereDao();
@@ -58,6 +58,10 @@ public abstract class AnywhereRoomDatabase extends RoomDatabase {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE anywhere_table "
                     + " ADD COLUMN category TEXT");
+
+            //Create Page table
+            database.execSQL(
+                    "CREATE TABLE page_table (title TEXT NOT NULL, priority INTEGER NOT NULL, time_stamp TEXT NOT NULL, PRIMARY KEY(title))");
         }
     };
 }

@@ -81,15 +81,15 @@ public class SchemeEditor extends Editor<SchemeEditor> {
 
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietUrlScheme.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = AnywhereEntity.Builder()
-                                .setId(mItem.getId())
-                                .setAppName(aName)
-                                .setParam1(uScheme)
-                                .setParam2(UiUtils.getPkgNameByUrl(mContext, uScheme))
-                                .setDescription(desc)
-                                .setType(mItem.getType())
-                                .setCategory(mItem.getCategory())
-                                .setTimeStamp(mItem.getTimeStamp());
+                        AnywhereEntity ae = AnywhereEntity.Builder();
+                                ae.setId(mItem.getId());
+                                ae.setAppName(aName);
+                                ae.setParam1(uScheme);
+                                ae.setParam2(UiUtils.getPkgNameByUrl(mContext, uScheme));
+                                ae.setDescription(desc);
+                                ae.setType(mItem.getType());
+                                ae.setCategory(mItem.getCategory());
+                                ae.setTimeStamp(mItem.getTimeStamp());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
@@ -136,12 +136,12 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                     String uName = tietUrlScheme.getText() == null ? mItem.getParam1() : tietUrlScheme.getText().toString();
 
                     if (!tietUrlScheme.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = AnywhereEntity.Builder()
-                                .setId(mItem.getId())
-                                .setParam1(uName)
-                                .setType(mItem.getType())
-                                .setCategory(mItem.getCategory())
-                                .setTimeStamp(mItem.getTimeStamp());
+                        AnywhereEntity ae = AnywhereEntity.Builder();
+                                ae.setId(mItem.getId());
+                                ae.setParam1(uName);
+                                ae.setType(mItem.getType());
+                                ae.setCategory(mItem.getCategory());
+                                ae.setTimeStamp(mItem.getTimeStamp());
 
                         CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                     }

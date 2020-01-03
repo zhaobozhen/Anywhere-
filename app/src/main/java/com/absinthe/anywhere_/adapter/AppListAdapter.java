@@ -75,11 +75,11 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                     exported = 100;
                 }
 
-                AnywhereEntity ae = AnywhereEntity.Builder()
-                        .setAppName(item.getAppName())
-                        .setParam1(item.getPackageName())
-                        .setParam2(item.getClassName().trim().replace(item.getPackageName(), ""))
-                        .setType(AnywhereType.ACTIVITY + exported);
+                AnywhereEntity ae = AnywhereEntity.Builder();
+                ae.setAppName(item.getAppName());
+                ae.setParam1(item.getPackageName());
+                ae.setParam2(item.getClassName().trim().replace(item.getPackageName(), ""));
+                ae.setType(AnywhereType.ACTIVITY + exported);
 
                 AnywhereEditor editor = new AnywhereEditor(mContext)
                         .item(ae)

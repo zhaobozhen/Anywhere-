@@ -25,14 +25,17 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.adapter.page.PageDiffUtil;
 import com.absinthe.anywhere_.adapter.page.PageListAdapter;
 import com.absinthe.anywhere_.adapter.page.PageNode;
 import com.absinthe.anywhere_.adapter.page.PageTitleNode;
 import com.absinthe.anywhere_.databinding.ActivityMainBinding;
 import com.absinthe.anywhere_.databinding.ActivityMainMd2Binding;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.OnceTag;
+import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.SPUtils;
@@ -194,7 +197,13 @@ public class MainActivity extends BaseActivity {
         RecyclerView recyclerView = drawer.findViewById(R.id.rv_pages);
 
         PageListAdapter adapter = new PageListAdapter();
-        adapter.addData(getEntity());
+        AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities -> {
+            if (pageEntities != null) {
+                for (PageEntity pe : pageEntities) {
+                    adapter.addData(getEntity(pe.getTitle()));
+                }
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
@@ -202,15 +211,23 @@ public class MainActivity extends BaseActivity {
                 recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
 
         drawer.findViewById(R.id.ib_add).setOnClickListener(v -> {
-            adapter.addData(getEntity());
+            List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+            if (list != null) {
+                int size = list.size();
+                PageEntity pe = new PageEntity("Page " + (size + 1), size + 1, System.currentTimeMillis() + "");
+                AnywhereApplication.sRepository.insertPage(pe);
+            } else {
+                PageEntity pe = new PageEntity(AnywhereType.DEFAULT_CATEGORY, 1, System.currentTimeMillis() + "");
+                AnywhereApplication.sRepository.insertPage(pe);
+            }
         });
     }
 
-    private PageTitleNode getEntity() {
+    private PageTitleNode getEntity(String title) {
         List<BaseNode> pageNodeList = new ArrayList<>();
         PageNode pageNode = new PageNode();
         pageNodeList.add(pageNode);
-        PageTitleNode pageTitle = new PageTitleNode(pageNodeList, "Page");
+        PageTitleNode pageTitle = new PageTitleNode(pageNodeList, title);
         pageTitle.setExpanded(true);
         return pageTitle;
     }

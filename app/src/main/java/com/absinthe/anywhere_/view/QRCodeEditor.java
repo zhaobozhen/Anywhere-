@@ -41,13 +41,13 @@ public class QRCodeEditor extends Editor<QRCodeEditor> {
                     }
 
                     if (!tietAppName.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = AnywhereEntity.Builder()
-                                .setAppName(aName)
-                                .setParam1(mItem.getParam1())
-                                .setParam2(mItem.getId())
-                                .setDescription(desc)
-                                .setType(mItem.getType())
-                                .setCategory(mItem.getCategory());
+                        AnywhereEntity ae = AnywhereEntity.Builder();
+                        ae.setAppName(aName);
+                        ae.setParam1(mItem.getParam1());
+                        ae.setParam2(mItem.getId());
+                        ae.setDescription(desc);
+                        ae.setType(mItem.getType());
+                        ae.setCategory(mItem.getCategory());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName())) {

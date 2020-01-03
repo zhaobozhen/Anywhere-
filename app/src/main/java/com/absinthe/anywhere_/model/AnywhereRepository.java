@@ -9,16 +9,22 @@ import java.util.List;
 
 public class AnywhereRepository {
     private AnywhereDao mAnywhereDao;
+    private LiveData<List<PageEntity>> mAllPageEntities;
     private LiveData<List<AnywhereEntity>> mAllAnywhereEntities;
 
     public AnywhereRepository(Application application) {
         AnywhereRoomDatabase db = AnywhereRoomDatabase.getDatabase(application);
         mAnywhereDao = db.anywhereDao();
+        mAllPageEntities = mAnywhereDao.getAllPageEntities();
         mAllAnywhereEntities = getSortedEntities();
     }
 
     public LiveData<List<AnywhereEntity>> getAllAnywhereEntities() {
         return mAllAnywhereEntities;
+    }
+
+    public LiveData<List<PageEntity>> getAllPageEntities() {
+        return mAllPageEntities;
     }
 
     public LiveData<List<AnywhereEntity>> getSortedByTimeDesc() {
@@ -90,6 +96,63 @@ public class AnywhereRepository {
         @Override
         protected Void doInBackground(final AnywhereEntity... params) {
             mAsyncTaskDao.delete(params[0]);
+            return null;
+        }
+    }
+
+    public void insertPage(PageEntity pe) {
+        new insertPageAsyncTask(mAnywhereDao).execute(pe);
+    }
+
+    public void updatePage(PageEntity pe) {
+        new updatePageAsyncTask(mAnywhereDao).execute(pe);
+    }
+
+    public void deletePage(PageEntity pe) {
+        new deletePageAsyncTask(mAnywhereDao).execute(pe);
+    }
+
+    private static class insertPageAsyncTask extends AsyncTask<PageEntity, Void, Void> {
+
+        private AnywhereDao mAsyncTaskDao;
+
+        insertPageAsyncTask(AnywhereDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final PageEntity... params) {
+            mAsyncTaskDao.insertPage(params[0]);
+            return null;
+        }
+    }
+
+    private static class updatePageAsyncTask extends AsyncTask<PageEntity, Void, Void> {
+
+        private AnywhereDao mAsyncTaskDao;
+
+        updatePageAsyncTask(AnywhereDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final PageEntity... params) {
+            mAsyncTaskDao.updatePage(params[0]);
+            return null;
+        }
+    }
+
+    private static class deletePageAsyncTask extends AsyncTask<PageEntity, Void, Void> {
+
+        private AnywhereDao mAsyncTaskDao;
+
+        deletePageAsyncTask(AnywhereDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final PageEntity... params) {
+            mAsyncTaskDao.deletePage(params[0]);
             return null;
         }
     }

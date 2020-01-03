@@ -37,4 +37,15 @@ public interface AnywhereDao {
     @Query("SELECT * from anywhere_table ORDER BY app_name ASC")
     LiveData<List<AnywhereEntity>> getAllAnywhereEntitiesOrderByNameAsc();
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertPage(PageEntity pe);
+
+    @Update
+    void updatePage(PageEntity pe);
+
+    @Delete
+    void deletePage(PageEntity pe);
+
+    @Query("SELECT * from page_table ORDER BY priority ASC")
+    LiveData<List<PageEntity>> getAllPageEntities();
 }
