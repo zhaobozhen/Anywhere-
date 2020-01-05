@@ -12,6 +12,12 @@
             app:summary="@string/settings_md2_toolbar_summary"
             android:icon="@drawable/ic_material" />
 
+        <SwitchPreference
+            android:key="pages"
+            android:title="Pages"
+            app:summary="@string/settings_md2_toolbar_summary"
+            android:icon="@drawable/ic_material" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

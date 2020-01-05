@@ -11,13 +11,13 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -25,9 +25,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.adapter.page.PageDiffUtil;
 import com.absinthe.anywhere_.adapter.page.PageListAdapter;
-import com.absinthe.anywhere_.adapter.page.PageNode;
 import com.absinthe.anywhere_.adapter.page.PageTitleNode;
 import com.absinthe.anywhere_.databinding.ActivityMainBinding;
 import com.absinthe.anywhere_.databinding.ActivityMainMd2Binding;
@@ -41,9 +39,9 @@ import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,43 +53,33 @@ public class MainActivity extends BaseActivity {
     private static Fragment sCurFragment;
 
     private MainFragment mMainFragment;
+    private AnywhereViewModel mViewModel;
 
     public ImageView mIvBackground;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mToggle;
+    private DrawerLayout mDrawer;
+
+    public static MainActivity getInstance() {
+        return sInstance;
+    }
+
+    public static void setCurFragment(Fragment fragment) {
+        sCurFragment = fragment;
+    }
+
+    public void setMainFragment(MainFragment fragment) {
+        mMainFragment = fragment;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (GlobalValues.sIsMd2Toolbar) {
-            ActivityMainMd2Binding binding2 = DataBindingUtil.setContentView(this, R.layout.activity_main_md2);
-            if (!GlobalValues.sBackgroundUri.isEmpty()) {
-                mIvBackground = (ImageView) Objects.requireNonNull(binding2.stubBg.getViewStub()).inflate();
-            }
-            mToolbar = binding2.toolbar;
-
-            setSupportActionBar(mToolbar);
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                mToggle = new ActionBarDrawerToggle(this, binding2.drawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                binding2.drawer.addDrawerListener(mToggle);
-                mToggle.syncState();
-            }
-
-            AnywhereApplication.sRepository
-                    .getAllAnywhereEntities()
-                    .observe(this, anywhereEntities -> initDrawer(binding2.drawer));
-        } else {
-            ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-            if (!GlobalValues.sBackgroundUri.isEmpty()) {
-                mIvBackground = (ImageView) Objects.requireNonNull(binding.stubBg.getViewStub()).inflate();
-            }
-            mToolbar = binding.toolbar;
-        }
+        setLayout();
         initView();
         sInstance = this;
+        mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) &&
                 SPUtils.getBoolean(this, Const.PREF_FIRST_LAUNCH, true)) {
@@ -126,14 +114,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        if (mToggle != null) {
-            mToggle.syncState();
-        }
-    }
-
-    @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         UiUtils.loadBackgroundPic(this, mIvBackground);
@@ -146,45 +126,54 @@ public class MainActivity extends BaseActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         Logger.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
 
-        if (!GlobalValues.sIsMd2Toolbar) {
-            if (menu.findItem(R.id.toolbar_settings) != null) {
-                if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT)
-                        || (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty())) {
-                    tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_LIGHT);
-                } else {
-                    tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_DARK);
-                }
-            }
+        if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT)
+                || (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty())
+                || (UiUtils.isDarkMode(this) && GlobalValues.sIsMd2Toolbar)) {
+            UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_LIGHT);
         } else {
-            if (UiUtils.isDarkMode(this)) {
-                tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_LIGHT);
-            } else {
-                tintToolbarIcon(menu, Const.ACTION_BAR_TYPE_DARK);
-            }
+            UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_DARK);
         }
+
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public static MainActivity getInstance() {
-        return sInstance;
-    }
-
-    public static void setCurFragment(Fragment fragment) {
-        sCurFragment = fragment;
-    }
-
-    public void setMainFragment(MainFragment fragment) {
-        mMainFragment = fragment;
-    }
-
-    public void restartActivity() {
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
+    private void setLayout() {
+        if (GlobalValues.sIsMd2Toolbar) {
+            ActivityMainMd2Binding binding2 = DataBindingUtil.setContentView(this, R.layout.activity_main_md2);
+            if (!GlobalValues.sBackgroundUri.isEmpty()) {
+                mIvBackground = (ImageView) Objects.requireNonNull(binding2.stubBg.getViewStub()).inflate();
+            }
+            mToolbar = binding2.toolbar;
+            mDrawer = binding2.drawer;
+        } else {
+            ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+            if (!GlobalValues.sBackgroundUri.isEmpty()) {
+                mIvBackground = (ImageView) Objects.requireNonNull(binding.stubBg.getViewStub()).inflate();
+            }
+            mToolbar = binding.toolbar;
+            mDrawer = binding.drawer;
+        }
     }
 
     private void initView() {
         setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            if (GlobalValues.sIsPages) {
+                mToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                mDrawer.addDrawerListener(mToggle);
+                mToggle.syncState();
+
+                AnywhereApplication.sRepository
+                        .getAllAnywhereEntities()
+                        .observe(this, anywhereEntities -> initDrawer(mDrawer));
+            } else {
+                actionBar.setHomeButtonEnabled(false);
+                mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            }
+        }
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             UiUtils.loadBackgroundPic(this, mIvBackground);
@@ -199,8 +188,22 @@ public class MainActivity extends BaseActivity {
         PageListAdapter adapter = new PageListAdapter();
         AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities -> {
             if (pageEntities != null) {
-                for (PageEntity pe : pageEntities) {
-                    adapter.addData(getEntity(pe.getTitle()));
+                if (adapter.getItemCount() == 0) {
+                    for (PageEntity pe : pageEntities) {
+                        adapter.addData(mViewModel.getEntity(pe.getTitle()));
+                    }
+                } else {
+                    if (pageEntities.size() > adapter.getItemCount() / 2) { //Item count == title page + clip page
+                        adapter.addData(mViewModel.getEntity(pageEntities.get(pageEntities.size() - 1).getTitle()));
+                    } else if (pageEntities.size() < adapter.getItemCount() / 2) {
+                        for (PageEntity pe : pageEntities) {
+                            for (BaseNode node : adapter.getData()) {
+                                if (node instanceof PageTitleNode) {
+
+                                }
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -213,23 +216,16 @@ public class MainActivity extends BaseActivity {
         drawer.findViewById(R.id.ib_add).setOnClickListener(v -> {
             List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
             if (list != null) {
-                int size = list.size();
-                PageEntity pe = new PageEntity("Page " + (size + 1), size + 1, System.currentTimeMillis() + "");
-                AnywhereApplication.sRepository.insertPage(pe);
-            } else {
-                PageEntity pe = new PageEntity(AnywhereType.DEFAULT_CATEGORY, 1, System.currentTimeMillis() + "");
-                AnywhereApplication.sRepository.insertPage(pe);
+                if (list.size() != 0) {
+                    int size = list.size();
+                    PageEntity pe = new PageEntity("Page " + (size + 1), size + 1, System.currentTimeMillis() + "");
+                    AnywhereApplication.sRepository.insertPage(pe);
+                } else {
+                    PageEntity pe = new PageEntity(AnywhereType.DEFAULT_CATEGORY, 1, System.currentTimeMillis() + "");
+                    AnywhereApplication.sRepository.insertPage(pe);
+                }
             }
         });
-    }
-
-    private PageTitleNode getEntity(String title) {
-        List<BaseNode> pageNodeList = new ArrayList<>();
-        PageNode pageNode = new PageNode();
-        pageNodeList.add(pageNode);
-        PageTitleNode pageTitle = new PageTitleNode(pageNodeList, title);
-        pageTitle.setExpanded(true);
-        return pageTitle;
     }
 
     private void getAnywhereIntent(Intent intent) {
@@ -313,26 +309,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void tintToolbarIcon(Menu menu, String type) {
-        int colorRes;
-        if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
-            colorRes = R.color.black;
-        } else {
-            colorRes = R.color.white;
-        }
-
-        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_settings), colorRes);
-        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_sort), colorRes);
-        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_delete), colorRes);
-        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), colorRes);
-        UiUtils.tintMenuIcon(this, menu.findItem(R.id.toolbar_done), colorRes);
-
-        if (mToggle != null) {
-            if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
-                mToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
-            } else {
-                mToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
-            }
-        }
+    public void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }

@@ -11,6 +11,7 @@ public class GlobalValues {
     public static boolean sIsStreamCardModeSingleLine;
     public static boolean sIsCardBackground;
     public static boolean sIsMd2Toolbar;
+    public static boolean sIsPages;
 
     public static String sWorkingMode;
     public static String sActionBarType;
@@ -26,6 +27,7 @@ public class GlobalValues {
         sIsStreamCardModeSingleLine = SPUtils.getBoolean(context, Const.PREF_STREAM_CARD_SINGLE_LINE, false);
         sIsCardBackground = SPUtils.getBoolean(context, Const.PREF_CARD_BACKGROUND, true);
         sIsMd2Toolbar = SPUtils.getBoolean(context, Const.PREF_MD2_TOOLBAR, false);
+        sIsPages = SPUtils.getBoolean(context, Const.PREF_PAGES, false);
         sWorkingMode = SPUtils.getString(context, Const.PREF_WORKING_MODE);
         sActionBarType = SPUtils.getString(context, Const.PREF_ACTION_BAR_TYPE);
         sDarkMode = SPUtils.getString(context, Const.PREF_DARK_MODE);
@@ -88,5 +90,10 @@ public class GlobalValues {
     public static void setsCategory(String sCategory) {
         GlobalValues.sCategory = sCategory;
         SPUtils.putString(AnywhereApplication.sContext, Const.PREF_CURR_CATEGORY, sCategory);
+    }
+
+    public static void setsIsPages(boolean sIsPages) {
+        GlobalValues.sIsPages = sIsPages;
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_PAGES, sIsPages);
     }
 }

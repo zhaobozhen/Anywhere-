@@ -7,12 +7,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.adapter.page.PageNode;
+import com.absinthe.anywhere_.adapter.page.PageTitleNode;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereRepository;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
+import com.chad.library.adapter.base.entity.node.BaseNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnywhereViewModel extends AndroidViewModel {
@@ -107,5 +111,14 @@ public class AnywhereViewModel extends AndroidViewModel {
                 mAllAnywhereEntities = mRepository.getSortedByNameAsc();
                 break;
         }
+    }
+
+    public PageTitleNode getEntity(String title) {
+        List<BaseNode> pageNodeList = new ArrayList<>();
+        PageNode pageNode = new PageNode();
+        pageNodeList.add(pageNode);
+        PageTitleNode pageTitle = new PageTitleNode(pageNodeList, title);
+        pageTitle.setExpanded(title.equals(GlobalValues.sCategory));
+        return pageTitle;
     }
 }

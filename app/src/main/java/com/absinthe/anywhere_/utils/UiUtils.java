@@ -26,6 +26,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
@@ -646,5 +648,28 @@ public class UiUtils {
                 dipToPixels(context, 60));
 
         return new BitmapDrawable(context.getResources(), toolbarBitmap);
+    }
+
+    public static void tintToolbarIcon(Context context, Menu menu, ActionBarDrawerToggle mToggle, String type) {
+        int colorRes;
+        if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
+            colorRes = R.color.black;
+        } else {
+            colorRes = R.color.white;
+        }
+
+        UiUtils.tintMenuIcon(context, menu.findItem(R.id.toolbar_settings), colorRes);
+        UiUtils.tintMenuIcon(context, menu.findItem(R.id.toolbar_sort), colorRes);
+        UiUtils.tintMenuIcon(context, menu.findItem(R.id.toolbar_delete), colorRes);
+        UiUtils.tintMenuIcon(context, menu.findItem(R.id.toolbar_done), colorRes);
+        UiUtils.tintMenuIcon(context, menu.findItem(R.id.toolbar_done), colorRes);
+
+        if (mToggle != null) {
+            if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
+                mToggle.getDrawerArrowDrawable().setColor(context.getResources().getColor(R.color.black));
+            } else {
+                mToggle.getDrawerArrowDrawable().setColor(context.getResources().getColor(R.color.white));
+            }
+        }
     }
 }
