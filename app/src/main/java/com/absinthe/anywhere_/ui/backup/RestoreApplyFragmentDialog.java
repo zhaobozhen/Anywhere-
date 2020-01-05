@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -53,13 +53,13 @@ public class RestoreApplyFragmentDialog extends DialogFragment {
             if (encrypted1 != null) {
                 String content1 = CipherUtils.decrypt(encrypted1);
                 Gson gson = new Gson();
-                List<SerializableAnywhereEntity> list = gson.fromJson(content1,
-                        new TypeToken<List<SerializableAnywhereEntity>>() {
+                List<AnywhereEntity> list = gson.fromJson(content1,
+                        new TypeToken<List<AnywhereEntity>>() {
                         }.getType());
 
                 if (list != null) {
-                    for (SerializableAnywhereEntity sae : list) {
-                        MainFragment.getViewModelInstance().insert(sae);
+                    for (AnywhereEntity ae : list) {
+                        MainFragment.getViewModelInstance().insert(ae);
                     }
                     ToastUtil.makeText(getString(R.string.toast_restore_success));
                 }

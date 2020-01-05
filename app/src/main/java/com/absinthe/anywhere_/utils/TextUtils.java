@@ -15,7 +15,6 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QREntity;
-import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -118,20 +117,6 @@ public class TextUtils {
         }
         Logger.d(cmd);
         return cmd.toString();
-    }
-
-    public static String getItemCommand(SerializableAnywhereEntity sae) {
-        AnywhereEntity ae = AnywhereEntity.Builder();
-        ae.setId(sae.getmId());
-        ae.setAppName(sae.getmAppName());
-        ae.setParam1(sae.getmParam1());
-        ae.setParam2(sae.getmParam2());
-        ae.setParam3(sae.getmParam3());
-        ae.setDescription(sae.getmDescription());
-        ae.setType(sae.getmType());
-        ae.setCategory(sae.getmCategory());
-        ae.setTimeStamp(sae.getmTimeStamp());
-        return getItemCommand(ae);
     }
 
     /**

@@ -1,12 +1,17 @@
 package com.absinthe.anywhere_.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(tableName = "anywhere_table")
-public class AnywhereEntity {
+public class AnywhereEntity implements Parcelable {
 
     @NonNull
     @PrimaryKey
@@ -67,6 +72,18 @@ public class AnywhereEntity {
         mType = type;
         mCategory = category;
         mTimeStamp = timeStamp;
+    }
+
+    private AnywhereEntity(Parcel in) {
+        mId = Objects.requireNonNull(in.readString());
+        mAppName = Objects.requireNonNull(in.readString());
+        mParam1 = Objects.requireNonNull(in.readString());
+        mParam2 = in.readString();
+        mParam3 = in.readString();
+        mDescription = in.readString();
+        mType = in.readInt();
+        mCategory = in.readString();
+        mTimeStamp = Objects.requireNonNull(in.readString());
     }
 
     @NonNull
@@ -160,4 +177,35 @@ public class AnywhereEntity {
     public void setTimeStamp(@NonNull String mTimeStamp) {
         this.mTimeStamp = mTimeStamp;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mAppName);
+        dest.writeString(mParam1);
+        dest.writeString(mParam2);
+        dest.writeString(mParam3);
+        dest.writeString(mDescription);
+        dest.writeInt(mType);
+        dest.writeString(mCategory);
+        dest.writeString(mTimeStamp);
+    }
+
+    public static final Parcelable.Creator<AnywhereEntity> CREATOR = new Parcelable.Creator<AnywhereEntity>() {
+
+        @Override
+        public AnywhereEntity createFromParcel(Parcel source) {
+            return new AnywhereEntity(source);
+        }
+
+        @Override
+        public AnywhereEntity[] newArray(int size) {
+            return new AnywhereEntity[size];
+        }
+    };
 }

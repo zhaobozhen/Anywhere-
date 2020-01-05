@@ -13,7 +13,6 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereRepository;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
 import java.util.ArrayList;
@@ -42,20 +41,6 @@ public class AnywhereViewModel extends AndroidViewModel {
     }
 
     public void insert(AnywhereEntity ae) {
-        mRepository.insert(ae);
-    }
-
-    public void insert(SerializableAnywhereEntity sae) {
-        AnywhereEntity ae = AnywhereEntity.Builder();
-        ae.setId(sae.getmId());
-        ae.setAppName(sae.getmAppName());
-        ae.setParam1(sae.getmParam1());
-        ae.setParam2(sae.getmParam2());
-        ae.setParam3(sae.getmParam3());
-        ae.setDescription(sae.getmDescription());
-        ae.setType(sae.getmType());
-        ae.setCategory(sae.getmCategory());
-        ae.setTimeStamp(sae.getmTimeStamp());
         mRepository.insert(ae);
     }
 

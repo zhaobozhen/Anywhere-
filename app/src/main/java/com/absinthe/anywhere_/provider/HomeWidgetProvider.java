@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 import com.absinthe.anywhere_.services.AppRemoteViewsService;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.TextUtils;
@@ -70,9 +70,9 @@ public class HomeWidgetProvider extends AppWidgetProvider {
             newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             newIntent.setAction(ShortcutsActivity.ACTION_START_FROM_WIDGET);
 
-            SerializableAnywhereEntity sae = (SerializableAnywhereEntity) intent.getSerializableExtra(Const.INTENT_EXTRA_WIDGET_ENTITY);
-            if (sae != null) {
-                String cmd = TextUtils.getItemCommand(sae);
+            AnywhereEntity ae = intent.getParcelableExtra(Const.INTENT_EXTRA_WIDGET_ENTITY);
+            if (ae != null) {
+                String cmd = TextUtils.getItemCommand(ae);
                 newIntent.putExtra(Const.INTENT_EXTRA_WIDGET_COMMAND, cmd);
                 context.startActivity(newIntent);
             }

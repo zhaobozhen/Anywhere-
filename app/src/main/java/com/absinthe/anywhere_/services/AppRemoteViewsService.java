@@ -10,7 +10,6 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
@@ -112,18 +111,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
             Intent intent = new Intent();
             // 传入点击行的数据
             AnywhereEntity ae = mList.get(position);
-            SerializableAnywhereEntity sae = new SerializableAnywhereEntity();
-            sae.setmId(ae.getId());
-            sae.setmAppName(ae.getAppName());
-            sae.setmParam1(ae.getParam1());
-            sae.setmParam2(ae.getParam2());
-            sae.setmParam3(ae.getParam3());
-            sae.setmDescription(ae.getDescription());
-            sae.setmType(ae.getType());
-            sae.setmCategory(ae.getCategory());
-            sae.setmTimeStamp(ae.getTimeStamp());
-
-            intent.putExtra(Const.INTENT_EXTRA_WIDGET_ENTITY, sae);
+            intent.putExtra(Const.INTENT_EXTRA_WIDGET_ENTITY, ae);
             rv.setOnClickFillInIntent(R.id.rl_item, intent);
 
             return rv;

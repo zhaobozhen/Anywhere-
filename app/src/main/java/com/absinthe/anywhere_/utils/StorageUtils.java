@@ -8,10 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StorageUtils {
@@ -57,14 +55,8 @@ public class StorageUtils {
         Gson gson = new Gson();
 
         List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
-        List<SerializableAnywhereEntity> expoList = new ArrayList<>();
         if (list != null) {
-            for (AnywhereEntity ae : list) {
-                SerializableAnywhereEntity sae = new SerializableAnywhereEntity(ae);
-                sae.setmType(ae.getAnywhereType() + ae.getExportedType() * 100);
-                expoList.add(sae);
-            }
-            String s = gson.toJson(expoList);
+            String s = gson.toJson(list);
             Logger.d(s);
             return s;
         }

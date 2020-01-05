@@ -9,8 +9,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.SerializableAnywhereEntity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.Logger;
@@ -96,13 +96,13 @@ public class BackupActivity extends BaseActivity {
                         Logger.d(content);
 
                         Gson gson = new Gson();
-                        List<SerializableAnywhereEntity> list = gson.fromJson(content,
-                                new TypeToken<List<SerializableAnywhereEntity>>() {
+                        List<AnywhereEntity> list = gson.fromJson(content,
+                                new TypeToken<List<AnywhereEntity>>() {
                                 }.getType());
 
                         if (list != null) {
-                            for (SerializableAnywhereEntity sae : list) {
-                                MainFragment.getViewModelInstance().insert(sae);
+                            for (AnywhereEntity ae : list) {
+                                MainFragment.getViewModelInstance().insert(ae);
                             }
                             ToastUtil.makeText(getString(R.string.toast_restore_success));
                         }
