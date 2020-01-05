@@ -470,15 +470,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             UiUtils.setActionBarTitle(MainActivity.getInstance(), actionBar);
         });
 
-        final Observer<String> backgroundObserver = s -> {
-            if (!s.isEmpty()) {
-                UiUtils.loadBackgroundPic(mContext, MainActivity.getInstance().mIvBackground);
-                UiUtils.setActionBarTransparent(MainActivity.getInstance());
-                UiUtils.setAdaptiveActionBarTitleColor(MainActivity.getInstance(), actionBar, UiUtils.getActionBarTitle());
-            }
-            GlobalValues.setsBackgroundUri(s);
-        };
-        mViewModel.getBackground().observe(this, backgroundObserver);
         mViewModel.getCardMode().observe(this, s -> refreshRecyclerView(mRecyclerView));
     }
 

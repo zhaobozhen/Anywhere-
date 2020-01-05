@@ -13,7 +13,6 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainActivity;
-import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.Logger;
 
 public class SettingsActivity extends BaseActivity {
@@ -57,8 +56,8 @@ public class SettingsActivity extends BaseActivity {
                             Logger.d("backgroundUri = " + backgroundUri);
                             GlobalValues.setsBackgroundUri(backgroundUri.toString());
                             GlobalValues.setsActionBarType("");
-                            if (MainFragment.getViewModelInstance() != null) {
-                                MainFragment.getViewModelInstance().getBackground().setValue(backgroundUri.toString());
+                            if (MainActivity.getInstance().getViewModel() != null) {
+                                MainActivity.getInstance().getViewModel().getBackground().setValue(backgroundUri.toString());
                                 MainActivity.getInstance().restartActivity();
                                 finish();
                             }

@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
@@ -33,4 +32,5 @@ public class PageProvider extends BaseNodeProvider {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
+
 }

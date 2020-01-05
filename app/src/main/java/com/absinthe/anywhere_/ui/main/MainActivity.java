@@ -64,6 +64,10 @@ public class MainActivity extends BaseActivity {
         return sInstance;
     }
 
+    public AnywhereViewModel getViewModel() {
+        return mViewModel;
+    }
+
     public static void setCurFragment(Fragment fragment) {
         sCurFragment = fragment;
     }
@@ -76,10 +80,11 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setLayout();
-        initView();
         sInstance = this;
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        setLayout();
+        initView();
+        initObserver();
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) &&
                 SPUtils.getBoolean(this, Const.PREF_FIRST_LAUNCH, true)) {
@@ -226,6 +231,19 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void initObserver() {
+        mViewModel.getBackground().observe(this, s -> {
+            if (!s.isEmpty()) {
+                UiUtils.loadBackgroundPic(sInstance, mIvBackground);
+                UiUtils.setActionBarTransparent(MainActivity.getInstance());
+                UiUtils.setAdaptiveActionBarTitleColor(sInstance, getSupportActionBar(), UiUtils.getActionBarTitle());
+            }
+            GlobalValues.setsBackgroundUri(s);
+        });
+
+        mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
     }
 
     private void getAnywhereIntent(Intent intent) {
