@@ -447,7 +447,7 @@ public class UiUtils {
                         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR |
                                 activity.getWindow().getDecorView().getSystemUiVisibility());
             }
-            if (!GlobalValues.sBackgroundUri.isEmpty() || GlobalValues.sIsMd2Toolbar) {
+            if (!GlobalValues.sBackgroundUri.isEmpty() || GlobalValues.sIsPages) {
                 setActionBarTransparent(activity);
             }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {

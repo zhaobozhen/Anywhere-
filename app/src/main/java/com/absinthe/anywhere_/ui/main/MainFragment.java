@@ -19,6 +19,7 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -37,7 +38,6 @@ import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutMana
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.Logger;
@@ -48,24 +48,27 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import jonathanfinerty.once.Once;
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
-
 public class MainFragment extends Fragment implements LifecycleOwner {
     private Context mContext;
 
     private static AnywhereViewModel mViewModel;
+
+    private MutableLiveData<List<AnywhereEntity>> mList;
     private RecyclerView mRecyclerView;
     private BaseAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    static MainFragment newInstance() {
-        return new MainFragment();
+    public static MainFragment newInstance(MutableLiveData<List<AnywhereEntity>> list) {
+        return new MainFragment(list);
     }
 
     public static AnywhereViewModel getViewModelInstance() {
         return mViewModel;
+    }
+
+    private MainFragment(MutableLiveData<List<AnywhereEntity>> list) {
+        mList = list;
     }
 
     @Override
@@ -88,17 +91,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initObserver();
-
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE)) {
-            new MaterialTapTargetPrompt.Builder(this)
-                    .setTarget(R.id.fab)
-                    .setPrimaryText(R.string.first_launch_guide_title)
-                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                    .show();
-            Once.markDone(OnceTag.FAB_GUIDE);
-        }
     }
 
     private Observer<List<AnywhereEntity>> listObserver = new Observer<List<AnywhereEntity>>() {
@@ -259,7 +252,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         popupItem.getItemId() == R.id.sort_by_name_desc ||
                         popupItem.getItemId() == R.id.sort_by_name_asc) {
                     mViewModel.refreshDB();
-                    mViewModel.getAllAnywhereEntities().observe(this, listObserver);
+                    mList.observe(this, listObserver);
                 }
                 return true;
             });
@@ -301,7 +294,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void initObserver() {
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
-        mViewModel.getAllAnywhereEntities().observe(this, listObserver);
         mViewModel.getCardMode().observe(this, s -> refreshRecyclerView());
+        mList.observe(this, listObserver);
     }
 }

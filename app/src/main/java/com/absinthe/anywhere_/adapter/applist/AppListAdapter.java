@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.adapter;
+package com.absinthe.anywhere_.adapter.applist;
 
 import android.content.ComponentName;
 import android.content.Context;

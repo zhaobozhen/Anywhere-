@@ -16,8 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
@@ -158,31 +160,29 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             }
 
             if (flag) {
-                MainFragment fragment = MainFragment.newInstance();
-                MainActivity.getInstance()
-                        .getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                        .replace(R.id.container, fragment)
-                        .commitNow();
-                MainActivity.getInstance().setMainFragment(fragment);
+                enterMainFragment();
             } else {
-                MainFragment fragment = MainFragment.newInstance();
                 new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
                         .setMessage(R.string.dialog_message_perm_not_ever)
-                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                            MainActivity.getInstance()
-                                    .getSupportFragmentManager().beginTransaction()
-                                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                    .replace(R.id.container, fragment)
-                                    .commitNow();
-                            MainActivity.getInstance().setMainFragment(fragment);
-                        })
+                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> enterMainFragment())
                         .setNegativeButton(R.string.dialog_delete_negative_button, null)
                         .show();
             }
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void enterMainFragment() {
+        MainFragment fragment = MainFragment.newInstance(new MutableLiveData<>());
+        MainActivity.getInstance()
+                .getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                .replace(R.id.container, fragment)
+                .commitNow();
+        MainActivity.getInstance().setMainFragment(fragment);
+        MainActivity.getInstance().mFab.setVisibility(View.VISIBLE);
+        MainActivity.getInstance().initFab();
     }
 
     private void initObserver() {

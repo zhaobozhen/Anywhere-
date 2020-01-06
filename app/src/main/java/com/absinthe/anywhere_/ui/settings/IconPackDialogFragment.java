@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.adapter.AppListAdapter;
+import com.absinthe.anywhere_.adapter.applist.AppListAdapter;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.IconPackManager;

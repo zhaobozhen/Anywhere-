@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.adapter.AppListAdapter;
+import com.absinthe.anywhere_.adapter.applist.AppListAdapter;
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding;
 import com.absinthe.anywhere_.model.AppListBean;
