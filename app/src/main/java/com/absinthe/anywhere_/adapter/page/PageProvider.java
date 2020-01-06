@@ -4,13 +4,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.model.GlobalValues;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class PageProvider extends BaseNodeProvider {
 
@@ -27,7 +28,7 @@ public class PageProvider extends BaseNodeProvider {
     @Override
     public void convert(@NotNull BaseViewHolder baseViewHolder, @Nullable BaseNode baseNode) {
         RecyclerView recyclerView = baseViewHolder.getView(R.id.rv_chip);
-        ChipAdapter adapter = new ChipAdapter(GlobalValues.sCategory);
+        ChipAdapter adapter = new ChipAdapter(((PageNode) Objects.requireNonNull(baseNode)).getTitle());
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

@@ -9,10 +9,19 @@ import java.util.List;
 
 public class PageNode extends BaseExpandNode {
 
+    private String title;
+
     @Nullable
     @Override
     public List<BaseNode> getChildNode() {
         return null;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

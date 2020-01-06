@@ -50,4 +50,15 @@ public class SPUtils {
             return sp.getBoolean(key, false);
         }
     }
+
+    public static void putInt(Context context, String key, int value) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE).edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    public static int getInt(Context context, String key) {
+        SharedPreferences sp = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE);
+        return sp.getInt(key, 0);
+    }
 }

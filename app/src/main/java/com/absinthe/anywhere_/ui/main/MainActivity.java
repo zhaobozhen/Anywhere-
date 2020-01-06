@@ -215,6 +215,27 @@ public class MainActivity extends BaseActivity {
         if (!GlobalValues.sIsPages) {
             mViewPager.setUserInputEnabled(false);
         }
+        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                GlobalValues.setsCategory(Objects.requireNonNull(
+                        mAdapter.getList().get(position).getValue()).get(0).getCategory(), position);
+                super.onPageSelected(position);
+            }
+        });
+        mViewPager.setPageTransformer((view, position) -> {
+            if (position < -1 || position > 1) {
+                view.setAlpha(0);
+            }
+            else if (position <= 0 || position <= 1) {
+                // Calculate alpha. Position is decimal in [-1,0] or [0,1]
+                float alpha = (position <= 0) ? position + 1 : 1 - position;
+                view.setAlpha(alpha);
+            }
+            else if (position == 0) {
+                view.setAlpha(1);
+            }
+        });
     }
 
     private void initDrawer(DrawerLayout drawer) {
@@ -279,7 +300,6 @@ public class MainActivity extends BaseActivity {
             UiUtils.setActionBarTitle(this, getSupportActionBar());
         });
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
-
         mViewModel.getCommand().observe(this, CommandUtils::execCmd);
         mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
             if (observed) {
@@ -430,6 +450,7 @@ public class MainActivity extends BaseActivity {
 
         adapter.setList(lists);
         mViewPager.setUserInputEnabled(lists.size() > 1);
+        mViewPager.setCurrentItem(GlobalValues.sCurrentPage, false);
     }
 
     @Override

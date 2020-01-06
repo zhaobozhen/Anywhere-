@@ -20,6 +20,7 @@ public class GlobalValues {
     public static String sSortMode;
     public static String sIconPack;
     public static String sCategory;
+    public static int sCurrentPage;
 
     public static void init(Context context) {
         sIsDebugMode = false;
@@ -35,6 +36,7 @@ public class GlobalValues {
         sSortMode = SPUtils.getString(context, Const.PREF_SORT_MODE);
         sIconPack = SPUtils.getString(context, Const.PREF_ICON_PACK);
         sCategory = SPUtils.getString(context, Const.PREF_CURR_CATEGORY, AnywhereType.DEFAULT_CATEGORY);
+        sCurrentPage = SPUtils.getInt(context, Const.PREF_CURR_PAGE_NUM);
     }
 
     public static void setsIsStreamCardMode(boolean sIsStreamCardMode) {
@@ -87,9 +89,11 @@ public class GlobalValues {
         SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_MD2_TOOLBAR, false);
     }
 
-    public static void setsCategory(String sCategory) {
+    public static void setsCategory(String sCategory, int page) {
         GlobalValues.sCategory = sCategory;
+        GlobalValues.sCurrentPage = page;
         SPUtils.putString(AnywhereApplication.sContext, Const.PREF_CURR_CATEGORY, sCategory);
+        SPUtils.putInt(AnywhereApplication.sContext, Const.PREF_CURR_PAGE_NUM, page);
     }
 
     public static void setsIsPages(boolean sIsPages) {

@@ -71,6 +71,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         mList = list;
     }
 
+    public MutableLiveData<List<AnywhereEntity>> getList() {
+        return mList;
+    }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

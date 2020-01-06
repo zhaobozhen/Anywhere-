@@ -112,6 +112,7 @@ public class AnywhereViewModel extends AndroidViewModel {
     public PageTitleNode getEntity(String title) {
         List<BaseNode> pageNodeList = new ArrayList<>();
         PageNode pageNode = new PageNode();
+        pageNode.setTitle(title);
         pageNodeList.add(pageNode);
         PageTitleNode pageTitle = new PageTitleNode(pageNodeList, title);
         pageTitle.setExpanded(title.equals(GlobalValues.sCategory));
