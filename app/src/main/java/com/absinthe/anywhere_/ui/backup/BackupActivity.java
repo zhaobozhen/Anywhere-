@@ -11,7 +11,7 @@ import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.StorageUtils;
@@ -102,7 +102,7 @@ public class BackupActivity extends BaseActivity {
 
                         if (list != null) {
                             for (AnywhereEntity ae : list) {
-                                MainFragment.getViewModelInstance().insert(ae);
+                                MainActivity.getInstance().getViewModel().insert(ae);
                             }
                             ToastUtil.makeText(getString(R.string.toast_restore_success));
                         }

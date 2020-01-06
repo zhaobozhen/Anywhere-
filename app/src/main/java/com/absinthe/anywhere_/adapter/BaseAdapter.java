@@ -23,6 +23,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
@@ -189,7 +190,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         }
                     } else {
                         final OnAppUnfreezeListener onAppUnfreezeListener = () ->
-                                MainFragment.getViewModelInstance().getCommand().setValue(cmd);
+                                MainActivity.getInstance().getViewModel().getCommand().setValue(cmd);
                         if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
                             PermissionUtils.unfreezeApp(mContext, item.getParam2(), onAppUnfreezeListener);
                         } else {
@@ -197,7 +198,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         }
                     }
                 } else {
-                    MainFragment.getViewModelInstance().getCommand().setValue(cmd);
+                    MainActivity.getInstance().getViewModel().getCommand().setValue(cmd);
                 }
             }
         } else {

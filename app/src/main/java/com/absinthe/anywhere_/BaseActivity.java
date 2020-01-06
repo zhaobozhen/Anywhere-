@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -37,5 +38,11 @@ public class BaseActivity extends AppCompatActivity {
                 UiUtils.setActionBarTitle(this, getSupportActionBar());
             }
         }
+    }
+
+    public void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }

@@ -27,18 +27,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.leinardi.android.speeddial.SpeedDialView
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:padding="10dp"
-        android:clipToPadding="false"
-        app:sdMainFabClosedSrc="@drawable/ic_add"
-        app:sdMainFabClosedBackgroundColor="@color/fabBackgroundColor"
-        app:sdMainFabOpenedBackgroundColor="@color/fabBackgroundColor"
-        app:sdMainFabClosedIconColor="@color/fabIconColor"
-        app:sdMainFabOpenedIconColor="@color/fabIconColor"
-        app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -8,6 +8,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 @Entity(tableName = "anywhere_table")
@@ -16,34 +18,43 @@ public class AnywhereEntity implements Parcelable {
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
+    @SerializedName("id")
     private String mId;
 
     @NonNull
     @ColumnInfo(name = "app_name")
+    @SerializedName("app_name")
     private String mAppName;
 
     @NonNull
     @ColumnInfo(name = "param_1")
+    @SerializedName("param_1")
     private String mParam1;
 
     @ColumnInfo(name = "param_2")
+    @SerializedName("param_2")
     private String mParam2;
 
     @ColumnInfo(name = "param_3")
+    @SerializedName("param_3")
     private String mParam3;
 
     @ColumnInfo(name = "description")
+    @SerializedName("description")
     private String mDescription;
 
     @NonNull
     @ColumnInfo(name = "type")
+    @SerializedName("type")
     private Integer mType;
 
     @ColumnInfo(name = "category")
+    @SerializedName("category")
     private String mCategory;
 
     @NonNull
     @ColumnInfo(name = "time_stamp")
+    @SerializedName("time_stamp")
     private String mTimeStamp;
 
     public static AnywhereEntity Builder() {

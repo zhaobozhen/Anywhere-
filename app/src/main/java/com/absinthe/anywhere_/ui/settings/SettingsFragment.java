@@ -159,8 +159,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()) {
             case Const.PREF_WORKING_MODE:
-                if (MainFragment.getViewModelInstance() != null) {
-                    MainFragment.getViewModelInstance().getWorkingMode().setValue(newValue.toString());
+                if (MainActivity.getInstance().getViewModel() != null) {
+                    MainActivity.getInstance().getViewModel().getWorkingMode().setValue(newValue.toString());
                 }
                 break;
             case Const.PREF_DARK_MODE:
@@ -186,7 +186,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 return true;
             case Const.PREF_CARD_BACKGROUND:
                 GlobalValues.setsIsCardBackground((boolean) newValue);
-                MainFragment.getViewModelInstance().getCardMode().setValue(String.valueOf(GlobalValues.sIsStreamCardMode));
+                MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
                 return true;
             default:
         }

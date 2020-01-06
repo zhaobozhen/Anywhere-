@@ -15,7 +15,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -59,7 +59,7 @@ public class RestoreApplyFragmentDialog extends DialogFragment {
 
                 if (list != null) {
                     for (AnywhereEntity ae : list) {
-                        MainFragment.getViewModelInstance().insert(ae);
+                        MainActivity.getInstance().getViewModel().insert(ae);
                     }
                     ToastUtil.makeText(getString(R.string.toast_restore_success));
                 }

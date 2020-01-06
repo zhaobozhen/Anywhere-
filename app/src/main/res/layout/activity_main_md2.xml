@@ -58,6 +58,21 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/toolbar_container" />
 
+                <com.leinardi.android.speeddial.SpeedDialView
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:padding="10dp"
+                    app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:sdMainFabClosedBackgroundColor="@color/fabBackgroundColor"
+                    app:sdMainFabClosedIconColor="@color/fabIconColor"
+                    app:sdMainFabClosedSrc="@drawable/ic_add"
+                    app:sdMainFabOpenedBackgroundColor="@color/fabBackgroundColor"
+                    app:sdMainFabOpenedIconColor="@color/fabIconColor" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.navigation.NavigationView
