@@ -12,6 +12,7 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.google.android.material.chip.Chip;
 
@@ -48,6 +49,9 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(mList.get(position));
+
+        holder.chip.setOnClickListener(v ->
+                CommandUtils.execCmd(com.absinthe.anywhere_.utils.TextUtils.getItemCommand(mList.get(position))));
     }
 
     @Override

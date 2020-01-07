@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class BackupActivity extends BaseActivity {
+
+    public static boolean INSERT_CORRECT = true;
+
     private static BackupActivity sInstance;
 
     public static BackupActivity getInstance() {
@@ -101,10 +104,17 @@ public class BackupActivity extends BaseActivity {
                                 }.getType());
 
                         if (list != null) {
+                            INSERT_CORRECT = true;
                             for (AnywhereEntity ae : list) {
+                                if (!INSERT_CORRECT) {
+                                    ToastUtil.makeText(R.string.toast_backup_file_error);
+                                    break;
+                                }
                                 MainActivity.getInstance().getViewModel().insert(ae);
                             }
-                            ToastUtil.makeText(getString(R.string.toast_restore_success));
+                            if (INSERT_CORRECT) {
+                                ToastUtil.makeText(getString(R.string.toast_restore_success));
+                            }
                         }
 
                         inputStream.close();

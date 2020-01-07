@@ -11,11 +11,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -82,6 +84,7 @@ public class MainActivity extends BaseActivity {
     private ViewPager2 mViewPager;
     private ActionBarDrawerToggle mToggle;
     private DrawerLayout mDrawer;
+    public ViewFlipper mViewFlipper;
 
     private boolean observed = false;
 
@@ -120,6 +123,20 @@ public class MainActivity extends BaseActivity {
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
+            mViewFlipper.setDisplayedChild(1);
+
+            AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities -> {
+                observed = true;
+                AnywhereApplication.sRepository.insertPage(
+                        new PageEntity(GlobalValues.sCategory, 1, System.currentTimeMillis() + ""));
+            });
+            mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
+                if (observed) {
+                    setupLists(mAdapter);
+                } else {
+                    observed = true;
+                }
+            });
         } else {
             initFab();
             initObserver();
@@ -172,6 +189,7 @@ public class MainActivity extends BaseActivity {
             mViewPager = binding2.viewPager;
             mDrawer = binding2.drawer;
             mFab = binding2.fab;
+            mViewFlipper = binding2.vfContainer;
         } else {
             ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
             if (!GlobalValues.sBackgroundUri.isEmpty()) {
@@ -181,6 +199,7 @@ public class MainActivity extends BaseActivity {
             mViewPager = binding.viewPager;
             mDrawer = binding.drawer;
             mFab = binding.fab;
+            mViewFlipper = binding.vfContainer;
         }
     }
 
@@ -220,19 +239,18 @@ public class MainActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 GlobalValues.setsCategory(Objects.requireNonNull(
                         mAdapter.getList().get(position).getValue()).get(0).getCategory(), position);
+
                 super.onPageSelected(position);
             }
         });
         mViewPager.setPageTransformer((view, position) -> {
             if (position < -1 || position > 1) {
                 view.setAlpha(0);
-            }
-            else if (position <= 0 || position <= 1) {
+            } else if (position <= 0 || position <= 1) {
                 // Calculate alpha. Position is decimal in [-1,0] or [0,1]
                 float alpha = (position <= 0) ? position + 1 : 1 - position;
                 view.setAlpha(alpha);
-            }
-            else if (position == 0) {
+            } else if (position == 0) {
                 view.setAlpha(1);
             }
         });
@@ -454,6 +472,12 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (mToggle != null && mToggle.onOptionsItemSelected(item)) {
             return true;
@@ -488,6 +512,15 @@ public class MainActivity extends BaseActivity {
             if (sCurFragment instanceof InitializeFragment) {
                 InitializeFragment.getViewModel().getIsShizuku().setValue(Boolean.TRUE);
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawer.isDrawerVisible(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 }

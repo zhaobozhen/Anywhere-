@@ -16,10 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
@@ -132,6 +130,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.initialize_menu, menu);
     }
 
@@ -174,13 +173,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     }
 
     private void enterMainFragment() {
-        MainFragment fragment = MainFragment.newInstance(new MutableLiveData<>());
-        MainActivity.getInstance()
-                .getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                .replace(R.id.container, fragment)
-                .commitNow();
-        MainActivity.getInstance().setMainFragment(fragment);
+        MainActivity.getInstance().mViewFlipper.setDisplayedChild(0);
         MainActivity.getInstance().mFab.setVisibility(View.VISIBLE);
         MainActivity.getInstance().initFab();
     }

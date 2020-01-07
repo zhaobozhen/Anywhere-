@@ -2,6 +2,8 @@ package com.absinthe.anywhere_.ui.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,7 +25,7 @@ public class WelcomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
 
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(true);
         Button btnStart = view.findViewById(R.id.btn_welcome_start);
         btnStart.setOnClickListener(view1 -> MainActivity.getInstance()
                 .getSupportFragmentManager().beginTransaction()
@@ -35,4 +37,8 @@ public class WelcomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
+    }
 }

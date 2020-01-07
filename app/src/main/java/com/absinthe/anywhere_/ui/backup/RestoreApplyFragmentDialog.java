@@ -25,6 +25,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
+import static com.absinthe.anywhere_.ui.backup.BackupActivity.INSERT_CORRECT;
+
 public class RestoreApplyFragmentDialog extends DialogFragment {
     private Context mContext;
     private TextInputEditText mEditText;
@@ -58,10 +60,17 @@ public class RestoreApplyFragmentDialog extends DialogFragment {
                         }.getType());
 
                 if (list != null) {
+                    INSERT_CORRECT = true;
                     for (AnywhereEntity ae : list) {
+                        if (!INSERT_CORRECT) {
+                            ToastUtil.makeText(R.string.toast_backup_file_error);
+                            break;
+                        }
                         MainActivity.getInstance().getViewModel().insert(ae);
                     }
-                    ToastUtil.makeText(getString(R.string.toast_restore_success));
+                    if (INSERT_CORRECT) {
+                        ToastUtil.makeText(getString(R.string.toast_restore_success));
+                    }
                 }
             }
         };

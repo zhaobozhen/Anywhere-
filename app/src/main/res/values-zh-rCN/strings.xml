@@ -218,4 +218,5 @@
     <string name="drawer_tool_add">添加页</string>
     <string name="drawer_title">页(开发中)</string>
     <string name="menu_rate">评分</string>
+    <string name="toast_backup_file_error">备份文件格式错误</string>
 </resources>

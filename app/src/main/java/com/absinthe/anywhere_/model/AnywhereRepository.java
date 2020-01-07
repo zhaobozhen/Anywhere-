@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import com.absinthe.anywhere_.ui.backup.BackupActivity;
+
 import java.util.List;
 
 public class AnywhereRepository {
@@ -65,7 +67,11 @@ public class AnywhereRepository {
 
         @Override
         protected Void doInBackground(final AnywhereEntity... params) {
-            mAsyncTaskDao.insert(params[0]);
+            try {
+                mAsyncTaskDao.insert(params[0]);
+            } catch (Exception e) {
+                BackupActivity.INSERT_CORRECT = false;
+            }
             return null;
         }
     }

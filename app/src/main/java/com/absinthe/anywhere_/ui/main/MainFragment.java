@@ -52,6 +52,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private Context mContext;
 
     private static AnywhereViewModel mViewModel;
+    private static boolean IS_MENU_INIT = false;
 
     private MutableLiveData<List<AnywhereEntity>> mList;
     private RecyclerView mRecyclerView;
@@ -181,7 +182,11 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.main_menu, menu);
+        if (!IS_MENU_INIT) {
+            menu.clear();
+            inflater.inflate(R.menu.main_menu, menu);
+            IS_MENU_INIT = true;
+        }
     }
 
     @Override
