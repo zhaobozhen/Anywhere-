@@ -121,6 +121,7 @@ public class MainActivity extends BaseActivity {
                     .commitNow();
             initFab();
             initObserver();
+            getAnywhereIntent(getIntent());
         }
     }
 
@@ -213,23 +214,7 @@ public class MainActivity extends BaseActivity {
         PageListAdapter adapter = new PageListAdapter();
         AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities -> {
             if (pageEntities != null) {
-                if (adapter.getItemCount() == 0) {
-                    for (PageEntity pe : pageEntities) {
-                        adapter.addData(mViewModel.getEntity(pe.getTitle()));
-                    }
-                } else {
-                    if (pageEntities.size() > adapter.getItemCount() / 2) { //Item count == title page + clip page
-                        adapter.addData(mViewModel.getEntity(pageEntities.get(pageEntities.size() - 1).getTitle()));
-                    } else if (pageEntities.size() < adapter.getItemCount() / 2) {
-                        for (PageEntity pe : pageEntities) {
-                            for (BaseNode node : adapter.getData()) {
-                                if (node instanceof PageTitleNode) {
-
-                                }
-                            }
-                        }
-                    }
-                }
+                setupDrawerData(adapter, pageEntities);
             }
         });
 
@@ -251,6 +236,26 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void setupDrawerData(PageListAdapter adapter, List<PageEntity> pageEntities) {
+        if (adapter.getItemCount() == 0) {
+            for (PageEntity pe : pageEntities) {
+                adapter.addData(mViewModel.getEntity(pe.getTitle()));
+            }
+        } else {
+            if (pageEntities.size() > adapter.getItemCount() / 2) { //Item count == title page + clip page
+                adapter.addData(mViewModel.getEntity(pageEntities.get(pageEntities.size() - 1).getTitle()));
+            } else if (pageEntities.size() < adapter.getItemCount() / 2) {
+                for (PageEntity pe : pageEntities) {
+                    for (BaseNode node : adapter.getData()) {
+                        if (node instanceof PageTitleNode) {
+
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void initObserver() {
@@ -366,7 +371,7 @@ public class MainActivity extends BaseActivity {
                     ae.setParam3(param3);
                     ae.setType(AnywhereType.ACTIVITY + exported);
 
-                    Editor editor = new AnywhereEditor(MainActivity.getInstance())
+                    Editor editor = new AnywhereEditor(this)
                             .item(ae)
                             .isEditorMode(false)
                             .isShortcut(false)
@@ -376,7 +381,7 @@ public class MainActivity extends BaseActivity {
             }
         } else if (action.equals(Intent.ACTION_SEND)) {
             String sharing = intent.getStringExtra(Intent.EXTRA_TEXT);
-            mViewModel.setUpUrlScheme(sharing);
+            mViewModel.setUpUrlScheme(TextUtils.parseUrlFromSharingText(sharing));
         }
     }
 

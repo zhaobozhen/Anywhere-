@@ -51,7 +51,7 @@ public class IconPackDialogFragment extends DialogFragment {
         HashMap<String, IconPackManager.IconPack> hashMap = Settings.sIconPackManager.getAvailableIconPacks(true);
         List<AppListBean> listBeans = new ArrayList<>();
 
-        listBeans.add(new AppListBean("Default", "default.icon.pack", ""));
+        listBeans.add(new AppListBean(mContext.getString(R.string.bsd_default), "default.icon.pack", ""));
         for (Map.Entry<String, IconPackManager.IconPack> entry : hashMap.entrySet()) {
             IconPackManager.IconPack iconPack = entry.getValue();
             listBeans.add(new AppListBean(iconPack.name, iconPack.packageName, ""));

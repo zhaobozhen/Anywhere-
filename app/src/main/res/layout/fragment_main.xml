@@ -10,8 +10,7 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/cardview_margin_parent_horizontal"
-        android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        android:paddingTop="@dimen/cardview_margin_parent_horizontal"
+        android:overScrollMode="never" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

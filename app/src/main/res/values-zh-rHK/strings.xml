@@ -216,7 +216,7 @@
     <string name="settings_md2_toolbar_summary">此功能尚不穩定，且暫不支持自定義背景</string>
     <string name="toast_no_react_url">沒有 App 可以響應此 URL</string>
     <string name="drawer_tool_add">添加頁</string>
-    <string name="drawer_title">頁(开发中)</string>
+    <string name="drawer_title">頁</string>
     <string name="menu_rate">評分</string>
     <string name="toast_backup_file_error">備份文件格式錯誤</string>
     <string name="certification">認證</string>
@@ -224,5 +224,8 @@
     <string name="developer_info">開發 &amp; 設計</string>
     <string name="open_source_licenses">開源許可證</string>
     <string name="android_links_title">已加入 「Android 應用友鏈」</string>
-    <string name="green_android_title">已通過 「Android 綠色應用公約」 認證</string>
+    <string name="green_android_title">遵循 「Android 綠色應用公約」</string>
+    <string name="bsd_default">默認</string>
+    <string name="settings_pages_summary">將卡片歸類到多個頁面</string>
+    <string name="settings_pages_title">分頁</string>
 </resources>

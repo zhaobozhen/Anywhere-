@@ -21,7 +21,7 @@
     <string name="developer_info">Developer &amp; designer</string>
     <string name="certification">Certification</string>
     <string name="android_links_title">Joined \"Android-Links\"</string>
-    <string name="green_android_title">Passed \"Green-Android\" certification</string>
+    <string name="green_android_title">Comply to “Convention of Green Apps for Android”</string>
     <string name="open_source_licenses">Open Source Licenses</string>
 
     <!--  Collector  -->
@@ -65,6 +65,7 @@
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from HELP pageTitle</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
+    <string name="bsd_default">Default</string>
 
     <!--  AppBarMenu  -->
     <string name="menu_sort">Sort</string>
@@ -132,8 +133,10 @@
     <string name="settings_backup_apply_summary">Apply shared Anywhere- configurations</string>
 
     <string name="settings_md2_toolbar_title">Material Design 2 Toolbar</string>
+    <string name="settings_pages_title">Pages</string>
 
     <string name="settings_md2_toolbar_summary">This function is not yet stable and not support for custom background</string>
+    <string name="settings_pages_summary">Classify your cards into multiple pages</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root permission denied</string>
@@ -234,6 +237,6 @@
     <string name="qr_tip_subtitle">This pageTitle\'s Anywhere-\'s are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
 
     <!--  Drawer  -->
-    <string name="drawer_title">Pages(Developing)</string>
+    <string name="drawer_title">Pages</string>
     <string name="drawer_tool_add">Add pageTitle</string>
 </resources>

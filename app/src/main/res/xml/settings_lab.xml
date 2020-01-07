@@ -14,9 +14,9 @@
 
         <SwitchPreference
             android:key="pages"
-            android:title="Pages"
-            app:summary="@string/settings_md2_toolbar_summary"
-            android:icon="@drawable/ic_material" />
+            android:title="@string/settings_pages_title"
+            app:summary="@string/settings_pages_summary"
+            android:icon="@drawable/ic_pages" />
 
     </PreferenceCategory>
 
