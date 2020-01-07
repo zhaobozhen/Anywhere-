@@ -59,7 +59,11 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
         items.add(new Card(getString(R.string.about_text)));
 
         items.add(new Category("Developers"));
-        items.add(new Contributor(R.mipmap.pic_rabbit, "Absinthe", "Developer & designer", "coolmarket://www.coolapk.com/u/482045"));
+        items.add(new Contributor(R.mipmap.pic_rabbit, "Absinthe", "Developer & designer", "https://www.coolapk.com/u/482045"));
+
+        items.add(new Category("Certification"));
+        items.add(new Contributor(R.mipmap.pic_android_links, "Android Links", "https://androidlinks.org/", "https://androidlinks.org/"));
+        items.add(new Contributor(R.drawable.ic_green_android, "Green Android", "https://green-android.org/", "https://green-android.org/"));
 
         items.add(new Category("Open Source Licenses"));
         items.add(new License("Shizuku", "Rikka", "License", "https://github.com/RikkaApps/Shizuku"));

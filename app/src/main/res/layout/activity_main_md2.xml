@@ -51,24 +51,12 @@
 
                 </com.absinthe.anywhere_.view.RoundLinerLayoutNormal>
 
-                <ViewFlipper
-                    android:id="@+id/vf_container"
+                <FrameLayout
+                    android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/toolbar_container">
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/view_pager"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <FrameLayout
-                        android:id="@+id/container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                </ViewFlipper>
+                    app:layout_constraintTop_toBottomOf="@id/toolbar_container"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <com.leinardi.android.speeddial.SpeedDialView
                     android:id="@+id/fab"

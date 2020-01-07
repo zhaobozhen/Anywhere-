@@ -2,8 +2,6 @@ package com.absinthe.anywhere_.ui.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -35,10 +33,5 @@ public class WelcomeFragment extends Fragment {
         MainActivity.setCurFragment(this);
 
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        menu.clear();
     }
 }

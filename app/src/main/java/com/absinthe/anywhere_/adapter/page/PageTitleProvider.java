@@ -4,7 +4,12 @@ import android.animation.ObjectAnimator;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.core.view.GravityCompat;
+
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -52,8 +57,20 @@ public class PageTitleProvider extends BaseNodeProvider {
             } else {
                 onExpansionToggled(ivArrow, false);
             }
-
         }
+    }
+
+    @Override
+    public boolean onLongClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
+        PageTitleNode node = (PageTitleNode) data;
+        MainActivity.getInstance().getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                .replace(R.id.container, MainFragment.newInstance(node.getTitle()))
+                .commitNow();
+        MainActivity.getInstance().mDrawer.closeDrawer(GravityCompat.START);
+        GlobalValues.setsCategory(node.getTitle(), position);
+        return super.onLongClick(helper, view, data, position);
     }
 
     private void onExpansionToggled(ImageView arrow, boolean expanded) {

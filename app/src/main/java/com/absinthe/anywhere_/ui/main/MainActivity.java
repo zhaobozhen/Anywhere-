@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -21,17 +20,14 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.adapter.page.MainPageAdapter;
 import com.absinthe.anywhere_.adapter.page.PageListAdapter;
 import com.absinthe.anywhere_.adapter.page.PageTitleNode;
 import com.absinthe.anywhere_.databinding.ActivityMainBinding;
@@ -59,7 +55,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,19 +69,14 @@ public class MainActivity extends BaseActivity {
     private MainFragment mMainFragment;
     private AnywhereViewModel mViewModel;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private MainPageAdapter mAdapter;
 
     /* View */
     public ImageView mIvBackground;
     public SpeedDialView mFab;
+    public DrawerLayout mDrawer;
 
     private Toolbar mToolbar;
-    private ViewPager2 mViewPager;
     private ActionBarDrawerToggle mToggle;
-    private DrawerLayout mDrawer;
-    public ViewFlipper mViewFlipper;
-
-    private boolean observed = false;
 
     public static MainActivity getInstance() {
         return sInstance;
@@ -98,10 +88,6 @@ public class MainActivity extends BaseActivity {
 
     public static void setCurFragment(Fragment fragment) {
         sCurFragment = fragment;
-    }
-
-    public void setMainFragment(MainFragment fragment) {
-        mMainFragment = fragment;
     }
 
     @Override
@@ -123,21 +109,16 @@ public class MainActivity extends BaseActivity {
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
-            mViewFlipper.setDisplayedChild(1);
 
-            AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities -> {
-                observed = true;
-                AnywhereApplication.sRepository.insertPage(
-                        new PageEntity(GlobalValues.sCategory, 1, System.currentTimeMillis() + ""));
-            });
-            mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
-                if (observed) {
-                    setupLists(mAdapter);
-                } else {
-                    observed = true;
-                }
-            });
+            AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities ->
+                    AnywhereApplication.sRepository.insertPage(
+                            new PageEntity(GlobalValues.sCategory, 1, System.currentTimeMillis() + "")));
         } else {
+            mMainFragment = MainFragment.newInstance(GlobalValues.sCategory);
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                    .replace(R.id.container, mMainFragment)
+                    .commitNow();
             initFab();
             initObserver();
         }
@@ -186,20 +167,16 @@ public class MainActivity extends BaseActivity {
                 mIvBackground = (ImageView) Objects.requireNonNull(binding2.stubBg.getViewStub()).inflate();
             }
             mToolbar = binding2.toolbar;
-            mViewPager = binding2.viewPager;
             mDrawer = binding2.drawer;
             mFab = binding2.fab;
-            mViewFlipper = binding2.vfContainer;
         } else {
             ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
             if (!GlobalValues.sBackgroundUri.isEmpty()) {
                 mIvBackground = (ImageView) Objects.requireNonNull(binding.stubBg.getViewStub()).inflate();
             }
             mToolbar = binding.toolbar;
-            mViewPager = binding.viewPager;
             mDrawer = binding.drawer;
             mFab = binding.fab;
-            mViewFlipper = binding.vfContainer;
         }
     }
 
@@ -228,32 +205,6 @@ public class MainActivity extends BaseActivity {
             UiUtils.setActionBarTransparent(this);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }
-
-        mAdapter = new MainPageAdapter(this);
-        mViewPager.setAdapter(mAdapter);
-        if (!GlobalValues.sIsPages) {
-            mViewPager.setUserInputEnabled(false);
-        }
-        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                GlobalValues.setsCategory(Objects.requireNonNull(
-                        mAdapter.getList().get(position).getValue()).get(0).getCategory(), position);
-
-                super.onPageSelected(position);
-            }
-        });
-        mViewPager.setPageTransformer((view, position) -> {
-            if (position < -1 || position > 1) {
-                view.setAlpha(0);
-            } else if (position <= 0 || position <= 1) {
-                // Calculate alpha. Position is decimal in [-1,0] or [0,1]
-                float alpha = (position <= 0) ? position + 1 : 1 - position;
-                view.setAlpha(alpha);
-            } else if (position == 0) {
-                view.setAlpha(1);
-            }
-        });
     }
 
     private void initDrawer(DrawerLayout drawer) {
@@ -319,20 +270,6 @@ public class MainActivity extends BaseActivity {
         });
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
         mViewModel.getCommand().observe(this, CommandUtils::execCmd);
-        mViewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
-            if (observed) {
-                setupLists(mAdapter);
-            } else {
-                observed = true;
-            }
-        });
-        AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities -> {
-            if (observed) {
-                setupLists(mAdapter);
-            } else {
-                observed = true;
-            }
-        });
     }
 
     public void initFab() {
@@ -441,40 +378,6 @@ public class MainActivity extends BaseActivity {
             String sharing = intent.getStringExtra(Intent.EXTRA_TEXT);
             mViewModel.setUpUrlScheme(sharing);
         }
-    }
-
-    private void setupLists(MainPageAdapter adapter) {
-        List<MutableLiveData<List<AnywhereEntity>>> lists = new ArrayList<>();
-        List<PageEntity> pageEntityList = AnywhereApplication.sRepository.getAllPageEntities().getValue();
-        List<AnywhereEntity> anywhereEntityList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
-
-        if (pageEntityList != null && anywhereEntityList != null) {
-            for (PageEntity pe : pageEntityList) {
-                MutableLiveData<List<AnywhereEntity>> liveData = new MutableLiveData<>();
-                List<AnywhereEntity> list = new ArrayList<>();
-
-                for (AnywhereEntity ae : anywhereEntityList) {
-                    if (pe.getTitle().equals(ae.getCategory())) {
-                        list.add(ae);
-                    }
-                }
-
-                if (list.size() > 0) {
-                    liveData.setValue(list);
-                    lists.add(liveData);
-                }
-            }
-        }
-
-        adapter.setList(lists);
-        mViewPager.setUserInputEnabled(lists.size() > 1);
-        mViewPager.setCurrentItem(GlobalValues.sCurrentPage, false);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

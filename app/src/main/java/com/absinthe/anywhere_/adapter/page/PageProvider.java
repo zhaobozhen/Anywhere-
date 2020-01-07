@@ -27,8 +27,10 @@ public class PageProvider extends BaseNodeProvider {
 
     @Override
     public void convert(@NotNull BaseViewHolder baseViewHolder, @Nullable BaseNode baseNode) {
+        String title = ((PageNode) Objects.requireNonNull(baseNode)).getTitle();
+
         RecyclerView recyclerView = baseViewHolder.getView(R.id.rv_chip);
-        ChipAdapter adapter = new ChipAdapter(((PageNode) Objects.requireNonNull(baseNode)).getTitle());
+        ChipAdapter adapter = new ChipAdapter(title);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

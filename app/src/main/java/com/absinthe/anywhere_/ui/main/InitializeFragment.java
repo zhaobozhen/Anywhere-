@@ -130,7 +130,6 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        menu.clear();
         inflater.inflate(R.menu.initialize_menu, menu);
     }
 
@@ -173,7 +172,12 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     }
 
     private void enterMainFragment() {
-        MainActivity.getInstance().mViewFlipper.setDisplayedChild(0);
+        MainFragment fragment = MainFragment.newInstance(GlobalValues.sCategory);
+        MainActivity.getInstance()
+                .getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                .replace(R.id.container, fragment)
+                .commitNow();
         MainActivity.getInstance().mFab.setVisibility(View.VISIBLE);
         MainActivity.getInstance().initFab();
     }

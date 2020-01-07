@@ -19,7 +19,6 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -49,37 +48,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends Fragment implements LifecycleOwner {
-    private Context mContext;
-
+    public static final String BUNDLE_CATEGORY = "CATEGORY";
     private static AnywhereViewModel mViewModel;
-    private static boolean IS_MENU_INIT = false;
 
-    private MutableLiveData<List<AnywhereEntity>> mList;
+    private Context mContext;
+    private String category;
+
     private RecyclerView mRecyclerView;
     private BaseAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    public static MainFragment newInstance(MutableLiveData<List<AnywhereEntity>> list) {
-        return new MainFragment(list);
+    public static MainFragment newInstance(String category) {
+        MainFragment fragment = new MainFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(BUNDLE_CATEGORY, category);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     public static AnywhereViewModel getViewModelInstance() {
         return mViewModel;
     }
 
-    private MainFragment(MutableLiveData<List<AnywhereEntity>> list) {
-        mList = list;
-    }
-
-    public MutableLiveData<List<AnywhereEntity>> getList() {
-        return mList;
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = getActivity();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            category = getArguments().getString(BUNDLE_CATEGORY);
+        } else {
+            category = GlobalValues.sCategory;
+        }
     }
 
     @Nullable
@@ -103,10 +108,17 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         @Override
         public void onChanged(List<AnywhereEntity> anywhereEntities) {
             if (!mViewModel.refreshLock) {
+                List<AnywhereEntity> filtered = new ArrayList<>();
+                for (AnywhereEntity ae : anywhereEntities) {
+                    if (ae.getCategory().equals(category)) {
+                        filtered.add(ae);
+                    }
+                }
+
                 if (adapter.getItemCount() == 0) {
-                    adapter.setItems(anywhereEntities);
+                    adapter.setItems(filtered);
                 } else {
-                    adapter.updateItems(anywhereEntities);
+                    adapter.updateItems(filtered);
                 }
 
                 if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
@@ -182,11 +194,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        if (!IS_MENU_INIT) {
-            menu.clear();
-            inflater.inflate(R.menu.main_menu, menu);
-            IS_MENU_INIT = true;
-        }
+        inflater.inflate(R.menu.main_menu, menu);
     }
 
     @Override
@@ -261,7 +269,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         popupItem.getItemId() == R.id.sort_by_name_desc ||
                         popupItem.getItemId() == R.id.sort_by_name_asc) {
                     mViewModel.refreshDB();
-                    mList.observe(this, listObserver);
+                    mViewModel.getAllAnywhereEntities().observe(this, listObserver);
                 }
                 return true;
             });
@@ -304,6 +312,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private void initObserver() {
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
         mViewModel.getCardMode().observe(this, s -> refreshRecyclerView());
-        mList.observe(this, listObserver);
+        mViewModel.getAllAnywhereEntities().observe(this, listObserver);
     }
 }
