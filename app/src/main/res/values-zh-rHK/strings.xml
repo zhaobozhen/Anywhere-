@@ -9,7 +9,7 @@
     <string name="tile_collector_off">關閉 Collector</string>
     <string name="shortcut_add">添加 Anywhere-</string>
     <string name="slogan">Anywhere- 去你想去的地方</string>
-    <string name="whats_this">這是甚麼</string>
+    <string name="whats_this">這是甚麼？</string>
     <string name="welcome_title">歡迎使用 Anywhere-</string>
     <string name="welcome_start_button">開始</string>
 
@@ -219,4 +219,10 @@
     <string name="drawer_title">頁(开发中)</string>
     <string name="menu_rate">評分</string>
     <string name="toast_backup_file_error">備份文件格式錯誤</string>
+    <string name="certification">認證</string>
+    <string name="developer">開發者</string>
+    <string name="developer_info">開發 &amp; 設計</string>
+    <string name="open_source_licenses">開源許可證</string>
+    <string name="android_links_title">已加入 「Android 應用友鏈」</string>
+    <string name="green_android_title">已通過 「Android 綠色應用公約」 認證</string>
 </resources>

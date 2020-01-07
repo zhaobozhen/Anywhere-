@@ -9,12 +9,20 @@
     <string name="tile_collector_off">Close Collector</string>
     <string name="shortcut_add">Add an Anywhere-</string>
     <string name="shortcut_open">Open an Anywhere-</string>
-    <string name="slogan">Anywhere- To where u want to</string>
-    <string name="whats_this">What\'s this</string>
     <string name="welcome_title">Welcome to Anywhere-</string>
     <string name="welcome_start_button">Start</string>
     <string name="drawer_open" translatable="false">Open navigation drawer</string>
     <string name="drawer_close" translatable="false">Close navigation drawer</string>
+
+    <!--  About page  -->
+    <string name="slogan">Anywhere- To where you want to</string>
+    <string name="whats_this">What\'s this?</string>
+    <string name="developer">Developer</string>
+    <string name="developer_info">Developer &amp; designer</string>
+    <string name="certification">Certification</string>
+    <string name="android_links_title">Joined \"Android-Links\"</string>
+    <string name="green_android_title">Passed \"Green-Android\" certification</string>
+    <string name="open_source_licenses">Open Source Licenses</string>
 
     <!--  Collector  -->
     <string name="toast_permission_overlap">Please grant Overlay permission to \"Anywhere-\"</string>

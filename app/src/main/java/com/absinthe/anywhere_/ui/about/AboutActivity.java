@@ -58,14 +58,14 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
         items.add(new Category(getString(R.string.whats_this)));
         items.add(new Card(getString(R.string.about_text)));
 
-        items.add(new Category("Developers"));
-        items.add(new Contributor(R.mipmap.pic_rabbit, "Absinthe", "Developer & designer", "https://www.coolapk.com/u/482045"));
+        items.add(new Category(getString(R.string.developer)));
+        items.add(new Contributor(R.mipmap.pic_rabbit, "Absinthe", getString(R.string.developer_info), "https://www.coolapk.com/u/482045"));
 
-        items.add(new Category("Certification"));
-        items.add(new Contributor(R.mipmap.pic_android_links, "Android Links", "https://androidlinks.org/", "https://androidlinks.org/"));
-        items.add(new Contributor(R.drawable.ic_green_android, "Green Android", "https://green-android.org/", "https://green-android.org/"));
+        items.add(new Category(getString(R.string.certification)));
+        items.add(new Contributor(R.mipmap.pic_android_links, getString(R.string.android_links_title), "https://androidlinks.org/", "https://androidlinks.org/"));
+        items.add(new Contributor(R.drawable.ic_green_android, getString(R.string.green_android_title), "https://green-android.org/", "https://green-android.org/"));
 
-        items.add(new Category("Open Source Licenses"));
+        items.add(new Category(getString(R.string.open_source_licenses)));
         items.add(new License("Shizuku", "Rikka", "License", "https://github.com/RikkaApps/Shizuku"));
         items.add(new License("FreeReflection", "tiann", License.MIT, "https://github.com/tiann/FreeReflection"));
         items.add(new License("MultiType", "drakeet", License.APACHE_2, "https://github.com/drakeet/MultiType"));
