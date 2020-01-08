@@ -9,7 +9,9 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.CommandResult;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
@@ -24,6 +26,7 @@ public class CollectorView extends LinearLayout {
     private final WindowManager mWindowManager;
     private WindowManager.LayoutParams mLayoutParams;
 
+    private CollectorBuilder mBuilder;
     private String mPackageName, mClassName;
 
     private boolean isClick;
@@ -37,11 +40,18 @@ public class CollectorView extends LinearLayout {
         initView();
     }
 
+    public void setInfo(String pkgName, String clsName) {
+        if (GlobalValues.sIsCollectorPlus && mBuilder.tvPkgName != null && mBuilder.tvClsName != null) {
+            mBuilder.tvPkgName.setText(pkgName);
+            mBuilder.tvClsName.setText(clsName);
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
-        CollectorBuilder builder = new CollectorBuilder(mContext, this);
+        mBuilder = new CollectorBuilder(mContext, this);
 
-        builder.ibCollector.setOnClickListener(v -> {
+        mBuilder.ibCollector.setOnClickListener(v -> {
             Logger.d("Collector clicked!");
             collectActivity();
             mContext.startService(
@@ -52,11 +62,11 @@ public class CollectorView extends LinearLayout {
             AppUtils.openUrl(mContext, mPackageName, mClassName, "");
         });
 
-        builder.ibCollector.setOnTouchListener(new OnTouchListener() {
+        mBuilder.ibCollector.setOnTouchListener(new OnTouchListener() {
 
-            private float lastX; //上一次位置的X.Y坐标
+            private float lastX; //Last x, y position
             private float lastY;
-            private float nowX;  //当前移动位置的X.Y坐标
+            private float nowX;  //Current x, y position
             private float nowY;
             private float tranX; //悬浮窗移动位置的相对值
             private float tranY;
@@ -114,16 +124,18 @@ public class CollectorView extends LinearLayout {
 
         Logger.d("Shell result =", result);
 
-        if (result != null) {
+        if (result == null) {
+            ToastUtil.makeText(R.string.toast_adb_result_process_failed);
+        } else if (result.equals(CommandResult.RESULT_SHIZUKU_PERM_ERROR)
+                || result.equals(CommandResult.RESULT_ROOT_PERM_ERROR)) {
+            ToastUtil.makeText(R.string.toast_check_perm);
+        } else {
             String[] processed = TextUtils.processResultString(result);
 
             if (processed != null) {
                 mPackageName = processed[0];
                 mClassName = processed[1];
             }
-        } else {
-            ToastUtil.makeText(R.string.toast_check_perm);
         }
     }
-
 }

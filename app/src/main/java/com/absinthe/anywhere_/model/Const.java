@@ -36,6 +36,8 @@ public class Const {
     public static final String PREF_TILE_THREE_CMD = "tileThreeCmd";
     public static final String PREF_CURR_CATEGORY = "currCategory";
     public static final String PREF_CURR_PAGE_NUM = "currPageNum";
+    public static final String PREF_COLLECTOR_PLUS = "collectorPlus";
+    public static final String PREF_DUMP_INTERVAL = "dumpInterval";
 
     public static final String WORKING_MODE_URL_SCHEME = "url_scheme";
     public static final String WORKING_MODE_ROOT = "root";

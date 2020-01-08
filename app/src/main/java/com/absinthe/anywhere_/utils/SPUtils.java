@@ -61,4 +61,9 @@ public class SPUtils {
         SharedPreferences sp = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE);
         return sp.getInt(key, 0);
     }
+
+    public static int getInt(Context context, String key, int defaultValue) {
+        SharedPreferences sp = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE);
+        return sp.getInt(key, defaultValue);
+    }
 }

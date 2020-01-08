@@ -12,6 +12,7 @@ public class GlobalValues {
     public static boolean sIsCardBackground;
     public static boolean sIsMd2Toolbar;
     public static boolean sIsPages;
+    public static boolean sIsCollectorPlus;
 
     public static String sWorkingMode;
     public static String sActionBarType;
@@ -21,6 +22,7 @@ public class GlobalValues {
     public static String sIconPack;
     public static String sCategory;
     public static int sCurrentPage;
+    public static int sDumpInterval;
 
     public static void init(Context context) {
         sIsDebugMode = false;
@@ -29,6 +31,7 @@ public class GlobalValues {
         sIsCardBackground = SPUtils.getBoolean(context, Const.PREF_CARD_BACKGROUND, true);
         sIsMd2Toolbar = SPUtils.getBoolean(context, Const.PREF_MD2_TOOLBAR, false);
         sIsPages = SPUtils.getBoolean(context, Const.PREF_PAGES, false);
+        sIsCollectorPlus = SPUtils.getBoolean(context, Const.PREF_COLLECTOR_PLUS, false);
         sWorkingMode = SPUtils.getString(context, Const.PREF_WORKING_MODE);
         sActionBarType = SPUtils.getString(context, Const.PREF_ACTION_BAR_TYPE);
         sDarkMode = SPUtils.getString(context, Const.PREF_DARK_MODE);
@@ -37,6 +40,7 @@ public class GlobalValues {
         sIconPack = SPUtils.getString(context, Const.PREF_ICON_PACK);
         sCategory = SPUtils.getString(context, Const.PREF_CURR_CATEGORY, AnywhereType.DEFAULT_CATEGORY);
         sCurrentPage = SPUtils.getInt(context, Const.PREF_CURR_PAGE_NUM);
+        sDumpInterval = SPUtils.getInt(context, Const.PREF_DUMP_INTERVAL, 1000);
     }
 
     public static void setsIsStreamCardMode(boolean sIsStreamCardMode) {
@@ -99,5 +103,15 @@ public class GlobalValues {
     public static void setsIsPages(boolean sIsPages) {
         GlobalValues.sIsPages = sIsPages;
         SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_PAGES, sIsPages);
+    }
+
+    public static void setsIsCollectorPlus(boolean sIsCollectorPlus) {
+        GlobalValues.sIsCollectorPlus = sIsCollectorPlus;
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_COLLECTOR_PLUS, sIsCollectorPlus);
+    }
+
+    public static void setsDumpInterval(int sDumpInterval) {
+        GlobalValues.sDumpInterval = sDumpInterval;
+        SPUtils.putInt(AnywhereApplication.sContext, Const.PREF_DUMP_INTERVAL, sDumpInterval);
     }
 }

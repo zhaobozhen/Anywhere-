@@ -102,6 +102,7 @@
     <string name="settings_icon_pack">Icon Pack</string>
     <string name="settings_backup_and_restore">Backup &amp; Restore</string>
     <string name="settings_tiles">Tiles</string>
+    <string name="settings_collector_plus">Collector+</string>
     <string name="settings_lab">Lab</string>
     <string name="settings_help">Help</string>
     <string name="settings_about">About</string>
@@ -117,6 +118,7 @@
     <string name="settings_icon_pack_summary">Choose an icon pack</string>
     <string name="settings_backup_summary">Import/Export all Anywhere-</string>
     <string name="settings_tiles_summary">Quickly open an Anywhere- on Notification bar</string>
+    <string name="settings_collector_plus_summary">Display current Activity info while using Collector</string>
     <string name="settings_lab_summary">Experimental features</string>
     <string name="settings_help_summary">Help document</string>
     <string name="settings_about_summary">This is Anywhere- !</string>
@@ -173,6 +175,7 @@
     <string name="dialog_title_choose_icon_pack">Choose an Icon Pack</string>
     <string name="dialog_delete_selected_message">Are you sure to delete the selected item?</string>
     <string name="dialog_restore_apply_paste_hint">Paste configurations</string>
+    <string name="dialog_set_interval_title">Set interval</string>
 
     <string name="about_text">Anywhere- is a collection of apps.</string>
 

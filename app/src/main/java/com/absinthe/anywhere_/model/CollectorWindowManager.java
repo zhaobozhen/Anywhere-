@@ -16,7 +16,7 @@ public class CollectorWindowManager {
     private final Context mContext;
     private final WindowManager mWindowManager;
 
-    private View mFloatingView;
+    private CollectorView mFloatingView;
 
     static {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
@@ -58,5 +58,9 @@ public class CollectorWindowManager {
             mFloatingView = null;
             Logger.d("Collector removeView.");
         }
+    }
+
+    public CollectorView getView() {
+        return mFloatingView;
     }
 }

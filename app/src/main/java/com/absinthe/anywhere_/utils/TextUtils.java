@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.util.Patterns;
 
 import com.absinthe.anywhere_.AnywhereApplication;
-import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
@@ -35,7 +34,6 @@ public class TextUtils {
         int length = result.length();
 
         if (!result.contains(" u0 ") || result.indexOf(" u0 ") + 4 >= length - 1) {
-            ToastUtil.makeText(R.string.toast_adb_result_process_failed);
             return null;
         }
 

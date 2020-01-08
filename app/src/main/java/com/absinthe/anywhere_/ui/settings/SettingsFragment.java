@@ -58,6 +58,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         SwitchPreferenceCompat streamCardModePreference = findPreference(Const.PREF_STREAM_CARD_MODE);
         SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE);
         SwitchPreferenceCompat cardBackgroundPreference = findPreference(Const.PREF_CARD_BACKGROUND);
+        SwitchPreferenceCompat collectorPlusPreference = findPreference(Const.PREF_COLLECTOR_PLUS);
 
         if (workingModePreference != null) {
             workingModePreference.setOnPreferenceChangeListener(this);
@@ -99,6 +100,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 tilesPreference.setVisible(false);
             }
+        }
+        if (collectorPlusPreference != null) {
+            collectorPlusPreference.setOnPreferenceChangeListener(this);
         }
     }
 
@@ -148,7 +152,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 return true;
             case Const.PREF_ICON_PACK:
                 IconPackDialogFragment fragment = new IconPackDialogFragment();
-                fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "IconPackDialogFragment");
+                fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), fragment.getTag());
                 return true;
             default:
         }
@@ -187,6 +191,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             case Const.PREF_CARD_BACKGROUND:
                 GlobalValues.setsIsCardBackground((boolean) newValue);
                 MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
+                return true;
+            case Const.PREF_COLLECTOR_PLUS:
+                GlobalValues.setsIsCollectorPlus((boolean) newValue);
+                if ((boolean) newValue) {
+                    IntervalDialogFragment fragment = new IntervalDialogFragment();
+                    fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), fragment.getTag());
+                }
                 return true;
             default:
         }

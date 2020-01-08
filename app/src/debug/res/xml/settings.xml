@@ -101,6 +101,13 @@
                 android:targetClass="com.absinthe.anywhere_.ui.settings.TileSettingsActivity"/>
         </Preference>
 
+        <SwitchPreferenceCompat
+            app:key="collectorPlus"
+            app:title="@string/settings_collector_plus"
+            android:summary="@string/settings_collector_plus_summary"
+            android:icon="@drawable/ic_plus_circle"
+            app:defaultValue="false" />
+
         <Preference
             app:key="lab"
             app:title="@string/settings_lab"
@@ -109,7 +116,7 @@
 
             <intent
                 android:targetPackage="com.absinthe.anywhere_.debug"
-                android:targetClass="com.absinthe.anywhere_.ui.settings.LabActivity"/>
+                android:targetClass="com.absinthe.anywhere_.ui.settings.LabActivity" />
         </Preference>
 
     </PreferenceCategory>
