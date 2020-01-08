@@ -228,4 +228,6 @@
     <string name="bsd_default">默認</string>
     <string name="settings_pages_summary">將卡片歸類到多個頁面</string>
     <string name="settings_pages_title">分頁</string>
+    <string name="dialog_set_interval_title">設置時間間隔</string>
+    <string name="settings_collector_plus_summary">開啟 Collector 時顯示當前 Activity 訊息</string>
 </resources>

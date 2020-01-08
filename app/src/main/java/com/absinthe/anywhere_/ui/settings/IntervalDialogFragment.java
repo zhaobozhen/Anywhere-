@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.viewbuilder.IntervalDialogBuilder;
+import com.absinthe.anywhere_.viewbuilder.entity.IntervalDialogBuilder;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class IntervalDialogFragment extends DialogFragment {

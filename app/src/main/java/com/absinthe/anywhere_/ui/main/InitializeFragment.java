@@ -180,6 +180,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 .commitNow();
         MainActivity.getInstance().mFab.setVisibility(View.VISIBLE);
         MainActivity.getInstance().initFab();
+        MainActivity.getInstance().initObserver();
     }
 
     private void initObserver() {

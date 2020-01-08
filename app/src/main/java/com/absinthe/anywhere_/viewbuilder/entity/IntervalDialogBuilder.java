@@ -1,9 +1,10 @@
-package com.absinthe.anywhere_.viewbuilder;
+package com.absinthe.anywhere_.viewbuilder.entity;
 
 import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
 import com.google.android.material.slider.Slider;
 
 public class IntervalDialogBuilder extends ViewBuilder {

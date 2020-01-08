@@ -13,7 +13,7 @@ import com.absinthe.anywhere_.adapter.applist.AppListAdapter;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.IconPackManager;
-import com.absinthe.anywhere_.viewbuilder.IconPackDialogBuilder;
+import com.absinthe.anywhere_.viewbuilder.entity.IconPackDialogBuilder;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;

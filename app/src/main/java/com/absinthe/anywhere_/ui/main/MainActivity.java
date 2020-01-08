@@ -258,7 +258,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void initObserver() {
+    public void initObserver() {
         mViewModel.getBackground().observe(this, s -> {
             if (!s.isEmpty()) {
                 UiUtils.loadBackgroundPic(sInstance, mIvBackground);
@@ -295,7 +295,7 @@ public class MainActivity extends BaseActivity {
                 .create());
         mFab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_collector, R.drawable.ic_logo)
                 .setFabBackgroundColor(getResources().getColor(R.color.white))
-                .setLabel(getString(R.string.ib_collector_todo))
+                .setLabel(GlobalValues.getCollectorMode())
                 .setLabelClickable(false)
                 .create());
         mFab.setOnActionSelectedListener(actionItem -> {

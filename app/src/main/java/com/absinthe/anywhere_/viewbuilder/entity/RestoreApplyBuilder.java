@@ -1,10 +1,11 @@
-package com.absinthe.anywhere_.viewbuilder;
+package com.absinthe.anywhere_.viewbuilder.entity;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 

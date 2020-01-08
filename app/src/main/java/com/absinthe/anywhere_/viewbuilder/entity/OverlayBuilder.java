@@ -1,9 +1,11 @@
-package com.absinthe.anywhere_.viewbuilder;
+package com.absinthe.anywhere_.viewbuilder.entity;
 
 import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
 
 public class OverlayBuilder extends ViewBuilder {
 

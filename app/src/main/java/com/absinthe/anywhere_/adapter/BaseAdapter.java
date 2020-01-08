@@ -161,7 +161,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     private void openAnywhereActivity(AnywhereEntity item) {
-        //Todo Will delete in future version
+        //Todo Will be deleted in future version
         if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
             if (android.text.TextUtils.isEmpty(item.getParam2())) {
                 item.setParam2(UiUtils.getPkgNameByUrl(mContext, item.getParam1()));

@@ -18,7 +18,7 @@ import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.viewbuilder.CollectorBuilder;
+import com.absinthe.anywhere_.viewbuilder.entity.CollectorBuilder;
 
 public class CollectorView extends LinearLayout {
 

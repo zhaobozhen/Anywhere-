@@ -1,9 +1,11 @@
-package com.absinthe.anywhere_.viewbuilder;
+package com.absinthe.anywhere_.viewbuilder.entity;
 
 import android.content.Context;
 import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
 
 public class IconPackDialogBuilder extends ViewBuilder {
 

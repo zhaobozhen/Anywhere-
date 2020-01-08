@@ -64,7 +64,10 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public void onDestroy() {
-            mList.clear();
+            if (mList != null) {
+                mList.clear();
+                mList = null;
+            }
         }
 
         /**

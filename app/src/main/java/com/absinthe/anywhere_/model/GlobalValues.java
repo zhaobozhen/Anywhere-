@@ -114,4 +114,12 @@ public class GlobalValues {
         GlobalValues.sDumpInterval = sDumpInterval;
         SPUtils.putInt(AnywhereApplication.sContext, Const.PREF_DUMP_INTERVAL, sDumpInterval);
     }
+
+    public static String getCollectorMode() {
+        if (sIsCollectorPlus) {
+            return "Collector+";
+        } else {
+            return "Collector";
+        }
+    }
 }

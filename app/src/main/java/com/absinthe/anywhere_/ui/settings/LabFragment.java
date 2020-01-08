@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
@@ -45,6 +46,10 @@ public class LabFragment extends PreferenceFragmentCompat implements Preference.
         }
         if (pagesPreference != null) {
             pagesPreference.setOnPreferenceChangeListener(this);
+            //Todo
+            if (!BuildConfig.DEBUG) {
+                pagesPreference.setVisible(false);
+            }
         }
     }
 

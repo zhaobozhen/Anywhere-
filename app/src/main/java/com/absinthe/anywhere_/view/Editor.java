@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 
@@ -18,6 +19,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.services.OverlayService;
+import com.absinthe.anywhere_.ui.shortcuts.CreateShortcutDialogFragment;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
@@ -254,7 +256,10 @@ public abstract class Editor<T extends Editor<?>> {
                             break;
                         case R.id.add_home_shortcuts:
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                ShortcutsUtils.addPinnedShortcut(mItem);
+                                CreateShortcutDialogFragment fragment = new CreateShortcutDialogFragment(mItem.getAppName(),
+                                        UiUtils.getAppIconByPackageName(mContext, mItem.getParam1()));
+                                fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), fragment.getTag());
+//                                ShortcutsUtils.addPinnedShortcut(mItem);
                             }
                             break;
                         case R.id.delete:

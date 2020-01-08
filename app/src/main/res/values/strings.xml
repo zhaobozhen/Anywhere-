@@ -102,7 +102,7 @@
     <string name="settings_icon_pack">Icon Pack</string>
     <string name="settings_backup_and_restore">Backup &amp; Restore</string>
     <string name="settings_tiles">Tiles</string>
-    <string name="settings_collector_plus">Collector+</string>
+    <string name="settings_collector_plus" translatable="false">Collector+</string>
     <string name="settings_lab">Lab</string>
     <string name="settings_help">Help</string>
     <string name="settings_about">About</string>
@@ -175,7 +175,7 @@
     <string name="dialog_title_choose_icon_pack">Choose an Icon Pack</string>
     <string name="dialog_delete_selected_message">Are you sure to delete the selected item?</string>
     <string name="dialog_restore_apply_paste_hint">Paste configurations</string>
-    <string name="dialog_set_interval_title">Set interval</string>
+    <string name="dialog_set_interval_title">Set time interval</string>
 
     <string name="about_text">Anywhere- is a collection of apps.</string>
 

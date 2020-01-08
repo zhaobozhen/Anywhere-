@@ -10,12 +10,12 @@ public abstract class ViewBuilder implements IViewBuilder {
     protected ViewGroup root;
     protected Context mContext;
 
-    ViewBuilder(Context context) {
+    protected ViewBuilder(Context context) {
         mContext = context;
         init();
     }
 
-    ViewBuilder(Context context, ViewGroup viewGroup) {
+    protected ViewBuilder(Context context, ViewGroup viewGroup) {
         mContext = context;
         root = viewGroup;
         init();
@@ -38,7 +38,7 @@ public abstract class ViewBuilder implements IViewBuilder {
         root.removeView(view);
     }
 
-    int dipToPixels(float dipValue) {
+    protected int dipToPixels(float dipValue) {
         return UiUtils.dipToPixels(mContext, dipValue);
     }
 }

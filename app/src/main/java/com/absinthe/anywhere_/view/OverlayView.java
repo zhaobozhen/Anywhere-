@@ -18,7 +18,7 @@ import com.absinthe.anywhere_.services.OverlayService;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.viewbuilder.OverlayBuilder;
+import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder;
 
 public class OverlayView extends LinearLayout {
 

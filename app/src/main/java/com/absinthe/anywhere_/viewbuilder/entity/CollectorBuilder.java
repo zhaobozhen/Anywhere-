@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.viewbuilder;
+package com.absinthe.anywhere_.viewbuilder.entity;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
 
 public class CollectorBuilder extends ViewBuilder {
 
