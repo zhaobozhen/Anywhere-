@@ -24,23 +24,25 @@ public class CreateShortcutDialogBuilder extends ViewBuilder {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
         ));
-        int padding = dipToPixels(10);
+        int padding = d2p(25);
         root.setPadding(padding, padding, padding, padding);
         ((LinearLayout) root).setOrientation(LinearLayout.HORIZONTAL);
 
         ivIcon = new ImageView(mContext);
         ivIcon.setLayoutParams(new LinearLayout.LayoutParams(
-                dipToPixels(45),
-                dipToPixels(45)));
+                d2p(45),
+                d2p(45)));
         addView(ivIcon);
 
         etName = new EditText(mContext);
-        etName.setLayoutParams(new LinearLayout.LayoutParams(
+
+        LinearLayout.LayoutParams etParam = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
-        ));
+        );
+        etParam.setMarginStart(d2p(10));
+        etName.setLayoutParams(etParam);
 
-        etName.setPadding(padding, 0, padding, 0);
         etName.setSingleLine();
         addView(etName);
     }

@@ -33,8 +33,8 @@ public class CollectorBuilder extends ViewBuilder {
 
         ibCollector = new ImageButton(mContext);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                dipToPixels(65),
-                dipToPixels(65));
+                d2p(65),
+                d2p(65));
         layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
         ibCollector.setLayoutParams(layoutParams);
         ibCollector.setImageResource(R.drawable.btn_collector);
@@ -46,7 +46,7 @@ public class CollectorBuilder extends ViewBuilder {
             infoLayout.setLayoutParams(wrapWrap);
             infoLayout.setOrientation(LinearLayout.VERTICAL);
 
-            int padding = dipToPixels(5);
+            int padding = d2p(5);
             infoLayout.setPadding(padding, padding, padding, padding);
 
             infoLayout.setBackground(mContext.getResources().getDrawable(R.drawable.bg_collector_info));

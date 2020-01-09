@@ -31,9 +31,9 @@ public class RestoreApplyBuilder extends ViewBuilder {
         );
         Resources resources = mContext.getResources();
         tilParams.setMargins(
-                dipToPixels(resources.getDimension(R.dimen.bsd_edit_text_margin_horizontal)),
-                dipToPixels(resources.getDimension(R.dimen.bsd_item_margin_vertical)),
-                dipToPixels(resources.getDimension(R.dimen.bsd_edit_text_margin_horizontal)),
+                d2p(resources.getDimension(R.dimen.bsd_edit_text_margin_horizontal)),
+                d2p(resources.getDimension(R.dimen.bsd_item_margin_vertical)),
+                d2p(resources.getDimension(R.dimen.bsd_edit_text_margin_horizontal)),
                 0);
         textInputLayout.setLayoutParams(tilParams);
         textInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);

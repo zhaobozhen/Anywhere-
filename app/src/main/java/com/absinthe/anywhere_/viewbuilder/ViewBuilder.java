@@ -38,7 +38,7 @@ public abstract class ViewBuilder implements IViewBuilder {
         root.removeView(view);
     }
 
-    protected int dipToPixels(float dipValue) {
-        return UiUtils.dipToPixels(mContext, dipValue);
+    protected int d2p(float dipValue) {
+        return UiUtils.d2p(mContext, dipValue);
     }
 }

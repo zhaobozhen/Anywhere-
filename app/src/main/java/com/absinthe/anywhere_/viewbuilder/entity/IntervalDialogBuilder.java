@@ -21,7 +21,7 @@ public class IntervalDialogBuilder extends ViewBuilder {
         root.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
-        int padding = dipToPixels(10);
+        int padding = d2p(10);
         root.setPadding(padding, padding, padding, padding);
 
         slider = new Slider(mContext);

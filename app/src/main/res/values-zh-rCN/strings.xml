@@ -230,4 +230,5 @@
     <string name="settings_pages_summary">将卡片归类到多个页面</string>
     <string name="dialog_set_interval_title">设置时间间隔</string>
     <string name="settings_collector_plus_summary">开启 Collector 时显示当前 Activity 信息</string>
+    <string name="dialog_set_icon_and_name_title">设置图标和名称</string>
 </resources>

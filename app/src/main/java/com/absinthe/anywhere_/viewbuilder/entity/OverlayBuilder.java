@@ -18,8 +18,8 @@ public class OverlayBuilder extends ViewBuilder {
     @Override
     public void init() {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                dipToPixels(65),
-                dipToPixels(65));
+                d2p(65),
+                d2p(65));
 
         root.setLayoutParams(layoutParams);
 

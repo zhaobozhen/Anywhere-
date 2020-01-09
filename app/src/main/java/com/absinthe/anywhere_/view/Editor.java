@@ -256,10 +256,9 @@ public abstract class Editor<T extends Editor<?>> {
                             break;
                         case R.id.add_home_shortcuts:
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                CreateShortcutDialogFragment fragment = new CreateShortcutDialogFragment(mItem.getAppName(),
-                                        UiUtils.getAppIconByPackageName(mContext, mItem.getParam1()));
+                                mBottomSheetDialog.dismiss();
+                                CreateShortcutDialogFragment fragment = new CreateShortcutDialogFragment(mItem, this);
                                 fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), fragment.getTag());
-//                                ShortcutsUtils.addPinnedShortcut(mItem);
                             }
                             break;
                         case R.id.delete:

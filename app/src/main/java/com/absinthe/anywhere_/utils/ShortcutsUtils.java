@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 
@@ -76,7 +77,7 @@ public class ShortcutsUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void addPinnedShortcut(AnywhereEntity ae) {
+    public static void addPinnedShortcut(AnywhereEntity ae, Drawable icon, String name) {
         if (Singleton.INSTANCE.getInstance().isRequestPinShortcutSupported()) {
             // Assumes there's already a shortcut with the ID "my-shortcut".
             // The shortcut must be enabled.
@@ -86,8 +87,8 @@ public class ShortcutsUtils {
 
             ShortcutInfo pinShortcutInfo =
                     new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getId())
-                            .setShortLabel(ae.getAppName())
-                            .setIcon(Icon.createWithBitmap(UiUtils.drawableToBitmap(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
+                            .setShortLabel(name)
+                            .setIcon(Icon.createWithBitmap(UiUtils.drawableToBitmap(icon)))
                             .setIntent(intent)
                             .build();
 

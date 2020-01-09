@@ -529,7 +529,7 @@ public class UiUtils {
      * @param context  to get resource
      * @param dipValue our target
      */
-    public static int dipToPixels(Context context, float dipValue) {
+    public static int d2p(Context context, float dipValue) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
@@ -646,10 +646,10 @@ public class UiUtils {
     public static Drawable getMD2ToolbarBackground(Context context, Drawable homeBg) {
         Bitmap homeBgBitmap = drawableToBitmap(homeBg);
         Bitmap toolbarBitmap = Bitmap.createBitmap(homeBgBitmap,
-                dipToPixels(context, context.getResources().getDimension(R.dimen.toolbar_margin_horizontal)),
-                dipToPixels(context, context.getResources().getDimension(R.dimen.toolbar_margin_vertical)),
-                homeBgBitmap.getWidth() - 2 * dipToPixels(context, context.getResources().getDimension(R.dimen.toolbar_margin_horizontal)),
-                dipToPixels(context, 60));
+                d2p(context, context.getResources().getDimension(R.dimen.toolbar_margin_horizontal)),
+                d2p(context, context.getResources().getDimension(R.dimen.toolbar_margin_vertical)),
+                homeBgBitmap.getWidth() - 2 * d2p(context, context.getResources().getDimension(R.dimen.toolbar_margin_horizontal)),
+                d2p(context, 60));
 
         return new BitmapDrawable(context.getResources(), toolbarBitmap);
     }

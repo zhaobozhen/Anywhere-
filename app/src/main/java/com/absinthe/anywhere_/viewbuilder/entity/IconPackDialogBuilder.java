@@ -26,7 +26,7 @@ public class IconPackDialogBuilder extends ViewBuilder {
         LinearLayout.LayoutParams rvParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        rvParams.setMargins(0, 0, 0, dipToPixels(10));
+        rvParams.setMargins(0, 0, 0, d2p(10));
 
         rvIconPack.setLayoutParams(rvParams);
         addView(rvIconPack);
