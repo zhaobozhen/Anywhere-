@@ -9,7 +9,6 @@ public class GlobalValues {
     public static boolean sIsDebugMode;
     public static boolean sIsStreamCardMode;
     public static boolean sIsStreamCardModeSingleLine;
-    public static boolean sIsCardBackground;
     public static boolean sIsMd2Toolbar;
     public static boolean sIsPages;
     public static boolean sIsCollectorPlus;
@@ -18,6 +17,7 @@ public class GlobalValues {
     public static String sActionBarType;
     public static String sDarkMode;
     public static String sBackgroundUri;
+    public static String sCardBackgroundMode;
     public static String sSortMode;
     public static String sIconPack;
     public static String sCategory;
@@ -28,7 +28,6 @@ public class GlobalValues {
         sIsDebugMode = false;
         sIsStreamCardMode = SPUtils.getBoolean(context, Const.PREF_STREAM_CARD_MODE, false);
         sIsStreamCardModeSingleLine = SPUtils.getBoolean(context, Const.PREF_STREAM_CARD_SINGLE_LINE, false);
-        sIsCardBackground = SPUtils.getBoolean(context, Const.PREF_CARD_BACKGROUND, true);
         sIsMd2Toolbar = SPUtils.getBoolean(context, Const.PREF_MD2_TOOLBAR, false);
         sIsPages = SPUtils.getBoolean(context, Const.PREF_PAGES, false);
         sIsCollectorPlus = SPUtils.getBoolean(context, Const.PREF_COLLECTOR_PLUS, false);
@@ -36,6 +35,7 @@ public class GlobalValues {
         sActionBarType = SPUtils.getString(context, Const.PREF_ACTION_BAR_TYPE);
         sDarkMode = SPUtils.getString(context, Const.PREF_DARK_MODE);
         sBackgroundUri = SPUtils.getString(context, Const.PREF_CHANGE_BACKGROUND);
+        sCardBackgroundMode = SPUtils.getString(context, Const.PREF_CARD_BACKGROUND, "off");
         sSortMode = SPUtils.getString(context, Const.PREF_SORT_MODE);
         sIconPack = SPUtils.getString(context, Const.PREF_ICON_PACK);
         sCategory = SPUtils.getString(context, Const.PREF_CURR_CATEGORY, AnywhereType.DEFAULT_CATEGORY);
@@ -53,9 +53,9 @@ public class GlobalValues {
         SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_STREAM_CARD_SINGLE_LINE, sIsStreamCardModeSingleLine);
     }
 
-    public static void setsIsCardBackground(boolean sIsCardBackground) {
-        GlobalValues.sIsCardBackground = sIsCardBackground;
-        SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_CARD_BACKGROUND, sIsCardBackground);
+    public static void setsCardBackgroundMode(String sCardBackgroundMode) {
+        GlobalValues.sCardBackgroundMode = sCardBackgroundMode;
+        SPUtils.putString(AnywhereApplication.sContext, Const.PREF_CARD_BACKGROUND, sCardBackgroundMode);
     }
 
     public static void setsWorkingMode(String sWorkingMode) {

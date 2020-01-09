@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.preference.ListPreference;
+import androidx.preference.DropDownPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
@@ -47,8 +47,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ListPreference workingModePreference = findPreference(Const.PREF_WORKING_MODE);
-        ListPreference darkModePreference = findPreference(Const.PREF_DARK_MODE);
+        DropDownPreference workingModePreference = findPreference(Const.PREF_WORKING_MODE);
+        DropDownPreference darkModePreference = findPreference(Const.PREF_DARK_MODE);
+        DropDownPreference cardBackgroundPreference = findPreference(Const.PREF_CARD_BACKGROUND);
         Preference changeBgPreference = findPreference(Const.PREF_CHANGE_BACKGROUND);
         Preference resetBgPreference = findPreference(Const.PREF_RESET_BACKGROUND);
         Preference helpPreference = findPreference(Const.PREF_HELP);
@@ -57,7 +58,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Preference tilesPreference = findPreference(Const.PREF_TILES);
         SwitchPreferenceCompat streamCardModePreference = findPreference(Const.PREF_STREAM_CARD_MODE);
         SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE);
-        SwitchPreferenceCompat cardBackgroundPreference = findPreference(Const.PREF_CARD_BACKGROUND);
         SwitchPreferenceCompat collectorPlusPreference = findPreference(Const.PREF_COLLECTOR_PLUS);
 
         if (workingModePreference != null) {
@@ -179,7 +179,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 if (streamCardSingleLinePreference != null) {
                     streamCardSingleLinePreference.setEnabled((boolean) newValue);
                 }
-                SwitchPreferenceCompat cardBackgroundPreference = findPreference(Const.PREF_CARD_BACKGROUND);
+                DropDownPreference cardBackgroundPreference = findPreference(Const.PREF_CARD_BACKGROUND);
                 if (cardBackgroundPreference != null) {
                     cardBackgroundPreference.setEnabled((boolean) newValue);
                 }
@@ -189,7 +189,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
                 return true;
             case Const.PREF_CARD_BACKGROUND:
-                GlobalValues.setsIsCardBackground((boolean) newValue);
+                GlobalValues.setsCardBackgroundMode(newValue.toString());
                 MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
                 return true;
             case Const.PREF_COLLECTOR_PLUS:

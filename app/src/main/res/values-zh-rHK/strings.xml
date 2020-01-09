@@ -231,4 +231,7 @@
     <string name="dialog_set_interval_title">設置時間間隔</string>
     <string name="settings_collector_plus_summary">開啟 Collector 時顯示當前 Activity 訊息</string>
     <string name="dialog_set_icon_and_name_title">設置圖標和名稱</string>
+    <string name="array_card_bg_off">關閉</string>
+    <string name="array_card_bg_gradient">漸變色</string>
+    <string name="array_card_bg_pure">純色</string>
 </resources>

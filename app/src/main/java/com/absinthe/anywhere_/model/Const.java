@@ -12,7 +12,7 @@ public class Const {
     public static final String PREF_DARK_MODE_OLED = "darkModeOLED";
     public static final String PREF_STREAM_CARD_MODE = "streamCardMode";
     public static final String PREF_STREAM_CARD_SINGLE_LINE = "streamCardModeSingleLine";
-    public static final String PREF_CARD_BACKGROUND = "cardBackground";
+    public static final String PREF_CARD_BACKGROUND = "cardBackgroundMode";
     public static final String PREF_ACTION_BAR_TYPE = "actionBarType";
     public static final String PREF_HELP = "help";
     public static final String PREF_CLEAR_SHORTCUTS = "clearShortcuts";
@@ -45,6 +45,10 @@ public class Const {
 
     public static final String ACTION_BAR_TYPE_LIGHT = "light";
     public static final String ACTION_BAR_TYPE_DARK = "dark";
+
+    public static final String CARD_BG_MODE_OFF = "off";
+    public static final String CARD_BG_MODE_PURE = "pure";
+    public static final String CARD_BG_MODE_GRADIENT = "gradient";
 
     public static final String SORT_MODE_TIME_ASC = "TIME_ASC";
     public static final String SORT_MODE_TIME_DESC = "TIME_DESC";

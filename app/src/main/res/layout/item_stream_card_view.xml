@@ -72,6 +72,7 @@
                 android:layout_below="@id/rl_badge_icon">
 
                 <TextView
+                    android:id="@+id/tv_app_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/cardview_line_spacing"

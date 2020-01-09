@@ -55,11 +55,14 @@
             android:summary="@string/settings_stream_card_single_line_summary"
             app:defaultValue="false"/>
 
-        <SwitchPreferenceCompat
-            app:key="cardBackground"
+        <DropDownPreference
+            app:key="cardBackgroundMode"
             app:title="@string/settings_card_background"
-            android:summary="@string/settings_card_background_summary"
-            app:defaultValue="true"/>
+            android:icon="@drawable/ic_color"
+            app:useSimpleSummaryProvider="true"
+            app:entries="@array/list_card_bg"
+            app:entryValues="@array/list_card_bg_value"
+            android:defaultValue="off"/>
 
     </PreferenceCategory>
 

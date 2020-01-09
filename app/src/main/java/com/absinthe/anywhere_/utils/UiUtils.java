@@ -47,6 +47,7 @@ import androidx.palette.graphics.Palette;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
@@ -389,6 +390,30 @@ public class UiUtils {
      * @param view     card view
      * @param drawable icon drawable
      */
+    public static void setCardUseIconColor(View view, Drawable drawable, OnPaletteFinishedListener listener) {
+        Bitmap bitmap = drawableToBitmap(drawable);
+        if (bitmap == null) {
+            return;
+        }
+
+        Palette.from(bitmap).generate(p -> {
+            if (p != null) {
+                int color = p.getVibrantColor(Color.TRANSPARENT);
+                if (color == Color.TRANSPARENT) {
+                    color = p.getDominantColor(Color.TRANSPARENT);
+                }
+
+                view.setBackgroundColor(color);
+                listener.onFinished(color);
+//                if (p.getVibrantColor(Color.TRANSPARENT) != Color.TRANSPARENT) {
+//                    createLinearGradientBitmap((ImageView) view, p.getVibrantColor(Color.TRANSPARENT), Color.TRANSPARENT);
+//                } else {
+//                    createLinearGradientBitmap((ImageView) view, p.getDominantColor(Color.TRANSPARENT), Color.TRANSPARENT);
+//                }
+            }
+        });
+    }
+
     public static void setCardUseIconColor(View view, Drawable drawable) {
         Bitmap bitmap = drawableToBitmap(drawable);
         if (bitmap == null) {

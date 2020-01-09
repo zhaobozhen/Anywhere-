@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.adapter.card;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
 import com.absinthe.anywhere_.databinding.ItemStreamCardSingleLineBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
@@ -83,7 +85,15 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
                     .load(UiUtils.getAppIconByPackageName(mContext, item))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(binding.ivAppIcon);
-            if (GlobalValues.sIsCardBackground) {
+            if (GlobalValues.sCardBackgroundMode.equals(Const.CARD_BG_MODE_PURE)) {
+                UiUtils.setCardUseIconColor(binding.ivCardBg,
+                        UiUtils.getAppIconByPackageName(mContext, item),
+                        color -> {
+                            if (color != 0) {
+                                binding.tvAppName.setTextColor(UiUtils.isLightColor(color) ? Color.BLACK : Color.WHITE);
+                            }
+                        });
+            } else if (GlobalValues.sCardBackgroundMode.equals(Const.CARD_BG_MODE_GRADIENT)) {
                 UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
             }
 
