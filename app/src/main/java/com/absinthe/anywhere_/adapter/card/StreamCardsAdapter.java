@@ -93,6 +93,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
                         color -> {
                             if (color != 0) {
                                 binding.tvAppName.setTextColor(UiUtils.isLightColor(color) ? Color.BLACK : Color.WHITE);
+                                binding.tvDescription.setTextColor(UiUtils.isLightColor(color) ? Color.BLACK : Color.WHITE);
                             }
                         });
             } else if (GlobalValues.sCardBackgroundMode.equals(Const.CARD_BG_MODE_GRADIENT)) {

@@ -1,11 +1,11 @@
 package com.absinthe.anywhere_.services;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.service.quicksettings.Tile;
 
 import androidx.annotation.Nullable;
@@ -32,36 +32,28 @@ public class CollectorService extends Service {
             mCollectorWindowManager = new CollectorWindowManager(getApplicationContext());
     }
 
-    private boolean isStart = false;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler();
+
     private Runnable getCurrentInfoTask = new Runnable() {
         @Override
         public void run() {
-            int interval = GlobalValues.sDumpInterval;
-            while (isStart && mCollectorWindowManager.getView() != null) {
-                try {
-                    String result = CommandUtils.execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY);
+            if (mCollectorWindowManager != null && mCollectorWindowManager.getView() != null) {
+                String result = CommandUtils.execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY);
 
-                    if (result.equals(CommandResult.RESULT_NULL)
-                            || result.equals(CommandResult.RESULT_ROOT_PERM_ERROR)
-                            || result.equals(CommandResult.RESULT_SHIZUKU_PERM_ERROR)) {
-                        isStart = false;
-                        Thread.currentThread().interrupt();
-                    } else {
-                        String[] params = TextUtils.processResultString(result);
-                        if (params != null) {
-                            String pkgName = params[0];
-                            String clsName = params[1];
-                            new Handler(Looper.getMainLooper()).post(() ->
-                                    mCollectorWindowManager.getView().setInfo(pkgName, clsName));
-                        }
-                    }
-
-                    Thread.sleep(interval);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (result.equals(CommandResult.RESULT_NULL)
+                        || result.equals(CommandResult.RESULT_ROOT_PERM_ERROR)
+                        || result.equals(CommandResult.RESULT_SHIZUKU_PERM_ERROR)) {
                     Thread.currentThread().interrupt();
+                } else {
+                    String[] params = TextUtils.processResultString(result);
+                    if (params != null) {
+                        mCollectorWindowManager.setInfo(params[0], params[1]);
+                    }
                 }
             }
+
+            mHandler.postDelayed(this, GlobalValues.sDumpInterval);
         }
     };
 
@@ -84,13 +76,12 @@ public class CollectorService extends Service {
                     mCollectorWindowManager.addView();
 
                     if (GlobalValues.sIsCollectorPlus) {
-                        isStart = true;
-                        new Thread(getCurrentInfoTask).start();
+                        mHandler.post(getCurrentInfoTask);
                     }
                 } else if (command.equals(COMMAND_CLOSE)) {
                     Logger.d("Intent:COMMAND_CLOSE");
+                    mHandler.removeCallbacks(getCurrentInfoTask);
                     mCollectorWindowManager.removeView();
-                    isStart = false;
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         if (CollectorTileService.getInstance() != null) {

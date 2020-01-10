@@ -63,4 +63,10 @@ public class CollectorWindowManager {
     public CollectorView getView() {
         return mFloatingView;
     }
+
+    public void setInfo(String pkgName, String clsName) {
+        if (mFloatingView != null) {
+            mFloatingView.setInfo(pkgName, clsName);
+        }
+    }
 }
