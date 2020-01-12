@@ -519,22 +519,36 @@ public class UiUtils {
             endMinute = end.get(Calendar.MINUTE);
         }
 
-        if ((endHour < startHour) && (hour > startHour)) {
-            endHour += 24;
-            hour += 24;
-        }
+        Logger.d("hour = ", hour);
+        Logger.d("minute = ", minute);
+        Logger.d("start hour = ", startHour);
+        Logger.d("start minute = ", startMinute);
+        Logger.d("end hour = ", endHour);
+        Logger.d("end minute = ", endMinute);
 
-        Logger.d("hour = ",hour);
-        Logger.d("minute = ",minute);
-        Logger.d("start hour = ",startHour);
-        Logger.d("start minute = ",startMinute);
-        Logger.d("end hour = ",endHour);
-        Logger.d("end minute = ",endMinute);
-
-        if ((hour >= startHour && minute >= startMinute) && (hour <= endHour && minute <= endMinute)) {
-            return AppCompatDelegate.MODE_NIGHT_YES;
+        if (startHour < endHour) {
+            if ((hour >= startHour && minute >= startMinute) && (hour <= endHour && minute <= endMinute)) {
+                return AppCompatDelegate.MODE_NIGHT_YES;
+            } else {
+                return AppCompatDelegate.MODE_NIGHT_NO;
+            }
         } else {
-            return AppCompatDelegate.MODE_NIGHT_NO;
+            if (startHour == endHour && startMinute < endMinute) {
+                if (hour == startHour && minute >= startMinute && minute <= endMinute) {
+                    return AppCompatDelegate.MODE_NIGHT_YES;
+                } else {
+                    return AppCompatDelegate.MODE_NIGHT_NO;
+                }
+            } else {
+                if (hour > startHour
+                        || (hour == startHour && minute >= startMinute)
+                        || hour < endHour
+                        || (hour == endHour && minute <= endMinute)) {
+                    return AppCompatDelegate.MODE_NIGHT_YES;
+                } else {
+                    return AppCompatDelegate.MODE_NIGHT_NO;
+                }
+            }
         }
     }
 

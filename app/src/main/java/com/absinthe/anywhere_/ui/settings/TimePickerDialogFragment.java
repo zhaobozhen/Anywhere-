@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.R;
@@ -55,13 +54,10 @@ public class TimePickerDialogFragment extends DialogFragment {
             mBuilder.btnEnd.setText(String.format(Locale.getDefault(), "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
         }
 
-        View.OnClickListener listener = v -> {
-            dismiss();
-            new TimePickerDialog(mContext, (view, hourOfDay, minute) -> {
-                show(((AppCompatActivity) mContext).getSupportFragmentManager(), getTag());
-                ((MaterialButton) v).setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute));
-            }, 0, 0, true).show();
-        };
+        View.OnClickListener listener = v ->
+                new TimePickerDialog(mContext, (view, hourOfDay, minute) ->
+                ((MaterialButton) v).setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute)), 0, 0, true)
+                .show();
 
         mBuilder.btnStart.setOnClickListener(listener);
         mBuilder.btnEnd.setOnClickListener(listener);
