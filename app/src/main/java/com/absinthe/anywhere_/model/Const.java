@@ -38,6 +38,8 @@ public class Const {
     public static final String PREF_CURR_PAGE_NUM = "currPageNum";
     public static final String PREF_COLLECTOR_PLUS = "collectorPlus";
     public static final String PREF_DUMP_INTERVAL = "dumpInterval";
+    public static final String PREF_AUTO_DARK_MODE_START = "autoDarkModeStart";
+    public static final String PREF_AUTO_DARK_MODE_END = "autoDarkModeEnd";
 
     public static final String WORKING_MODE_URL_SCHEME = "url_scheme";
     public static final String WORKING_MODE_ROOT = "root";
@@ -49,6 +51,11 @@ public class Const {
     public static final String CARD_BG_MODE_OFF = "off";
     public static final String CARD_BG_MODE_PURE = "pure";
     public static final String CARD_BG_MODE_GRADIENT = "gradient";
+
+    public static final String DARK_MODE_OFF = "off";
+    public static final String DARK_MODE_ON = "on";
+    public static final String DARK_MODE_AUTO = "auto";
+    public static final String DARK_MODE_SYSTEM = "system";
 
     public static final String SORT_MODE_TIME_ASC = "TIME_ASC";
     public static final String SORT_MODE_TIME_DESC = "TIME_DESC";

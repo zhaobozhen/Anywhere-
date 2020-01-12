@@ -499,9 +499,39 @@ public class UiUtils {
      */
     public static int getAutoDarkMode() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        Logger.d("Current hour =", hour);
+        int minute = Calendar.getInstance().get(Calendar.MINUTE);
+        Calendar start = Calendar.getInstance();
+        start.setTimeInMillis(GlobalValues.sAutoDarkModeStart);
+        Calendar end = Calendar.getInstance();
+        end.setTimeInMillis(GlobalValues.sAutoDarkModeEnd);
 
-        if (hour >= 22 || hour <= 7) {
+        int startHour = 22;
+        int startMinute = 0;
+        if (GlobalValues.sAutoDarkModeStart != 0) {
+            startHour = start.get(Calendar.HOUR_OF_DAY);
+            startMinute = start.get(Calendar.MINUTE);
+        }
+
+        int endHour = 7;
+        int endMinute = 0;
+        if (GlobalValues.sAutoDarkModeEnd != 0) {
+            endHour = end.get(Calendar.HOUR_OF_DAY);
+            endMinute = end.get(Calendar.MINUTE);
+        }
+
+        if ((endHour < startHour) && (hour > startHour)) {
+            endHour += 24;
+            hour += 24;
+        }
+
+        Logger.d("hour = ",hour);
+        Logger.d("minute = ",minute);
+        Logger.d("start hour = ",startHour);
+        Logger.d("start minute = ",startMinute);
+        Logger.d("end hour = ",endHour);
+        Logger.d("end minute = ",endMinute);
+
+        if ((hour >= startHour && minute >= startMinute) && (hour <= endHour && minute <= endMinute)) {
             return AppCompatDelegate.MODE_NIGHT_YES;
         } else {
             return AppCompatDelegate.MODE_NIGHT_NO;

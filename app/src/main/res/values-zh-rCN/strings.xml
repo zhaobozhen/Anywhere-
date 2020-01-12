@@ -234,4 +234,5 @@
     <string name="array_card_bg_off">关闭</string>
     <string name="array_card_bg_gradient">渐变色</string>
     <string name="array_card_bg_pure">纯色</string>
+    <string name="dialog_set_dark_mode_period_title">设置夜间模式时间</string>
 </resources>

@@ -34,16 +34,16 @@ public class Settings {
     public static void setTheme(String mode) {
         switch (mode) {
             case "":
-            case "off":
+            case Const.DARK_MODE_OFF:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
-            case "on":
+            case Const.DARK_MODE_ON:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
-            case "system":
+            case Const.DARK_MODE_SYSTEM:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 break;
-            case "auto":
+            case Const.DARK_MODE_AUTO:
                 AppCompatDelegate.setDefaultNightMode(UiUtils.getAutoDarkMode());
                 break;
             default:

@@ -21,8 +21,12 @@ public class GlobalValues {
     public static String sSortMode;
     public static String sIconPack;
     public static String sCategory;
+
     public static int sCurrentPage;
     public static int sDumpInterval;
+
+    public static long sAutoDarkModeStart;
+    public static long sAutoDarkModeEnd;
 
     public static void init(Context context) {
         sIsDebugMode = false;
@@ -31,6 +35,7 @@ public class GlobalValues {
         sIsMd2Toolbar = SPUtils.getBoolean(context, Const.PREF_MD2_TOOLBAR, false);
         sIsPages = SPUtils.getBoolean(context, Const.PREF_PAGES, false);
         sIsCollectorPlus = SPUtils.getBoolean(context, Const.PREF_COLLECTOR_PLUS, false);
+
         sWorkingMode = SPUtils.getString(context, Const.PREF_WORKING_MODE);
         sActionBarType = SPUtils.getString(context, Const.PREF_ACTION_BAR_TYPE);
         sDarkMode = SPUtils.getString(context, Const.PREF_DARK_MODE);
@@ -39,8 +44,12 @@ public class GlobalValues {
         sSortMode = SPUtils.getString(context, Const.PREF_SORT_MODE);
         sIconPack = SPUtils.getString(context, Const.PREF_ICON_PACK);
         sCategory = SPUtils.getString(context, Const.PREF_CURR_CATEGORY, AnywhereType.DEFAULT_CATEGORY);
+
         sCurrentPage = SPUtils.getInt(context, Const.PREF_CURR_PAGE_NUM);
         sDumpInterval = SPUtils.getInt(context, Const.PREF_DUMP_INTERVAL, 1000);
+
+        sAutoDarkModeStart = SPUtils.getLong(context, Const.PREF_AUTO_DARK_MODE_START);
+        sAutoDarkModeEnd = SPUtils.getLong(context, Const.PREF_AUTO_DARK_MODE_END);
     }
 
     public static void setsIsStreamCardMode(boolean sIsStreamCardMode) {
@@ -121,5 +130,15 @@ public class GlobalValues {
         } else {
             return "Collector";
         }
+    }
+
+    public static void setsAutoDarkModeStart(long sAutoDarkModeStart) {
+        GlobalValues.sAutoDarkModeStart = sAutoDarkModeStart;
+        SPUtils.putLong(AnywhereApplication.sContext, Const.PREF_AUTO_DARK_MODE_START, sAutoDarkModeStart);
+    }
+
+    public static void setsAutoDarkModeEnd(long sAutoDarkModeEnd) {
+        GlobalValues.sAutoDarkModeEnd = sAutoDarkModeEnd;
+        SPUtils.putLong(AnywhereApplication.sContext, Const.PREF_AUTO_DARK_MODE_END, sAutoDarkModeEnd);
     }
 }

@@ -168,8 +168,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 }
                 break;
             case Const.PREF_DARK_MODE:
-                Settings.setTheme(newValue.toString());
-                GlobalValues.setsDarkMode(newValue.toString());
+                if (newValue.toString().equals(Const.DARK_MODE_AUTO)) {
+                    TimePickerDialogFragment fragment = new TimePickerDialogFragment();
+                    fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), fragment.getTag());
+                } else {
+                    Settings.setTheme(newValue.toString());
+                    GlobalValues.setsDarkMode(newValue.toString());
+                }
                 break;
             case Const.PREF_STREAM_CARD_MODE:
                 GlobalValues.setsIsStreamCardMode((boolean) newValue);

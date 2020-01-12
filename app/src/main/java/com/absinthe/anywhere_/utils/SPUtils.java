@@ -66,4 +66,20 @@ public class SPUtils {
         SharedPreferences sp = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE);
         return sp.getInt(key, defaultValue);
     }
+
+    public static void putLong(Context context, String key, long value) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE).edit();
+        editor.putLong(key, value);
+        editor.apply();
+    }
+
+    public static long getLong(Context context, String key) {
+        SharedPreferences sp = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE);
+        return sp.getLong(key, 0);
+    }
+
+    public static long getLong(Context context, String key, long defaultValue) {
+        SharedPreferences sp = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE);
+        return sp.getLong(key, defaultValue);
+    }
 }

@@ -41,7 +41,8 @@ public class CollectorService extends Service {
             if (mCollectorWindowManager != null && mCollectorWindowManager.getView() != null) {
                 String result = CommandUtils.execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY);
 
-                if (result.equals(CommandResult.RESULT_NULL)
+                if (result == null
+                        ||result.equals(CommandResult.RESULT_NULL)
                         || result.equals(CommandResult.RESULT_ROOT_PERM_ERROR)
                         || result.equals(CommandResult.RESULT_SHIZUKU_PERM_ERROR)) {
                     Thread.currentThread().interrupt();
