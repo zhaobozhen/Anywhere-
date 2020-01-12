@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -203,6 +205,20 @@ public class MainActivity extends BaseActivity {
         RecyclerView recyclerView = drawer.findViewById(R.id.rv_pages);
 
         PageListAdapter adapter = new PageListAdapter();
+        adapter.setOnItemChildClickListener((adapter1, view, position) -> {
+            if (view.getId() == R.id.iv_entry) {
+                MainActivity.getInstance().mDrawer.closeDrawer(GravityCompat.START);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    PageTitleNode node = (PageTitleNode) adapter1.getItem(position);
+                    MainActivity.getInstance().getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                            .replace(R.id.container, MainFragment.newInstance(node.getTitle()))
+                            .commitNow();
+                    GlobalValues.setsCategory(node.getTitle(), position);
+                }, 300);
+            }
+        });
         AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities -> {
             if (pageEntities != null) {
                 setupDrawerData(adapter, pageEntities);

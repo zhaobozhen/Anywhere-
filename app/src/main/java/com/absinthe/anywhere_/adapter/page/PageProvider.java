@@ -35,5 +35,4 @@ public class PageProvider extends BaseNodeProvider {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
-
 }

@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter.page;
 
+import com.absinthe.anywhere_.R;
 import com.chad.library.adapter.base.BaseNodeAdapter;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
@@ -12,6 +13,7 @@ public class PageListAdapter extends BaseNodeAdapter {
     public PageListAdapter() {
         addNodeProvider(new PageTitleProvider());
         addNodeProvider(new PageProvider());
+        addChildClickViewIds(R.id.iv_entry);
     }
 
     @Override

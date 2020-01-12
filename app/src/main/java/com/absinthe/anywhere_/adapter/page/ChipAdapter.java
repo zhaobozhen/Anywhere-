@@ -77,7 +77,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
 
         private void bind(AnywhereEntity item) {
             chip.setText(item.getAppName());
-            chip.setChipIcon(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, item.getParam1()));
+            chip.setChipIcon(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, item));
         }
     }
 }
