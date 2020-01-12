@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 
 import com.absinthe.anywhere_.services.OverlayService;
 import com.absinthe.anywhere_.utils.CommandUtils;
-import com.absinthe.anywhere_.utils.Logger;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder;
 

@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.model;
+package com.absinthe.anywhere_.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,6 +7,9 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.PageEntity;
 
 import java.util.List;
 

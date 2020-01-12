@@ -16,7 +16,7 @@ import com.absinthe.anywhere_.model.CommandResult;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.CommandUtils;
-import com.absinthe.anywhere_.utils.Logger;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 

@@ -3,7 +3,7 @@ package com.absinthe.anywhere_.adapter.manager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.absinthe.anywhere_.utils.Logger;
+import com.absinthe.anywhere_.utils.manager.Logger;
 
 public class WrapContentStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
     public WrapContentStaggeredGridLayoutManager(int spanCount, int orientation) {

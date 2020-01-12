@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.utils;
+package com.absinthe.anywhere_.utils.manager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -160,7 +160,7 @@ public class IconPackManager {
             return null;
         }
 
-        Drawable getDrawableIconForPackage(String appPackageName, Drawable defaultDrawable) {
+        public Drawable getDrawableIconForPackage(String appPackageName, Drawable defaultDrawable) {
             if (!mLoaded) {
                 load();
             }

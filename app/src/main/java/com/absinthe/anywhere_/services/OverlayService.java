@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.OverlayWindowManager;
-import com.absinthe.anywhere_.utils.Logger;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.ToastUtil;
 
 public class OverlayService extends Service {

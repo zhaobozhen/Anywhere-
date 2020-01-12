@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.model;
+package com.absinthe.anywhere_.database;
 
 import android.content.Context;
 
@@ -8,6 +8,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.PageEntity;
 
 @Database(entities = {AnywhereEntity.class, PageEntity.class}, version = 4, exportSchema = false)
 public abstract class AnywhereRoomDatabase extends RoomDatabase {

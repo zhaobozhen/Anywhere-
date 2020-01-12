@@ -81,11 +81,7 @@ public class AnywhereEntity implements Parcelable {
         mParam3 = param3;
         mDescription = description;
         mType = type;
-        if (mCategory == null) {
-            mCategory = GlobalValues.sCategory;
-        } else {
-            mCategory = category;
-        }
+        mCategory = category;
         mTimeStamp = timeStamp;
     }
 
@@ -154,7 +150,7 @@ public class AnywhereEntity implements Parcelable {
     }
 
     public String getCategory() {
-        return mCategory;
+        return mCategory == null ? GlobalValues.sCategory : mCategory;
     }
 
     public void setCategory(@NonNull String mCategory) {

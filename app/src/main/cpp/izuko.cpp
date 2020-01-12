@@ -40,6 +40,9 @@ static jobject getApplication(JNIEnv *env) {
  * @param dest
  * @param sourceLen
  */
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
+#pragma ide diagnostic ignored "hicpp-signed-bitwise"
 static void ToHexStr(const char *source, char *dest, int sourceLen) {
     short i;
     char highByte;
@@ -64,6 +67,7 @@ static void ToHexStr(const char *source, char *dest, int sourceLen) {
         }
     }
 }
+#pragma clang diagnostic pop
 
 /**
  *
@@ -111,7 +115,7 @@ static jstring ToMd5(JNIEnv *env, jbyteArray source) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_absinthe_anywhere_1_AnywhereApplication_checkSignature(JNIEnv *env, jclass clazz) {
+Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_checkSignature(JNIEnv *env, jclass clazz) {
 
     jobject context = getApplication(env);
     // get Context object

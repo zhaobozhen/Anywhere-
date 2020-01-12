@@ -14,6 +14,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.utils.manager.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -3,6 +3,8 @@ package com.absinthe.anywhere_.utils;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.absinthe.anywhere_.utils.manager.Logger;
+
 import java.nio.charset.StandardCharsets;
 
 import javax.crypto.Cipher;

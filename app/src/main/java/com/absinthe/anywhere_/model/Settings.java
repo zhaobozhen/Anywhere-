@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BuildConfig;
-import com.absinthe.anywhere_.utils.IconPackManager;
-import com.absinthe.anywhere_.utils.Logger;
+import com.absinthe.anywhere_.utils.manager.IconPackManager;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.text.SimpleDateFormat;

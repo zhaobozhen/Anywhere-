@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.google.gson.Gson;
 
 import java.util.List;

@@ -53,6 +53,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.RoundLinerLayoutNormal;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;

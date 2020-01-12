@@ -19,6 +19,7 @@ import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.provider.HomeWidgetProvider;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;

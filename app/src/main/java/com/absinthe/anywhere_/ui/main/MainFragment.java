@@ -39,7 +39,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
-import com.absinthe.anywhere_.utils.Logger;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends Fragment implements LifecycleOwner {
-    public static final String BUNDLE_CATEGORY = "CATEGORY";
+    private static final String BUNDLE_CATEGORY = "CATEGORY";
     private static AnywhereViewModel mViewModel;
 
     private Context mContext;
@@ -91,7 +91,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        MainActivity.setCurFragment(this);
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         initView(view);
 

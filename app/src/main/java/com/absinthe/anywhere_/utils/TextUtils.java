@@ -14,6 +14,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QREntity;
+import com.absinthe.anywhere_.utils.manager.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,10 +41,10 @@ import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
-import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
@@ -64,9 +62,7 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 public class MainActivity extends BaseActivity {
     @SuppressLint("StaticFieldLeak")
     private static MainActivity sInstance;
-    private static Fragment sCurFragment;
 
-    private MainFragment mMainFragment;
     private AnywhereViewModel mViewModel;
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -84,10 +80,6 @@ public class MainActivity extends BaseActivity {
 
     public AnywhereViewModel getViewModel() {
         return mViewModel;
-    }
-
-    public static void setCurFragment(Fragment fragment) {
-        sCurFragment = fragment;
     }
 
     @Override
@@ -114,10 +106,9 @@ public class MainActivity extends BaseActivity {
                     AnywhereApplication.sRepository.insertPage(
                             new PageEntity(GlobalValues.sCategory, 1, System.currentTimeMillis() + "")));
         } else {
-            mMainFragment = MainFragment.newInstance(GlobalValues.sCategory);
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(R.id.container, mMainFragment)
+                    .replace(R.id.container, MainFragment.newInstance(GlobalValues.sCategory))
                     .commitNow();
             initFab();
             initObserver();
@@ -150,7 +141,7 @@ public class MainActivity extends BaseActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         Logger.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
 
-        if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT)
+        if ((GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT) && !GlobalValues.sIsMd2Toolbar)
                 || (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty())
                 || (UiUtils.isDarkMode(this) && GlobalValues.sIsMd2Toolbar)) {
             UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_LIGHT);
@@ -185,6 +176,12 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
 
+        if (!GlobalValues.sBackgroundUri.isEmpty()) {
+            UiUtils.loadBackgroundPic(this, mIvBackground);
+            UiUtils.setActionBarTransparent(this);
+            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
+        }
+
         if (actionBar != null) {
             if (GlobalValues.sIsPages) {
                 mToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
@@ -199,12 +196,6 @@ public class MainActivity extends BaseActivity {
                 actionBar.setHomeButtonEnabled(false);
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             }
-        }
-
-        if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            UiUtils.loadBackgroundPic(this, mIvBackground);
-            UiUtils.setActionBarTransparent(this);
-            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }
     }
 
@@ -396,31 +387,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Logger.d("curFragment =" + sCurFragment);
-
         if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
             Logger.d("REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
-            if (sCurFragment instanceof MainFragment) {
-                if (mMainFragment == null) {
-                    mMainFragment = (MainFragment) sCurFragment;
-                }
-                if (resultCode == RESULT_OK) {
-                    mViewModel.checkWorkingPermission(this);
-                }
-            } else if (sCurFragment instanceof InitializeFragment) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (android.provider.Settings.canDrawOverlays(this)) {
-                        InitializeFragment.getViewModel().getIsOverlay().setValue(Boolean.TRUE);
-                    }
-                }
-            }
-        } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
-            Logger.d("REQUEST_CODE_SHIZUKU_PERMISSION");
-            if (sCurFragment instanceof InitializeFragment) {
-                InitializeFragment.getViewModel().getIsShizuku().setValue(Boolean.TRUE);
+            if (resultCode == RESULT_OK) {
+                mViewModel.checkWorkingPermission(this);
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

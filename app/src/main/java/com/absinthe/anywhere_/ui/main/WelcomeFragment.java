@@ -30,7 +30,6 @@ public class WelcomeFragment extends Fragment {
                 .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                 .replace(R.id.container, InitializeFragment.newInstance())
                 .commitNow());
-        MainActivity.setCurFragment(this);
 
         return view;
     }

@@ -1,9 +1,11 @@
-package com.absinthe.anywhere_.utils;
+package com.absinthe.anywhere_.utils.manager;
 
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;

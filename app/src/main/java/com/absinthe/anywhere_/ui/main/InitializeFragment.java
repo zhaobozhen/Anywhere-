@@ -1,8 +1,13 @@
 package com.absinthe.anywhere_.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +18,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
@@ -21,15 +26,17 @@ import androidx.lifecycle.ViewModelProviders;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.utils.Logger;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
+
+import moe.shizuku.api.ShizukuApiConstants;
 
 public class InitializeFragment extends Fragment implements MaterialButtonToggleGroup.OnButtonCheckedListener, LifecycleOwner {
     private static final int CARD_ROOT = 1;
@@ -51,14 +58,10 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         return new InitializeFragment();
     }
 
-    static InitializeViewModel getViewModel() {
-        return mViewModel;
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mContext = getContext();
+        mContext = getActivity();
     }
 
     @Override
@@ -66,7 +69,6 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_initialize, container, false);
         initView(view);
-        MainActivity.setCurFragment(this);
 
         return view;
     }
@@ -272,7 +274,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 });
 
                 btnShizuku.setOnClickListener(view -> {
-                    boolean result = PermissionUtils.shizukuPermissionCheck((AppCompatActivity) mContext);
+                    boolean result = PermissionUtils.shizukuPermissionCheck(this);
                     mViewModel.getIsShizuku().setValue(result);
                 });
                 if (isAdd) {
@@ -293,7 +295,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 cvOverlay = vgOverlay.findViewById(R.id.cv_acquire_overlay_permission);
                 btnOverlay = cvOverlay.findViewById(R.id.btn_acquire_overlay_permission);
                 btnOverlay.setOnClickListener(view -> {
-                    boolean result = PermissionUtils.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
+                    boolean result = PermissionUtils.checkOverlayPermission(this, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
                     mViewModel.getIsOverlay().setValue(result);
                 });
                 if (isAdd) {
@@ -331,5 +333,33 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 break;
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Settings.canDrawOverlays(mContext)) {
+                    mViewModel.getIsOverlay().setValue(Boolean.TRUE);
+                }
+            }
+        } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (ActivityCompat.checkSelfPermission(mContext, ShizukuApiConstants.PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+                    mViewModel.getIsShizuku().setValue(Boolean.TRUE);
+                }
+            }, 3000);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PermissionUtils.REQUEST_CODE_PERMISSION_V3) {
+            if (ActivityCompat.checkSelfPermission(mContext, ShizukuApiConstants.PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+                mViewModel.getIsShizuku().setValue(Boolean.TRUE);
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

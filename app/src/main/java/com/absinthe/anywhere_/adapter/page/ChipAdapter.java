@@ -59,6 +59,14 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
         return mList.size();
     }
 
+    public String getCategory() {
+        return mCategory;
+    }
+
+    public void setCategory(String category) {
+        this.mCategory = category;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private Chip chip;
 

@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.utils;
+package com.absinthe.anywhere_.utils.manager;
 
 import android.util.Log;
 

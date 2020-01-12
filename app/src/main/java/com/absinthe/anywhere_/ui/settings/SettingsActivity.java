@@ -13,7 +13,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainActivity;
-import com.absinthe.anywhere_.utils.Logger;
+import com.absinthe.anywhere_.utils.manager.Logger;
 
 public class SettingsActivity extends BaseActivity {
     private static SettingsActivity sInstance;

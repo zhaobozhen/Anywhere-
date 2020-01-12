@@ -14,13 +14,15 @@ import android.provider.Settings;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
+import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -34,8 +36,8 @@ import moe.shizuku.api.ShizukuClientHelper;
 import moe.shizuku.api.ShizukuService;
 
 public class PermissionUtils {
-    private static final int REQUEST_CODE_PERMISSION_V3 = 1001;
-    private static final int REQUEST_CODE_AUTHORIZATION_V3 = 1002;
+    public static final int REQUEST_CODE_PERMISSION_V3 = 1001;
+    public static final int REQUEST_CODE_AUTHORIZATION_V3 = 1002;
 
     /**
      * bump to miui permission management activity
@@ -152,6 +154,30 @@ public class PermissionUtils {
                 .show();
     }
 
+    private static void showPermissionDialog(Fragment fragment) {
+        Activity activity = fragment.getActivity();
+
+        if (activity != null) {
+            new MaterialAlertDialogBuilder(activity, R.style.AppTheme_Dialog)
+                    .setTitle(R.string.dialog_permission_title)
+                    .setMessage(R.string.dialog_permission_message)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                        Intent intent = activity.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
+                        if (intent != null) {
+                            fragment.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
+                        } else {
+                            ToastUtil.makeText(R.string.toast_not_install_shizuku);
+                            intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
+                            fragment.startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                    .show();
+        }
+    }
+
     /**
      * check shizuku permission
      *
@@ -170,7 +196,7 @@ public class PermissionUtils {
             } else {
                 return true;
             }
-        } else if (!AnywhereApplication.isShizukuV3TokenValid()) {
+        } else if (!ShizukuHelper.isShizukuV3TokenValid()) {
             // on API pre-23, Shizuku v3 uses old token, get token from Shizuku app
             Intent intent = ShizukuClientHelper.createPre23AuthorizationIntent(activity);
             if (intent != null) {
@@ -185,6 +211,47 @@ public class PermissionUtils {
                 // activity not found
                 Logger.d("activity not found.");
                 ToastUtil.makeText("activity not found.");
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean shizukuPermissionCheck(Fragment fragment) {
+        Activity activity = fragment.getActivity();
+
+        if (activity != null) {
+            if (!ShizukuClientHelper.isPreM()) {
+                // on API 23+, Shizuku v3 uses runtime permission
+                if (ActivityCompat.checkSelfPermission(activity, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
+                    if (PermissionUtils.isMIUI()) {
+                        showPermissionDialog(fragment);
+                    } else {
+                        fragment.requestPermissions(new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
+                    }
+                    return false;
+                } else {
+                    return true;
+                }
+            } else if (!ShizukuHelper.isShizukuV3TokenValid()) {
+                // on API pre-23, Shizuku v3 uses old token, get token from Shizuku app
+                Intent intent = ShizukuClientHelper.createPre23AuthorizationIntent(activity);
+                if (intent != null) {
+                    try {
+                        fragment.startActivityForResult(intent, REQUEST_CODE_AUTHORIZATION_V3);
+                        return true;
+                    } catch (Throwable tr) {
+                        // should never happened
+                        return false;
+                    }
+                } else {
+                    // activity not found
+                    Logger.d("activity not found.");
+                    ToastUtil.makeText("activity not found.");
+                    return false;
+                }
+            } else {
                 return false;
             }
         } else {
@@ -217,6 +284,25 @@ public class PermissionUtils {
         return true;
     }
 
+    public static boolean checkOverlayPermission(Fragment fragment, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(fragment.getContext())) {
+                try {
+                    fragment.startActivityForResult(
+                            new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + fragment.getContext().getPackageName())),
+                            requestCode);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+                ToastUtil.makeText(R.string.toast_permission_overlap);
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return true;
+    }
+
     /**
      * check whether shizuku service is on working
      *
@@ -228,7 +314,7 @@ public class PermissionUtils {
         // Wait a few seconds here for binder
 
         if (!ShizukuService.pingBinder()) {
-            if (AnywhereApplication.isShizukuV3Failed()) {
+            if (ShizukuHelper.isShizukuV3Failed()) {
                 // provider started with no binder included, binder calls blocked by SELinux or server dead, should never happened
                 // notify user
                 ToastUtil.makeText("provider started with no binder included.");

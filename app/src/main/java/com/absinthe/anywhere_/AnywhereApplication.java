@@ -3,46 +3,33 @@ package com.absinthe.anywhere_;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import com.absinthe.anywhere_.model.AnywhereRepository;
+import com.absinthe.anywhere_.database.AnywhereRepository;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
-import com.absinthe.anywhere_.utils.Logger;
-import com.absinthe.anywhere_.utils.TimeRecorder;
+import com.absinthe.anywhere_.utils.manager.IzukoHelper;
+import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
+import com.absinthe.anywhere_.utils.manager.TimeRecorder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import jonathanfinerty.once.Once;
 import me.weishu.reflection.Reflection;
-import moe.shizuku.api.ShizukuClientHelper;
-import moe.shizuku.api.ShizukuMultiProcessHelper;
-import moe.shizuku.api.ShizukuService;
 
 public class AnywhereApplication extends Application {
-    public static final String ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER";
     @SuppressLint("StaticFieldLeak")
     public static Context sContext = null;
     public static TimeRecorder sTimeRecorder;
     public static AnywhereRepository sRepository;
-
-    static {
-        System.loadLibrary("izuko");
-    }
-
-    public static native void checkSignature();
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         if (!BuildConfig.DEBUG) {
-            checkSignature();
+            IzukoHelper.checkSignature();
         }
 
         sContext = getApplicationContext();
@@ -68,21 +55,6 @@ public class AnywhereApplication extends Application {
         }
     }
 
-    private static boolean v3Failed;
-    private static boolean v3TokenValid;
-
-    public static boolean isShizukuV3Failed() {
-        return v3Failed;
-    }
-
-    public static boolean isShizukuV3TokenValid() {
-        return v3TokenValid;
-    }
-
-    public static void setShizukuV3TokenValid(boolean v3TokenValid) {
-        AnywhereApplication.v3TokenValid = v3TokenValid;
-    }
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -90,34 +62,7 @@ public class AnywhereApplication extends Application {
         sTimeRecorder = new TimeRecorder("LaunchTime");
         sTimeRecorder.start();
         Reflection.unseal(base);
-
-        Logger.d("initialize ", ShizukuMultiProcessHelper.initialize(this, !getProcessName().endsWith(":test")));
-
-        ShizukuClientHelper.setBinderReceivedListener(() -> {
-            Logger.d("onBinderReceived");
-
-            if (ShizukuService.getBinder() == null) {
-                // ShizukuBinderReceiveProvider started without binder, should never happened
-                Logger.d("binder is null");
-                v3Failed = true;
-            } else {
-                try {
-                    // test the binder first
-                    ShizukuService.pingBinder();
-
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                        String token = ShizukuClientHelper.loadPre23Token(base);
-                        v3TokenValid = ShizukuService.setCurrentProcessTokenPre23(token);
-                    }
-
-                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ACTION_SEND_BINDER));
-                } catch (Throwable tr) {
-                    // blocked by SELinux or server dead, should never happened
-                    Log.i(this.getClass().getSimpleName(), "can't contact with remote", tr);
-                    v3Failed = true;
-                }
-            }
-        });
+        ShizukuHelper.bind(base);
     }
 
 }

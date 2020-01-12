@@ -11,7 +11,7 @@ extern "C" {
 #endif
 
 JNIEXPORT void JNICALL
-Java_com_absinthe_anywhere_1_AnywhereApplication_checkSignature(JNIEnv *env, jclass clazz);
+Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_checkSignature(JNIEnv *env, jclass clazz);
 
 #ifdef __cplusplus
 }

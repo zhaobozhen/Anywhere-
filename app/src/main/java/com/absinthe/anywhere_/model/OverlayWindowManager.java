@@ -7,7 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.absinthe.anywhere_.utils.Logger;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.OverlayView;
 
 public class OverlayWindowManager {
