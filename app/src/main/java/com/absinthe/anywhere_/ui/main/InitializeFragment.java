@@ -28,11 +28,11 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
@@ -162,11 +162,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             if (flag) {
                 enterMainFragment();
             } else {
-                new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                        .setMessage(R.string.dialog_message_perm_not_ever)
-                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> enterMainFragment())
-                        .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                        .show();
+                DialogManager.showHasNotGrantPermYetDialog(mContext, (dialog, which) -> enterMainFragment());
             }
 
         }

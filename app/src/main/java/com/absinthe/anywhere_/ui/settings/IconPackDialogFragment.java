@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.absinthe.anywhere_.R;
@@ -13,15 +12,16 @@ import com.absinthe.anywhere_.adapter.applist.AppListAdapter;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.manager.IconPackManager;
+import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
+import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.viewbuilder.entity.IconPackDialogBuilder;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class IconPackDialogFragment extends DialogFragment {
+public class IconPackDialogFragment extends AnywhereDialogFragment {
     private Context mContext;
     private IconPackDialogBuilder mBuilder;
 
@@ -33,7 +33,7 @@ public class IconPackDialogFragment extends DialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog);
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
         mBuilder = new IconPackDialogBuilder(mContext);
         initView();
 

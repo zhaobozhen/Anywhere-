@@ -1,7 +1,5 @@
 package com.absinthe.anywhere_.ui.backup;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +16,7 @@ import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 
 public class BackupFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
@@ -84,30 +82,11 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
 
                 if (encrypted != null) {
                     String dig = encrypted.length() > 50 ? encrypted.substring(0, 50) + "…" : encrypted;
-                    new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                            .setTitle(R.string.settings_backup_share_title)
-                            .setMessage(dig)
-                            .setPositiveButton(R.string.btn_backup_copy, (dialog, which) -> {
-                                ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData mClipData = ClipData.newPlainText("Label", encrypted);
-                                if (cm != null) {
-                                    cm.setPrimaryClip(mClipData);
-                                    ToastUtil.makeText(R.string.toast_copied);
-                                }
-                            })
-                            .setNeutralButton(R.string.btn_backup_share, (dialog, which) -> {
-                                Intent textIntent = new Intent(Intent.ACTION_SEND);
-                                textIntent.setType("text/plain");
-                                textIntent.putExtra(Intent.EXTRA_TEXT, encrypted);
-                                startActivity(Intent.createChooser(textIntent, getString(R.string.settings_backup_share_title)));
-                            })
-                            .show();
+                    DialogManager.showBackupShareDialog(mContext, dig, encrypted);
                 }
                 return true;
             case Const.PREF_RESTORE_APPLY:
-                RestoreApplyFragmentDialog dialog = new RestoreApplyFragmentDialog();
-                dialog.show(((AppCompatActivity) mContext).getSupportFragmentManager(),
-                        RestoreApplyFragmentDialog.class.getSimpleName());
+                DialogManager.showRestoreApplyDialog((AppCompatActivity) mContext);
                 return true;
             default:
                 break;

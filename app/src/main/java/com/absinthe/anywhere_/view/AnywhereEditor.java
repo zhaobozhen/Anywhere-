@@ -15,11 +15,9 @@ import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.Objects;
 
 public class AnywhereEditor extends Editor<AnywhereEditor> {
 
@@ -107,17 +105,12 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                             AnywhereApplication.sRepository.update(ae);
                         } else {
                             if (EditUtils.hasSameAppName(pName, cName)) {
-                                dismiss();
-                                new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                                        .setMessage(R.string.dialog_message_same_app_name)
-                                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                                            AnywhereApplication.sRepository.insert(ae);
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                                ShortcutsUtils.removeShortcut(Objects.requireNonNull(EditUtils.hasSameAppNameEntity(mItem.getParam1(), mItem.getParam2())));
-                                            }
-                                        })
-                                        .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show())
-                                        .show();
+                                DialogManager.showHasSameCardDialog(mContext, (dialog, which) -> {
+                                    AnywhereApplication.sRepository.insert(ae);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                        ShortcutsUtils.removeShortcut(EditUtils.hasSameAppNameEntity(mItem.getParam1()));
+                                    }
+                                });
                             } else {
                                 AnywhereApplication.sRepository.insert(ae);
                             }

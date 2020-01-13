@@ -2,10 +2,8 @@ package com.absinthe.anywhere_.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -19,15 +17,13 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.services.OverlayService;
-import com.absinthe.anywhere_.ui.shortcuts.CreateShortcutDialogFragment;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -41,7 +37,7 @@ public abstract class Editor<T extends Editor<?>> {
     protected Context mContext;
     private OnEditorListener mListener;
 
-    BottomSheetDialog mBottomSheetDialog;
+    AnywhereBottomSheetDialog mBottomSheetDialog;
     AnywhereEntity mItem;
     TextInputLayout tilAppName;
     TextInputEditText tietAppName, tietDescription;
@@ -53,7 +49,7 @@ public abstract class Editor<T extends Editor<?>> {
 
     Editor(Context context, int editorType) {
         mContext = context;
-        mBottomSheetDialog = new BottomSheetDialog(context);
+        mBottomSheetDialog = new AnywhereBottomSheetDialog(context);
         mEditorType = editorType;
         isShortcut = false;
         isEditMode = false;
@@ -146,43 +142,16 @@ public abstract class Editor<T extends Editor<?>> {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private void addShortcut(Context context, AnywhereEntity ae) {
-        DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
-            ShortcutsUtils.addShortcut(ae);
-            dismiss();
-        };
-
-        MaterialAlertDialogBuilder addDialog = new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
-                .setTitle(R.string.dialog_add_shortcut_title)
-                .setMessage(Html.fromHtml(context.getString(R.string.dialog_add_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
-                .setNegativeButton(R.string.dialog_delete_negative_button, (dialogInterface, i) -> show());
-
-        MaterialAlertDialogBuilder cantAddDialog = new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
-                .setTitle(R.string.dialog_cant_add_shortcut_title)
-                .setMessage(R.string.dialog_cant_add_shortcut_message)
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> show());
-
         if (ShortcutsUtils.Singleton.INSTANCE.getInstance().getDynamicShortcuts().size() < 3) {
-            addDialog.show();
+            DialogManager.showAddShortcutDialog(context, ae);
         } else {
-            cantAddDialog.show();
+            DialogManager.showCannotAddShortcutDialog(context);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private void removeShortcut(Context context, AnywhereEntity ae) {
-        DialogInterface.OnClickListener listener = (dialogInterface, i) -> {
-            ShortcutsUtils.removeShortcut(ae);
-            dismiss();
-        };
-
-        new MaterialAlertDialogBuilder(context, R.style.AppTheme_Dialog)
-                .setTitle(R.string.dialog_remove_shortcut_title)
-                .setMessage(Html.fromHtml(context.getString(R.string.dialog_remove_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
-                .setNegativeButton(R.string.dialog_delete_negative_button,
-                        (dialogInterface, i) -> show())
-                .show();
+        DialogManager.showRemoveShortcutDialog(context, ae);
     }
 
     void setBottomSheetDialogImpl(Context context, @LayoutRes int layout) {
@@ -246,7 +215,6 @@ public abstract class Editor<T extends Editor<?>> {
                     switch (item.getItemId()) {
                         case R.id.add_shortcuts:
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                dismiss();
                                 if (!isShortcut) {
                                     addShortcut(mContext, mItem);
                                 } else {
@@ -256,13 +224,10 @@ public abstract class Editor<T extends Editor<?>> {
                             break;
                         case R.id.add_home_shortcuts:
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                mBottomSheetDialog.dismiss();
-                                CreateShortcutDialogFragment fragment = new CreateShortcutDialogFragment(mItem, this);
-                                fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), fragment.getTag());
+                                DialogManager.showCreatePinnedShortcutDialog((AppCompatActivity) mContext, mItem);
                             }
                             break;
                         case R.id.delete:
-                            dismiss();
                             mListener.onDelete();
                             break;
                         default:

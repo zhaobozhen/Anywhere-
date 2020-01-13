@@ -21,13 +21,13 @@ import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.catchingnow.icebox.sdk_client.IceBox;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
@@ -113,7 +113,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                             arrayAdapter.add(ae.getAppName());
                         }
                     }
-                    new MaterialAlertDialogBuilder(ShortcutsActivity.this, R.style.AppTheme_Dialog)
+                    new AnywhereDialogBuilder(this)
                             .setAdapter(arrayAdapter, (dialogInterface, i1) -> {
                                 Intent shortcutIntent = new Intent(ShortcutsActivity.this, ShortcutsActivity.class);
                                 String cmd = TextUtils.getItemCommand(

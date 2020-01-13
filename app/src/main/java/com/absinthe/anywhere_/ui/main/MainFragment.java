@@ -39,10 +39,10 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -289,15 +289,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
             }
             mRecyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         } else if (item.getItemId() == R.id.toolbar_delete) {
-            new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                    .setTitle(R.string.dialog_delete_selected_title)
-                    .setMessage(R.string.dialog_delete_selected_message)
-                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                        adapter.deleteSelect();
-                        resetSelectState();
-                    })
-                    .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                    .show();
+            DialogManager.showDeleteSelectCardDialog(mContext, (dialog, which) -> {
+                adapter.deleteSelect();
+                resetSelectState();
+            });
         }
         return super.onOptionsItemSelected(item);
     }

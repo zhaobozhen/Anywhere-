@@ -6,23 +6,24 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
+import com.absinthe.anywhere_.utils.manager.DialogStack;
+import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
+import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.view.ObservableTimePickerDialog;
 import com.absinthe.anywhere_.viewbuilder.entity.TimePickerBuilder;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class TimePickerDialogFragment extends DialogFragment {
+public class TimePickerDialogFragment extends AnywhereDialogFragment {
 
     private Context mContext;
     private TimePickerBuilder mBuilder;
@@ -36,18 +37,20 @@ public class TimePickerDialogFragment extends DialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog);
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
         mBuilder = new TimePickerBuilder(mContext);
 
         Calendar start = Calendar.getInstance();
         start.setTimeInMillis(GlobalValues.sAutoDarkModeStart);
         Calendar end = Calendar.getInstance();
         end.setTimeInMillis(GlobalValues.sAutoDarkModeEnd);
+
         if (GlobalValues.sAutoDarkModeStart == 0) {
             mBuilder.btnStart.setText(String.format(Locale.getDefault(), "%02d:%02d", 22, 0));
         } else {
             mBuilder.btnStart.setText(String.format(Locale.getDefault(), "%02d:%02d", start.get(Calendar.HOUR_OF_DAY), start.get(Calendar.MINUTE)));
         }
+
         if (GlobalValues.sAutoDarkModeEnd == 0) {
             mBuilder.btnEnd.setText(String.format(Locale.getDefault(), "%02d:%02d", 7, 0));
         } else {
@@ -55,16 +58,12 @@ public class TimePickerDialogFragment extends DialogFragment {
         }
 
         View.OnClickListener listener = v -> {
-            getDialog().hide();
-
-            new ObservableTimePickerDialog(mContext,
+            ObservableTimePickerDialog timePickerDialog = new ObservableTimePickerDialog(mContext,
                     (view, hourOfDay, minute) -> {
-                        getDialog().show();
                         ((MaterialButton) v).setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute));
-                    },
-                    () -> getDialog().show()
-                    , 0, 0, true)
-                    .show();
+                        DialogStack.pop();
+                    }, DialogStack::pop, 0, 0, true);
+            DialogStack.push(timePickerDialog);
         };
 
         mBuilder.btnStart.setOnClickListener(listener);
@@ -78,7 +77,6 @@ public class TimePickerDialogFragment extends DialogFragment {
                         GlobalValues.setsAutoDarkModeEnd(format.parse(mBuilder.btnEnd.getText().toString()).getTime());
                         Settings.setTheme(Const.DARK_MODE_AUTO);
                         GlobalValues.setsDarkMode(Const.DARK_MODE_AUTO);
-                        dismiss();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

@@ -21,8 +21,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
-import com.absinthe.anywhere_.utils.ShortcutsUtils;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
@@ -117,42 +116,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
                 return true;
             case Const.PREF_RESET_BACKGROUND:
-                new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                        .setTitle(R.string.dialog_reset_background_confirm_title)
-                        .setMessage(R.string.dialog_reset_background_confirm_message)
-                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                            GlobalValues.setsBackgroundUri("");
-                            MainActivity.getInstance().restartActivity();
-                            SettingsActivity.getInstance().finish();
-                        })
-                        .setNegativeButton(R.string.dialog_delete_negative_button,
-                                (dialogInterface, i) -> {
-                                })
-                        .show();
+                DialogManager.showResetBackgroundDialog(mContext);
                 return true;
             case Const.PREF_HELP:
-                String url = "https://zhaobozhen.github.io/Anywhere-Docs/";
+                String url = "https://absinthe.life/Anywhere-Docs/";
                 CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
                         .build();
                 tabsIntent.launchUrl(mContext, Uri.parse(url));
                 return true;
             case Const.PREF_CLEAR_SHORTCUTS:
-                new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                        .setTitle(R.string.dialog_reset_background_confirm_title)
-                        .setMessage(R.string.dialog_reset_shortcuts_confirm_message)
-                        .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                ShortcutsUtils.clearShortcuts();
-                            }
-                        })
-                        .setNegativeButton(R.string.dialog_delete_negative_button,
-                                (dialogInterface, i) -> {
-                                })
-                        .show();
+                DialogManager.showClearShortcutsDialog(mContext);
                 return true;
             case Const.PREF_ICON_PACK:
-                IconPackDialogFragment fragment = new IconPackDialogFragment();
-                fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), fragment.getTag());
+                DialogManager.showIconPackChoosingDialog((AppCompatActivity) mContext);
                 return true;
             default:
         }
@@ -169,8 +145,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 break;
             case Const.PREF_DARK_MODE:
                 if (newValue.toString().equals(Const.DARK_MODE_AUTO)) {
-                    TimePickerDialogFragment fragment = new TimePickerDialogFragment();
-                    fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), fragment.getTag());
+                    DialogManager.showDarkModeTimePickerDialog((AppCompatActivity) mContext);
                 } else {
                     Settings.setTheme(newValue.toString());
                     GlobalValues.setsDarkMode(newValue.toString());
@@ -200,8 +175,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             case Const.PREF_COLLECTOR_PLUS:
                 GlobalValues.setsIsCollectorPlus((boolean) newValue);
                 if ((boolean) newValue) {
-                    IntervalDialogFragment fragment = new IntervalDialogFragment();
-                    fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), fragment.getTag());
+                    DialogManager.showIntervalSetupDialog((AppCompatActivity) mContext);
                 }
                 return true;
             default:

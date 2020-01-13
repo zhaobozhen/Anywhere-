@@ -5,14 +5,14 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
+import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.viewbuilder.entity.IntervalDialogBuilder;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class IntervalDialogFragment extends DialogFragment {
+public class IntervalDialogFragment extends AnywhereDialogFragment {
     private Context mContext;
     private IntervalDialogBuilder mBuilder;
 
@@ -24,7 +24,7 @@ public class IntervalDialogFragment extends DialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog);
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
         mBuilder = new IntervalDialogBuilder(mContext);
         mBuilder.slider.setValue(GlobalValues.sDumpInterval / 1000);
 

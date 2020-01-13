@@ -11,7 +11,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
@@ -19,26 +18,24 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.view.Editor;
+import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
+import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.viewbuilder.entity.CreateShortcutDialogBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateShortcutDialogFragment extends DialogFragment {
+public class CreateShortcutDialogFragment extends AnywhereDialogFragment {
     private Context mContext;
     private CreateShortcutDialogBuilder mBuilder;
-    private Editor mEditor;
 
     private AnywhereEntity mEntity;
     private Drawable mIcon;
     private String mName;
 
-    public CreateShortcutDialogFragment(AnywhereEntity ae, Editor editor) {
+    public CreateShortcutDialogFragment(AnywhereEntity ae) {
         mEntity = ae;
-        mEditor = editor;
         mName = ae.getAppName();
         mIcon = UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae.getParam1());
     }
@@ -52,7 +49,7 @@ public class CreateShortcutDialogFragment extends DialogFragment {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog);
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
         mBuilder = new CreateShortcutDialogBuilder(mContext);
         initView();
 
@@ -61,7 +58,7 @@ public class CreateShortcutDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialog, which) ->
                         ShortcutsUtils.addPinnedShortcut(mEntity,
                                 mBuilder.ivIcon.getDrawable(), mBuilder.etName.getText().toString()))
-                .setNegativeButton(R.string.dialog_delete_negative_button, (dialog, which) -> mEditor.show())
+                .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .create();
     }
 

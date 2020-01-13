@@ -1,12 +1,8 @@
 package com.absinthe.anywhere_.adapter;//打包 康姆点艾伯森斯点安妮薇儿下划线点鹅带坡特儿
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.text.Html;
 import android.view.HapticFeedbackConstants;
 import android.view.ViewGroup;
 
@@ -17,7 +13,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.AnywhereApplication;
-import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -27,16 +22,15 @@ import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
-import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.view.QRCodeEditor;
 import com.absinthe.anywhere_.view.SchemeEditor;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -175,16 +169,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 if (AppUtils.isAppFrozen(mContext, item)) {
                     if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                         if (PermissionUtils.isMIUI()) {
-                            new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                                    .setMessage(R.string.dialog_message_ice_box_perm_not_support)
-                                    .setPositiveButton(R.string.dialog_delete_positive_button, null)
-                                    .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, i) -> {
-                                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setComponent(new ComponentName("com.android.settings",
-                                                "com.android.settings.Settings$ManageApplicationsActivity"));
-                                        mContext.startActivity(intent);
-                                    })
-                                    .show();
+                            DialogManager.showGrantPriviligedPermDialog(mContext);
                         } else {
                             ActivityCompat.requestPermissions((Activity) mContext, new String[]{IceBox.SDK_PERMISSION}, 0x233);
                         }
@@ -210,7 +195,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     private void openEditor(AnywhereEntity item, int type) {
-        Editor.OnEditorListener listener = () -> deleteAnywhereActivity(mEditor, item);
+        Editor.OnEditorListener listener = () -> deleteAnywhereActivity(item);
 
         switch (type) {
             case Editor.ANYWHERE:
@@ -234,20 +219,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         mEditor.show();
     }
 
-    private void deleteAnywhereActivity(Editor editor, AnywhereEntity ae) {
-        new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                .setTitle(R.string.dialog_delete_title)
-                .setMessage(Html.fromHtml(mContext.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                    AnywhereApplication.sRepository.delete(ae);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                        ShortcutsUtils.removeShortcut(ae);
-                    }
-                    editor.dismiss();
-                })
-                .setNegativeButton(R.string.dialog_delete_negative_button,
-                        (dialogInterface, i) -> editor.show())
-                .show();
+    private void deleteAnywhereActivity(AnywhereEntity ae) {
+        DialogManager.showDeleteAnywhereDialog(mContext, ae);
     }
 
     public void updateSortedList() {

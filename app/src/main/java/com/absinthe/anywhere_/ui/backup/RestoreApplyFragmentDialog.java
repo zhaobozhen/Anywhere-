@@ -11,14 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
+import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,7 +27,7 @@ import java.util.List;
 
 import static com.absinthe.anywhere_.ui.backup.BackupActivity.INSERT_CORRECT;
 
-public class RestoreApplyFragmentDialog extends DialogFragment {
+public class RestoreApplyFragmentDialog extends AnywhereDialogFragment {
     private Context mContext;
     private TextInputEditText mEditText;
 
@@ -44,7 +44,7 @@ public class RestoreApplyFragmentDialog extends DialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog);
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
         LayoutInflater layoutInflater = ((Activity)mContext).getLayoutInflater();
         @SuppressLint("InflateParams")
         View inflate = layoutInflater.inflate(R.layout.dialog_fragment_restore_apply, null, false);

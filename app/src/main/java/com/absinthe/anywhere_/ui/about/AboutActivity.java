@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +15,8 @@ import androidx.annotation.NonNull;
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.drakeet.about.AbsAboutActivity;
 import com.drakeet.about.Card;
 import com.drakeet.about.Category;
@@ -28,7 +27,6 @@ import com.drakeet.about.Recommendation;
 import com.drakeet.about.extension.RecommendationLoaderDelegate;
 import com.drakeet.about.extension.provided.GsonJsonConverter;
 import com.drakeet.about.provided.GlideImageLoader;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -100,18 +98,7 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
 
             if (mClickCount == 9) {
                 GlobalValues.sIsDebugMode = true;
-                new MaterialAlertDialogBuilder(this, R.style.AppTheme_Dialog)
-                        .setTitle("Debug info")
-                        .setMessage(Html.fromHtml(
-                                "<b>workingMode</b> = " + GlobalValues.sWorkingMode + "<br>"
-                                        + "<b>backgroundUri</b> = " + GlobalValues.sBackgroundUri + "<br>"
-                                        + "<b>actionBarType</b> = " + GlobalValues.sActionBarType + "<br>"
-                                        + "<b>sortMode</b> = " + GlobalValues.sSortMode + "<br>"
-                                        + "<b>iconPack</b> = " + GlobalValues.sIconPack + "<br>"))
-                        .setPositiveButton(R.string.dialog_delete_positive_button, null)
-                        .setNeutralButton("LOGCAT", (dialogInterface, i) -> Settings.setLogger())
-                        .setCancelable(false)
-                        .show();
+                DialogManager.showDebugDialog(this);
             }
         };
     }

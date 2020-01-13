@@ -26,10 +26,10 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,16 +97,16 @@ public class TileSettingsActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     private void loadCard(CardView cardView, AnywhereEntity ae) {
         if (cardView == cvTileOne) {
-            ((TextView)cardView.findViewById(R.id.tv_title)).setText("TileOne");
+            ((TextView) cardView.findViewById(R.id.tv_title)).setText("TileOne");
         } else if (cardView == cvTileTwo) {
-            ((TextView)cardView.findViewById(R.id.tv_title)).setText("TileTwo");
+            ((TextView) cardView.findViewById(R.id.tv_title)).setText("TileTwo");
         } else if (cardView == cvTileThree) {
-            ((TextView)cardView.findViewById(R.id.tv_title)).setText("TileThree");
+            ((TextView) cardView.findViewById(R.id.tv_title)).setText("TileThree");
         }
 
-        ((TextView)cardView.findViewById(R.id.tv_app_name)).setText(ae.getAppName());
-        ((TextView)cardView.findViewById(R.id.tv_param_1)).setText(ae.getParam1());
-        ((TextView)cardView.findViewById(R.id.tv_param_2)).setText(ae.getParam2());
+        ((TextView) cardView.findViewById(R.id.tv_app_name)).setText(ae.getAppName());
+        ((TextView) cardView.findViewById(R.id.tv_param_1)).setText(ae.getParam1());
+        ((TextView) cardView.findViewById(R.id.tv_param_2)).setText(ae.getParam2());
         Glide.with(mContext)
                 .load(UiUtils.getAppIconByPackageName(mContext, ae))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -160,7 +160,7 @@ public class TileSettingsActivity extends BaseActivity {
 
         for (CardView cardView : cardList) {
             cardView.findViewById(R.id.btn_select).setOnClickListener(view ->
-                    new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
+                    new AnywhereDialogBuilder(mContext)
                             .setAdapter(arrayAdapter, (dialogInterface, i) -> {
                                 loadCard(cardView, mList.get(i));
 
@@ -196,7 +196,8 @@ public class TileSettingsActivity extends BaseActivity {
                                 SPUtils.putString(mContext, tileLabel, mList.get(i).getAppName());
                                 SPUtils.putString(mContext, tileCmd, TextUtils.getItemCommand(mList.get(i)));
                             })
-                            .show());
+                            .show()
+            );
         }
     }
 }
