@@ -116,7 +116,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'com.drakeet.about:about:2.4.1'
     implementation 'com.drakeet.about:about-extension:2.4.1'
-    implementation 'com.drakeet.multitype:multitype:4.2.0'
+    implementation 'com.drakeet.multitype:multitype:4.1.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.catchingnow.icebox:SDK:1.0.5'
     implementation "com.leinardi.android:speed-dial:3.1.1"

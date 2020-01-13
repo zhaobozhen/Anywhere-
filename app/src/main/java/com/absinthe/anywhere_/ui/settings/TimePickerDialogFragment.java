@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.ui.settings;
 
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +12,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
+import com.absinthe.anywhere_.view.ObservableTimePickerDialog;
 import com.absinthe.anywhere_.viewbuilder.entity.TimePickerBuilder;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -54,10 +54,18 @@ public class TimePickerDialogFragment extends DialogFragment {
             mBuilder.btnEnd.setText(String.format(Locale.getDefault(), "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
         }
 
-        View.OnClickListener listener = v ->
-                new TimePickerDialog(mContext, (view, hourOfDay, minute) ->
-                ((MaterialButton) v).setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute)), 0, 0, true)
-                .show();
+        View.OnClickListener listener = v -> {
+            getDialog().hide();
+
+            new ObservableTimePickerDialog(mContext,
+                    (view, hourOfDay, minute) -> {
+                        getDialog().show();
+                        ((MaterialButton) v).setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute));
+                    },
+                    () -> getDialog().show()
+                    , 0, 0, true)
+                    .show();
+        };
 
         mBuilder.btnStart.setOnClickListener(listener);
         mBuilder.btnEnd.setOnClickListener(listener);
