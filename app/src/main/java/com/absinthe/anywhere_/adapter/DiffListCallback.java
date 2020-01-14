@@ -14,7 +14,7 @@ public class DiffListCallback extends DiffUtil.Callback {
     private List<AnywhereEntity> mOldList;
     private List<AnywhereEntity> mNewList;
 
-    public DiffListCallback(List<AnywhereEntity> newList, List<AnywhereEntity> oldList) {
+    DiffListCallback(List<AnywhereEntity> newList, List<AnywhereEntity> oldList) {
         this.mNewList = newList;
         this.mOldList = oldList;
     }
@@ -44,7 +44,7 @@ public class DiffListCallback extends DiffUtil.Callback {
                 TextUtils.equals(oldItem.getParam2(), newItem.getParam2()) &&
                 TextUtils.equals(oldItem.getParam3(), newItem.getParam3()) &&
                 TextUtils.equals(oldItem.getDescription(), newItem.getDescription()) &&
-                TextUtils.equals(oldItem.getType() + "", newItem.getType() + "");
+                oldItem.getType().equals(newItem.getType());
     }
 
     @Nullable

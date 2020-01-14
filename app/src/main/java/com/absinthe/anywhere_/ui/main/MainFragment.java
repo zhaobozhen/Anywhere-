@@ -153,7 +153,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void refreshRecyclerView() {
         setUpRecyclerView(mRecyclerView);
-        adapter.setItems(MainActivity.getInstance().getViewModel().getAllAnywhereEntities().getValue());
+        adapter.setItems(AnywhereApplication.sRepository.getAllAnywhereEntities().getValue());
     }
 
     private void resetSelectState() {
@@ -268,7 +268,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         popupItem.getItemId() == R.id.sort_by_name_desc ||
                         popupItem.getItemId() == R.id.sort_by_name_asc) {
                     mViewModel.refreshDB();
-                    mViewModel.getAllAnywhereEntities().observe(this, listObserver);
+                    AnywhereApplication.sRepository.getAllAnywhereEntities().observe(this, listObserver);
                 }
                 return true;
             });
@@ -306,6 +306,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     private void initObserver() {
         mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
         mViewModel.getCardMode().observe(this, s -> refreshRecyclerView());
-        mViewModel.getAllAnywhereEntities().observe(this, listObserver);
+        AnywhereApplication.sRepository.getAllAnywhereEntities().observe(this, listObserver);
     }
 }

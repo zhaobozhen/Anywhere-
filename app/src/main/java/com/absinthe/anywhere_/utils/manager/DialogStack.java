@@ -29,6 +29,8 @@ public class DialogStack {
         }
     }
 
+    private static boolean isPrintStack = false;
+
     public static void push(Object dialog) {
         printStack();
         Logger.i("Push Start");
@@ -94,13 +96,19 @@ public class DialogStack {
         printStack();
     }
 
+    public static void setPrintStack(boolean flag) {
+        isPrintStack = flag;
+    }
+
     private static void printStack() {
-        Logger.i("DialogStack:");
+        if (isPrintStack) {
+            Logger.i("DialogStack:");
 
-        for (Object object : Singleton.INSTANCE.getInstance()) {
-            Logger.i(object.getClass());
+            for (Object object : Singleton.INSTANCE.getInstance()) {
+                Logger.i(object.getClass());
+            }
+
+            Logger.i("--------------------------------------");
         }
-
-        Logger.i("--------------------------------------");
     }
 }

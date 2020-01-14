@@ -24,6 +24,7 @@ import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -222,8 +223,11 @@ public abstract class Editor<T extends Editor<?>> {
                         case R.id.add_shortcuts:
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                 if (!isShortcut) {
+                                    Logger.d("add");
                                     addShortcut(mContext, mItem);
                                 } else {
+                                    Logger.d("remove");
+
                                     removeShortcut(mContext, mItem);
                                 }
                             }

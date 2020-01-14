@@ -186,7 +186,7 @@ public class DialogManager {
                     } else {
                         ToastUtil.makeText(R.string.toast_not_install_shizuku);
                         intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
+                        intent.setData(Uri.parse("https://www.coolapk.com/apk/moe.shizuku.privileged.api"));
                         context.startActivity(intent);
                     }
                 })

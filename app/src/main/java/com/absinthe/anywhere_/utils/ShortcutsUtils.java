@@ -58,7 +58,7 @@ public class ShortcutsUtils {
             Singleton.INSTANCE.getInstance().addDynamicShortcuts(infos);
         }
 
-        ae.setType(ae.getType() + 10);
+        ae.setType(ae.getExportedType() * 100 + 10 + ae.getAnywhereType());
         AnywhereApplication.sRepository.update(ae);
     }
 
@@ -68,7 +68,7 @@ public class ShortcutsUtils {
             return;
         }
 
-        ae.setType(ae.getType() - 10);
+        ae.setType(ae.getExportedType() * 100 + ae.getAnywhereType());
         AnywhereApplication.sRepository.update(ae);
 
         List<String> shortcutsIds = new ArrayList<>();
