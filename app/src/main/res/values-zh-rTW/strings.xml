@@ -234,4 +234,6 @@
     <string name="array_card_bg_off">關閉</string>
     <string name="array_card_bg_gradient">漸變色</string>
     <string name="array_card_bg_pure">純色</string>
+    <string name="dialog_set_dark_mode_period_title">設置夜間模式時間</string>
+    <string name="toast_no_document_app">你的 ROM 沒有文檔 App，請聯繫你的設備製造商</string>
 </resources>

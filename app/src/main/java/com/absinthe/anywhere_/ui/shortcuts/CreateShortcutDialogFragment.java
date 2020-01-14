@@ -55,9 +55,11 @@ public class CreateShortcutDialogFragment extends AnywhereDialogFragment {
 
         return builder.setView(mBuilder.getRoot())
                 .setTitle(R.string.dialog_set_icon_and_name_title)
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialog, which) ->
-                        ShortcutsUtils.addPinnedShortcut(mEntity,
-                                mBuilder.ivIcon.getDrawable(), mBuilder.etName.getText().toString()))
+                .setPositiveButton(R.string.dialog_delete_positive_button, (dialog, which) -> {
+                    ShortcutsUtils.addPinnedShortcut(mEntity,
+                            mBuilder.ivIcon.getDrawable(), mBuilder.etName.getText().toString());
+                    setDismissParent(true);
+                })
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .create();
     }

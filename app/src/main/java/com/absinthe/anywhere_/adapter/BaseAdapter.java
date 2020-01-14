@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.adapter;//打包 康姆点艾伯森斯点安妮�
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.view.HapticFeedbackConstants;
 import android.view.ViewGroup;
 
@@ -224,7 +225,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     public void updateSortedList() {
-        new Thread(() -> {
+        new Handler().postDelayed(() -> {
             MainFragment.getViewModelInstance().refreshLock = true;
             long startTime = System.currentTimeMillis();
 
@@ -233,13 +234,8 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 item.setTimeStamp(startTime - iter * 100 + "");
                 AnywhereApplication.sRepository.update(item);
             }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             MainFragment.getViewModelInstance().refreshLock = false;
-        }).start();
+        }, 1000);
     }
 
     @Override

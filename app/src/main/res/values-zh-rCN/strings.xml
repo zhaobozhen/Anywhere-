@@ -235,4 +235,5 @@
     <string name="array_card_bg_gradient">渐变色</string>
     <string name="array_card_bg_pure">纯色</string>
     <string name="dialog_set_dark_mode_period_title">设置夜间模式时间</string>
+    <string name="toast_no_document_app">你的 ROM 没有文档 App，请联系你的设备制造商</string>
 </resources>

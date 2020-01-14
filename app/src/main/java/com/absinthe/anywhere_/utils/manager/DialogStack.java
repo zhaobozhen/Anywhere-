@@ -4,6 +4,8 @@ import android.app.Dialog;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.absinthe.anywhere_.view.AnywhereBottomSheetDialog;
+
 import java.util.Objects;
 import java.util.Stack;
 
@@ -29,6 +31,7 @@ public class DialogStack {
 
     public static void push(Object dialog) {
         printStack();
+        Logger.i("Push Start");
         if (!(dialog instanceof Dialog) && !(dialog instanceof DialogFragment)) {
             return;
         }
@@ -38,8 +41,10 @@ public class DialogStack {
         } else {
             Object peekObject = Singleton.INSTANCE.getInstance().peek();
 
-            if (peekObject instanceof Dialog) {
-                ((Dialog) peekObject).dismiss();
+            if (peekObject instanceof AnywhereBottomSheetDialog) {
+                ((AnywhereBottomSheetDialog) peekObject).hide();
+            } else if (peekObject instanceof Dialog) {
+                ((Dialog) peekObject).hide();
             } else if (peekObject instanceof DialogFragment) {
                 Objects.requireNonNull(
                         ((DialogFragment) peekObject).getDialog()).hide();
@@ -47,14 +52,20 @@ public class DialogStack {
             Singleton.INSTANCE.getInstance().push(dialog);
         }
 
-        if (dialog instanceof Dialog) {
+        if (dialog instanceof AnywhereBottomSheetDialog) {
+            ((AnywhereBottomSheetDialog) dialog).isPush = true;
+            ((AnywhereBottomSheetDialog) dialog).show();
+        } else if (dialog instanceof Dialog) {
             ((Dialog) dialog).show();
         }
+
+        Logger.i("Push End");
         printStack();
     }
 
     public static void pop() {
         printStack();
+        Logger.i("Pop Start");
         if (Singleton.INSTANCE.getInstance().empty()) {
             return;
         }
@@ -78,10 +89,12 @@ public class DialogStack {
                         ((DialogFragment) peekObject).getDialog()).show();
             }
         }
+
+        Logger.i("Pop End");
         printStack();
     }
 
-    public static void printStack() {
+    private static void printStack() {
         Logger.i("DialogStack:");
 
         for (Object object : Singleton.INSTANCE.getInstance()) {

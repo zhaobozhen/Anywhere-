@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.view.View;
@@ -143,7 +144,12 @@ public abstract class Editor<T extends Editor<?>> {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private void addShortcut(Context context, AnywhereEntity ae) {
         if (ShortcutsUtils.Singleton.INSTANCE.getInstance().getDynamicShortcuts().size() < 3) {
-            DialogManager.showAddShortcutDialog(context, ae);
+            AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
+            DialogManager.showAddShortcutDialog(context, builder, ae, (dialog, which) -> {
+                ShortcutsUtils.addShortcut(ae);
+                isShortcut = true;
+                builder.setDismissParent(true);
+            });
         } else {
             DialogManager.showCannotAddShortcutDialog(context);
         }

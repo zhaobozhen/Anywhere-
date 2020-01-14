@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -21,10 +19,10 @@ import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
 import com.catchingnow.icebox.sdk_client.IceBox;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.DataOutputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -129,52 +127,21 @@ public class PermissionUtils {
         }
     }
 
-    /**
-     * show permission dialog
-     *
-     * @param activity to bind an activity to show
-     */
-    private static void showPermissionDialog(Activity activity) {
-        new MaterialAlertDialogBuilder(activity, R.style.AppTheme_Dialog)
-                .setTitle(R.string.dialog_permission_title)
-                .setMessage(R.string.dialog_permission_message)
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                    Intent intent = activity.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
-                    if (intent != null) {
-                        activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
-                    } else {
-                        ToastUtil.makeText(R.string.toast_not_install_shizuku);
-                        intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
-                        activity.startActivity(intent);
-                    }
-                })
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                .show();
-    }
-
     private static void showPermissionDialog(Fragment fragment) {
         Activity activity = fragment.getActivity();
 
         if (activity != null) {
-            new MaterialAlertDialogBuilder(activity, R.style.AppTheme_Dialog)
-                    .setTitle(R.string.dialog_permission_title)
-                    .setMessage(R.string.dialog_permission_message)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                        Intent intent = activity.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
-                        if (intent != null) {
-                            fragment.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
-                        } else {
-                            ToastUtil.makeText(R.string.toast_not_install_shizuku);
-                            intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
-                            fragment.startActivity(intent);
-                        }
-                    })
-                    .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                    .show();
+            DialogManager.showGotoShizukuManagerDialog(activity, (dialog, which) -> {
+                Intent intent = activity.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
+                if (intent != null) {
+                    fragment.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
+                } else {
+                    ToastUtil.makeText(R.string.toast_not_install_shizuku);
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
+                    fragment.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -188,7 +155,17 @@ public class PermissionUtils {
             // on API 23+, Shizuku v3 uses runtime permission
             if (ActivityCompat.checkSelfPermission(activity, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                 if (PermissionUtils.isMIUI()) {
-                    showPermissionDialog(activity);
+                    DialogManager.showGotoShizukuManagerDialog(activity, (dialog, which) -> {
+                        Intent intent = activity.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
+                        if (intent != null) {
+                            activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
+                        } else {
+                            ToastUtil.makeText(R.string.toast_not_install_shizuku);
+                            intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
+                            activity.startActivity(intent);
+                        }
+                    });
                 } else {
                     ActivityCompat.requestPermissions(Objects.requireNonNull(activity), new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
                 }
@@ -322,20 +299,7 @@ public class PermissionUtils {
 
             // Shizuku v3 may not running, notify user
             Logger.d("Shizuku v3 may not running.");
-            new MaterialAlertDialogBuilder(mContext, R.style.AppTheme_Dialog)
-                    .setMessage(R.string.dialog_message_shizuku_not_running)
-                    .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
-                        Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
-                        if (intent != null) {
-                            ((AppCompatActivity) mContext).startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
-                        } else {
-                            ToastUtil.makeText(R.string.toast_not_install_shizuku);
-                            intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
-                            mContext.startActivity(intent);
-                        }
-                    })
-                    .show();
+            DialogManager.showCheckShizukuWorkingDialog(mContext);
             // if your app support Shizuku v2, run old v2 codes here
             // for new apps, recommended to ignore v2
         } else {
@@ -355,16 +319,7 @@ public class PermissionUtils {
                             context.startActivity(new Intent(context, MainActivity.class));
                             c = MainActivity.getInstance();
                         }
-                        new MaterialAlertDialogBuilder(c, R.style.AppTheme_Dialog)
-                                .setMessage(R.string.dialog_message_ice_box_perm_not_support)
-                                .setPositiveButton(R.string.dialog_delete_positive_button, null)
-                                .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, in) -> {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setComponent(new ComponentName("com.android.settings",
-                                            "com.android.settings.Settings$ManageApplicationsActivity"));
-                                    context.startActivity(intent);
-                                })
-                                .show();
+                        DialogManager.showGrantPriviligedPermDialog(c);
                     } else {
                         ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
                     }

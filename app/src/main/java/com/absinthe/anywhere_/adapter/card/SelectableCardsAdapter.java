@@ -117,4 +117,3 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
     }
 
 }
-

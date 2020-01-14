@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 
@@ -17,7 +18,6 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog;
 import com.absinthe.anywhere_.ui.main.MainActivity;
@@ -26,15 +26,9 @@ import com.absinthe.anywhere_.ui.settings.IntervalDialogFragment;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.ui.settings.TimePickerDialogFragment;
 import com.absinthe.anywhere_.ui.shortcuts.CreateShortcutDialogFragment;
-import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
-import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
-import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.util.Objects;
 
 public class DialogManager {
     public static void showResetBackgroundDialog(Context context) {
@@ -59,7 +53,7 @@ public class DialogManager {
                         ShortcutsUtils.clearShortcuts();
                     }
                 })
-                .setNegativeButton(R.string.dialog_delete_negative_button,null)
+                .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show();
     }
 
@@ -113,13 +107,14 @@ public class DialogManager {
     }
 
     public static void showDeleteAnywhereDialog(Context context, AnywhereEntity ae) {
-        new AnywhereDialogBuilder(context)
-                .setTitle(R.string.dialog_delete_title)
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
+        builder.setTitle(R.string.dialog_delete_title)
                 .setMessage(Html.fromHtml(context.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                     AnywhereApplication.sRepository.delete(ae);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                         ShortcutsUtils.removeShortcut(ae);
+                        builder.setDismissParent(true);
                     }
                 })
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
@@ -127,11 +122,10 @@ public class DialogManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-    public static void showAddShortcutDialog(Context context, AnywhereEntity ae) {
-        new AnywhereDialogBuilder(context)
-                .setTitle(R.string.dialog_add_shortcut_title)
+    public static void showAddShortcutDialog(Context context, AnywhereDialogBuilder builder, AnywhereEntity ae, DialogInterface.OnClickListener listener) {
+        builder.setTitle(R.string.dialog_add_shortcut_title)
                 .setMessage(Html.fromHtml(context.getString(R.string.dialog_add_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialog, which) -> ShortcutsUtils.addShortcut(ae))
+                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show();
     }
@@ -146,12 +140,15 @@ public class DialogManager {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public static void showRemoveShortcutDialog(Context context, AnywhereEntity ae) {
-        new AnywhereDialogBuilder(context)
-                .setTitle(R.string.dialog_remove_shortcut_title)
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
+        builder.setTitle(R.string.dialog_remove_shortcut_title)
                 .setMessage(Html.fromHtml(context.getString(R.string.dialog_remove_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
-                .setPositiveButton(R.string.dialog_delete_positive_button, (dialog, which) -> ShortcutsUtils.removeShortcut(ae))
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                .show();
+                .setPositiveButton(R.string.dialog_delete_positive_button, (dialog, which) -> {
+                    ShortcutsUtils.removeShortcut(ae);
+                    builder.setDismissParent(true);
+                })
+                .setNegativeButton(R.string.dialog_delete_negative_button, null);
+        builder.show();
     }
 
     public static void showDeleteSelectCardDialog(Context context, DialogInterface.OnClickListener listener) {
@@ -174,6 +171,33 @@ public class DialogManager {
     public static void showHasNotGrantPermYetDialog(Context context, DialogInterface.OnClickListener listener) {
         new AnywhereDialogBuilder(context)
                 .setMessage(R.string.dialog_message_perm_not_ever)
+                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .show();
+    }
+
+    public static void showCheckShizukuWorkingDialog(Context context) {
+        new AnywhereDialogBuilder(context)
+                .setMessage(R.string.dialog_message_shizuku_not_running)
+                .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
+                    Intent intent = context.getPackageManager().getLaunchIntentForPackage("moe.shizuku.privileged.api");
+                    if (intent != null) {
+                        ((AppCompatActivity) context).startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
+                    } else {
+                        ToastUtil.makeText(R.string.toast_not_install_shizuku);
+                        intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
+                        context.startActivity(intent);
+                    }
+                })
+                .show();
+    }
+
+    public static void showGotoShizukuManagerDialog(Context context, DialogInterface.OnClickListener listener) {
+        new AnywhereDialogBuilder(context)
+                .setTitle(R.string.dialog_permission_title)
+                .setMessage(R.string.dialog_permission_message)
+                .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show();

@@ -159,6 +159,7 @@
     <string name="toast_overlay_tip">Long press for 2s to remove the overlay window</string>
     <string name="toast_no_react_url">There\'s no apps can react the URL</string>
     <string name="toast_backup_file_error">Backup file format error</string>
+    <string name="toast_no_document_app">Your ROM doesn\'t have a Document app, please contact to your device manufacturer</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>

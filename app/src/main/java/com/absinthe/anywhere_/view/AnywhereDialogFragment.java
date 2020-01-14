@@ -11,6 +11,8 @@ import com.absinthe.anywhere_.utils.manager.DialogStack;
 
 public class AnywhereDialogFragment extends DialogFragment {
 
+    private boolean isDismissParent = false;
+
     @Override
     public void show(@NonNull FragmentManager manager, @Nullable String tag) {
         super.show(manager, tag);
@@ -21,5 +23,12 @@ public class AnywhereDialogFragment extends DialogFragment {
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         DialogStack.pop();
+        if (isDismissParent) {
+            DialogStack.pop();
+        }
+    }
+
+    public void setDismissParent(boolean flag) {
+        isDismissParent = flag;
     }
 }

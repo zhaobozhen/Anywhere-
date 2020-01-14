@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.settings;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 
 
@@ -110,10 +112,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         String key = preference.getKey();
         switch (key) {
             case Const.PREF_CHANGE_BACKGROUND:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                    SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    ToastUtil.makeText(R.string.toast_no_document_app);
+                }
                 return true;
             case Const.PREF_RESET_BACKGROUND:
                 DialogManager.showResetBackgroundDialog(mContext);
