@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/rename_page"
+        android:title="重命名"
+        android:icon="@drawable/ic_add_home_shortcuts"/>
+
+    <item
+        android:id="@+id/delete_page"
+        android:title="删除页"
+        android:icon="@drawable/ic_delete"/>
+
+</menu>

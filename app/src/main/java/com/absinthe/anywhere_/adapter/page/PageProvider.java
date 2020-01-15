@@ -31,8 +31,13 @@ public class PageProvider extends BaseNodeProvider {
 
         RecyclerView recyclerView = baseViewHolder.getView(R.id.rv_chip);
         ChipAdapter adapter = new ChipAdapter(title);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
-        recyclerView.setHasFixedSize(true);
+        if (adapter.getItemCount() == 0) {
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
+        } else if (adapter.getItemCount() <= 3) {
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(adapter.getItemCount(), StaggeredGridLayoutManager.HORIZONTAL));
+        } else {
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
+        }
         recyclerView.setAdapter(adapter);
     }
 }

@@ -4,7 +4,17 @@ import android.animation.ObjectAnimator;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.PopupMenu;
+
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.PageEntity;
+import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.ui.main.RenameFragmentDialog;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -12,6 +22,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 
 public class PageTitleProvider extends BaseNodeProvider {
@@ -55,6 +66,39 @@ public class PageTitleProvider extends BaseNodeProvider {
         }
     }
 
+    @Override
+    public boolean onLongClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
+        PopupMenu popup = new PopupMenu(getContext(), view);
+        popup.getMenuInflater()
+                .inflate(R.menu.page_menu, popup.getMenu());
+        if (popup.getMenu() instanceof MenuBuilder) {
+            MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
+            menuBuilder.setOptionalIconsVisible(true);
+        }
+
+        PageTitleNode node = (PageTitleNode) data;
+        if (node != null) {
+            popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.rename_page:
+                        RenameFragmentDialog dialog = new RenameFragmentDialog(node.getTitle());
+                        dialog.show(MainActivity.getInstance().getSupportFragmentManager(), dialog.getTag());
+                        break;
+                    case R.id.delete_page:
+                        DialogManager.showDeletePageDialog(getContext(), node.getTitle(), (dialog1, which) ->
+                                AnywhereApplication.sRepository.deletePage(getPageEntity(node.getTitle())));
+                        break;
+                    default:
+                }
+                return true;
+            });
+        }
+
+        popup.show();
+
+        return super.onLongClick(helper, view, data, position);
+    }
+
     private void onExpansionToggled(ImageView arrow, boolean expanded) {
         float start, target;
         if (expanded) {
@@ -67,5 +111,33 @@ public class PageTitleProvider extends BaseNodeProvider {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(arrow, View.ROTATION, start, target);
         objectAnimator.setDuration(200);
         objectAnimator.start();
+    }
+
+    private static PageEntity getPageEntity(String title) {
+        List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+        if (list != null) {
+            for (PageEntity pe : list) {
+                if (pe.getTitle().equals(title)) {
+                    return pe;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void renameTitle(String oldTitle, String newTitle) {
+        PageEntity pe = getPageEntity(oldTitle);
+        List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+        if (list != null && pe != null) {
+            for (AnywhereEntity ae : list) {
+                if (ae.getCategory().equals(pe.getTitle())) {
+                    ae.setCategory(newTitle);
+                    AnywhereApplication.sRepository.update(ae);
+                }
+            }
+            AnywhereApplication.sRepository.deletePage(pe);
+            pe.setTitle(newTitle);
+            AnywhereApplication.sRepository.insertPage(pe);
+        }
     }
 }

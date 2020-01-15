@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,6 +56,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -95,6 +97,17 @@ public class MainActivity extends BaseActivity {
         setLayout();
         initView();
 
+        Observer<List<PageEntity>> observer = new Observer<List<PageEntity>>() {
+            @Override
+            public void onChanged(List<PageEntity> pageEntities) {
+                String timeStamp = System.currentTimeMillis() + "";
+                AnywhereApplication.sRepository.insertPage(
+                        new PageEntity(timeStamp, GlobalValues.sCategory, 1, timeStamp));
+                AnywhereApplication.sRepository.getAllPageEntities().removeObserver(this);
+            }
+        };
+        AnywhereApplication.sRepository.getAllPageEntities().observe(this, observer);
+
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) &&
                 SPUtils.getBoolean(this, Const.PREF_FIRST_LAUNCH, true)) {
             mFab.setVisibility(View.GONE);
@@ -103,10 +116,6 @@ public class MainActivity extends BaseActivity {
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
-
-            AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities ->
-                    AnywhereApplication.sRepository.insertPage(
-                            new PageEntity(GlobalValues.sCategory, 1, System.currentTimeMillis() + "")));
         } else {
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
@@ -233,12 +242,13 @@ public class MainActivity extends BaseActivity {
         drawer.findViewById(R.id.ib_add).setOnClickListener(v -> {
             List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
             if (list != null) {
+                String timeStamp = System.currentTimeMillis() + "";
                 if (list.size() != 0) {
                     int size = list.size();
-                    PageEntity pe = new PageEntity("Page " + (size + 1), size + 1, System.currentTimeMillis() + "");
+                    PageEntity pe = new PageEntity(timeStamp, "Page " + (size + 1), size + 1, timeStamp);
                     AnywhereApplication.sRepository.insertPage(pe);
                 } else {
-                    PageEntity pe = new PageEntity(AnywhereType.DEFAULT_CATEGORY, 1, System.currentTimeMillis() + "");
+                    PageEntity pe = new PageEntity(timeStamp, AnywhereType.DEFAULT_CATEGORY, 1, timeStamp);
                     AnywhereApplication.sRepository.insertPage(pe);
                 }
             }
@@ -246,23 +256,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupDrawerData(PageListAdapter adapter, List<PageEntity> pageEntities) {
-        if (adapter.getItemCount() == 0) {
-            for (PageEntity pe : pageEntities) {
-                adapter.addData(mViewModel.getEntity(pe.getTitle()));
-            }
-        } else {
-            if (pageEntities.size() > adapter.getItemCount() / 2) { //Item count == title page + clip page
-                adapter.addData(mViewModel.getEntity(pageEntities.get(pageEntities.size() - 1).getTitle()));
-            } else if (pageEntities.size() < adapter.getItemCount() / 2) {
-                for (PageEntity pe : pageEntities) {
-                    for (BaseNode node : adapter.getData()) {
-                        if (node instanceof PageTitleNode) {
-
-                        }
-                    }
-                }
-            }
+        List<BaseNode> list = new ArrayList<>();
+        for (PageEntity pe : pageEntities) {
+            list.add(mViewModel.getEntity(pe.getTitle()));
         }
+        adapter.setNewData(list);
     }
 
     public void initObserver() {

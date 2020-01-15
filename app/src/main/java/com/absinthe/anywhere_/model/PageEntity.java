@@ -10,6 +10,10 @@ public class PageEntity {
 
     @NonNull
     @PrimaryKey
+    @ColumnInfo(name = "id")
+    private String mId;
+
+    @NonNull
     @ColumnInfo(name = "title")
     private String mTitle;
 
@@ -21,10 +25,20 @@ public class PageEntity {
     @ColumnInfo(name = "time_stamp")
     private String mTimeStamp;
 
-    public PageEntity(@NonNull String title, @NonNull int priority, @NonNull String timeStamp) {
+    public PageEntity(@NonNull String id, @NonNull String title, @NonNull int priority, @NonNull String timeStamp) {
+        mId = id;
         mTitle = title;
         mPriority = priority;
         mTimeStamp = timeStamp;
+    }
+
+    @NonNull
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(@NonNull String mid) {
+        this.mId = mid;
     }
 
     @NonNull

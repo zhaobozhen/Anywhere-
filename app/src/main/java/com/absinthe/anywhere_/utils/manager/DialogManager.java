@@ -109,7 +109,7 @@ public class DialogManager {
     public static void showDeleteAnywhereDialog(Context context, AnywhereEntity ae) {
         AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
         builder.setTitle(R.string.dialog_delete_title)
-                .setMessage(Html.fromHtml(context.getString(R.string.dialog_delete_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
+                .setMessage(Html.fromHtml(String.format(context.getString(R.string.dialog_delete_message), "<b>" + ae.getAppName() + "</b>")))
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                     AnywhereApplication.sRepository.delete(ae);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
@@ -124,7 +124,7 @@ public class DialogManager {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public static void showAddShortcutDialog(Context context, AnywhereDialogBuilder builder, AnywhereEntity ae, DialogInterface.OnClickListener listener) {
         builder.setTitle(R.string.dialog_add_shortcut_title)
-                .setMessage(Html.fromHtml(context.getString(R.string.dialog_add_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
+                .setMessage(Html.fromHtml(String.format(context.getString(R.string.dialog_add_shortcut_message), "<b>" + ae.getAppName() + "</b>")))
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show();
@@ -142,7 +142,7 @@ public class DialogManager {
     public static void showRemoveShortcutDialog(Context context, AnywhereEntity ae) {
         AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
         builder.setTitle(R.string.dialog_remove_shortcut_title)
-                .setMessage(Html.fromHtml(context.getString(R.string.dialog_remove_shortcut_message) + " <b>" + ae.getAppName() + "</b>" + " ?"))
+                .setMessage(Html.fromHtml(String.format(context.getString(R.string.dialog_remove_shortcut_message), "<b>" + ae.getAppName() + "</b>")))
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialog, which) -> {
                     ShortcutsUtils.removeShortcut(ae);
                     builder.setDismissParent(true);
@@ -197,6 +197,16 @@ public class DialogManager {
         new AnywhereDialogBuilder(context)
                 .setTitle(R.string.dialog_permission_title)
                 .setMessage(R.string.dialog_permission_message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .show();
+    }
+
+    public static void showDeletePageDialog(Context context, String title, DialogInterface.OnClickListener listener) {
+        new AnywhereDialogBuilder(context)
+                .setTitle(R.string.dialog_delete_selected_title)
+                .setMessage(Html.fromHtml(String.format(context.getString(R.string.dialog_delete_message), "<b>" + title + "</b>")))
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
