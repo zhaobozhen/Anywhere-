@@ -19,9 +19,11 @@ import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
+import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.io.DataOutputStream;
@@ -137,9 +139,7 @@ public class PermissionUtils {
                     fragment.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
                 } else {
                     ToastUtil.makeText(R.string.toast_not_install_shizuku);
-                    intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
-                    fragment.startActivity(intent);
+                    URLSchemeHandler.parse(URLManager.SHIZUKU_COOLAPK_DOWNLOAD_PAGE, fragment);
                 }
             });
         }
@@ -161,9 +161,7 @@ public class PermissionUtils {
                             activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
                         } else {
                             ToastUtil.makeText(R.string.toast_not_install_shizuku);
-                            intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse("https://www.coolapk.com/moe.shizuku.privileged.api"));
-                            activity.startActivity(intent);
+                            URLSchemeHandler.parse(URLManager.SHIZUKU_COOLAPK_DOWNLOAD_PAGE, activity);
                         }
                     });
                 } else {

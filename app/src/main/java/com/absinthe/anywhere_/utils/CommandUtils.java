@@ -1,8 +1,8 @@
 package com.absinthe.anywhere_.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -14,6 +14,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 
 import java.io.IOException;
@@ -67,12 +68,9 @@ public class CommandUtils {
             } else {
                 cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
                 try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setData(Uri.parse(cmd));
-                    AnywhereApplication.sContext.startActivity(intent);
+                    URLSchemeHandler.parse(cmd, AnywhereApplication.sContext);
                     result = CommandResult.RESULT_SUCCESS;
-                } catch (Exception e) {
+                } catch (ActivityNotFoundException e) {
                     Logger.e("URL_SCHEME:Exception:", e.getMessage());
                     result = CommandResult.RESULT_NO_REACT_URL;
                 }

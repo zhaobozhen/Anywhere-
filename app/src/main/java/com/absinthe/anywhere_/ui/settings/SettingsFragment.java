@@ -24,6 +24,7 @@ import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.absinthe.anywhere_.utils.manager.URLManager;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
@@ -126,10 +127,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 DialogManager.showResetBackgroundDialog(mContext);
                 return true;
             case Const.PREF_HELP:
-                String url = "https://absinthe.life/Anywhere-Docs/";
                 CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
                         .build();
-                tabsIntent.launchUrl(mContext, Uri.parse(url));
+                tabsIntent.launchUrl(mContext, Uri.parse(URLManager.OLD_DOCUMENT_PAGE));
                 return true;
             case Const.PREF_CLEAR_SHORTCUTS:
                 DialogManager.showClearShortcutsDialog(mContext);

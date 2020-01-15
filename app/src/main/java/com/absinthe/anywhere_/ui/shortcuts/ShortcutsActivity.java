@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.shortcuts;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
@@ -148,11 +150,8 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                         if (param1 != null && param2 != null && param3 != null) {
                             if (param2.isEmpty() && param3.isEmpty()) {
                                 try {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.setData(Uri.parse(param1));
-                                    startActivity(intent);
-                                } catch (Exception e) {
+                                    URLSchemeHandler.parse(param1, this);
+                                } catch (ActivityNotFoundException e) {
                                     e.printStackTrace();
                                 }
                             } else {

@@ -10,7 +10,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -19,6 +18,7 @@ import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.provider.HomeWidgetProvider;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
@@ -35,15 +35,11 @@ public class AppUtils {
      * @param param3  param3
      */
     public static void openUrl(Context context, String param1, String param2, String param3) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
         String url = "anywhere://url?"
                 + "param1=" + param1
                 + "&param2=" + param2
                 + "&param3=" + param3;
-        intent.setData(Uri.parse(url));
-        context.startActivity(intent);
+        URLSchemeHandler.parse(url, context);
     }
 
     /**

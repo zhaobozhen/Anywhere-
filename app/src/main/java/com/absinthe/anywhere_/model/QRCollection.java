@@ -1,12 +1,13 @@
 package com.absinthe.anywhere_.model;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.utils.CommandUtils;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 
 import java.util.ArrayList;
 
@@ -168,11 +169,8 @@ public class QRCollection {
 
         alipayScan = new QREntity(() -> {
             try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setData(Uri.parse(urlScheme));
-                mContext.startActivity(intent);
-            } catch (Exception e) {
+                URLSchemeHandler.parse(urlScheme, mContext);
+            } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
             }
         });
@@ -202,11 +200,8 @@ public class QRCollection {
 
         alipayPay = new QREntity(() -> {
             try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setData(Uri.parse(urlScheme));
-                mContext.startActivity(intent);
-            } catch (Exception e) {
+                URLSchemeHandler.parse(urlScheme, mContext);
+            } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
             }
         });
@@ -236,11 +231,8 @@ public class QRCollection {
 
         alipayBus = new QREntity(() -> {
             try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setData(Uri.parse(urlScheme));
-                mContext.startActivity(intent);
-            } catch (Exception e) {
+                URLSchemeHandler.parse(urlScheme, mContext);
+            } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
             }
         });
@@ -270,11 +262,8 @@ public class QRCollection {
 
         alipayCollect = new QREntity(() -> {
             try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setData(Uri.parse(urlScheme));
-                mContext.startActivity(intent);
-            } catch (Exception e) {
+                URLSchemeHandler.parse(urlScheme, mContext);
+            } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
             }
         });

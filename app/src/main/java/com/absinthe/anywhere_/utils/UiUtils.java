@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.utils;
 
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -53,6 +52,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.RoundLinerLayoutNormal;
 import com.bumptech.glide.Glide;
@@ -77,9 +77,9 @@ public class UiUtils {
      */
     public static String getPkgNameByUrl(Context context, String url) {
         String apkTempPackageName = "";
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        List<ResolveInfo> resolveInfo = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> resolveInfo =
+                context.getPackageManager()
+                        .queryIntentActivities(URLSchemeHandler.handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY);
         if (resolveInfo.size() != 0) {
             apkTempPackageName = resolveInfo.get(0).activityInfo.packageName;
         }

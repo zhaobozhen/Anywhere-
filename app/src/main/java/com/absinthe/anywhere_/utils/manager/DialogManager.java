@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 
@@ -28,6 +27,7 @@ import com.absinthe.anywhere_.ui.settings.TimePickerDialogFragment;
 import com.absinthe.anywhere_.ui.shortcuts.CreateShortcutDialogFragment;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 
 public class DialogManager {
@@ -185,9 +185,7 @@ public class DialogManager {
                         ((AppCompatActivity) context).startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
                     } else {
                         ToastUtil.makeText(R.string.toast_not_install_shizuku);
-                        intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse("https://www.coolapk.com/apk/moe.shizuku.privileged.api"));
-                        context.startActivity(intent);
+                        URLSchemeHandler.parse(URLManager.SHIZUKU_COOLAPK_DOWNLOAD_PAGE, context);
                     }
                 })
                 .show();

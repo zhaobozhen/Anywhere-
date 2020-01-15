@@ -1,8 +1,6 @@
 package com.absinthe.anywhere_.ui.about;
 
 import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +14,9 @@ import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.drakeet.about.AbsAboutActivity;
 import com.drakeet.about.Card;
 import com.drakeet.about.Category;
@@ -125,10 +125,7 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.toolbar_rate) {
             try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setData(Uri.parse("market://details?id=" + "com.absinthe.anywhere_"));
-                startActivity(intent);
+                URLSchemeHandler.parse(URLManager.MARKET_URL_SCHEME, this);
             } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
             }

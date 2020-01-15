@@ -1,11 +1,9 @@
 package com.absinthe.anywhere_.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.util.Patterns;
 
 import com.absinthe.anywhere_.AnywhereApplication;
@@ -14,6 +12,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QREntity;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 
 import java.text.SimpleDateFormat;
@@ -165,9 +164,9 @@ public class TextUtils {
      * @return package name
      */
     public static String getPkgNameByUrlScheme(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        List<ResolveInfo> resolveInfo = AnywhereApplication.sContext.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> resolveInfo =
+                AnywhereApplication.sContext.getPackageManager()
+                        .queryIntentActivities(URLSchemeHandler.handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY);
         if (resolveInfo.size() != 0) {
             return resolveInfo.get(0).activityInfo.packageName;
         } else {

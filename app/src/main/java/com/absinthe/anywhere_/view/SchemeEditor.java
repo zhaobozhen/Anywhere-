@@ -2,8 +2,6 @@ package com.absinthe.anywhere_.view;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,7 +16,9 @@ import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -51,9 +51,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
         if (btnUrlSchemeCommunity != null) {
             btnUrlSchemeCommunity.setOnClickListener(view -> {
                 try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://sharecuts.cn/apps"));
-                    mContext.startActivity(intent);
+                    URLSchemeHandler.parse(URLManager.SHORTCUT_COMMUNITY_PAGE, mContext);
                 } catch (ActivityNotFoundException e) {
                     e.printStackTrace();
                     ToastUtil.makeText(R.string.toast_no_react_url);
