@@ -43,7 +43,9 @@ public class DialogManager {
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                     GlobalValues.setsBackgroundUri("");
                     MainActivity.getInstance().restartActivity();
-                    SettingsActivity.getInstance().finish();
+                    if (SettingsActivity.getInstance() != null) {
+                        SettingsActivity.getInstance().finish();
+                    }
                 })
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show();

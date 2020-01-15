@@ -124,6 +124,7 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
 
     testImplementation 'junit:junit:4.13'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     annotationProcessor 'androidx.room:room-compiler:2.2.3'

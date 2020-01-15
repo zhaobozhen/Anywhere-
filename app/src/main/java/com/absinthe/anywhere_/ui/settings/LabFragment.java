@@ -65,13 +65,17 @@ public class LabFragment extends PreferenceFragmentCompat implements Preference.
                 GlobalValues.setsIsMd2Toolbar((boolean) newValue);
                 MainActivity.getInstance().restartActivity();
                 ((Activity) mContext).finish();
-                SettingsActivity.getInstance().finish();
+                if (SettingsActivity.getInstance() != null) {
+                    SettingsActivity.getInstance().finish();
+                }
                 return true;
             case Const.PREF_PAGES:
                 GlobalValues.setsIsPages((boolean) newValue);
                 MainActivity.getInstance().restartActivity();
                 ((Activity) mContext).finish();
-                SettingsActivity.getInstance().finish();
+                if (SettingsActivity.getInstance() != null) {
+                    SettingsActivity.getInstance().finish();
+                }
                 return true;
             default:
                 break;

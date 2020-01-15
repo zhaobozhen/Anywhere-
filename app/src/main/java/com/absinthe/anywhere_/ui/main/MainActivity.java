@@ -100,12 +100,15 @@ public class MainActivity extends BaseActivity {
         Observer<List<PageEntity>> observer = new Observer<List<PageEntity>>() {
             @Override
             public void onChanged(List<PageEntity> pageEntities) {
-                String timeStamp = System.currentTimeMillis() + "";
-                AnywhereApplication.sRepository.insertPage(
-                        new PageEntity(timeStamp, GlobalValues.sCategory, 1, timeStamp));
+                if (pageEntities.size() == 0) {
+                    String timeStamp = System.currentTimeMillis() + "";
+                    AnywhereApplication.sRepository.insertPage(
+                            new PageEntity(timeStamp, GlobalValues.sCategory, 1, timeStamp));
+                }
                 AnywhereApplication.sRepository.getAllPageEntities().removeObserver(this);
             }
         };
+
         AnywhereApplication.sRepository.getAllPageEntities().observe(this, observer);
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) &&
@@ -137,6 +140,12 @@ public class MainActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         getAnywhereIntent(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        sInstance = null;
+        super.onDestroy();
     }
 
     @Override
