@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.viewbuilder.entity;
 
 import android.content.Context;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
@@ -18,17 +17,12 @@ public class IntervalDialogBuilder extends ViewBuilder {
     @Override
     public void init() {
         root = new LinearLayout(mContext);
-        root.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
+        root.setLayoutParams(Params.LL.MATCH_MATCH);
         int padding = d2p(10);
         root.setPadding(padding, padding, padding, padding);
 
         slider = new Slider(mContext);
-        slider.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        ));
+        slider.setLayoutParams(Params.LL.MATCH_WRAP);
         slider.setValueFrom(0.5f);
         slider.setValueTo(2.5f);
         slider.setStepSize(0.25f);

@@ -18,14 +18,10 @@ public class IconPackDialogBuilder extends ViewBuilder {
     @Override
     public void init() {
         root = new LinearLayout(mContext);
-        root.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
+        root.setLayoutParams(Params.LL.MATCH_MATCH);
 
         rvIconPack = new RecyclerView(mContext);
-        LinearLayout.LayoutParams rvParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams rvParams = Params.LL.MATCH_WRAP;
         rvParams.setMargins(0, 0, 0, d2p(10));
 
         rvIconPack.setLayoutParams(rvParams);

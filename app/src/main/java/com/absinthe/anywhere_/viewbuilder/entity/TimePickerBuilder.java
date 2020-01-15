@@ -20,18 +20,14 @@ public class TimePickerBuilder extends ViewBuilder {
     @Override
     public void init() {
         root = new LinearLayout(mContext);
-        root.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
+        root.setLayoutParams(Params.LL.MATCH_MATCH);
         ((LinearLayout) root).setOrientation(LinearLayout.HORIZONTAL);
         int padding = d2p(10);
         root.setPadding(padding, padding, padding, padding);
         ((LinearLayout) root).setHorizontalGravity(Gravity.CENTER);
         root.setClipToPadding(false);
 
-        LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams wrapWrap = Params.LL.WRAP_WRAP;
         btnStart = new MaterialButton(mContext);
         btnStart.setLayoutParams(wrapWrap);
         btnStart.setTextColor(mResources.getColor(R.color.textColorNormal));

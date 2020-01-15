@@ -4,9 +4,15 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.utils.UiUtils;
 
+/**
+ * View Builder
+ * <p>
+ * To build a view with Java code.
+ */
 public abstract class ViewBuilder implements IViewBuilder {
     protected ViewGroup root;
     protected Context mContext;
@@ -44,5 +50,31 @@ public abstract class ViewBuilder implements IViewBuilder {
 
     protected int d2p(float dipValue) {
         return UiUtils.d2p(mContext, dipValue);
+    }
+
+    protected static class Params {
+
+        public static class LL {
+
+            public static LinearLayout.LayoutParams WRAP_WRAP = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            public static LinearLayout.LayoutParams WRAP_MATCH = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+
+            public static LinearLayout.LayoutParams MATCH_WRAP = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            public static LinearLayout.LayoutParams MATCH_MATCH = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+
+            public static LinearLayout.LayoutParams customParams(int width, int height) {
+                return new LinearLayout.LayoutParams(width, height);
+            }
+        }
     }
 }

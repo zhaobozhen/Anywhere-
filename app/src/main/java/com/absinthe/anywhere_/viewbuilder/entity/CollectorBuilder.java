@@ -23,18 +23,14 @@ public class CollectorBuilder extends ViewBuilder {
 
     @Override
     public void init() {
-        LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams wrapWrap = Params.LL.WRAP_WRAP;
         wrapWrap.gravity = Gravity.CENTER_HORIZONTAL;
 
         root.setLayoutParams(wrapWrap);
         ((LinearLayout) root).setOrientation(LinearLayout.VERTICAL);
 
         ibCollector = new ImageButton(mContext);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                d2p(65),
-                d2p(65));
+        LinearLayout.LayoutParams layoutParams = Params.LL.customParams(d2p(65), d2p(65));
         layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
         ibCollector.setLayoutParams(layoutParams);
         ibCollector.setImageResource(R.drawable.btn_collector);

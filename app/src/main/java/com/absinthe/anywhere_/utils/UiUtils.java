@@ -390,6 +390,7 @@ public class UiUtils {
      *
      * @param view     card view
      * @param drawable icon drawable
+     * @param listener notify when Palette finished
      */
     public static void setCardUseIconColor(View view, Drawable drawable, OnPaletteFinishedListener listener) {
         Bitmap bitmap = drawableToBitmap(drawable);
@@ -406,15 +407,16 @@ public class UiUtils {
 
                 view.setBackgroundColor(color);
                 listener.onFinished(color);
-//                if (p.getVibrantColor(Color.TRANSPARENT) != Color.TRANSPARENT) {
-//                    createLinearGradientBitmap((ImageView) view, p.getVibrantColor(Color.TRANSPARENT), Color.TRANSPARENT);
-//                } else {
-//                    createLinearGradientBitmap((ImageView) view, p.getDominantColor(Color.TRANSPARENT), Color.TRANSPARENT);
-//                }
             }
         });
     }
 
+    /**
+     * Make the card use icon's color
+     *
+     * @param view     card view
+     * @param drawable icon drawable
+     */
     public static void setCardUseIconColor(View view, Drawable drawable) {
         Bitmap bitmap = drawableToBitmap(drawable);
         if (bitmap == null) {
@@ -704,6 +706,14 @@ public class UiUtils {
         item.setIcon(wrapDrawable);
     }
 
+    /**
+     * Tint the menu icon with alpha
+     *
+     * @param context context
+     * @param item    a menu item
+     * @param color   color
+     * @param alpha   alpha
+     */
     public static void tintMenuIconWithAlpha(Context context, MenuItem item, @ColorRes int color, int alpha) {
         Drawable normalDrawable = item.getIcon();
         Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);

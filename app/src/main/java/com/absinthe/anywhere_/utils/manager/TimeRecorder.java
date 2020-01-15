@@ -4,6 +4,11 @@ import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+/**
+ * Time Recorder
+ *
+ * Analysis of a time period.
+ */
 public class TimeRecorder {
     private long startTime;
     private long endTime;

@@ -11,8 +11,11 @@ import java.util.Stack;
 
 /**
  * Created by Absinthe at 2020/1/13
- * <p>
- * Dialog 栈，使同一时期只显示一个 Dialog 以保证优雅的显示效果
+ *
+ * Dialog Stack
+ *
+ * Make it display unique Dialog at the same time
+ * to make app delegate.
  */
 public class DialogStack {
 

@@ -27,6 +27,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Icon Pack Manager
+ */
 public class IconPackManager {
     //@Inject
     //private android.app.Application mContext;

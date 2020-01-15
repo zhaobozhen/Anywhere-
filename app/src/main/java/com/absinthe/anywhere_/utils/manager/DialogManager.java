@@ -30,6 +30,11 @@ import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 
+/**
+ * Dialog Manager
+ *
+ * To manage all Dialogs / DialogFragments / BottomSheetDialogs in App.
+ */
 public class DialogManager {
     public static void showResetBackgroundDialog(Context context) {
         new AnywhereDialogBuilder(context)

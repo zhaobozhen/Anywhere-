@@ -20,15 +20,10 @@ public class RestoreApplyBuilder extends ViewBuilder {
     @Override
     public void init() {
         root = new LinearLayout(mContext);
-        root.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
+        root.setLayoutParams(Params.LL.MATCH_MATCH);
 
         TextInputLayout textInputLayout = new TextInputLayout(mContext);
-        LinearLayout.LayoutParams tilParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
+        LinearLayout.LayoutParams tilParams = Params.LL.MATCH_WRAP;
         Resources resources = mContext.getResources();
         tilParams.setMargins(
                 d2p(resources.getDimension(R.dimen.bsd_edit_text_margin_horizontal)),
@@ -40,9 +35,7 @@ public class RestoreApplyBuilder extends ViewBuilder {
         textInputLayout.setHint(resources.getString(R.string.dialog_restore_apply_paste_hint));
 
         editText = new TextInputEditText(mContext);
-        editText.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
+        editText.setLayoutParams(Params.LL.MATCH_WRAP);
         textInputLayout.addView(editText);
 
         addView(textInputLayout);

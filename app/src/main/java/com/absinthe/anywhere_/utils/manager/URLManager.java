@@ -1,5 +1,10 @@
 package com.absinthe.anywhere_.utils.manager;
 
+/**
+ * URL Manager
+ *
+ * All URLs in App.
+ */
 public class URLManager {
 
     public static final String OLD_DOCUMENT_PAGE = "https://zhaobozhen.github.io/Anywhere-Docs/";

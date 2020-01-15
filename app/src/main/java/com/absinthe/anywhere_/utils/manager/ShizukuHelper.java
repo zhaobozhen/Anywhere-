@@ -13,6 +13,11 @@ import moe.shizuku.api.ShizukuService;
 
 import static com.absinthe.anywhere_.AnywhereApplication.getProcessName;
 
+/**
+ * Shizuku Helper
+ *
+ * Init Shizuku API.
+ */
 public class ShizukuHelper {
     private static final String ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER";
     private static boolean v3Failed;
