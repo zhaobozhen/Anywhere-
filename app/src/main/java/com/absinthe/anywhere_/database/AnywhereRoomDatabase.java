@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.PageEntity;
 
-@Database(entities = {AnywhereEntity.class, PageEntity.class}, version = 4, exportSchema = false)
+@Database(entities = {AnywhereEntity.class, PageEntity.class}, version = 5, exportSchema = false)
 public abstract class AnywhereRoomDatabase extends RoomDatabase {
 
     public abstract AnywhereDao anywhereDao();
@@ -25,7 +25,7 @@ public abstract class AnywhereRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AnywhereRoomDatabase.class, "anywhere_database")
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                             .build();
                 }
             }
@@ -65,6 +65,22 @@ public abstract class AnywhereRoomDatabase extends RoomDatabase {
             //Create Page table
             database.execSQL(
                     "CREATE TABLE page_table (title TEXT NOT NULL, priority INTEGER NOT NULL, time_stamp TEXT NOT NULL, PRIMARY KEY(title))");
+        }
+    };
+
+    private static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Create the new table
+            database.execSQL(
+                    "CREATE TABLE page_new (id TEXT NOT NULL, title TEXT NOT NULL, priority INTEGER NOT NULL, time_stamp TEXT NOT NULL, PRIMARY KEY(id))");
+            // Copy the data
+            database.execSQL(
+                    "INSERT INTO page_new (id, title, priority, time_stamp) SELECT time_stamp, title, priority, time_stamp FROM page_table");
+            // Remove the old table
+            database.execSQL("DROP TABLE page_table");
+            // Change the table name to the correct one
+            database.execSQL("ALTER TABLE page_new RENAME TO page_table");
         }
     };
 }

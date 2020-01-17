@@ -147,7 +147,11 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 ivIcon.setImageDrawable(item.getIcon());
                 tvAppName.setText(item.getAppName());
                 tvPkgName.setText(item.getPackageName());
-            } else if (mMode == MODE_APP_DETAIL || mMode == MODE_CARD_LIST) {
+            } else if (mMode == MODE_APP_DETAIL) {
+                ivIcon.setImageDrawable(UiUtils.getActivityIcon(mContext, new ComponentName(item.getPackageName(), item.getClassName())));
+                tvAppName.setText(item.getAppName());
+                tvPkgName.setText(item.getClassName());
+            } else if (mMode == MODE_CARD_LIST) {
                 ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item));
                 tvAppName.setText(item.getAppName());
                 tvPkgName.setText(item.getClassName());
