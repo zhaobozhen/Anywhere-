@@ -57,6 +57,9 @@ public class StorageUtils {
 
         List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
         if (list != null) {
+            for (AnywhereEntity ae : list) {
+                ae.setType(ae.getAnywhereType() + ae.getExportedType() * 100);
+            }
             String s = gson.toJson(list);
             Logger.d(s);
             return s;

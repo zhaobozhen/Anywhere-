@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8BC34A</color>
-    <color name="colorPrimaryDark">#8BC34A</color>
-    <color name="resetColorPrimary">#8BC34A</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FF8BC34A</color>
+    <color name="colorPrimaryDark">#FF8BC34A</color>
+    <color name="resetColorPrimary">#FF8BC34A</color>
+    <color name="colorAccent">#FFFF4081</color>
 
     <color name="transparent">#00000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="gray">#ECECEC</color>
-    <color name="green_done">#4CAF50</color>
-    <color name="exported_tint">#444444</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="gray">#FFECECEC</color>
+    <color name="green_done">#FF4CAF50</color>
+    <color name="exported_tint">#FF444444</color>
     <color name="shadow">#20000000</color>
 
     <!--  DayNight colors  -->
     <color name="cardColor">#EEFFFFFF</color>
-    <color name="textColorNormal">#000000</color>
-    <color name="toolbarColorNormal">#000000</color>
-    <color name="navigationColorNormal">#FFFFFF</color>
-    <color name="lollipopStatusBarColor">#DDDDDD</color>
+    <color name="textColorNormal">#FF000000</color>
+    <color name="toolbarColorNormal">#FF000000</color>
+    <color name="navigationColorNormal">#FFFFFFFF</color>
+    <color name="lollipopStatusBarColor">#FFDDDDDD</color>
 
     <!--  Fab  -->
-    <color name="fabBackgroundColor">#03A9F4</color>
-    <color name="fabIconColor">#FFFFFF</color>
+    <color name="fabBackgroundColor">#FF03A9F4</color>
+    <color name="fabIconColor">#FFFFFFFF</color>
+
+    <color name="bubbleBlue">#FF3487D7</color>
 
 </resources>

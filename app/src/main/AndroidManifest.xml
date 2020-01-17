@@ -27,7 +27,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
-
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -124,6 +123,9 @@
         <activity
             android:name=".ui.settings.LabActivity"
             android:label="@string/settings_lab"
+            android:parentActivityName=".ui.settings.SettingsActivity" />
+        <activity android:name=".ui.gift.GiftActivity"
+            android:label="@string/settings_gift"
             android:parentActivityName=".ui.settings.SettingsActivity" />
 
         <provider

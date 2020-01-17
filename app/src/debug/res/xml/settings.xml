@@ -146,6 +146,18 @@
 
         </Preference>
 
+        <Preference
+            app:key="gift"
+            app:title="@string/settings_gift"
+            app:summary="@string/settings_gift_summary"
+            android:icon="@drawable/ic_gift">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_.debug"
+                android:targetClass="com.absinthe.anywhere_.ui.gift.GiftActivity"/>
+
+        </Preference>
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

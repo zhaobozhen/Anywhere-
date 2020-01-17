@@ -111,6 +111,7 @@
     <string name="settings_lab">Lab</string>
     <string name="settings_help">Help</string>
     <string name="settings_about">About</string>
+    <string name="settings_gift">Anywhere- Gift</string>
 
     <string name="settings_working_mode_summary">Select a working mode</string>
     <string name="settings_change_background_summary">Choose an image as background to home pageTitle</string>
@@ -127,6 +128,7 @@
     <string name="settings_lab_summary">Experimental features</string>
     <string name="settings_help_summary">Help document</string>
     <string name="settings_about_summary">This is Anywhere- !</string>
+    <string name="settings_gift_summary" translatable="false">\"Do you like it?\"</string>
 
     <string name="settings_restore">Restore</string>
     <string name="settings_backup_backup_title">Create a new backup file</string>

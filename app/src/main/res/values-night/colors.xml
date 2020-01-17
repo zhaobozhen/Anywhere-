@@ -3,11 +3,11 @@
     <color name="resetColorPrimary">#FF121212</color>
     <color name="colorPrimaryDark">#FF121212</color>
 
-    <color name="gray">#454545</color>
+    <color name="gray">#FF454545</color>
     <color name="cardColor">#EE000000</color>
-    <color name="textColorNormal">#FFFFFF</color>
-    <color name="toolbarColorNormal">#A0A0A0</color>
-    <color name="navigationColorNormal">#121212</color>
-    <color name="lollipopStatusBarColor">#121212</color>
+    <color name="textColorNormal">#FFFFFFFF</color>
+    <color name="toolbarColorNormal">#FFA0A0A0</color>
+    <color name="navigationColorNormal">#FF121212</color>
+    <color name="lollipopStatusBarColor">#FF121212</color>
 
 </resources>

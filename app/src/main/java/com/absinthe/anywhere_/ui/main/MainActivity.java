@@ -66,6 +66,7 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 public class MainActivity extends BaseActivity {
     @SuppressLint("StaticFieldLeak")
     private static MainActivity sInstance;
+    private static boolean isPageInit = false;
     private MainFragment mCurrFragment;
 
     private AnywhereViewModel mViewModel;
@@ -109,12 +110,14 @@ public class MainActivity extends BaseActivity {
         Observer<List<PageEntity>> observer = new Observer<List<PageEntity>>() {
             @Override
             public void onChanged(List<PageEntity> pageEntities) {
-                if (pageEntities.size() == 0) {
+                AnywhereApplication.sRepository.getAllPageEntities().removeObserver(this);
+
+                if (pageEntities.size() == 0 && !isPageInit) {
                     String timeStamp = System.currentTimeMillis() + "";
                     AnywhereApplication.sRepository.insertPage(
                             new PageEntity(timeStamp, GlobalValues.sCategory, 1, timeStamp));
+                    isPageInit = true;
                 }
-                AnywhereApplication.sRepository.getAllPageEntities().removeObserver(this);
             }
         };
 
@@ -238,13 +241,15 @@ public class MainActivity extends BaseActivity {
                 MainActivity.getInstance().mDrawer.closeDrawer(GravityCompat.START);
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     PageTitleNode node = (PageTitleNode) adapter1.getItem(position);
-                    mCurrFragment = MainFragment.newInstance(node.getTitle());
-                    MainActivity.getInstance().getSupportFragmentManager()
-                            .beginTransaction()
-                            .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                            .replace(R.id.container, mCurrFragment)
-                            .commitNow();
-                    GlobalValues.setsCategory(node.getTitle(), position);
+                    if (node != null) {
+                        mCurrFragment = MainFragment.newInstance(node.getTitle());
+                        MainActivity.getInstance().getSupportFragmentManager()
+                                .beginTransaction()
+                                .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                                .replace(R.id.container, mCurrFragment)
+                                .commitNow();
+                        GlobalValues.setsCategory(node.getTitle(), position);
+                    }
                 }, 300);
             }
         });
