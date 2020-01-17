@@ -40,6 +40,7 @@ public class Const {
     public static final String PREF_DUMP_INTERVAL = "dumpInterval";
     public static final String PREF_AUTO_DARK_MODE_START = "autoDarkModeStart";
     public static final String PREF_AUTO_DARK_MODE_END = "autoDarkModeEnd";
+    public static final String PREF_GIFT = "gift";
 
     public static final String WORKING_MODE_URL_SCHEME = "url_scheme";
     public static final String WORKING_MODE_ROOT = "root";

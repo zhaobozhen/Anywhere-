@@ -128,7 +128,7 @@
     <string name="settings_lab_summary">Experimental features</string>
     <string name="settings_help_summary">Help document</string>
     <string name="settings_about_summary">This is Anywhere- !</string>
-    <string name="settings_gift_summary" translatable="false">\"Do you like it?\"</string>
+    <string name="settings_gift_summary" translatable="false"><i>\"Do you like it?\" </i></string>
 
     <string name="settings_restore">Restore</string>
     <string name="settings_backup_backup_title">Create a new backup file</string>

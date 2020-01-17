@@ -58,6 +58,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Preference clearShortcutsPreference = findPreference(Const.PREF_CLEAR_SHORTCUTS);
         Preference iconPackPreference = findPreference(Const.PREF_ICON_PACK);
         Preference tilesPreference = findPreference(Const.PREF_TILES);
+        Preference giftPreference = findPreference(Const.PREF_GIFT);
         SwitchPreferenceCompat streamCardModePreference = findPreference(Const.PREF_STREAM_CARD_MODE);
         SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE);
         SwitchPreferenceCompat collectorPlusPreference = findPreference(Const.PREF_COLLECTOR_PLUS);
@@ -105,6 +106,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         if (collectorPlusPreference != null) {
             collectorPlusPreference.setOnPreferenceChangeListener(this);
+        }
+        if (giftPreference != null) {
+            giftPreference.setSummary(getText(R.string.settings_gift_summary));
         }
     }
 

@@ -31,4 +31,7 @@
     <dimen name="ambientShadowAlpha">0.016</dimen>
     <dimen name="spotShadowAlpha">0.08</dimen>
 
+    <!--  Chat bubble  -->
+    <dimen name="bubble_radius">50dp</dimen>
+
 </resources>
