@@ -23,7 +23,7 @@ public class CardListDialogBuilder extends ViewBuilder {
         root = new ViewFlipper(mContext);
         root.setLayoutParams(Params.LL.MATCH_MATCH);
         int padding = d2p(10);
-        root.setPadding(padding, padding, padding, padding);
+        root.setPadding(0, padding, 0, padding);
 
         RecyclerView rvCardList = new RecyclerView(mContext);
 

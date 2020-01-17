@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/move_to_page"
-        android:title="Move to page"
-        android:icon="@drawable/ic_add_home_shortcuts" />
+        android:title="@string/menu_move_to_page"
+        android:icon="@drawable/ic_move" />
 
 </menu>

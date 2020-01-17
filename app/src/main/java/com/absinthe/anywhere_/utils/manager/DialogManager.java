@@ -18,6 +18,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog;
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment;
@@ -29,13 +30,16 @@ import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.ui.settings.TimePickerDialogFragment;
 import com.absinthe.anywhere_.ui.shortcuts.CreateShortcutDialogFragment;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
+import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 
+import java.util.List;
+
 /**
  * Dialog Manager
- *
+ * <p>
  * To manage all Dialogs / DialogFragments / BottomSheetDialogs in App.
  */
 public class DialogManager {
@@ -214,9 +218,9 @@ public class DialogManager {
     public static void showDeletePageDialog(Context context, String title, DialogInterface.OnClickListener listener, boolean isDeletePageAndItem) {
         Spanned message;
         if (isDeletePageAndItem) {
-            message = Html.fromHtml(String.format(context.getString(R.string.dialog_delete_message), "<b>" + title + "</b>"));
-        } else {
             message = Html.fromHtml(String.format(context.getString(R.string.dialog_delete_with_sub_item_message), "<b>" + title + "</b>"));
+        } else {
+            message = Html.fromHtml(String.format(context.getString(R.string.dialog_delete_message), "<b>" + title + "</b>"));
         }
 
         new AnywhereDialogBuilder(context)
@@ -226,6 +230,23 @@ public class DialogManager {
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show();
+    }
+
+    public static void showPageListDialog(Context context, AnywhereEntity ae) {
+        String[] items = new String[]{};
+        List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+        if (list != null) {
+            for (PageEntity pe : list) {
+                items = TextUtils.insertStringArray(items, pe.getTitle());
+            }
+            AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
+            builder.setItems(items, (dialog, which) -> {
+                ae.setCategory(list.get(which).getTitle());
+                AnywhereApplication.sRepository.update(ae);
+                builder.setDismissParent(true);
+            });
+            builder.show();
+        }
     }
 
     public static void showIconPackChoosingDialog(AppCompatActivity activity) {

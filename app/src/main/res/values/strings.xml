@@ -89,6 +89,7 @@
     <string name="menu_rename">Rename</string>
     <string name="menu_delete_page">Delete page</string>
     <string name="menu_delete_page_and_item">Delete page completely</string>
+    <string name="menu_move_to_page">Move to page</string>
 
     <!--  Settings  -->
     <string name="settings_category_advanced">Advanced</string>

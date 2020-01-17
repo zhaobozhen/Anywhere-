@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.view.View;
@@ -241,6 +240,7 @@ public abstract class Editor<T extends Editor<?>> {
                             mListener.onDelete();
                             break;
                         case R.id.move_to_page:
+                            DialogManager.showPageListDialog(mContext, mItem);
                             break;
                         default:
                     }

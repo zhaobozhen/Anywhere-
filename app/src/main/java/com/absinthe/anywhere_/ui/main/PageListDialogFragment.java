@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.ui.list;
+package com.absinthe.anywhere_.ui.main;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,9 +8,8 @@ import androidx.annotation.NonNull;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter;
-import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.AppListBean;
+import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.viewbuilder.entity.CardListDialogBuilder;
@@ -18,10 +17,10 @@ import com.absinthe.anywhere_.viewbuilder.entity.CardListDialogBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardListDialogFragment extends AnywhereDialogFragment {
+public class PageListDialogFragment extends AnywhereDialogFragment {
     private Context mContext;
     private CardListDialogBuilder mBuilder;
-    private List<AnywhereEntity> mList;
+    private List<PageEntity> mList;
     private AppListAdapter.OnItemClickListener mListener;
 
     @Override
@@ -50,16 +49,13 @@ public class CardListDialogFragment extends AnywhereDialogFragment {
     private void initView() {
         List<AppListBean> listBeans = new ArrayList<>();
 
-        mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+        mList = AnywhereApplication.sRepository.getAllPageEntities().getValue();
         if (mList != null) {
-            for (AnywhereEntity ae : mList) {
-                if (ae.getAnywhereType() == AnywhereType.URL_SCHEME) {
-                    listBeans.add(new AppListBean(ae.getAppName(), ae.getParam2(), ae.getParam1(), ae.getAnywhereType()));
-                } else {
-                    listBeans.add(new AppListBean(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getAnywhereType()));
-                }
+            for (PageEntity pe : mList) {
+                listBeans.add(new AppListBean(pe.getTitle(), "", "", -1));
             }
             mBuilder.mAdapter.setList(listBeans);
         }
     }
 }
+

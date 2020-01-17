@@ -97,6 +97,7 @@ public class PageTitleProvider extends BaseNodeProvider {
                                         }
                                     }
                                 }
+                                GlobalValues.setsCategory(title, 0);
                             }
                         }, false);
                         break;
@@ -113,6 +114,7 @@ public class PageTitleProvider extends BaseNodeProvider {
                                         }
                                     }
                                 }
+                                GlobalValues.setsCategory(list.get(0).getTitle(), 0);
                             }
                         }, true);
                         break;
