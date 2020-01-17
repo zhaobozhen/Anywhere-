@@ -3,12 +3,17 @@
 
     <item
         android:id="@+id/rename_page"
-        android:title="重命名"
-        android:icon="@drawable/ic_add_home_shortcuts"/>
+        android:title="@string/menu_rename"
+        android:icon="@drawable/ic_edit"/>
 
     <item
         android:id="@+id/delete_page"
-        android:title="删除页"
+        android:title="@string/menu_delete_page"
         android:icon="@drawable/ic_delete"/>
+
+    <item
+        android:id="@+id/delete_page_and_item"
+        android:title="@string/menu_delete_page_and_item"
+        android:icon="@drawable/ic_delete_forever"/>
 
 </menu>

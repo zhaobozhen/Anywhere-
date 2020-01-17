@@ -27,4 +27,8 @@
     <dimen name="toolbar_margin_vertical">6dp</dimen>
     <dimen name="toolbar_padding_vertical">3dp</dimen>
 
+    <!--  Shadow  -->
+    <dimen name="ambientShadowAlpha">0.016</dimen>
+    <dimen name="spotShadowAlpha">0.08</dimen>
+
 </resources>

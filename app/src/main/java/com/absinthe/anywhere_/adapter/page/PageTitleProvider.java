@@ -10,11 +10,10 @@ import androidx.appcompat.widget.PopupMenu;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
-import com.absinthe.anywhere_.ui.main.RenameFragmentDialog;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -81,12 +80,41 @@ public class PageTitleProvider extends BaseNodeProvider {
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.rename_page:
-                        RenameFragmentDialog dialog = new RenameFragmentDialog(node.getTitle());
-                        dialog.show(MainActivity.getInstance().getSupportFragmentManager(), dialog.getTag());
+                        DialogManager.showRenameDialog(MainActivity.getInstance(), node.getTitle());
                         break;
                     case R.id.delete_page:
-                        DialogManager.showDeletePageDialog(getContext(), node.getTitle(), (dialog1, which) ->
-                                AnywhereApplication.sRepository.deletePage(getPageEntity(node.getTitle())));
+                        DialogManager.showDeletePageDialog(getContext(), node.getTitle(), (dialog1, which) -> {
+                            AnywhereApplication.sRepository.deletePage(getPageEntity(node.getTitle()));
+                            List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+                            if (list != null) {
+                                String title = list.get(0).getTitle();
+                                List<AnywhereEntity> anywhereEntities = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+                                if (anywhereEntities != null) {
+                                    for (AnywhereEntity ae : anywhereEntities) {
+                                        if (ae.getCategory().equals(node.getTitle())) {
+                                            ae.setCategory(title);
+                                            AnywhereApplication.sRepository.update(ae);
+                                        }
+                                    }
+                                }
+                            }
+                        }, false);
+                        break;
+                    case R.id.delete_page_and_item:
+                        DialogManager.showDeletePageDialog(getContext(), node.getTitle(), (dialog1, which) -> {
+                            AnywhereApplication.sRepository.deletePage(getPageEntity(node.getTitle()));
+                            List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+                            if (list != null) {
+                                List<AnywhereEntity> anywhereEntities = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+                                if (anywhereEntities != null) {
+                                    for (AnywhereEntity ae : anywhereEntities) {
+                                        if (ae.getCategory().equals(node.getTitle())) {
+                                            AnywhereApplication.sRepository.delete(ae);
+                                        }
+                                    }
+                                }
+                            }
+                        }, true);
                         break;
                     default:
                 }
@@ -138,6 +166,8 @@ public class PageTitleProvider extends BaseNodeProvider {
             AnywhereApplication.sRepository.deletePage(pe);
             pe.setTitle(newTitle);
             AnywhereApplication.sRepository.insertPage(pe);
+            MainActivity.getInstance().getCurrFragment().setCategory(newTitle);
+            GlobalValues.setsCategory(newTitle);
         }
     }
 }

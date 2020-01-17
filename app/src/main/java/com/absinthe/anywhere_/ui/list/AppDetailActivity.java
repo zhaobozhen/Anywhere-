@@ -81,7 +81,7 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
                 if (UiUtils.isActivityExported(this, new ComponentName(pkgName, s))) {
                     appName = appName + " (Exported)";
                 }
-                list.add(new AppListBean(appName, pkgName, s));
+                list.add(new AppListBean(appName, pkgName, s, -1));
             }
 
             runOnUiThread(() -> {

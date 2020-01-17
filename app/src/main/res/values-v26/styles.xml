@@ -12,6 +12,8 @@
         <item name="android:statusBarColor">@color/lollipopStatusBarColor</item>
         <item name="actionBarStyle">@style/CustomActionBar</item>
         <item name="android:windowSplashscreenContent">@drawable/splash_drawable</item>
+        <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
+        <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
     </style>
 
 </resources>

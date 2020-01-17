@@ -240,6 +240,8 @@ public abstract class Editor<T extends Editor<?>> {
                         case R.id.delete:
                             mListener.onDelete();
                             break;
+                        case R.id.move_to_page:
+                            break;
                         default:
                     }
                     return true;

@@ -56,19 +56,19 @@ public abstract class ViewBuilder implements IViewBuilder {
 
         public static class LL {
 
-            public static LinearLayout.LayoutParams WRAP_WRAP = new LinearLayout.LayoutParams(
+            public static final LinearLayout.LayoutParams WRAP_WRAP = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            public static LinearLayout.LayoutParams WRAP_MATCH = new LinearLayout.LayoutParams(
+            public static final LinearLayout.LayoutParams WRAP_MATCH = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
 
-            public static LinearLayout.LayoutParams MATCH_WRAP = new LinearLayout.LayoutParams(
+            public static final LinearLayout.LayoutParams MATCH_WRAP = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            public static LinearLayout.LayoutParams MATCH_MATCH = new LinearLayout.LayoutParams(
+            public static final LinearLayout.LayoutParams MATCH_MATCH = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
 

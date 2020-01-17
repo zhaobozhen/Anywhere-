@@ -22,14 +22,16 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.services.TileOneService;
 import com.absinthe.anywhere_.services.TileThreeService;
 import com.absinthe.anywhere_.services.TileTwoService;
+import com.absinthe.anywhere_.ui.list.CardListDialogFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +111,7 @@ public class TileSettingsActivity extends BaseActivity {
         ((TextView) cardView.findViewById(R.id.tv_param_2)).setText(ae.getParam2());
         Glide.with(mContext)
                 .load(UiUtils.getAppIconByPackageName(mContext, ae))
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into((ImageView) cardView.findViewById(R.id.iv_app_icon));
     }
@@ -159,45 +162,46 @@ public class TileSettingsActivity extends BaseActivity {
         }
 
         for (CardView cardView : cardList) {
-            cardView.findViewById(R.id.btn_select).setOnClickListener(view ->
-                    new AnywhereDialogBuilder(mContext)
-                            .setAdapter(arrayAdapter, (dialogInterface, i) -> {
-                                loadCard(cardView, mList.get(i));
+            cardView.findViewById(R.id.btn_select).setOnClickListener(view -> {
+                CardListDialogFragment fragment = DialogManager.showCardListDialog(this);
+                fragment.setOnItemClickListener(which -> {
+                    loadCard(cardView, mList.get(which));
 
-                                String tile = "";
-                                String tileLabel = "";
-                                String tileCmd = "";
-                                if (cardView == cvTileOne) {
-                                    tile = Const.PREF_TILE_ONE;
-                                    tileLabel = Const.PREF_TILE_ONE_LABEL;
-                                    tileCmd = Const.PREF_TILE_ONE_CMD;
+                    String tile = "";
+                    String tileLabel = "";
+                    String tileCmd = "";
+                    if (cardView == cvTileOne) {
+                        tile = Const.PREF_TILE_ONE;
+                        tileLabel = Const.PREF_TILE_ONE_LABEL;
+                        tileCmd = Const.PREF_TILE_ONE_CMD;
 
-                                    if (!AppUtils.isServiceRunning(this, TileOneService.class.getName())) {
-                                        startService(new Intent(this, TileOneService.class));
-                                    }
-                                } else if (cardView == cvTileTwo) {
-                                    tile = Const.PREF_TILE_TWO;
-                                    tileLabel = Const.PREF_TILE_TWO_LABEL;
-                                    tileCmd = Const.PREF_TILE_TWO_CMD;
+                        if (!AppUtils.isServiceRunning(mContext, TileOneService.class.getName())) {
+                            startService(new Intent(mContext, TileOneService.class));
+                        }
+                    } else if (cardView == cvTileTwo) {
+                        tile = Const.PREF_TILE_TWO;
+                        tileLabel = Const.PREF_TILE_TWO_LABEL;
+                        tileCmd = Const.PREF_TILE_TWO_CMD;
 
-                                    if (!AppUtils.isServiceRunning(this, TileTwoService.class.getName())) {
-                                        startService(new Intent(this, TileTwoService.class));
-                                    }
-                                } else if (cardView == cvTileThree) {
-                                    tile = Const.PREF_TILE_THREE;
-                                    tileLabel = Const.PREF_TILE_THREE_LABEL;
-                                    tileCmd = Const.PREF_TILE_THREE_CMD;
+                        if (!AppUtils.isServiceRunning(mContext, TileTwoService.class.getName())) {
+                            startService(new Intent(mContext, TileTwoService.class));
+                        }
+                    } else if (cardView == cvTileThree) {
+                        tile = Const.PREF_TILE_THREE;
+                        tileLabel = Const.PREF_TILE_THREE_LABEL;
+                        tileCmd = Const.PREF_TILE_THREE_CMD;
 
-                                    if (!AppUtils.isServiceRunning(this, TileThreeService.class.getName())) {
-                                        startService(new Intent(this, TileThreeService.class));
-                                    }
-                                }
-                                SPUtils.putString(mContext, tile, mList.get(i).getId());
-                                SPUtils.putString(mContext, tileLabel, mList.get(i).getAppName());
-                                SPUtils.putString(mContext, tileCmd, TextUtils.getItemCommand(mList.get(i)));
-                            })
-                            .show()
-            );
+                        if (!AppUtils.isServiceRunning(mContext, TileThreeService.class.getName())) {
+                            startService(new Intent(mContext, TileThreeService.class));
+                        }
+                    }
+                    SPUtils.putString(mContext, tile, mList.get(which).getId());
+                    SPUtils.putString(mContext, tileLabel, mList.get(which).getAppName());
+                    SPUtils.putString(mContext, tileCmd, TextUtils.getItemCommand(mList.get(which)));
+
+                    fragment.dismiss();
+                });
+            });
         }
     }
 }

@@ -66,20 +66,29 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 public class MainActivity extends BaseActivity {
     @SuppressLint("StaticFieldLeak")
     private static MainActivity sInstance;
+    private MainFragment mCurrFragment;
 
     private AnywhereViewModel mViewModel;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     /* View */
-    public ImageView mIvBackground;
     public SpeedDialView mFab;
-    public DrawerLayout mDrawer;
 
+    private ImageView mIvBackground;
+    private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mToggle;
 
     public static MainActivity getInstance() {
         return sInstance;
+    }
+
+    public void setCurrFragment(MainFragment mCurrFragment) {
+        this.mCurrFragment = mCurrFragment;
+    }
+
+    public MainFragment getCurrFragment() {
+        return mCurrFragment;
     }
 
     public AnywhereViewModel getViewModel() {
@@ -120,9 +129,10 @@ public class MainActivity extends BaseActivity {
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
         } else {
+            mCurrFragment = MainFragment.newInstance(GlobalValues.sCategory);
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(R.id.container, MainFragment.newInstance(GlobalValues.sCategory))
+                    .replace(R.id.container, mCurrFragment)
                     .commitNow();
             initFab();
             initObserver();
@@ -228,10 +238,11 @@ public class MainActivity extends BaseActivity {
                 MainActivity.getInstance().mDrawer.closeDrawer(GravityCompat.START);
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     PageTitleNode node = (PageTitleNode) adapter1.getItem(position);
+                    mCurrFragment = MainFragment.newInstance(node.getTitle());
                     MainActivity.getInstance().getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                            .replace(R.id.container, MainFragment.newInstance(node.getTitle()))
+                            .replace(R.id.container, mCurrFragment)
                             .commitNow();
                     GlobalValues.setsCategory(node.getTitle(), position);
                 }, 300);

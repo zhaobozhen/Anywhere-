@@ -91,24 +91,6 @@ public class AnywhereViewModel extends AndroidViewModel {
         return mCardMode;
     }
 
-    public void refreshDB() {
-        switch (GlobalValues.sSortMode) {
-            case Const.SORT_MODE_TIME_DESC:
-            default:
-                mAllAnywhereEntities = mRepository.getSortedByTimeDesc();
-                break;
-            case Const.SORT_MODE_TIME_ASC:
-                mAllAnywhereEntities = mRepository.getSortedByTimeAsc();
-                break;
-            case Const.SORT_MODE_NAME_DESC:
-                mAllAnywhereEntities = mRepository.getSortedByNameDesc();
-                break;
-            case Const.SORT_MODE_NAME_ASC:
-                mAllAnywhereEntities = mRepository.getSortedByNameAsc();
-                break;
-        }
-    }
-
     public PageTitleNode getEntity(String title) {
         List<BaseNode> pageNodeList = new ArrayList<>();
         PageNode pageNode = new PageNode();

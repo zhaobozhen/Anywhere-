@@ -10,6 +10,8 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:statusBarColor">@color/lollipopStatusBarColor</item>
         <item name="actionBarStyle">@style/CustomActionBar</item>
+        <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
+        <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
     </style>
 
     <style name="AppTheme.Preference" parent="PreferenceThemeOverlay">

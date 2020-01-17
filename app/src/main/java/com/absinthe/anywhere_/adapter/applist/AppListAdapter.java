@@ -37,12 +37,14 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
     public static final int MODE_APP_LIST = 0;
     public static final int MODE_APP_DETAIL = 1;
     public static final int MODE_ICON_PACK = 2;
+    public static final int MODE_CARD_LIST = 3;
 
     private Context mContext;
     private List<AppListBean> mList, mTempList;
     private ListFilter mFilter;
     private int mMode;
     private IconPackDialogFragment mIconPackDialogFragment;
+    private OnItemClickListener mListener;
 
     public AppListAdapter(Context context, int mode) {
         mContext = context;
@@ -95,6 +97,10 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 if (mIconPackDialogFragment != null) {
                     mIconPackDialogFragment.dismiss();
                 }
+            } else if (mMode == MODE_CARD_LIST) {
+                if (mListener != null) {
+                    mListener.onClick(position);
+                }
             }
         });
     }
@@ -118,6 +124,10 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         return mFilter;
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivIcon;
         private TextView tvAppName;
@@ -137,8 +147,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 ivIcon.setImageDrawable(item.getIcon());
                 tvAppName.setText(item.getAppName());
                 tvPkgName.setText(item.getPackageName());
-            } else if (mMode == MODE_APP_DETAIL) {
-                ivIcon.setImageDrawable(UiUtils.getActivityIcon(mContext, new ComponentName(item.getPackageName(), item.getClassName())));
+            } else if (mMode == MODE_APP_DETAIL || mMode == MODE_CARD_LIST) {
+                ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item));
                 tvAppName.setText(item.getAppName());
                 tvPkgName.setText(item.getClassName());
             } else if (mMode == MODE_ICON_PACK) {
@@ -190,5 +200,9 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 
     public void setIconPackDialogFragment(IconPackDialogFragment fragment) {
         mIconPackDialogFragment = fragment;
+    }
+
+    public interface OnItemClickListener {
+        void onClick(int which);
     }
 }

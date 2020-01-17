@@ -109,6 +109,11 @@ public class GlobalValues {
         SPUtils.putInt(AnywhereApplication.sContext, Const.PREF_CURR_PAGE_NUM, page);
     }
 
+    public static void setsCategory(String sCategory) {
+        GlobalValues.sCategory = sCategory;
+        SPUtils.putString(AnywhereApplication.sContext, Const.PREF_CURR_CATEGORY, sCategory);
+    }
+
     public static void setsIsPages(boolean sIsPages) {
         GlobalValues.sIsPages = sIsPages;
         SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_PAGES, sIsPages);

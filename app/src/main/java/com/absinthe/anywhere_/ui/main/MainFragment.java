@@ -71,6 +71,10 @@ public class MainFragment extends Fragment implements LifecycleOwner {
         return mViewModel;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -153,7 +157,16 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void refreshRecyclerView() {
         setUpRecyclerView(mRecyclerView);
-        adapter.setItems(AnywhereApplication.sRepository.getAllAnywhereEntities().getValue());
+        List<AnywhereEntity> filtered = new ArrayList<>();
+        List<AnywhereEntity> anywhereEntities = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+        if (anywhereEntities != null) {
+            for (AnywhereEntity ae : anywhereEntities) {
+                if (ae.getCategory().equals(category)) {
+                    filtered.add(ae);
+                }
+            }
+            adapter.updateItems(filtered);
+        }
     }
 
     private void resetSelectState() {
@@ -267,7 +280,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                         popupItem.getItemId() == R.id.sort_by_time_asc ||
                         popupItem.getItemId() == R.id.sort_by_name_desc ||
                         popupItem.getItemId() == R.id.sort_by_name_asc) {
-                    mViewModel.refreshDB();
+                    AnywhereApplication.sRepository.refresh();
                     AnywhereApplication.sRepository.getAllAnywhereEntities().observe(this, listObserver);
                 }
                 return true;

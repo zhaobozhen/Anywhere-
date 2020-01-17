@@ -29,6 +29,10 @@ public class AnywhereRepository {
         return mAllAnywhereEntities;
     }
 
+    public void refresh() {
+        mAllAnywhereEntities = getSortedEntities();
+    }
+
     public LiveData<List<PageEntity>> getAllPageEntities() {
         return mAllPageEntities;
     }

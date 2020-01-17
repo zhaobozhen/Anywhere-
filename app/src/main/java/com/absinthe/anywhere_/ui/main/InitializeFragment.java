@@ -171,6 +171,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     private void enterMainFragment() {
         MainFragment fragment = MainFragment.newInstance(GlobalValues.sCategory);
+        MainActivity.getInstance().setCurrFragment(fragment);
         MainActivity.getInstance()
                 .getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)

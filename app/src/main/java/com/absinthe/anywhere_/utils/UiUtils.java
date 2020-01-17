@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.Shader;
@@ -49,6 +50,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
@@ -125,6 +127,14 @@ public class UiUtils {
             drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
         }
         return drawable;
+    }
+
+    public static Drawable getAppIconByPackageName(Context context, AppListBean item) {
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setParam1(item.getPackageName());
+        ae.setParam2(item.getClassName());
+        ae.setType(item.getType());
+        return getAppIconByPackageName(context, ae);
     }
 
     public static Drawable getAppIconByPackageName(Context context, String packageName) {
@@ -560,25 +570,25 @@ public class UiUtils {
      * @param drawable our target
      */
     public static Bitmap drawableToBitmap(Drawable drawable) {
-        Bitmap bitmap;
-
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
             if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }
         }
-
-        if (drawable == null) {
-            return null;
-        }
-
+        Bitmap bitmap;
         if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+            bitmap = Bitmap.createBitmap(1, 1,
+                    drawable.getOpacity() != PixelFormat.OPAQUE
+                            ? Bitmap.Config.ARGB_8888
+                            : Bitmap.Config.RGB_565);
         } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight(),
+                    drawable.getOpacity() != PixelFormat.OPAQUE
+                            ? Bitmap.Config.ARGB_8888
+                            : Bitmap.Config.RGB_565);
         }
-
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);

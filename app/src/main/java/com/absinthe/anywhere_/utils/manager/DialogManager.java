@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.text.Html;
+import android.text.Spanned;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +20,9 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog;
+import com.absinthe.anywhere_.ui.list.CardListDialogFragment;
 import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.ui.main.RenameFragmentDialog;
 import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment;
 import com.absinthe.anywhere_.ui.settings.IntervalDialogFragment;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
@@ -208,10 +211,17 @@ public class DialogManager {
                 .show();
     }
 
-    public static void showDeletePageDialog(Context context, String title, DialogInterface.OnClickListener listener) {
+    public static void showDeletePageDialog(Context context, String title, DialogInterface.OnClickListener listener, boolean isDeletePageAndItem) {
+        Spanned message;
+        if (isDeletePageAndItem) {
+            message = Html.fromHtml(String.format(context.getString(R.string.dialog_delete_message), "<b>" + title + "</b>"));
+        } else {
+            message = Html.fromHtml(String.format(context.getString(R.string.dialog_delete_with_sub_item_message), "<b>" + title + "</b>"));
+        }
+
         new AnywhereDialogBuilder(context)
                 .setTitle(R.string.dialog_delete_selected_title)
-                .setMessage(Html.fromHtml(String.format(context.getString(R.string.dialog_delete_message), "<b>" + title + "</b>")))
+                .setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
@@ -241,5 +251,16 @@ public class DialogManager {
     public static void showCreatePinnedShortcutDialog(AppCompatActivity activity, AnywhereEntity ae) {
         CreateShortcutDialogFragment fragment = new CreateShortcutDialogFragment(ae);
         fragment.show(activity.getSupportFragmentManager(), fragment.getTag());
+    }
+
+    public static CardListDialogFragment showCardListDialog(AppCompatActivity activity) {
+        CardListDialogFragment fragment = new CardListDialogFragment();
+        fragment.show(activity.getSupportFragmentManager(), fragment.getTag());
+        return fragment;
+    }
+
+    public static void showRenameDialog(AppCompatActivity activity, String title) {
+        RenameFragmentDialog dialog = new RenameFragmentDialog(title);
+        dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
     }
 }

@@ -7,17 +7,20 @@ public class AppListBean {
     private String mPackageName;
     private String mClassName;
     private Drawable mIcon;
+    private int mType;
 
     public AppListBean() {
         mAppName = "";
         mPackageName = "";
         mClassName = "";
+        mType = AnywhereType.URL_SCHEME;
     }
 
-    public AppListBean(String appName, String packageName, String className) {
+    public AppListBean(String appName, String packageName, String className, int type) {
         this.mAppName = appName;
         this.mPackageName = packageName;
         this.mClassName = className;
+        this.mType = type;
     }
 
     public String getAppName() {
@@ -50,5 +53,13 @@ public class AppListBean {
 
     public void setIcon(Drawable mIcon) {
         this.mIcon = mIcon;
+    }
+
+    public int getType() {
+        return mType;
+    }
+
+    public void setType(int mType) {
+        this.mType = mType;
     }
 }

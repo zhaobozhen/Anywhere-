@@ -16,4 +16,9 @@
         android:title="@string/dialog_delete_title"
         android:icon="@drawable/ic_delete"/>
 
+    <item
+        android:id="@+id/move_to_page"
+        android:title="Move to page"
+        android:icon="@drawable/ic_add_home_shortcuts" />
+
 </menu>
