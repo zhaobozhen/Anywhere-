@@ -34,6 +34,9 @@ import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
+import com.absinthe.anywhere_.view.ColorPickerDialogBuilder;
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
 
 import java.util.List;
 
@@ -247,6 +250,19 @@ public class DialogManager {
             });
             builder.show();
         }
+    }
+
+    public static void showColorPickerDialog(Context context, ColorPickerClickListener listener) {
+        ColorPickerDialogBuilder
+                .with(context)
+                .setTitle("Choose color")
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .lightnessSliderOnly()
+                .setPositiveButton(context.getString(R.string.dialog_delete_positive_button), listener)
+                .setNegativeButton(context.getString(R.string.dialog_delete_negative_button), null)
+                .build()
+                .show();
     }
 
     public static void showIconPackChoosingDialog(AppCompatActivity activity) {

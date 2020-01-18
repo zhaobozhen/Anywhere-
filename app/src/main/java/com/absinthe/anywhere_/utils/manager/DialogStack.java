@@ -77,11 +77,16 @@ public class DialogStack {
 
         Object peekObject = Singleton.INSTANCE.getInstance().peek();
 
-        if (peekObject instanceof Dialog) {
-            ((Dialog) peekObject).dismiss();
-        } else if (peekObject instanceof DialogFragment) {
-            ((DialogFragment) peekObject).dismiss();
+        try {
+            if (peekObject instanceof Dialog) {
+                ((Dialog) peekObject).dismiss();
+            } else if (peekObject instanceof DialogFragment) {
+                ((DialogFragment) peekObject).dismiss();
+            }
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
+
         Singleton.INSTANCE.getInstance().pop();
 
         if (!Singleton.INSTANCE.getInstance().empty()) {
