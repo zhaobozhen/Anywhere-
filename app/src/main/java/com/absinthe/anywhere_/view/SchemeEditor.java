@@ -88,6 +88,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                 ae.setType(mItem.getType());
                                 ae.setCategory(mItem.getCategory());
                                 ae.setTimeStamp(mItem.getTimeStamp());
+                                ae.setColor(mItem.getColor());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {

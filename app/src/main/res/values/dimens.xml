@@ -24,7 +24,7 @@
     <dimen name="toolbar_radius_corner">8dp</dimen>
     <dimen name="toolbar_elevation">3dp</dimen>
     <dimen name="toolbar_margin_horizontal">16dp</dimen>
-    <dimen name="toolbar_margin_vertical">6dp</dimen>
+    <dimen name="toolbar_margin_vertical">4dp</dimen>
     <dimen name="toolbar_padding_vertical">3dp</dimen>
 
     <!--  Shadow  -->

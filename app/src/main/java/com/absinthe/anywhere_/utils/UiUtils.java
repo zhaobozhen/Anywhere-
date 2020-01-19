@@ -16,10 +16,11 @@ import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -56,15 +57,10 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
-import com.absinthe.anywhere_.view.RoundLinerLayoutNormal;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Calendar;
@@ -252,13 +248,8 @@ public class UiUtils {
      * @param activity Activity for bind action bar
      */
     public static void setActionBarTransparent(AppCompatActivity activity) {
-        ActionBar actionBar = activity.getSupportActionBar();
         Window window = activity.getWindow();
         View view = window.getDecorView();
-
-        if (actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
 
         int flag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
@@ -294,33 +285,6 @@ public class UiUtils {
                     .load(Uri.parse(GlobalValues.sBackgroundUri))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(imageView);
-        }
-    }
-
-    public static void loadBackgroundPic(Context context, ImageView imageView, RoundLinerLayoutNormal toolbarContainer) {
-        if (imageView == null) {
-            return;
-        }
-
-        if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            Glide.with(context)
-                    .load(Uri.parse(GlobalValues.sBackgroundUri))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            imageView.setImageDrawable(resource);
-                            toolbarContainer.setCustomBackground(getMD2ToolbarBackground(context, resource));
-                            return true;
-                        }
-                    })
                     .into(imageView);
         }
     }
@@ -461,20 +425,18 @@ public class UiUtils {
         if (type.equals(Const.ACTION_BAR_TYPE_DARK) || type.isEmpty()) {
             Logger.d("Dark-");
 
-            if (!GlobalValues.sIsMd2Toolbar) {
-                SpannableString spanString = new SpannableString(title);
-                ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
+            SpannableString spanString = new SpannableString(title);
+            ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
 
-                if (isDarkMode(activity) && GlobalValues.sBackgroundUri.isEmpty()) {
-                    span = new ForegroundColorSpan(Color.WHITE);
-                }
-
-                spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                actionBar.setTitle(spanString);
-
-                GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
-                activity.invalidateOptionsMenu();
+            if (isDarkMode(activity) && GlobalValues.sBackgroundUri.isEmpty()) {
+                span = new ForegroundColorSpan(Color.WHITE);
             }
+
+            spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            actionBar.setTitle(spanString);
+
+            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
+            activity.invalidateOptionsMenu();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(
@@ -490,15 +452,13 @@ public class UiUtils {
             }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
             Logger.d("Light-");
-            if (!GlobalValues.sIsMd2Toolbar) {
-                SpannableString spanString = new SpannableString(title);
-                ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
-                spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                actionBar.setTitle(spanString);
+            SpannableString spanString = new SpannableString(title);
+            ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
+            spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            actionBar.setTitle(spanString);
 
-                GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
-                activity.invalidateOptionsMenu();
-            }
+            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
+            activity.invalidateOptionsMenu();
 
             clearLightStatusBarAndNavigationBar(activity.getWindow().getDecorView());
         }
@@ -623,14 +583,19 @@ public class UiUtils {
      * @param darkColor primary color
      * @param color     secondary color
      */
-    private static void createLinearGradientBitmap(ImageView view, int darkColor, int color) {
+    public static void createLinearGradientBitmap(ImageView view, int darkColor, int color) {
+        Logger.d("dark color = ",darkColor);
         int[] bgColors = new int[2];
         bgColors[0] = darkColor;
         bgColors[1] = color;
 
-        if (view == null || view.getWidth() <= 0 || view.getHeight() <= 0) {
+        if (view == null) {
+            return;
+        } else if (view.getWidth() <= 0 || view.getHeight() <= 0) {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> createLinearGradientBitmap(view, darkColor, color), 100);
             return;
         }
+
         Bitmap bgBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas();
         Paint paint = new Paint();
@@ -731,17 +696,6 @@ public class UiUtils {
         wrapDrawable.setAlpha(alpha);
 
         item.setIcon(wrapDrawable);
-    }
-
-    public static Drawable getMD2ToolbarBackground(Context context, Drawable homeBg) {
-        Bitmap homeBgBitmap = drawableToBitmap(homeBg);
-        Bitmap toolbarBitmap = Bitmap.createBitmap(homeBgBitmap,
-                d2p(context, context.getResources().getDimension(R.dimen.toolbar_margin_horizontal)),
-                d2p(context, context.getResources().getDimension(R.dimen.toolbar_margin_vertical)),
-                homeBgBitmap.getWidth() - 2 * d2p(context, context.getResources().getDimension(R.dimen.toolbar_margin_horizontal)),
-                d2p(context, 60));
-
-        return new BitmapDrawable(context.getResources(), toolbarBitmap);
     }
 
     public static void tintToolbarIcon(Context context, Menu menu, ActionBarDrawerToggle mToggle, String type) {

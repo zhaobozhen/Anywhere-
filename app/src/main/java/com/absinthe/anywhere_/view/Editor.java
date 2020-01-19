@@ -242,6 +242,9 @@ public abstract class Editor<T extends Editor<?>> {
                         case R.id.move_to_page:
                             DialogManager.showPageListDialog(mContext, mItem);
                             break;
+                        case R.id.custom_color:
+                            DialogManager.showColorPickerDialog(mContext, mItem);
+                            break;
                         default:
                     }
                     return true;

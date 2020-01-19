@@ -49,6 +49,7 @@ import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.manager.ShadowHelper;
 import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
@@ -175,9 +176,8 @@ public class MainActivity extends BaseActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         Logger.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
 
-        if ((GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT) && !GlobalValues.sIsMd2Toolbar)
-                || (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty())
-                || (UiUtils.isDarkMode(this) && GlobalValues.sIsMd2Toolbar)) {
+        if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT)
+                || (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty())) {
             UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_LIGHT);
         } else {
             UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_DARK);
@@ -214,6 +214,14 @@ public class MainActivity extends BaseActivity {
             UiUtils.loadBackgroundPic(this, mIvBackground);
             UiUtils.setActionBarTransparent(this);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
+            if (GlobalValues.sIsMd2Toolbar) {
+                ShadowHelper.getInstance()
+                        .setShape(ShadowHelper.SHAPE_ROUND)
+                        .setShapeRadius(UiUtils.d2p(this, 8))
+                        .setShadowRadius(UiUtils.d2p(this, 3))
+                        .setShadowColor(R.color.shadow)
+                        .into(mToolbar);
+            }
         }
 
         if (actionBar != null) {
@@ -232,7 +240,7 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        DialogManager.showColorPickerDialog(this,null);
+        DialogManager.showImageDialog(this);
     }
 
     private void initDrawer(DrawerLayout drawer) {

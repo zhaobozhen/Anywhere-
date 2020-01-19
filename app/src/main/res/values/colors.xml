@@ -11,7 +11,7 @@
     <color name="gray">#FFECECEC</color>
     <color name="green_done">#FF4CAF50</color>
     <color name="exported_tint">#FF444444</color>
-    <color name="shadow">#20000000</color>
+    <color name="shadow">#23456789</color>
 
     <!--  DayNight colors  -->
     <color name="cardColor">#EEFFFFFF</color>

@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -57,6 +58,10 @@ public class AnywhereEntity implements Parcelable {
     @SerializedName("time_stamp")
     private String mTimeStamp;
 
+    @ColumnInfo(name = "color")
+    @SerializedName("color")
+    private int mColor;
+
     public static AnywhereEntity Builder() {
         String time = System.currentTimeMillis() + "";
         return new AnywhereEntity(
@@ -68,12 +73,13 @@ public class AnywhereEntity implements Parcelable {
                 "",
                 AnywhereType.ACTIVITY,
                 GlobalValues.sCategory,
-                time);
+                time,
+                0);
     }
 
     public AnywhereEntity(@NonNull String id, @NonNull String appName, @NonNull String param1,
                           String param2, String param3, String description,
-                          @NonNull Integer type, String category, @NonNull String timeStamp) {
+                          @NonNull Integer type, String category, @NonNull String timeStamp, int color) {
         mId = id;
         mAppName = appName;
         mParam1 = param1;
@@ -83,6 +89,7 @@ public class AnywhereEntity implements Parcelable {
         mType = type;
         mCategory = category;
         mTimeStamp = timeStamp;
+        mColor = color;
     }
 
     private AnywhereEntity(Parcel in) {
@@ -95,6 +102,7 @@ public class AnywhereEntity implements Parcelable {
         mType = in.readInt();
         mCategory = in.readString();
         mTimeStamp = Objects.requireNonNull(in.readString());
+        mColor = in.readInt();
     }
 
     @NonNull
@@ -189,6 +197,14 @@ public class AnywhereEntity implements Parcelable {
         this.mTimeStamp = mTimeStamp;
     }
 
+    public int getColor() {
+        return mColor;
+    }
+
+    public void setColor(@ColorInt int mColor) {
+        this.mColor = mColor;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -205,6 +221,7 @@ public class AnywhereEntity implements Parcelable {
         dest.writeInt(mType);
         dest.writeString(mCategory);
         dest.writeString(mTimeStamp);
+        dest.writeInt(mColor);
     }
 
     public static final Parcelable.Creator<AnywhereEntity> CREATOR = new Parcelable.Creator<AnywhereEntity>() {

@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AlertDialog;
-
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -150,6 +148,16 @@ public class ColorPickerDialogBuilder {
         return this;
     }
 
+    public ColorPickerDialogBuilder setNeutralButton(CharSequence text, DialogInterface.OnClickListener onClickListener) {
+        builder.setNeutralButton(text, onClickListener);
+        return this;
+    }
+
+    public ColorPickerDialogBuilder setNeutralButton(int textId, DialogInterface.OnClickListener onClickListener) {
+        builder.setNeutralButton(textId, onClickListener);
+        return this;
+    }
+
     public ColorPickerDialogBuilder noSliders() {
         isLightnessSliderEnabled = false;
         isAlphaSliderEnabled = false;
@@ -200,6 +208,10 @@ public class ColorPickerDialogBuilder {
         return this;
     }
 
+    public void setDismissParent(boolean flag) {
+        builder.setDismissParent(flag);
+    }
+
     public ColorPickerDialogBuilder setPickerCount(int pickerCount) throws IndexOutOfBoundsException {
         if (pickerCount < 1 || pickerCount > 5)
             throw new IndexOutOfBoundsException("Picker Can Only Support 1-5 Colors");
@@ -209,7 +221,7 @@ public class ColorPickerDialogBuilder {
         return this;
     }
 
-    public AlertDialog build() {
+    public AnywhereDialogBuilder build() {
         Context context = builder.getContext();
         colorPickerView.setInitialColors(initialColor, getStartOffset(initialColor));
         colorPickerView.setShowBorder(isBorderEnabled);
@@ -270,7 +282,7 @@ public class ColorPickerDialogBuilder {
             colorPickerView.setColorPreview(colorPreview, getStartOffset(initialColor));
         }
 
-        return builder.create();
+        return builder;
     }
 
     private Integer getStartOffset(Integer[] colors) {

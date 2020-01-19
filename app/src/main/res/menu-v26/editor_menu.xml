@@ -21,4 +21,9 @@
         android:title="@string/menu_move_to_page"
         android:icon="@drawable/ic_move" />
 
+    <item
+        android:id="@+id/custom_color"
+        android:title="@string/menu_custom_color"
+        android:icon="@drawable/ic_color_lens" />
+
 </menu>

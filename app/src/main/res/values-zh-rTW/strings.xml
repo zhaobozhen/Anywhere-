@@ -244,4 +244,7 @@
     <string name="menu_delete_page_and_item">完全刪除頁</string>
     <string name="menu_move_to_page">移至頁</string>
     <string name="settings_gift">艾薇的饋贈</string>
+    <string name="btn_reset_color">重置卡片色</string>
+    <string name="dialog_choose_color_title">選擇顏色</string>
+    <string name="menu_custom_color">自定義顏色</string>
 </resources>

@@ -93,6 +93,7 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                         ae.setType(mItem.getType());
                         ae.setCategory(GlobalValues.sCategory);
                         ae.setTimeStamp(mItem.getTimeStamp());
+                        ae.setColor(mItem.getColor());
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1()) || !cName.equals(mItem.getParam2())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {

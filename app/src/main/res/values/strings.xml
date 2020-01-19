@@ -90,6 +90,7 @@
     <string name="menu_delete_page">Delete page</string>
     <string name="menu_delete_page_and_item">Delete page completely</string>
     <string name="menu_move_to_page">Move to page</string>
+    <string name="menu_custom_color">Custom color</string>
 
     <!--  Settings  -->
     <string name="settings_category_advanced">Advanced</string>
@@ -188,6 +189,7 @@
     <string name="dialog_set_icon_and_name_title">Setup Icon and Name</string>
     <string name="dialog_set_dark_mode_period_title">Setup dark mode period</string>
     <string name="dialog_rename_title">Rename</string>
+    <string name="dialog_choose_color_title">Choose color</string>
 
     <string name="about_text">Anywhere- is a collection of apps.</string>
 
@@ -223,6 +225,7 @@
     <string name="btn_backup_copy">Copy</string>
     <string name="btn_backup_share">Share</string>
     <string name="btn_apply">Apply</string>
+    <string name="btn_reset_color">Reset color</string>
 
     <!--  Description  -->
     <string name="background_todo">Main pageTitle background</string>

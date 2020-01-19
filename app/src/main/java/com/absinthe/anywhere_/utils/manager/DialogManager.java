@@ -21,6 +21,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog;
+import com.absinthe.anywhere_.ui.fragment.ImageDialogFragment;
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.RenameFragmentDialog;
@@ -36,7 +37,6 @@ import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.ColorPickerDialogBuilder;
 import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
 
 import java.util.List;
 
@@ -252,17 +252,24 @@ public class DialogManager {
         }
     }
 
-    public static void showColorPickerDialog(Context context, ColorPickerClickListener listener) {
-        ColorPickerDialogBuilder
-                .with(context)
-                .setTitle("Choose color")
+    public static void showColorPickerDialog(Context context, AnywhereEntity item) {
+        ColorPickerDialogBuilder builder = ColorPickerDialogBuilder.with(context);
+        builder.setTitle(context.getString(R.string.dialog_choose_color_title))
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                 .density(12)
                 .lightnessSliderOnly()
-                .setPositiveButton(context.getString(R.string.dialog_delete_positive_button), listener)
-                .setNegativeButton(context.getString(R.string.dialog_delete_negative_button), null)
-                .build()
-                .show();
+                .setPositiveButton(context.getString(R.string.dialog_delete_positive_button), (dialogInterface, i, integers) -> {
+                    item.setColor(i);
+                    AnywhereApplication.sRepository.update(item);
+                    builder.setDismissParent(true);
+                })
+                .setNeutralButton(context.getString(R.string.btn_reset_color), (dialog, which) -> {
+                    item.setColor(0);
+                    AnywhereApplication.sRepository.update(item);
+                    builder.setDismissParent(true);
+                })
+                .setNegativeButton(context.getString(R.string.dialog_delete_negative_button), null);
+        builder.build().show();
     }
 
     public static void showIconPackChoosingDialog(AppCompatActivity activity) {
@@ -298,6 +305,11 @@ public class DialogManager {
 
     public static void showRenameDialog(AppCompatActivity activity, String title) {
         RenameFragmentDialog dialog = new RenameFragmentDialog(title);
+        dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
+    }
+
+    public static void showImageDialog(AppCompatActivity activity) {
+        ImageDialogFragment dialog = new ImageDialogFragment();
         dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
     }
 }

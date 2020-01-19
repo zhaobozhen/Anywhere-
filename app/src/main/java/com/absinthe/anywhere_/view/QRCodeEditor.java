@@ -48,6 +48,7 @@ public class QRCodeEditor extends Editor<QRCodeEditor> {
                         ae.setDescription(desc);
                         ae.setType(mItem.getType());
                         ae.setCategory(mItem.getCategory());
+                        ae.setColor(mItem.getColor());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName())) {

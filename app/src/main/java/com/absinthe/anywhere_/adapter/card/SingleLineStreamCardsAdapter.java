@@ -19,8 +19,8 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.catchingnow.icebox.sdk_client.IceBox;
@@ -86,15 +86,24 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(binding.ivAppIcon);
             if (GlobalValues.sCardBackgroundMode.equals(Const.CARD_BG_MODE_PURE)) {
-                UiUtils.setCardUseIconColor(binding.ivCardBg,
-                        UiUtils.getAppIconByPackageName(mContext, item),
-                        color -> {
-                            if (color != 0) {
-                                binding.tvAppName.setTextColor(UiUtils.isLightColor(color) ? Color.BLACK : Color.WHITE);
-                            }
-                        });
+                if (item.getColor() == 0) {
+                    UiUtils.setCardUseIconColor(binding.ivCardBg,
+                            UiUtils.getAppIconByPackageName(mContext, item),
+                            color -> {
+                                if (color != 0) {
+                                    binding.tvAppName.setTextColor(UiUtils.isLightColor(color) ? Color.BLACK : Color.WHITE);
+                                }
+                            });
+                } else {
+                    binding.ivCardBg.setBackgroundColor(item.getColor());
+                    binding.tvAppName.setTextColor(UiUtils.isLightColor(item.getColor()) ? Color.BLACK : Color.WHITE);
+                }
             } else if (GlobalValues.sCardBackgroundMode.equals(Const.CARD_BG_MODE_GRADIENT)) {
-                UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
+                if (item.getColor() == 0) {
+                    UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
+                } else {
+                    UiUtils.createLinearGradientBitmap(binding.ivCardBg, item.getColor(), Color.TRANSPARENT);
+                }
             }
 
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {
