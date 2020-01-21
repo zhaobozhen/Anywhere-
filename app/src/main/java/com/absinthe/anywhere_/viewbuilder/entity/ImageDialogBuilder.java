@@ -20,7 +20,10 @@ public class ImageDialogBuilder extends ViewBuilder {
         root.setLayoutParams(Params.LL.MATCH_WRAP);
 
         image = new ImageView(mContext);
-        image.setLayoutParams(Params.LL.WRAP_WRAP);
+        image.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                d2p(400)
+        ));
         addView(image);
     }
 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.view.AnywhereBottomSheetDialog;
 
+import java.util.EmptyStackException;
 import java.util.Objects;
 import java.util.Stack;
 
@@ -83,11 +84,11 @@ public class DialogStack {
             } else if (peekObject instanceof DialogFragment) {
                 ((DialogFragment) peekObject).dismiss();
             }
-        } catch (IllegalStateException e) {
+
+            Singleton.INSTANCE.getInstance().pop();
+        } catch (IllegalStateException | EmptyStackException e) {
             e.printStackTrace();
         }
-
-        Singleton.INSTANCE.getInstance().pop();
 
         if (!Singleton.INSTANCE.getInstance().empty()) {
             peekObject = Singleton.INSTANCE.getInstance().peek();

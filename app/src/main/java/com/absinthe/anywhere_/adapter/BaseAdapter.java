@@ -8,6 +8,7 @@ import android.view.HapticFeedbackConstants;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
@@ -166,7 +167,14 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             }
         }
 
-        if (item.getAnywhereType() != AnywhereType.QR_CODE) {
+        if (item.getAnywhereType() == AnywhereType.QR_CODE) {
+            QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(item.getParam2());
+            if (entity != null) {
+                entity.launch();
+            }
+        } else if (item.getAnywhereType() == AnywhereType.IMAGE) {
+            DialogManager.showImageDialog((AppCompatActivity) mContext, item.getParam1());
+        } else {
             String cmd = TextUtils.getItemCommand(item);
             if (!cmd.isEmpty()) {
                 if (AppUtils.isAppFrozen(mContext, item)) {
@@ -188,11 +196,6 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 } else {
                     MainActivity.getInstance().getViewModel().getCommand().setValue(cmd);
                 }
-            }
-        } else {
-            QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(item.getParam2());
-            if (entity != null) {
-                entity.launch();
             }
         }
     }

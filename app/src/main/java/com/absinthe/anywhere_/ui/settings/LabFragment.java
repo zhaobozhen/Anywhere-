@@ -37,12 +37,8 @@ public class LabFragment extends PreferenceFragmentCompat implements Preference.
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Preference md2Preference = findPreference(Const.PREF_MD2_TOOLBAR);
         Preference pagesPreference = findPreference(Const.PREF_PAGES);
 
-        if (md2Preference != null) {
-            md2Preference.setOnPreferenceChangeListener(this);
-        }
         if (pagesPreference != null) {
             pagesPreference.setOnPreferenceChangeListener(this);
         }
@@ -56,14 +52,6 @@ public class LabFragment extends PreferenceFragmentCompat implements Preference.
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()) {
-            case Const.PREF_MD2_TOOLBAR:
-                GlobalValues.setsIsMd2Toolbar((boolean) newValue);
-                MainActivity.getInstance().restartActivity();
-                ((Activity) mContext).finish();
-                if (SettingsActivity.getInstance() != null) {
-                    SettingsActivity.getInstance().finish();
-                }
-                return true;
             case Const.PREF_PAGES:
                 GlobalValues.setsIsPages((boolean) newValue);
                 MainActivity.getInstance().restartActivity();

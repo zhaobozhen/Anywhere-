@@ -258,6 +258,7 @@ public class DialogManager {
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                 .density(12)
                 .lightnessSliderOnly()
+                .showColorEdit(true)
                 .setPositiveButton(context.getString(R.string.dialog_delete_positive_button), (dialogInterface, i, integers) -> {
                     item.setColor(i);
                     AnywhereApplication.sRepository.update(item);
@@ -308,8 +309,8 @@ public class DialogManager {
         dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
     }
 
-    public static void showImageDialog(AppCompatActivity activity) {
-        ImageDialogFragment dialog = new ImageDialogFragment();
+    public static void showImageDialog(AppCompatActivity activity, String uri) {
+        ImageDialogFragment dialog = new ImageDialogFragment(uri);
         dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
     }
 }

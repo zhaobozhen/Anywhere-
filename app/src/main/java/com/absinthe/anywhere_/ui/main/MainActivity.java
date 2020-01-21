@@ -47,7 +47,6 @@ import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
 import com.absinthe.anywhere_.view.AnywhereEditor;
@@ -210,18 +209,19 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
 
+        if (GlobalValues.sIsMd2Toolbar) {
+            if (GlobalValues.sBackgroundUri.isEmpty() || GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
+                UiUtils.drawMd2Toolbar(this, mToolbar, 2, R.color.shadowLight);
+            } else {
+                UiUtils.drawMd2Toolbar(this, mToolbar, 3, R.color.shadowHeavy);
+            }
+
+        }
+
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             UiUtils.loadBackgroundPic(this, mIvBackground);
             UiUtils.setActionBarTransparent(this);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
-            if (GlobalValues.sIsMd2Toolbar) {
-                ShadowHelper.getInstance()
-                        .setShape(ShadowHelper.SHAPE_ROUND)
-                        .setShapeRadius(UiUtils.d2p(this, 8))
-                        .setShadowRadius(UiUtils.d2p(this, 3))
-                        .setShadowColor(R.color.shadow)
-                        .into(mToolbar);
-            }
         }
 
         if (actionBar != null) {
@@ -239,8 +239,6 @@ public class MainActivity extends BaseActivity {
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             }
         }
-
-        DialogManager.showImageDialog(this);
     }
 
     private void initDrawer(DrawerLayout drawer) {

@@ -16,6 +16,7 @@ import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -42,6 +43,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.palette.graphics.Palette;
@@ -57,6 +59,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.manager.ShadowHelper;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -237,6 +240,8 @@ public class UiUtils {
         if (Settings.sDate.equals("12-25")) {
             title.append(" \uD83C\uDF84");
             Logger.d("title = ", title);
+        } else if (Settings.sDate.equals("01-25")) {
+            title.append(" \uD83D\uDC2D");
         }
 
         return title.toString();
@@ -248,8 +253,13 @@ public class UiUtils {
      * @param activity Activity for bind action bar
      */
     public static void setActionBarTransparent(AppCompatActivity activity) {
+        ActionBar actionBar = activity.getSupportActionBar();
         Window window = activity.getWindow();
         View view = window.getDecorView();
+
+        if (actionBar != null && !GlobalValues.sIsMd2Toolbar) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
 
         int flag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
@@ -719,5 +729,14 @@ public class UiUtils {
                 mToggle.getDrawerArrowDrawable().setColor(context.getResources().getColor(R.color.white));
             }
         }
+    }
+
+    public static void drawMd2Toolbar(Context context, Toolbar toolbar, int shadowRadius, int shadowColor) {
+        ShadowHelper.getInstance()
+                .setShape(ShadowHelper.SHAPE_ROUND)
+                .setShapeRadius(d2p(context, 8))
+                .setShadowRadius(d2p(context, shadowRadius))
+                .setShadowColor(shadowColor)
+                .into(toolbar);
     }
 }

@@ -146,7 +146,7 @@
     <string name="settings_md2_toolbar_title">Material Design 2 Toolbar</string>
     <string name="settings_pages_title">Pages</string>
 
-    <string name="settings_md2_toolbar_summary">This function is not yet stable and not support for custom background</string>
+    <string name="settings_md2_toolbar_summary">Enable a more modern and beautiful toolbar</string>
     <string name="settings_pages_summary">Classify your cards into multiple pages</string>
 
     <!--  Toast  -->

@@ -64,6 +64,12 @@
             app:entryValues="@array/list_card_bg_value"
             android:defaultValue="off"/>
 
+        <SwitchPreferenceCompat
+            android:key="md2Toolbar"
+            android:title="@string/settings_md2_toolbar_title"
+            app:summary="@string/settings_md2_toolbar_summary"
+            android:icon="@drawable/ic_material" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

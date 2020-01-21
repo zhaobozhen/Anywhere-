@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -246,9 +247,13 @@ public class ColorPickerDialogBuilder {
         }
         if (isColorEditEnabled) {
             LinearLayout.LayoutParams layoutParamsForColorEdit = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            colorEdit = (EditText) View.inflate(context, R.layout.color_edit, null);
+            colorEdit = new EditText(builder.getContext());
             colorEdit.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
             colorEdit.setSingleLine();
+            colorEdit.setBackground(builder.getContext().getDrawable(com.absinthe.anywhere_.R.drawable.bg_color_dashboard));
+            int padding = UiUtils.d2p(builder.getContext(), 8);
+            colorEdit.setPadding(padding, padding, padding, padding);
+
             colorEdit.setVisibility(View.GONE);
 
             // limit number of characters to hexColors

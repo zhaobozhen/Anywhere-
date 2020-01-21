@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.settings;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -62,6 +63,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         SwitchPreferenceCompat streamCardModePreference = findPreference(Const.PREF_STREAM_CARD_MODE);
         SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE);
         SwitchPreferenceCompat collectorPlusPreference = findPreference(Const.PREF_COLLECTOR_PLUS);
+        SwitchPreferenceCompat md2Preference = findPreference(Const.PREF_MD2_TOOLBAR);
 
         if (workingModePreference != null) {
             workingModePreference.setOnPreferenceChangeListener(this);
@@ -109,6 +111,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         if (giftPreference != null) {
             giftPreference.setSummary(getText(R.string.settings_gift_summary));
+        }
+        if (md2Preference != null) {
+            md2Preference.setOnPreferenceChangeListener(this);
         }
     }
 
@@ -188,6 +193,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 if ((boolean) newValue) {
                     DialogManager.showIntervalSetupDialog((AppCompatActivity) mContext);
                 }
+                return true;
+            case Const.PREF_MD2_TOOLBAR:
+                GlobalValues.setsIsMd2Toolbar((boolean) newValue);
+                MainActivity.getInstance().restartActivity();
+                ((Activity) mContext).finish();
                 return true;
             default:
         }
