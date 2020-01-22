@@ -15,6 +15,7 @@
         <item name="actionBarStyle">@style/CustomActionBar</item>
         <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
         <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     </style>
 
 </resources>

@@ -3,18 +3,27 @@ package com.absinthe.anywhere_.view;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.view.View;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.interfaces.OnDocumentResultListener;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
@@ -44,7 +53,33 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
         ImageView ivPreview = mBottomSheetDialog.findViewById(R.id.iv_preview);
         ((BaseActivity) mContext).setDocumentResultListener(uri -> {
             if (ivPreview != null) {
-                Glide.with(mContext).load(uri).into(ivPreview);
+                Glide.with(mContext)
+                        .asBitmap()
+                        .load(uri)
+                        .fitCenter()
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(UiUtils.d2p(mContext, 20))))
+                        .transition(BitmapTransitionOptions.withCrossFade())
+                        .into(new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                int imageWidth = resource.getWidth();
+                                int imageHeight = resource.getHeight();
+
+                                if (imageHeight > UiUtils.d2p(mContext, 250)) {
+                                    int height = UiUtils.d2p(mContext, 250);
+                                    int width = height * imageWidth / imageHeight;
+                                    ViewGroup.LayoutParams para = ivPreview.getLayoutParams();
+                                    para.height = height;
+                                    para.width = width;
+                                }
+
+                                ivPreview.setImageBitmap(resource);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                            }
+                        });
             }
         });
 

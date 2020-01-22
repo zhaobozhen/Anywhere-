@@ -20,7 +20,7 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1512
+        versionCode 1513
         versionName "1.5.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
@@ -140,6 +140,7 @@ dependencies {
     //Network
     implementation("com.squareup.okhttp3:okhttp:4.3.1")
     implementation("com.squareup.retrofit2:retrofit:2.7.1")
+    implementation("com.squareup.okio:okio:2.4.3")
 
     //Debug
     testImplementation 'junit:junit:4.13'

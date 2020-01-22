@@ -736,6 +736,7 @@ public class UiUtils {
                 .setShape(ShadowHelper.SHAPE_ROUND)
                 .setShapeRadius(d2p(context, 8))
                 .setShadowRadius(d2p(context, shadowRadius))
+                .setShadowColor(Color.parseColor("#4D000000"))
                 .into(toolbar);
     }
 }

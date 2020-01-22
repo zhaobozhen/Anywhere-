@@ -74,7 +74,7 @@ public class ShadowHelper extends Drawable {
     public ShadowHelper() {
         mShape = ShadowHelper.SHAPE_ROUND;
         mShapeRadius = 0;
-        mShadowColor = Color.parseColor("#4d000000");
+        mShadowColor = Color.parseColor("#4D000000");
         mShadowRadius = 18;
         mOffsetX = 0;
         mOffsetY = 0;
