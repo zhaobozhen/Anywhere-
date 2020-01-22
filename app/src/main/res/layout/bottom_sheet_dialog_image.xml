@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Design.BottomSheet.Modal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/ib_editor_menu"
+        android:layout_width="@dimen/bsd_tool_size"
+        android:layout_height="@dimen/bsd_tool_size"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/anywhere_more_todo"
+        android:tooltipText="@string/menu_more"
+        app:layout_constraintBottom_toBottomOf="@id/toggle_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toggle_group"
+        app:srcCompat="@drawable/ic_more_vert"
+        tools:targetApi="o" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggle_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginBottom="10dp"
+        app:checkedButton="@id/btn_local"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_local"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Local" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_net"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Net" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <ViewFlipper
+        android:id="@+id/vf_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/iv_preview"
+        app:layout_constraintTop_toBottomOf="@id/toggle_group">
+
+        <include layout="@layout/layout_select_image" />
+
+        <include layout="@layout/layout_select_net_image" />
+
+    </ViewFlipper>
+
+    <ImageView
+        android:id="@+id/iv_preview"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintTop_toBottomOf="@id/vf_container"
+        app:layout_constraintBottom_toTopOf="@id/btn_edit_anywhere_done" />
+
+    <Button
+        android:id="@+id/btn_edit_anywhere_done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/bsd_edit_text_margin_horizontal"
+        android:text="@string/bsd_btn_done"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

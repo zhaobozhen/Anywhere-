@@ -29,6 +29,7 @@ import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
+import com.absinthe.anywhere_.view.ImageEditor;
 import com.absinthe.anywhere_.view.QRCodeEditor;
 import com.absinthe.anywhere_.view.SchemeEditor;
 import com.catchingnow.icebox.sdk_client.IceBox;
@@ -140,6 +141,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                     case AnywhereType.QR_CODE:
                         openEditor(item, Editor.QR_CODE);
                         break;
+                    case AnywhereType.IMAGE:
+                        openEditor(item, Editor.IMAGE);
+                        break;
                 }
                 return true;
             }
@@ -212,6 +216,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 break;
             case Editor.QR_CODE:
                 mEditor = new QRCodeEditor(mContext);
+                break;
+            case Editor.IMAGE:
+                mEditor = new ImageEditor(mContext);
                 break;
         }
 

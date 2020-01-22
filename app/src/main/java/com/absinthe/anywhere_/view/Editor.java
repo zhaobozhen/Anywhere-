@@ -34,6 +34,7 @@ public abstract class Editor<T extends Editor<?>> {
     public static final int ANYWHERE = 1;
     public static final int URL_SCHEME = 2;
     public static final int QR_CODE = 3;
+    public static final int IMAGE = 4;
 
     protected Context mContext;
     private OnEditorListener mListener;

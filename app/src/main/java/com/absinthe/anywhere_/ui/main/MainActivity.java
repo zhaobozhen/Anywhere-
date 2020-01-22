@@ -48,7 +48,6 @@ import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.Logger;
-import com.absinthe.anywhere_.utils.manager.ShadowHelper;
 import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
@@ -210,12 +209,7 @@ public class MainActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
 
         if (GlobalValues.sIsMd2Toolbar) {
-            if (GlobalValues.sBackgroundUri.isEmpty() || GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
-                UiUtils.drawMd2Toolbar(this, mToolbar, 2, R.color.shadowLight);
-            } else {
-                UiUtils.drawMd2Toolbar(this, mToolbar, 3, R.color.shadowHeavy);
-            }
-
+            UiUtils.drawMd2Toolbar(this, mToolbar, 3);
         }
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {

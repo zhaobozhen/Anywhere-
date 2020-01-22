@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -58,9 +57,10 @@ public class AnywhereEntity implements Parcelable {
     @SerializedName("time_stamp")
     private String mTimeStamp;
 
+    @NonNull
     @ColumnInfo(name = "color")
     @SerializedName("color")
-    private int mColor;
+    private Integer mColor;
 
     public static AnywhereEntity Builder() {
         String time = System.currentTimeMillis() + "";
@@ -79,7 +79,7 @@ public class AnywhereEntity implements Parcelable {
 
     public AnywhereEntity(@NonNull String id, @NonNull String appName, @NonNull String param1,
                           String param2, String param3, String description,
-                          @NonNull Integer type, String category, @NonNull String timeStamp, int color) {
+                          @NonNull Integer type, String category, @NonNull String timeStamp, @NonNull Integer color) {
         mId = id;
         mAppName = appName;
         mParam1 = param1;
@@ -197,11 +197,12 @@ public class AnywhereEntity implements Parcelable {
         this.mTimeStamp = mTimeStamp;
     }
 
-    public int getColor() {
+    @NonNull
+    public Integer getColor() {
         return mColor;
     }
 
-    public void setColor(@ColorInt int mColor) {
+    public void setColor(@NonNull Integer mColor) {
         this.mColor = mColor;
     }
 

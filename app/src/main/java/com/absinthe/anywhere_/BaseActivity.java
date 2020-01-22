@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.absinthe.anywhere_.interfaces.OnDocumentResultListener;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -15,6 +17,9 @@ import com.absinthe.anywhere_.utils.UiUtils;
 
 @SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
+
+    private OnDocumentResultListener mListener;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,5 +49,19 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         finish();
         startActivity(intent);
+    }
+
+    public void setDocumentResultListener(OnDocumentResultListener listener) {
+        mListener = listener;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == Const.REQUEST_CODE_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            if (mListener != null && data != null && data.getData() != null) {
+                mListener.onResult(data.getData());
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

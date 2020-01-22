@@ -20,8 +20,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1500
-        versionName "1.5.0"
+        versionCode 1512
+        versionName "1.5.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
         externalNativeBuild {
@@ -101,6 +101,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation(name:'color-picker', ext:'aar')
 
+    //Android X
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.fragment:fragment:1.1.0'
@@ -114,23 +115,33 @@ dependencies {
     implementation 'androidx.browser:browser:1.2.0'
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
     implementation "androidx.lifecycle:lifecycle-runtime:2.2.0-rc03"
+
+    //Google
     implementation 'com.google.android.material:material:1.2.0-alpha03'
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
+    //Function
     implementation 'moe.shizuku.privilege:api:3.0.0-alpha10'
     implementation 'me.weishu:free_reflection:2.2.0'
-    implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
-    implementation 'com.drakeet.about:about:2.4.1'
-    implementation 'com.drakeet.about:about-extension:2.4.1'
-    implementation 'com.drakeet.multitype:multitype:4.2.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.catchingnow.icebox:SDK:1.0.5'
-    implementation "com.leinardi.android:speed-dial:3.1.1"
     implementation 'com.jonathanfinerty.once:once:1.3.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
 
+    //UX
+    implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'
+    implementation 'com.drakeet.about:about:2.4.1'
+    implementation 'com.drakeet.about:about-extension:2.4.1'
+    implementation 'com.drakeet.multitype:multitype:4.2.0'
+    implementation "com.leinardi.android:speed-dial:3.1.1"
+
+    //Network
+    implementation("com.squareup.okhttp3:okhttp:4.3.1")
+    implementation("com.squareup.retrofit2:retrofit:2.7.1")
+
+    //Debug
     testImplementation 'junit:junit:4.13'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'

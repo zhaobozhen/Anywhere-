@@ -88,7 +88,7 @@ public abstract class AnywhereRoomDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE anywhere_table "
-                    + " ADD COLUMN color INTEGER DEFAULT 0");
+                    + " ADD COLUMN color INTEGER NOT NULL DEFAULT 0");
         }
     };
 }

@@ -731,12 +731,11 @@ public class UiUtils {
         }
     }
 
-    public static void drawMd2Toolbar(Context context, Toolbar toolbar, int shadowRadius, int shadowColor) {
+    public static void drawMd2Toolbar(Context context, Toolbar toolbar, int shadowRadius) {
         ShadowHelper.getInstance()
                 .setShape(ShadowHelper.SHAPE_ROUND)
                 .setShapeRadius(d2p(context, 8))
                 .setShadowRadius(d2p(context, shadowRadius))
-                .setShadowColor(shadowColor)
                 .into(toolbar);
     }
 }

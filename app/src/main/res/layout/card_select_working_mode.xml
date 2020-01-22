@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/cardview_item_margin"
             app:checkedButton="@id/btn_url_scheme"
-            app:singleSelection="true">
+            app:singleSelection="true"
+            app:selectionRequired="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_url_scheme"
