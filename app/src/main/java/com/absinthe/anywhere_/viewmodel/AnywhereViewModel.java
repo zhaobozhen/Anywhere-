@@ -12,17 +12,18 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.page.PageNode;
 import com.absinthe.anywhere_.adapter.page.PageTitleNode;
-import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.database.AnywhereRepository;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.main.MainActivity;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.Editor;
+import com.absinthe.anywhere_.view.ImageEditor;
 import com.absinthe.anywhere_.view.SchemeEditor;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
@@ -108,6 +109,19 @@ public class AnywhereViewModel extends AndroidViewModel {
         ae.setType(AnywhereType.URL_SCHEME);
 
         Editor editor = new SchemeEditor(MainActivity.getInstance())
+                .item(ae)
+                .isEditorMode(false)
+                .isShortcut(false)
+                .build();
+        editor.show();
+    }
+
+    public void openImageEditor() {
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setAppName("New Image");
+        ae.setType(AnywhereType.IMAGE);
+
+        Editor editor = new ImageEditor(MainActivity.getInstance())
                 .item(ae)
                 .isEditorMode(false)
                 .isShortcut(false)

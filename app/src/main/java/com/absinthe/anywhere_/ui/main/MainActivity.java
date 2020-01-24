@@ -50,10 +50,10 @@ import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
+import com.absinthe.anywhere_.view.FabBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
@@ -311,26 +311,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void initFab() {
-        mFab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_url_scheme, R.drawable.ic_url_scheme)
-                .setFabBackgroundColor(getResources().getColor(R.color.white))
-                .setLabel(getString(R.string.btn_url_scheme))
-                .setLabelClickable(false)
-                .create());
-        mFab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_activity_list, R.drawable.ic_activity_list)
-                .setFabBackgroundColor(getResources().getColor(R.color.white))
-                .setLabel(getString(R.string.btn_activity_list))
-                .setLabelClickable(false)
-                .create());
-        mFab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_qr_code_collection, R.drawable.ic_qr_code)
-                .setFabBackgroundColor(getResources().getColor(R.color.white))
-                .setLabel(getString(R.string.btn_qr_code_collection))
-                .setLabelClickable(false)
-                .create());
-        mFab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_collector, R.drawable.ic_logo)
-                .setFabBackgroundColor(getResources().getColor(R.color.white))
-                .setLabel(GlobalValues.getCollectorMode())
-                .setLabelClickable(false)
-                .create());
+        FabBuilder.build(this, mFab);
         mFab.setOnActionSelectedListener(actionItem -> {
             switch (actionItem.getId()) {
                 case R.id.fab_url_scheme:
@@ -348,6 +329,10 @@ public class MainActivity extends BaseActivity {
                 case R.id.fab_qr_code_collection:
                     startActivity(new Intent(this, QRCodeCollectionActivity.class));
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_qr_code_collection", "click_fab_qr_code_collection");
+                    break;
+                case R.id.fab_image:
+                    MainActivity.getInstance().getViewModel().openImageEditor();
+                    FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_image", "click_fab_image");
                     break;
                 default:
                     return false;

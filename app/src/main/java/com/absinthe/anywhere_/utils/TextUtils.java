@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -208,5 +209,24 @@ public class TextUtils {
         System.arraycopy(arr, 0, tmp, 0, size);
         tmp[size] = str;
         return tmp;
+    }
+
+    public static boolean isImageUrl(String s) {
+        List<String> list = new ArrayList<>();
+        list.add(".jpg");
+        list.add(".jpeg");
+        list.add(".png");
+        list.add("webp");
+        list.add("gif");
+        list.add("bmp");
+        list.add("tif");
+        list.add("tiff");
+
+        for (String suffix : list) {
+            if (s.contains(suffix)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

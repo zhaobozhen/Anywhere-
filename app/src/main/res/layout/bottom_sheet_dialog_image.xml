@@ -42,58 +42,66 @@
             android:text="Local" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_net"
+            android:id="@+id/btn_web"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Net" />
+            android:text="Web" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    <ViewFlipper
-        android:id="@+id/vf_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
-        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
-        app:layout_constraintBottom_toTopOf="@id/iv_preview"
-        app:layout_constraintTop_toBottomOf="@id/toggle_group">
-
-        <include layout="@layout/layout_select_image" />
-
-        <include layout="@layout/layout_select_net_image" />
-
-    </ViewFlipper>
 
     <ImageView
         android:id="@+id/iv_preview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:layout_marginBottom="@dimen/bsd_edit_text_margin_horizontal"
-        android:maxHeight="250dp"
-        app:layout_constraintBottom_toTopOf="@id/til_app_name"
-        app:layout_constraintTop_toBottomOf="@id/vf_container"
+        android:paddingStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:paddingEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:src="@drawable/ic_image_placeholder"
+        app:layout_constraintBottom_toTopOf="@id/til_url"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/toggle_group" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_url"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:hint="Image URI"
+        app:errorEnabled="true"
+        app:helperText="This can load a local/web image"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/iv_preview">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_app_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/iv_preview"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_app_name_label"
+        app:errorEnabled="true"
         app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
         app:helperTextEnabled="true"
-        app:errorEnabled="true">
+        app:layout_constraintTop_toBottomOf="@id/til_url">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_app_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,13 +110,13 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/til_app_name"
-        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_description_label"
         app:helperText="@string/bsd_text_input_layout_description_helper_text"
-        app:helperTextEnabled="true">
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/til_app_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_description"
@@ -124,7 +132,7 @@
         android:layout_margin="@dimen/bsd_edit_text_margin_horizontal"
         android:text="@string/bsd_btn_done"
         android:textAllCaps="true"
-        app:layout_constraintTop_toBottomOf="@id/til_description"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
