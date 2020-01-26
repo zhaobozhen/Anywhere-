@@ -26,6 +26,7 @@ import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
@@ -38,6 +39,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
     public static final String ACTION_START_COMMAND = "START_COMMAND";
     public static final String ACTION_START_FROM_WIDGET = "START_FROM_WIDGET";
     public static final String ACTION_START_QR_CODE = "START_QR_CODE";
+    public static final String ACTION_START_IMAGE = "START_IMAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +139,11 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                             .setOnCancelListener(dialog -> finish())
                             .show();
                 });
+            } else if (action.equals(ACTION_START_IMAGE)) {
+                String uri = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
+                if (uri != null) {
+                    DialogManager.showImageDialog(this, uri, this::finish);
+                }
             } else if (action.equals(Intent.ACTION_VIEW)) {
                 Uri uri = i.getData();
                 if (uri != null) {

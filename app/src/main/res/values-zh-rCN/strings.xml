@@ -247,4 +247,10 @@
     <string name="btn_reset_color">重置卡片色</string>
     <string name="dialog_choose_color_title">选择颜色</string>
     <string name="menu_custom_color">自定义颜色</string>
+    <string name="notification_collector_title">Collector 正在运行</string>
+    <string name="notification_collector_content">可忽略此通知</string>
+    <string name="btn_add_image">添加图片</string>
+    <string name="bsd_text_input_layout_image_uri_hint">图片 URI</string>
+    <string name="btn_local_image">本地</string>
+    <string name="btn_web_image">网络</string>
 </resources>

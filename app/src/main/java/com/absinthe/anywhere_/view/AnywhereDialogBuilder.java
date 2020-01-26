@@ -10,7 +10,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class AnywhereDialogBuilder extends MaterialAlertDialogBuilder {
 
-    private boolean isDismissParent = false;
+    private boolean isDismissParent = false;    //Dismiss this Dialog and its parent Dialog
 
     public AnywhereDialogBuilder(Context context) {
         super(context, R.style.AppTheme_Dialog);

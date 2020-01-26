@@ -42,6 +42,9 @@ public class ShortcutsUtils {
         if (ae.getAnywhereType() == AnywhereType.QR_CODE) {
             intent.setAction(ShortcutsActivity.ACTION_START_QR_CODE);
             intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam2());
+        } else if (ae.getAnywhereType() == AnywhereType.IMAGE) {
+            intent.setAction(ShortcutsActivity.ACTION_START_IMAGE);
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
         } else {
             intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
             intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));

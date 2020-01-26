@@ -18,7 +18,12 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
     private ImageDialogBuilder mBuilder;
 
     public ImageDialogFragment(String uri) {
+        this(uri, null);
+    }
+
+    public ImageDialogFragment(String uri, OnDismissListener listener) {
         mUri = uri;
+        setWrapOnDismissListener(listener);
     }
 
     @Override
@@ -29,11 +34,10 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
+        AnywhereDialogBuilder dialog = new AnywhereDialogBuilder(mContext);
         initView();
 
-        return builder.setView(mBuilder.getRoot())
-                .create();
+        return dialog.setView(mBuilder.getRoot()).create();
     }
 
     private void initView() {

@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.viewmodel;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.os.Build;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -19,6 +20,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.utils.NotificationUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -132,7 +134,14 @@ public class AnywhereViewModel extends AndroidViewModel {
     public void startCollector(Activity activity) {
         Intent intent = new Intent(activity, CollectorService.class);
         intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
-        activity.startService(intent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationUtils.createCollectorChannel(activity);
+            activity.startForegroundService(intent);
+        } else {
+            activity.startService(intent);
+        }
+
         ToastUtil.makeText(R.string.toast_collector_opened);
 
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);

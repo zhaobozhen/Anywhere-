@@ -315,7 +315,7 @@ public class MainActivity extends BaseActivity {
         mFab.setOnActionSelectedListener(actionItem -> {
             switch (actionItem.getId()) {
                 case R.id.fab_url_scheme:
-                    MainActivity.getInstance().getViewModel().setUpUrlScheme("");
+                    mViewModel.setUpUrlScheme("");
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_url_scheme", "click_fab_url_scheme");
                     break;
                 case R.id.fab_activity_list:
@@ -323,7 +323,7 @@ public class MainActivity extends BaseActivity {
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_activity_list", "click_fab_activity_list");
                     break;
                 case R.id.fab_collector:
-                    MainActivity.getInstance().getViewModel().checkWorkingPermission(MainActivity.getInstance());
+                    mViewModel.checkWorkingPermission(this);
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_collector", "click_fab_collector");
                     break;
                 case R.id.fab_qr_code_collection:
@@ -331,7 +331,7 @@ public class MainActivity extends BaseActivity {
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_qr_code_collection", "click_fab_qr_code_collection");
                     break;
                 case R.id.fab_image:
-                    MainActivity.getInstance().getViewModel().openImageEditor();
+                    mViewModel.openImageEditor();
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_image", "click_fab_image");
                     break;
                 default:

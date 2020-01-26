@@ -35,6 +35,7 @@ import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
+import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.view.ColorPickerDialogBuilder;
 import com.flask.colorpicker.ColorPickerView;
 
@@ -311,6 +312,11 @@ public class DialogManager {
 
     public static void showImageDialog(AppCompatActivity activity, String uri) {
         ImageDialogFragment dialog = new ImageDialogFragment(uri);
+        dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
+    }
+
+    public static void showImageDialog(AppCompatActivity activity, String uri, AnywhereDialogFragment.OnDismissListener listener) {
+        ImageDialogFragment dialog = new ImageDialogFragment(uri, listener);
         dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
     }
 }

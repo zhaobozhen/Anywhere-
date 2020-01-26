@@ -1,14 +1,18 @@
 package com.absinthe.anywhere_.services;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.service.quicksettings.Tile;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.CollectorWindowManager;
@@ -16,6 +20,7 @@ import com.absinthe.anywhere_.model.CommandResult;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.CommandUtils;
+import com.absinthe.anywhere_.utils.NotificationUtils;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -42,7 +47,7 @@ public class CollectorService extends Service {
                 String result = CommandUtils.execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY);
 
                 if (result == null
-                        ||result.equals(CommandResult.RESULT_NULL)
+                        || result.equals(CommandResult.RESULT_NULL)
                         || result.equals(CommandResult.RESULT_ROOT_PERM_ERROR)
                         || result.equals(CommandResult.RESULT_SHIZUKU_PERM_ERROR)) {
                     Thread.currentThread().interrupt();
@@ -61,6 +66,7 @@ public class CollectorService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        startForeground(1, getNotificationInstance());
         Logger.i("CollectorService onCreate");
     }
 
@@ -110,5 +116,16 @@ public class CollectorService extends Service {
     public void onDestroy() {
         Logger.d("CollectorService onDestroy.");
         super.onDestroy();
+    }
+
+    private Notification getNotificationInstance() {
+        return new NotificationCompat.Builder(this, NotificationUtils.COLLECTOR_CHANNEL_ID)
+                .setContentTitle(getText(R.string.notification_collector_title))
+                .setContentText(getText(R.string.notification_collector_content))
+                .setSmallIcon(R.drawable.ic_logo)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build();
     }
 }

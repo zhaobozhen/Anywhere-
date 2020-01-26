@@ -31,9 +31,9 @@ public class FabBuilder {
                 .setLabel(GlobalValues.getCollectorMode())
                 .setLabelClickable(false)
                 .create());
-        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_image, R.drawable.ic_logo)
+        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_image, R.drawable.ic_photo)
                 .setFabBackgroundColor(resources.getColor(R.color.white))
-                .setLabel("Add Image")
+                .setLabel(context.getString(R.string.btn_add_image))
                 .setLabelClickable(false)
                 .create());
     }

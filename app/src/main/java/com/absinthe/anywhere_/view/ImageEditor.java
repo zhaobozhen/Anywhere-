@@ -76,6 +76,10 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
 
         tietUrl = mBottomSheetDialog.findViewById(R.id.tiet_url);
         if (tietUrl != null) {
+            if (isEditMode) {
+                tietUrl.setText(mItem.getParam1());
+                loadImage(mItem.getParam1());
+            }
             tietUrl.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -163,9 +167,11 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
         switch (checkedId) {
             case R.id.btn_local:
                 if (isChecked) {
-                    tietUrl.setText("");
+                    if (!isEditMode) {
+                        tietUrl.setText("");
+                        ivPreview.setImageDrawable(mContext.getDrawable(R.drawable.ic_image_placeholder));
+                    }
                     tilUrl.setEnabled(false);
-                    ivPreview.setImageDrawable(mContext.getDrawable(R.drawable.ic_image_placeholder));
                     ivPreview.setClickable(true);
                 }
                 break;
