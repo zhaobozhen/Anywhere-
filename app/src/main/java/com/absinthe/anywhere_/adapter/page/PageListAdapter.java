@@ -1,14 +1,16 @@
 package com.absinthe.anywhere_.adapter.page;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
 import com.chad.library.adapter.base.BaseNodeAdapter;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 
-public class PageListAdapter extends BaseNodeAdapter {
+public class PageListAdapter extends BaseNodeAdapter implements ItemTouchCallBack.OnItemTouchListener {
 
     public PageListAdapter() {
         addNodeProvider(new PageTitleProvider());
@@ -25,5 +27,24 @@ public class PageListAdapter extends BaseNodeAdapter {
             return 2;
         }
         return -1;
+    }
+
+    @Override
+    public void onMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(getData(), i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(getData(), i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onSwiped(int position) {
+
     }
 }

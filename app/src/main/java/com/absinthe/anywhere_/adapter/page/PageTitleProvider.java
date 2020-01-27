@@ -26,6 +26,8 @@ import java.util.Objects;
 
 public class PageTitleProvider extends BaseNodeProvider {
 
+    public static boolean isEditMode = false;
+
     @Override
     public int getItemViewType() {
         return 1;
@@ -67,6 +69,10 @@ public class PageTitleProvider extends BaseNodeProvider {
 
     @Override
     public boolean onLongClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
+        if (isEditMode) {
+            return false;
+        }
+
         PopupMenu popup = new PopupMenu(getContext(), view);
         popup.getMenuInflater()
                 .inflate(R.menu.page_menu, popup.getMenu());

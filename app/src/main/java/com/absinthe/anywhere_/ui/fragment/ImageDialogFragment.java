@@ -3,6 +3,8 @@ package com.absinthe.anywhere_.ui.fragment;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
@@ -55,6 +58,7 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
         if (mWidth != 0 && mHeight != 0) {
             mBuilder.getRoot().setLayoutParams(new LinearLayout.LayoutParams(mWidth, mHeight));
         }
+        dialog.setBackground(mContext.getResources().getDrawable(R.drawable.bg_dialog_shape));
 
         return dialog.setView(mBuilder.getRoot()).create();
     }
@@ -79,6 +83,7 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
         Glide.with(mContext)
                 .asBitmap()
                 .load(mUri)
+                .placeholder(new ColorDrawable(Color.TRANSPARENT))
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(new CustomTarget<Bitmap>() {
                     @Override

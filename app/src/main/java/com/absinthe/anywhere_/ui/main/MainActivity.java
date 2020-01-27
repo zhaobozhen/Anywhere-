@@ -22,6 +22,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -29,8 +30,10 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
 import com.absinthe.anywhere_.adapter.page.PageListAdapter;
 import com.absinthe.anywhere_.adapter.page.PageTitleNode;
+import com.absinthe.anywhere_.adapter.page.PageTitleProvider;
 import com.absinthe.anywhere_.databinding.ActivityMainBinding;
 import com.absinthe.anywhere_.databinding.ActivityMainMd2Binding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -280,6 +283,16 @@ public class MainActivity extends BaseActivity {
                     AnywhereApplication.sRepository.insertPage(pe);
                 }
             }
+        });
+        drawer.findViewById(R.id.ib_sort_page).setOnClickListener(v -> {
+            for (int i = 0; i < adapter.getData().size(); i++) {
+                adapter.collapse(i);
+            }
+            PageTitleProvider.isEditMode = true;
+            ItemTouchCallBack touchCallBack = new ItemTouchCallBack();
+            touchCallBack.setOnItemTouchListener(adapter);
+            ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(touchCallBack);
+            mItemTouchHelper.attachToRecyclerView(recyclerView);
         });
     }
 

@@ -20,6 +20,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/ib_sort_page"
+        android:layout_width="@dimen/bsd_tool_size"
+        android:layout_height="@dimen/bsd_tool_size"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/anywhere_more_todo"
+        android:tooltipText="@string/menu_sort_page"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ib_add"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="5dp"
+        app:srcCompat="@drawable/ic_sort"
+        tools:targetApi="o" />
+
+    <ImageButton
         android:id="@+id/ib_add"
         android:layout_width="@dimen/bsd_tool_size"
         android:layout_height="@dimen/bsd_tool_size"
