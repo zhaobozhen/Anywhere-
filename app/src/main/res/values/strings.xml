@@ -68,7 +68,7 @@
     <string name="bsd_text_input_layout_class_name_helper_text">App\'s class name, generally by default</string>
     <string name="bsd_text_input_layout_description_helper_text">Describe your Anywhere-</string>
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from HELP pageTitle</string>
-    <string name="bsd_text_input_layout_image_uri_helper_text">Select local picture or fill in web picture URI</string>
+    <string name="bsd_text_input_layout_image_uri_helper_text">Tap image above to select local picture or fill in web picture URI</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
     <string name="bsd_default">Default</string>

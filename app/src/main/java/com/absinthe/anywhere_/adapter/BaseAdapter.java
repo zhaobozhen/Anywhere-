@@ -198,7 +198,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         }
                     }
                 } else {
-                    MainActivity.getInstance().getViewModel().getCommand().setValue(cmd);
+                    if (MainActivity.getInstance() != null) {
+                        MainActivity.getInstance().getViewModel().getCommand().setValue(cmd);
+                    }
                 }
             }
         }

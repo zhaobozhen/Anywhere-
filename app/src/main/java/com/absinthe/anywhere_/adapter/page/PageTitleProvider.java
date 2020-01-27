@@ -53,6 +53,10 @@ public class PageTitleProvider extends BaseNodeProvider {
 
     @Override
     public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
+        if (isEditMode) {
+            return;
+        }
+
         Objects.requireNonNull(
                 getAdapter()).expandOrCollapse(position);
 

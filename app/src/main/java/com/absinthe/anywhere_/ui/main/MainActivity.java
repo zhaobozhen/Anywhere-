@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -60,6 +61,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -82,6 +84,7 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mToggle;
+    private ItemTouchHelper mItemTouchHelper;
 
     public static MainActivity getInstance() {
         return sInstance;
@@ -270,7 +273,12 @@ public class MainActivity extends BaseActivity {
         ((SimpleItemAnimator) Objects.requireNonNull(
                 recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
 
-        drawer.findViewById(R.id.ib_add).setOnClickListener(v -> {
+        ImageButton ibAdd, ibPageSort, ibDone;
+        ibAdd = drawer.findViewById(R.id.ib_add);
+        ibPageSort = drawer.findViewById(R.id.ib_sort_page);
+        ibDone = drawer.findViewById(R.id.ib_done);
+
+        ibAdd.setOnClickListener(v -> {
             List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
             if (list != null) {
                 String timeStamp = System.currentTimeMillis() + "";
@@ -284,15 +292,42 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        drawer.findViewById(R.id.ib_sort_page).setOnClickListener(v -> {
+        ibPageSort.setOnClickListener(v -> {
             for (int i = 0; i < adapter.getData().size(); i++) {
                 adapter.collapse(i);
             }
             PageTitleProvider.isEditMode = true;
             ItemTouchCallBack touchCallBack = new ItemTouchCallBack();
             touchCallBack.setOnItemTouchListener(adapter);
-            ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(touchCallBack);
+            mItemTouchHelper = new ItemTouchHelper(touchCallBack);
             mItemTouchHelper.attachToRecyclerView(recyclerView);
+            ibAdd.setVisibility(View.GONE);
+            ibPageSort.setVisibility(View.GONE);
+            ibDone.setVisibility(View.VISIBLE);
+        });
+        ibDone.setOnClickListener(v -> {
+            PageTitleProvider.isEditMode = false;
+            mItemTouchHelper.attachToRecyclerView(null);
+            ibAdd.setVisibility(View.VISIBLE);
+            ibPageSort.setVisibility(View.VISIBLE);
+            ibDone.setVisibility(View.GONE);
+
+            List<BaseNode> list = adapter.getData();
+            HashMap<String, Integer> map = new HashMap<>();
+            int i = 1;
+            for (BaseNode node : list) {
+                if (node instanceof PageTitleNode) {
+                    map.put(((PageTitleNode) node).getTitle(), i);
+                    i++;
+                }
+            }
+            List<PageEntity> pageEntityList = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+            if (pageEntityList != null) {
+                for (PageEntity pe : pageEntityList) {
+                    pe.setPriority(Objects.requireNonNull(map.get(pe.getTitle())));
+                    AnywhereApplication.sRepository.updatePage(pe);
+                }
+            }
         });
     }
 

@@ -20,16 +20,33 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/ib_done"
+        android:layout_width="@dimen/bsd_tool_size"
+        android:layout_height="@dimen/bsd_tool_size"
+        android:layout_margin="5dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/anywhere_more_todo"
+        android:tint="@color/textColorNormal"
+        android:tooltipText="@string/menu_done"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ib_sort_page"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_done"
+        tools:targetApi="o" />
+
+    <ImageButton
         android:id="@+id/ib_sort_page"
         android:layout_width="@dimen/bsd_tool_size"
         android:layout_height="@dimen/bsd_tool_size"
+        android:layout_margin="5dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/anywhere_more_todo"
+        android:tint="@color/textColorNormal"
         android:tooltipText="@string/menu_sort_page"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ib_add"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="5dp"
         app:srcCompat="@drawable/ic_sort"
         tools:targetApi="o" />
 
@@ -37,6 +54,7 @@
         android:id="@+id/ib_add"
         android:layout_width="@dimen/bsd_tool_size"
         android:layout_height="@dimen/bsd_tool_size"
+        android:layout_margin="5dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/anywhere_more_todo"
         android:tint="@color/textColorNormal"
@@ -44,7 +62,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="5dp"
         app:srcCompat="@drawable/ic_add"
         tools:targetApi="o" />
 

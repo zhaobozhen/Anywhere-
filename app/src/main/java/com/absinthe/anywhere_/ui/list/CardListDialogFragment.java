@@ -53,7 +53,7 @@ public class CardListDialogFragment extends AnywhereDialogFragment {
         mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
         if (mList != null) {
             for (AnywhereEntity ae : mList) {
-                if (ae.getAnywhereType() == AnywhereType.URL_SCHEME) {
+                if (ae.getAnywhereType() == AnywhereType.URL_SCHEME || ae.getAnywhereType() == AnywhereType.IMAGE) {
                     listBeans.add(new AppListBean(ae.getAppName(), ae.getParam2(), ae.getParam1(), ae.getAnywhereType()));
                 } else {
                     listBeans.add(new AppListBean(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getAnywhereType()));
