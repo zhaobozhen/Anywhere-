@@ -20,7 +20,6 @@ import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.viewbuilder.entity.ImageDialogBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -84,7 +83,6 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
                 .asBitmap()
                 .load(mUri)
                 .placeholder(new ColorDrawable(Color.TRANSPARENT))
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
