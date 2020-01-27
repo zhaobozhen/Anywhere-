@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -45,6 +46,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        UiUtils.setActionBarTransparent(this);
         AnywhereViewModel viewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
         Intent i = getIntent();
         String action = i.getAction();
@@ -142,7 +144,9 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
             } else if (action.equals(ACTION_START_IMAGE)) {
                 String uri = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
                 if (uri != null) {
-                    DialogManager.showImageDialog(this, uri, this::finish);
+                    AnywhereEntity ae = AnywhereEntity.Builder();
+                    ae.setParam1(uri);
+                    DialogManager.showImageDialog(this, ae, this::finish);
                 }
             } else if (action.equals(Intent.ACTION_VIEW)) {
                 Uri uri = i.getData();

@@ -177,7 +177,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 entity.launch();
             }
         } else if (item.getAnywhereType() == AnywhereType.IMAGE) {
-            DialogManager.showImageDialog((AppCompatActivity) mContext, item.getParam1());
+            DialogManager.showImageDialog((AppCompatActivity) mContext, item);
         } else {
             String cmd = TextUtils.getItemCommand(item);
             if (!cmd.isEmpty()) {

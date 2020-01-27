@@ -125,7 +125,9 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 }
 
                 if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
-                    MainActivity.getInstance().mFab.show();
+                    if (MainActivity.getInstance().mFab != null) {
+                        MainActivity.getInstance().mFab.show();
+                    }
                 }
             }
             AppUtils.updateWidget(AnywhereApplication.sContext);

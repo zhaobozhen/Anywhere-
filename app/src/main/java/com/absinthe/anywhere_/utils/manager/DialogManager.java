@@ -310,13 +310,13 @@ public class DialogManager {
         dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
     }
 
-    public static void showImageDialog(AppCompatActivity activity, String uri) {
-        ImageDialogFragment dialog = new ImageDialogFragment(uri);
+    public static void showImageDialog(AppCompatActivity activity, AnywhereEntity ae) {
+        ImageDialogFragment dialog = new ImageDialogFragment(ae);
         dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
     }
 
-    public static void showImageDialog(AppCompatActivity activity, String uri, AnywhereDialogFragment.OnDismissListener listener) {
-        ImageDialogFragment dialog = new ImageDialogFragment(uri, listener);
+    public static void showImageDialog(AppCompatActivity activity, AnywhereEntity ae, AnywhereDialogFragment.OnDismissListener listener) {
+        ImageDialogFragment dialog = new ImageDialogFragment(ae, listener);
         dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
     }
 }

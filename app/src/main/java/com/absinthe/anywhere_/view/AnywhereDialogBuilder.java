@@ -16,6 +16,10 @@ public class AnywhereDialogBuilder extends MaterialAlertDialogBuilder {
         super(context, R.style.AppTheme_Dialog);
     }
 
+    public AnywhereDialogBuilder(Context context, int overrideThemeResId) {
+        super(context, overrideThemeResId);
+    }
+
     @Override
     public AlertDialog show() {
         setOnDismissListener(dialog -> {

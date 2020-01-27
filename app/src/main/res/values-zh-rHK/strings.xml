@@ -253,4 +253,5 @@
     <string name="bsd_text_input_layout_image_uri_hint">圖片 URI</string>
     <string name="btn_local_image">本地</string>
     <string name="btn_web_image">網路</string>
+    <string name="bsd_text_input_layout_image_uri_helper_text">選擇本地圖片或填入網絡圖片 URI</string>
 </resources>

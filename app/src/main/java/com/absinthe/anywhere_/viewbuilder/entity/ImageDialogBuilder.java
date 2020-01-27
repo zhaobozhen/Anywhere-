@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.viewbuilder.entity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -18,6 +19,7 @@ public class ImageDialogBuilder extends ViewBuilder {
     public void init() {
         root = new LinearLayout(mContext);
         root.setLayoutParams(Params.LL.MATCH_WRAP);
+        root.setBackgroundColor(Color.TRANSPARENT);
 
         image = new ImageView(mContext);
         image.setLayoutParams(new LinearLayout.LayoutParams(
