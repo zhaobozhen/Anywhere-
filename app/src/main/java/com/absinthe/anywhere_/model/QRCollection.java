@@ -101,9 +101,9 @@ public class QRCollection {
         String serviceName;
 
         if (BuildConfig.DEBUG) {
-            serviceName = mContext.getPackageName() + "/" + IzukoService.class.getName();
+            serviceName = "com.absinthe.anywhere_.debug/com.absinthe.anywhere_.services.IzukoService";
         } else {
-            serviceName = mContext.getPackageName() + "/" + IzukoService.class.getSimpleName();
+            serviceName = "com.absinthe.anywhere_/.services.IzukoService";
         }
 
         List<AccessibilityServiceInfo> accessibilityServices =
