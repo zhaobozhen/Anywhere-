@@ -21,7 +21,6 @@ import java.util.List;
 public class CardListDialogFragment extends AnywhereDialogFragment {
     private Context mContext;
     private CardListDialogBuilder mBuilder;
-    private List<AnywhereEntity> mList;
     private AppListAdapter.OnItemClickListener mListener;
 
     @Override
@@ -50,9 +49,9 @@ public class CardListDialogFragment extends AnywhereDialogFragment {
     private void initView() {
         List<AppListBean> listBeans = new ArrayList<>();
 
-        mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
-        if (mList != null) {
-            for (AnywhereEntity ae : mList) {
+        List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+        if (list != null) {
+            for (AnywhereEntity ae : list) {
                 if (ae.getAnywhereType() == AnywhereType.URL_SCHEME || ae.getAnywhereType() == AnywhereType.IMAGE) {
                     listBeans.add(new AppListBean(ae.getAppName(), ae.getParam2(), ae.getParam1(), ae.getAnywhereType()));
                 } else {

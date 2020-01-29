@@ -131,7 +131,7 @@ public class AnywhereViewModel extends AndroidViewModel {
         editor.show();
     }
 
-    public void startCollector(Activity activity) {
+    private void startCollector(Activity activity) {
         Intent intent = new Intent(activity, CollectorService.class);
         intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
 

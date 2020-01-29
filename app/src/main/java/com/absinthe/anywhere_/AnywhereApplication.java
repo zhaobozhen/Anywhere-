@@ -32,7 +32,7 @@ public class AnywhereApplication extends Application {
             IzukoHelper.checkSignature();
         }
 
-        sContext = getApplicationContext();
+        sContext = this;
         GlobalValues.init(this);
         sRepository = new AnywhereRepository(this);
         Once.initialise(this);

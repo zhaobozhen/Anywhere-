@@ -26,9 +26,10 @@ import com.bumptech.glide.request.transition.Transition;
 public class ImageDialogFragment extends AnywhereDialogFragment {
     private Context mContext;
     private AnywhereEntity mItem;
+    private ImageDialogBuilder mBuilder;
+
     private String mUri;
     private int mWidth, mHeight;
-    private ImageDialogBuilder mBuilder;
 
     public ImageDialogFragment(AnywhereEntity ae) {
         this(ae, null);

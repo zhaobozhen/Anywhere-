@@ -44,6 +44,19 @@ public class QRCollectionAdapter extends StreamCardsAdapter {
                 case QRCollection.qqScanId:
                     QRCollection.Singleton.INSTANCE.getInstance().qqScan.launch();
                     break;
+                case QRCollection.unionpayPayId:
+                    QRCollection.Singleton.INSTANCE.getInstance().unionpayPay.launch();
+                    break;
+                case QRCollection.unionpayCollectId:
+                    QRCollection.Singleton.INSTANCE.getInstance().unionpayCollect.launch();
+                    break;
+                case QRCollection.unionpayScanId:
+                    QRCollection.Singleton.INSTANCE.getInstance().unionpayScan.launch();
+                    break;
+                case QRCollection.unionpaySignInId:
+                    QRCollection.Singleton.INSTANCE.getInstance().unionpaySignIn.launch();
+                    break;
+                default:
             }
         });
 

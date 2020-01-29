@@ -17,7 +17,7 @@
     <string name="toast_permission_overlap">请先授予 \"Anywhere-\" 悬浮窗权限</string>
     <string name="toast_collector_opened">已开启 Collector</string>
     <string name="ib_collector_todo">Collector</string>
-    <string name="accessibility_service_description">开启功能, 以选择当前 Activity</string>
+    <string name="accessibility_service_description">开启功能, 以实现自动点击功能</string>
     <string name="dialog_permission_title">需要权限</string>
     <string name="dialog_permission_message">需要 Shizuku 权限，MIUI 由于系统限制，请到 Shizuku 打开</string>
 
@@ -255,4 +255,6 @@
     <string name="btn_web_image">网络</string>
     <string name="bsd_text_input_layout_image_uri_helper_text">点按上方图片选择本地图片或填入网络图片 URI</string>
     <string name="menu_sort_page">页排序</string>
+    <string name="desc_need_accessibility">需要无障碍服务</string>
+    <string name="toast_grant_accessibility">请打开无障碍服务</string>
 </resources>
