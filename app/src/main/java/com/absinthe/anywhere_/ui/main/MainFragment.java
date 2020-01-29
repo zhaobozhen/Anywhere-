@@ -20,7 +20,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -125,8 +125,8 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                 }
 
                 if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
-                    if (MainActivity.getInstance().mFab != null) {
-                        MainActivity.getInstance().mFab.show();
+                    if (MainActivity.getInstance().mBinding.fab != null) {
+                        MainActivity.getInstance().mBinding.fab.show();
                     }
                 }
             }
@@ -319,7 +319,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
     }
 
     private void initObserver() {
-        mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
         mViewModel.getCardMode().observe(this, s -> refreshRecyclerView());
         AnywhereApplication.sRepository.getAllAnywhereEntities().observe(this, listObserver);
     }

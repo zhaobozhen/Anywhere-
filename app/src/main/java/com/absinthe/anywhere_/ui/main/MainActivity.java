@@ -17,12 +17,12 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +36,6 @@ import com.absinthe.anywhere_.adapter.page.PageListAdapter;
 import com.absinthe.anywhere_.adapter.page.PageTitleNode;
 import com.absinthe.anywhere_.adapter.page.PageTitleProvider;
 import com.absinthe.anywhere_.databinding.ActivityMainBinding;
-import com.absinthe.anywhere_.databinding.ActivityMainMd2Binding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
@@ -58,7 +57,6 @@ import com.absinthe.anywhere_.view.FabBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,19 +68,15 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class MainActivity extends BaseActivity {
     @SuppressLint("StaticFieldLeak")
+    public ActivityMainBinding mBinding;
+
     private static MainActivity sInstance;
     private static boolean isPageInit = false;
-    private MainFragment mCurrFragment;
 
+    private MainFragment mCurrFragment;
     private AnywhereViewModel mViewModel;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    /* View */
-    public SpeedDialView mFab;
-
-    private ImageView mIvBackground;
-    private DrawerLayout mDrawer;
-    private Toolbar mToolbar;
     private ActionBarDrawerToggle mToggle;
     private ItemTouchHelper mItemTouchHelper;
 
@@ -105,12 +99,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         sInstance = this;
-        mViewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        setLayout();
         initView();
 
         Observer<List<PageEntity>> observer = new Observer<List<PageEntity>>() {
@@ -131,7 +125,7 @@ public class MainActivity extends BaseActivity {
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) &&
                 SPUtils.getBoolean(this, Const.PREF_FIRST_LAUNCH, true)) {
-            mFab.setVisibility(View.GONE);
+            mBinding.fab.setVisibility(View.GONE);
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
@@ -170,7 +164,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        UiUtils.loadBackgroundPic(this, mIvBackground);
+        UiUtils.loadBackgroundPic(this, (ImageView) mBinding.stubBg.getRoot());
         if (mToggle != null) {
             mToggle.onConfigurationChanged(newConfig);
         }
@@ -190,53 +184,43 @@ public class MainActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void setLayout() {
-        if (GlobalValues.sIsMd2Toolbar) {
-            ActivityMainMd2Binding binding2 = DataBindingUtil.setContentView(this, R.layout.activity_main_md2);
-            if (!GlobalValues.sBackgroundUri.isEmpty()) {
-                mIvBackground = (ImageView) Objects.requireNonNull(binding2.stubBg.getViewStub()).inflate();
-            }
-            mToolbar = binding2.toolbar;
-            mDrawer = binding2.drawer;
-            mFab = binding2.fab;
-        } else {
-            ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-            if (!GlobalValues.sBackgroundUri.isEmpty()) {
-                mIvBackground = (ImageView) Objects.requireNonNull(binding.stubBg.getViewStub()).inflate();
-            }
-            mToolbar = binding.toolbar;
-            mDrawer = binding.drawer;
-            mFab = binding.fab;
-        }
-    }
-
     private void initView() {
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(mBinding.toolbar);
         ActionBar actionBar = getSupportActionBar();
 
         if (GlobalValues.sIsMd2Toolbar) {
-            UiUtils.drawMd2Toolbar(this, mToolbar, 3);
+            int marginHorizontal = (int) getResources().getDimension(R.dimen.toolbar_margin_horizontal);
+            int marginVertical = (int) getResources().getDimension(R.dimen.toolbar_margin_vertical);
+
+            ConstraintLayout.LayoutParams newLayoutParams = (ConstraintLayout.LayoutParams) mBinding.toolbar.getLayoutParams();
+            newLayoutParams.leftMargin = newLayoutParams.rightMargin = marginHorizontal;
+            newLayoutParams.topMargin = newLayoutParams.bottomMargin = marginVertical;
+            newLayoutParams.height = UiUtils.d2p(this, 55);
+            mBinding.toolbar.setLayoutParams(newLayoutParams);
+            mBinding.toolbar.setContentInsetStartWithNavigation(0);
+            UiUtils.drawMd2Toolbar(this, mBinding.toolbar, 3);
         }
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            UiUtils.loadBackgroundPic(this, mIvBackground);
+            Objects.requireNonNull(mBinding.stubBg.getViewStub()).inflate();
+            UiUtils.loadBackgroundPic(this, (ImageView) mBinding.stubBg.getRoot());
             UiUtils.setActionBarTransparent(this);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }
 
         if (actionBar != null) {
             if (GlobalValues.sIsPages) {
-                mToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close);
+                mToggle = new ActionBarDrawerToggle(this, mBinding.drawer, mBinding.toolbar, R.string.drawer_open, R.string.drawer_close);
                 actionBar.setDisplayHomeAsUpEnabled(true);
-                mDrawer.addDrawerListener(mToggle);
+                mBinding.drawer.addDrawerListener(mToggle);
                 mToggle.syncState();
 
                 AnywhereApplication.sRepository
                         .getAllAnywhereEntities()
-                        .observe(this, anywhereEntities -> initDrawer(mDrawer));
+                        .observe(this, anywhereEntities -> initDrawer(mBinding.drawer));
             } else {
                 actionBar.setHomeButtonEnabled(false);
-                mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                mBinding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             }
         }
     }
@@ -247,7 +231,7 @@ public class MainActivity extends BaseActivity {
         PageListAdapter adapter = new PageListAdapter();
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             if (view.getId() == R.id.iv_entry) {
-                MainActivity.getInstance().mDrawer.closeDrawer(GravityCompat.START);
+                MainActivity.getInstance().mBinding.drawer.closeDrawer(GravityCompat.START);
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     PageTitleNode node = (PageTitleNode) adapter1.getItem(position);
                     if (node != null) {
@@ -342,7 +326,7 @@ public class MainActivity extends BaseActivity {
     public void initObserver() {
         mViewModel.getBackground().observe(this, s -> {
             if (!s.isEmpty()) {
-                UiUtils.loadBackgroundPic(sInstance, mIvBackground);
+                UiUtils.loadBackgroundPic(sInstance, (ImageView) mBinding.stubBg.getRoot());
                 UiUtils.setActionBarTransparent(MainActivity.getInstance());
                 UiUtils.setAdaptiveActionBarTitleColor(sInstance, getSupportActionBar(), UiUtils.getActionBarTitle());
             }
@@ -359,8 +343,8 @@ public class MainActivity extends BaseActivity {
     }
 
     public void initFab() {
-        FabBuilder.build(this, mFab);
-        mFab.setOnActionSelectedListener(actionItem -> {
+        FabBuilder.build(this, mBinding.fab);
+        mBinding.fab.setOnActionSelectedListener(actionItem -> {
             switch (actionItem.getId()) {
                 case R.id.fab_url_scheme:
                     mViewModel.setUpUrlScheme("");
@@ -385,7 +369,7 @@ public class MainActivity extends BaseActivity {
                 default:
                     return false;
             }
-            mFab.close();
+            mBinding.fab.close();
             return true;
         });
 
@@ -473,8 +457,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerVisible(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
+        if (mBinding.drawer.isDrawerVisible(GravityCompat.START)) {
+            mBinding.drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

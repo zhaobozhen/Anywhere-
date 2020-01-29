@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
@@ -47,7 +47,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
         super.onCreate(savedInstanceState);
 
         UiUtils.setActionBarTransparent(this);
-        AnywhereViewModel viewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        AnywhereViewModel viewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
         Intent i = getIntent();
         String action = i.getAction();
 

@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
@@ -63,7 +63,7 @@ public class TileSettingsActivity extends BaseActivity {
         cvTileOne = findViewById(R.id.cv_tile_one);
         cvTileTwo = findViewById(R.id.cv_tile_two);
         cvTileThree = findViewById(R.id.cv_tile_three);
-        AnywhereViewModel viewModel = ViewModelProviders.of(this).get(AnywhereViewModel.class);
+        AnywhereViewModel viewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
         viewModel.getAllAnywhereEntities().observe(this,
                 anywhereEntities -> {
                     mList = anywhereEntities;
