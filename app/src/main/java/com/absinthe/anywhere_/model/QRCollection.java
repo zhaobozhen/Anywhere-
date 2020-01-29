@@ -8,6 +8,7 @@ import android.provider.Settings;
 import android.view.accessibility.AccessibilityManager;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.IzukoService;
 import com.absinthe.anywhere_.utils.CommandUtils;
@@ -97,7 +98,14 @@ public class QRCollection {
      * @return 是否启用
      */
     private boolean checkAccessibilityEnabled() {
-        String serviceName = mContext.getPackageName() + "/" + IzukoService.class.getName();
+        String serviceName;
+
+        if (BuildConfig.DEBUG) {
+            serviceName = mContext.getPackageName() + "/" + IzukoService.class.getName();
+        } else {
+            serviceName = mContext.getPackageName() + "/" + IzukoService.class.getSimpleName();
+        }
+
         List<AccessibilityServiceInfo> accessibilityServices =
                 mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_SPOKEN);
         for (AccessibilityServiceInfo info : accessibilityServices) {
