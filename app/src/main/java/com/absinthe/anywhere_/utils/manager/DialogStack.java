@@ -86,7 +86,7 @@ public class DialogStack {
             }
 
             Singleton.INSTANCE.getInstance().pop();
-        } catch (IllegalStateException | EmptyStackException e) {
+        } catch (IllegalStateException | EmptyStackException | IllegalArgumentException e) {
             e.printStackTrace();
         }
 
