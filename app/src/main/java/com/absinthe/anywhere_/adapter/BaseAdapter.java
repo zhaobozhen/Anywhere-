@@ -184,7 +184,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 if (AppUtils.isAppFrozen(mContext, item)) {
                     if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                         if (PermissionUtils.isMIUI()) {
-                            DialogManager.showGrantPriviligedPermDialog(mContext);
+                            DialogManager.showGrantPriviligedPermDialog((AppCompatActivity) mContext);
                         } else {
                             ActivityCompat.requestPermissions((Activity) mContext, new String[]{IceBox.SDK_PERMISSION}, 0x233);
                         }

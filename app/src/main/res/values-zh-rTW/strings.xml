@@ -257,4 +257,5 @@
     <string name="menu_sort_page">頁排序</string>
     <string name="desc_need_accessibility">需要無障礙服務</string>
     <string name="toast_grant_accessibility">請打開無障礙服務</string>
+    <string name="toast_file_uri_exposed">不支持自定義的文件路徑</string>
 </resources>

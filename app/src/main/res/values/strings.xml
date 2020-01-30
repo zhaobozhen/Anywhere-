@@ -176,6 +176,7 @@
     <string name="toast_backup_file_error">Backup file format error</string>
     <string name="toast_no_document_app">Your ROM doesn\'t have a Document app, please contact to your device manufacturer</string>
     <string name="toast_grant_accessibility">Please turn on Accessibility service</string>
+    <string name="toast_file_uri_exposed">Do not support custom file paths</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>

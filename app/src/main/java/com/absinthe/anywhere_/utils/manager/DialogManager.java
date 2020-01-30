@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.utils.manager;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +20,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog;
+import com.absinthe.anywhere_.ui.fragment.IceBoxGrantDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.ImageDialogFragment;
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment;
 import com.absinthe.anywhere_.ui.main.MainActivity;
@@ -108,19 +108,6 @@ public class DialogManager {
                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
                 .setNeutralButton("LOGCAT", (dialogInterface, i) -> Settings.setLogger())
                 .setCancelable(false)
-                .show();
-    }
-
-    public static void showGrantPriviligedPermDialog(Context context) {
-        new AnywhereDialogBuilder(context)
-                .setMessage(R.string.dialog_message_ice_box_perm_not_support)
-                .setPositiveButton(R.string.dialog_delete_positive_button, null)
-                .setNeutralButton(R.string.dialog_go_to_perm_button, (dialogInterface, i) -> {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setComponent(new ComponentName("com.android.settings",
-                            "com.android.settings.Settings$ManageApplicationsActivity"));
-                    context.startActivity(intent);
-                })
                 .show();
     }
 
@@ -318,5 +305,10 @@ public class DialogManager {
     public static void showImageDialog(AppCompatActivity activity, AnywhereEntity ae, AnywhereDialogFragment.OnDismissListener listener) {
         ImageDialogFragment dialog = new ImageDialogFragment(ae, listener);
         dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
+    }
+
+    public static void showGrantPriviligedPermDialog(AppCompatActivity activity) {
+        IceBoxGrantDialogFragment dialogFragment = new IceBoxGrantDialogFragment();
+        dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
     }
 }

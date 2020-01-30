@@ -6,7 +6,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.absinthe.anywhere_.view.AnywhereBottomSheetDialog;
 
-import java.util.EmptyStackException;
 import java.util.Objects;
 import java.util.Stack;
 
@@ -86,7 +85,7 @@ public class DialogStack {
             }
 
             Singleton.INSTANCE.getInstance().pop();
-        } catch (IllegalStateException | EmptyStackException | IllegalArgumentException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

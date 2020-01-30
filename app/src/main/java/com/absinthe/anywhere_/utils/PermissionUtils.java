@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -312,14 +315,15 @@ public class PermissionUtils {
             if (IceBox.getAppEnabledSetting(context, pkgName) != 0) { //0 为未冻结状态
                 if (ContextCompat.checkSelfPermission(context, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                     if (PermissionUtils.isMIUI()) {
-                        Context c = context;
                         if (context instanceof ShortcutsActivity) {
                             context.startActivity(new Intent(context, MainActivity.class));
-                            c = MainActivity.getInstance();
+                            new Handler(Looper.getMainLooper()).postDelayed(() ->
+                                    DialogManager.showGrantPriviligedPermDialog(MainActivity.getInstance()), 200);
+                        } else {
+                            DialogManager.showGrantPriviligedPermDialog((AppCompatActivity) context);
                         }
-                        DialogManager.showGrantPriviligedPermDialog(c);
                     } else {
-                        ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{IceBox.SDK_PERMISSION}, 0x233);
                     }
                 } else {
                     new Thread(() -> {

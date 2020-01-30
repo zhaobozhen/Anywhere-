@@ -1,8 +1,10 @@
 package com.absinthe.anywhere_.utils;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.FileUriExposedException;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -54,6 +56,7 @@ public class CommandUtils {
      *
      * @param cmd command
      */
+    @SuppressLint("NewApi")
     public static String execCmd(String cmd) {
         String result = null;
 
@@ -73,6 +76,9 @@ public class CommandUtils {
                 } catch (ActivityNotFoundException e) {
                     Logger.e("URL_SCHEME:Exception:", e.getMessage());
                     result = CommandResult.RESULT_NO_REACT_URL;
+                } catch ( FileUriExposedException e2) {
+                    Logger.e(e2.getMessage());
+                    result = CommandResult.RESULT_FILE_URI_EXPOSED;
                 }
             }
         } else {
@@ -123,6 +129,10 @@ public class CommandUtils {
                         e.printStackTrace();
                     }
                     break;
+                case CommandResult.RESULT_FILE_URI_EXPOSED:
+                    ToastUtil.makeText(R.string.toast_grant_accessibility);
+                    break;
+                default:
             }
         }
         return result;
