@@ -7,5 +7,8 @@
         android:bottomRightRadius="@dimen/bubble_radius"
         android:topLeftRadius="@dimen/bubble_radius"
         android:topRightRadius="@dimen/bubble_radius" />
+    <stroke
+        android:color="#FFE0E0E0"
+        android:width="1px" />
 
 </shape>
