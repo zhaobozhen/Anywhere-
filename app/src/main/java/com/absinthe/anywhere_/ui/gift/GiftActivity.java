@@ -19,8 +19,6 @@ import com.absinthe.anywhere_.databinding.ActivityGiftBinding;
 import com.absinthe.anywhere_.viewmodel.GiftViewModel;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class GiftActivity extends BaseActivity {
@@ -28,6 +26,7 @@ public class GiftActivity extends BaseActivity {
     private ActivityGiftBinding mBinding;
     private GiftViewModel mViewModel;
     private ChatAdapter mAdapter;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +42,9 @@ public class GiftActivity extends BaseActivity {
 
         mViewModel.getMessage().observe(this, s -> addChat(s, ChatAdapter.TYPE_LEFT));
 
+        mViewModel.getMessage().setValue("感谢你愿意陪着我");
+        mViewModel.getMessage().setValue("如果你送我一件礼物，我也会给你一件珍贵的礼物哦");
+
         mViewModel.getCode();
     }
 
@@ -56,16 +58,6 @@ public class GiftActivity extends BaseActivity {
         mAdapter = new ChatAdapter();
         mBinding.rvChat.setAdapter(mAdapter);
         mBinding.rvChat.setLayoutManager(new SmoothScrollLayoutManager(this));
-
-        List<BaseNode> list = new ArrayList<>();
-        LeftChatNode leftChatNode = new LeftChatNode();
-        leftChatNode.setMsg("LeftLeftLeftLeftLeftLeftLeftLeft");
-        list.add(leftChatNode);
-
-        RightChatNode rightChatNode = new RightChatNode();
-        rightChatNode.setMsg("RightRightRightRightRightRight");
-        list.add(rightChatNode);
-        mAdapter.setNewData(list);
     }
 
     private void addChat(String msg, int type) {
@@ -83,7 +75,7 @@ public class GiftActivity extends BaseActivity {
     private void addNode(BaseNode node) {
         mBinding.toolbar.toolbar.setTitle("Typing…");
         int delay = new Random().nextInt(1000) + 1000;
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        mHandler.postDelayed(() -> {
             mAdapter.addData(node);
             mBinding.toolbar.toolbar.setTitle(R.string.settings_gift);
         }, delay);
