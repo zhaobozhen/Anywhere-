@@ -130,7 +130,7 @@ public class CommandUtils {
                     }
                     break;
                 case CommandResult.RESULT_FILE_URI_EXPOSED:
-                    ToastUtil.makeText(R.string.toast_grant_accessibility);
+                    ToastUtil.makeText(R.string.toast_file_uri_exposed);
                     break;
                 default:
             }

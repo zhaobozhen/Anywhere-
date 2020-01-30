@@ -189,4 +189,10 @@ public class AppUtils {
             return false;
         }
     }
+
+    public static String getAndroidId(Context context) {
+        return android.provider.Settings.System.getString(
+                context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID
+        );
+    }
 }

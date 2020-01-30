@@ -10,8 +10,8 @@ public class GiftModel {
     @SerializedName("code")
     private String code;
 
-    @SerializedName("uuid")
-    private String uuid;
+    @SerializedName("ssaid")
+    private String ssaid;
 
     @SerializedName("alipayAccount")
     private String alipayAccount;
@@ -41,12 +41,12 @@ public class GiftModel {
         this.code = code;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getSsaid() {
+        return ssaid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setSsaid(String ssaid) {
+        this.ssaid = ssaid;
     }
 
     public String getAlipayAccount() {
