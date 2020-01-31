@@ -3,6 +3,9 @@ package com.absinthe.anywhere_.ui.gift;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
@@ -43,7 +46,6 @@ public class GiftActivity extends BaseActivity {
         mViewModel.getMessage().observe(this, s -> addChat(s, ChatAdapter.TYPE_LEFT));
 
         mViewModel.getMessage().setValue("感谢你愿意陪着我");
-        mViewModel.getMessage().setValue("如果你送我一件礼物，我也会给你一件珍贵的礼物哦");
 
         mViewModel.getCode();
     }
@@ -58,6 +60,13 @@ public class GiftActivity extends BaseActivity {
         mAdapter = new ChatAdapter();
         mBinding.rvChat.setAdapter(mAdapter);
         mBinding.rvChat.setLayoutManager(new SmoothScrollLayoutManager(this));
+
+        mBinding.ibSend.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(mBinding.etChat.getText())) {
+                addChat(mBinding.etChat.getText().toString(), ChatAdapter.TYPE_RIGHT);
+                mBinding.etChat.setText("");
+            }
+        });
     }
 
     private void addChat(String msg, int type) {
@@ -73,11 +82,15 @@ public class GiftActivity extends BaseActivity {
     }
 
     private void addNode(BaseNode node) {
-        mBinding.toolbar.toolbar.setTitle("Typing…");
-        int delay = new Random().nextInt(1000) + 1000;
-        mHandler.postDelayed(() -> {
+        if (node instanceof RightChatNode) {
             mAdapter.addData(node);
-            mBinding.toolbar.toolbar.setTitle(R.string.settings_gift);
-        }, delay);
+        } else {
+            mBinding.toolbar.toolbar.setTitle("Typing…");
+            int delay = new Random().nextInt(1000) + 1000;
+            mHandler.postDelayed(() -> {
+                mAdapter.addData(node);
+                mBinding.toolbar.toolbar.setTitle(R.string.settings_gift);
+            }, delay);
+        }
     }
 }

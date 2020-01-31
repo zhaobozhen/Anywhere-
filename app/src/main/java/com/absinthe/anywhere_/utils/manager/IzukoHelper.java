@@ -8,4 +8,6 @@ public class IzukoHelper {
 
     public static native void checkSignature();
 
+    public static native String getCipherKey();
+
 }

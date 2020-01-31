@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.utils;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.absinthe.anywhere_.utils.manager.IzukoHelper;
 import com.absinthe.anywhere_.utils.manager.Logger;
 
 import java.nio.charset.StandardCharsets;
@@ -14,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class CipherUtils {
 
     private static final String CipherMode = "AES/CFB/NoPadding";   //Use CFB to encrypt, IV is need
-    private static final String KEY = "absinthe" + "eeeeeeee" + "eeeeeeee" + "eeeeeeee";
+    private static final String KEY = IzukoHelper.getCipherKey();
 
     private static SecretKeySpec generateKey() {
         byte[] data;

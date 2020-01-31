@@ -29,7 +29,6 @@
         android:fullBackupContent="@xml/backup_rules"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:label"
         tools:targetApi="m">
         <activity
             android:name=".ui.main.MainActivity"

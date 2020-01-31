@@ -16,8 +16,6 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.model.OnceTag;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -29,9 +27,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import jonathanfinerty.once.Once;
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonToggleGroup.OnButtonCheckedListener {
 

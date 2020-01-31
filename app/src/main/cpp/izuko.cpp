@@ -11,6 +11,7 @@
 extern "C"
 const char *PACKAGE_NAME = "com.absinthe.anywhere_";
 const char *RELEASE_SIGN_MD5 = "D689B2D1B05AD9C1F7E41B4608C4DDF3";
+const char *CIPHER_KEY = "absintheeeeeeeeeeeeeeeeeeeeeeeee";
 
 /**
  * getApplication
@@ -165,4 +166,10 @@ Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_checkSignature(JNIEnv *en
     if (strcmp(c_msg, RELEASE_SIGN_MD5) != 0) {
         exit(0);
     }
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_getCipherKey(JNIEnv *env, jclass clazz) {
+    return env->NewStringUTF(CIPHER_KEY);
 }
