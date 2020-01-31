@@ -10,4 +10,6 @@ public class IzukoHelper {
 
     public static native String getCipherKey();
 
+    public static native boolean isHitagi(String token);
+
 }
