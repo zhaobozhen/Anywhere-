@@ -1,0 +1,9 @@
+{
+  "name": "Node8.9-Mysql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "mysql": "^2.16.0"
+  }
+}

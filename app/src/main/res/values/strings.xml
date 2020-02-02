@@ -274,4 +274,7 @@
     <!--  Drawer  -->
     <string name="drawer_title">Pages</string>
     <string name="drawer_tool_add">Add pageTitle</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
