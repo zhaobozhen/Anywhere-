@@ -11,8 +11,11 @@ function wrapPromise(connection, sql) {
     connection.query(sql, function(error, results, fields) {
       if (error) {
         rej(error)
+      } else if (!results.length) {
+        res('')
+      } else {
+        res(results)
       }
-      res(results)
     })
   })
 }
@@ -20,12 +23,14 @@ function wrapPromise(connection, sql) {
 
 exports.main_handler = async (event, context, callback) => {
   const mysql = require('mysql');
+  const querystring = require('querystring');
 
   const body = event.body
   if (!body) {
       return {
           statusCode : -1,
-          msg : 'Request params requested'
+          msg : 'Request params requested',
+          data : ''
       }
   }
 
@@ -36,24 +41,45 @@ exports.main_handler = async (event, context, callback) => {
     database: 'anywhere' // Name of the cloud database, 数据库名称
   });
 
-  connection.connect();
+  connection.connect()
 
-  // get value from apigw
-  const {CustomerID, CustomerName} = event.queryString
+  const params = querystring.parse(event.body)
+  
+  const Code = 'code'
+  const SSAID = 'ssaid'
 
-  const updateSql = `UPDATE Customers SET CustomerName = '${CustomerName}' WHERE CustomerID = ${CustomerID}`
-  const querySql = `SELECT * from Gift WHERE code='` + event.body.split("=")[1] + "'"
+  var CodeNum
+  var SsiadNum
+
+  for(let i in params) {
+    if (i === Code) {
+      CodeNum = params[i]
+    } else if (i === SSAID) {
+      SsiadNum = params[i]
+    }
+  }
+
+  const updateSql = `UPDATE Gift SET isActive = 1, ${SSAID} = ${SsiadNum} WHERE ${Code} = ${CodeNum}`
+  const querySql = `SELECT * from Gift WHERE ${Code} = ${CodeNum}`
 
   let queryResult = await wrapPromise(connection, querySql)
   
-  connection.end();
+  await wrapPromise(connection, updateSql)
 
-  if (queryResult === '[\n]') {
+  connection.end()
+
+  if (queryResult === '') {
       return {
           statusCode : 1,
-          msg : 'No match data'
+          msg : 'No match data',
+          data : ''
       }
   }
-  return queryResult
+  return {
+      statusCode : 0,
+      msg : 'Success',
+      data : queryResult,
+      token : params
+  }
 }
 
