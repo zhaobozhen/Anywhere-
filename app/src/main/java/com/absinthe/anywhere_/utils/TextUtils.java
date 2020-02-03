@@ -229,4 +229,8 @@ public class TextUtils {
         }
         return false;
     }
+
+    public static boolean isGiftCode(String code) {
+        return code.matches("^([A-Z0-9]{5}-){3}[A-Z0-9]{5}$");
+    }
 }

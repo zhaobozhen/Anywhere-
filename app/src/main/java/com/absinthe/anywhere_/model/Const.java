@@ -3,7 +3,9 @@ package com.absinthe.anywhere_.model;
 public class Const {
     public static final String SP_NAME = "com.absinthe.anywhere__preferences";
     public static final String SP_NAME_DEBUG = "com.absinthe.anywhere_.debug_preferences";
+    public static final String TOKEN_SP_NAME = "AnywhereToken";
 
+    public static final String PREF_TOKEN = "token";
     public static final String PREF_FIRST_LAUNCH = "isFirstLaunch";
     public static final String PREF_WORKING_MODE = "workingMode";
     public static final String PREF_DARK_MODE = "darkMode";

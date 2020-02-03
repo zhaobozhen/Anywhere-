@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.Settings;
 
 public class SPUtils {
     private static String SPName;
@@ -81,5 +82,17 @@ public class SPUtils {
     public static long getLong(Context context, String key, long defaultValue) {
         SharedPreferences sp = context.getSharedPreferences(getSPName(), Context.MODE_PRIVATE);
         return sp.getLong(key, defaultValue);
+    }
+
+    public static void putToken(Context context, String value) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(Const.TOKEN_SP_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(Const.PREF_TOKEN, value);
+        editor.apply();
+        Settings.sToken = value;
+    }
+
+    public static String getToken(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(Const.TOKEN_SP_NAME, Context.MODE_PRIVATE);
+        return sp.getString(Const.PREF_TOKEN, "");
     }
 }

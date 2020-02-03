@@ -136,6 +136,7 @@
     <string name="settings_help_summary">Help document</string>
     <string name="settings_about_summary">This is Anywhere- !</string>
     <string name="settings_gift_summary" translatable="false"><i>\"Do you like it?\" </i></string>
+    <string name="settings_gift_purchase_summary" translatable="false"><i>\"Anywhere, I like it.\" </i></string>
 
     <string name="settings_restore">Restore</string>
     <string name="settings_backup_backup_title">Create a new backup file</string>

@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BuildConfig;
+import com.absinthe.anywhere_.utils.StorageUtils;
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.IconPackManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
-import com.absinthe.anywhere_.utils.UiUtils;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ public class Settings {
     public static IconPackManager sIconPackManager;
     public static IconPackManager.IconPack sIconPack;
     public static String sDate;
+    public static String sToken;
 
     public static final String DEFAULT_ICON_PACK = "default.icon.pack";
 
@@ -29,6 +32,7 @@ public class Settings {
         setTheme(GlobalValues.sDarkMode);
         initIconPackManager();
         setDate();
+        initToken();
     }
 
     public static void setTheme(String mode) {
@@ -74,5 +78,13 @@ public class Settings {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd", Locale.getDefault());
         sDate = dateFormat.format(date);
+    }
+
+    private static void initToken() {
+        try {
+            sToken = StorageUtils.getTokenFromFile(AnywhereApplication.sContext);
+        } catch (IOException e) {
+            sToken = "";
+        }
     }
 }

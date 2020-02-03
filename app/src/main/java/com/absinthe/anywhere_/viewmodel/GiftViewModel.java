@@ -11,24 +11,26 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.gift.ChatAdapter;
 import com.absinthe.anywhere_.adapter.gift.LeftChatNode;
 import com.absinthe.anywhere_.adapter.gift.RightChatNode;
+import com.absinthe.anywhere_.cloud.GiftStatusCode;
+import com.absinthe.anywhere_.cloud.interfaces.GiftRequest;
 import com.absinthe.anywhere_.cloud.model.GiftModel;
 import com.absinthe.anywhere_.model.ChatQueue;
 import com.absinthe.anywhere_.ui.gift.GiftActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.CipherUtils;
+import com.absinthe.anywhere_.utils.StorageUtils;
+import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.chad.library.adapter.base.entity.node.BaseNode;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Random;
 
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GiftViewModel extends AndroidViewModel {
 
@@ -65,35 +67,40 @@ public class GiftViewModel extends AndroidViewModel {
         return mChatQueue;
     }
 
-    public void getCode() {
-        FormBody formBody = new FormBody.Builder()
-                .add("code", "00000-00000-00000-00000")
+    public void getCode(String code) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLManager.DOMAIN)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Request request = new Request.Builder()
-                .url(URLManager.GIFT_SCF_URL)
-                .post(formBody)
-                .build();
+        GiftRequest request = retrofit.create(GiftRequest.class);
+        Call<GiftModel> gift = request.requestByCode(code, AppUtils.getAndroidId(getApplication()));
 
-        OkHttpClient client = new OkHttpClient();
         new Thread(() -> {
             try {
-                Response response = client.newCall(request).execute();
-
+                Response<GiftModel> response = gift.execute();
                 if (response.isSuccessful()) {
-                    String result = response.body().string();
-                    List<GiftModel> giftModelList = new Gson().fromJson(result, new TypeToken<List<GiftModel>>() {}.getType());
-                    if (giftModelList != null && giftModelList.size() >= 1) {
-                        GiftModel giftModel = giftModelList.get(0);
-                        if (giftModel.getIsActive() == 0 && giftModel.getSsaid().equals(AppUtils.getAndroidId(getApplication()))) {
-                            mChatQueue.offer(giftModel.getSsaid());
-                            mChatQueue.offer(giftModel.getAlipayAccount());
-                            mChatQueue.offer(giftModel.getCode());
-                            mChatQueue.offer(giftModel.getTimeStamp());
-                            mChatQueue.offer("感谢你的心意♥");
+                    GiftModel giftModel = response.body();
+                    if (giftModel != null) {
+                        if (giftModel.getStatusCode() == GiftStatusCode.STATUS_SUCCESS) {
+                            GiftModel.Data data = giftModel.getData(0);
+                            if (data.getIsActive() == 0 ||
+                                    (data.getIsActive() == 1 && data.getSsaid().equals(AppUtils.getAndroidId(getApplication())))) {
+                                mChatQueue.offer(data.getSsaid());
+                                mChatQueue.offer(data.getAlipayAccount());
+                                mChatQueue.offer(data.getCode());
+                                mChatQueue.offer(data.getTimeStamp());
+                                mChatQueue.offer("感谢你的心意♥");
+
+                                String encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()));
+                                StorageUtils.storageToken(getApplication(), encode);
+                            }
+                        } else if (giftModel.getStatusCode() == GiftStatusCode.STATUS_NO_MATCH_DATA) {
+                            ToastUtil.makeText("Code not exist");
+                        } else {
+                            ToastUtil.makeText("abnormal");
                         }
                     }
-                    response.body().close();
                 } else {
                     Logger.d("Failed");
                 }
@@ -101,6 +108,10 @@ public class GiftViewModel extends AndroidViewModel {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    public void responseChat() {
+
     }
 
     public void addChat(String msg, int type) {
@@ -120,12 +131,14 @@ public class GiftViewModel extends AndroidViewModel {
             mAdapter.addData(node);
         } else {
             new Handler(Looper.getMainLooper()).post(() -> {
-                GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle("Typing…");
-                int delay = new Random().nextInt(1000) + 1000;
-                mHandler.postDelayed(() -> {
-                    mAdapter.addData(node);
-                    GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift);
-                }, delay);
+                if (GiftActivity.getInstance().getBinding() != null) {
+                    GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle("Typing…");
+                    int delay = new Random().nextInt(1000) + 1000;
+                    mHandler.postDelayed(() -> {
+                        mAdapter.addData(node);
+                        GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift);
+                    }, delay);
+                }
             });
         }
     }

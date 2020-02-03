@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.absinthe.anywhere_.utils.manager.IzukoHelper;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 
 
@@ -110,7 +111,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             collectorPlusPreference.setOnPreferenceChangeListener(this);
         }
         if (giftPreference != null) {
-            giftPreference.setSummary(getText(R.string.settings_gift_summary));
+            if (IzukoHelper.isHitagi()) {
+                giftPreference.setSummary(getText(R.string.settings_gift_purchase_summary));
+            } else {
+                giftPreference.setSummary(getText(R.string.settings_gift_summary));
+            }
         }
         if (md2Preference != null) {
             md2Preference.setOnPreferenceChangeListener(this);

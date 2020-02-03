@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 
@@ -11,6 +12,10 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.google.gson.Gson;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class StorageUtils {
@@ -65,5 +70,38 @@ public class StorageUtils {
             return s;
         }
         return null;
+    }
+
+    public static void storageToken(Context context, String token) throws IOException {
+        String fileName = "Token";
+
+        File file = new File(context.getFilesDir(), fileName);
+        if(file.exists()) {
+            return;
+        }
+
+        FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+        fos.write(token.getBytes());
+        fos.close();
+    }
+
+    public static String getTokenFromFile(Context context) throws IOException {
+        String fileName = "Token";
+
+        File file = new File(context.getFilesDir(), fileName);
+        if(!file.exists()) {
+            return "";
+        }
+
+        FileInputStream fis = context.openFileInput(fileName);
+
+        if (fis.available() == 0) {
+            return "";
+        }
+
+        byte[] buffer = new byte[fis.available()];
+        while (fis.read(buffer) != -1) { }
+        fis.close();
+        return new String(buffer);
     }
 }

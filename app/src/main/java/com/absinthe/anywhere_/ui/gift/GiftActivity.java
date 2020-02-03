@@ -13,10 +13,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.gift.ChatAdapter;
 import com.absinthe.anywhere_.adapter.manager.SmoothScrollLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityGiftBinding;
-import com.absinthe.anywhere_.utils.AppUtils;
-import com.absinthe.anywhere_.utils.CipherUtils;
-import com.absinthe.anywhere_.utils.manager.IzukoHelper;
-import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.viewmodel.GiftViewModel;
 
 public class GiftActivity extends BaseActivity {
@@ -46,10 +43,7 @@ public class GiftActivity extends BaseActivity {
             finish();
         }
 
-
         mViewModel.getChatQueue().offer("感谢你愿意陪着我");
-        mViewModel.getCode();
-        Logger.d("isHitagi = ", IzukoHelper.isHitagi(CipherUtils.encrypt(AppUtils.getAndroidId(this))));
     }
 
     @Override
@@ -71,8 +65,14 @@ public class GiftActivity extends BaseActivity {
         mViewModel.setAdapter(adapter);
 
         mBinding.ibSend.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(mBinding.etChat.getText())) {
-                mViewModel.addChat(mBinding.etChat.getText().toString(), ChatAdapter.TYPE_RIGHT);
+            String content = mBinding.etChat.getText().toString();
+            if (!TextUtils.isEmpty(content)) {
+                if (com.absinthe.anywhere_.utils.TextUtils.isGiftCode(content)) {
+                    mViewModel.getCode(content);
+                } else {
+                    mViewModel.responseChat();
+                }
+                mViewModel.addChat(content, ChatAdapter.TYPE_RIGHT);
                 mBinding.etChat.setText("");
             }
         });

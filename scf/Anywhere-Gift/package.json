@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@skavinvarnan/cryptlib": "^1.0.3",
+    "cryptlib": "^1.0.3",
     "mysql": "^2.16.0"
   }
 }

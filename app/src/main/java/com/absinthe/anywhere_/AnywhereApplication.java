@@ -64,5 +64,4 @@ public class AnywhereApplication extends Application {
         Reflection.unseal(base);
         ShizukuHelper.bind(base);
     }
-
 }

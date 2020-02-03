@@ -2,82 +2,135 @@ package com.absinthe.anywhere_.cloud.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class GiftModel {
 
-    @SerializedName("id")
-    private int id;
+    @SerializedName("statusCode")
+    private int statusCode;
 
-    @SerializedName("code")
-    private String code;
+    @SerializedName("msg")
+    private String msg;
 
-    @SerializedName("ssaid")
-    private String ssaid;
+    @SerializedName("token")
+    private String token;
 
-    @SerializedName("alipayAccount")
-    private String alipayAccount;
+    @SerializedName("data")
+    private List<Data> data;
 
-    @SerializedName("activeTimes")
-    private short activeTimes;
+    public class Data {
 
-    @SerializedName("isActive")
-    private short isActive;
+        @SerializedName("id")
+        private int id;
 
-    @SerializedName("timeStamp")
-    private String timeStamp;
+        @SerializedName("code")
+        private String code;
 
-    public int getId() {
-        return id;
+        @SerializedName("ssaid")
+        private String ssaid;
+
+        @SerializedName("alipayAccount")
+        private String alipayAccount;
+
+        @SerializedName("activeTimes")
+        private short activeTimes;
+
+        @SerializedName("isActive")
+        private short isActive;
+
+        @SerializedName("timeStamp")
+        private String timeStamp;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getSsaid() {
+            return ssaid;
+        }
+
+        public void setSsaid(String ssaid) {
+            this.ssaid = ssaid;
+        }
+
+        public String getAlipayAccount() {
+            return alipayAccount;
+        }
+
+        public void setAlipayAccount(String alipayAccount) {
+            this.alipayAccount = alipayAccount;
+        }
+
+        public short getActiveTimes() {
+            return activeTimes;
+        }
+
+        public void setActiveTimes(short activeTimes) {
+            this.activeTimes = activeTimes;
+        }
+
+        public short getIsActive() {
+            return isActive;
+        }
+
+        public void setIsActive(short isActive) {
+            this.isActive = isActive;
+        }
+
+        public String getTimeStamp() {
+            return timeStamp;
+        }
+
+        public void setTimeStamp(String timeStamp) {
+            this.timeStamp = timeStamp;
+        }
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getStatusCode() {
+        return statusCode;
     }
 
-    public String getCode() {
-        return code;
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public String getMsg() {
+        return msg;
     }
 
-    public String getSsaid() {
-        return ssaid;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public void setSsaid(String ssaid) {
-        this.ssaid = ssaid;
+    public String getToken() {
+        return token;
     }
 
-    public String getAlipayAccount() {
-        return alipayAccount;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public void setAlipayAccount(String alipayAccount) {
-        this.alipayAccount = alipayAccount;
+    public Data getData(int pos) {
+        if (data.size() == 0) {
+            return null;
+        }
+        return data.get(pos);
     }
 
-    public short getActiveTimes() {
-        return activeTimes;
+    public void setData(Data data, int pos) {
+        this.data.set(pos, data);
     }
 
-    public void setActiveTimes(short activeTimes) {
-        this.activeTimes = activeTimes;
-    }
-
-    public short getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(short isActive) {
-        this.isActive = isActive;
-    }
-
-    public String getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
-    }
 }

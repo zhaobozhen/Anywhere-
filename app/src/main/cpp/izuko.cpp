@@ -200,8 +200,8 @@ Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_isHitagi(JNIEnv *env, jcl
             "(Ljava/lang/String;)Ljava/lang/String;");
     auto encrypt_android_id = (jstring) env->CallStaticObjectMethod(cipherClass, encryptMethodId, android_id);
 
-    char *nativeString1 = const_cast<char *>(env->GetStringUTFChars(token, nullptr));
-    char *nativeString2 = const_cast<char *>(env->GetStringUTFChars(encrypt_android_id, nullptr));
+    char *nativeString1 = const_cast<char *>(env->GetStringUTFChars(token, JNI_FALSE));
+    char *nativeString2 = const_cast<char *>(env->GetStringUTFChars(encrypt_android_id, JNI_FALSE));
 
     return static_cast<jboolean>(strcmp(nativeString1, nativeString2) == 0);
 }

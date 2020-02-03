@@ -20,6 +20,17 @@ function wrapPromise(connection, sql) {
   })
 }
 
+const crypto = require('crypto') 
+function encrypt(data, secretKey){
+  var iv = "1234123412341234"
+
+  var cryptoLib = require('@skavinvarnan/cryptlib')
+
+  shaKey = cryptoLib.getHashSha256(secretKey, 32) // This line is not needed on Android or iOS. Its already built into CryptLib.m and CryptLib.java
+
+  var encryptedString = cryptoLib.encrypt(data, secretKey, iv)
+  return encryptedString
+}
 
 exports.main_handler = async (event, context, callback) => {
   const mysql = require('mysql');
@@ -64,8 +75,10 @@ exports.main_handler = async (event, context, callback) => {
 
   let queryResult = await wrapPromise(connection, querySql)
   
-  await wrapPromise(connection, updateSql)
-
+  if (queryResult[0].isActive === 0) {
+    await wrapPromise(connection, updateSql)
+  }
+  
   connection.end()
 
   if (queryResult === '') {
@@ -75,11 +88,14 @@ exports.main_handler = async (event, context, callback) => {
           data : ''
       }
   }
+
+  let tokenNum = encrypt(SsiadNum, 'absintheeeeeeeeeeeeeeeeeeeeeeeee')
+
   return {
       statusCode : 0,
       msg : 'Success',
       data : queryResult,
-      token : params
+      token : tokenNum
   }
 }
 
