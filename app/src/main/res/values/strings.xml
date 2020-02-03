@@ -84,6 +84,7 @@
     <string name='menu_show_system_app'>Show system apps</string>
     <string name='menu_hide_system_app'>Hide system apps</string>
     <string name="menu_rate">Rate</string>
+    <string name="menu_gift">Gift</string>
 
     <string name="menu_sort_by_time_desc">Descending by creating time(9–0)</string>
     <string name="menu_sort_by_time_asc">Ascending by creating time(0–9)</string>

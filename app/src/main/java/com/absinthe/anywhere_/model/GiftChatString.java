@@ -41,4 +41,8 @@ public class GiftChatString {
             L + "我们之间的联系变得薄弱了",
             L + "嗯…你再试一试"
     };
+
+    public static final String[] leisureResponse = {
+            L + "感谢你一直陪伴着我♥"
+    };
 }

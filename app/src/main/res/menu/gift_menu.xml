@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/toolbar_gift"
+        android:icon="@drawable/ic_gift"
+        android:title="@string/menu_gift"
+        app:showAsAction="always" />
+
+</menu>

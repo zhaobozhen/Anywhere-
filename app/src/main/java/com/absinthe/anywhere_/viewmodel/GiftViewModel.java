@@ -98,7 +98,7 @@ public class GiftViewModel extends AndroidViewModel {
                                 mChatQueue.offer(GiftChatString.notYourCodeResponse);
                             }
                         } else if (giftModel.getStatusCode() == GiftStatusCode.STATUS_NO_MATCH_DATA) {
-                            mChatQueue.offer(GiftChatString.notYourCodeResponse);
+                            mChatQueue.offer(GiftChatString.notExistCodeResponse);
                         } else {
                             mChatQueue.offer(GiftChatString.abnormalResponse);
                         }
@@ -113,7 +113,11 @@ public class GiftViewModel extends AndroidViewModel {
     }
 
     public void responseChat() {
+        mChatQueue.offer(GiftChatString.leisureResponse);
+    }
 
+    public void stopOffer() {
+        mChatQueue.stopOffer();
     }
 
     public void addChat(String msg, int type) {
@@ -133,13 +137,18 @@ public class GiftViewModel extends AndroidViewModel {
     }
 
     private void addNode(BaseNode node) {
+        if (GiftActivity.getInstance() == null) {
+            return;
+        }
         if (node instanceof LeftChatNode) {
             if (GiftActivity.getInstance().getBinding() != null) {
                 mHandler.post(() -> GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift_typing));
                 int delay = new Random().nextInt(500) + 1000;
                 mHandler.postDelayed(() -> {
                     mAdapter.addData(node);
-                    GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift);
+                    if (GiftActivity.getInstance() != null) {
+                        GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift);
+                    }
                 }, delay);
             }
         } else {

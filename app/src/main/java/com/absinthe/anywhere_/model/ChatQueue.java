@@ -10,6 +10,8 @@ import java.util.LinkedList;
 public class ChatQueue extends LinkedList<String> {
 
     private IChatQueueListener mListener;
+    private Thread offerThread;
+    private boolean interupt = false;
 
     public ChatQueue(IChatQueueListener listener) {
         mListener = listener;
@@ -23,9 +25,13 @@ public class ChatQueue extends LinkedList<String> {
     }
 
     public void offer(String[] strs) {
-        new Thread(() -> {
+        offerThread = new Thread(() -> {
             try {
                 for (String str : strs) {
+                    if (interupt) {
+                        break;
+                    }
+
                     String prefix = str.substring(0, 3);
                     Logger.d(prefix);
                     switch (prefix) {
@@ -44,7 +50,8 @@ public class ChatQueue extends LinkedList<String> {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }).start();
+        });
+        offerThread.start();
     }
 
     @Nullable
@@ -54,6 +61,11 @@ public class ChatQueue extends LinkedList<String> {
         mListener.onDequeue(head);
         Logger.d("Chat Dequeue:", head);
         return head;
+    }
+
+    public void stopOffer() {
+        interupt = true;
+        offerThread.interrupt();
     }
 
     public interface IChatQueueListener {

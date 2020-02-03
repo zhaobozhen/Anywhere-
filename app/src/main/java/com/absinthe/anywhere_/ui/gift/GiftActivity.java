@@ -1,7 +1,10 @@
 package com.absinthe.anywhere_.ui.gift;
 
+import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
@@ -14,6 +17,9 @@ import com.absinthe.anywhere_.adapter.gift.ChatAdapter;
 import com.absinthe.anywhere_.adapter.manager.SmoothScrollLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityGiftBinding;
 import com.absinthe.anywhere_.model.GiftChatString;
+import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
+import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.absinthe.anywhere_.viewmodel.GiftViewModel;
 
 public class GiftActivity extends BaseActivity {
@@ -49,6 +55,7 @@ public class GiftActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         sInstance = null;
+        mViewModel.stopOffer();
         super.onDestroy();
     }
 
@@ -58,6 +65,7 @@ public class GiftActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
 
         ChatAdapter adapter = new ChatAdapter();
         mBinding.rvChat.setAdapter(adapter);
@@ -76,5 +84,19 @@ public class GiftActivity extends BaseActivity {
                 mBinding.etChat.setText("");
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.gift_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.toolbar_gift) {
+            ToastUtil.makeText("Gift");
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

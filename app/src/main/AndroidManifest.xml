@@ -6,7 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Shortcuts -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- Shortcuts -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -29,7 +30,6 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".ui.settings.BackgroundActivity"></activity>
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -130,6 +130,10 @@
         <activity
             android:name=".ui.gift.GiftActivity"
             android:label="@string/settings_gift"
+            android:parentActivityName=".ui.settings.SettingsActivity" />
+        <activity
+            android:name=".ui.settings.BackgroundActivity"
+            android:label="@string/settings_change_background"
             android:parentActivityName=".ui.settings.SettingsActivity" />
 
         <provider

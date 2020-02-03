@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.absinthe.anywhere_.ui.settings.BackgroundActivity">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
