@@ -10,6 +10,7 @@
     <color name="black">#FF000000</color>
     <color name="gray">#FFECECEC</color>
     <color name="gray_ripple">#FFBBBBBB</color>
+    <color name="gray_info">#FFABB7C0</color>
     <color name="green_done">#FF4CAF50</color>
     <color name="exported_tint">#FF444444</color>
     <color name="shadowLight">#FFBBBBBB</color>

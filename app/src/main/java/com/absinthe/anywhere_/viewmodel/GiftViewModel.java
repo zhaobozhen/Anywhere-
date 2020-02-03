@@ -9,17 +9,18 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.gift.ChatAdapter;
+import com.absinthe.anywhere_.adapter.gift.InfoNode;
 import com.absinthe.anywhere_.adapter.gift.LeftChatNode;
 import com.absinthe.anywhere_.adapter.gift.RightChatNode;
 import com.absinthe.anywhere_.cloud.GiftStatusCode;
 import com.absinthe.anywhere_.cloud.interfaces.GiftRequest;
 import com.absinthe.anywhere_.cloud.model.GiftModel;
 import com.absinthe.anywhere_.model.ChatQueue;
+import com.absinthe.anywhere_.model.GiftChatString;
 import com.absinthe.anywhere_.ui.gift.GiftActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.StorageUtils;
-import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.chad.library.adapter.base.entity.node.BaseNode;
@@ -42,10 +43,8 @@ public class GiftViewModel extends AndroidViewModel {
         super(application);
         mChatQueue = new ChatQueue(new ChatQueue.IChatQueueListener() {
             @Override
-            public void onEnqueue() {
-                while (!mChatQueue.isEmpty()) {
-                    addChat(mChatQueue.poll(), ChatAdapter.TYPE_LEFT);
-                }
+            public void onEnqueue(int type) {
+                addChat(mChatQueue.poll(), type);
             }
 
             @Override
@@ -84,21 +83,24 @@ public class GiftViewModel extends AndroidViewModel {
                     if (giftModel != null) {
                         if (giftModel.getStatusCode() == GiftStatusCode.STATUS_SUCCESS) {
                             GiftModel.Data data = giftModel.getData(0);
-                            if (data.getIsActive() == 0 ||
-                                    (data.getIsActive() == 1 && data.getSsaid().equals(AppUtils.getAndroidId(getApplication())))) {
-                                mChatQueue.offer(data.getSsaid());
-                                mChatQueue.offer(data.getAlipayAccount());
-                                mChatQueue.offer(data.getCode());
-                                mChatQueue.offer(data.getTimeStamp());
-                                mChatQueue.offer("感谢你的心意♥");
+                            if (data.getIsActive() == 0) {
+                                mChatQueue.clear();
+                                mChatQueue.offer(GiftChatString.purchaseResponse);
 
                                 String encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()));
                                 StorageUtils.storageToken(getApplication(), encode);
+                            } else if (data.getIsActive() == 1 && data.getSsaid().equals(AppUtils.getAndroidId(getApplication()))) {
+                                mChatQueue.offer(GiftChatString.hasPurchasedResponse);
+
+                                String encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()));
+                                StorageUtils.storageToken(getApplication(), encode);
+                            } else if (data.getIsActive() == 1 && !data.getSsaid().equals(AppUtils.getAndroidId(getApplication()))) {
+                                mChatQueue.offer(GiftChatString.notYourCodeResponse);
                             }
                         } else if (giftModel.getStatusCode() == GiftStatusCode.STATUS_NO_MATCH_DATA) {
-                            ToastUtil.makeText("Code not exist");
+                            mChatQueue.offer(GiftChatString.notYourCodeResponse);
                         } else {
-                            ToastUtil.makeText("abnormal");
+                            mChatQueue.offer(GiftChatString.abnormalResponse);
                         }
                     }
                 } else {
@@ -119,27 +121,29 @@ public class GiftViewModel extends AndroidViewModel {
             LeftChatNode node = new LeftChatNode();
             node.setMsg(msg);
             addNode(node);
-        } else {
+        } else if (type == ChatAdapter.TYPE_RIGHT) {
             RightChatNode node = new RightChatNode();
+            node.setMsg(msg);
+            addNode(node);
+        } else {
+            InfoNode node = new InfoNode();
             node.setMsg(msg);
             addNode(node);
         }
     }
 
     private void addNode(BaseNode node) {
-        if (node instanceof RightChatNode) {
-            mAdapter.addData(node);
+        if (node instanceof LeftChatNode) {
+            if (GiftActivity.getInstance().getBinding() != null) {
+                mHandler.post(() -> GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift_typing));
+                int delay = new Random().nextInt(500) + 1000;
+                mHandler.postDelayed(() -> {
+                    mAdapter.addData(node);
+                    GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift);
+                }, delay);
+            }
         } else {
-            new Handler(Looper.getMainLooper()).post(() -> {
-                if (GiftActivity.getInstance().getBinding() != null) {
-                    GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle("Typing…");
-                    int delay = new Random().nextInt(1000) + 1000;
-                    mHandler.postDelayed(() -> {
-                        mAdapter.addData(node);
-                        GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift);
-                    }, delay);
-                }
-            });
+            mHandler.post(() -> mAdapter.addData(node));
         }
     }
 }

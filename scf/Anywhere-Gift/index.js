@@ -41,7 +41,7 @@ exports.main_handler = async (event, context, callback) => {
       return {
           statusCode : -1,
           msg : 'Request params requested',
-          data : ''
+          data : []
       }
   }
 
@@ -75,7 +75,7 @@ exports.main_handler = async (event, context, callback) => {
 
   let queryResult = await wrapPromise(connection, querySql)
   
-  if (queryResult[0].isActive === 0) {
+  if (queryResult.length > 0 && queryResult[0].isActive === 0) {
     await wrapPromise(connection, updateSql)
   }
   
@@ -85,7 +85,7 @@ exports.main_handler = async (event, context, callback) => {
       return {
           statusCode : 1,
           msg : 'No match data',
-          data : ''
+          data : []
       }
   }
 

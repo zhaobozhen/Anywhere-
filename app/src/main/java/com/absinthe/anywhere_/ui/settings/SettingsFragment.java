@@ -123,18 +123,35 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Preference giftPreference = findPreference(Const.PREF_GIFT);
+        if (giftPreference != null) {
+            if (IzukoHelper.isHitagi()) {
+                giftPreference.setSummary(getText(R.string.settings_gift_purchase_summary));
+            } else {
+                giftPreference.setSummary(getText(R.string.settings_gift_summary));
+            }
+        }
+    }
+
+    @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
         switch (key) {
             case Const.PREF_CHANGE_BACKGROUND:
-                try {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("image/*");
-                    SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
-                } catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
-                    ToastUtil.makeText(R.string.toast_no_document_app);
+                if (IzukoHelper.isHitagi()) {
+                    mContext.startActivity(new Intent(mContext, BackgroundActivity.class));
+                } else {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("image/*");
+                        SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                        ToastUtil.makeText(R.string.toast_no_document_app);
+                    }
                 }
                 return true;
             case Const.PREF_RESET_BACKGROUND:

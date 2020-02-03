@@ -11,10 +11,12 @@ public class ChatAdapter extends BaseNodeAdapter {
 
     public static final int TYPE_LEFT = 0;
     public static final int TYPE_RIGHT = 1;
+    public static final int TYPE_INFO = 2;
 
     public ChatAdapter() {
         addNodeProvider(new LeftChatProvider());
         addNodeProvider(new RightChatProvider());
+        addNodeProvider(new InfoProvider());
     }
 
     @Override
@@ -25,6 +27,8 @@ public class ChatAdapter extends BaseNodeAdapter {
             return TYPE_LEFT;
         } else if (node instanceof RightChatNode) {
             return TYPE_RIGHT;
+        } else if (node instanceof InfoNode) {
+            return TYPE_INFO;
         }
         return -1;
     }

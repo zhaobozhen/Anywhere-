@@ -258,4 +258,5 @@
     <string name="desc_need_accessibility">需要無障礙服務</string>
     <string name="toast_grant_accessibility">請打開無障礙服務</string>
     <string name="toast_file_uri_exposed">不支持自定義的文件路徑</string>
+    <string name="settings_gift_typing">對方正在輸入…</string>
 </resources>

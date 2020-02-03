@@ -13,7 +13,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.gift.ChatAdapter;
 import com.absinthe.anywhere_.adapter.manager.SmoothScrollLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityGiftBinding;
-import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.model.GiftChatString;
 import com.absinthe.anywhere_.viewmodel.GiftViewModel;
 
 public class GiftActivity extends BaseActivity {
@@ -43,7 +43,7 @@ public class GiftActivity extends BaseActivity {
             finish();
         }
 
-        mViewModel.getChatQueue().offer("感谢你愿意陪着我");
+        mViewModel.getChatQueue().offer(GiftChatString.chats);
     }
 
     @Override
