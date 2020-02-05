@@ -85,23 +85,23 @@ public class DialogStack {
             }
 
             Singleton.INSTANCE.getInstance().pop();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        if (!Singleton.INSTANCE.getInstance().empty()) {
-            peekObject = Singleton.INSTANCE.getInstance().peek();
+            if (!Singleton.INSTANCE.getInstance().empty()) {
+                peekObject = Singleton.INSTANCE.getInstance().peek();
 
-            if (peekObject == null) {
-                Singleton.INSTANCE.getInstance().pop();
-            } else {
-                if (peekObject instanceof Dialog) {
-                    ((Dialog) peekObject).show();
-                } else if (peekObject instanceof DialogFragment) {
-                    Objects.requireNonNull(
-                            ((DialogFragment) peekObject).getDialog()).show();
+                if (peekObject == null) {
+                    Singleton.INSTANCE.getInstance().pop();
+                } else {
+                    if (peekObject instanceof Dialog) {
+                        ((Dialog) peekObject).show();
+                    } else if (peekObject instanceof DialogFragment) {
+                        Objects.requireNonNull(
+                                ((DialogFragment) peekObject).getDialog()).show();
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         Logger.i("Pop End");

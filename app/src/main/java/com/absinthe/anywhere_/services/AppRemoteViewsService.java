@@ -86,7 +86,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public RemoteViews getViewAt(int position) {
-            if (position < 0 || position >= mList.size()) {
+            if (mList == null || position < 0 || position >= mList.size()) {
                 return null;
             }
             String content = mList.get(position).getAppName();

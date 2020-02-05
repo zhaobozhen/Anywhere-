@@ -8,8 +8,6 @@ import android.service.quicksettings.TileService;
 import androidx.annotation.RequiresApi;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.utils.NotificationUtils;
-import com.absinthe.anywhere_.utils.ToastUtil;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class CollectorTileService extends TileService {
@@ -23,22 +21,11 @@ public class CollectorTileService extends TileService {
     public void onClick() {
         Tile tile = getQsTile(); // Get Tile
         if (tile.getState() == Tile.STATE_ACTIVE) {
-            Intent intent = new Intent(this, CollectorService.class);
-            intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_CLOSE);
-            startService(intent);
+            CollectorService.closeCollector(this);
             tile.setState(Tile.STATE_INACTIVE);
             tile.setLabel(getString(R.string.tile_collector_on));
         } else {
-            Intent intent = new Intent(this, CollectorService.class);
-            intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
-            ToastUtil.makeText(R.string.toast_collector_opened);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationUtils.createCollectorChannel(this);
-                startForegroundService(intent);
-            } else {
-                startService(intent);
-            }
+            CollectorService.startCollector(this);
 
             tile.setState(Tile.STATE_ACTIVE);
             tile.setLabel(getString(R.string.tile_collector_off));

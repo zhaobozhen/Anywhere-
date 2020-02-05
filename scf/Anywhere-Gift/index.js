@@ -41,7 +41,7 @@ exports.main_handler = async (event, context, callback) => {
       return {
           statusCode : -1,
           msg : 'Request params requested',
-          data : []
+          data : ''
       }
   }
 
@@ -85,7 +85,7 @@ exports.main_handler = async (event, context, callback) => {
       return {
           statusCode : 1,
           msg : 'No match data',
-          data : []
+          data : ''
       }
   }
 
@@ -94,7 +94,7 @@ exports.main_handler = async (event, context, callback) => {
   return {
       statusCode : 0,
       msg : 'Success',
-      data : queryResult,
+      data : queryResult[0],
       token : tokenNum
   }
 }

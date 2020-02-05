@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -75,26 +76,38 @@ public class GiftViewModel extends AndroidViewModel {
         GiftRequest request = retrofit.create(GiftRequest.class);
         Call<GiftModel> gift = request.requestByCode(code, AppUtils.getAndroidId(getApplication()));
 
-        new Thread(() -> {
-            try {
-                Response<GiftModel> response = gift.execute();
+        gift.enqueue(new Callback<GiftModel>() {
+            @Override
+            public void onResponse(@NonNull Call<GiftModel> call, @NonNull Response<GiftModel> response) {
                 if (response.isSuccessful()) {
                     GiftModel giftModel = response.body();
                     if (giftModel != null) {
                         if (giftModel.getStatusCode() == GiftStatusCode.STATUS_SUCCESS) {
-                            GiftModel.Data data = giftModel.getData(0);
-                            if (data.getIsActive() == 0) {
+                            GiftModel.Data data = giftModel.getData();
+                            if (data == null) {
+                                Logger.d("data == null");
+                                return;
+                            }
+                            if (data.isActive == 0) {
                                 mChatQueue.clear();
                                 mChatQueue.offer(GiftChatString.purchaseResponse);
 
                                 String encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()));
-                                StorageUtils.storageToken(getApplication(), encode);
-                            } else if (data.getIsActive() == 1 && data.getSsaid().equals(AppUtils.getAndroidId(getApplication()))) {
+                                try {
+                                    StorageUtils.storageToken(getApplication(), encode);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (data.isActive == 1 && data.ssaid.equals(AppUtils.getAndroidId(getApplication()))) {
                                 mChatQueue.offer(GiftChatString.hasPurchasedResponse);
 
                                 String encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()));
-                                StorageUtils.storageToken(getApplication(), encode);
-                            } else if (data.getIsActive() == 1 && !data.getSsaid().equals(AppUtils.getAndroidId(getApplication()))) {
+                                try {
+                                    StorageUtils.storageToken(getApplication(), encode);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (data.isActive == 1 && !data.ssaid.equals(AppUtils.getAndroidId(getApplication()))) {
                                 mChatQueue.offer(GiftChatString.notYourCodeResponse);
                             }
                         } else if (giftModel.getStatusCode() == GiftStatusCode.STATUS_NO_MATCH_DATA) {
@@ -106,10 +119,13 @@ public class GiftViewModel extends AndroidViewModel {
                 } else {
                     Logger.d("Failed");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        }).start();
+
+            @Override
+            public void onFailure(@NonNull Call<GiftModel> call, @NonNull Throwable t) {
+                Logger.d("Failed");
+            }
+        });
     }
 
     public void responseChat() {

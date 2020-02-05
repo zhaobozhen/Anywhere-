@@ -2,8 +2,6 @@ package com.absinthe.anywhere_.cloud.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class GiftModel {
 
     @SerializedName("statusCode")
@@ -16,87 +14,7 @@ public class GiftModel {
     private String token;
 
     @SerializedName("data")
-    private List<Data> data;
-
-    public class Data {
-
-        @SerializedName("id")
-        private int id;
-
-        @SerializedName("code")
-        private String code;
-
-        @SerializedName("ssaid")
-        private String ssaid;
-
-        @SerializedName("alipayAccount")
-        private String alipayAccount;
-
-        @SerializedName("activeTimes")
-        private short activeTimes;
-
-        @SerializedName("isActive")
-        private short isActive;
-
-        @SerializedName("timeStamp")
-        private String timeStamp;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public String getSsaid() {
-            return ssaid;
-        }
-
-        public void setSsaid(String ssaid) {
-            this.ssaid = ssaid;
-        }
-
-        public String getAlipayAccount() {
-            return alipayAccount;
-        }
-
-        public void setAlipayAccount(String alipayAccount) {
-            this.alipayAccount = alipayAccount;
-        }
-
-        public short getActiveTimes() {
-            return activeTimes;
-        }
-
-        public void setActiveTimes(short activeTimes) {
-            this.activeTimes = activeTimes;
-        }
-
-        public short getIsActive() {
-            return isActive;
-        }
-
-        public void setIsActive(short isActive) {
-            this.isActive = isActive;
-        }
-
-        public String getTimeStamp() {
-            return timeStamp;
-        }
-
-        public void setTimeStamp(String timeStamp) {
-            this.timeStamp = timeStamp;
-        }
-    }
+    private Data data;
 
     public int getStatusCode() {
         return statusCode;
@@ -122,15 +40,35 @@ public class GiftModel {
         this.token = token;
     }
 
-    public Data getData(int pos) {
-        if (data.size() == 0) {
-            return null;
-        }
-        return data.get(pos);
+    public Data getData() {
+        return data;
     }
 
-    public void setData(Data data, int pos) {
-        this.data.set(pos, data);
+    public void setData(Data data) {
+        this.data = data;
     }
 
+    public class Data {
+
+        @SerializedName("id")
+        public int id;
+
+        @SerializedName("code")
+        public String code;
+
+        @SerializedName("ssaid")
+        public String ssaid;
+
+        @SerializedName("alipayAccount")
+        public String alipayAccount;
+
+        @SerializedName("activeTimes")
+        public short activeTimes;
+
+        @SerializedName("isActive")
+        public short isActive;
+
+        @SerializedName("timeStamp")
+        public String timeStamp;
+    }
 }

@@ -57,9 +57,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                     AppUtils.openUrl(this, "", "", "");
                 } else {
                     if (PermissionUtils.checkOverlayPermission(this, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
-                        Intent intent = new Intent(this, CollectorService.class);
-                        intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
-                        startService(intent);
+                        CollectorService.startCollector(this);
                     }
                 }
                 finish();

@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.gift;
 
-import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -17,9 +16,9 @@ import com.absinthe.anywhere_.adapter.gift.ChatAdapter;
 import com.absinthe.anywhere_.adapter.manager.SmoothScrollLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityGiftBinding;
 import com.absinthe.anywhere_.model.GiftChatString;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
-import com.absinthe.anywhere_.utils.manager.URLManager;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewmodel.GiftViewModel;
 
 public class GiftActivity extends BaseActivity {
@@ -50,6 +49,7 @@ public class GiftActivity extends BaseActivity {
         }
 
         mViewModel.getChatQueue().offer(GiftChatString.chats);
+        Logger.d(AppUtils.getAndroidId(this));
     }
 
     @Override

@@ -158,7 +158,11 @@ public class IconPackManager {
         private Drawable loadDrawable(String drawableName) {
             int id = iconPackres.getIdentifier(drawableName, "drawable", packageName);
             if (id > 0) {
-                return iconPackres.getDrawable(id);
+                try {
+                    return iconPackres.getDrawable(id);
+                } catch (Resources.NotFoundException e) {
+                    return null;
+                }
             }
             return null;
         }

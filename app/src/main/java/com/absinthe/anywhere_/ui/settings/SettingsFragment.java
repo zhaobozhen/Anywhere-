@@ -177,7 +177,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()) {
             case Const.PREF_WORKING_MODE:
-                if (MainActivity.getInstance().getViewModel() != null) {
+                if (MainActivity.getInstance() != null && MainActivity.getInstance().getViewModel() != null) {
                     MainActivity.getInstance().getViewModel().getWorkingMode().setValue(newValue.toString());
                 }
                 break;

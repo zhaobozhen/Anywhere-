@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.services;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -21,9 +22,9 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.NotificationUtils;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.manager.Logger;
 
 public class CollectorService extends Service {
     public static final String COMMAND = "COMMAND";
@@ -116,6 +117,37 @@ public class CollectorService extends Service {
     public void onDestroy() {
         Logger.d("CollectorService onDestroy.");
         super.onDestroy();
+    }
+
+    public static void startCollector(Context context) {
+        Intent intent = new Intent(context, CollectorService.class);
+        intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationUtils.createCollectorChannel(context);
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
+
+        ToastUtil.makeText(R.string.toast_collector_opened);
+
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        homeIntent.addCategory(Intent.CATEGORY_HOME);
+        context.startActivity(homeIntent);
+    }
+
+    public static void closeCollector(Context context) {
+        Intent intent = new Intent(context, CollectorService.class);
+        intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_CLOSE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationUtils.createCollectorChannel(context);
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
     }
 
     private Notification getNotificationInstance() {
