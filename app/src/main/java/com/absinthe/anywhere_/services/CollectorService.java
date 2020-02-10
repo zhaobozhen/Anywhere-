@@ -72,6 +72,12 @@ public class CollectorService extends Service {
     }
 
     @Override
+    public void onStart(Intent intent, int startId) {
+        super.onStart(intent, startId);
+        startForeground(1, getNotificationInstance());
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null) {
             ToastUtil.makeText(R.string.toast_collector_service_launch_failed);
@@ -94,9 +100,11 @@ public class CollectorService extends Service {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         if (CollectorTileService.getInstance() != null) {
                             Tile tile = CollectorTileService.getInstance().getQsTile();
-                            tile.setState(Tile.STATE_INACTIVE);
-                            tile.setLabel(getString(R.string.tile_collector_on));
-                            tile.updateTile();
+                            if (tile != null) {
+                                tile.setState(Tile.STATE_INACTIVE);
+                                tile.setLabel(getString(R.string.tile_collector_on));
+                                tile.updateTile();
+                            }
                         }
                     }
                     stopSelf();

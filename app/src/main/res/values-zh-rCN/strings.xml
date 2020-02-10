@@ -260,4 +260,6 @@
     <string name="toast_file_uri_exposed">不支持自定义的文件路径</string>
     <string name="settings_gift_typing">对方正在输入…</string>
     <string name="menu_gift">礼物</string>
+    <string name="settings_exclude_from_recent">从近期任务列表排除</string>
+    <string name="settings_exclude_from_recent_summary">退出应用后不在近期应用列表中显示</string>
 </resources>

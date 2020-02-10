@@ -65,6 +65,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE);
         SwitchPreferenceCompat collectorPlusPreference = findPreference(Const.PREF_COLLECTOR_PLUS);
         SwitchPreferenceCompat md2Preference = findPreference(Const.PREF_MD2_TOOLBAR);
+        SwitchPreferenceCompat excludePreference = findPreference(Const.PREF_EXCLUDE_FROM_RECENT);
 
         if (workingModePreference != null) {
             workingModePreference.setOnPreferenceChangeListener(this);
@@ -120,6 +121,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         if (md2Preference != null) {
             md2Preference.setOnPreferenceChangeListener(this);
         }
+        if (excludePreference != null) {
+            excludePreference.setOnPreferenceChangeListener(this);
+        }
     }
 
     @Override
@@ -140,18 +144,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         String key = preference.getKey();
         switch (key) {
             case Const.PREF_CHANGE_BACKGROUND:
-                if (IzukoHelper.isHitagi()) {
-                    mContext.startActivity(new Intent(mContext, BackgroundActivity.class));
-                } else {
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        intent.setType("image/*");
-                        SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
-                    } catch (ActivityNotFoundException e) {
-                        e.printStackTrace();
-                        ToastUtil.makeText(R.string.toast_no_document_app);
-                    }
+                try {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                    SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    ToastUtil.makeText(R.string.toast_no_document_app);
                 }
                 return true;
             case Const.PREF_RESET_BACKGROUND:
@@ -220,6 +220,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 GlobalValues.setsIsMd2Toolbar((boolean) newValue);
                 MainActivity.getInstance().restartActivity();
                 ((Activity) mContext).finish();
+                return true;
+            case Const.PREF_EXCLUDE_FROM_RECENT:
+                GlobalValues.setsIsExcludeFromRecent((boolean) newValue);
                 return true;
             default:
         }

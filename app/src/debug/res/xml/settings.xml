@@ -117,6 +117,13 @@
             android:icon="@drawable/ic_plus_circle"
             app:defaultValue="false" />
 
+        <SwitchPreferenceCompat
+            app:key="excludeFromRecent"
+            app:title="@string/settings_exclude_from_recent"
+            android:summary="@string/settings_exclude_from_recent_summary"
+            android:icon="@drawable/ic_visibility_off"
+            app:defaultValue="false" />
+
         <Preference
             app:key="lab"
             app:title="@string/settings_lab"

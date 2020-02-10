@@ -42,7 +42,7 @@ public class OverlayView extends LinearLayout {
     private Handler mHandler = new Handler() {
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == MSG_REMOVE_WINDOW) {
-                mBuilder.ibIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                mBuilder.ivIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 mContext.startService(
                         new Intent(mContext, OverlayService.class)
                                 .putExtra(OverlayService.COMMAND, OverlayService.COMMAND_CLOSE)
@@ -63,13 +63,13 @@ public class OverlayView extends LinearLayout {
     private void initView() {
         mBuilder = new OverlayBuilder(mContext, this);
 
-        mBuilder.ibIcon.setOnClickListener(v -> {
+        mBuilder.ivIcon.setOnClickListener(v -> {
             Logger.d("Overlay window clicked!");
 
             CommandUtils.execCmd(mCommand);
         });
 
-        mBuilder.ibIcon.setOnTouchListener(new OnTouchListener() {
+        mBuilder.ivIcon.setOnTouchListener(new OnTouchListener() {
 
             private float lastX; //上一次位置的X.Y坐标
             private float lastY;
@@ -146,7 +146,7 @@ public class OverlayView extends LinearLayout {
 
     public void setPkgName(String mPkgName) {
         this.mPkgName = mPkgName;
-        mBuilder.ibIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, mPkgName));
+        mBuilder.ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, mPkgName));
     }
 }
 

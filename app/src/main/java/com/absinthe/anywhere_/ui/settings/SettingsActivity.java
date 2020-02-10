@@ -62,9 +62,10 @@ public class SettingsActivity extends BaseActivity {
                             Logger.d("backgroundUri = " + backgroundUri);
                             GlobalValues.setsBackgroundUri(backgroundUri.toString());
                             GlobalValues.setsActionBarType("");
-                            if (MainActivity.getInstance().getViewModel() != null) {
-                                MainActivity.getInstance().getViewModel().getBackground().setValue(backgroundUri.toString());
-                                MainActivity.getInstance().restartActivity();
+                            MainActivity instance = MainActivity.getInstance();
+                            if (instance != null) {
+                                instance.getViewModel().getBackground().setValue(backgroundUri.toString());
+                                instance.restartActivity();
                                 finish();
                             }
                         }

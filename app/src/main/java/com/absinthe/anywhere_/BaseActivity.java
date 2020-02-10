@@ -64,4 +64,13 @@ public class BaseActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void finish() {
+        if (GlobalValues.sIsExcludeFromRecent) {
+            finishAndRemoveTask();
+        } else {
+            super.finish();
+        }
+    }
 }

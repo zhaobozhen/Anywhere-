@@ -116,6 +116,7 @@
     <string name="settings_backup_and_restore">Backup &amp; Restore</string>
     <string name="settings_tiles">Tiles</string>
     <string name="settings_collector_plus" translatable="false">Collector+</string>
+    <string name="settings_exclude_from_recent">Exclude from Recent</string>
     <string name="settings_lab">Lab</string>
     <string name="settings_help">Help</string>
     <string name="settings_about">About</string>
@@ -134,6 +135,7 @@
     <string name="settings_backup_summary">Import/Export all Anywhere-</string>
     <string name="settings_tiles_summary">Quickly open an Anywhere- on Notification bar</string>
     <string name="settings_collector_plus_summary">Display current Activity info while using Collector</string>
+    <string name="settings_exclude_from_recent_summary">Not displayed in the recent apps list after exiting the app</string>
     <string name="settings_lab_summary">Experimental features</string>
     <string name="settings_help_summary">Help document</string>
     <string name="settings_about_summary">This is Anywhere- !</string>

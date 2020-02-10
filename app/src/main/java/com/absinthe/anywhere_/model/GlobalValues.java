@@ -12,6 +12,7 @@ public class GlobalValues {
     public static boolean sIsMd2Toolbar;
     public static boolean sIsPages;
     public static boolean sIsCollectorPlus;
+    public static boolean sIsExcludeFromRecent;
 
     public static String sWorkingMode;
     public static String sActionBarType;
@@ -35,6 +36,7 @@ public class GlobalValues {
         sIsMd2Toolbar = SPUtils.getBoolean(context, Const.PREF_MD2_TOOLBAR, false);
         sIsPages = SPUtils.getBoolean(context, Const.PREF_PAGES, false);
         sIsCollectorPlus = SPUtils.getBoolean(context, Const.PREF_COLLECTOR_PLUS, false);
+        sIsExcludeFromRecent = SPUtils.getBoolean(context, Const.PREF_EXCLUDE_FROM_RECENT, false);
 
         sWorkingMode = SPUtils.getString(context, Const.PREF_WORKING_MODE);
         sActionBarType = SPUtils.getString(context, Const.PREF_ACTION_BAR_TYPE);
@@ -135,6 +137,11 @@ public class GlobalValues {
         } else {
             return "Collector";
         }
+    }
+
+    public static void setsIsExcludeFromRecent(boolean sIsExcludeFromRecent) {
+        GlobalValues.sIsExcludeFromRecent = sIsExcludeFromRecent;
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_EXCLUDE_FROM_RECENT, sIsExcludeFromRecent);
     }
 
     public static void setsAutoDarkModeStart(long sAutoDarkModeStart) {

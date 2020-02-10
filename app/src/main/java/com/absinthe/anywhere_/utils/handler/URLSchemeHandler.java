@@ -11,23 +11,43 @@ import androidx.fragment.app.Fragment;
 public class URLSchemeHandler {
 
     public static void parse(String url, Context context) throws ActivityNotFoundException {
-        context.startActivity(handleIntent(url));
+        try {
+            context.startActivity(handleIntent(url));
+        } catch (ActivityNotFoundException | SecurityException e) {
+            throw new ActivityNotFoundException();
+        }
     }
 
     public static void parse(String url, Activity activity) throws ActivityNotFoundException {
-        activity.startActivity(handleIntent(url));
+        try {
+            activity.startActivity(handleIntent(url));
+        } catch (ActivityNotFoundException | SecurityException e) {
+            throw new ActivityNotFoundException();
+        }
     }
 
     public static void parseForResult(String url, Activity activity, int requestCode) throws ActivityNotFoundException {
-        activity.startActivityForResult(handleIntent(url), requestCode);
+        try {
+            activity.startActivityForResult(handleIntent(url), requestCode);
+        } catch (ActivityNotFoundException | SecurityException e) {
+            throw new ActivityNotFoundException();
+        }
     }
 
     public static void parse(String url, Fragment fragment) throws ActivityNotFoundException {
-        fragment.startActivity(handleIntent(url));
+        try {
+            fragment.startActivity(handleIntent(url));
+        } catch (ActivityNotFoundException | SecurityException e) {
+            throw new ActivityNotFoundException();
+        }
     }
 
     public static void parseForResult(String url, Fragment fragment, int requestCode) throws ActivityNotFoundException {
-        fragment.startActivityForResult(handleIntent(url), requestCode);
+        try {
+            fragment.startActivityForResult(handleIntent(url), requestCode);
+        } catch (ActivityNotFoundException | SecurityException e) {
+            throw new ActivityNotFoundException();
+        }
     }
 
     public static Intent handleIntent(String url) {

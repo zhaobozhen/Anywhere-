@@ -3,13 +3,14 @@ package com.absinthe.anywhere_.viewbuilder.entity;
 import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
 
 public class OverlayBuilder extends ViewBuilder {
 
-    public ImageButton ibIcon;
+    public ImageView ivIcon;
 
     public OverlayBuilder(Context context, ViewGroup viewGroup) {
         super(context, viewGroup);
@@ -22,10 +23,10 @@ public class OverlayBuilder extends ViewBuilder {
 
         root.setLayoutParams(layoutParams);
 
-        ibIcon = new ImageButton(mContext);
-        ibIcon.setLayoutParams(layoutParams);
-        ibIcon.setBackground(null);
+        ivIcon = new ImageView(mContext);
+        ivIcon.setLayoutParams(layoutParams);
+        ivIcon.setBackground(null);
 
-        addView(ibIcon);
+        addView(ivIcon);
     }
 }
