@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.ui.main;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -49,7 +50,10 @@ import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.absinthe.anywhere_.utils.manager.IzukoHelper;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
@@ -115,7 +119,7 @@ public class MainActivity extends BaseActivity {
                 if (pageEntities.size() == 0 && !isPageInit) {
                     String timeStamp = System.currentTimeMillis() + "";
                     AnywhereApplication.sRepository.insertPage(
-                            new PageEntity(timeStamp, GlobalValues.sCategory, 1, timeStamp));
+                            new PageEntity(timeStamp, GlobalValues.sCategory, 1, AnywhereType.CARD_PAGE, timeStamp));
                     isPageInit = true;
                 }
             }
@@ -233,15 +237,23 @@ public class MainActivity extends BaseActivity {
             if (view.getId() == R.id.iv_entry) {
                 MainActivity.getInstance().mBinding.drawer.closeDrawer(GravityCompat.START);
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    PageTitleNode node = (PageTitleNode) adapter1.getItem(position);
-                    if (node != null) {
-                        mCurrFragment = MainFragment.newInstance(node.getTitle());
-                        MainActivity.getInstance().getSupportFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                .replace(R.id.container, mCurrFragment)
-                                .commitNow();
-                        GlobalValues.setsCategory(node.getTitle(), position);
+                    PageEntity pe = AnywhereApplication.sRepository.getAllPageEntities().getValue().get(position);
+                    if (pe != null) {
+                        if (pe.getType() == AnywhereType.CARD_PAGE) {
+                            mCurrFragment = MainFragment.newInstance(pe.getTitle());
+                            MainActivity.getInstance().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                                    .replace(R.id.container, mCurrFragment)
+                                    .commitNow();
+                        } else if (pe.getType() == AnywhereType.WEB_PAGE) {
+                            MainActivity.getInstance().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                                    .replace(R.id.container, WebviewFragment.newInstance(pe.getExtra()))
+                                    .commitNow();
+                        }
+                        GlobalValues.setsCategory(pe.getTitle(), position);
                     }
                 }, 300);
             }
@@ -263,17 +275,25 @@ public class MainActivity extends BaseActivity {
         ibDone = drawer.findViewById(R.id.ib_done);
 
         ibAdd.setOnClickListener(v -> {
-            List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
-            if (list != null) {
-                String timeStamp = System.currentTimeMillis() + "";
-                if (list.size() != 0) {
-                    int size = list.size();
-                    PageEntity pe = new PageEntity(timeStamp, "Page " + (size + 1), size + 1, timeStamp);
-                    AnywhereApplication.sRepository.insertPage(pe);
-                } else {
-                    PageEntity pe = new PageEntity(timeStamp, AnywhereType.DEFAULT_CATEGORY, 1, timeStamp);
-                    AnywhereApplication.sRepository.insertPage(pe);
-                }
+            if (IzukoHelper.isHitagi()) {
+                DialogManager.showAddPageDialog(MainActivity.this, (dialog, which) -> {
+                    if (which == 0) {
+                        mViewModel.addPage();
+                    } else {
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            intent.setType("text/html");
+                            startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                        } catch (ActivityNotFoundException e) {
+                            e.printStackTrace();
+                            ToastUtil.makeText(R.string.toast_no_document_app);
+                        }
+                        setDocumentResultListener(uri -> mViewModel.addWebPage(uri));
+                    }
+                });
+            } else {
+                mViewModel.addPage();
             }
         });
         ibPageSort.setOnClickListener(v -> {

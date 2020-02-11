@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.viewmodel;
 
 import android.app.Activity;
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -16,6 +17,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.PermissionUtils;
@@ -128,10 +130,6 @@ public class AnywhereViewModel extends AndroidViewModel {
         editor.show();
     }
 
-    private void startCollector(Activity activity) {
-        CollectorService.startCollector(activity);
-    }
-
     public void checkWorkingPermission(Activity activity) {
         Logger.d("workingMode =", GlobalValues.sWorkingMode);
         if (GlobalValues.sWorkingMode != null) {
@@ -162,4 +160,42 @@ public class AnywhereViewModel extends AndroidViewModel {
         }
 
     }
+
+    public void addPage() {
+        List<PageEntity> list = mRepository.getAllPageEntities().getValue();
+        if (list != null) {
+            if (list.size() != 0) {
+                int size = list.size();
+                PageEntity pe = PageEntity.Builder();
+                pe.setTitle("Page " + (size + 1));
+                pe.setPriority(size + 1);
+                pe.setType(AnywhereType.CARD_PAGE);
+                mRepository.insertPage(pe);
+            } else {
+                PageEntity pe = PageEntity.Builder();
+                pe.setTitle(AnywhereType.DEFAULT_CATEGORY);
+                pe.setPriority(1);
+                pe.setType(AnywhereType.CARD_PAGE);
+                mRepository.insertPage(pe);
+            }
+        }
+    }
+
+    public void addWebPage(Uri uri) {
+        List<PageEntity> list = mRepository.getAllPageEntities().getValue();
+        if (list != null) {
+            int size = list.size();
+            PageEntity pe = PageEntity.Builder();
+            pe.setTitle("Web Page " + (size + 1));
+            pe.setPriority(size + 1);
+            pe.setType(AnywhereType.WEB_PAGE);
+            pe.setExtra(uri.toString());
+            mRepository.insertPage(pe);
+        }
+    }
+
+    private void startCollector(Activity activity) {
+        CollectorService.startCollector(activity);
+    }
+
 }

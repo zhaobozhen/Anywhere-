@@ -22,13 +22,26 @@ public class PageEntity {
     private Integer mPriority;
 
     @NonNull
+    @ColumnInfo(name = "type")
+    private Integer mType;
+
+    @NonNull
     @ColumnInfo(name = "time_stamp")
     private String mTimeStamp;
 
-    public PageEntity(@NonNull String id, @NonNull String title, @NonNull int priority, @NonNull String timeStamp) {
+    @ColumnInfo(name = "extra")
+    private String mExtra;
+
+    public static PageEntity Builder() {
+        String time = System.currentTimeMillis() + "";
+        return new PageEntity(time, "", 0, AnywhereType.CARD_PAGE, time);
+    }
+
+    public PageEntity(@NonNull String id, @NonNull String title, @NonNull int priority, @NonNull int type, @NonNull String timeStamp) {
         mId = id;
         mTitle = title;
         mPriority = priority;
+        mType = type;
         mTimeStamp = timeStamp;
     }
 
@@ -66,5 +79,22 @@ public class PageEntity {
 
     public void setTimeStamp(@NonNull String mTimeStamp) {
         this.mTimeStamp = mTimeStamp;
+    }
+
+    @NonNull
+    public Integer getType() {
+        return mType;
+    }
+
+    public void setType(@NonNull Integer mType) {
+        this.mType = mType;
+    }
+
+    public String getExtra() {
+        return mExtra;
+    }
+
+    public void setExtra(String mExtra) {
+        this.mExtra = mExtra;
     }
 }

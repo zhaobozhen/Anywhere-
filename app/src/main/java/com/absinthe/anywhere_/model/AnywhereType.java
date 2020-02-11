@@ -15,4 +15,7 @@ public class AnywhereType {
     public static final String NOWHERE = "Nowhere-";
 
     public static final String DEFAULT_CATEGORY = "Default";
+
+    public static final int CARD_PAGE = 0;
+    public static final int WEB_PAGE = 1;
 }

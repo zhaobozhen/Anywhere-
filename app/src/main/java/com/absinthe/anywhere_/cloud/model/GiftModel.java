@@ -10,11 +10,11 @@ public class GiftModel {
     @SerializedName("msg")
     private String msg;
 
-    @SerializedName("token")
-    private String token;
-
     @SerializedName("data")
     private Data data;
+
+    @SerializedName("token")
+    private String token;
 
     public int getStatusCode() {
         return statusCode;
@@ -63,10 +63,10 @@ public class GiftModel {
         public String alipayAccount;
 
         @SerializedName("activeTimes")
-        public short activeTimes;
+        public int activeTimes;
 
         @SerializedName("isActive")
-        public short isActive;
+        public int isActive;
 
         @SerializedName("timeStamp")
         public String timeStamp;

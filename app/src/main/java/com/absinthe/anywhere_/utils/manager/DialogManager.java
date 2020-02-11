@@ -261,6 +261,16 @@ public class DialogManager {
         builder.build().show();
     }
 
+    public static void showAddPageDialog(Context context, DialogInterface.OnClickListener listener) {
+        String[] items = new String[]{"Add card page", "Add WebView"};
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
+        builder.setItems(items, (dialog, which) -> {
+            listener.onClick(dialog, which);
+            builder.setDismissParent(true);
+        });
+        builder.show();
+    }
+
     public static void showIconPackChoosingDialog(AppCompatActivity activity) {
         IconPackDialogFragment fragment = new IconPackDialogFragment();
         fragment.show(activity.getSupportFragmentManager(), fragment.getTag());

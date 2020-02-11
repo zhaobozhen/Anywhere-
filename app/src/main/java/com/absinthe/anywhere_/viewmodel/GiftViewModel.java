@@ -123,7 +123,7 @@ public class GiftViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(@NonNull Call<GiftModel> call, @NonNull Throwable t) {
-                Logger.d("Failed");
+                Logger.d("Failed:", t.getMessage());
             }
         });
     }
