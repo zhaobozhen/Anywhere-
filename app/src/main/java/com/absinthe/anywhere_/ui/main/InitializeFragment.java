@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
@@ -77,7 +77,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mViewModel = ViewModelProviders.of(this).get(InitializeViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(InitializeViewModel.class);
         workingMode = Const.WORKING_MODE_URL_SCHEME;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.OVERLAY_PERM);

@@ -190,6 +190,12 @@ public class AppUtils {
         }
     }
 
+    /**
+     * Get device's Android ID
+     *
+     * @param context Context
+     * @return Android ID
+     */
     public static String getAndroidId(Context context) {
         return android.provider.Settings.System.getString(
                 context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID

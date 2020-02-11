@@ -11,7 +11,7 @@ public class ChatQueue extends LinkedList<String> {
 
     private IChatQueueListener mListener;
     private Thread offerThread;
-    private boolean interupt = false;
+    private boolean interrupt = false;
 
     public ChatQueue(IChatQueueListener listener) {
         mListener = listener;
@@ -28,7 +28,7 @@ public class ChatQueue extends LinkedList<String> {
         offerThread = new Thread(() -> {
             try {
                 for (String str : strs) {
-                    if (interupt) {
+                    if (interrupt) {
                         break;
                     }
 
@@ -64,7 +64,7 @@ public class ChatQueue extends LinkedList<String> {
     }
 
     public void stopOffer() {
-        interupt = true;
+        interrupt = true;
         offerThread.interrupt();
     }
 

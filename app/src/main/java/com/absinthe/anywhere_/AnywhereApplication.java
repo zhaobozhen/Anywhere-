@@ -10,7 +10,6 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
-import com.absinthe.anywhere_.utils.manager.TimeRecorder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,7 +20,6 @@ import me.weishu.reflection.Reflection;
 public class AnywhereApplication extends Application {
     @SuppressLint("StaticFieldLeak")
     public static Context sContext = null;
-    public static TimeRecorder sTimeRecorder;
     public static AnywhereRepository sRepository;
 
     @Override
@@ -59,8 +57,6 @@ public class AnywhereApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
 
-        sTimeRecorder = new TimeRecorder("LaunchTime");
-        sTimeRecorder.start();
         Reflection.unseal(base);
         ShizukuHelper.bind(base);
     }

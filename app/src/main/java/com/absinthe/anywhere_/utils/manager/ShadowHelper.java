@@ -56,7 +56,7 @@ public class ShadowHelper extends Drawable {
     /**
      * 背景颜色
      */
-    private int mBgColor[];
+    private int[] mBgColor;
     private RectF mRect;
 
     public final static int SHAPE_ROUND = 1;
@@ -71,7 +71,7 @@ public class ShadowHelper extends Drawable {
      */
     private int shadowSide = ALL;
 
-    public ShadowHelper() {
+    private ShadowHelper() {
         mShape = ShadowHelper.SHAPE_ROUND;
         mShapeRadius = 0;
         mShadowColor = Color.parseColor("#4D000000");
@@ -79,7 +79,6 @@ public class ShadowHelper extends Drawable {
         mOffsetX = 0;
         mOffsetY = 0;
         mBgColor = new int[1];
-        mBgColor[0] = Color.TRANSPARENT;
 
         mPaint = new Paint();
         mPaint.setColor(Color.TRANSPARENT);
@@ -113,7 +112,7 @@ public class ShadowHelper extends Drawable {
      * 设置阴影颜色
      *
      * @param shadowColor 例：R.color.colorPrimary
-     * @return
+     * @return this
      */
     public ShadowHelper setShadowColor(int shadowColor) {
         this.mShadowColor = shadowColor;
@@ -125,7 +124,7 @@ public class ShadowHelper extends Drawable {
      * 设置阴影颜色
      *
      * @param shadowColor 例：#ffffff
-     * @return
+     * @return this
      */
     public ShadowHelper setShadowColor(String shadowColor) {
         this.mShadowColor = Color.parseColor(shadowColor);
@@ -155,7 +154,7 @@ public class ShadowHelper extends Drawable {
      * 设置背景颜色
      *
      * @param BgColor 例：R.color.colorPrimary
-     * @return
+     * @return this
      */
     public ShadowHelper setBgColor(int BgColor) {
         this.mBgColor[0] = BgColor;
@@ -166,7 +165,7 @@ public class ShadowHelper extends Drawable {
      * 设置背景颜色
      *
      * @param bgColor 例：#ffffff
-     * @return
+     * @return this
      */
     public ShadowHelper setBgColor(String bgColor) {
         this.mBgColor[0] = Color.parseColor(bgColor);

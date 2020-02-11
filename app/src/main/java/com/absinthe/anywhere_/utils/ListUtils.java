@@ -7,6 +7,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.PageEntity;
 
 import java.text.Collator;
 import java.util.Collections;
@@ -76,5 +77,19 @@ public class ListUtils {
         });
 
         return list;
+    }
+
+    public static PageEntity getPageEntityByTitle(String title) {
+        List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+        if (list == null) {
+            return null;
+        } else {
+            for (PageEntity pe : list) {
+                if (pe.getTitle().equals(title)) {
+                    return pe;
+                }
+            }
+            return null;
+        }
     }
 }

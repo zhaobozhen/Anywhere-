@@ -15,7 +15,7 @@ import static com.absinthe.anywhere_.AnywhereApplication.getProcessName;
 
 /**
  * Shizuku Helper
- *
+ * <p>
  * Init Shizuku API.
  */
 public class ShizukuHelper {

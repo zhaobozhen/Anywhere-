@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils.manager;
 
+import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.model.Settings;
 
 public class IzukoHelper {
@@ -15,7 +16,8 @@ public class IzukoHelper {
     public static native boolean isHitagi(String token);
 
     public static boolean isHitagi() {
-        return isHitagi(Settings.sToken);
+//        return isHitagi(Settings.sToken);
+        return BuildConfig.DEBUG;
     }
 
 }

@@ -48,6 +48,7 @@ import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
+import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -237,24 +238,28 @@ public class MainActivity extends BaseActivity {
             if (view.getId() == R.id.iv_entry) {
                 MainActivity.getInstance().mBinding.drawer.closeDrawer(GravityCompat.START);
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    PageEntity pe = AnywhereApplication.sRepository.getAllPageEntities().getValue().get(position);
-                    if (pe != null) {
-                        if (pe.getType() == AnywhereType.CARD_PAGE) {
-                            mCurrFragment = MainFragment.newInstance(pe.getTitle());
-                            MainActivity.getInstance().getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                    .replace(R.id.container, mCurrFragment)
-                                    .commitNow();
-                        } else if (pe.getType() == AnywhereType.WEB_PAGE) {
-                            MainActivity.getInstance().getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                    .replace(R.id.container, WebviewFragment.newInstance(pe.getExtra()))
-                                    .commitNow();
+                    PageTitleNode node = (PageTitleNode) adapter1.getItem(position);
+                    if (node != null) {
+                        PageEntity pe = ListUtils.getPageEntityByTitle(node.getTitle());
+                        if (pe != null) {
+                            if (pe.getType() == AnywhereType.CARD_PAGE) {
+                                mCurrFragment = MainFragment.newInstance(pe.getTitle());
+                                MainActivity.getInstance().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                                        .replace(R.id.container, mCurrFragment)
+                                        .commitNow();
+                            } else if (pe.getType() == AnywhereType.WEB_PAGE) {
+                                MainActivity.getInstance().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                                        .replace(R.id.container, WebviewFragment.newInstance(pe.getExtra()))
+                                        .commitNow();
+                            }
+                            GlobalValues.setsCategory(pe.getTitle(), position);
                         }
-                        GlobalValues.setsCategory(pe.getTitle(), position);
                     }
+
                 }, 300);
             }
         });
