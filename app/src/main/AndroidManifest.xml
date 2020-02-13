@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning"
+        android:hardwareAccelerated="true"
         tools:targetApi="m">
         <activity
             android:name=".ui.main.MainActivity"

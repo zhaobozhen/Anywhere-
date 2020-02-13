@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -290,11 +291,11 @@ public class MainActivity extends BaseActivity {
                             intent.addCategory(Intent.CATEGORY_OPENABLE);
                             intent.setType("text/html");
                             startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                            setDocumentResultListener(uri -> mViewModel.addWebPage(uri, intent));
                         } catch (ActivityNotFoundException e) {
                             e.printStackTrace();
                             ToastUtil.makeText(R.string.toast_no_document_app);
                         }
-                        setDocumentResultListener(uri -> mViewModel.addWebPage(uri));
                     }
                 });
             } else {
@@ -302,6 +303,7 @@ public class MainActivity extends BaseActivity {
             }
         });
         ibPageSort.setOnClickListener(v -> {
+            ibPageSort.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             for (int i = 0; i < adapter.getData().size(); i++) {
                 adapter.collapse(i);
             }
@@ -315,6 +317,7 @@ public class MainActivity extends BaseActivity {
             ibDone.setVisibility(View.VISIBLE);
         });
         ibDone.setOnClickListener(v -> {
+            ibDone.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             PageTitleProvider.isEditMode = false;
             mItemTouchHelper.attachToRecyclerView(null);
             ibAdd.setVisibility(View.VISIBLE);

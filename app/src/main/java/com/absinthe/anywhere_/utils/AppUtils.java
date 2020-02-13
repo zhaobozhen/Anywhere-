@@ -10,6 +10,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -200,5 +201,13 @@ public class AppUtils {
         return android.provider.Settings.System.getString(
                 context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID
         );
+    }
+
+    public static void takePersistableUriPermission(Context context, Uri uri, Intent intent) {
+        final int takeFlags = intent.getFlags()
+                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        // Check for the freshest data.
+        context.getContentResolver().takePersistableUriPermission(uri, takeFlags);
     }
 }

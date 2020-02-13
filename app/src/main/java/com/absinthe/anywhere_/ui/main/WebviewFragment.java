@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -46,7 +49,13 @@ public class WebviewFragment extends Fragment {
     @SuppressLint("SetJavaScriptEnabled")
     private void initView(View view) {
         WebView webView = view.findViewById(R.id.wv_container);
+        webView.setInitialScale(1);
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.getSettings().setAllowFileAccess(true);
+        webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
         webView.loadUrl(mUri);
     }
 }

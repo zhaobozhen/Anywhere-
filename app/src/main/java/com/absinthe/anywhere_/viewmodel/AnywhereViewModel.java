@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.viewmodel;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.net.Uri;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -20,6 +21,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -181,7 +183,7 @@ public class AnywhereViewModel extends AndroidViewModel {
         }
     }
 
-    public void addWebPage(Uri uri) {
+    public void addWebPage(Uri uri, Intent intent) {
         List<PageEntity> list = mRepository.getAllPageEntities().getValue();
         if (list != null) {
             int size = list.size();
@@ -191,6 +193,7 @@ public class AnywhereViewModel extends AndroidViewModel {
             pe.setType(AnywhereType.WEB_PAGE);
             pe.setExtra(uri.toString());
             mRepository.insertPage(pe);
+            AppUtils.takePersistableUriPermission(getApplication(), uri, intent);
         }
     }
 
