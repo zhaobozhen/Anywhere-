@@ -177,6 +177,8 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                 }
                 finish();
             }
+        } else {
+            finish();
         }
     }
 }

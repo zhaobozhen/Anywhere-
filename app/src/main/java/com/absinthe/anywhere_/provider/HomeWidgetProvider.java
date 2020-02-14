@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -18,8 +19,11 @@ import com.absinthe.anywhere_.services.AppRemoteViewsService;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.TextUtils;
 
+import java.util.List;
+
 public class HomeWidgetProvider extends AppWidgetProvider {
     public static final String CLICK_ACTION = "com.absinthe.anywhere_.action.CLICK"; // 点击事件的广播ACTION
+    public static List<AnywhereEntity> mList;
 
     /**
      * 每次窗口小部件被更新都调用一次该方法
@@ -27,6 +31,7 @@ public class HomeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+        mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
 
         ComponentName thisWidget = new ComponentName(context, HomeWidgetProvider.class);
 

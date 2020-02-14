@@ -12,11 +12,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CipherUtils;
+import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
@@ -54,10 +59,10 @@ public class RestoreApplyFragmentDialog extends AnywhereDialogFragment {
             String encrypted1 = getText();
             if (encrypted1 != null) {
                 String content1 = CipherUtils.decrypt(encrypted1);
+                Logger.d(content1);
                 Gson gson = new Gson();
                 List<AnywhereEntity> list = gson.fromJson(content1,
-                        new TypeToken<List<AnywhereEntity>>() {
-                        }.getType());
+                        new TypeToken<List<AnywhereEntity>>() {}.getType());
 
                 if (list != null) {
                     INSERT_CORRECT = true;
@@ -65,6 +70,13 @@ public class RestoreApplyFragmentDialog extends AnywhereDialogFragment {
                         if (!INSERT_CORRECT) {
                             ToastUtil.makeText(R.string.toast_backup_file_error);
                             break;
+                        }
+                        if (ListUtils.getPageEntityByTitle(ae.getCategory()) == null) {
+                            PageEntity pe = PageEntity.Builder();
+                            pe.setTitle(ae.getCategory());
+                            pe.setPriority(AnywhereApplication.sRepository.getAllPageEntities().getValue().size() + 1);
+                            pe.setType(AnywhereType.CARD_PAGE);
+                            AnywhereApplication.sRepository.insertPage(pe);
                         }
                         MainActivity.getInstance().getViewModel().insert(ae);
                     }

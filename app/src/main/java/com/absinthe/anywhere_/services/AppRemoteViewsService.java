@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.services;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Looper;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -10,11 +11,12 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.provider.HomeWidgetProvider;
+import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AppRemoteViewsService extends RemoteViewsService {
@@ -28,15 +30,17 @@ public class AppRemoteViewsService extends RemoteViewsService {
     private class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         private final Context mContext;
-        private Intent mIntent;
-        private List<AnywhereEntity> mList = new ArrayList<>();
+        private List<AnywhereEntity> mList = HomeWidgetProvider.mList;
 
         /**
          * 构造函数
          */
         RemoteViewsFactory(Context context, Intent intent) {
             mContext = context;
-            mIntent = intent;
+
+            if(Looper.myLooper() == null){
+                Looper.prepare();
+            }
         }
 
         /**
@@ -46,7 +50,8 @@ public class AppRemoteViewsService extends RemoteViewsService {
         @Override
         public void onCreate() {
             // 需要显示的数据
-            mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+            Intent intent = new Intent(AppRemoteViewsService.this, ShortcutsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
         /**
