@@ -15,9 +15,14 @@ import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.workflow.FlowNode;
+import com.absinthe.anywhere_.workflow.WorkFlow;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import io.reactivex.Observable;
 
 public class QRCollection {
 
@@ -37,6 +42,8 @@ public class QRCollection {
     private Context mContext;
     private AccessibilityManager mAccessibilityManager;
     private ArrayList<AnywhereEntity> mList;
+    private HashMap<String, QREntity> mMap;
+    private int mPriority = 0;
 
     private QRCollection() {
         mContext = AnywhereApplication.sContext;
@@ -45,6 +52,7 @@ public class QRCollection {
         mList = new ArrayList<>();
         mList.add(genWechatScan());
         mList.add(genWechatPay());
+        mList.add(genWechatPayAcs());
         mList.add(genWechatCollect());
         mList.add(genAlipayScan());
         mList.add(genAlipayPay());
@@ -54,7 +62,21 @@ public class QRCollection {
         mList.add(genUnionpayPay());
         mList.add(genUnionpayCollect());
         mList.add(genUnionpayScan());
-//        mList.add(genUnionpaySignIn());
+
+        mMap = new HashMap<>();
+        mMap.put(wechatScanId, wechatScan);
+        mMap.put(wechatPayId, wechatPay);
+        mMap.put(wechatPayAcsId, wechatPayAcs);
+        mMap.put(wechatCollectId, wechatCollect);
+        mMap.put(alipayScanId, alipayScan);
+        mMap.put(alipayPayId, alipayPay);
+        mMap.put(alipayBusId, alipayBus);
+        mMap.put(alipayCollectId, alipayCollect);
+        mMap.put(qqScanId, qqScan);
+        mMap.put(unionpayPayId, unionpayPay);
+        mMap.put(unionpayCollectId, unionpayCollect);
+        mMap.put(unionpayScanId, unionpayScan);
+
     }
 
     public ArrayList<AnywhereEntity> getList() {
@@ -62,34 +84,7 @@ public class QRCollection {
     }
 
     public QREntity getQREntity(String id) {
-        switch (id) {
-            case wechatScanId:
-                return wechatScan;
-            case wechatPayId:
-                return wechatPay;
-            case wechatCollectId:
-                return wechatCollect;
-            case alipayScanId:
-                return alipayScan;
-            case alipayPayId:
-                return alipayPay;
-            case alipayBusId:
-                return alipayBus;
-            case alipayCollectId:
-                return alipayCollect;
-            case qqScanId:
-                return qqScan;
-            case unionpayPayId:
-                return unionpayPay;
-            case unionpayCollectId:
-                return unionpayCollect;
-            case unionpayScanId:
-                return unionpayScan;
-            case unionpaySignInId:
-                return unionpaySignIn;
-            default:
-                return null;
-        }
+        return mMap.get(id);
     }
 
     /**
@@ -120,8 +115,8 @@ public class QRCollection {
     /**
      * Wechat scan page
      */
-    public static final String wechatScanId = "wechatScan";
-    public QREntity wechatScan;
+    private static final String wechatScanId = "wechatScan";
+    private QREntity wechatScan;
 
     private AnywhereEntity genWechatScan() {
         String pkgName = "com.tencent.mm";
@@ -147,15 +142,15 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.QR_CODE);
-        ae.setTimeStamp("0");
+        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
     /**
      * Wechat pay page
      */
-    public static final String wechatPayId = "wechatPay";
-    public QREntity wechatPay;
+    private static final String wechatPayId = "wechatPay";
+    private QREntity wechatPay;
 
     private AnywhereEntity genWechatPay() {
         String pkgName = "com.tencent.mm";
@@ -174,15 +169,70 @@ public class QRCollection {
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
         ae.setType(AnywhereType.QR_CODE);
-        ae.setTimeStamp("1");
+        ae.setTimeStamp(String.valueOf(mPriority++));
+        return ae;
+    }
+
+    /**
+     * Wechat pay page Accessibility
+     */
+    private static final String wechatPayAcsId = "wechatPayAcs";
+    private QREntity wechatPayAcs;
+
+    private AnywhereEntity genWechatPayAcs() {
+        String pkgName = "com.tencent.mm";
+        String clsName = "com.tencent.mm.ui.LauncherUI";
+
+        wechatPayAcs = new QREntity(() -> {
+            if (!checkAccessibilityEnabled()) {
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+                ToastUtil.makeText(R.string.toast_grant_accessibility);
+            } else {
+                IzukoService.setPackageName(pkgName);
+                IzukoService.setClassName(clsName);
+                IzukoService.isClicked(false);
+                Observable<FlowNode> source = Observable.create(emitter -> {
+                    emitter.onNext(new FlowNode("com.tencent.mm:id/c7", FlowNode.TYPE_ACCESSIBILITY_VIEW_ID));
+                    Thread.sleep(100);
+                    emitter.onNext(new FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+
+                    emitter.onComplete();
+                });
+                IzukoService.setWorkFlow(new WorkFlow().observe(source));
+
+                try {
+                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(pkgName);
+                    if (intent != null) {
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
+                    }
+                } catch (Exception e) {
+                    Logger.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                }
+            }
+        });
+
+        wechatPay.setPkgName(pkgName);
+        wechatPay.setClsName(clsName);
+
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(wechatPayAcsId);
+        ae.setAppName("微信支付");
+        ae.setParam1(pkgName);
+        ae.setParam2(clsName);
+        ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
     /**
      * Wechat collect page
      */
-    public static final String wechatCollectId = "wechatCollect";
-    public QREntity wechatCollect;
+    private static final String wechatCollectId = "wechatCollect";
+    private QREntity wechatCollect;
 
     private AnywhereEntity genWechatCollect() {
         String pkgName = "com.tencent.mm";
@@ -201,15 +251,15 @@ public class QRCollection {
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
         ae.setType(AnywhereType.QR_CODE);
-        ae.setTimeStamp("2");
+        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
     /**
      * Alipay scan page
      */
-    public static final String alipayScanId = "alipayScan";
-    public QREntity alipayScan;
+    private static final String alipayScanId = "alipayScan";
+    private QREntity alipayScan;
 
     private AnywhereEntity genAlipayScan() {
         String urlScheme = "alipayqr://platformapi/startapp?saId=10000007";
@@ -232,15 +282,15 @@ public class QRCollection {
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.QR_CODE);
-        ae.setTimeStamp("3");
+        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
     /**
      * Alipay pay page
      */
-    public static final String alipayPayId = "alipayPay";
-    public QREntity alipayPay;
+    private static final String alipayPayId = "alipayPay";
+    private QREntity alipayPay;
 
     private AnywhereEntity genAlipayPay() {
         String urlScheme = "alipays://platformapi/startapp?appId=20000056";
@@ -263,15 +313,15 @@ public class QRCollection {
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.QR_CODE);
-        ae.setTimeStamp("4");
+        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
     /**
      * Alipay bus page
      */
-    public static final String alipayBusId = "alipayBus";
-    public QREntity alipayBus;
+    private static final String alipayBusId = "alipayBus";
+    private QREntity alipayBus;
 
     private AnywhereEntity genAlipayBus() {
         String urlScheme = "alipayqr://platformapi/startapp?saId=200011235";
@@ -294,15 +344,15 @@ public class QRCollection {
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.QR_CODE);
-        ae.setTimeStamp("5");
+        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
     /**
      * Alipay collect page
      */
-    public static final String alipayCollectId = "alipayCollect";
-    public QREntity alipayCollect;
+    private static final String alipayCollectId = "alipayCollect";
+    private QREntity alipayCollect;
 
     private AnywhereEntity genAlipayCollect() {
         String urlScheme = "alipays://platformapi/startapp?appId=20000123";
@@ -325,15 +375,15 @@ public class QRCollection {
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.QR_CODE);
-        ae.setTimeStamp("6");
+        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
     /**
      * QQ scan page
      */
-    public static final String qqScanId = "qqScan";
-    public QREntity qqScan;
+    private static final String qqScanId = "qqScan";
+    private QREntity qqScan;
 
     private AnywhereEntity genQqScan() {
         String pkgName = "com.tencent.mobileqq";
@@ -352,12 +402,13 @@ public class QRCollection {
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
         ae.setType(AnywhereType.QR_CODE);
-        ae.setTimeStamp("7");
+        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
     private AnywhereEntity genUnionPay(String id, String text, String priority) {
         String pkgName = "com.unionpay";
+        String clsName = "com.unionpay.activity.UPActivityMain";
 
         QREntity qrEntity = new QREntity(() -> {
             if (!checkAccessibilityEnabled()) {
@@ -367,9 +418,16 @@ public class QRCollection {
                 ToastUtil.makeText(R.string.toast_grant_accessibility);
             } else {
                 IzukoService.isClicked(false);
-                IzukoService.setPackageName("com.unionpay");
-                IzukoService.setClassName("com.unionpay.activity.UPActivityMain");
-                IzukoService.setClickText(text);
+                IzukoService.setPackageName(pkgName);
+                IzukoService.setClassName(clsName);
+                Observable<FlowNode> source = Observable.create(emitter -> {
+                    emitter.onNext(new FlowNode("知道了", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    Thread.sleep(200);
+                    emitter.onNext(new FlowNode(text, FlowNode.TYPE_ACCESSIBILITY_TEXT));
+
+                    emitter.onComplete();
+                });
+                IzukoService.setWorkFlow(new WorkFlow().observe(source));
 
                 try {
                     Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(pkgName);
@@ -411,40 +469,31 @@ public class QRCollection {
     /**
      * UnionPay pay page
      */
-    public static final String unionpayPayId = "unionpayPay";
-    public QREntity unionpayPay;
+    private static final String unionpayPayId = "unionpayPay";
+    private QREntity unionpayPay;
 
     private AnywhereEntity genUnionpayPay() {
-        return genUnionPay(unionpayPayId, "付款码", "8");
+        return genUnionPay(unionpayPayId, "付款码", String.valueOf(mPriority++));
     }
 
     /**
      * UnionPay collect page
      */
-    public static final String unionpayCollectId = "unionpayCollect";
-    public QREntity unionpayCollect;
+    private static final String unionpayCollectId = "unionpayCollect";
+    private QREntity unionpayCollect;
 
     private AnywhereEntity genUnionpayCollect() {
-        return genUnionPay(unionpayCollectId, "收款码", "9");
+        return genUnionPay(unionpayCollectId, "收款码", String.valueOf(mPriority++));
     }
 
     /**
      * UnionPay scan page
      */
-    public static final String unionpayScanId = "unionpayScan";
-    public QREntity unionpayScan;
+    private static final String unionpayScanId = "unionpayScan";
+    private QREntity unionpayScan;
 
     private AnywhereEntity genUnionpayScan() {
-        return genUnionPay(unionpayScanId, "扫一扫", "10");
+        return genUnionPay(unionpayScanId, "扫一扫", String.valueOf(mPriority++));
     }
 
-    /**
-     * UnionPay signIn page
-     */
-    public static final String unionpaySignInId = "unionpaySignIn";
-    public QREntity unionpaySignIn;
-
-    private AnywhereEntity genUnionpaySignIn() {
-        return genUnionPay(unionpaySignInId, "签到", "11");
-    }
 }

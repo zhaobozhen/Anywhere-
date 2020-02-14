@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.ui.list;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 
@@ -46,19 +47,32 @@ public class CardListDialogFragment extends AnywhereDialogFragment {
         mListener = listener;
     }
 
+    private void setDisplayPlaceholder(boolean flag) {
+        if (flag) {
+            ((ViewFlipper) mBuilder.getRoot()).setDisplayedChild(1);
+        } else {
+            ((ViewFlipper) mBuilder.getRoot()).setDisplayedChild(0);
+        }
+    }
+
     private void initView() {
         List<AppListBean> listBeans = new ArrayList<>();
 
         List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
         if (list != null) {
-            for (AnywhereEntity ae : list) {
-                if (ae.getAnywhereType() == AnywhereType.URL_SCHEME || ae.getAnywhereType() == AnywhereType.IMAGE) {
-                    listBeans.add(new AppListBean(ae.getAppName(), ae.getParam2(), ae.getParam1(), ae.getAnywhereType()));
-                } else {
-                    listBeans.add(new AppListBean(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getAnywhereType()));
+            if (list.size() == 0) {
+                setDisplayPlaceholder(true);
+            } else {
+                setDisplayPlaceholder(false);
+                for (AnywhereEntity ae : list) {
+                    if (ae.getAnywhereType() == AnywhereType.URL_SCHEME || ae.getAnywhereType() == AnywhereType.IMAGE) {
+                        listBeans.add(new AppListBean(ae.getAppName(), ae.getParam2(), ae.getParam1(), ae.getAnywhereType()));
+                    } else {
+                        listBeans.add(new AppListBean(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getAnywhereType()));
+                    }
                 }
+                mBuilder.mAdapter.setList(listBeans);
             }
-            mBuilder.mAdapter.setList(listBeans);
         }
     }
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import moe.shizuku.api.ShizukuClientHelper;
+import moe.shizuku.api.ShizukuClientHelperPre23;
 import moe.shizuku.api.ShizukuMultiProcessHelper;
 import moe.shizuku.api.ShizukuService;
 
@@ -51,8 +52,8 @@ public class ShizukuHelper {
                     ShizukuService.pingBinder();
 
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                        String token = ShizukuClientHelper.loadPre23Token(context);
-                        v3TokenValid = ShizukuService.setCurrentProcessTokenPre23(token);
+                        String token = ShizukuClientHelperPre23.loadPre23Token(context);
+                        setShizukuV3TokenValid(ShizukuService.setTokenPre23(token));
                     }
 
                     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_SEND_BINDER));

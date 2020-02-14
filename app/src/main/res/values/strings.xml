@@ -203,6 +203,7 @@
     <string name="dialog_set_dark_mode_period_title">Setup dark mode period</string>
     <string name="dialog_rename_title">Rename</string>
     <string name="dialog_choose_color_title">Choose color</string>
+    <string name="dialog_empty_list">Empty List😮</string>
 
     <string name="about_text">Anywhere- is a collection of apps.</string>
 

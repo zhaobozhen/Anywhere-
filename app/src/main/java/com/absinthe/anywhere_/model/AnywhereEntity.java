@@ -237,4 +237,19 @@ public class AnywhereEntity implements Parcelable {
             return new AnywhereEntity[size];
         }
     };
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "id=" + mId + ", " +
+                "appName=" + mAppName + ", " +
+                "param1=" + mParam1 + ", " +
+                "param2=" + mParam2 + ", " +
+                "param3=" + mParam3 + ", " +
+                "desc=" + mDescription + ", " +
+                "type=" + mType + ", " +
+                "category=" + mCategory + ", " +
+                "timeStamp=" + mTimeStamp + ", " +
+                "color=" + mCategory;
+    }
 }

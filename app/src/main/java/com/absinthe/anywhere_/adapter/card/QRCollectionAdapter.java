@@ -18,47 +18,8 @@ public class QRCollectionAdapter extends StreamCardsAdapter {
     public void onBindViewHolder(@NonNull ItemViewHolder viewHolder, int position) {
         AnywhereEntity item = mItems.get(position);
         viewHolder.bind(item);
-        viewHolder.itemView.setOnClickListener(view -> {
-            switch (mItems.get(position).getId()) {
-                case QRCollection.wechatScanId:
-                    QRCollection.Singleton.INSTANCE.getInstance().wechatScan.launch();
-                    break;
-                case QRCollection.wechatPayId:
-                    QRCollection.Singleton.INSTANCE.getInstance().wechatPay.launch();
-                    break;
-                case QRCollection.wechatCollectId:
-                    QRCollection.Singleton.INSTANCE.getInstance().wechatCollect.launch();
-                    break;
-                case QRCollection.alipayScanId:
-                    QRCollection.Singleton.INSTANCE.getInstance().alipayScan.launch();
-                    break;
-                case QRCollection.alipayPayId:
-                    QRCollection.Singleton.INSTANCE.getInstance().alipayPay.launch();
-                    break;
-                case QRCollection.alipayBusId:
-                    QRCollection.Singleton.INSTANCE.getInstance().alipayBus.launch();
-                    break;
-                case QRCollection.alipayCollectId:
-                    QRCollection.Singleton.INSTANCE.getInstance().alipayCollect.launch();
-                    break;
-                case QRCollection.qqScanId:
-                    QRCollection.Singleton.INSTANCE.getInstance().qqScan.launch();
-                    break;
-                case QRCollection.unionpayPayId:
-                    QRCollection.Singleton.INSTANCE.getInstance().unionpayPay.launch();
-                    break;
-                case QRCollection.unionpayCollectId:
-                    QRCollection.Singleton.INSTANCE.getInstance().unionpayCollect.launch();
-                    break;
-                case QRCollection.unionpayScanId:
-                    QRCollection.Singleton.INSTANCE.getInstance().unionpayScan.launch();
-                    break;
-                case QRCollection.unionpaySignInId:
-                    QRCollection.Singleton.INSTANCE.getInstance().unionpaySignIn.launch();
-                    break;
-                default:
-            }
-        });
+        viewHolder.itemView.setOnClickListener(view ->
+                QRCollection.Singleton.INSTANCE.getInstance().getQREntity(mItems.get(position).getId()).launch());
 
         viewHolder.itemView.setOnLongClickListener(view -> {
             viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);

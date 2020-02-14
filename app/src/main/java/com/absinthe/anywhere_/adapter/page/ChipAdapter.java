@@ -12,8 +12,10 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
@@ -22,17 +24,15 @@ import java.util.List;
 public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
 
     private List<AnywhereEntity> mList;
-    private String mCategory;
 
     ChipAdapter(String category) {
-        mCategory = category;
         mList = new ArrayList<>();
 
         List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
         if (list != null) {
             for (AnywhereEntity item : list) {
-                if ((TextUtils.isEmpty(item.getCategory()) && mCategory.equals(AnywhereType.DEFAULT_CATEGORY))
-                || item.getCategory().equals(mCategory)) {
+                if ((TextUtils.isEmpty(item.getCategory()) && category.equals(AnywhereType.DEFAULT_CATEGORY))
+                        || item.getCategory().equals(category)) {
                     mList.add(item);
                 }
             }
@@ -50,21 +50,19 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(mList.get(position));
 
-        holder.chip.setOnClickListener(v ->
-                CommandUtils.execCmd(com.absinthe.anywhere_.utils.TextUtils.getItemCommand(mList.get(position))));
+        holder.chip.setOnClickListener(v -> {
+            AnywhereEntity ae = mList.get(position);
+            if (ae.getAnywhereType() == AnywhereType.IMAGE) {
+                DialogManager.showImageDialog(MainActivity.getInstance(), ae);
+            } else {
+                CommandUtils.execCmd(com.absinthe.anywhere_.utils.TextUtils.getItemCommand(ae));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mList.size();
-    }
-
-    public String getCategory() {
-        return mCategory;
-    }
-
-    public void setCategory(String category) {
-        this.mCategory = category;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

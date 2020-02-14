@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,7 +34,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class TileSettingsActivity extends BaseActivity {
@@ -155,11 +153,6 @@ public class TileSettingsActivity extends BaseActivity {
         cardList.add(cvTileOne);
         cardList.add(cvTileTwo);
         cardList.add(cvTileThree);
-
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_singlechoice);
-        for (AnywhereEntity ae : Objects.requireNonNull(mList)) {
-            arrayAdapter.add(ae.getAppName());
-        }
 
         for (CardView cardView : cardList) {
             cardView.findViewById(R.id.btn_select).setOnClickListener(view -> {

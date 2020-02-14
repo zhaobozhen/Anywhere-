@@ -1,14 +1,30 @@
 package com.absinthe.anywhere_.services;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.annotation.SuppressLint;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.absinthe.anywhere_.workflow.WorkFlow;
+
 public class IzukoService extends BaseAccessibilityService {
+    @SuppressLint("StaticFieldLeak")
+    public static IzukoService sInstance;
+
+    private static WorkFlow sWorkFlow = null;
     private static boolean isClicked = true;
     private static String sPackageName = "";
     private static String sClassName = "";
-    private static String sClickText = "";
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sInstance = this;
+    }
+
+    @Override
+    public void onDestroy() {
+        sInstance = null;
+        super.onDestroy();
+    }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -19,15 +35,7 @@ public class IzukoService extends BaseAccessibilityService {
 
             CharSequence className = event.getClassName();
             if (className.equals(sClassName)) {
-
-                if (findViewByText("root") == null) {
-                    clickTextViewByText(sClickText);
-                } else {
-                    clickTextViewByText("知道了"); //Root AlertDialog
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> clickTextViewByText(sClickText), 200);
-                }
-
-                isClicked = true;
+                sWorkFlow.start();
             }
         }
     }
@@ -49,7 +57,7 @@ public class IzukoService extends BaseAccessibilityService {
         IzukoService.sClassName = sClassName;
     }
 
-    public static void setClickText(String sClickText) {
-        IzukoService.sClickText = sClickText;
+    public static void setWorkFlow(WorkFlow sWorkFlow) {
+        IzukoService.sWorkFlow = sWorkFlow;
     }
 }

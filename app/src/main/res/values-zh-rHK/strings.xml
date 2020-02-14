@@ -262,4 +262,5 @@
     <string name="menu_gift">禮物</string>
     <string name="settings_exclude_from_recent">從近期任務列表排除</string>
     <string name="settings_exclude_from_recent_summary">退出應用後不在近期應用列表中顯示</string>
+    <string name="dialog_empty_list">空空如也😮</string>
 </resources>

@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 import moe.shizuku.api.ShizukuApiConstants;
-import moe.shizuku.api.ShizukuClientHelper;
+import moe.shizuku.api.ShizukuClientHelperPre23;
 import moe.shizuku.api.ShizukuService;
 
 public class PermissionUtils {
@@ -154,7 +154,7 @@ public class PermissionUtils {
      * @param activity to bind an activity to show a dialog
      */
     public static boolean shizukuPermissionCheck(Activity activity) {
-        if (!ShizukuClientHelper.isPreM()) {
+        if (!ShizukuClientHelperPre23.isPreM()) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (ActivityCompat.checkSelfPermission(activity, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                 if (PermissionUtils.isMIUI()) {
@@ -176,7 +176,7 @@ public class PermissionUtils {
             }
         } else if (!ShizukuHelper.isShizukuV3TokenValid()) {
             // on API pre-23, Shizuku v3 uses old token, get token from Shizuku app
-            Intent intent = ShizukuClientHelper.createPre23AuthorizationIntent(activity);
+            Intent intent = ShizukuClientHelperPre23.createPre23AuthorizationIntent(activity);
             if (intent != null) {
                 try {
                     activity.startActivityForResult(intent, REQUEST_CODE_AUTHORIZATION_V3);
@@ -200,7 +200,7 @@ public class PermissionUtils {
         Activity activity = fragment.getActivity();
 
         if (activity != null) {
-            if (!ShizukuClientHelper.isPreM()) {
+            if (!ShizukuClientHelperPre23.isPreM()) {
                 // on API 23+, Shizuku v3 uses runtime permission
                 if (ActivityCompat.checkSelfPermission(activity, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
                     if (PermissionUtils.isMIUI()) {
@@ -214,7 +214,7 @@ public class PermissionUtils {
                 }
             } else if (!ShizukuHelper.isShizukuV3TokenValid()) {
                 // on API pre-23, Shizuku v3 uses old token, get token from Shizuku app
-                Intent intent = ShizukuClientHelper.createPre23AuthorizationIntent(activity);
+                Intent intent = ShizukuClientHelperPre23.createPre23AuthorizationIntent(activity);
                 if (intent != null) {
                     try {
                         fragment.startActivityForResult(intent, REQUEST_CODE_AUTHORIZATION_V3);
