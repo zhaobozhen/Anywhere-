@@ -35,6 +35,11 @@ public class Settings {
         initToken();
     }
 
+    public static void release() {
+        sIconPackManager.setContext(null);
+        sIconPackManager = null;
+    }
+
     public static void setTheme(String mode) {
         switch (mode) {
             case "":

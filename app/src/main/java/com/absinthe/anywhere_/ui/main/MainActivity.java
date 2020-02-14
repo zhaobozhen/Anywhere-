@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.main;
 
-import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -73,7 +72,6 @@ import jonathanfinerty.once.Once;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class MainActivity extends BaseActivity {
-    @SuppressLint("StaticFieldLeak")
     public ActivityMainBinding mBinding;
 
     private static MainActivity sInstance;
@@ -119,9 +117,10 @@ public class MainActivity extends BaseActivity {
                 AnywhereApplication.sRepository.getAllPageEntities().removeObserver(this);
 
                 if (pageEntities.size() == 0 && !isPageInit) {
-                    String timeStamp = System.currentTimeMillis() + "";
-                    AnywhereApplication.sRepository.insertPage(
-                            new PageEntity(timeStamp, GlobalValues.sCategory, 1, AnywhereType.CARD_PAGE, timeStamp));
+                    PageEntity pe = PageEntity.Builder();
+                    pe.setTitle(GlobalValues.sCategory);
+                    pe.setPriority(1);
+                    AnywhereApplication.sRepository.insertPage(pe);
                     isPageInit = true;
                 }
             }
@@ -194,6 +193,13 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(mBinding.toolbar);
         ActionBar actionBar = getSupportActionBar();
 
+        if (!GlobalValues.sBackgroundUri.isEmpty()) {
+            Objects.requireNonNull(mBinding.stubBg.getViewStub()).inflate();
+            UiUtils.loadBackgroundPic(this, (ImageView) mBinding.stubBg.getRoot());
+            UiUtils.setActionBarTransparent(this);
+            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
+        }
+
         if (GlobalValues.sIsMd2Toolbar) {
             int marginHorizontal = (int) getResources().getDimension(R.dimen.toolbar_margin_horizontal);
             int marginVertical = (int) getResources().getDimension(R.dimen.toolbar_margin_vertical);
@@ -207,16 +213,14 @@ public class MainActivity extends BaseActivity {
             UiUtils.drawMd2Toolbar(this, mBinding.toolbar, 3);
         }
 
-        if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            Objects.requireNonNull(mBinding.stubBg.getViewStub()).inflate();
-            UiUtils.loadBackgroundPic(this, (ImageView) mBinding.stubBg.getRoot());
-            UiUtils.setActionBarTransparent(this);
-            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
-        }
-
         if (actionBar != null) {
             if (GlobalValues.sIsPages) {
                 mToggle = new ActionBarDrawerToggle(this, mBinding.drawer, mBinding.toolbar, R.string.drawer_open, R.string.drawer_close);
+                if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_DARK)) {
+                    mToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.black));
+                } else {
+                    mToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
+                }
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 mBinding.drawer.addDrawerListener(mToggle);
                 mToggle.syncState();

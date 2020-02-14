@@ -31,8 +31,6 @@ import java.util.Random;
  * Icon Pack Manager
  */
 public class IconPackManager {
-    //@Inject
-    //private android.app.Application mContext;
 
     private Context mContext;
 

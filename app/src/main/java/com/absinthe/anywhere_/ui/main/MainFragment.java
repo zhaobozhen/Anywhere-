@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -47,7 +46,7 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment implements LifecycleOwner {
+public class MainFragment extends Fragment {
     private static final String BUNDLE_CATEGORY = "CATEGORY";
     private static AnywhereViewModel mViewModel;
 
@@ -97,7 +96,6 @@ public class MainFragment extends Fragment implements LifecycleOwner {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         initView(view);
-
         return view;
     }
 
@@ -320,7 +318,7 @@ public class MainFragment extends Fragment implements LifecycleOwner {
 
     private void initObserver() {
         mViewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
-        mViewModel.getCardMode().observe(this, s -> refreshRecyclerView());
-        AnywhereApplication.sRepository.getAllAnywhereEntities().observe(this, listObserver);
+        mViewModel.getCardMode().observe(getViewLifecycleOwner(), s -> refreshRecyclerView());
+        AnywhereApplication.sRepository.getAllAnywhereEntities().observe(getViewLifecycleOwner(), listObserver);
     }
 }

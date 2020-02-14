@@ -51,7 +51,7 @@ public class IconPackDialogFragment extends AnywhereDialogFragment {
         HashMap<String, IconPackManager.IconPack> hashMap = Settings.sIconPackManager.getAvailableIconPacks(true);
         List<AppListBean> listBeans = new ArrayList<>();
 
-        listBeans.add(new AppListBean(mContext.getString(R.string.bsd_default), "default.icon.pack", "", -1));
+        listBeans.add(new AppListBean(mContext.getString(R.string.bsd_default), Settings.DEFAULT_ICON_PACK, "", -1));
         for (Map.Entry<String, IconPackManager.IconPack> entry : hashMap.entrySet()) {
             IconPackManager.IconPack iconPack = entry.getValue();
             listBeans.add(new AppListBean(iconPack.name, iconPack.packageName, "", -1));

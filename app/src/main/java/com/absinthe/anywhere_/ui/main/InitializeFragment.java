@@ -48,7 +48,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     private Context mContext;
     private ViewGroup mContainerView, vgRoot, vgShizuku, vgOverlay, vgPopup;
-    private MaterialCardView cvRoot, cvShizuku, cvOverlay, cvPopup;
+    private MaterialCardView cvRoot, cvShizuku, cvOverlay;
     private Button btnRoot, btnShizukuCheck, btnShizuku, btnOverlay, btnPopup;
     private boolean bRoot, bShizuku, bOverlay, bPopup;
 
@@ -183,7 +183,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     }
 
     private void initObserver() {
-        mViewModel.getIsRoot().observe(this, aBoolean -> {
+        mViewModel.getIsRoot().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
                 btnRoot.setText(R.string.btn_acquired);
                 btnRoot.setEnabled(false);
@@ -197,7 +197,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             }
         });
 
-        mViewModel.getIsShizukuCheck().observe(this, aBoolean -> {
+        mViewModel.getIsShizukuCheck().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
                 btnShizukuCheck.setText(R.string.btn_checked);
                 btnShizukuCheck.setEnabled(false);
@@ -209,7 +209,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             }
         });
 
-        mViewModel.getIsShizuku().observe(this, aBoolean -> {
+        mViewModel.getIsShizuku().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
                 btnShizuku.setText(R.string.btn_acquired);
                 btnShizuku.setEnabled(false);
@@ -220,7 +220,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             }
         });
 
-        mViewModel.getIsOverlay().observe(this, aBoolean -> {
+        mViewModel.getIsOverlay().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
                 btnOverlay.setText(R.string.btn_acquired);
                 btnOverlay.setEnabled(false);
@@ -311,8 +311,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                     vgPopup = (ViewGroup) LayoutInflater.from(mContext).inflate(
                             R.layout.card_acquire_popup_permission, mContainerView, false);
                 }
-                cvPopup = vgPopup.findViewById(R.id.cv_acquire_popup_permission);
-                btnPopup = cvPopup.findViewById(R.id.btn_acquire_popup_permission);
+                btnPopup = vgPopup.findViewById(R.id.btn_acquire_popup_permission);
                 btnPopup.setOnClickListener(view -> {
                     if (PermissionUtils.isMIUI()) {
                         PermissionUtils.goToMIUIPermissionManager(mContext);

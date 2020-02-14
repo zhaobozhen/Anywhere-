@@ -197,7 +197,7 @@ public class QRCollection {
                 IzukoService.isClicked(false);
                 Observable<FlowNode> source = Observable.create(emitter -> {
                     emitter.onNext(new FlowNode("com.tencent.mm:id/c7", FlowNode.TYPE_ACCESSIBILITY_VIEW_ID));
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                     emitter.onNext(new FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
 
                     emitter.onComplete();
@@ -279,7 +279,7 @@ public class QRCollection {
                 IzukoService.isClicked(false);
                 Observable<FlowNode> source = Observable.create(emitter -> {
                     emitter.onNext(new FlowNode("com.tencent.mm:id/c7", FlowNode.TYPE_ACCESSIBILITY_VIEW_ID));
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                     emitter.onNext(new FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     Thread.sleep(800);
                     IzukoService.setClassName("com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI");
