@@ -12,30 +12,36 @@
         android:layout_height="match_parent"
         tools:context="com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity">
 
-        <include layout="@layout/toolbar"
+        <include
             android:id="@+id/toolbar"
+            layout="@layout/toolbar"
             app:layout_constraintTop_toBottomOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/ll_container"
-            android:layout_width="0dp"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl_qr_collection"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:animateLayoutChanges="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <LinearLayout
+                android:id="@+id/ll_container"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scrollbars="vertical"
-                android:layout_weight="1"
-                android:paddingTop="16dp"/>
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:paddingTop="16dp"
+                    android:scrollbars="vertical" />
+
+            </LinearLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

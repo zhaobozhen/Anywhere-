@@ -1,6 +1,8 @@
 package com.absinthe.anywhere_.ui.qrcode;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -51,7 +53,12 @@ public class QRCodeCollectionActivity extends BaseActivity {
         binding.recyclerView.setAdapter(mAdapter);
         binding.recyclerView.setLayoutManager(new WrapContentStaggeredGridLayoutManager(2, RecyclerView.VERTICAL));
 
-        QRCollection collection = QRCollection.Singleton.INSTANCE.getInstance();
-        mAdapter.setItems(collection.getList());
+        binding.srlQrCollection.setRefreshing(true);
+        new Handler(Looper.getMainLooper()).post(() -> {
+            QRCollection collection = QRCollection.Singleton.INSTANCE.getInstance();
+            mAdapter.setItems(collection.getList());
+            binding.srlQrCollection.setRefreshing(false);
+            binding.srlQrCollection.setEnabled(false);
+        });
     }
 }

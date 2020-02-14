@@ -54,6 +54,7 @@ public class QRCollection {
         mList.add(genWechatPay());
         mList.add(genWechatPayAcs());
         mList.add(genWechatCollect());
+        mList.add(genWechatCollectAcs());
         mList.add(genAlipayScan());
         mList.add(genAlipayPay());
         mList.add(genAlipayBus());
@@ -68,6 +69,7 @@ public class QRCollection {
         mMap.put(wechatPayId, wechatPay);
         mMap.put(wechatPayAcsId, wechatPayAcs);
         mMap.put(wechatCollectId, wechatCollect);
+        mMap.put(wechatCollectAcsId, wechatCollectAcs);
         mMap.put(alipayScanId, alipayScan);
         mMap.put(alipayPayId, alipayPay);
         mMap.put(alipayBusId, alipayBus);
@@ -250,6 +252,64 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
+        ae.setType(AnywhereType.QR_CODE);
+        ae.setTimeStamp(String.valueOf(mPriority++));
+        return ae;
+    }
+
+    /**
+     * Wechat collect page Accessibility
+     */
+    private static final String wechatCollectAcsId = "wechatCollectAcs";
+    private QREntity wechatCollectAcs;
+
+    private AnywhereEntity genWechatCollectAcs() {
+        String pkgName = "com.tencent.mm";
+        String clsName = "com.tencent.mm.ui.LauncherUI";
+
+        wechatCollectAcs = new QREntity(() -> {
+            if (!checkAccessibilityEnabled()) {
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+                ToastUtil.makeText(R.string.toast_grant_accessibility);
+            } else {
+                IzukoService.setPackageName(pkgName);
+                IzukoService.setClassName(clsName);
+                IzukoService.isClicked(false);
+                Observable<FlowNode> source = Observable.create(emitter -> {
+                    emitter.onNext(new FlowNode("com.tencent.mm:id/c7", FlowNode.TYPE_ACCESSIBILITY_VIEW_ID));
+                    Thread.sleep(100);
+                    emitter.onNext(new FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    Thread.sleep(800);
+                    IzukoService.setClassName("com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI");
+                    emitter.onNext(new FlowNode("二维码收款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+
+                    emitter.onComplete();
+                });
+                IzukoService.setWorkFlow(new WorkFlow().observe(source));
+
+                try {
+                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(pkgName);
+                    if (intent != null) {
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
+                    }
+                } catch (Exception e) {
+                    Logger.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                }
+            }
+        });
+
+        wechatPay.setPkgName(pkgName);
+        wechatPay.setClsName(clsName);
+
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setId(wechatCollectAcsId);
+        ae.setAppName("微信收款");
+        ae.setParam1(pkgName);
+        ae.setParam2(clsName);
+        ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
         ae.setType(AnywhereType.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
