@@ -6,8 +6,8 @@ import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
-import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.gift.ChatAdapter;
 import com.absinthe.anywhere_.adapter.gift.InfoNode;
 import com.absinthe.anywhere_.adapter.gift.LeftChatNode;
@@ -15,9 +15,9 @@ import com.absinthe.anywhere_.adapter.gift.RightChatNode;
 import com.absinthe.anywhere_.cloud.GiftStatusCode;
 import com.absinthe.anywhere_.cloud.interfaces.GiftRequest;
 import com.absinthe.anywhere_.cloud.model.GiftModel;
+import com.absinthe.anywhere_.cloud.model.GiftPriceModel;
 import com.absinthe.anywhere_.model.ChatQueue;
 import com.absinthe.anywhere_.model.GiftChatString;
-import com.absinthe.anywhere_.ui.gift.GiftActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.StorageUtils;
@@ -26,7 +26,6 @@ import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
 import java.io.IOException;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +37,9 @@ public class GiftViewModel extends AndroidViewModel {
 
     private ChatQueue mChatQueue;
     private ChatAdapter mAdapter;
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private MutableLiveData<BaseNode> mNode = new MutableLiveData<>();
+    private MutableLiveData<Integer> mThirdTimesPrice = new MutableLiveData<>();
+    private MutableLiveData<Integer> mInfinityPrice = new MutableLiveData<>();
 
     public GiftViewModel(@NonNull Application application) {
         super(application);
@@ -63,6 +64,18 @@ public class GiftViewModel extends AndroidViewModel {
         this.mAdapter = mAdapter;
     }
 
+    public MutableLiveData<BaseNode> getNode() {
+        return mNode;
+    }
+
+    public MutableLiveData<Integer> getThirdTimesPrice() {
+        return mThirdTimesPrice;
+    }
+
+    public MutableLiveData<Integer> getInfinityPrice() {
+        return mInfinityPrice;
+    }
+
     public ChatQueue getChatQueue() {
         return mChatQueue;
     }
@@ -79,51 +92,73 @@ public class GiftViewModel extends AndroidViewModel {
         gift.enqueue(new Callback<GiftModel>() {
             @Override
             public void onResponse(@NonNull Call<GiftModel> call, @NonNull Response<GiftModel> response) {
-                if (response.isSuccessful()) {
-                    GiftModel giftModel = response.body();
-                    if (giftModel != null) {
-                        if (giftModel.getStatusCode() == GiftStatusCode.STATUS_SUCCESS) {
-                            GiftModel.Data data = giftModel.getData();
-                            if (data == null) {
-                                Logger.d("data == null");
-                                return;
-                            }
-                            if (data.isActive == 0) {
-                                mChatQueue.clear();
-                                mChatQueue.offer(GiftChatString.purchaseResponse);
-
-                                String encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()));
-                                try {
-                                    StorageUtils.storageToken(getApplication(), encode);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            } else if (data.isActive == 1 && data.ssaid.equals(AppUtils.getAndroidId(getApplication()))) {
-                                mChatQueue.offer(GiftChatString.hasPurchasedResponse);
-
-                                String encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()));
-                                try {
-                                    StorageUtils.storageToken(getApplication(), encode);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            } else if (data.isActive == 1 && !data.ssaid.equals(AppUtils.getAndroidId(getApplication()))) {
-                                mChatQueue.offer(GiftChatString.notYourCodeResponse);
-                            }
-                        } else if (giftModel.getStatusCode() == GiftStatusCode.STATUS_NO_MATCH_DATA) {
-                            mChatQueue.offer(GiftChatString.notExistCodeResponse);
-                        } else {
-                            mChatQueue.offer(GiftChatString.abnormalResponse);
+                GiftModel giftModel = response.body();
+                if (giftModel != null) {
+                    if (giftModel.getStatusCode() == GiftStatusCode.STATUS_SUCCESS) {
+                        GiftModel.Data data = giftModel.getData();
+                        if (data == null) {
+                            Logger.d("data == null");
+                            return;
                         }
+                        if (data.isActive == 0) {
+                            mChatQueue.clear();
+                            mChatQueue.offer(GiftChatString.purchaseResponse);
+
+                            String encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()));
+                            try {
+                                StorageUtils.storageToken(getApplication(), encode);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (data.isActive == 1 && data.ssaid.equals(AppUtils.getAndroidId(getApplication()))) {
+                            mChatQueue.offer(GiftChatString.hasPurchasedResponse);
+
+                            String encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()));
+                            try {
+                                StorageUtils.storageToken(getApplication(), encode);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (data.isActive == 1 && !data.ssaid.equals(AppUtils.getAndroidId(getApplication()))) {
+                            mChatQueue.offer(GiftChatString.notYourCodeResponse);
+                        }
+                    } else if (giftModel.getStatusCode() == GiftStatusCode.STATUS_NO_MATCH_DATA) {
+                        mChatQueue.offer(GiftChatString.notExistCodeResponse);
+                    } else {
+                        mChatQueue.offer(GiftChatString.abnormalResponse);
                     }
-                } else {
-                    Logger.d("Failed");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<GiftModel> call, @NonNull Throwable t) {
                 Logger.d("Failed:", t.getMessage());
+            }
+        });
+    }
+
+    public void getPrice() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLManager.DOMAIN)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        GiftRequest request = retrofit.create(GiftRequest.class);
+        Call<GiftPriceModel> price = request.requestPrice();
+
+        price.enqueue(new Callback<GiftPriceModel>() {
+            @Override
+            public void onResponse(@NonNull Call<GiftPriceModel> call, @NonNull Response<GiftPriceModel> response) {
+                GiftPriceModel priceModel = response.body();
+                if (priceModel != null) {
+                    mThirdTimesPrice.setValue(priceModel.getThirdTimesGiftPrice());
+                    mInfinityPrice.setValue(priceModel.getInfinityGiftPrice());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GiftPriceModel> call, @NonNull Throwable t) {
+                t.printStackTrace();
             }
         });
     }
@@ -153,22 +188,6 @@ public class GiftViewModel extends AndroidViewModel {
     }
 
     private void addNode(BaseNode node) {
-        if (GiftActivity.getInstance() == null) {
-            return;
-        }
-        if (node instanceof LeftChatNode) {
-            if (GiftActivity.getInstance().getBinding() != null) {
-                mHandler.post(() -> GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift_typing));
-                int delay = new Random().nextInt(500) + 1000;
-                mHandler.postDelayed(() -> {
-                    mAdapter.addData(node);
-                    if (GiftActivity.getInstance() != null) {
-                        GiftActivity.getInstance().getBinding().toolbar.toolbar.setTitle(R.string.settings_gift);
-                    }
-                }, delay);
-            }
-        } else {
-            mHandler.post(() -> mAdapter.addData(node));
-        }
+        new Handler(Looper.getMainLooper()).post(() -> mNode.setValue(node));
     }
 }

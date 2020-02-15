@@ -1,6 +1,8 @@
 package com.absinthe.anywhere_.ui.gift;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.gift.ChatAdapter;
+import com.absinthe.anywhere_.adapter.gift.LeftChatNode;
 import com.absinthe.anywhere_.adapter.manager.SmoothScrollLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityGiftBinding;
 import com.absinthe.anywhere_.model.GiftChatString;
@@ -20,6 +23,8 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewmodel.GiftViewModel;
+
+import java.util.Random;
 
 public class GiftActivity extends BaseActivity {
 
@@ -48,6 +53,7 @@ public class GiftActivity extends BaseActivity {
             finish();
         }
 
+        mViewModel.getPrice();
         mViewModel.getChatQueue().offer(GiftChatString.chats);
         Logger.d(AppUtils.getAndroidId(this));
     }
@@ -69,7 +75,10 @@ public class GiftActivity extends BaseActivity {
 
         ChatAdapter adapter = new ChatAdapter();
         mBinding.rvChat.setAdapter(adapter);
-        mBinding.rvChat.setLayoutManager(new SmoothScrollLayoutManager(this));
+        SmoothScrollLayoutManager manager = new SmoothScrollLayoutManager(this);
+        mBinding.rvChat.setLayoutManager(manager);
+        mBinding.rvChat.setHasFixedSize(true);
+        mBinding.rvChat.setNestedScrollingEnabled(false);
         mViewModel.setAdapter(adapter);
 
         mBinding.ibSend.setOnClickListener(v -> {
@@ -82,6 +91,31 @@ public class GiftActivity extends BaseActivity {
                 }
                 mViewModel.addChat(content, ChatAdapter.TYPE_RIGHT);
                 mBinding.etChat.setText("");
+            }
+        });
+
+        mViewModel.getNode().observe(this, node -> {
+            if (node instanceof LeftChatNode) {
+                mBinding.toolbar.toolbar.setTitle(R.string.settings_gift_typing);
+                int delay = new Random().nextInt(500) + 1000;
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    mViewModel.getAdapter().addData(node);
+                    try {
+                        Thread.sleep(50);
+                        mBinding.rvChat.smoothScrollToPosition(mViewModel.getAdapter().getItemCount() - 1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mBinding.toolbar.toolbar.setTitle(R.string.settings_gift);
+                }, delay);
+            } else {
+                mViewModel.getAdapter().addData(node);
+                try {
+                    Thread.sleep(50);
+                    mBinding.rvChat.smoothScrollToPosition(mViewModel.getAdapter().getItemCount() - 1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

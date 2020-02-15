@@ -21,7 +21,8 @@ public class GiftChatString {
     public static final String[] hasPurchasedResponse = {
             L + "诶！这是送给我的吗…",
             L + "好开心呀嘿嘿",
-            L + "可是我也只有这么一件礼物了，希望你好好保管起来"
+            L + "可是我也只有这么一件礼物了，希望你好好保管起来",
+            I + "已获得“艾薇的馈赠”"
     };
 
     public static final String[] notYourCodeResponse = {

@@ -1,8 +1,10 @@
 package com.absinthe.anywhere_.utils.manager;
 
-import com.absinthe.anywhere_.BuildConfig;
+import androidx.annotation.Keep;
+
 import com.absinthe.anywhere_.model.Settings;
 
+@Keep
 public class IzukoHelper {
 
     static {
@@ -16,8 +18,7 @@ public class IzukoHelper {
     public static native boolean isHitagi(String token);
 
     public static boolean isHitagi() {
-//        return isHitagi(Settings.sToken);
-        return BuildConfig.DEBUG;
+        return isHitagi(Settings.sToken);
     }
 
 }

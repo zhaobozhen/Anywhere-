@@ -146,23 +146,27 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         switch (key) {
             case Const.PREF_CHANGE_BACKGROUND:
                 try {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("image/*");
-                    SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
-                    SettingsActivity.getInstance().setDocumentResultListener(uri -> {
-                        if (uri != null) {
-                            Logger.d("backgroundUri = " + uri);
-                            GlobalValues.setsBackgroundUri(uri.toString());
-                            GlobalValues.setsActionBarType("");
-                            MainActivity instance = MainActivity.getInstance();
-                            if (instance != null) {
-                                instance.getViewModel().getBackground().setValue(uri.toString());
-                                instance.restartActivity();
-                                SettingsActivity.getInstance().finish();
+                    if (IzukoHelper.isHitagi()) {
+                        mContext.startActivity(new Intent(mContext, BackgroundActivity.class));
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("image/*");
+                        SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                        SettingsActivity.getInstance().setDocumentResultListener(uri -> {
+                            if (uri != null) {
+                                Logger.d("backgroundUri = " + uri);
+                                GlobalValues.setsBackgroundUri(uri.toString());
+                                GlobalValues.setsActionBarType("");
+                                MainActivity instance = MainActivity.getInstance();
+                                if (instance != null) {
+                                    instance.getViewModel().getBackground().setValue(uri.toString());
+                                    instance.restartActivity();
+                                    SettingsActivity.getInstance().finish();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 } catch (ActivityNotFoundException e) {
                     e.printStackTrace();
                     ToastUtil.makeText(R.string.toast_no_document_app);
