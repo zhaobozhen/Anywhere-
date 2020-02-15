@@ -84,7 +84,6 @@ public class Const {
 
     public static final int REQUEST_CODE_SHIZUKU_PERMISSION = 1001;
     public static final int REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1002;
-    public static final int REQUEST_CODE_PHOTO_CROP = 1003;
     public static final int REQUEST_CODE_IMAGE_CAPTURE = 1004;
     public static final int REQUEST_CODE_WRITE_FILE = 1005;
     public static final int REQUEST_CODE_RESTORE_BACKUPS = 1006;

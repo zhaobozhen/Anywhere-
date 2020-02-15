@@ -85,8 +85,13 @@ public class ShortcutsUtils {
             // Assumes there's already a shortcut with the ID "my-shortcut".
             // The shortcut must be enabled.
             Intent intent = new Intent(AnywhereApplication.sContext, ShortcutsActivity.class);
-            intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
-            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
+            if (ae.getAnywhereType() == AnywhereType.IMAGE) {
+                intent.setAction(ShortcutsActivity.ACTION_START_IMAGE);
+                intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
+            } else {
+                intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
+                intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
+            }
 
             ShortcutInfo pinShortcutInfo =
                     new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getId())
