@@ -22,6 +22,7 @@ import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog;
 import com.absinthe.anywhere_.ui.fragment.IceBoxGrantDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.ImageDialogFragment;
+import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment;
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.RenameFragmentDialog;
@@ -319,6 +320,11 @@ public class DialogManager {
 
     public static void showGrantPriviligedPermDialog(AppCompatActivity activity) {
         IceBoxGrantDialogFragment dialogFragment = new IceBoxGrantDialogFragment();
+        dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
+    }
+
+    public static void showGiftPriceDialog(AppCompatActivity activity) {
+        GiftPriceDialogFragment dialogFragment = new GiftPriceDialogFragment();
         dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
     }
 }

@@ -20,7 +20,7 @@ import com.absinthe.anywhere_.adapter.manager.SmoothScrollLayoutManager;
 import com.absinthe.anywhere_.databinding.ActivityGiftBinding;
 import com.absinthe.anywhere_.model.GiftChatString;
 import com.absinthe.anywhere_.utils.AppUtils;
-import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewmodel.GiftViewModel;
 
@@ -129,7 +129,7 @@ public class GiftActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.toolbar_gift) {
-            ToastUtil.makeText("Gift");
+            DialogManager.showGiftPriceDialog(this);
         }
         return super.onOptionsItemSelected(menuItem);
     }
