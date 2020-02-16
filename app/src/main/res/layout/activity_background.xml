@@ -6,8 +6,16 @@
     android:layout_height="match_parent"
     tools:context="com.absinthe.anywhere_.ui.settings.BackgroundActivity">
 
-    <include layout="@layout/toolbar"
+    <include
         android:id="@+id/toolbar"
+        layout="@layout/toolbar"
         app:layout_constraintTop_toBottomOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

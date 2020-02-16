@@ -302,7 +302,7 @@ public class MainActivity extends BaseActivity {
                         mViewModel.addPage();
                     } else {
                         try {
-                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                             intent.addCategory(Intent.CATEGORY_OPENABLE);
                             intent.setType("text/html");
                             startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);

@@ -11,6 +11,7 @@ import com.absinthe.anywhere_.interfaces.OnDocumentResultListener;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
@@ -60,6 +61,7 @@ public class BaseActivity extends AppCompatActivity {
         if (requestCode == Const.REQUEST_CODE_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             if (mListener != null && data != null && data.getData() != null) {
                 mListener.onResult(data.getData());
+                AppUtils.takePersistableUriPermission(this, data.getData(), data);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

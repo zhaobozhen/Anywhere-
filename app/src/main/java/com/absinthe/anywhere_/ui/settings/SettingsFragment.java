@@ -149,7 +149,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                     if (IzukoHelper.isHitagi()) {
                         mContext.startActivity(new Intent(mContext, BackgroundActivity.class));
                     } else {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                         intent.addCategory(Intent.CATEGORY_OPENABLE);
                         intent.setType("image/*");
                         SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);

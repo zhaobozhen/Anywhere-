@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.ui.main;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ public class WebviewFragment extends Fragment {
     @SuppressLint("SetJavaScriptEnabled")
     private void initView(View view) {
         WebView webView = view.findViewById(R.id.wv_container);
+        webView.setBackgroundColor(Color.TRANSPARENT);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(mUri);
     }

@@ -286,4 +286,11 @@
     <string name="drawer_title">Pages</string>
     <string name="drawer_tool_add">Add pageTitle</string>
 
+    <!--  Gift  -->
+    <string name="gift_third_info">单设备\n激活三次</string>
+    <string name="gift_infinity_info">单设备\n激活无限次</string>
+    <string name="gift_tip">*重装设备或者更换设备需要重新激活</string>
+    <string name="gift_feature">激活“艾薇的馈赠”，将获得：\n◉ 为每页设置单独的背景\n◉ 新建自定义 HTML 页\n◉ ···</string>
+    <string name="gift_alipay_purchase">支付宝付款</string>
+
 </resources>
