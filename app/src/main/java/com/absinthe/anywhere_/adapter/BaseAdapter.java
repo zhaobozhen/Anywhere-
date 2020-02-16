@@ -23,6 +23,7 @@ import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
@@ -183,7 +184,10 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             } else {
                 generalOpen(item);
             }
-        } else {
+        } else if (item.getAnywhereType() == AnywhereType.SHELL) {
+            String result = CommandUtils.execAdbCmd(TextUtils.getItemCommand(item));
+            DialogManager.showShellResultDialog(mContext, result);
+        } else if (item.getAnywhereType() == AnywhereType.ACTIVITY) {
             generalOpen(item);
         }
     }

@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
@@ -37,7 +38,7 @@ public class CreateShortcutDialogFragment extends AnywhereDialogFragment {
     public CreateShortcutDialogFragment(AnywhereEntity ae) {
         mEntity = ae;
         mName = ae.getAppName();
-        mIcon = UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae.getParam1());
+        mIcon = UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class CreateShortcutDialogFragment extends AnywhereDialogFragment {
         mBuilder.etName.setText(mName);
 
         mBuilder.ivIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
             startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
@@ -87,6 +88,7 @@ public class CreateShortcutDialogFragment extends AnywhereDialogFragment {
                                 .load(iconUri)
                                 .transition(DrawableTransitionOptions.withCrossFade())
                                 .into(mBuilder.ivIcon);
+                        AppUtils.takePersistableUriPermission(mContext, iconUri, data);
                     }
                 }
             }

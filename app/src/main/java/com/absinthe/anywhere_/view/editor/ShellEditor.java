@@ -117,7 +117,8 @@ public class ShellEditor extends Editor<ShellEditor> {
                         ae.setCategory(mItem.getCategory());
                         ae.setTimeStamp(mItem.getTimeStamp());
 
-                        CommandUtils.execAdbCmd(TextUtils.getItemCommand(ae));
+                        String result = CommandUtils.execAdbCmd(TextUtils.getItemCommand(ae));
+                        DialogManager.showShellResultDialog(mContext, result);
                     }
                 }
             });

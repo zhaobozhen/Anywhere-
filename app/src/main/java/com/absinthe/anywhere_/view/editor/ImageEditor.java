@@ -56,7 +56,7 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
         if (ivPreview != null) {
             ivPreview.setOnClickListener(v -> {
                 try {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("image/*");
                     ((BaseActivity) mContext).startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);

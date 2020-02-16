@@ -269,4 +269,11 @@
     <string name="bsd_text_input_layout_dynamic_params_helper_text">每次打开前输入参数\n示例: param1&amp;param2</string>
     <string name="dialog_dynamic_params_title">输入动态参数</string>
     <string name="bsd_text_input_layout_shell_name_label">Shell 名称</string>
+    <string name="dialog_shell_result_title">Shell 结果</string>
+    <string name="gift_alipay_purchase">支付宝付款</string>
+    <string name="gift_infinity_info">单设备\n激活无限次</string>
+    <string name="gift_tip">*重装设备或者更换设备后需要重新激活</string>
+    <string name="gift_feature">激活“艾薇的馈赠”，将获得：\n◉ 为每页设置单独的背景\n◉ 新建自定义 HTML 页\n◉ ···</string>
+    <string name="gift_third_info">单设备\n激活三次</string>
+    <string name="dialog_close_button">关闭</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.adapter.page;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CommandUtils;
+import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.google.android.material.chip.Chip;
@@ -54,6 +54,9 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
             AnywhereEntity ae = mList.get(position);
             if (ae.getAnywhereType() == AnywhereType.IMAGE) {
                 DialogManager.showImageDialog(MainActivity.getInstance(), ae);
+            } else if (ae.getAnywhereType() == AnywhereType.SHELL) {
+                String result = CommandUtils.execAdbCmd(TextUtils.getItemCommand(ae));
+                DialogManager.showShellResultDialog(MainActivity.getInstance(), result);
             } else {
                 CommandUtils.execCmd(com.absinthe.anywhere_.utils.TextUtils.getItemCommand(ae));
             }

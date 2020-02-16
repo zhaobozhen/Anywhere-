@@ -274,6 +274,14 @@ public class DialogManager {
         builder.show();
     }
 
+    public static void showShellResultDialog(Context context, String result) {
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
+        builder.setTitle(R.string.dialog_shell_result_title)
+                .setMessage(result)
+                .setPositiveButton(R.string.dialog_close_button, null)
+                .show();
+    }
+
     public static void showIconPackChoosingDialog(AppCompatActivity activity) {
         IconPackDialogFragment fragment = new IconPackDialogFragment();
         fragment.show(activity.getSupportFragmentManager(), fragment.getTag());

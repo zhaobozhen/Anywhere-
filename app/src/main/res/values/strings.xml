@@ -41,6 +41,7 @@
     <string name="dialog_delete_with_sub_item_message">Are you sure to delete %s and its items?</string>
     <string name="dialog_delete_positive_button">Confirm</string>
     <string name="dialog_delete_negative_button">Cancel</string>
+    <string name="dialog_close_button">Close</string>
     <string name="dialog_go_to_perm_button">Grant</string>
     <string name="dialog_add_shortcut_title">Add Shortcuts</string>
     <string name="dialog_add_shortcut_message">Are you sure to add %s ?</string>
@@ -51,6 +52,7 @@
     <string name="dialog_add_home_shortcut_title">Add pinned shortcut</string>
     <string name="dialog_copy">Copy</string>
     <string name="dialog_dynamic_params_title">Input Dynamic Params</string>
+    <string name="dialog_shell_result_title">Shell Result</string>
 
     <!--  BottomSheetDialog  -->
     <string name="bsd_btn_done">Done</string>
@@ -288,10 +290,10 @@
     <string name="drawer_tool_add">Add pageTitle</string>
 
     <!--  Gift  -->
-    <string name="gift_third_info">单设备\n激活三次</string>
-    <string name="gift_infinity_info">单设备\n激活无限次</string>
-    <string name="gift_tip">*重装设备或者更换设备需要重新激活</string>
-    <string name="gift_feature">激活“艾薇的馈赠”，将获得：\n◉ 为每页设置单独的背景\n◉ 新建自定义 HTML 页\n◉ ···</string>
-    <string name="gift_alipay_purchase">支付宝付款</string>
+    <string name="gift_third_info">Single device\nactivated three times</string>
+    <string name="gift_infinity_info">Single device\nactivation unlimited</string>
+    <string name="gift_tip">* Requires reactivation after reinstalling the device or replacing the device</string>
+    <string name="gift_feature">After activating \"Anywhere- Gift\", you will get:\nSet a separate background for each page\n◉ New a custom HTML page\n◉ ···</string>
+    <string name="gift_alipay_purchase">Alipay payment</string>
 
 </resources>
