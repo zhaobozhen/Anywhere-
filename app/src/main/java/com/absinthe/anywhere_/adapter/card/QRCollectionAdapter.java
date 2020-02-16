@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.QRCollection;
-import com.absinthe.anywhere_.view.QRCodeEditor;
+import com.absinthe.anywhere_.view.editor.QRCodeEditor;
 
 public class QRCollectionAdapter extends StreamCardsAdapter {
     public QRCollectionAdapter(Context context) {

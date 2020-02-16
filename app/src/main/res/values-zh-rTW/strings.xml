@@ -265,4 +265,7 @@
     <string name="dialog_empty_list">空空如也😮</string>
     <string name="menu_share_card">分享此卡片</string>
     <string name="dialog_copy">複製</string>
+    <string name="bsd_text_input_layout_dynamic_params_label">動態參數(選填)</string>
+    <string name="bsd_text_input_layout_dynamic_params_helper_text">每次打開前輸入參數\n示例: param1&amp;param2</string>
+    <string name="dialog_dynamic_params_title">輸入動態參數</string>
 </resources>

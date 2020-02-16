@@ -50,6 +50,7 @@
     <string name="dialog_cant_add_shortcut_message">You can only add up to 3 Shortcuts</string>
     <string name="dialog_add_home_shortcut_title">Add pinned shortcut</string>
     <string name="dialog_copy">Copy</string>
+    <string name="dialog_dynamic_params_title">Input Dynamic Params</string>
 
     <!--  BottomSheetDialog  -->
     <string name="bsd_btn_done">Done</string>
@@ -62,6 +63,7 @@
     <string name="bsd_text_input_layout_description_label">Description(Optional)</string>
     <string name="bsd_text_input_layout_intent_extra_label">Add Intent Extras(Optional)</string>
     <string name="bsd_text_input_layout_image_uri_hint">Image URI</string>
+    <string name="bsd_text_input_layout_dynamic_params_label">Dynamic Params(Optional)</string>
 
     <string name="bsd_text_input_layout_app_name_helper_text">Name your Anywhere-</string>
     <string name="bsd_text_input_layout_package_name_helper_text">App\'s package name, generally by default</string>
@@ -70,6 +72,7 @@
     <string name="bsd_text_input_layout_description_helper_text">Describe your Anywhere-</string>
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from HELP pageTitle</string>
     <string name="bsd_text_input_layout_image_uri_helper_text">Tap image above to select local picture or fill in web picture URI</string>
+    <string name="bsd_text_input_layout_dynamic_params_helper_text">Enter parameters before each opening\nExample: param1&amp;param2</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
     <string name="bsd_default">Default</string>

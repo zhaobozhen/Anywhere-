@@ -1,10 +1,12 @@
-package com.absinthe.anywhere_.view;
+package com.absinthe.anywhere_.view.editor;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
@@ -26,6 +28,8 @@ public class SchemeEditor extends Editor<SchemeEditor> {
 
     private TextInputLayout tilUrlScheme;
     private TextInputEditText tietUrlScheme;
+    private TextInputLayout tilDynamicParams;
+    private TextInputEditText tietDynamicParams;
 
     public SchemeEditor(Context context) {
         super(context, Editor.URL_SCHEME);
@@ -42,9 +46,15 @@ public class SchemeEditor extends Editor<SchemeEditor> {
 
         tilUrlScheme = mBottomSheetDialog.findViewById(R.id.til_url_scheme);
         tietUrlScheme = mBottomSheetDialog.findViewById(R.id.tiet_url_scheme);
+        tilDynamicParams = mBottomSheetDialog.findViewById(R.id.til_dynamic_params);
+        tietDynamicParams = mBottomSheetDialog.findViewById(R.id.tiet_dynamic_params);
 
         if (tietUrlScheme != null) {
             tietUrlScheme.setText(mItem.getParam1());
+        }
+
+        if (tietDynamicParams != null && !TextUtils.isEmpty(mItem.getParam3())) {
+            tietDynamicParams.setText(mItem.getParam3());
         }
 
         Button btnUrlSchemeCommunity = mBottomSheetDialog.findViewById(R.id.btn_url_scheme_community);
@@ -65,10 +75,11 @@ public class SchemeEditor extends Editor<SchemeEditor> {
         Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
         if (btnEditAnywhereDone != null) {
             btnEditAnywhereDone.setOnClickListener(view -> {
-                if (tietUrlScheme != null && tietAppName != null && tietDescription != null) {
+                if (tietUrlScheme != null && tietAppName != null && tietDescription != null && tietDynamicParams != null) {
                     String uScheme = tietUrlScheme.getText() == null ? "" : tietUrlScheme.getText().toString();
                     String aName = tietAppName.getText() == null ? mContext.getString(R.string.bsd_new_url_scheme_name) : tietAppName.getText().toString();
                     String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
+                    String dynamic = tietDynamicParams.getText() == null ? "" : tietDynamicParams.getText().toString();
 
                     if (tietAppName.getText().toString().isEmpty() && tilAppName != null) {
                         tilAppName.setError(mContext.getString(R.string.bsd_error_should_not_empty));
@@ -80,15 +91,16 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietUrlScheme.getText().toString().isEmpty()) {
                         AnywhereEntity ae = AnywhereEntity.Builder();
-                                ae.setId(mItem.getId());
-                                ae.setAppName(aName);
-                                ae.setParam1(uScheme);
-                                ae.setParam2(UiUtils.getPkgNameByUrl(mContext, uScheme));
-                                ae.setDescription(desc);
-                                ae.setType(mItem.getType());
-                                ae.setCategory(mItem.getCategory());
-                                ae.setTimeStamp(mItem.getTimeStamp());
-                                ae.setColor(mItem.getColor());
+                        ae.setId(mItem.getId());
+                        ae.setAppName(aName);
+                        ae.setParam1(uScheme);
+                        ae.setParam2(UiUtils.getPkgNameByUrl(mContext, uScheme));
+                        ae.setParam3(dynamic);
+                        ae.setDescription(desc);
+                        ae.setType(mItem.getType());
+                        ae.setCategory(mItem.getCategory());
+                        ae.setTimeStamp(mItem.getTimeStamp());
+                        ae.setColor(mItem.getColor());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
@@ -128,16 +140,26 @@ public class SchemeEditor extends Editor<SchemeEditor> {
             ibRun.setOnClickListener(view -> {
                 if (tietUrlScheme != null) {
                     String uName = tietUrlScheme.getText() == null ? mItem.getParam1() : tietUrlScheme.getText().toString();
+                    String dynamic = tietDynamicParams.getText() == null ? mItem.getParam3() : tietDynamicParams.getText().toString();
 
                     if (!tietUrlScheme.getText().toString().isEmpty()) {
                         AnywhereEntity ae = AnywhereEntity.Builder();
-                                ae.setId(mItem.getId());
-                                ae.setParam1(uName);
-                                ae.setType(mItem.getType());
-                                ae.setCategory(mItem.getCategory());
-                                ae.setTimeStamp(mItem.getTimeStamp());
+                        ae.setId(mItem.getId());
+                        ae.setParam1(uName);
+                        ae.setParam3(dynamic);
+                        ae.setType(mItem.getType());
+                        ae.setCategory(mItem.getCategory());
+                        ae.setTimeStamp(mItem.getTimeStamp());
 
-                        CommandUtils.execCmd(TextUtils.getItemCommand(ae));
+                        if (!dynamic.isEmpty()) {
+                            DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, dynamic, text -> {
+                                AnywhereEntity item = new AnywhereEntity(mItem);
+                                item.setParam1(uName + text);
+                                CommandUtils.execCmd(TextUtils.getItemCommand(item));
+                            });
+                        } else {
+                            CommandUtils.execCmd(TextUtils.getItemCommand(ae));
+                        }
                     }
                 }
             });

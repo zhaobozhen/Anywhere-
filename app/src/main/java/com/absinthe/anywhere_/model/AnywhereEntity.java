@@ -92,6 +92,19 @@ public class AnywhereEntity implements Parcelable {
         mColor = color;
     }
 
+    public AnywhereEntity(AnywhereEntity ae) {
+        mId = ae.getId();
+        mAppName = ae.getAppName();
+        mParam1 = ae.getParam1();
+        mParam2 = ae.getParam2();
+        mParam3 = ae.getParam3();
+        mDescription = ae.getDescription();
+        mType = ae.getType();
+        mCategory = ae.getCategory();
+        mTimeStamp = ae.getTimeStamp();
+        mColor = ae.getColor();
+    }
+
     private AnywhereEntity(Parcel in) {
         mId = Objects.requireNonNull(in.readString());
         mAppName = Objects.requireNonNull(in.readString());

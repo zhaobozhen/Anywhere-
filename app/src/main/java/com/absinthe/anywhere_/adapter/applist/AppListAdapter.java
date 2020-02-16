@@ -27,7 +27,7 @@ import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.view.AnywhereEditor;
+import com.absinthe.anywhere_.view.editor.AnywhereEditor;
 
 import java.util.ArrayList;
 import java.util.List;

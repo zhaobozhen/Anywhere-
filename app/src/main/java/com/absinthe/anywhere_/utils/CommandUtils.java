@@ -76,7 +76,7 @@ public class CommandUtils {
                 } catch (ActivityNotFoundException e) {
                     Logger.e("URL_SCHEME:Exception:", e.getMessage());
                     result = CommandResult.RESULT_NO_REACT_URL;
-                } catch ( FileUriExposedException e2) {
+                } catch (FileUriExposedException e2) {
                     Logger.e(e2.getMessage());
                     result = CommandResult.RESULT_FILE_URI_EXPOSED;
                 }

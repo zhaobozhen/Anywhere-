@@ -266,4 +266,5 @@ public class TextUtils {
         }
         return URLManager.ANYWHERE_SCHEME + URLManager.CARD_SHARING_HOST + "/" + encrypted;
     }
+
 }

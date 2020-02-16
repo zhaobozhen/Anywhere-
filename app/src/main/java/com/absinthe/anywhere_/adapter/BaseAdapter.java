@@ -25,13 +25,12 @@ import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
-import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
-import com.absinthe.anywhere_.view.AnywhereEditor;
-import com.absinthe.anywhere_.view.Editor;
-import com.absinthe.anywhere_.view.ImageEditor;
-import com.absinthe.anywhere_.view.QRCodeEditor;
-import com.absinthe.anywhere_.view.SchemeEditor;
+import com.absinthe.anywhere_.view.editor.AnywhereEditor;
+import com.absinthe.anywhere_.view.editor.Editor;
+import com.absinthe.anywhere_.view.editor.ImageEditor;
+import com.absinthe.anywhere_.view.editor.QRCodeEditor;
+import com.absinthe.anywhere_.view.editor.SchemeEditor;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.card.MaterialCardView;
 
@@ -163,14 +162,6 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
     }
 
     private void openAnywhereActivity(AnywhereEntity item) {
-        //Todo Will be deleted in future version
-        if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
-            if (android.text.TextUtils.isEmpty(item.getParam2())) {
-                item.setParam2(UiUtils.getPkgNameByUrl(mContext, item.getParam1()));
-                AnywhereApplication.sRepository.update(item);
-            }
-        }
-
         if (item.getAnywhereType() == AnywhereType.QR_CODE) {
             QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(item.getParam2());
             if (entity != null) {
@@ -178,29 +169,43 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             }
         } else if (item.getAnywhereType() == AnywhereType.IMAGE) {
             DialogManager.showImageDialog((AppCompatActivity) mContext, item);
+        } else if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
+            if (!TextUtils.isEmpty(item.getParam3())) {
+                DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, item.getParam3(), text -> {
+                    AnywhereEntity ae = new AnywhereEntity(item);
+                    ae.setParam1(item.getParam1() + text);
+                    generalOpen(ae);
+                });
+            } else {
+                generalOpen(item);
+            }
         } else {
-            String cmd = TextUtils.getItemCommand(item);
-            if (!cmd.isEmpty()) {
-                if (AppUtils.isAppFrozen(mContext, item)) {
-                    if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                        if (PermissionUtils.isMIUI()) {
-                            DialogManager.showGrantPriviligedPermDialog((AppCompatActivity) mContext);
-                        } else {
-                            ActivityCompat.requestPermissions((Activity) mContext, new String[]{IceBox.SDK_PERMISSION}, 0x233);
-                        }
+            generalOpen(item);
+        }
+    }
+
+    private void generalOpen(AnywhereEntity item) {
+        String cmd = TextUtils.getItemCommand(item);
+        if (!cmd.isEmpty()) {
+            if (AppUtils.isAppFrozen(mContext, item)) {
+                if (ContextCompat.checkSelfPermission(AnywhereApplication.sContext, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
+                    if (PermissionUtils.isMIUI()) {
+                        DialogManager.showGrantPriviligedPermDialog((AppCompatActivity) mContext);
                     } else {
-                        final OnAppUnfreezeListener onAppUnfreezeListener = () ->
-                                MainActivity.getInstance().getViewModel().getCommand().setValue(cmd);
-                        if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
-                            PermissionUtils.unfreezeApp(mContext, item.getParam2(), onAppUnfreezeListener);
-                        } else {
-                            PermissionUtils.unfreezeApp(mContext, item.getParam1(), onAppUnfreezeListener);
-                        }
+                        ActivityCompat.requestPermissions((Activity) mContext, new String[]{IceBox.SDK_PERMISSION}, 0x233);
                     }
                 } else {
-                    if (MainActivity.getInstance() != null) {
-                        MainActivity.getInstance().getViewModel().getCommand().setValue(cmd);
+                    final OnAppUnfreezeListener onAppUnfreezeListener = () ->
+                            MainActivity.getInstance().getViewModel().getCommand().setValue(cmd);
+                    if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
+                        PermissionUtils.unfreezeApp(mContext, item.getParam2(), onAppUnfreezeListener);
+                    } else {
+                        PermissionUtils.unfreezeApp(mContext, item.getParam1(), onAppUnfreezeListener);
                     }
+                }
+            } else {
+                if (MainActivity.getInstance() != null) {
+                    MainActivity.getInstance().getViewModel().getCommand().setValue(cmd);
                 }
             }
         }

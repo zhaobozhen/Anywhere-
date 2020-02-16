@@ -25,9 +25,9 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
-import com.absinthe.anywhere_.view.Editor;
-import com.absinthe.anywhere_.view.ImageEditor;
-import com.absinthe.anywhere_.view.SchemeEditor;
+import com.absinthe.anywhere_.view.editor.Editor;
+import com.absinthe.anywhere_.view.editor.ImageEditor;
+import com.absinthe.anywhere_.view.editor.SchemeEditor;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
 import java.util.ArrayList;

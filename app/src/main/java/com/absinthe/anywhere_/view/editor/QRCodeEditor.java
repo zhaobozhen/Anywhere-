@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.view;
+package com.absinthe.anywhere_.view.editor;
 
 import android.content.Context;
 import android.os.Build;

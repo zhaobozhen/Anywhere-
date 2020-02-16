@@ -21,6 +21,7 @@ import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog;
 import com.absinthe.anywhere_.ui.fragment.CardSharingDialogFragment;
+import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.IceBoxGrantDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.ImageDialogFragment;
 import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment;
@@ -331,6 +332,12 @@ public class DialogManager {
 
     public static void showCardSharingDialog(AppCompatActivity activity, String text) {
         CardSharingDialogFragment dialogFragment = new CardSharingDialogFragment(text);
+        dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
+    }
+
+    public static void showDynamicParamsDialog(AppCompatActivity activity, String text, DynamicParamsDialogFragment.OnParamsInputListener listener) {
+        DynamicParamsDialogFragment dialogFragment = new DynamicParamsDialogFragment(text);
+        dialogFragment.setListener(listener);
         dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
     }
 }

@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.view;
+package com.absinthe.anywhere_.view.editor;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,6 +24,8 @@ import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.view.AnywhereBottomSheetDialog;
+import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,6 +37,7 @@ public abstract class Editor<T extends Editor<?>> {
     public static final int URL_SCHEME = 2;
     public static final int QR_CODE = 3;
     public static final int IMAGE = 4;
+    public static final int SHELL = 5;
 
     protected Context mContext;
     private OnEditorListener mListener;
