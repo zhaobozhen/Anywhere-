@@ -78,6 +78,7 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
         items.add(new License("BaseRecyclerViewAdapterHelper", "CymChad", License.MIT, "https://github.com/CymChad/BaseRecyclerViewAdapterHelper"));
         items.add(new License("colorpicker", "QuadFlask", License.APACHE_2, "https://github.com/QuadFlask/colorpicker"));
         items.add(new License("gson", "Google", License.APACHE_2, "https://github.com/google/gson"));
+        items.add(new License("zxing", "zxing", License.APACHE_2, "https://github.com/zxing/zxing"));
         items.add(new License("AndroidX", "Google", License.APACHE_2, "https://source.google.com"));
         items.add(new License("Android Jetpack", "Google", License.APACHE_2, "https://source.google.com"));
         items.add(new License("Palette", "Google", License.APACHE_2, "https://source.google.com"));

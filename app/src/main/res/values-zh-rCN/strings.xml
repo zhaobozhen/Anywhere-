@@ -263,4 +263,6 @@
     <string name="settings_exclude_from_recent">从近期任务列表排除</string>
     <string name="settings_exclude_from_recent_summary">退出应用后不在近期应用列表中显示</string>
     <string name="dialog_empty_list">空空如也😮</string>
+    <string name="menu_share_card">分享此卡片</string>
+    <string name="dialog_copy">复制</string>
 </resources>

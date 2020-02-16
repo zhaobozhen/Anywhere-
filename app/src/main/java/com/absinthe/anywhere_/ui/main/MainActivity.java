@@ -46,6 +46,8 @@ import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity;
+import com.absinthe.anywhere_.utils.CipherUtils;
+import com.absinthe.anywhere_.utils.ClipboardUtil;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.ListUtils;
@@ -56,12 +58,14 @@ import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.absinthe.anywhere_.view.AnywhereEditor;
 import com.absinthe.anywhere_.view.Editor;
 import com.absinthe.anywhere_.view.FabBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -152,6 +156,13 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         Settings.setTheme(GlobalValues.sDarkMode);
+        ClipboardUtil.getClipBoardText(this, text -> {
+            Logger.d("Clipboard: ", text);
+            if (text.contains(URLManager.ANYWHERE_SCHEME)) {
+                processUri(Uri.parse(text));
+                ClipboardUtil.clearClipboard(this);
+            }
+        });
     }
 
     @Override
@@ -423,12 +434,20 @@ public class MainActivity extends BaseActivity {
         if (action == null || action.equals(Intent.ACTION_VIEW)) {
             Uri uri = intent.getData();
 
-            if (uri == null) {
-                return;
-            } else {
+            if (uri != null) {
                 Logger.d("Received Url =", uri.toString());
-            }
+                Logger.d("Received path =", uri.getPath());
 
+                processUri(uri);
+            }
+        } else if (action.equals(Intent.ACTION_SEND)) {
+            String sharing = intent.getStringExtra(Intent.EXTRA_TEXT);
+            mViewModel.setUpUrlScheme(TextUtils.parseUrlFromSharingText(sharing));
+        }
+    }
+
+    private void processUri(Uri uri) {
+        if (android.text.TextUtils.equals(uri.getHost(), URLManager.URL_HOST)) {
             String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
             String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
             String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);
@@ -461,9 +480,18 @@ public class MainActivity extends BaseActivity {
                     editor.show();
                 }
             }
-        } else if (action.equals(Intent.ACTION_SEND)) {
-            String sharing = intent.getStringExtra(Intent.EXTRA_TEXT);
-            mViewModel.setUpUrlScheme(TextUtils.parseUrlFromSharingText(sharing));
+        } else if (android.text.TextUtils.equals(uri.getHost(), URLManager.CARD_SHARING_HOST)) {
+            if (uri.getPath() != null) {
+                String encrypted = uri.getPath().substring(1);
+                String decrypted = CipherUtils.decrypt(encrypted);
+                AnywhereEntity ae = new Gson().fromJson(decrypted, AnywhereEntity.class);
+                Editor editor = new AnywhereEditor(this)
+                        .item(ae)
+                        .isEditorMode(false)
+                        .isShortcut(false)
+                        .build();
+                editor.show();
+            }
         }
     }
 

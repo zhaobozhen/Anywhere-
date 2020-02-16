@@ -88,7 +88,4 @@ public class Const {
     public static final int REQUEST_CODE_WRITE_FILE = 1005;
     public static final int REQUEST_CODE_RESTORE_BACKUPS = 1006;
 
-    public static final String HOST_URL = "url";
-    public static final String HOST_OPEN = "open";
-
 }

@@ -29,6 +29,7 @@ import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.catchingnow.icebox.sdk_client.IceBox;
@@ -151,7 +152,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                 if (uri != null) {
                     String host = uri.getHost();
 
-                    if (android.text.TextUtils.equals(host, Const.HOST_OPEN)) {
+                    if (android.text.TextUtils.equals(host, URLManager.OPEN_HOST)) {
                         String param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1);
                         String param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2);
                         String param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3);

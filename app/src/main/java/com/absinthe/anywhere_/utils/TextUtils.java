@@ -14,6 +14,8 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.manager.URLManager;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +26,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextUtils {
+
+    public static boolean isEmpty(CharSequence text) {
+        return android.text.TextUtils.isEmpty(text);
+    }
 
     /**
      * process and obtain adb result
@@ -211,6 +217,12 @@ public class TextUtils {
         return tmp;
     }
 
+    /**
+     * Judge that whether the url is an image url
+     *
+     * @param s url
+     * @return true if is an image url
+     */
     public static boolean isImageUrl(String s) {
         List<String> list = new ArrayList<>();
         list.add(".jpg");
@@ -230,7 +242,28 @@ public class TextUtils {
         return false;
     }
 
+    /**
+     * Judge that whether it is a gift code
+     *
+     * @param code code str
+     * @return true if is a gift code
+     */
     public static boolean isGiftCode(String code) {
         return code.matches("^([A-Z0-9]{5}-){3}[A-Z0-9]{5}$");
+    }
+
+    /**
+     * Get card sharing URL
+     *
+     * @param ae Card entity
+     * @return URL
+     */
+    public static String genCardSharingUrl(AnywhereEntity ae) {
+        String json = new Gson().toJson(ae, AnywhereEntity.class);
+        String encrypted = CipherUtils.encrypt(json);
+        if (encrypted != null) {
+            encrypted = encrypted.replaceAll("\n", "");
+        }
+        return URLManager.ANYWHERE_SCHEME + URLManager.CARD_SHARING_HOST + "/" + encrypted;
     }
 }

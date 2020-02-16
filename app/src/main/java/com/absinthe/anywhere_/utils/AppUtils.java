@@ -21,6 +21,7 @@ import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.provider.HomeWidgetProvider;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class AppUtils {
      * @param param3  param3
      */
     public static void openUrl(Context context, String param1, String param2, String param3) {
-        String url = "anywhere://url?"
+        String url = URLManager.ANYWHERE_SCHEME + URLManager.URL_HOST + "?"
                 + "param1=" + param1
                 + "&param2=" + param2
                 + "&param3=" + param3;

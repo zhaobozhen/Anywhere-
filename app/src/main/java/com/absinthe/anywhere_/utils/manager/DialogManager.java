@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog;
+import com.absinthe.anywhere_.ui.fragment.CardSharingDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.IceBoxGrantDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.ImageDialogFragment;
 import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment;
@@ -325,6 +326,11 @@ public class DialogManager {
 
     public static void showGiftPriceDialog(AppCompatActivity activity) {
         GiftPriceDialogFragment dialogFragment = new GiftPriceDialogFragment();
+        dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
+    }
+
+    public static void showCardSharingDialog(AppCompatActivity activity, String text) {
+        CardSharingDialogFragment dialogFragment = new CardSharingDialogFragment(text);
         dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
     }
 }

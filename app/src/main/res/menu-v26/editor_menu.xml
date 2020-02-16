@@ -26,4 +26,9 @@
         android:title="@string/menu_custom_color"
         android:icon="@drawable/ic_color_lens" />
 
+    <item
+        android:id="@+id/share_card"
+        android:title="@string/menu_share_card"
+        android:icon="@drawable/ic_share" />
+
 </menu>

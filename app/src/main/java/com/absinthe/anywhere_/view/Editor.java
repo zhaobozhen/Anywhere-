@@ -213,10 +213,13 @@ public abstract class Editor<T extends Editor<?>> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                     if (isShortcut) {
                         UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.colorAccent);
-                        popup.getMenu().getItem(0).setTitle(R.string.dialog_remove_shortcut_title);
+                        popup.getMenu().findItem(R.id.add_shortcuts).setTitle(R.string.dialog_remove_shortcut_title);
                     } else {
                         UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.textColorNormal);
                     }
+                }
+                if (this instanceof ImageEditor) {
+                    popup.getMenu().findItem(R.id.share_card).setVisible(false);
                 }
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
@@ -245,6 +248,9 @@ public abstract class Editor<T extends Editor<?>> {
                             break;
                         case R.id.custom_color:
                             DialogManager.showColorPickerDialog(mContext, mItem);
+                            break;
+                        case R.id.share_card:
+                            DialogManager.showCardSharingDialog((AppCompatActivity) mContext, TextUtils.genCardSharingUrl(mItem));
                             break;
                         default:
                     }

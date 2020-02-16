@@ -135,6 +135,7 @@ dependencies {
     implementation 'com.catchingnow.icebox:SDK:1.0.5'
     implementation 'com.jonathanfinerty.once:once:1.3.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
+    implementation 'com.google.zxing:core:3.4.0'
 
     //UX
     implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'
