@@ -10,4 +10,8 @@
     <color name="navigationColorNormal">#FF121212</color>
     <color name="lollipopStatusBarColor">#FF121212</color>
 
+    <!--  Shell  -->
+    <color name="shellBackground">#FFECECEC</color>
+    <color name="shellText">#FF444444</color>
+
 </resources>

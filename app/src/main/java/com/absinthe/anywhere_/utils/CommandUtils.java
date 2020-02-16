@@ -196,6 +196,7 @@ public class CommandUtils {
      * @param cmd command
      */
     private static String execShizukuCmd(String cmd) {
+        Logger.d(cmd);
         StringBuilder sb = new StringBuilder();
         try {
             RemoteProcess remoteProcess = ShizukuService.newProcess(new String[]{"sh"}, null, null);

@@ -117,6 +117,8 @@ public class TextUtils {
             //Todo
         } else if (type == AnywhereType.QR_CODE) {
             cmd.append(QREntity.PREFIX).append(item.getParam2());
+        } else if (type == AnywhereType.SHELL) {
+            cmd.append(item.getParam1());
         } else {
             Logger.d("AnywhereType has problem.");
         }

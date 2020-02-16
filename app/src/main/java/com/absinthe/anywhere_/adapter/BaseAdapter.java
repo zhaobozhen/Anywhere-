@@ -31,6 +31,7 @@ import com.absinthe.anywhere_.view.editor.Editor;
 import com.absinthe.anywhere_.view.editor.ImageEditor;
 import com.absinthe.anywhere_.view.editor.QRCodeEditor;
 import com.absinthe.anywhere_.view.editor.SchemeEditor;
+import com.absinthe.anywhere_.view.editor.ShellEditor;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.google.android.material.card.MaterialCardView;
 
@@ -143,6 +144,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                     case AnywhereType.IMAGE:
                         openEditor(item, Editor.IMAGE);
                         break;
+                    case AnywhereType.SHELL:
+                        openEditor(item, Editor.SHELL);
+                        break;
                 }
                 return true;
             }
@@ -226,6 +230,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 break;
             case Editor.IMAGE:
                 mEditor = new ImageEditor(mContext);
+                break;
+            case Editor.SHELL:
+                mEditor = new ShellEditor(mContext);
                 break;
         }
 

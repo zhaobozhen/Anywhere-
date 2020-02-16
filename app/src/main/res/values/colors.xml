@@ -29,4 +29,8 @@
 
     <color name="bubbleBlue">#FF3487D7</color>
 
+    <!--  Shell  -->
+    <color name="shellBackground">#FF444444</color>
+    <color name="shellText">#FFECECEC</color>
+
 </resources>

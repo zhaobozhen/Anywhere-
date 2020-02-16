@@ -59,9 +59,9 @@ import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
+import com.absinthe.anywhere_.view.FabBuilder;
 import com.absinthe.anywhere_.view.editor.AnywhereEditor;
 import com.absinthe.anywhere_.view.editor.Editor;
-import com.absinthe.anywhere_.view.FabBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -81,7 +81,6 @@ public class MainActivity extends BaseActivity {
     private static MainActivity sInstance;
     private static boolean isPageInit = false;
 
-    private MainFragment mCurrFragment;
     private AnywhereViewModel mViewModel;
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -90,14 +89,6 @@ public class MainActivity extends BaseActivity {
 
     public static MainActivity getInstance() {
         return sInstance;
-    }
-
-    public void setCurrFragment(MainFragment mCurrFragment) {
-        this.mCurrFragment = mCurrFragment;
-    }
-
-    public MainFragment getCurrFragment() {
-        return mCurrFragment;
     }
 
     public AnywhereViewModel getViewModel() {
@@ -141,10 +132,9 @@ public class MainActivity extends BaseActivity {
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
         } else {
-            mCurrFragment = MainFragment.newInstance(GlobalValues.sCategory);
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(R.id.container, mCurrFragment)
+                    .replace(R.id.container, MainFragment.newInstance(GlobalValues.sCategory))
                     .commitNow();
             initFab();
             initObserver();
@@ -157,7 +147,6 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         Settings.setTheme(GlobalValues.sDarkMode);
         ClipboardUtil.getClipBoardText(this, text -> {
-            Logger.d("Clipboard: ", text);
             if (text.contains(URLManager.ANYWHERE_SCHEME)) {
                 processUri(Uri.parse(text));
                 ClipboardUtil.clearClipboard(this);
@@ -259,12 +248,12 @@ public class MainActivity extends BaseActivity {
                         PageEntity pe = ListUtils.getPageEntityByTitle(node.getTitle());
                         if (pe != null) {
                             if (pe.getType() == AnywhereType.CARD_PAGE) {
-                                mCurrFragment = MainFragment.newInstance(pe.getTitle());
                                 MainActivity.getInstance().getSupportFragmentManager()
                                         .beginTransaction()
                                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                        .replace(R.id.container, mCurrFragment)
+                                        .replace(R.id.container, MainFragment.newInstance(pe.getTitle()))
                                         .commitNow();
+                                GlobalValues.setsCategory(pe.getTitle(), position);
                             } else if (pe.getType() == AnywhereType.WEB_PAGE) {
                                 MainActivity.getInstance().getSupportFragmentManager()
                                         .beginTransaction()
@@ -272,7 +261,6 @@ public class MainActivity extends BaseActivity {
                                         .replace(R.id.container, WebviewFragment.newInstance(pe.getExtra()))
                                         .commitNow();
                             }
-                            GlobalValues.setsCategory(pe.getTitle(), position);
                         }
                     }
 

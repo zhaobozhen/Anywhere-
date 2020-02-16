@@ -64,6 +64,7 @@
     <string name="bsd_text_input_layout_intent_extra_label">Add Intent Extras(Optional)</string>
     <string name="bsd_text_input_layout_image_uri_hint">Image URI</string>
     <string name="bsd_text_input_layout_dynamic_params_label">Dynamic Params(Optional)</string>
+    <string name="bsd_text_input_layout_shell_name_label">Shell Name</string>
 
     <string name="bsd_text_input_layout_app_name_helper_text">Name your Anywhere-</string>
     <string name="bsd_text_input_layout_package_name_helper_text">App\'s package name, generally by default</string>

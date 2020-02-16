@@ -178,7 +178,6 @@ public class PageTitleProvider extends BaseNodeProvider {
             AnywhereApplication.sRepository.deletePage(pe);
             pe.setTitle(newTitle);
             AnywhereApplication.sRepository.insertPage(pe);
-            MainActivity.getInstance().getCurrFragment().setCategory(newTitle);
             GlobalValues.setsCategory(newTitle);
         }
     }
