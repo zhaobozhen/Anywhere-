@@ -80,32 +80,25 @@ public class TextUtils {
         StringBuilder cmd = new StringBuilder();
         int type = item.getAnywhereType();
 
-        String packageName;
-        String className;
-        String extras;
-
-        String urlScheme;
-
         if (type == AnywhereType.ACTIVITY) {
-            packageName = item.getParam1();
-            className = item.getParam2();
-            extras = item.getParam3();
+            String packageName = item.getParam1();
+            String className = item.getParam2();
+            String extras = item.getParam3();
             Logger.d("packageName =", packageName, "className =", className, "extras =", extras);
 
-            if (className.charAt(0) == '.') {
-                cmd.append(String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, packageName, packageName + className));
-            } else {
-                cmd.append(String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, packageName, className));
+            if (className.startsWith(".")) {
+                className = packageName + className;
             }
+            cmd.append(String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, packageName, className));
 
-            if (extras != null) {
+            if (!TextUtils.isEmpty(extras)) {
                 String[] extrasList = extras.split("\n");
                 for (String eachLine : extrasList) {
                     cmd.append(" ").append(eachLine);
                 }
             }
         } else if (type == AnywhereType.URL_SCHEME) {
-            urlScheme = item.getParam1();
+            String urlScheme = item.getParam1();
             Logger.d("urlScheme =", urlScheme);
 
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
@@ -113,8 +106,6 @@ public class TextUtils {
             } else {
                 cmd.append(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, urlScheme));
             }
-        } else if (type == AnywhereType.MINI_PROGRAM) {
-            //Todo
         } else if (type == AnywhereType.QR_CODE) {
             cmd.append(QREntity.PREFIX).append(item.getParam2());
         } else if (type == AnywhereType.SHELL) {
@@ -155,12 +146,12 @@ public class TextUtils {
      * @return package name
      */
     public static String getPkgNameByCommand(String cmd) {
-        String[] splits = cmd.split(" ");
         if (cmd.contains("am start -n")) {
-            String[] splitsAgain = splits[3].split("/");
-            return splitsAgain.length > 1 ? splitsAgain[0] : "";
+            cmd = cmd.replace("am start -n ", "");
+            return cmd.split("/").length > 1 ? cmd.split("/")[0] : "";
         } else if (cmd.contains("am start -a")) {
-            return getPkgNameByUrlScheme(splits[3]);
+            cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
+            return getPkgNameByUrlScheme(cmd);
         } else {
             return "";
         }

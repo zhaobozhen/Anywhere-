@@ -78,7 +78,6 @@ public class Const {
 
     public static final String CMD_GET_TOP_STACK_ACTIVITY = "dumpsys activity activities | grep mResumedActivity";
     public static final String CMD_OPEN_URL_SCHEME = "am start -a android.intent.action.VIEW -d ";
-    public static final String CMD_OPEN_ACTIVITY = "am start -n ";
     public static final String CMD_OPEN_URL_SCHEME_FORMAT = "am start -a android.intent.action.VIEW -d %s";
     public static final String CMD_OPEN_ACTIVITY_FORMAT = "am start -n %s/%s";
 

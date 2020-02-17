@@ -57,32 +57,26 @@ public class CommandUtils {
      * @param cmd command
      */
     @SuppressLint("NewApi")
-    public static String execCmd(String cmd) {
-        String result = null;
+    public static void execCmd(String cmd) {
+        if (cmd == null) {
+            return;
+        }
+        String result;
 
-        if (cmd.contains("am start -a") || !cmd.contains("am start")) {
-            if (cmd.contains(QREntity.PREFIX)) {
-                cmd = cmd.replace(QREntity.PREFIX, "");
-                QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(cmd);
-                if (entity != null) {
-                    entity.launch();
-                }
+        if (cmd.startsWith("am start -a")) {
+            cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
+            try {
+                URLSchemeHandler.parse(cmd, AnywhereApplication.sContext);
                 result = CommandResult.RESULT_SUCCESS;
-            } else {
-                cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
-                try {
-                    URLSchemeHandler.parse(cmd, AnywhereApplication.sContext);
-                    result = CommandResult.RESULT_SUCCESS;
-                } catch (ActivityNotFoundException e) {
-                    Logger.e("URL_SCHEME:Exception:", e.getMessage());
-                    result = CommandResult.RESULT_NO_REACT_URL;
-                } catch (FileUriExposedException e2) {
-                    Logger.e(e2.getMessage());
-                    result = CommandResult.RESULT_FILE_URI_EXPOSED;
-                }
+            } catch (ActivityNotFoundException e) {
+                Logger.e(e.getMessage());
+                result = CommandResult.RESULT_NO_REACT_URL;
+            } catch (FileUriExposedException e) {
+                Logger.e(e.getMessage());
+                result = CommandResult.RESULT_FILE_URI_EXPOSED;
             }
-        } else {
-            String pkgClsString = cmd.split(" ")[3];
+        } else if (cmd.startsWith("am start -n")) {
+            String pkgClsString = cmd.replace("am start -n ", "");
             String pkg = pkgClsString.split("/")[0];
             String cls = pkgClsString.split("/")[1];
 
@@ -93,22 +87,23 @@ public class CommandUtils {
                     intent.setComponent(new ComponentName(pkg, cls));
                     AnywhereApplication.sContext.startActivity(intent);
                     result = CommandResult.RESULT_SUCCESS;
-                } catch (Exception e) {
-                    Logger.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                } catch (ActivityNotFoundException e) {
+                    Logger.d(e.getMessage());
                     result = CommandResult.RESULT_NO_REACT_URL;
                 }
             } else {
-                switch (GlobalValues.sWorkingMode) {
-                    case Const.WORKING_MODE_SHIZUKU:
-                        result = execShizukuCmd(cmd);
-                        break;
-                    case Const.WORKING_MODE_ROOT:
-                        result = execRootCmd(cmd);
-                        break;
-                    case Const.WORKING_MODE_URL_SCHEME:
-                        ToastUtil.makeText(R.string.toast_change_work_mode);
-                        break;
+                result = execAdbCmd(cmd);
+            }
+        } else {
+            if (cmd.startsWith(QREntity.PREFIX)) {
+                cmd = cmd.replace(QREntity.PREFIX, "");
+                QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(cmd);
+                if (entity != null) {
+                    entity.launch();
                 }
+                result = CommandResult.RESULT_SUCCESS;
+            } else {
+                result = execAdbCmd(cmd);
             }
         }
 
@@ -135,7 +130,6 @@ public class CommandUtils {
                 default:
             }
         }
-        return result;
     }
 
     /**
