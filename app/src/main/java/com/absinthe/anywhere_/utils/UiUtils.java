@@ -110,7 +110,7 @@ public class UiUtils {
                 apkTempPackageName = item.getParam1();
                 return getAppIconByPackageName(context, apkTempPackageName);
             case AnywhereType.IMAGE:
-                return ContextCompat.getDrawable(context, R.drawable.ic_logo);
+                return ContextCompat.getDrawable(context, R.drawable.ic_photo);
             case AnywhereType.SHELL:
                 return ContextCompat.getDrawable(context, R.drawable.ic_code);
         }

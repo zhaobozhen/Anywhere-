@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.viewbuilder.entity.AdvancedCardSelectDialogBuilder;
@@ -33,7 +32,6 @@ public class AdvancedCardSelectDialogFragment extends AnywhereDialogFragment {
         initView();
 
         return builder.setView(mBuilder.getRoot())
-                .setTitle(R.string.btn_add_advanced_card)
                 .create();
     }
 
