@@ -18,10 +18,10 @@
     <string name="notification_collector_content">This notification can be ignored</string>
 
     <!--  About page  -->
-    <string name="slogan">Anywhere- To where you want to</string>
+    <string name="slogan">Anywhere- To Where You Want to</string>
     <string name="whats_this">What\'s this?</string>
     <string name="developer">Developer</string>
-    <string name="developer_info">Developer &amp; designer</string>
+    <string name="developer_info">Developer &amp; Designer</string>
     <string name="certification">Certification</string>
     <string name="android_links_title">Joined \"Android-Links\"</string>
     <string name="green_android_title">Comply to “Convention of Green Apps for Android”</string>
@@ -32,7 +32,7 @@
     <string name="toast_collector_opened">Collector opened</string>
     <string name="ib_collector_todo">Collector</string>
     <string name="accessibility_service_description">Enable this toggle to achieve auto click function</string>
-    <string name="dialog_permission_title">Permission required</string>
+    <string name="dialog_permission_title">Permission Required</string>
     <string name="dialog_permission_message">Shizuku permission required, due to the MIUI ROM limitations, please go to Shizuku Manager to acquire permission</string>
 
     <!--  RecyclerView Adapter  -->
@@ -47,9 +47,9 @@
     <string name="dialog_add_shortcut_message">Are you sure to add %s ?</string>
     <string name="dialog_remove_shortcut_title">Delete Shortcuts</string>
     <string name="dialog_remove_shortcut_message">Are you sure to delete %s ?</string>
-    <string name="dialog_cant_add_shortcut_title">Unable to add Shortcuts</string>
+    <string name="dialog_cant_add_shortcut_title">Unable to Add Shortcuts</string>
     <string name="dialog_cant_add_shortcut_message">You can only add up to 3 Shortcuts</string>
-    <string name="dialog_add_home_shortcut_title">Add pinned shortcut</string>
+    <string name="dialog_add_home_shortcut_title">Add Pinned Shortcut</string>
     <string name="dialog_copy">Copy</string>
     <string name="dialog_dynamic_params_title">Input Dynamic Params</string>
     <string name="dialog_shell_result_title">Shell Result</string>
@@ -73,9 +73,9 @@
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme, you can have a look in Shortcuts Community</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App\'s class name, generally by default</string>
     <string name="bsd_text_input_layout_description_helper_text">Describe your Anywhere-</string>
-    <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from HELP pageTitle</string>
-    <string name="bsd_text_input_layout_image_uri_helper_text">Tap image above to select local picture or fill in web picture URI</string>
-    <string name="bsd_text_input_layout_dynamic_params_helper_text">Enter parameters before each opening\nExample: param1&amp;param2</string>
+    <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from the HELP page</string>
+    <string name="bsd_text_input_layout_image_uri_helper_text">Tap IMAGE above to select local picture or fill in web picture URI</string>
+    <string name="bsd_text_input_layout_dynamic_params_helper_text">Enter parameters while each opening\nExample: param1&amp;param2</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
     <string name="bsd_default">Default</string>
@@ -87,7 +87,7 @@
     <string name="menu_done">Done</string>
     <string name='menu_more'>More</string>
     <string name='menu_trying_run'>Test</string>
-    <string name='menu_overlay'>Overlay window</string>
+    <string name='menu_overlay'>Overlay Window</string>
     <string name='menu_show_system_app'>Show system apps</string>
     <string name='menu_hide_system_app'>Hide system apps</string>
     <string name="menu_rate">Rate</string>
@@ -132,10 +132,10 @@
     <string name="settings_gift_typing">Typing…</string>
 
     <string name="settings_working_mode_summary">Select a working mode</string>
-    <string name="settings_change_background_summary">Choose an image as background to home pageTitle</string>
-    <string name="settings_reset_background_summary">Reset home pageTitle background to blank</string>
+    <string name="settings_change_background_summary">Choose an image as background to home page</string>
+    <string name="settings_reset_background_summary">Reset home page background to blank</string>
     <string name="settings_dark_mode_oled_summary">Enable pure dark background on OLED devices</string>
-    <string name="settings_stream_card_mode_summary">Make more cards available on a whole pageTitle</string>
+    <string name="settings_stream_card_mode_summary">Make more cards available on a whole page</string>
     <string name="settings_stream_card_single_line_summary">Further compress card size</string>
     <string name="settings_card_background_summary">Take the dominate color of the icon as background</string>
     <string name="settings_clear_shortcuts_summary">Reset all Shortcuts</string>
@@ -151,10 +151,10 @@
     <string name="settings_gift_purchase_summary" translatable="false"><i>\"Anywhere, I like it.\" </i></string>
 
     <string name="settings_restore">Restore</string>
-    <string name="settings_backup_backup_title">Create a new backup file</string>
-    <string name="settings_backup_share_title">Share configurations</string>
-    <string name="settings_backup_restore_title">Restore from a storage file</string>
-    <string name="settings_backup_apply_title">Apply configurations</string>
+    <string name="settings_backup_backup_title">Create a New Backup File</string>
+    <string name="settings_backup_share_title">Share Configurations</string>
+    <string name="settings_backup_restore_title">Restore from Storage Files</string>
+    <string name="settings_backup_apply_title">Apply Configurations</string>
 
     <string name="settings_backup_backup_summary">Create a backup file in storage to export Anywhere-</string>
     <string name="settings_backup_share_summary">Copy &amp; share your Anywhere-</string>
@@ -206,11 +206,11 @@
     <string name="dialog_title_choose_icon_pack">Choose an Icon Pack</string>
     <string name="dialog_delete_selected_message">Are you sure to delete the selected item?</string>
     <string name="dialog_restore_apply_paste_hint">Paste configurations</string>
-    <string name="dialog_set_interval_title">Set time interval</string>
+    <string name="dialog_set_interval_title">Set Time Interval</string>
     <string name="dialog_set_icon_and_name_title">Setup Icon and Name</string>
-    <string name="dialog_set_dark_mode_period_title">Setup dark mode period</string>
+    <string name="dialog_set_dark_mode_period_title">Setup Dark Mode Period</string>
     <string name="dialog_rename_title">Rename</string>
-    <string name="dialog_choose_color_title">Choose color</string>
+    <string name="dialog_choose_color_title">Choose Color</string>
     <string name="dialog_empty_list">Empty List😮</string>
 
     <string name="about_text">Anywhere- is a collection of apps.</string>
@@ -220,7 +220,7 @@
     <string name="title_acquire_root_permission">Grant ROOT permission</string>
     <string name="subtitle_acquire_root_permission">Execute the adb commands by ROOT permission</string>
     <string name="title_acquire_overlay_permission">Grant Overlay permission</string>
-    <string name="subtitle_acquire_overlay_permission">Overlay permission is used to generate a hover button to select a pageTitle</string>
+    <string name="subtitle_acquire_overlay_permission">Overlay permission is used to generate a hover button to select a page</string>
     <string name="title_acquire_popup_permission">Grant Pop-up permission</string>
     <string name="subtitle_acquire_popup_permission">MIUI ROM may need to obtain this permission to make the app work properly. This permission is not a standard privilege and cannot obtain an authorization status.</string>
     <string name="title_acquire_shizuku_permission">Grant Shizuku permission</string>
@@ -236,9 +236,9 @@
     <string name="btn_shizuku">Shizuku</string>
     <string name="btn_activity_list">Activities List</string>
     <string name="btn_qr_code_collection">QR Codes</string>
-    <string name="btn_add_image">Add image</string>
+    <string name="btn_add_image">Add Image</string>
     <string name="btn_add_shell" translatable="false">Shell</string>
-    <string name="btn_add_advanced_card">Advanced card</string>
+    <string name="btn_add_advanced_card">Advanced Card</string>
 
     <string name="btn_acquire_permission">Grant</string>
     <string name="btn_acquired">Granted</string>
@@ -256,7 +256,7 @@
     <string name="btn_web_image">Web</string>
 
     <!--  Description  -->
-    <string name="background_todo">Main pageTitle background</string>
+    <string name="background_todo">Main page background</string>
     <string name="anywhere_more_todo">More</string>
     <string name="welcome_logo_todo">Welcome logo</string>
     <string name="initialize_done_todo">Done</string>
@@ -281,15 +281,15 @@
     <string name="activity_list_empty_subtitle">Have you disabled/frozen this app?</string>
 
     <!--  QR Code  -->
-    <string name="desc_work_at_any_mode">Work at any mode</string>
+    <string name="desc_work_at_any_mode">Work at Any Mode</string>
     <string name="desc_need_root">Need Root</string>
     <string name="desc_need_accessibility">Need Accessibility Service</string>
-    <string name="qr_tip_title">LONG press to add Anywhere-</string>
-    <string name="qr_tip_subtitle">This pageTitle\'s Anywhere-\'s are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
+    <string name="qr_tip_title">LONG Press to Add Anywhere-</string>
+    <string name="qr_tip_subtitle">All the Anywhere-\'s in this pages are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
 
     <!--  Drawer  -->
     <string name="drawer_title">Pages</string>
-    <string name="drawer_tool_add">Add pageTitle</string>
+    <string name="drawer_tool_add">Add Page</string>
 
     <!--  Gift  -->
     <string name="gift_third_info">Single device\nactivated three times</string>

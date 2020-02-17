@@ -4,19 +4,15 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.utils.QRCodeUtil;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
+import com.absinthe.anywhere_.viewbuilder.entity.CardSharingBuilder;
 
 public class CardSharingDialogFragment extends AnywhereDialogFragment {
     private Context mContext;
@@ -35,18 +31,9 @@ public class CardSharingDialogFragment extends AnywhereDialogFragment {
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
+        CardSharingBuilder cardSharingBuilder = new CardSharingBuilder(mContext, mText);
 
-        int size = UiUtils.d2p(mContext, 250);
-
-        ImageView ivQrCode = new ImageView(mContext);
-        ivQrCode.setLayoutParams(new LinearLayout.LayoutParams(size, size));
-
-        Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(mText, size, size);
-        if (bitmap != null) {
-            ivQrCode.setImageBitmap(bitmap);
-        }
-
-        return builder.setView(ivQrCode)
+        return builder.setView(cardSharingBuilder.getRoot())
                 .setTitle(R.string.menu_share_card)
                 .setPositiveButton(R.string.dialog_copy, (dialog, which) -> {
                     ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
