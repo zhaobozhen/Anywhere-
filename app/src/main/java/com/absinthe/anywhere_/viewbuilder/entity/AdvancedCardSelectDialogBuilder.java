@@ -2,10 +2,9 @@ package com.absinthe.anywhere_.viewbuilder.entity;
 
 import android.content.Context;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.core.content.ContextCompat;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
@@ -35,10 +34,11 @@ public class AdvancedCardSelectDialogBuilder extends ViewBuilder {
         itemView.setPadding(padding, padding, padding, padding);
         itemView.setText(titleRes);
         itemView.setTextSize(20);
+        itemView.setGravity(Gravity.CENTER_VERTICAL);
         itemView.setTextColor(mResources.getColor(R.color.textColorNormal));
-        itemView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                ContextCompat.getDrawable(mContext, iconRes), null, null, null);
+        itemView.setCompoundDrawablesRelativeWithIntrinsicBounds(iconRes, 0, 0, 0);
         itemView.setCompoundDrawablePadding(padding);
+
         TypedValue outValue = new TypedValue();
         mContext.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
         itemView.setBackgroundResource(outValue.resourceId);
