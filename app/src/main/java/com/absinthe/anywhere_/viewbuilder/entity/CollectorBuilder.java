@@ -8,6 +8,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
@@ -45,7 +47,7 @@ public class CollectorBuilder extends ViewBuilder {
             int padding = d2p(5);
             infoLayout.setPadding(padding, padding, padding, padding);
 
-            infoLayout.setBackground(mContext.getResources().getDrawable(R.drawable.bg_collector_info));
+            infoLayout.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_collector_info));
 
             tvPkgName = new TextView(mContext);
             tvPkgName.setLayoutParams(wrapWrap);

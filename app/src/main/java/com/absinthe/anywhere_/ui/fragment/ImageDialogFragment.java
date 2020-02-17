@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
@@ -59,7 +60,7 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
         if (mWidth != 0 && mHeight != 0) {
             mBuilder.getRoot().setLayoutParams(new LinearLayout.LayoutParams(mWidth, mHeight));
         }
-        dialog.setBackground(mContext.getResources().getDrawable(R.drawable.bg_dialog_shape));
+        dialog.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_dialog_shape));
 
         return dialog.setView(mBuilder.getRoot()).create();
     }
