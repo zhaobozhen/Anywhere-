@@ -34,6 +34,7 @@ public class DynamicParamsDialogFragment extends AnywhereDialogFragment {
         mBuilder = new DynamicParamsDialogBuilder(mContext);
         mBuilder.setParams(mText);
 
+        setWrapOnDismissListener(() -> mListener.onCancel());
         return builder.setView(mBuilder.getRoot())
                 .setTitle(R.string.dialog_dynamic_params_title)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialog, which) -> {
@@ -50,5 +51,6 @@ public class DynamicParamsDialogFragment extends AnywhereDialogFragment {
 
     public interface OnParamsInputListener {
         void onFinish(String text);
+        void onCancel();
     }
 }

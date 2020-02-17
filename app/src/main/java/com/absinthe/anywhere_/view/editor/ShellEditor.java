@@ -13,7 +13,6 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
-import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 
@@ -117,8 +116,8 @@ public class ShellEditor extends Editor<ShellEditor> {
                         ae.setCategory(mItem.getCategory());
                         ae.setTimeStamp(mItem.getTimeStamp());
 
-                        String result = CommandUtils.execAdbCmd(TextUtils.getItemCommand(ae));
-                        DialogManager.showShellResultDialog(mContext, result);
+                        String result = CommandUtils.execAdbCmd(ae.getParam1());
+                        DialogManager.showShellResultDialog(mContext, result, null, null);
                     }
                 }
             });

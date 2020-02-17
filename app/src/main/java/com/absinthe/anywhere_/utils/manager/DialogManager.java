@@ -276,11 +276,12 @@ public class DialogManager {
         builder.show();
     }
 
-    public static void showShellResultDialog(Context context, String result) {
+    public static void showShellResultDialog(Context context, String result, DialogInterface.OnClickListener posListener, DialogInterface.OnCancelListener cancelListener) {
         AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
         builder.setTitle(R.string.dialog_shell_result_title)
                 .setMessage(result)
-                .setPositiveButton(R.string.dialog_close_button, null)
+                .setPositiveButton(R.string.dialog_close_button, posListener)
+                .setOnCancelListener(cancelListener)
                 .show();
     }
 

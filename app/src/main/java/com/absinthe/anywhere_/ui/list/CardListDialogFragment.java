@@ -65,7 +65,9 @@ public class CardListDialogFragment extends AnywhereDialogFragment {
             } else {
                 setDisplayPlaceholder(false);
                 for (AnywhereEntity ae : list) {
-                    if (ae.getAnywhereType() == AnywhereType.URL_SCHEME || ae.getAnywhereType() == AnywhereType.IMAGE) {
+                    if (ae.getAnywhereType() == AnywhereType.URL_SCHEME
+                            || ae.getAnywhereType() == AnywhereType.IMAGE
+                            || ae.getAnywhereType() == AnywhereType.SHELL) {
                         listBeans.add(new AppListBean(ae.getAppName(), ae.getParam2(), ae.getParam1(), ae.getAnywhereType()));
                     } else {
                         listBeans.add(new AppListBean(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getAnywhereType()));

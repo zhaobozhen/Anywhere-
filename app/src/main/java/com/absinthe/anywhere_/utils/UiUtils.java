@@ -95,7 +95,7 @@ public class UiUtils {
      */
     public static Drawable getAppIconByPackageName(Context context, AnywhereEntity item) {
         int type = item.getAnywhereType();
-        String apkTempPackageName = "";
+        String apkTempPackageName;
 
         switch (type) {
             case AnywhereType.URL_SCHEME:
@@ -104,34 +104,31 @@ public class UiUtils {
                 } else {
                     apkTempPackageName = item.getParam2();
                 }
-                break;
+                return getAppIconByPackageName(context, apkTempPackageName);
             case AnywhereType.ACTIVITY:
             case AnywhereType.QR_CODE:
                 apkTempPackageName = item.getParam1();
-                break;
-            case AnywhereType.MINI_PROGRAM:
-                //Todo
-                break;
+                return getAppIconByPackageName(context, apkTempPackageName);
+            case AnywhereType.IMAGE:
+                return ContextCompat.getDrawable(context, R.drawable.ic_logo);
+            case AnywhereType.SHELL:
+                return ContextCompat.getDrawable(context, R.drawable.ic_code);
         }
 
-        Drawable drawable;
-        try {
-            if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty() || Settings.sIconPack == null) {
-                drawable = context.getPackageManager().getApplicationIcon(apkTempPackageName);
-            } else {
-                drawable = Settings.sIconPack.getDrawableIconForPackage(apkTempPackageName, context.getPackageManager().getApplicationIcon(apkTempPackageName));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
-        }
-        return drawable;
+        return null;
     }
 
     public static Drawable getAppIconByPackageName(Context context, AppListBean item) {
         AnywhereEntity ae = AnywhereEntity.Builder();
-        ae.setParam1(item.getPackageName());
-        ae.setParam2(item.getClassName());
+        if (item.getType() == AnywhereType.URL_SCHEME
+                || item.getType() == AnywhereType.IMAGE
+                || item.getType() == AnywhereType.SHELL) {
+            ae.setParam1(item.getClassName());
+            ae.setParam2(item.getPackageName());
+        } else {
+            ae.setParam1(item.getPackageName());
+            ae.setParam2(item.getClassName());
+        }
         ae.setType(item.getType());
         return getAppIconByPackageName(context, ae);
     }

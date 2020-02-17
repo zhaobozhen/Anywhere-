@@ -19,4 +19,9 @@ public class AnywhereType {
 
     public static final int CARD_PAGE = 0;
     public static final int WEB_PAGE = 1;
+
+    public static final String QRCODE_PREFIX = "[QR_Code]";
+    public static final String DYNAMIC_PARAMS_PREFIX = "[DYNAMIC_PARAMS ";
+    public static final String DYNAMIC_PARAMS_PREFIX_FORMAT = "[DYNAMIC_PARAMS %s]";
+    public static final String SHELL_PREFIX = "[ANYWHERE_SHELL]";
 }

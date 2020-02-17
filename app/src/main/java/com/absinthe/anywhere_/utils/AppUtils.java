@@ -44,6 +44,11 @@ public class AppUtils {
         URLSchemeHandler.parse(url, context);
     }
 
+    public static void openNewURLScheme(Context context) {
+        String url = URLManager.ANYWHERE_SCHEME + URLManager.URL_HOST + "?param1=&param2=&param3=";
+        URLSchemeHandler.parse(url, context);
+    }
+
     /**
      * Update Anywhere- widget
      *

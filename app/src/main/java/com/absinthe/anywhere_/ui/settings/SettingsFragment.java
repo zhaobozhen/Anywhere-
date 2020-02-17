@@ -194,7 +194,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()) {
             case Const.PREF_WORKING_MODE:
-                if (MainActivity.getInstance() != null && MainActivity.getInstance().getViewModel() != null) {
+                if (MainActivity.isAvailable()) {
                     MainActivity.getInstance().getViewModel().getWorkingMode().setValue(newValue.toString());
                 }
                 break;
@@ -235,7 +235,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 return true;
             case Const.PREF_MD2_TOOLBAR:
                 GlobalValues.setsIsMd2Toolbar((boolean) newValue);
-                if (MainActivity.getInstance() != null) {
+                if (MainActivity.isAvailable()) {
                     MainActivity.getInstance().restartActivity();
                 }
                 ((Activity) mContext).finish();

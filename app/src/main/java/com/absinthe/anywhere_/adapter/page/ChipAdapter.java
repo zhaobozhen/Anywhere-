@@ -56,7 +56,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
                 DialogManager.showImageDialog(MainActivity.getInstance(), ae);
             } else if (ae.getAnywhereType() == AnywhereType.SHELL) {
                 String result = CommandUtils.execAdbCmd(TextUtils.getItemCommand(ae));
-                DialogManager.showShellResultDialog(MainActivity.getInstance(), result);
+                DialogManager.showShellResultDialog(MainActivity.getInstance(), result, null, null);
             } else {
                 CommandUtils.execCmd(TextUtils.getItemCommand(ae));
             }

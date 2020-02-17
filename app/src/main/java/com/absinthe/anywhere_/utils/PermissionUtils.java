@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.Const;
@@ -188,7 +189,6 @@ public class PermissionUtils {
             } else {
                 // activity not found
                 Logger.d("activity not found.");
-                ToastUtil.makeText("activity not found.");
                 return false;
             }
         } else {
@@ -267,7 +267,7 @@ public class PermissionUtils {
             if (!Settings.canDrawOverlays(fragment.getContext())) {
                 try {
                     fragment.startActivityForResult(
-                            new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + fragment.getContext().getPackageName())),
+                            new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + AnywhereApplication.sContext.getPackageName())),
                             requestCode);
                 } catch (ActivityNotFoundException e) {
                     e.printStackTrace();

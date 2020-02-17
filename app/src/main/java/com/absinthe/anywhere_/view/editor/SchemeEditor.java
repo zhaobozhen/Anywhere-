@@ -12,6 +12,7 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
@@ -152,10 +153,18 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                         ae.setTimeStamp(mItem.getTimeStamp());
 
                         if (!dynamic.isEmpty()) {
-                            DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, dynamic, text -> {
-                                AnywhereEntity item = new AnywhereEntity(mItem);
-                                item.setParam1(uName + text);
-                                CommandUtils.execCmd(TextUtils.getItemCommand(item));
+                            DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, dynamic, new DynamicParamsDialogFragment.OnParamsInputListener() {
+                                @Override
+                                public void onFinish(String text) {
+                                    AnywhereEntity item = new AnywhereEntity(mItem);
+                                    item.setParam1(uName + text);
+                                    CommandUtils.execCmd(TextUtils.getItemCommand(item));
+                                }
+
+                                @Override
+                                public void onCancel() {
+
+                                }
                             });
                         } else {
                             CommandUtils.execCmd(TextUtils.getItemCommand(ae));

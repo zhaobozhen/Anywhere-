@@ -170,7 +170,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 
             if (constraint != null && constraint.toString().trim().length() > 0) {
                 for (int i = 0, len = mTempList.size(); i < len; i++) {
-                    //匹配 App 名字和包名
+                    //Match App's name and package name
                     AppListBean bean = mTempList.get(i);
                     String content = bean.getAppName() + bean.getPackageName() + bean.getClassName();
                     if (TextUtils.containsIgnoreCase(content, constraint.toString())) {

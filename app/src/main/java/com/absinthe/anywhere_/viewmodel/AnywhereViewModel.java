@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.viewmodel;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -38,7 +39,6 @@ public class AnywhereViewModel extends AndroidViewModel {
     private AnywhereRepository mRepository;
     private LiveData<List<AnywhereEntity>> mAllAnywhereEntities;
 
-    private MutableLiveData<String> mCommand = null;
     private MutableLiveData<String> mWorkingMode = null;
     private MutableLiveData<String> mBackground = null;
     private MutableLiveData<String> mCardMode = null;
@@ -65,13 +65,6 @@ public class AnywhereViewModel extends AndroidViewModel {
 
     public void delete(AnywhereEntity ae) {
         mRepository.delete(ae);
-    }
-
-    public MutableLiveData<String> getCommand() {
-        if (mCommand == null) {
-            mCommand = new MutableLiveData<>();
-        }
-        return mCommand;
     }
 
     public MutableLiveData<String> getWorkingMode() {
@@ -105,13 +98,13 @@ public class AnywhereViewModel extends AndroidViewModel {
         return pageTitle;
     }
 
-    public void setUpUrlScheme(String url) {
+    public void setUpUrlScheme(Context context, String url) {
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setAppName(MainActivity.getInstance().getString(R.string.bsd_new_url_scheme_name));
         ae.setParam1(url);
         ae.setType(AnywhereType.URL_SCHEME);
 
-        Editor editor = new SchemeEditor(MainActivity.getInstance())
+        Editor editor = new SchemeEditor(context)
                 .item(ae)
                 .isEditorMode(false)
                 .isShortcut(false)
@@ -119,12 +112,16 @@ public class AnywhereViewModel extends AndroidViewModel {
         editor.show();
     }
 
-    public void openImageEditor() {
+    public void setUpUrlScheme(Context context) {
+        setUpUrlScheme(context, "");
+    }
+
+    public void openImageEditor(Context context) {
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setAppName("New Image");
         ae.setType(AnywhereType.IMAGE);
 
-        Editor editor = new ImageEditor(MainActivity.getInstance())
+        Editor editor = new ImageEditor(context)
                 .item(ae)
                 .isEditorMode(false)
                 .isShortcut(false)
@@ -133,14 +130,13 @@ public class AnywhereViewModel extends AndroidViewModel {
     }
 
     public void checkWorkingPermission(Activity activity) {
-        Logger.d("workingMode =", GlobalValues.sWorkingMode);
         if (GlobalValues.sWorkingMode != null) {
             switch (GlobalValues.sWorkingMode) {
                 case Const.WORKING_MODE_URL_SCHEME:
-                    setUpUrlScheme("");
+                    setUpUrlScheme(activity);
                     break;
                 case Const.WORKING_MODE_SHIZUKU:
-                    if (!PermissionUtils.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    if (!PermissionUtils.checkOverlayPermission(activity, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
                     if (PermissionUtils.checkShizukuOnWorking(activity) && PermissionUtils.shizukuPermissionCheck(activity)) {
@@ -148,7 +144,7 @@ public class AnywhereViewModel extends AndroidViewModel {
                     }
                     break;
                 case Const.WORKING_MODE_ROOT:
-                    if (!PermissionUtils.checkOverlayPermission(MainActivity.getInstance(), Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    if (!PermissionUtils.checkOverlayPermission(activity, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         return;
                     }
                     if (PermissionUtils.upgradeRootPermission(activity.getPackageCodePath())) {
@@ -158,6 +154,7 @@ public class AnywhereViewModel extends AndroidViewModel {
                         ToastUtil.makeText(R.string.toast_root_permission_denied);
                     }
                     break;
+                default:
             }
         }
 

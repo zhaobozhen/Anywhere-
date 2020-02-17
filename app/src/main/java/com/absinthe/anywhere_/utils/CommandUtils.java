@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.CommandResult;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
@@ -95,12 +96,16 @@ public class CommandUtils {
                 result = execAdbCmd(cmd);
             }
         } else {
-            if (cmd.startsWith(QREntity.PREFIX)) {
-                cmd = cmd.replace(QREntity.PREFIX, "");
+            if (cmd.startsWith(AnywhereType.QRCODE_PREFIX)) {
+                cmd = cmd.replace(AnywhereType.QRCODE_PREFIX, "");
                 QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(cmd);
                 if (entity != null) {
                     entity.launch();
                 }
+                result = CommandResult.RESULT_SUCCESS;
+            } else if (cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
+                cmd = cmd.replace(AnywhereType.SHELL_PREFIX, "");
+                execAdbCmd(cmd);
                 result = CommandResult.RESULT_SUCCESS;
             } else {
                 result = execAdbCmd(cmd);

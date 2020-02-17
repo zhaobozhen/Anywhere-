@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.ui.shortcuts;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -17,22 +16,19 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.model.QRCollection;
-import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
-import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.handler.Opener;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
-import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.Objects;
 
@@ -55,7 +51,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
         if (action != null) {
             if (action.equals(ACTION_START_COLLECTOR)) {
                 if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
-                    AppUtils.openUrl(this, "", "", "");
+                    AppUtils.openNewURLScheme(this);
                 } else {
                     if (PermissionUtils.checkOverlayPermission(this, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
                         CollectorService.startCollector(this);
@@ -65,49 +61,38 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
             } else if (action.equals(ACTION_START_COMMAND)) {
                 String cmd = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
                 if (cmd != null) {
-                    String packageName = TextUtils.getPkgNameByCommand(cmd);
-                    try {
-                        if (IceBox.getAppEnabledSetting(this, packageName) != 0) {
-                            PermissionUtils.unfreezeApp(this, packageName, () ->
-                                    CommandUtils.execCmd(cmd));
-                        } else {
-                            CommandUtils.execCmd(cmd);
-                        }
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                        CommandUtils.execCmd(cmd);
+                    if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
+                            cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
+                        Opener.with(this)
+                                .load(cmd)
+                                .setOpenedListener(this::finish)
+                                .open();
+                    } else {
+                        Opener.with(this).load(cmd).open();
+                        finish();
                     }
+                } else {
+                    finish();
                 }
-                finish();
             } else if (action.equals(ACTION_START_FROM_WIDGET)) {
                 String cmd = i.getStringExtra(Const.INTENT_EXTRA_WIDGET_COMMAND);
                 if (cmd != null) {
-                    try {
-                        String packageName = TextUtils.getPkgNameByCommand(cmd);
-                        if (IceBox.getAppEnabledSetting(this, packageName) != 0) { //0 为未冻结状态
-                            PermissionUtils.unfreezeApp(this, packageName, () ->
-                                    CommandUtils.execCmd(cmd));
-                        } else {
-                            CommandUtils.execCmd(cmd);
-                        }
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                        CommandUtils.execCmd(cmd);
-                    } catch (IndexOutOfBoundsException e2) {
-                        e2.printStackTrace();
-                        ToastUtil.makeText(R.string.toast_wrong_cmd);
+                    if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
+                            cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
+                        Opener.with(this)
+                                .load(cmd)
+                                .setOpenedListener(this::finish)
+                                .open();
+                    } else {
+                        Opener.with(this).load(cmd).open();
+                        finish();
                     }
+                } else {
+                    finish();
                 }
-                finish();
             } else if (action.equals(ACTION_START_QR_CODE)) {
                 String id = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
-                if (id != null) {
-                    id = id.replace(QREntity.PREFIX, "");
-                    QREntity entity = QRCollection.Singleton.INSTANCE.getInstance().getQREntity(id);
-                    if (entity != null) {
-                        entity.launch();
-                    }
-                }
+                CommandUtils.execCmd(id);
                 finish();
             } else if (action.equals(Intent.ACTION_CREATE_SHORTCUT)) {
                 viewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
@@ -123,7 +108,7 @@ public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwn
                                 Intent shortcutIntent = new Intent(ShortcutsActivity.this, ShortcutsActivity.class);
                                 String cmd = TextUtils.getItemCommand(
                                         Objects.requireNonNull(anywhereEntities).get(i1));
-                                if (cmd.startsWith(QREntity.PREFIX)) {
+                                if (cmd.startsWith(AnywhereType.QRCODE_PREFIX)) {
                                     shortcutIntent.setAction(ACTION_START_QR_CODE);
                                 } else {
                                     shortcutIntent.setAction(ACTION_START_COMMAND);

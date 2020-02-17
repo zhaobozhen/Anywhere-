@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.model;
 import com.absinthe.anywhere_.interfaces.OnQRLaunchedListener;
 
 public class QREntity {
-    public static final String PREFIX = "[QR_Code]";
     private String mPkgName;
     private String mClsName;
     private String mUrlScheme;

@@ -36,7 +36,7 @@ public class ClipboardUtil {
     }
 
     /**
-     * Android Q 获取剪贴板的内容
+     * Android Q get content from clipboard
      */
     @TargetApi(Build.VERSION_CODES.Q)
     private static void getTextFroClipFromAndroidQ(@NonNull final Activity activity, final Function f) {

@@ -11,7 +11,6 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
@@ -101,15 +100,19 @@ public class TextUtils {
             String urlScheme = item.getParam1();
             Logger.d("urlScheme =", urlScheme);
 
+            if (!isEmpty(item.getParam3())) {
+                cmd.append(String.format(AnywhereType.DYNAMIC_PARAMS_PREFIX_FORMAT, item.getParam3()));
+            }
+
             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
                 cmd.append(urlScheme);
             } else {
                 cmd.append(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, urlScheme));
             }
         } else if (type == AnywhereType.QR_CODE) {
-            cmd.append(QREntity.PREFIX).append(item.getParam2());
+            cmd.append(AnywhereType.QRCODE_PREFIX).append(item.getParam2());
         } else if (type == AnywhereType.SHELL) {
-            cmd.append(item.getParam1());
+            cmd.append(AnywhereType.SHELL_PREFIX).append(item.getParam1());
         } else {
             Logger.d("AnywhereType has problem.");
         }

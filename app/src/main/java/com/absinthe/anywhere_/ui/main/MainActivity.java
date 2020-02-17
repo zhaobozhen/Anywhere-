@@ -48,7 +48,6 @@ import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.ClipboardUtil;
-import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
@@ -374,7 +373,6 @@ public class MainActivity extends BaseActivity {
             UiUtils.setActionBarTitle(this, getSupportActionBar());
         });
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
-        mViewModel.getCommand().observe(this, CommandUtils::execCmd);
     }
 
     public void initFab() {
@@ -382,7 +380,7 @@ public class MainActivity extends BaseActivity {
         mBinding.fab.setOnActionSelectedListener(actionItem -> {
             switch (actionItem.getId()) {
                 case R.id.fab_url_scheme:
-                    mViewModel.setUpUrlScheme("");
+                    mViewModel.setUpUrlScheme(this);
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_url_scheme", "click_fab_url_scheme");
                     break;
                 case R.id.fab_activity_list:
@@ -398,7 +396,7 @@ public class MainActivity extends BaseActivity {
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_qr_code_collection", "click_fab_qr_code_collection");
                     break;
                 case R.id.fab_image:
-                    mViewModel.openImageEditor();
+                    mViewModel.openImageEditor(this);
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_image", "click_fab_image");
                     break;
                 default:
@@ -434,7 +432,7 @@ public class MainActivity extends BaseActivity {
             }
         } else if (action.equals(Intent.ACTION_SEND)) {
             String sharing = intent.getStringExtra(Intent.EXTRA_TEXT);
-            mViewModel.setUpUrlScheme(TextUtils.parseUrlFromSharingText(sharing));
+            mViewModel.setUpUrlScheme(this, TextUtils.parseUrlFromSharingText(sharing));
         }
     }
 
@@ -446,7 +444,7 @@ public class MainActivity extends BaseActivity {
 
             if (param1 != null && param2 != null && param3 != null) {
                 if (param2.isEmpty() && param3.isEmpty()) {
-                    mViewModel.setUpUrlScheme(param1);
+                    mViewModel.setUpUrlScheme(this, param1);
                 } else {
                     String appName;
                     appName = TextUtils.getAppName(this, param1);
