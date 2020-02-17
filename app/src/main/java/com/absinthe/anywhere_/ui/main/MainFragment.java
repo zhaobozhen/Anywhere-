@@ -70,10 +70,6 @@ public class MainFragment extends Fragment {
         return mViewModel;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -123,7 +119,7 @@ public class MainFragment extends Fragment {
                 }
 
                 if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
-                    if (MainActivity.getInstance().mBinding.fab != null) {
+                    if (MainActivity.getInstance().mBinding != null && MainActivity.getInstance().mBinding.fab != null) {
                         MainActivity.getInstance().mBinding.fab.show();
                     }
                 }
@@ -317,7 +313,9 @@ public class MainFragment extends Fragment {
     }
 
     private void initObserver() {
-        mViewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
+        if (mViewModel == null) {
+            mViewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
+        }
         mViewModel.getCardMode().observe(getViewLifecycleOwner(), s -> refreshRecyclerView());
         AnywhereApplication.sRepository.getAllAnywhereEntities().observe(getViewLifecycleOwner(), listObserver);
     }

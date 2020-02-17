@@ -138,6 +138,10 @@ public class GiftViewModel extends AndroidViewModel {
     }
 
     public void getPrice() {
+        if (mThirdTimesPrice.getValue() != null && mInfinityPrice.getValue() != null) {
+            return;
+        }
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLManager.DOMAIN)
                 .addConverterFactory(GsonConverterFactory.create())

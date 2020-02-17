@@ -9,10 +9,15 @@ import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 
 public class SettingsActivity extends BaseActivity {
+
     private static SettingsActivity sInstance;
 
     public static SettingsActivity getInstance() {
         return sInstance;
+    }
+
+    public static boolean isAvailable() {
+        return sInstance != null;
     }
 
     @Override

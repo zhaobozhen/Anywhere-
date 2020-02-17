@@ -10,7 +10,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.DropDownPreference;
 import androidx.preference.Preference;
@@ -31,7 +30,8 @@ import com.absinthe.anywhere_.utils.manager.URLManager;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
-    private Context mContext;
+
+    private SettingsActivity mContext;
 
     static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -40,7 +40,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mContext = getActivity();
+        mContext = (SettingsActivity) getActivity();
     }
 
     @Override
@@ -152,17 +152,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                         intent.addCategory(Intent.CATEGORY_OPENABLE);
                         intent.setType("image/*");
-                        SettingsActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
-                        SettingsActivity.getInstance().setDocumentResultListener(uri -> {
+                        mContext.startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                        mContext.setDocumentResultListener(uri -> {
                             if (uri != null) {
                                 Logger.d("backgroundUri = " + uri);
                                 GlobalValues.setsBackgroundUri(uri.toString());
                                 GlobalValues.setsActionBarType("");
-                                MainActivity instance = MainActivity.getInstance();
-                                if (instance != null) {
-                                    instance.getViewModel().getBackground().setValue(uri.toString());
-                                    instance.restartActivity();
-                                    SettingsActivity.getInstance().finish();
+                                if (MainActivity.isAvailable()) {
+                                    MainActivity.getInstance().getViewModel().getBackground().setValue(uri.toString());
+                                    MainActivity.getInstance().restartActivity();
+                                    mContext.finish();
                                 }
                             }
                         });
@@ -184,7 +183,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 DialogManager.showClearShortcutsDialog(mContext);
                 return true;
             case Const.PREF_ICON_PACK:
-                DialogManager.showIconPackChoosingDialog((AppCompatActivity) mContext);
+                DialogManager.showIconPackChoosingDialog(mContext);
                 return true;
             default:
         }
@@ -201,7 +200,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 break;
             case Const.PREF_DARK_MODE:
                 if (newValue.toString().equals(Const.DARK_MODE_AUTO)) {
-                    DialogManager.showDarkModeTimePickerDialog((AppCompatActivity) mContext);
+                    DialogManager.showDarkModeTimePickerDialog(mContext);
                 } else {
                     Settings.setTheme(newValue.toString());
                     GlobalValues.setsDarkMode(newValue.toString());
@@ -231,12 +230,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             case Const.PREF_COLLECTOR_PLUS:
                 GlobalValues.setsIsCollectorPlus((boolean) newValue);
                 if ((boolean) newValue) {
-                    DialogManager.showIntervalSetupDialog((AppCompatActivity) mContext);
+                    DialogManager.showIntervalSetupDialog(mContext);
                 }
                 return true;
             case Const.PREF_MD2_TOOLBAR:
                 GlobalValues.setsIsMd2Toolbar((boolean) newValue);
-                MainActivity.getInstance().restartActivity();
+                if (MainActivity.getInstance() != null) {
+                    MainActivity.getInstance().restartActivity();
+                }
                 ((Activity) mContext).finish();
                 return true;
             case Const.PREF_EXCLUDE_FROM_RECENT:

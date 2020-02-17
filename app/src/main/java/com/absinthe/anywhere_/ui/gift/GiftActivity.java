@@ -29,8 +29,8 @@ import java.util.Random;
 public class GiftActivity extends BaseActivity {
 
     private static GiftActivity sInstance;
+    private static GiftViewModel mViewModel;
     private ActivityGiftBinding mBinding;
-    private GiftViewModel mViewModel;
 
     public static GiftActivity getInstance() {
         return sInstance;
@@ -45,8 +45,9 @@ public class GiftActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         sInstance = this;
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_gift);
-        mViewModel = new ViewModelProvider(this).get(GiftViewModel.class);
-
+        if (mViewModel == null) {
+            mViewModel = new ViewModelProvider(this).get(GiftViewModel.class);
+        }
         initView();
 
         if (!BuildConfig.DEBUG) {

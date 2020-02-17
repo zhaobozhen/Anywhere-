@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.settings;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -20,7 +19,7 @@ public class LabFragment extends PreferenceFragmentCompat implements Preference.
         return new LabFragment();
     }
 
-    private Context mContext;
+    private LabActivity mContext;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -30,7 +29,7 @@ public class LabFragment extends PreferenceFragmentCompat implements Preference.
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mContext = getActivity();
+        mContext = (LabActivity) getActivity();
     }
 
     @Override
@@ -54,9 +53,11 @@ public class LabFragment extends PreferenceFragmentCompat implements Preference.
         switch (preference.getKey()) {
             case Const.PREF_PAGES:
                 GlobalValues.setsIsPages((boolean) newValue);
-                MainActivity.getInstance().restartActivity();
-                ((Activity) mContext).finish();
-                if (SettingsActivity.getInstance() != null) {
+                if (MainActivity.isAvailable()) {
+                    MainActivity.getInstance().restartActivity();
+                }
+                mContext.finish();
+                if (SettingsActivity.isAvailable()) {
                     SettingsActivity.getInstance().finish();
                 }
                 return true;

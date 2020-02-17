@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.services;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.absinthe.anywhere_.workflow.WorkFlow;
@@ -31,7 +32,7 @@ public class IzukoService extends BaseAccessibilityService {
         if (isClicked) return;
 
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
-                event.getPackageName().equals(sPackageName)) {
+                TextUtils.equals(event.getPackageName(), sPackageName)) {
 
             CharSequence className = event.getClassName();
             if (className.equals(sClassName)) {

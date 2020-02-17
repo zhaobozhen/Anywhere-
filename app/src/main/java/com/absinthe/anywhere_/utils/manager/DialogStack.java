@@ -11,9 +11,9 @@ import java.util.Stack;
 
 /**
  * Created by Absinthe at 2020/1/13
- *
+ * <p>
  * Dialog Stack
- *
+ * <p>
  * Make it display unique Dialog at the same time
  * to make app delegate.
  */
@@ -51,8 +51,10 @@ public class DialogStack {
             } else if (peekObject instanceof Dialog) {
                 ((Dialog) peekObject).hide();
             } else if (peekObject instanceof DialogFragment) {
-                Objects.requireNonNull(
-                        ((DialogFragment) peekObject).getDialog()).hide();
+                Dialog peekDialog = ((DialogFragment) peekObject).getDialog();
+                if (peekDialog != null) {
+                    peekDialog.hide();
+                }
             }
             Singleton.INSTANCE.getInstance().push(dialog);
         }

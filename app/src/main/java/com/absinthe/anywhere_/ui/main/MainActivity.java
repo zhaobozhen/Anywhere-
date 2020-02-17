@@ -95,6 +95,10 @@ public class MainActivity extends BaseActivity {
         return mViewModel;
     }
 
+    public static boolean isAvailable() {
+        return sInstance != null;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

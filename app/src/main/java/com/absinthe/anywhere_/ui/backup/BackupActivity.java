@@ -31,17 +31,10 @@ public class BackupActivity extends BaseActivity {
 
     public static boolean INSERT_CORRECT = true;
 
-    private static BackupActivity sInstance;
-
-    public static BackupActivity getInstance() {
-        return sInstance;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
-        sInstance = this;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,12 +49,6 @@ public class BackupActivity extends BaseActivity {
                     .replace(R.id.settings_container, BackupFragment.newInstance())
                     .commit();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        sInstance = null;
-        super.onDestroy();
     }
 
     @Override

@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -23,7 +22,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
     static BackupFragment newInstance() {
         return new BackupFragment();
     }
-    private Context mContext;
+    private BackupActivity mContext;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -33,7 +32,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mContext = getActivity();
+        mContext = (BackupActivity) getActivity();
     }
 
     @Override
@@ -64,7 +63,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
         switch (preference.getKey()) {
             case Const.PREF_BACKUP:
                 if (StorageUtils.isExternalStorageWritable()) {
-                    StorageUtils.createFile(BackupActivity.getInstance(), "*/*",
+                    StorageUtils.createFile(mContext, "*/*",
                             "Anywhere-Backups-" + TextUtils.getCurrFormatDate() + ".awbackups");
                 } else {
                     ToastUtil.makeText(R.string.toast_check_device_storage_state);
@@ -74,7 +73,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
-                BackupActivity.getInstance().startActivityForResult(intent, Const.REQUEST_CODE_RESTORE_BACKUPS);
+                mContext.startActivityForResult(intent, Const.REQUEST_CODE_RESTORE_BACKUPS);
                 return true;
             case Const.PREF_BACKUP_SHARE:
                 String content = StorageUtils.ExportAnywhereEntityJsonString();
@@ -86,7 +85,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
                 }
                 return true;
             case Const.PREF_RESTORE_APPLY:
-                DialogManager.showRestoreApplyDialog((AppCompatActivity) mContext);
+                DialogManager.showRestoreApplyDialog(mContext);
                 return true;
             default:
                 break;

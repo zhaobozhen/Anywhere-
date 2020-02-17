@@ -56,8 +56,10 @@ public class DialogManager {
                 .setMessage(R.string.dialog_reset_background_confirm_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                     GlobalValues.setsBackgroundUri("");
-                    MainActivity.getInstance().restartActivity();
-                    if (SettingsActivity.getInstance() != null) {
+                    if (MainActivity.isAvailable()) {
+                        MainActivity.getInstance().restartActivity();
+                    }
+                    if (SettingsActivity.isAvailable()) {
                         SettingsActivity.getInstance().finish();
                     }
                 })

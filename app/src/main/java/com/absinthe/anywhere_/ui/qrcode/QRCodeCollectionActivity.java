@@ -21,8 +21,8 @@ import com.absinthe.anywhere_.model.QRCollection;
 import jonathanfinerty.once.Once;
 
 public class QRCodeCollectionActivity extends BaseActivity {
-    ActivityQrcodeCollectionBinding binding;
-    QRCollectionAdapter mAdapter;
+    private ActivityQrcodeCollectionBinding binding;
+    private QRCollectionAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
