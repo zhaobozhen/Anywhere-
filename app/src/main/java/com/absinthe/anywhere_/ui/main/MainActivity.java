@@ -44,6 +44,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.model.Settings;
+import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment;
 import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity;
 import com.absinthe.anywhere_.utils.CipherUtils;
@@ -398,11 +399,11 @@ public class MainActivity extends BaseActivity {
                 case R.id.fab_advanced:
                      DialogManager.showAdvancedCardSelectDialog(this, item -> {
                          switch (item) {
-                             case 0:
+                             case AdvancedCardSelectDialogFragment.ITEM_ADD_IMAGE:
                                  mViewModel.openImageEditor(MainActivity.this, true);
                                  FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_image", "click_fab_image");
                                  break;
-                             case 1:
+                             case AdvancedCardSelectDialogFragment.ITEM_ADD_SHELL:
                                  mViewModel.openShellEditor(MainActivity.this, true);
                                  FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_shell", "click_fab_shell");
                                  break;
