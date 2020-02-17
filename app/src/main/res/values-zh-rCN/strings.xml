@@ -276,4 +276,5 @@
     <string name="gift_feature">激活“艾薇的馈赠”，将获得：\n◉ 为每页设置单独的背景\n◉ 新建自定义 HTML 页\n◉ ···</string>
     <string name="gift_third_info">单设备\n激活三次</string>
     <string name="dialog_close_button">关闭</string>
+    <string name="btn_add_advanced_card">高级卡片</string>
 </resources>

@@ -318,9 +318,9 @@ public class PermissionUtils {
                         if (context instanceof ShortcutsActivity) {
                             context.startActivity(new Intent(context, MainActivity.class));
                             new Handler(Looper.getMainLooper()).postDelayed(() ->
-                                    DialogManager.showGrantPriviligedPermDialog(MainActivity.getInstance()), 200);
+                                    DialogManager.showGrantPrivilegedPermDialog(MainActivity.getInstance()), 200);
                         } else {
-                            DialogManager.showGrantPriviligedPermDialog((AppCompatActivity) context);
+                            DialogManager.showGrantPrivilegedPermDialog((AppCompatActivity) context);
                         }
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{IceBox.SDK_PERMISSION}, 0x233);

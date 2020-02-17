@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
@@ -55,7 +56,11 @@ public class WebviewFragment extends Fragment {
         setHasOptionsMenu(true);
         WebView webView = view.findViewById(R.id.wv_container);
         webView.setBackgroundColor(Color.TRANSPARENT);
-        webView.getSettings().setJavaScriptEnabled(true);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setDomStorageEnabled(true);
         webView.loadUrl(mUri);
     }
 

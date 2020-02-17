@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog;
+import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.CardSharingDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.IceBoxGrantDialogFragment;
@@ -331,7 +332,7 @@ public class DialogManager {
         dialog.show(activity.getSupportFragmentManager(), dialog.getTag());
     }
 
-    public static void showGrantPriviligedPermDialog(AppCompatActivity activity) {
+    public static void showGrantPrivilegedPermDialog(AppCompatActivity activity) {
         IceBoxGrantDialogFragment dialogFragment = new IceBoxGrantDialogFragment();
         dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
     }
@@ -348,6 +349,12 @@ public class DialogManager {
 
     public static void showDynamicParamsDialog(AppCompatActivity activity, String text, DynamicParamsDialogFragment.OnParamsInputListener listener) {
         DynamicParamsDialogFragment dialogFragment = new DynamicParamsDialogFragment(text);
+        dialogFragment.setListener(listener);
+        dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
+    }
+
+    public static void showAdvancedCardSelectDialog(AppCompatActivity activity, AdvancedCardSelectDialogFragment.OnClickItemListener listener) {
+        AdvancedCardSelectDialogFragment dialogFragment = new AdvancedCardSelectDialogFragment();
         dialogFragment.setListener(listener);
         dialogFragment.show(activity.getSupportFragmentManager(), dialogFragment.getTag());
     }

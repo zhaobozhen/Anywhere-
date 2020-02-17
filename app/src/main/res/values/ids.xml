@@ -4,7 +4,7 @@
     <item name="fab_activity_list" type="id"/>
     <item name="fab_collector" type="id"/>
     <item name="fab_qr_code_collection" type="id"/>
-    <item name="fab_image" type="id"/>
+    <item name="fab_advanced" type="id"/>
 
     <item type="id" name="statusbarutil_fake_status_bar_view" />
     <item type="id" name="statusbarutil_translucent_view" />

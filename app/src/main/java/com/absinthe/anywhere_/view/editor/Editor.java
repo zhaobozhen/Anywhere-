@@ -98,6 +98,11 @@ public abstract class Editor<T extends Editor<?>> {
         return getThis();
     }
 
+    public T setDismissParent(boolean flag) {
+        mBottomSheetDialog.setDismissParent(flag);
+        return getThis();
+    }
+
     public void show() {
         mBottomSheetDialog.show();
     }

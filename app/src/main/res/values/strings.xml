@@ -237,6 +237,8 @@
     <string name="btn_activity_list">Activities List</string>
     <string name="btn_qr_code_collection">QR Codes</string>
     <string name="btn_add_image">Add image</string>
+    <string name="btn_add_shell" translatable="false">Shell</string>
+    <string name="btn_add_advanced_card">Advanced card</string>
 
     <string name="btn_acquire_permission">Grant</string>
     <string name="btn_acquired">Granted</string>
@@ -293,7 +295,7 @@
     <string name="gift_third_info">Single device\nactivated three times</string>
     <string name="gift_infinity_info">Single device\nactivation unlimited</string>
     <string name="gift_tip">* Requires reactivation after reinstalling the device or replacing the device</string>
-    <string name="gift_feature">After activating \"Anywhere- Gift\", you will get:\nSet a separate background for each page\n◉ New a custom HTML page\n◉ ···</string>
+    <string name="gift_feature">After activating \"Anywhere- Gift\", you will get:\n◉ Set a separate background for each page\n◉ New a custom HTML page\n◉ ···</string>
     <string name="gift_alipay_purchase">Alipay payment</string>
 
 </resources>

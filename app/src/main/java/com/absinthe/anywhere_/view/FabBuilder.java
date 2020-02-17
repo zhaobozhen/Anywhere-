@@ -31,9 +31,9 @@ public class FabBuilder {
                 .setLabel(context.getString(R.string.btn_qr_code_collection))
                 .setLabelClickable(false)
                 .create());
-        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_image, R.drawable.ic_photo)
+        fab.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_advanced, R.drawable.ic_advanced_card)
                 .setFabBackgroundColor(resources.getColor(R.color.white))
-                .setLabel(context.getString(R.string.btn_add_image))
+                .setLabel(context.getString(R.string.btn_add_advanced_card))
                 .setLabelClickable(false)
                 .create());
     }

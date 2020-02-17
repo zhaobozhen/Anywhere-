@@ -395,9 +395,19 @@ public class MainActivity extends BaseActivity {
                     startActivity(new Intent(this, QRCodeCollectionActivity.class));
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_qr_code_collection", "click_fab_qr_code_collection");
                     break;
-                case R.id.fab_image:
-                    mViewModel.openImageEditor(this);
-                    FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_image", "click_fab_image");
+                case R.id.fab_advanced:
+                     DialogManager.showAdvancedCardSelectDialog(this, item -> {
+                         switch (item) {
+                             case 0:
+                                 mViewModel.openImageEditor(MainActivity.this, true);
+                                 FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_image", "click_fab_image");
+                                 break;
+                             case 1:
+                                 mViewModel.openShellEditor(MainActivity.this, true);
+                                 FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_shell", "click_fab_shell");
+                                 break;
+                         }
+                     });
                     break;
                 default:
                     return false;

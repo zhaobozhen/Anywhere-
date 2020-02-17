@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 public class AnywhereBottomSheetDialog extends BottomSheetDialog {
 
     public boolean isPush = false;
+    private boolean isDismissParent = false;
 
     public AnywhereBottomSheetDialog(@NonNull Context context) {
         super(context, R.style.CustomBottomSheetDialog);
@@ -19,10 +20,19 @@ public class AnywhereBottomSheetDialog extends BottomSheetDialog {
     @Override
     public void show() {
         super.show();
-        setOnDismissListener(dialog -> DialogStack.pop());
+        setOnDismissListener(dialog -> {
+            DialogStack.pop();
+            if (isDismissParent) {
+                DialogStack.pop();
+            }
+        });
         if (!isPush) {
             DialogStack.push(this);
             isPush = true;
         }
+    }
+
+    public void setDismissParent(boolean dismissParent) {
+        isDismissParent = dismissParent;
     }
 }

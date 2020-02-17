@@ -29,6 +29,7 @@ import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.editor.Editor;
 import com.absinthe.anywhere_.view.editor.ImageEditor;
 import com.absinthe.anywhere_.view.editor.SchemeEditor;
+import com.absinthe.anywhere_.view.editor.ShellEditor;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
 import java.util.ArrayList;
@@ -116,7 +117,7 @@ public class AnywhereViewModel extends AndroidViewModel {
         setUpUrlScheme(context, "");
     }
 
-    public void openImageEditor(Context context) {
+    public void openImageEditor(Context context, boolean isDismissParent) {
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setAppName("New Image");
         ae.setType(AnywhereType.IMAGE);
@@ -125,6 +126,21 @@ public class AnywhereViewModel extends AndroidViewModel {
                 .item(ae)
                 .isEditorMode(false)
                 .isShortcut(false)
+                .setDismissParent(isDismissParent)
+                .build();
+        editor.show();
+    }
+
+    public void openShellEditor(Context context, boolean isDismissParent) {
+        AnywhereEntity ae = AnywhereEntity.Builder();
+        ae.setAppName("New Shell");
+        ae.setType(AnywhereType.SHELL);
+
+        Editor editor = new ShellEditor(context)
+                .item(ae)
+                .isEditorMode(false)
+                .isShortcut(false)
+                .setDismissParent(isDismissParent)
                 .build();
         editor.show();
     }

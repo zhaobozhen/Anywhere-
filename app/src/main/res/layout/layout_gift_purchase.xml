@@ -104,7 +104,9 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/bubbleBlue"
         android:text="@string/gift_alipay_purchase"
+        android:textColor="@color/white"
         app:icon="@drawable/ic_alipay"
+        app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_feature" />
