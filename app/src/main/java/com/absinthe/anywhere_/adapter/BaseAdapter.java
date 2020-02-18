@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
@@ -173,9 +174,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, item.getParam3(), new DynamicParamsDialogFragment.OnParamsInputListener() {
                     @Override
                     public void onFinish(String text) {
-                        AnywhereEntity ae = new AnywhereEntity(item);
-                        ae.setParam1(item.getParam1() + text);
-                        generalOpen(ae);
+                        CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text);
                     }
 
                     @Override

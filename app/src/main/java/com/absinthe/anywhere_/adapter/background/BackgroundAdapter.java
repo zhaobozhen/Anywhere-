@@ -7,6 +7,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.PageEntity;
+import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -15,17 +17,17 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BackgroundAdapter extends BaseQuickAdapter<BackgroundNode, BaseViewHolder> {
+public class BackgroundAdapter extends BaseQuickAdapter<PageEntity, BaseViewHolder> {
 
     public BackgroundAdapter() {
         super(R.layout.item_background);
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder baseViewHolder, @Nullable BackgroundNode backgroundNode) {
+    protected void convert(@NotNull BaseViewHolder baseViewHolder, @Nullable PageEntity pageEntity) {
         Toolbar toolbar = baseViewHolder.findView(R.id.toolbar);
-        if (toolbar != null && backgroundNode != null) {
-            toolbar.setTitle(backgroundNode.getTitle());
+        if (toolbar != null && pageEntity != null) {
+            toolbar.setTitle(pageEntity.getTitle());
             toolbar.inflateMenu(R.menu.main_menu);
             toolbar.setNavigationIcon(R.drawable.ic_dehaze);
 
@@ -44,9 +46,15 @@ public class BackgroundAdapter extends BaseQuickAdapter<BackgroundNode, BaseView
         }
 
         ImageView ivBack = baseViewHolder.findView(R.id.iv_background);
-        if (ivBack != null && backgroundNode != null) {
+        if (ivBack != null && pageEntity != null) {
+            String uri = pageEntity.getBackgroundUri();
+            if (TextUtils.isEmpty(uri)) {
+                uri = GlobalValues.sBackgroundUri;
+            }
+
             Glide.with(getContext())
-                    .load(backgroundNode.getBackground()).centerCrop()
+                    .load(uri)
+                    .centerCrop()
                     .into(ivBack);
         }
     }

@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.PageEntity;
 
-@Database(entities = {AnywhereEntity.class, PageEntity.class}, version = 7, exportSchema = false)
+@Database(entities = {AnywhereEntity.class, PageEntity.class}, version = 8, exportSchema = false)
 public abstract class AnywhereRoomDatabase extends RoomDatabase {
 
     public abstract AnywhereDao anywhereDao();
@@ -25,7 +25,10 @@ public abstract class AnywhereRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AnywhereRoomDatabase.class, "anywhere_database")
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3,
+                                    MIGRATION_3_4, MIGRATION_4_5,
+                                    MIGRATION_5_6, MIGRATION_6_7,
+                                    MIGRATION_7_8)
                             .build();
                 }
             }
@@ -105,6 +108,14 @@ public abstract class AnywhereRoomDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE page_table");
             // Change the table name to the correct one
             database.execSQL("ALTER TABLE page_new RENAME TO page_table");
+        }
+    };
+
+    private static final Migration MIGRATION_7_8 = new Migration(7, 8) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE page_table "
+                    + " ADD COLUMN backgroundUri TEXT");
         }
     };
 }

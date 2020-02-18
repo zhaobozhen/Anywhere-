@@ -32,17 +32,24 @@ public class PageEntity {
     @ColumnInfo(name = "extra")
     private String mExtra;
 
+    @ColumnInfo(name = "backgroundUri")
+    private String mBackgroundUri;
+
     public static PageEntity Builder() {
         String time = System.currentTimeMillis() + "";
-        return new PageEntity(time, "", 0, AnywhereType.CARD_PAGE, time);
+        return new PageEntity(time, "", 0, AnywhereType.CARD_PAGE, time, "", "");
     }
 
-    public PageEntity(@NonNull String id, @NonNull String title, @NonNull int priority, @NonNull int type, @NonNull String timeStamp) {
+    public PageEntity(@NonNull String id, @NonNull String title,
+                      @NonNull Integer priority, @NonNull Integer type,
+                      @NonNull String timeStamp, String extra, String backgroundUri) {
         mId = id;
         mTitle = title;
         mPriority = priority;
         mType = type;
         mTimeStamp = timeStamp;
+        mExtra = extra;
+        mBackgroundUri = backgroundUri;
     }
 
     @NonNull
@@ -96,5 +103,13 @@ public class PageEntity {
 
     public void setExtra(String mExtra) {
         this.mExtra = mExtra;
+    }
+
+    public String getBackgroundUri() {
+        return mBackgroundUri;
+    }
+
+    public void setBackgroundUri(String mBackgroundUri) {
+        this.mBackgroundUri = mBackgroundUri;
     }
 }

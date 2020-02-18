@@ -245,30 +245,32 @@ public class MainActivity extends BaseActivity {
         PageListAdapter adapter = new PageListAdapter();
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             if (view.getId() == R.id.iv_entry) {
-                MainActivity.getInstance().mBinding.drawer.closeDrawer(GravityCompat.START);
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    PageTitleNode node = (PageTitleNode) adapter1.getItem(position);
-                    if (node != null) {
-                        PageEntity pe = ListUtils.getPageEntityByTitle(node.getTitle());
-                        if (pe != null) {
+                mBinding.drawer.closeDrawer(GravityCompat.START);
+                PageTitleNode node = (PageTitleNode) adapter1.getItem(position);
+                if (node != null) {
+                    PageEntity pe = ListUtils.getPageEntityByTitle(node.getTitle());
+                    if (pe != null) {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             if (pe.getType() == AnywhereType.CARD_PAGE) {
-                                MainActivity.getInstance().getSupportFragmentManager()
+                                getSupportFragmentManager()
                                         .beginTransaction()
                                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                                         .replace(R.id.container, MainFragment.newInstance(pe.getTitle()))
                                         .commitNow();
                                 GlobalValues.setsCategory(pe.getTitle(), position);
                             } else if (pe.getType() == AnywhereType.WEB_PAGE) {
-                                MainActivity.getInstance().getSupportFragmentManager()
+                                getSupportFragmentManager()
                                         .beginTransaction()
                                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                                         .replace(R.id.container, WebviewFragment.newInstance(pe.getExtra()))
                                         .commitNow();
                             }
-                        }
+                            if (!TextUtils.isEmpty(pe.getBackgroundUri())) {
+                                mViewModel.getBackground().setValue(pe.getBackgroundUri());
+                            }
+                        }, 300);
                     }
-
-                }, 300);
+                }
             }
         });
         AnywhereApplication.sRepository.getAllPageEntities().observe(this, pageEntities -> {
@@ -360,12 +362,12 @@ public class MainActivity extends BaseActivity {
 
     public void initObserver() {
         mViewModel.getBackground().observe(this, s -> {
+            GlobalValues.setsBackgroundUri(s);
             if (!s.isEmpty()) {
                 UiUtils.loadBackgroundPic(sInstance, (ImageView) mBinding.stubBg.getRoot());
-                UiUtils.setActionBarTransparent(MainActivity.getInstance());
+                UiUtils.setActionBarTransparent(this);
                 UiUtils.setAdaptiveActionBarTitleColor(sInstance, getSupportActionBar(), UiUtils.getActionBarTitle());
             }
-            GlobalValues.setsBackgroundUri(s);
         });
 
         mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
@@ -397,18 +399,18 @@ public class MainActivity extends BaseActivity {
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_qr_code_collection", "click_fab_qr_code_collection");
                     break;
                 case R.id.fab_advanced:
-                     DialogManager.showAdvancedCardSelectDialog(this, item -> {
-                         switch (item) {
-                             case AdvancedCardSelectDialogFragment.ITEM_ADD_IMAGE:
-                                 mViewModel.openImageEditor(MainActivity.this, true);
-                                 FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_image", "click_fab_image");
-                                 break;
-                             case AdvancedCardSelectDialogFragment.ITEM_ADD_SHELL:
-                                 mViewModel.openShellEditor(MainActivity.this, true);
-                                 FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_shell", "click_fab_shell");
-                                 break;
-                         }
-                     });
+                    DialogManager.showAdvancedCardSelectDialog(this, item -> {
+                        switch (item) {
+                            case AdvancedCardSelectDialogFragment.ITEM_ADD_IMAGE:
+                                mViewModel.openImageEditor(MainActivity.this, true);
+                                FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_image", "click_fab_image");
+                                break;
+                            case AdvancedCardSelectDialogFragment.ITEM_ADD_SHELL:
+                                mViewModel.openShellEditor(MainActivity.this, true);
+                                FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_shell", "click_fab_shell");
+                                break;
+                        }
+                    });
                     break;
                 default:
                     return false;

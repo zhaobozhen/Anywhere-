@@ -12,13 +12,10 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.background.BackgroundAdapter;
-import com.absinthe.anywhere_.adapter.background.BackgroundNode;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BackgroundActivity extends BaseActivity {
@@ -57,26 +54,22 @@ public class BackgroundActivity extends BaseActivity {
             intent.setType("image/*");
             startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
             setDocumentResultListener(uri -> {
-                BackgroundNode node = mAdapter.getItem(position);
-                if (node != null) {
-                    node.setBackground(uri.toString());
-                    mAdapter.setData(position, node);
+                PageEntity pe = mAdapter.getItem(position);
+                if (pe != null) {
+                    pe.setBackgroundUri(uri.toString());
+                    mAdapter.setData(position, pe);
+                    AnywhereApplication.sRepository.updatePage(pe);
                 }
+
             });
         });
         rvList.setAdapter(mAdapter);
 
         List<PageEntity> pageEntityList = AnywhereApplication.sRepository.getAllPageEntities().getValue();
-        List<BackgroundNode> list = new ArrayList<>();
         if (pageEntityList != null) {
-            for (PageEntity pe : pageEntityList) {
-                BackgroundNode node = new BackgroundNode();
-                node.setTitle(pe.getTitle());
-                node.setBackground(GlobalValues.sBackgroundUri);
-                list.add(node);
-            }
+            mAdapter.addData(pageEntityList);
         }
-        mAdapter.addData(list);
+
     }
 
     @Override
