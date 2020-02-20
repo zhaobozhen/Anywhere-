@@ -176,7 +176,6 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                 .replace(R.id.container, fragment)
                 .commitNow();
-        MainActivity.getInstance().mBinding.fab.setVisibility(View.VISIBLE);
         MainActivity.getInstance().initFab();
         MainActivity.getInstance().initObserver();
     }

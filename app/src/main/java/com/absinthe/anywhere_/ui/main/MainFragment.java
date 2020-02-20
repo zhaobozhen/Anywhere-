@@ -119,7 +119,7 @@ public class MainFragment extends Fragment {
                 }
 
                 if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
-                    if (MainActivity.getInstance().mBinding != null && MainActivity.getInstance().mBinding.fab != null) {
+                    if (MainActivity.isAvailable()) {
                         MainActivity.getInstance().mBinding.fab.show();
                     }
                 }

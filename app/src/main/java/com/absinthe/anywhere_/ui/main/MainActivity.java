@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -47,6 +49,7 @@ import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment;
 import com.absinthe.anywhere_.ui.list.AppListActivity;
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity;
+import com.absinthe.anywhere_.utils.AnimationUtil;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.ClipboardUtil;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
@@ -63,6 +66,11 @@ import com.absinthe.anywhere_.view.FabBuilder;
 import com.absinthe.anywhere_.view.editor.AnywhereEditor;
 import com.absinthe.anywhere_.view.editor.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
@@ -86,6 +94,7 @@ public class MainActivity extends BaseActivity {
 
     private ActionBarDrawerToggle mToggle;
     private ItemTouchHelper mItemTouchHelper;
+    private Drawable mDrawableBack;
 
     public static MainActivity getInstance() {
         return sInstance;
@@ -135,11 +144,14 @@ public class MainActivity extends BaseActivity {
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                     .replace(R.id.container, welcomeFragment)
                     .commitNow();
+            mViewModel.getFragment().setValue(welcomeFragment);
         } else {
+            MainFragment mainFragment = MainFragment.newInstance(GlobalValues.sCategory);
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(R.id.container, MainFragment.newInstance(GlobalValues.sCategory))
+                    .replace(R.id.container, mainFragment)
                     .commitNow();
+            mViewModel.getFragment().setValue(mainFragment);
             initFab();
             initObserver();
             getAnywhereIntent(getIntent());
@@ -173,7 +185,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        UiUtils.loadBackgroundPic(this, (ImageView) mBinding.stubBg.getRoot());
+        loadBackground(GlobalValues.sBackgroundUri);
         if (mToggle != null) {
             mToggle.onConfigurationChanged(newConfig);
         }
@@ -199,7 +211,7 @@ public class MainActivity extends BaseActivity {
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             Objects.requireNonNull(mBinding.stubBg.getViewStub()).inflate();
-            UiUtils.loadBackgroundPic(this, (ImageView) mBinding.stubBg.getRoot());
+            loadBackground(GlobalValues.sBackgroundUri);
             UiUtils.setActionBarTransparent(this);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }
@@ -252,20 +264,25 @@ public class MainActivity extends BaseActivity {
                     if (pe != null) {
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             if (pe.getType() == AnywhereType.CARD_PAGE) {
+                                MainFragment mainFragment = MainFragment.newInstance(pe.getTitle());
                                 getSupportFragmentManager()
                                         .beginTransaction()
                                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                        .replace(R.id.container, MainFragment.newInstance(pe.getTitle()))
+                                        .replace(R.id.container, mainFragment)
                                         .commitNow();
+                                mViewModel.getFragment().setValue(mainFragment);
                                 GlobalValues.setsCategory(pe.getTitle(), position);
                             } else if (pe.getType() == AnywhereType.WEB_PAGE) {
+                                WebviewFragment webviewFragment = WebviewFragment.newInstance(pe.getExtra());
                                 getSupportFragmentManager()
                                         .beginTransaction()
                                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                        .replace(R.id.container, WebviewFragment.newInstance(pe.getExtra()))
+                                        .replace(R.id.container, webviewFragment)
                                         .commitNow();
+                                mViewModel.getFragment().setValue(webviewFragment);
                             }
                             if (!TextUtils.isEmpty(pe.getBackgroundUri())) {
+                                GlobalValues.setsActionBarType("");
                                 mViewModel.getBackground().setValue(pe.getBackgroundUri());
                             }
                         }, 300);
@@ -364,7 +381,7 @@ public class MainActivity extends BaseActivity {
         mViewModel.getBackground().observe(this, s -> {
             GlobalValues.setsBackgroundUri(s);
             if (!s.isEmpty()) {
-                UiUtils.loadBackgroundPic(sInstance, (ImageView) mBinding.stubBg.getRoot());
+                loadBackground(GlobalValues.sBackgroundUri);
                 UiUtils.setActionBarTransparent(this);
                 UiUtils.setAdaptiveActionBarTitleColor(sInstance, getSupportActionBar(), UiUtils.getActionBarTitle());
             }
@@ -376,6 +393,17 @@ public class MainActivity extends BaseActivity {
             UiUtils.setActionBarTitle(this, getSupportActionBar());
         });
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
+        mViewModel.getFragment().observe(this, fragment -> {
+            if (fragment instanceof MainFragment) {
+                if (mBinding.fab.getVisibility() == View.GONE) {
+                    AnimationUtil.showAndHiddenAnimation(mBinding.fab, AnimationUtil.AnimationState.STATE_SHOW, 300);
+                }
+            } else {
+                if (mBinding.fab.getVisibility() == View.VISIBLE) {
+                    AnimationUtil.showAndHiddenAnimation(mBinding.fab, AnimationUtil.AnimationState.STATE_GONE, 300);
+                }
+            }
+        });
     }
 
     public void initFab() {
@@ -495,6 +523,45 @@ public class MainActivity extends BaseActivity {
                         .build();
                 editor.show();
             }
+        }
+    }
+
+    private void loadBackground(String url) {
+        if (mDrawableBack == null) {
+            Glide.with(this)
+                    .load(url)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            mDrawableBack = resource;
+                            ((ImageView) mBinding.stubBg.getRoot()).setImageDrawable(resource);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+                    });
+        } else {
+            Glide.with(this)
+                    .load(url)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .placeholder(mDrawableBack)
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            mDrawableBack = resource;
+                            ((ImageView) mBinding.stubBg.getRoot()).setImageDrawable(resource);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+                    });
         }
     }
 

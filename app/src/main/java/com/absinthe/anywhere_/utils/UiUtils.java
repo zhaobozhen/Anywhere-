@@ -57,7 +57,6 @@ import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
@@ -275,26 +274,6 @@ public class UiUtils {
 
         window.setStatusBarColor(Color.TRANSPARENT);
         window.setNavigationBarColor(Color.TRANSPARENT);
-    }
-
-    /**
-     * Load custom background pic
-     *
-     * @param context   Context for use Glide
-     * @param imageView Load pic in this view
-     */
-    public static void loadBackgroundPic(Context context, ImageView imageView) {
-        if (imageView == null) {
-            return;
-        }
-
-        if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            Glide.with(context)
-                    .load(Uri.parse(GlobalValues.sBackgroundUri))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(imageView);
-        }
     }
 
     /**

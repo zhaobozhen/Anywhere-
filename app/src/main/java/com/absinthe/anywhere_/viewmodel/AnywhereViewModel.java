@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -40,9 +41,10 @@ public class AnywhereViewModel extends AndroidViewModel {
     private AnywhereRepository mRepository;
     private LiveData<List<AnywhereEntity>> mAllAnywhereEntities;
 
-    private MutableLiveData<String> mWorkingMode = null;
-    private MutableLiveData<String> mBackground = null;
-    private MutableLiveData<String> mCardMode = null;
+    private MutableLiveData<String> mWorkingMode = new MutableLiveData<>();
+    private MutableLiveData<String> mBackground = new MutableLiveData<>();
+    private MutableLiveData<String> mCardMode = new MutableLiveData<>();
+    private MutableLiveData<Fragment> mFragment = new MutableLiveData<>();
 
     public boolean refreshLock = false;
 
@@ -87,6 +89,13 @@ public class AnywhereViewModel extends AndroidViewModel {
             mCardMode = new MutableLiveData<>();
         }
         return mCardMode;
+    }
+
+    public MutableLiveData<Fragment> getFragment() {
+        if (mFragment == null) {
+            mFragment = new MutableLiveData<>();
+        }
+        return mFragment;
     }
 
     public PageTitleNode getEntity(String title) {
