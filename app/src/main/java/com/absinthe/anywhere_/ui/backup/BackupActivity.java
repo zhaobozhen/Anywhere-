@@ -42,13 +42,6 @@ public class BackupActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings_container, BackupFragment.newInstance())
-                    .commit();
-        }
     }
 
     @Override

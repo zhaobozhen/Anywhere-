@@ -142,14 +142,14 @@ public class MainActivity extends BaseActivity {
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(R.id.container, welcomeFragment)
+                    .replace(R.id.fragment_container_view, welcomeFragment)
                     .commitNow();
             mViewModel.getFragment().setValue(welcomeFragment);
         } else {
             MainFragment mainFragment = MainFragment.newInstance(GlobalValues.sCategory);
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(R.id.container, mainFragment)
+                    .replace(R.id.fragment_container_view, mainFragment)
                     .commitNow();
             mViewModel.getFragment().setValue(mainFragment);
             initFab();
@@ -268,7 +268,7 @@ public class MainActivity extends BaseActivity {
                                 getSupportFragmentManager()
                                         .beginTransaction()
                                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                        .replace(R.id.container, mainFragment)
+                                        .replace(R.id.fragment_container_view, mainFragment)
                                         .commitNow();
                                 mViewModel.getFragment().setValue(mainFragment);
                                 GlobalValues.setsCategory(pe.getTitle(), position);
@@ -277,7 +277,7 @@ public class MainActivity extends BaseActivity {
                                 getSupportFragmentManager()
                                         .beginTransaction()
                                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                        .replace(R.id.container, webviewFragment)
+                                        .replace(R.id.fragment_container_view, webviewFragment)
                                         .commitNow();
                                 mViewModel.getFragment().setValue(webviewFragment);
                             }

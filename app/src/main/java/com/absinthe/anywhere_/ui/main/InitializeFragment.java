@@ -174,7 +174,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         MainActivity.getInstance()
                 .getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                .replace(R.id.container, fragment)
+                .replace(R.id.fragment_container_view, fragment)
                 .commitNow();
         MainActivity.getInstance().initFab();
         MainActivity.getInstance().initObserver();

@@ -7,15 +7,17 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.settings.SettingsActivity">
 
-    <include layout="@layout/toolbar"
+    <include
         android:id="@+id/toolbar"
+        layout="@layout/toolbar"
         app:layout_constraintTop_toBottomOf="parent" />
 
-    <include
-        layout="@layout/fragment_settings"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:name="com.absinthe.anywhere_.ui.settings.SettingsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

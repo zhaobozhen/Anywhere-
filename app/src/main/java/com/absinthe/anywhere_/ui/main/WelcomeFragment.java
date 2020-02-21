@@ -28,7 +28,7 @@ public class WelcomeFragment extends Fragment {
         btnStart.setOnClickListener(view1 -> MainActivity.getInstance()
                 .getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                .replace(R.id.container, InitializeFragment.newInstance())
+                .replace(R.id.fragment_container_view, InitializeFragment.newInstance())
                 .commitNow());
 
         return view;
