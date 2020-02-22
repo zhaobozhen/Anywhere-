@@ -22,6 +22,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
@@ -51,6 +52,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        getListView().setPadding(0, 0, 0, StatusBarUtil.getNavigationBarHeight(mContext));
 
         DropDownPreference workingModePreference = findPreference(Const.PREF_WORKING_MODE);
         DropDownPreference darkModePreference = findPreference(Const.PREF_DARK_MODE);

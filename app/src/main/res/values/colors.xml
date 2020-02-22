@@ -22,6 +22,7 @@
     <color name="toolbarColorNormal">#FF000000</color>
     <color name="navigationColorNormal">#FFFFFFFF</color>
     <color name="lollipopStatusBarColor">#FFDDDDDD</color>
+    <color name="bottomSheetColorNormal">#FFFFFFFF</color>
 
     <!--  Fab  -->
     <color name="fabBackgroundColor">#FF03A9F4</color>

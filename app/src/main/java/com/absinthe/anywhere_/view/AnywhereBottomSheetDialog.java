@@ -14,7 +14,7 @@ public class AnywhereBottomSheetDialog extends BottomSheetDialog {
     private boolean isDismissParent = false;
 
     public AnywhereBottomSheetDialog(@NonNull Context context) {
-        super(context, R.style.CustomBottomSheetDialog);
+        super(context, R.style.BottomSheetDialog);
     }
 
     @Override

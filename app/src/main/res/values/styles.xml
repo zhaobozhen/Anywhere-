@@ -12,7 +12,6 @@
         <item name="actionBarStyle">@style/CustomActionBar</item>
         <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
         <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
-        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     </style>
 
     <style name="AppTheme.Preference" parent="PreferenceThemeOverlay">
@@ -66,18 +65,19 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+    <style name="BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <!--背景，顶部两个圆角-->
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
     </style>
 
-    <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
-    </style>
-
-    <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">16dp</item>
-        <item name="cornerSizeTopLeft">16dp</item>
+    <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <!--底部弹出条的样式（相当于背景）-->
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <!--状态栏颜色-->
+        <item name="android:statusBarColor">@color/transparent</item>
+        <!--导航条颜色-->
+        <item name="android:navigationBarColor">@color/bottomSheetColorNormal</item>
     </style>
 
 </resources>

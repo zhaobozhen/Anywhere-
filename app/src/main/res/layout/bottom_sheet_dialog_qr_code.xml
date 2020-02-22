@@ -2,23 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Design.BottomSheet.Modal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/Widget.Design.BottomSheet.Modal">
+    android:background="@color/transparent">
 
     <ImageButton
         android:id="@+id/ib_overlay"
         android:layout_width="@dimen/bsd_tool_size"
         android:layout_height="@dimen/bsd_tool_size"
+        android:layout_marginStart="@dimen/bsd_function_button_margin"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/anywhere_more_todo"
         android:tooltipText="@string/menu_overlay"
-        app:srcCompat="@drawable/ic_float"
-        tools:targetApi="o"
-        app:layout_constraintTop_toTopOf="@id/ib_editor_menu"
         app:layout_constraintBottom_toBottomOf="@id/ib_editor_menu"
         app:layout_constraintEnd_toStartOf="@id/ib_editor_menu"
-        android:layout_marginStart="@dimen/bsd_function_button_margin" />
+        app:layout_constraintTop_toTopOf="@id/ib_editor_menu"
+        app:srcCompat="@drawable/ic_float"
+        tools:targetApi="o" />
 
     <ImageButton
         android:id="@+id/ib_editor_menu"
@@ -26,32 +27,32 @@
         android:layout_height="@dimen/bsd_tool_size"
         android:layout_marginTop="@dimen/bsd_content_margin_top"
         android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_more_vert"
-        android:tooltipText="@string/menu_more"
         android:contentDescription="@string/anywhere_more_todo"
+        android:tooltipText="@string/menu_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_more_vert"
         tools:targetApi="o" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_app_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/ib_editor_menu"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginTop="@dimen/bsd_content_margin_top"
         android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_content_margin_top"
         android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_app_name_label"
+        app:errorEnabled="true"
         app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
         app:helperTextEnabled="true"
-        app:errorEnabled="true">
+        app:layout_constraintTop_toBottomOf="@id/ib_editor_menu">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_app_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,13 +61,13 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/til_app_name"
-        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_description_label"
         app:helperText="@string/bsd_text_input_layout_description_helper_text"
-        app:helperTextEnabled="true">
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/til_app_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_description"
@@ -79,10 +80,10 @@
         android:id="@+id/btn_edit_anywhere_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/bsd_edit_text_margin_horizontal"
         android:text="@string/bsd_btn_done"
         android:textAllCaps="true"
-        app:layout_constraintTop_toBottomOf="@id/til_description"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="@dimen/bsd_edit_text_margin_horizontal" />
+        app:layout_constraintTop_toBottomOf="@id/til_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

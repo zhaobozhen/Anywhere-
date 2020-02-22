@@ -9,6 +9,7 @@
     <color name="toolbarColorNormal">#FFA0A0A0</color>
     <color name="navigationColorNormal">#FF121212</color>
     <color name="lollipopStatusBarColor">#FF121212</color>
+    <color name="bottomSheetColorNormal">#FF121212</color>
 
     <!--  Shell  -->
     <color name="shellBackground">#FFECECEC</color>

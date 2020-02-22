@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet_anywhere"
         style="@style/Widget.Design.BottomSheet.Modal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/transparent">
 
         <LinearLayout
             android:id="@+id/ll_buttons"
@@ -80,16 +82,16 @@
             android:id="@+id/et_shell_content"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:padding="20dp"
             android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
             android:layout_marginTop="@dimen/bsd_item_margin_vertical"
             android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+            android:background="@drawable/bg_shell"
+            android:fontFamily="@font/jetbrains_mono_regular"
+            android:gravity="top|start"
+            android:padding="20dp"
             android:textColor="@color/shellText"
             android:textCursorDrawable="@drawable/bg_shell_cursor"
-            android:fontFamily="@font/jetbrains_mono_regular"
-            android:background="@drawable/bg_shell"
-            android:gravity="top|start"
-            app:layout_constraintTop_toBottomOf="@id/til_app_name"/>
+            app:layout_constraintTop_toBottomOf="@id/til_app_name" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_description"

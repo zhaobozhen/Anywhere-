@@ -3,6 +3,7 @@ package com.absinthe.anywhere_;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -37,6 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void initView() {
         if (GlobalValues.sBackgroundUri.isEmpty() || !(this instanceof MainActivity)) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             if (UiUtils.isDarkMode(this)) {
                 StatusBarUtil.setDarkMode(this);
             } else {
@@ -45,7 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         setToolbar();
-        if (!(this instanceof MainActivity) || !GlobalValues.sIsMd2Toolbar) {
+        if (!(this instanceof MainActivity && GlobalValues.sIsMd2Toolbar)) {
             mToolbar.setPadding(0, StatusBarUtil.getStatusBarHeight(this), 0, 0);
         }
         setSupportActionBar(mToolbar);

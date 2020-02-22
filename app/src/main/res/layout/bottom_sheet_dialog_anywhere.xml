@@ -4,13 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet_anywhere"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.Design.BottomSheet.Modal">
+        style="@style/Widget.Design.BottomSheet.Modal"
+        android:background="@color/transparent">
 
         <LinearLayout
             android:id="@+id/ll_buttons"
