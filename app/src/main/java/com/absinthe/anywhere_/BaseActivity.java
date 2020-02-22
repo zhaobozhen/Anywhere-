@@ -38,7 +38,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void initView() {
         if (GlobalValues.sBackgroundUri.isEmpty() || !(this instanceof MainActivity)) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             if (UiUtils.isDarkMode(this)) {
                 StatusBarUtil.setDarkMode(this);
             } else {

@@ -14,6 +14,7 @@
         <item name="android:windowSplashscreenContent">@drawable/splash_drawable</item>
         <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
         <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
 </resources>

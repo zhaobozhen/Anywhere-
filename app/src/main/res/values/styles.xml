@@ -12,6 +12,7 @@
         <item name="actionBarStyle">@style/CustomActionBar</item>
         <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
         <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="AppTheme.Preference" parent="PreferenceThemeOverlay">
@@ -66,18 +67,19 @@
     </style>
 
     <style name="BottomSheet" parent="Widget.Design.BottomSheet.Modal">
-        <!--背景，顶部两个圆角-->
         <item name="android:background">@drawable/bg_bottom_sheet</item>
     </style>
 
     <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
-        <!--底部弹出条的样式（相当于背景）-->
         <item name="bottomSheetStyle">@style/BottomSheet</item>
-        <!--状态栏颜色-->
         <item name="android:statusBarColor">@color/transparent</item>
-        <!--导航条颜色-->
         <item name="android:navigationBarColor">@color/bottomSheetColorNormal</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_slide_up</item>
+        <item name="android:windowExitAnimation">@anim/anim_slide_down</item>
     </style>
 
 </resources>

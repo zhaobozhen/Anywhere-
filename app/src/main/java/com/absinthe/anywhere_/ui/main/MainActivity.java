@@ -55,6 +55,7 @@ import com.absinthe.anywhere_.utils.ClipboardUtil;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
+import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
@@ -230,7 +231,8 @@ public class MainActivity extends BaseActivity {
 
             ConstraintLayout.LayoutParams newLayoutParams = (ConstraintLayout.LayoutParams) mBinding.toolbar.getLayoutParams();
             newLayoutParams.leftMargin = newLayoutParams.rightMargin = marginHorizontal;
-            newLayoutParams.topMargin = newLayoutParams.bottomMargin = marginVertical;
+            newLayoutParams.topMargin = StatusBarUtil.getStatusBarHeight(this);
+            newLayoutParams.bottomMargin = marginVertical;
             newLayoutParams.height = UiUtils.d2p(this, 55);
             mBinding.toolbar.setLayoutParams(newLayoutParams);
             mBinding.toolbar.setContentInsetStartWithNavigation(0);

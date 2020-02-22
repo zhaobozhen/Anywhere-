@@ -11,7 +11,7 @@
     <color name="gray">#FFECECEC</color>
     <color name="gray_ripple">#FFBBBBBB</color>
     <color name="gray_info">#FFABB7C0</color>
-    <color name="green_done">#FF4CAF50</color>
+    <color name="green_done">#FF4AC382</color>
     <color name="exported_tint">#FF444444</color>
     <color name="shadowLight">#FFBBBBBB</color>
     <color name="shadowHeavy">#22444444</color>
@@ -25,7 +25,7 @@
     <color name="bottomSheetColorNormal">#FFFFFFFF</color>
 
     <!--  Fab  -->
-    <color name="fabBackgroundColor">#FF03A9F4</color>
+    <color name="fabBackgroundColor">#FF4A8BC3</color>
     <color name="fabIconColor">#FFFFFFFF</color>
 
     <color name="bubbleBlue">#FF3487D7</color>
