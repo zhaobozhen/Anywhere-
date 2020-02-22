@@ -1,12 +1,10 @@
 package com.absinthe.anywhere_.ui.qrcode;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,19 +23,18 @@ public class QRCodeCollectionActivity extends BaseActivity {
     private QRCollectionAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void setViewBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_qrcode_collection);
-
-        initView();
     }
 
-    private void initView() {
-        setSupportActionBar(binding.toolbar.toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+    @Override
+    protected void setToolbar() {
+        mToolbar = binding.toolbar.toolbar;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.QR_COLLECTION_TIP)) {
             ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(this).inflate(

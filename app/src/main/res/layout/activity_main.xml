@@ -35,11 +35,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:elevation="3dp"
+                    android:translationZ="3dp"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="?attr/actionBarTheme"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+
                     app:titleTextAppearance="@style/Toolbar.TitleText" />
 
                 <androidx.fragment.app.FragmentContainerView

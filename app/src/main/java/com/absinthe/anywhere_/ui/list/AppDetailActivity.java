@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 
@@ -33,11 +32,18 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
     private AppListAdapter mAdapter;
 
     @Override
+    protected void setViewBinding() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_detail);
+    }
+
+    @Override
+    protected void setToolbar() {
+        mToolbar = binding.toolbar;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_detail);
-
-        initView();
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -50,12 +56,9 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
         initData(Objects.requireNonNull(intent).getStringExtra(Const.INTENT_EXTRA_PKG_NAME));
     }
 
-    private void initView() {
-        setSupportActionBar(binding.toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+    @Override
+    protected void initView() {
+        super.initView();
 
         //Bug of DayNight lib
         if (UiUtils.isDarkMode(this)) {

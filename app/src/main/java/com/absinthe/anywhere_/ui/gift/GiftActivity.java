@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -41,22 +40,23 @@ public class GiftActivity extends BaseActivity {
     }
 
     @Override
+    protected void setViewBinding() {
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_gift);
+    }
+
+    @Override
+    protected void setToolbar() {
+        mToolbar = mBinding.toolbar.toolbar;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sInstance = this;
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_gift);
-        if (mViewModel == null) {
-            mViewModel = new ViewModelProvider(this).get(GiftViewModel.class);
-        }
-        initView();
 
         if (!BuildConfig.DEBUG) {
             finish();
         }
-
-        mViewModel.getPrice();
-        mViewModel.getChatQueue().offer(GiftChatString.chats);
-        Logger.d(AppUtils.getAndroidId(this));
     }
 
     @Override
@@ -66,13 +66,13 @@ public class GiftActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    private void initView() {
-        setSupportActionBar(mBinding.toolbar.toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+    @Override
+    protected void initView() {
+        super.initView();
 
+        if (mViewModel == null) {
+            mViewModel = new ViewModelProvider(this).get(GiftViewModel.class);
+        }
 
         ChatAdapter adapter = new ChatAdapter();
         mBinding.rvChat.setAdapter(adapter);
@@ -119,6 +119,10 @@ public class GiftActivity extends BaseActivity {
                 }
             }
         });
+
+        mViewModel.getPrice();
+        mViewModel.getChatQueue().offer(GiftChatString.chats);
+        Logger.d(AppUtils.getAndroidId(this));
     }
 
     @Override

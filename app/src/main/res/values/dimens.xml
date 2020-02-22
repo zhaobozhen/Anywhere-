@@ -34,4 +34,7 @@
     <!--  Chat bubble  -->
     <dimen name="bubble_radius">50dp</dimen>
 
+    <!--  List  -->
+    <dimen name="list_padding_bottom">20dp</dimen>
+
 </resources>

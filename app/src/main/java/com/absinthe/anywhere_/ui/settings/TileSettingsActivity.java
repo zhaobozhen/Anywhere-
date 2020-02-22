@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -42,21 +40,24 @@ public class TileSettingsActivity extends BaseActivity {
     private List<AnywhereEntity> mList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void setViewBinding() {
         setContentView(R.layout.activity_tile_settings);
-        mContext = this;
-
-        initView();
     }
 
-    private void initView() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+    @Override
+    protected void setToolbar() {
+        mToolbar = findViewById(R.id.toolbar);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = this;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
 
         cvTileOne = findViewById(R.id.cv_tile_one);
         cvTileTwo = findViewById(R.id.cv_tile_two);

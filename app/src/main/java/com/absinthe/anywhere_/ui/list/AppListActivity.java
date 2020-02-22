@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,12 +31,20 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
     private boolean isShowSystemApp;
 
     @Override
+    protected void setViewBinding() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_list);
+    }
+
+    @Override
+    protected void setToolbar() {
+        mToolbar = binding.toolbar.toolbar;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_list);
         isShowSystemApp = false;
 
-        initView();
         initRecyclerView();
         initData();
 
@@ -92,14 +99,11 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
         return super.onOptionsItemSelected(item);
     }
 
-    private void initView() {
-        binding.srlAppList.setOnRefreshListener(() -> initData(isShowSystemApp));
+    @Override
+    protected void initView() {
+        super.initView();
 
-        setSupportActionBar(binding.toolbar.toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        binding.srlAppList.setOnRefreshListener(() -> initData(isShowSystemApp));
 
         //Bug of DayNight lib
         if (UiUtils.isDarkMode(this)) {
@@ -136,7 +140,6 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
                 mAdapter.setList(list);
                 binding.srlAppList.setRefreshing(false);
             });
-
         }).start();
     }
 

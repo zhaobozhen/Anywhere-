@@ -109,15 +109,22 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void setViewBinding() {
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+    }
+
+    @Override
+    protected void setToolbar() {
+        mToolbar = mBinding.toolbar;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         sInstance = this;
         mViewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
-        initView();
 
         Observer<List<PageEntity>> observer = new Observer<List<PageEntity>>() {
             @Override
@@ -205,8 +212,9 @@ public class MainActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void initView() {
-        setSupportActionBar(mBinding.toolbar);
+    @Override
+    protected void initView() {
+        super.initView();
         ActionBar actionBar = getSupportActionBar();
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
@@ -390,7 +398,7 @@ public class MainActivity extends BaseActivity {
         mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
         mViewModel.getWorkingMode().observe(this, s -> {
             GlobalValues.setsWorkingMode(s);
-            UiUtils.setActionBarTitle(this, getSupportActionBar());
+            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         });
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
         mViewModel.getFragment().observe(this, fragment -> {

@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener;
 import com.absinthe.anywhere_.model.Const;
@@ -17,32 +19,39 @@ import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.Logger;
 
 @SuppressLint("Registered")
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
+    protected Toolbar mToolbar;
     private OnDocumentResultListener mListener;
+
+    protected abstract void setViewBinding();
+    protected abstract void setToolbar();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Logger.i(this.getClass().getSimpleName(), "onCreate");
+        setViewBinding();
+        initView();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        int nav_color = getResources().getColor(R.color.navigationColorNormal);
-
-        if ((GlobalValues.sBackgroundUri.isEmpty() && !GlobalValues.sIsPages) || !(this instanceof MainActivity)) {
-            StatusBarUtil.setColorNoTranslucent(this, nav_color);
+    protected void initView() {
+        if (GlobalValues.sBackgroundUri.isEmpty() || !(this instanceof MainActivity)) {
+            if (UiUtils.isDarkMode(this)) {
+                StatusBarUtil.setDarkMode(this);
+            } else {
+                StatusBarUtil.setLightMode(this);
+            }
         }
 
-        if (UiUtils.isDarkMode(this)) {
-            if (GlobalValues.sBackgroundUri.isEmpty() || !(this instanceof MainActivity)) {
-                UiUtils.clearLightStatusBarAndNavigationBar(getWindow().getDecorView());
-            } else {
-                UiUtils.setActionBarTitle(this, getSupportActionBar());
-            }
+        setToolbar();
+        if (!(this instanceof MainActivity) || !GlobalValues.sIsMd2Toolbar) {
+            mToolbar.setPadding(0, StatusBarUtil.getStatusBarHeight(this), 0, 0);
+        }
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 

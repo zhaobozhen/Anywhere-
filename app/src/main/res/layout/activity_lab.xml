@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.absinthe.anywhere_.ui.settings.LabActivity">
 
-    <include layout="@layout/toolbar"
+    <include
         android:id="@+id/toolbar"
+        layout="@layout/toolbar"
         app:layout_constraintTop_toBottomOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView

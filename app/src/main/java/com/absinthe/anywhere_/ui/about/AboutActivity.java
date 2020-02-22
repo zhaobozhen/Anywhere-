@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.ui.about;
 
 import android.content.ActivityNotFoundException;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -118,8 +119,10 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
 
     private void initView() {
         getWindow().setNavigationBarColor(getResources().getColor(R.color.transparent));
-        if (UiUtils.isDarkMode(this)) {
-            UiUtils.clearLightStatusBarAndNavigationBar(getWindow().getDecorView());
+        if (!UiUtils.isDarkMode(this)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            }
         }
     }
 

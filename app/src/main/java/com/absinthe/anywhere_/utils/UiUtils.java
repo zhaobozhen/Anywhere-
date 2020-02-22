@@ -202,16 +202,6 @@ public class UiUtils {
     }
 
     /**
-     * Set action bar title
-     *
-     * @param activity  Activity for bind action bar
-     * @param actionBar our target
-     */
-    public static void setActionBarTitle(AppCompatActivity activity, ActionBar actionBar) {
-        setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, getActionBarTitle());
-    }
-
-    /**
      * get action bar title by working mode
      *
      * @return action bar title
