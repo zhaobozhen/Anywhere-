@@ -10,18 +10,18 @@
             android:key="backup"
             android:title="@string/settings_backup_backup_title"
             app:summary="@string/settings_backup_backup_summary"
-            android:icon="@drawable/ic_backup"/>
+            app:icon="@drawable/ic_backup"/>
 
         <Preference
             android:key="backupShare"
             android:title="@string/settings_backup_share_title"
             app:summary="@string/settings_backup_share_summary"
-            android:icon="@drawable/ic_share"/>
+            app:icon="@drawable/ic_share"/>
 
         <Preference
             android:key="backupTip"
             app:summary="@string/settings_backup_tip"
-            app:selectable="false"/>
+            app:icon="@drawable/ic_alert"/>
 
     </PreferenceCategory>
 

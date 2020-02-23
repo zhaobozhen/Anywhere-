@@ -160,7 +160,7 @@
     <string name="settings_backup_share_summary">Copy &amp; share your Anywhere-</string>
     <string name="settings_backup_restore_summary">Select a *.awbackups suffix file to import Anywhere-</string>
     <string name="settings_backup_apply_summary">Apply shared Anywhere- configurations</string>
-    <string name="settings_backup_tip">Starting from version 1.4.9, the structure of data backup has changed, and backup files before version 1.4.9 will not be available! Please back up the new file again.</string>
+    <string name="settings_backup_tip">Starting from version %s, the structure of data backup has changed, and backup files before version %s will not be available! Please backup a new file again.</string>
 
     <string name="settings_md2_toolbar_title">Material Design 2 Toolbar</string>
     <string name="settings_pages_title">Pages</string>

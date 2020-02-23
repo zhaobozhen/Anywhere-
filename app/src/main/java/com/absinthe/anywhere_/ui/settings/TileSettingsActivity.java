@@ -50,6 +50,11 @@ public class TileSettingsActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isPaddingToolbar() {
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;

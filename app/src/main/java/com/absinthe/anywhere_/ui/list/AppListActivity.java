@@ -41,6 +41,11 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
     }
 
     @Override
+    protected boolean isPaddingToolbar() {
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isShowSystemApp = false;

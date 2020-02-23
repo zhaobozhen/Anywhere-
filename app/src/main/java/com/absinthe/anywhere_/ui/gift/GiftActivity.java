@@ -50,6 +50,11 @@ public class GiftActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isPaddingToolbar() {
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sInstance = this;

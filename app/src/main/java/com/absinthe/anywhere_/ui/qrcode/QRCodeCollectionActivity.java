@@ -33,6 +33,11 @@ public class QRCodeCollectionActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isPaddingToolbar() {
+        return true;
+    }
+
+    @Override
     protected void initView() {
         super.initView();
 

@@ -237,7 +237,7 @@
     <string name="dialog_set_dark_mode_period_title">設置夜間模式時間</string>
     <string name="toast_no_document_app">你的 ROM 沒有文檔 App，請聯繫你的設備製造商</string>
     <string name="dialog_rename_title">重命名</string>
-    <string name="settings_backup_tip">從 1.4.9 版本開始，數據備份的結構發生變化，1.4.9 版本之前的備份文件將不可用！請重新備份新的文件。</string>
+    <string name="settings_backup_tip">從 %s 版本開始，數據備份的結構發生變化，%s 版本之前的備份文件將不可用！請重新備份新的文件。</string>
     <string name="dialog_delete_with_sub_item_message">確定要刪除 %s 和其子項嗎?</string>
     <string name="menu_rename">重命名</string>
     <string name="menu_delete_page">刪除頁</string>

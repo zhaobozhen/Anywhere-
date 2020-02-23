@@ -1,9 +1,11 @@
 package com.absinthe.anywhere_.model;
 
 import android.content.Context;
+import android.text.Html;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.utils.SPUtils;
+import com.absinthe.anywhere_.utils.TextUtils;
 
 public class GlobalValues {
     public static boolean sIsDebugMode;
@@ -52,6 +54,23 @@ public class GlobalValues {
 
         sAutoDarkModeStart = SPUtils.getLong(context, Const.PREF_AUTO_DARK_MODE_START);
         sAutoDarkModeEnd = SPUtils.getLong(context, Const.PREF_AUTO_DARK_MODE_END);
+    }
+
+    public static CharSequence getInfo() {
+        StringBuilder sb = new StringBuilder()
+                .append(getInfoLine("Working Mode", sWorkingMode))
+                .append(getInfoLine("Background Uri", sBackgroundUri))
+                .append(getInfoLine("ActionBar Type", sActionBarType))
+                .append(getInfoLine("Sort Mode", sSortMode))
+                .append(getInfoLine("Icon Pack", sIconPack));
+
+        return Html.fromHtml(sb.toString());
+    }
+
+    private static CharSequence getInfoLine(String infoName, String infoValue) {
+        return new StringBuilder()
+                .append("<b>").append(infoName).append("</b>")
+                .append(": ").append(infoValue).append("<br>");
     }
 
     public static void setsIsStreamCardMode(boolean sIsStreamCardMode) {

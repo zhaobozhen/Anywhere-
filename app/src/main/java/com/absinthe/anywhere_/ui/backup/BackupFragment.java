@@ -43,6 +43,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
         Preference restorePreference = findPreference(Const.PREF_RESTORE);
         Preference sharePreference = findPreference(Const.PREF_BACKUP_SHARE);
         Preference applyPreference = findPreference(Const.PREF_RESTORE_APPLY);
+        Preference tipPreference = findPreference("backupTip");
 
         if (backupPreference != null) {
             backupPreference.setOnPreferenceClickListener(this);
@@ -55,6 +56,9 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
         }
         if (applyPreference != null) {
             applyPreference.setOnPreferenceClickListener(this);
+        }
+        if (tipPreference != null) {
+            tipPreference.setSummary(getBackupTip("1.7.0"));
         }
     }
 
@@ -93,4 +97,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
         return false;
     }
 
+    private String getBackupTip(String versionName) {
+        return String.format(getString(R.string.settings_backup_tip), versionName, versionName);
+    }
 }

@@ -120,6 +120,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isPaddingToolbar() {
+        return !GlobalValues.sIsMd2Toolbar;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -220,9 +225,6 @@ public class MainActivity extends BaseActivity {
 
         if (!GlobalValues.sBackgroundUri.isEmpty()) {
             Objects.requireNonNull(mBinding.stubBg.getViewStub()).inflate();
-            loadBackground(GlobalValues.sBackgroundUri);
-            UiUtils.setActionBarTransparent(this);
-            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         }
 
         if (GlobalValues.sIsMd2Toolbar) {
@@ -392,12 +394,12 @@ public class MainActivity extends BaseActivity {
             GlobalValues.setsBackgroundUri(s);
             if (!s.isEmpty()) {
                 loadBackground(GlobalValues.sBackgroundUri);
-                UiUtils.setActionBarTransparent(this);
                 UiUtils.setAdaptiveActionBarTitleColor(sInstance, getSupportActionBar(), UiUtils.getActionBarTitle());
+                UiUtils.setActionBarTransparent(this);
             }
         });
-
         mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
+
         mViewModel.getWorkingMode().observe(this, s -> {
             GlobalValues.setsWorkingMode(s);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());

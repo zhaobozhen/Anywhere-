@@ -3,7 +3,6 @@ package com.absinthe.anywhere_;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -27,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void setViewBinding();
     protected abstract void setToolbar();
+    protected abstract boolean isPaddingToolbar();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         setToolbar();
-        if (!(this instanceof MainActivity && GlobalValues.sIsMd2Toolbar)) {
+        if (isPaddingToolbar()) {
             mToolbar.setPadding(0, StatusBarUtil.getStatusBarHeight(this), 0, 0);
         }
         setSupportActionBar(mToolbar);

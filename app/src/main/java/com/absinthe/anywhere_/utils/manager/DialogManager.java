@@ -105,12 +105,7 @@ public class DialogManager {
     public static void showDebugDialog(Context context) {
         new AnywhereDialogBuilder(context)
                 .setTitle("Debug info")
-                .setMessage(Html.fromHtml(
-                        "<b>workingMode</b> = " + GlobalValues.sWorkingMode + "<br>"
-                                + "<b>backgroundUri</b> = " + GlobalValues.sBackgroundUri + "<br>"
-                                + "<b>actionBarType</b> = " + GlobalValues.sActionBarType + "<br>"
-                                + "<b>sortMode</b> = " + GlobalValues.sSortMode + "<br>"
-                                + "<b>iconPack</b> = " + GlobalValues.sIconPack + "<br>"))
+                .setMessage(GlobalValues.getInfo())
                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
                 .setNeutralButton("LOGCAT", (dialogInterface, i) -> Settings.setLogger())
                 .setCancelable(false)

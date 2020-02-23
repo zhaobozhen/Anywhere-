@@ -15,4 +15,9 @@ public class LabActivity extends BaseActivity {
         mToolbar = findViewById(R.id.toolbar);
     }
 
+    @Override
+    protected boolean isPaddingToolbar() {
+        return true;
+    }
+
 }

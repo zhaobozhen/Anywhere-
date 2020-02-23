@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Patterns;
 
 import com.absinthe.anywhere_.AnywhereApplication;
@@ -263,4 +267,10 @@ public class TextUtils {
         return URLManager.ANYWHERE_SCHEME + URLManager.CARD_SHARING_HOST + "/" + encrypted;
     }
 
+    public static SpannableString getBoldString(String str) {
+        SpannableString spanString = new SpannableString(str);
+        StyleSpan span = new StyleSpan(Typeface.BOLD);//加粗
+        spanString.setSpan(span, 0, str.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spanString;
+    }
 }

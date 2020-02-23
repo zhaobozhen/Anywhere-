@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/AppTheme.Preference</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/lollipopStatusBarColor</item>
         <item name="actionBarStyle">@style/CustomActionBar</item>
         <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>

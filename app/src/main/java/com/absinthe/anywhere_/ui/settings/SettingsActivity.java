@@ -28,6 +28,11 @@ public class SettingsActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isPaddingToolbar() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sInstance = this;

@@ -52,7 +52,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_app_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:nextFocusForward="@id/tiet_description" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,7 +75,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
