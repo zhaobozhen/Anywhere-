@@ -53,6 +53,7 @@
     <string name="dialog_copy">Copy</string>
     <string name="dialog_dynamic_params_title">Input Dynamic Params</string>
     <string name="dialog_shell_result_title">Shell Result</string>
+    <string name="dialog_add_shortcut_anymore_button">Add anymore</string>
 
     <!--  BottomSheetDialog  -->
     <string name="bsd_btn_done">Done</string>

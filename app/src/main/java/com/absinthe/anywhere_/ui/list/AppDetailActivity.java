@@ -64,11 +64,6 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
     @Override
     protected void initView() {
         super.initView();
-
-        //Bug of DayNight lib
-        if (UiUtils.isDarkMode(this)) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.resetColorPrimary));
-        }
     }
 
     private void initRecyclerView() {

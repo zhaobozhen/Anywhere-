@@ -2,7 +2,6 @@
 <resources>
     <color name="colorPrimary">#FF8BC34A</color>
     <color name="colorPrimaryDark">#FF8BC34A</color>
-    <color name="resetColorPrimary">#FF8BC34A</color>
     <color name="colorAccent">#FFFF4081</color>
 
     <color name="transparent">#00000000</color>
@@ -27,6 +26,7 @@
     <color name="widgetPrimaryColor">#FFFFFFFF</color>
     <color name="widgetSecondaryColor">#FFDDDDDD</color>
     <color name="widgetThirdlyColor">#FFBBBBBB</color>
+    <color name="aboutHeader">#FF8BC34A</color>
 
     <!--  Fab  -->
     <color name="fabBackgroundColor">#FF03A9F4</color>

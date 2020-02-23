@@ -109,11 +109,6 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
         super.initView();
 
         binding.srlAppList.setOnRefreshListener(() -> initData(isShowSystemApp));
-
-        //Bug of DayNight lib
-        if (UiUtils.isDarkMode(this)) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.resetColorPrimary));
-        }
     }
 
     private void initRecyclerView() {

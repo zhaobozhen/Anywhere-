@@ -31,10 +31,13 @@
 
     <style name="AppTheme.About" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/resetColorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
+        <item name="aboutPageHeaderBackground">@color/aboutHeader</item>
+        <item name="aboutPageHeaderContentScrim">@color/aboutHeader</item>
     </style>
 
     <style name="Transparent" parent="@style/AppTheme">

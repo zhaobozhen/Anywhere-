@@ -136,11 +136,12 @@ public class DialogManager {
                 .show();
     }
 
-    public static void showCannotAddShortcutDialog(Context context) {
+    public static void showCannotAddShortcutDialog(Context context, DialogInterface.OnClickListener listener) {
         new AnywhereDialogBuilder(context)
                 .setTitle(R.string.dialog_cant_add_shortcut_title)
                 .setMessage(R.string.dialog_cant_add_shortcut_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                .setNeutralButton(R.string.dialog_add_shortcut_anymore_button, listener)
                 .show();
     }
 
