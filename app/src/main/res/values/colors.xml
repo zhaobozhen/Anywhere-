@@ -24,6 +24,9 @@
     <color name="lollipopStatusBarColor">#FFDDDDDD</color>
     <color name="bottomSheetColorNormal">#FFFFFFFF</color>
     <color name="divider">#15000000</color>
+    <color name="widgetPrimaryColor">#FFFFFFFF</color>
+    <color name="widgetSecondaryColor">#FFDDDDDD</color>
+    <color name="widgetThirdlyColor">#FFBBBBBB</color>
 
     <!--  Fab  -->
     <color name="fabBackgroundColor">#FF03A9F4</color>

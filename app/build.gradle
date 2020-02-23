@@ -20,7 +20,7 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1700
+        versionCode 1701
         versionName "1.7.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
@@ -128,7 +128,7 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     //Function
-    implementation 'moe.shizuku.privilege:api:3.1.0-alpha3'
+    implementation 'moe.shizuku.privilege:api:3.1.0-alpha4'
     implementation 'me.weishu:free_reflection:2.2.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.google.code.gson:gson:2.8.6'

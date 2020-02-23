@@ -11,6 +11,9 @@
     <color name="lollipopStatusBarColor">#FF121212</color>
     <color name="bottomSheetColorNormal">#FF121212</color>
     <color name="divider">#FFA0A0A0</color>
+    <color name="widgetPrimaryColor">#FF121212</color>
+    <color name="widgetSecondaryColor">#FF343434</color>
+    <color name="widgetThirdlyColor">#FF565656</color>
 
     <!--  Shell  -->
     <color name="shellBackground">#FFECECEC</color>
