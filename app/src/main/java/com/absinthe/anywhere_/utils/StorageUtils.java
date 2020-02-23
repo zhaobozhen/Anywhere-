@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
@@ -7,6 +8,7 @@ import android.os.Environment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -40,16 +42,21 @@ public class StorageUtils {
      * @param fileName file name
      */
     public static void createFile(AppCompatActivity activity, String mimeType, String fileName) {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        try {
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
 
-        // Filter to only show results that can be "opened", such as
-        // a file (as opposed to a list of contacts or timezones).
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
+            // Filter to only show results that can be "opened", such as
+            // a file (as opposed to a list of contacts or timezones).
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-        // Create a file with the requested MIME type.
-        intent.setType(mimeType);
-        intent.putExtra(Intent.EXTRA_TITLE, fileName);
-        activity.startActivityForResult(intent, Const.REQUEST_CODE_WRITE_FILE);
+            // Create a file with the requested MIME type.
+            intent.setType(mimeType);
+            intent.putExtra(Intent.EXTRA_TITLE, fileName);
+            activity.startActivityForResult(intent, Const.REQUEST_CODE_WRITE_FILE);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            ToastUtil.makeText(R.string.toast_no_document_app);
+        }
     }
 
     /**

@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    public static MainFragment newInstance(String category) {
+    static MainFragment newInstance(String category) {
         MainFragment fragment = new MainFragment();
         Bundle bundle = new Bundle();
         bundle.putString(BUNDLE_CATEGORY, category);
@@ -220,7 +220,7 @@ public class MainFragment extends Fragment {
         if (item.getItemId() == R.id.toolbar_settings) {
             startActivity(new Intent(mContext, SettingsActivity.class));
         } else if (item.getItemId() == R.id.toolbar_sort) {
-            PopupMenu popup = new PopupMenu(mContext, MainActivity.getInstance().findViewById(R.id.toolbar_sort));
+            PopupMenu popup = new PopupMenu(mContext, ((Activity) mContext).findViewById(R.id.toolbar_sort));
             popup.getMenuInflater()
                     .inflate(R.menu.sort_menu, popup.getMenu());
             if (popup.getMenu() instanceof MenuBuilder) {

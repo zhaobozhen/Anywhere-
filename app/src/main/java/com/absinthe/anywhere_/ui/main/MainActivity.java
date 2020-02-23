@@ -270,7 +270,7 @@ public class MainActivity extends BaseActivity {
         PageListAdapter adapter = new PageListAdapter();
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             if (view.getId() == R.id.iv_entry) {
-                mBinding.drawer.closeDrawer(GravityCompat.START);
+                drawer.closeDrawer(GravityCompat.START);
                 PageTitleNode node = (PageTitleNode) adapter1.getItem(position);
                 if (node != null) {
                     PageEntity pe = ListUtils.getPageEntityByTitle(node.getTitle());
