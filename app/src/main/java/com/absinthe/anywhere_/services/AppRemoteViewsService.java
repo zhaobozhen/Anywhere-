@@ -11,7 +11,6 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.provider.HomeWidgetProvider;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -20,6 +19,8 @@ import com.catchingnow.icebox.sdk_client.IceBox;
 import java.util.List;
 
 public class AppRemoteViewsService extends RemoteViewsService {
+
+    private static List<AnywhereEntity> sList;
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
@@ -30,13 +31,16 @@ public class AppRemoteViewsService extends RemoteViewsService {
     private class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         private final Context mContext;
-        private List<AnywhereEntity> mList = HomeWidgetProvider.mList;
 
         /**
          * 构造函数
          */
         RemoteViewsFactory(Context context, Intent intent) {
             mContext = context;
+            List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+            if (list != null && list.size() > 0) {
+                sList = list;
+            }
 
             if(Looper.myLooper() == null){
                 Looper.prepare();
@@ -61,7 +65,10 @@ public class AppRemoteViewsService extends RemoteViewsService {
         @Override
         public void onDataSetChanged() {
             // 需要显示的数据
-            mList = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+            List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
+            if (list != null && list.size() > 0) {
+                sList = list;
+            }
         }
 
         /**
@@ -69,9 +76,9 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public void onDestroy() {
-            if (mList != null) {
-                mList.clear();
-                mList = null;
+            if (sList != null) {
+                sList.clear();
+                sList = null;
             }
         }
 
@@ -80,10 +87,10 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public int getCount() {
-            if (mList == null) {
+            if (sList == null) {
                 return 0;
             }
-            return mList.size();
+            return sList.size();
         }
 
         /**
@@ -91,13 +98,13 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public RemoteViews getViewAt(int position) {
-            if (mList == null || position < 0 || position >= mList.size()) {
+            if (sList == null || position < 0 || position >= sList.size()) {
                 return null;
             }
-            String content = mList.get(position).getAppName();
+            String content = sList.get(position).getAppName();
 
             try {
-                if (IceBox.getAppEnabledSetting(mContext, mList.get(position).getParam1()) != 0) {
+                if (IceBox.getAppEnabledSetting(mContext, sList.get(position).getParam1()) != 0) {
                     content = content + "\u2744";
                 }
             } catch (PackageManager.NameNotFoundException e) {
@@ -113,12 +120,12 @@ public class AppRemoteViewsService extends RemoteViewsService {
             rv.setTextViewText(R.id.tv_title, content);
             rv.setImageViewBitmap(R.id.iv_app_icon,
                     UiUtils.drawableToBitmap(
-                            UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, mList.get(position))));
+                            UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, sList.get(position))));
 
             // 填充Intent，填充在AppWidgetProvider中创建的PendingIntent
             Intent intent = new Intent();
             // 传入点击行的数据
-            AnywhereEntity ae = mList.get(position);
+            AnywhereEntity ae = sList.get(position);
             intent.putExtra(Const.INTENT_EXTRA_WIDGET_ENTITY, ae);
             rv.setOnClickFillInIntent(R.id.rl_item, intent);
 
