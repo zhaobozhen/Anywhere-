@@ -258,6 +258,7 @@ public class MainActivity extends BaseActivity {
                         .observe(this, anywhereEntities -> initDrawer(mBinding.drawer));
             } else {
                 actionBar.setHomeButtonEnabled(false);
+                actionBar.setDisplayHomeAsUpEnabled(false);
                 mBinding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             }
         }

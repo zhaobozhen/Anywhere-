@@ -1,7 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 矩形的圆角弧度 -->
-    <corners android:radius="5dp" />
-    <!-- 矩形的填充色 -->
-    <solid android:color="@color/cardColor" />
-</shape>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="320dp"
+    android:viewportWidth="300"
+    android:viewportHeight="320">
+    <path
+        android:fillColor="#FFBBBBBB"
+        android:pathData="M270,306.28l-0.48,-273.06c-0.01,-7.24 -4.69,-13.08 -10.46,-13.07l-217.65,0.6c-5.77,0.02 -10.43,5.88 -10.42,13.13l0.48,273.06c0.01,7.24 4.69,13.08 10.46,13.07l217.65,-0.6c5.77,-0.02 10.43,-5.88 10.42,-13.13z" />
+    <path
+        android:fillColor="#FFDDDDDD"
+        android:pathData="M285,297.13l-0.54,-273.06c-0.01,-7.24 -5.28,-13.08 -11.77,-13.07l-244.97,0.6c-6.5,0.02 -11.74,5.88 -11.72,13.13l0.54,273.06c0.01,7.24 5.28,13.08 11.77,13.07l244.97,-0.6c6.5,-0.02 11.74,-5.88 11.72,-13.13z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M300,286.59l-0.6,-273.06c-0.02,-7.24 -5.88,-13.08 -13.13,-13.07l-273.06,0.6c-7.24,0.02 -13.08,5.88 -13.07,13.13l0.6,273.06c0.02,7.24 5.88,13.08 13.13,13.07l273.06,-0.6c7.24,-0.02 13.08,-5.88 13.07,-13.13z" />
+</vector>

@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp">
-
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
-        android:text="@string/app_name"
-        android:textColor="@color/textColorNormal"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <ImageView
         android:id="@+id/iv_app_icon"
         android:layout_width="@dimen/app_icon_size"
         android:layout_height="@dimen/app_icon_size"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_logo"
-        android:contentDescription="@string/icon_badge_todo" />
+        android:layout_marginStart="@dimen/widget_margin"
+        android:src="@drawable/ic_logo" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/widget_margin"
+        android:text="@string/app_name"
+        android:textColor="@color/textColorNormal"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

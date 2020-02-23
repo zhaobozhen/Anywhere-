@@ -5,7 +5,6 @@ import android.text.Html;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.utils.SPUtils;
-import com.absinthe.anywhere_.utils.TextUtils;
 
 public class GlobalValues {
     public static boolean sIsDebugMode;
@@ -62,7 +61,11 @@ public class GlobalValues {
                 .append(getInfoLine("Background Uri", sBackgroundUri))
                 .append(getInfoLine("ActionBar Type", sActionBarType))
                 .append(getInfoLine("Sort Mode", sSortMode))
-                .append(getInfoLine("Icon Pack", sIconPack));
+                .append(getInfoLine("Icon Pack", sIconPack))
+                .append(getInfoLine("Dark Mode", sDarkMode))
+                .append(getInfoLine("Card Background Mode", sCardBackgroundMode))
+                .append(getInfoLine("Dump Interval", String.valueOf(sDumpInterval)))
+                .append(getInfoLine("Current Page", String.valueOf(sCurrentPage)));
 
         return Html.fromHtml(sb.toString());
     }

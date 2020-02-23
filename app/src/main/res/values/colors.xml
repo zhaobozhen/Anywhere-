@@ -23,9 +23,10 @@
     <color name="navigationColorNormal">#FFFFFFFF</color>
     <color name="lollipopStatusBarColor">#FFDDDDDD</color>
     <color name="bottomSheetColorNormal">#FFFFFFFF</color>
+    <color name="divider">#15000000</color>
 
     <!--  Fab  -->
-    <color name="fabBackgroundColor">#FF4A8BC3</color>
+    <color name="fabBackgroundColor">#FF03A9F4</color>
     <color name="fabIconColor">#FFFFFFFF</color>
 
     <color name="bubbleBlue">#FF3487D7</color>
