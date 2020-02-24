@@ -18,7 +18,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
-import com.absinthe.anywhere_.provider.HomeWidgetProvider;
+import com.absinthe.anywhere_.receiver.HomeWidgetProvider;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;

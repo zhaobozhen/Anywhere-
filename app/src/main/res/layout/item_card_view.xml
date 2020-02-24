@@ -4,26 +4,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="appName" type="String" />
-        <variable name="param1" type="String" />
-        <variable name="param2" type="String" />
-        <variable name="description" type="String" />
+
+        <variable
+            name="appName"
+            type="String" />
+
+        <variable
+            name="param1"
+            type="String" />
+
+        <variable
+            name="param2"
+            type="String" />
+
+        <variable
+            name="description"
+            type="String" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/cardview_spacing"
-        android:layout_marginBottom="@dimen/cardview_spacing"
         android:layout_marginStart="@dimen/cardview_margin_parent_horizontal"
+        android:layout_marginTop="@dimen/cardview_spacing"
         android:layout_marginEnd="@dimen/cardview_margin_parent_horizontal"
+        android:layout_marginBottom="@dimen/cardview_spacing"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
-        app:cardElevation="@dimen/cardview_elevation"
         android:translationZ="@dimen/cardview_elevation"
-        app:cardCornerRadius="@dimen/cardview_corner_radius">
+        app:cardCornerRadius="@dimen/cardview_corner_radius"
+        app:cardElevation="@dimen/cardview_elevation">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -77,10 +89,10 @@
                 android:id="@+id/rl_badge_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginEnd="@dimen/cardview_item_margin"
-                android:layout_marginTop="@dimen/cardview_item_margin">
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/cardview_item_margin"
+                android:layout_marginEnd="@dimen/cardview_item_margin">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_app_icon"
@@ -95,8 +107,8 @@
                     android:id="@+id/iv_badge"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
                     android:contentDescription="@string/icon_badge_todo" />
 
             </RelativeLayout>

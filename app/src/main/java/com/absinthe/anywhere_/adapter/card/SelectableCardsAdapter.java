@@ -24,7 +24,8 @@ import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
 
-public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener {
+public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.ItemViewHolder>
+        implements ItemTouchCallBack.OnItemTouchListener {
 
     public SelectableCardsAdapter(Context context) {
         super(context);

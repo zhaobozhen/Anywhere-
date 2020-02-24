@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.provider;
+package com.absinthe.anywhere_.receiver;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;

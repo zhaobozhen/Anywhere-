@@ -4,12 +4,16 @@ import android.content.Intent;
 
 import androidx.annotation.Nullable;
 
+import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CipherUtils;
+import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -22,7 +26,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Objects;
 
 public class BackupActivity extends BaseActivity {
 
@@ -47,11 +50,10 @@ public class BackupActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Const.REQUEST_CODE_WRITE_FILE && resultCode == RESULT_OK) {
-            if (data != null) {
+            if (data != null && data.getData() != null) {
                 try {
-                    OutputStream os = getContentResolver().openOutputStream(
-                            Objects.requireNonNull(
-                                    data.getData()));
+                    OutputStream os = getContentResolver().openOutputStream(data.getData());
+
                     if (os != null) {
                         String content = StorageUtils.ExportAnywhereEntityJsonString();
                         String encrypted = CipherUtils.encrypt(content);
@@ -66,14 +68,13 @@ public class BackupActivity extends BaseActivity {
                 }
             }
         } else if (requestCode == Const.REQUEST_CODE_RESTORE_BACKUPS && resultCode == RESULT_OK) {
-            if (data != null) {
+            if (data != null && data.getData() != null) {
                 InputStream inputStream;
                 try {
-                    inputStream = getContentResolver().openInputStream(Objects.requireNonNull(data.getData()));
+                    inputStream = getContentResolver().openInputStream(data.getData());
                     BufferedReader reader;
                     if (inputStream != null) {
-                        reader = new BufferedReader(new InputStreamReader(
-                                inputStream));
+                        reader = new BufferedReader(new InputStreamReader(inputStream));
                         StringBuilder stringBuilder = new StringBuilder();
                         String line;
 
@@ -94,6 +95,16 @@ public class BackupActivity extends BaseActivity {
                                 if (!INSERT_CORRECT) {
                                     ToastUtil.makeText(R.string.toast_backup_file_error);
                                     break;
+                                }
+                                List<PageEntity> pageEntityList = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+                                if (pageEntityList != null) {
+                                    if (ListUtils.getPageEntityByTitle(ae.getCategory()) == null) {
+                                        PageEntity pe = PageEntity.Builder();
+                                        pe.setTitle(ae.getCategory());
+                                        pe.setPriority(pageEntityList.size() + 1);
+                                        pe.setType(AnywhereType.CARD_PAGE);
+                                        AnywhereApplication.sRepository.insertPage(pe);
+                                    }
                                 }
                                 MainActivity.getInstance().getViewModel().insert(ae);
                             }

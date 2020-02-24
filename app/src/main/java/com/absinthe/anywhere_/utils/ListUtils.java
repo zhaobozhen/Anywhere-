@@ -83,13 +83,13 @@ public class ListUtils {
         List<PageEntity> list = AnywhereApplication.sRepository.getAllPageEntities().getValue();
         if (list == null) {
             return null;
-        } else {
-            for (PageEntity pe : list) {
-                if (pe.getTitle().equals(title)) {
-                    return pe;
-                }
-            }
-            return null;
         }
+
+        for (PageEntity pe : list) {
+            if (pe.getTitle().equals(title)) {
+                return pe;
+            }
+        }
+        return null;
     }
 }

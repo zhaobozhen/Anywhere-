@@ -63,7 +63,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffListCallback(items, this.mItems));
         this.mItems.clear();
         this.mItems.addAll(items);
-//        diffResult.dispatchUpdatesTo(this);
+        diffResult.dispatchUpdatesTo(this);
         notifyItemRangeChanged(0, getItemCount());
 
     }

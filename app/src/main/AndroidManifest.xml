@@ -223,7 +223,7 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
 
-        <receiver android:name=".provider.HomeWidgetProvider">
+        <receiver android:name=".receiver.HomeWidgetProvider">
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_home_provider_info" />
@@ -232,6 +232,18 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.absinthe.anywhere_.action.CLICK" />
             </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.AdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.app.develop.action.DEVICE_DELEGATION" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.develop.delegation"
+                android:resource="@xml/app_delegation" />
         </receiver>
 
         <meta-data

@@ -13,6 +13,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.EditUtils;
@@ -92,17 +93,12 @@ public class SchemeEditor extends Editor<SchemeEditor> {
 
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietUrlScheme.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = AnywhereEntity.Builder();
-                        ae.setId(mItem.getId());
+                        AnywhereEntity ae = new AnywhereEntity(mItem);
                         ae.setAppName(aName);
                         ae.setParam1(uScheme);
                         ae.setParam2(UiUtils.getPkgNameByUrl(mContext, uScheme));
                         ae.setParam3(dynamic);
                         ae.setDescription(desc);
-                        ae.setType(mItem.getType());
-                        ae.setCategory(mItem.getCategory());
-                        ae.setTimeStamp(mItem.getTimeStamp());
-                        ae.setColor(mItem.getColor());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
@@ -129,7 +125,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                         dismiss();
                     }
                 } else {
-                    ToastUtil.makeText("error data.");
+                    ToastUtil.makeText("Error data");
                 }
             });
         }
@@ -145,19 +141,19 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                     String dynamic = tietDynamicParams.getText() == null ? mItem.getParam3() : tietDynamicParams.getText().toString();
 
                     if (!tietUrlScheme.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = AnywhereEntity.Builder();
-                        ae.setId(mItem.getId());
+                        AnywhereEntity ae = new AnywhereEntity(mItem);
                         ae.setParam1(uName);
                         ae.setParam3(dynamic);
-                        ae.setType(mItem.getType());
-                        ae.setCategory(mItem.getCategory());
-                        ae.setTimeStamp(mItem.getTimeStamp());
 
                         if (!dynamic.isEmpty()) {
                             DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, dynamic, new DynamicParamsDialogFragment.OnParamsInputListener() {
                                 @Override
                                 public void onFinish(String text) {
-                                    CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, mItem.getParam1()) + text);
+                                    if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
+                                        URLSchemeHandler.parse(mItem.getParam1() + text, mContext);
+                                    } else {
+                                        CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, mItem.getParam1()) + text);
+                                    }
                                 }
 
                                 @Override
@@ -166,7 +162,11 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                 }
                             });
                         } else {
-                            CommandUtils.execCmd(TextUtils.getItemCommand(ae));
+                            if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
+                                URLSchemeHandler.parse(mItem.getParam1(), mContext);
+                            } else {
+                                CommandUtils.execCmd(TextUtils.getItemCommand(ae));
+                            }
                         }
                     }
                 }

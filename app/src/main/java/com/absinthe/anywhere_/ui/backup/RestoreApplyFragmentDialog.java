@@ -71,12 +71,15 @@ public class RestoreApplyFragmentDialog extends AnywhereDialogFragment {
                             ToastUtil.makeText(R.string.toast_backup_file_error);
                             break;
                         }
-                        if (ListUtils.getPageEntityByTitle(ae.getCategory()) == null) {
-                            PageEntity pe = PageEntity.Builder();
-                            pe.setTitle(ae.getCategory());
-                            pe.setPriority(AnywhereApplication.sRepository.getAllPageEntities().getValue().size() + 1);
-                            pe.setType(AnywhereType.CARD_PAGE);
-                            AnywhereApplication.sRepository.insertPage(pe);
+                        List<PageEntity> pageEntityList = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+                        if (pageEntityList != null) {
+                            if (ListUtils.getPageEntityByTitle(ae.getCategory()) == null) {
+                                PageEntity pe = PageEntity.Builder();
+                                pe.setTitle(ae.getCategory());
+                                pe.setPriority(pageEntityList.size() + 1);
+                                pe.setType(AnywhereType.CARD_PAGE);
+                                AnywhereApplication.sRepository.insertPage(pe);
+                            }
                         }
                         MainActivity.getInstance().getViewModel().insert(ae);
                     }
