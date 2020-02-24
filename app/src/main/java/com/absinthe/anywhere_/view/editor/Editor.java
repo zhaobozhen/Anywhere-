@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.view.editor;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -181,7 +180,7 @@ public abstract class Editor<T extends Editor<?>> {
     }
 
     private void startOverlay(String cmd) {
-        if (PermissionUtils.checkOverlayPermission((Activity) mContext, -1)) {
+        if (PermissionUtils.checkOverlayPermission(mContext)) {
             Intent intent = new Intent(mContext, OverlayService.class);
             intent.putExtra(OverlayService.COMMAND, OverlayService.COMMAND_OPEN);
             intent.putExtra(OverlayService.COMMAND_STR, cmd);

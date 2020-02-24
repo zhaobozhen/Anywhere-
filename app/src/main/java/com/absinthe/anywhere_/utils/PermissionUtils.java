@@ -281,6 +281,24 @@ public class PermissionUtils {
         return true;
     }
 
+    public static boolean checkOverlayPermission(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(context)) {
+                try {
+                    context.startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:" + AnywhereApplication.sContext.getPackageName())));
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+                ToastUtil.makeText(R.string.toast_permission_overlap);
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return true;
+    }
+
     /**
      * check whether shizuku service is on working
      *

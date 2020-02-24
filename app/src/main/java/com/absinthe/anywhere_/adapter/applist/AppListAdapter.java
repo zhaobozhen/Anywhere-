@@ -22,7 +22,6 @@ import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.list.AppDetailActivity;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -31,7 +30,6 @@ import com.absinthe.anywhere_.view.editor.AnywhereEditor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHolder> implements Filterable {
     public static final int MODE_APP_LIST = 0;
@@ -91,8 +89,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 editor.show();
             } else if (mMode == MODE_ICON_PACK) {
                 GlobalValues.setsIconPack(item.getPackageName());
-                MainActivity.getInstance().restartActivity();
-                Objects.requireNonNull(mIconPackDialogFragment.getActivity()).finish();
+                mIconPackDialogFragment.requireActivity().finish();
                 ToastUtil.makeText(R.string.toast_restart_to_active);
                 if (mIconPackDialogFragment != null) {
                     mIconPackDialogFragment.dismiss();

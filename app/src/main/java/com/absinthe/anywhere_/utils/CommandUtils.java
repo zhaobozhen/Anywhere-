@@ -91,6 +91,9 @@ public class CommandUtils {
                 } catch (ActivityNotFoundException e) {
                     Logger.d(e.getMessage());
                     result = CommandResult.RESULT_NO_REACT_URL;
+                } catch (SecurityException e) {
+                    Logger.d(e.getMessage());
+                    result = CommandResult.RESULT_SECURITY_EXCEPTION;
                 }
             } else {
                 result = execAdbCmd(cmd);
@@ -131,6 +134,9 @@ public class CommandUtils {
                     break;
                 case CommandResult.RESULT_FILE_URI_EXPOSED:
                     ToastUtil.makeText(R.string.toast_file_uri_exposed);
+                    break;
+                case CommandResult.RESULT_SECURITY_EXCEPTION:
+                    ToastUtil.makeText(R.string.toast_security_exception);
                     break;
                 default:
             }

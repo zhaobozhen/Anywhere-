@@ -549,7 +549,12 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                             mDrawableBack = resource;
-                            ((ImageView) mBinding.stubBg.getRoot()).setImageDrawable(resource);
+                            try {
+                                ((ImageView) mBinding.stubBg.getRoot()).setImageDrawable(resource);
+                            } catch (RuntimeException e) {
+                                e.printStackTrace();
+                                ToastUtil.makeText("Image too large :(");
+                            }
                         }
 
                         @Override

@@ -114,7 +114,7 @@ public class UiUtils {
                 return ContextCompat.getDrawable(context, R.drawable.ic_code);
         }
 
-        return null;
+        return context.getDrawable(R.drawable.ic_logo);
     }
 
     public static Drawable getAppIconByPackageName(Context context, AppListBean item) {
@@ -500,7 +500,7 @@ public class UiUtils {
      *
      * @param drawable our target
      */
-    public static Bitmap drawableToBitmap(Drawable drawable) {
+    public static Bitmap drawableToBitmap(@NonNull Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
             if (bitmapDrawable.getBitmap() != null) {

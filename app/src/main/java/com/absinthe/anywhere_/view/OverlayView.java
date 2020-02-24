@@ -3,8 +3,6 @@ package com.absinthe.anywhere_.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,17 +10,13 @@ import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
-
 import com.absinthe.anywhere_.services.OverlayService;
 import com.absinthe.anywhere_.utils.CommandUtils;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder;
 
 public class OverlayView extends LinearLayout {
-
-    private static final int MSG_REMOVE_WINDOW = 1001;
 
     private final Context mContext;
     private final WindowManager mWindowManager;
@@ -38,16 +32,14 @@ public class OverlayView extends LinearLayout {
     private long mStartTime = 0;
     private long mEndTime = 0;
 
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        public void handleMessage(@NonNull Message msg) {
-            if (msg.what == MSG_REMOVE_WINDOW) {
-                mBuilder.ivIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                mContext.startService(
-                        new Intent(mContext, OverlayService.class)
-                                .putExtra(OverlayService.COMMAND, OverlayService.COMMAND_CLOSE)
-                );
-            }
+    private Runnable removeWindowTask = new Runnable() {
+        @Override
+        public void run() {
+            mBuilder.ivIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            mContext.startService(
+                    new Intent(mContext, OverlayService.class)
+                            .putExtra(OverlayService.COMMAND, OverlayService.COMMAND_CLOSE)
+            );
         }
     };
 
@@ -90,7 +82,7 @@ public class OverlayView extends LinearLayout {
 
                         isClick = false;
                         mStartTime = System.currentTimeMillis();
-                        mHandler.sendEmptyMessageDelayed(MSG_REMOVE_WINDOW, 1000);
+                        postDelayed(removeWindowTask, 1000);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         isClick = true;
@@ -106,7 +98,7 @@ public class OverlayView extends LinearLayout {
                         Logger.d("MotionEvent.ACTION_MOVE tran:", tranX, tranY);
 
                         if (tranX * tranX + tranY * tranY > mTouchSlop * mTouchSlop) {
-                            mHandler.removeMessages(MSG_REMOVE_WINDOW);
+                            removeCallbacks(removeWindowTask);
                         }
 
                         // 移动悬浮窗
@@ -124,7 +116,7 @@ public class OverlayView extends LinearLayout {
                         Logger.d("Touch period =", (mEndTime - mStartTime));
 
                         isClick = (mEndTime - mStartTime) > 0.2 * 1000L;
-                        mHandler.removeMessages(MSG_REMOVE_WINDOW);
+                        removeCallbacks(removeWindowTask);
                         break;
                 }
                 return isClick;

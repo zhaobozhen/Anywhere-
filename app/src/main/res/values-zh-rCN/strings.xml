@@ -278,4 +278,5 @@
     <string name="dialog_close_button">关闭</string>
     <string name="btn_add_advanced_card">高级卡片</string>
     <string name="dialog_add_shortcut_anymore_button">仍要添加</string>
+    <string name="toast_security_exception">Activity 被阻止访问</string>
 </resources>
