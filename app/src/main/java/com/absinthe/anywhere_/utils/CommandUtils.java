@@ -110,6 +110,14 @@ public class CommandUtils {
                 cmd = cmd.replace(AnywhereType.SHELL_PREFIX, "");
                 execAdbCmd(cmd);
                 result = CommandResult.RESULT_SUCCESS;
+            } else if (cmd.contains("://")) {
+                try {
+                    URLSchemeHandler.parse(cmd, AnywhereApplication.sContext);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    ToastUtil.makeText(R.string.toast_no_react_url);
+                }
+                result = CommandResult.RESULT_URL_SCHEME;
             } else {
                 result = execAdbCmd(cmd);
             }

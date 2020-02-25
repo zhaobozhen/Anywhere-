@@ -15,13 +15,13 @@ android {
     }
 
     compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1710
-        versionName "1.7.1"
+        versionCode 1720
+        versionName "1.7.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
         externalNativeBuild {
@@ -31,8 +31,8 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
+    android {
+        viewBinding.enabled = true
     }
 
     buildTypes {
@@ -67,14 +67,14 @@ android {
         }
     }
 
-    def build_param = "${build}"
     externalNativeBuild {
         cmake {
             path file('CMakeLists.txt')
         }
     }
 
-    if (build_param != "dev") {
+    def build_param = "${build}"
+    if (build_param != 'dev') {
         //exclude production build
         android.variantFilter { variant ->
             if (variant.buildType.name == 'dev') {

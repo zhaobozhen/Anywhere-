@@ -150,7 +150,12 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                 @Override
                                 public void onFinish(String text) {
                                     if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
-                                        URLSchemeHandler.parse(mItem.getParam1() + text, mContext);
+                                        try {
+                                            URLSchemeHandler.parse(mItem.getParam1() + text, mContext);
+                                        } catch (ActivityNotFoundException e) {
+                                            e.printStackTrace();
+                                            ToastUtil.makeText(R.string.toast_no_react_url);
+                                        }
                                     } else {
                                         CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, mItem.getParam1()) + text);
                                     }
@@ -163,7 +168,12 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                             });
                         } else {
                             if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
-                                URLSchemeHandler.parse(mItem.getParam1(), mContext);
+                                try {
+                                    URLSchemeHandler.parse(mItem.getParam1(), mContext);
+                                } catch (ActivityNotFoundException e) {
+                                    e.printStackTrace();
+                                    ToastUtil.makeText(R.string.toast_no_react_url);
+                                }
                             } else {
                                 CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                             }

@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +21,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
-import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -111,7 +109,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setViewBinding() {
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
     }
 
     @Override
@@ -155,14 +154,14 @@ public class MainActivity extends BaseActivity {
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(R.id.fragment_container_view, welcomeFragment)
-                    .commitNow();
+                    .add(R.id.fragment_container_view, welcomeFragment)
+                    .commit();
             mViewModel.getFragment().setValue(welcomeFragment);
         } else {
             MainFragment mainFragment = MainFragment.newInstance(GlobalValues.sCategory);
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(R.id.fragment_container_view, mainFragment)
+                    .replace(mBinding.fragmentContainerView.getId(), mainFragment)
                     .commitNow();
             mViewModel.getFragment().setValue(mainFragment);
             initFab();
@@ -223,10 +222,6 @@ public class MainActivity extends BaseActivity {
         super.initView();
         ActionBar actionBar = getSupportActionBar();
 
-        if (!GlobalValues.sBackgroundUri.isEmpty()) {
-            Objects.requireNonNull(mBinding.stubBg.getViewStub()).inflate();
-        }
-
         if (GlobalValues.sIsMd2Toolbar) {
             int marginHorizontal = (int) getResources().getDimension(R.dimen.toolbar_margin_horizontal);
             int marginVertical = (int) getResources().getDimension(R.dimen.toolbar_margin_vertical);
@@ -281,7 +276,7 @@ public class MainActivity extends BaseActivity {
                                 getSupportFragmentManager()
                                         .beginTransaction()
                                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                        .replace(R.id.fragment_container_view, mainFragment)
+                                        .replace(mBinding.fragmentContainerView.getId(), mainFragment)
                                         .commitNow();
                                 mViewModel.getFragment().setValue(mainFragment);
                                 GlobalValues.setsCategory(pe.getTitle(), position);
@@ -290,7 +285,7 @@ public class MainActivity extends BaseActivity {
                                 getSupportFragmentManager()
                                         .beginTransaction()
                                         .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                        .replace(R.id.fragment_container_view, webviewFragment)
+                                        .replace(mBinding.fragmentContainerView.getId(), webviewFragment)
                                         .commitNow();
                                 mViewModel.getFragment().setValue(webviewFragment);
                             }
@@ -550,7 +545,7 @@ public class MainActivity extends BaseActivity {
                         public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                             mDrawableBack = resource;
                             try {
-                                ((ImageView) mBinding.stubBg.getRoot()).setImageDrawable(resource);
+                                mBinding.ivBack.setImageDrawable(resource);
                             } catch (RuntimeException e) {
                                 e.printStackTrace();
                                 ToastUtil.makeText("Image too large :(");
@@ -572,7 +567,7 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                             mDrawableBack = resource;
-                            ((ImageView) mBinding.stubBg.getRoot()).setImageDrawable(resource);
+                            mBinding.ivBack.setImageDrawable(resource);
                         }
 
                         @Override

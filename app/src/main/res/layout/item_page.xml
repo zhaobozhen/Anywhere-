@@ -8,6 +8,9 @@
         android:id="@+id/rv_chip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp" />
+        android:paddingStart="4dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="4dp" />
 
 </LinearLayout>

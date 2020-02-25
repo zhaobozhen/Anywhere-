@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.SearchView;
-import androidx.databinding.DataBindingUtil;
 
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
@@ -28,17 +27,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class AppDetailActivity extends BaseActivity implements SearchView.OnQueryTextListener {
-    private ActivityAppDetailBinding binding;
+    private ActivityAppDetailBinding mBinding;
     private AppListAdapter mAdapter;
 
     @Override
     protected void setViewBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_detail);
+        mBinding = ActivityAppDetailBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
     }
 
     @Override
     protected void setToolbar() {
-        mToolbar = binding.toolbar;
+        mToolbar = mBinding.toolbar;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
         if (intent == null) {
             finish();
         } else {
-            binding.setAppName(intent.getStringExtra(Const.INTENT_EXTRA_APP_NAME));
+            mBinding.toolbar.setTitle(intent.getStringExtra(Const.INTENT_EXTRA_APP_NAME));
         }
 
         initRecyclerView();
@@ -67,14 +67,14 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
     }
 
     private void initRecyclerView() {
-        binding.rvAppList.setLayoutManager(new WrapContentLinearLayoutManager(this));
+        mBinding.rvAppList.setLayoutManager(new WrapContentLinearLayoutManager(this));
         mAdapter = new AppListAdapter(this, AppListAdapter.MODE_APP_DETAIL);
-        binding.rvAppList.setAdapter(mAdapter);
+        mBinding.rvAppList.setAdapter(mAdapter);
     }
 
     private void initData(String pkgName) {
-        binding.srlAppDetail.setEnabled(true);
-        binding.srlAppDetail.setRefreshing(true);
+        mBinding.srlAppDetail.setEnabled(true);
+        mBinding.srlAppDetail.setRefreshing(true);
         new Thread(() -> {
             List<AppListBean> list = new ArrayList<>();
             List<String> clazz = AppUtils.getActivitiesClass(this, pkgName);
@@ -89,13 +89,13 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
 
             runOnUiThread(() -> {
                 if (list.isEmpty()) {
-                    binding.vfContainer.setDisplayedChild(1);
+                    mBinding.vfContainer.setDisplayedChild(1);
                 } else {
                     mAdapter.setList(ListUtils.sortAppListByExported(list));
-                    binding.vfContainer.setDisplayedChild(0);
+                    mBinding.vfContainer.setDisplayedChild(0);
                 }
-                binding.srlAppDetail.setRefreshing(false);
-                binding.srlAppDetail.setEnabled(false);
+                mBinding.srlAppDetail.setRefreshing(false);
+                mBinding.srlAppDetail.setEnabled(false);
             });
 
         }).start();

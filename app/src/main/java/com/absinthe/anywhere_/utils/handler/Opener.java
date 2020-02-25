@@ -80,8 +80,9 @@ public class Opener {
                             ActivityCompat.requestPermissions((Activity) sContext.get(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
                         }
                     } else {
-                        final OnAppUnfreezeListener onAppUnfreezeListener = () ->
-                                CommandUtils.execCmd(cmd);
+                        final OnAppUnfreezeListener onAppUnfreezeListener = () -> {
+                            CommandUtils.execCmd(cmd);
+                        };
                         if (mItem.getAnywhereType() == AnywhereType.URL_SCHEME) {
                             PermissionUtils.unfreezeApp(sContext.get(), mItem.getParam2(), onAppUnfreezeListener);
                         } else {

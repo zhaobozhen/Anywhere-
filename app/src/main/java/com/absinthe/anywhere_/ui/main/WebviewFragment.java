@@ -18,14 +18,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.databinding.FragmentWebviewBinding;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 
 public class WebviewFragment extends Fragment {
     private static final String BUNDLE_URI = "BUNDLE_URI";
+
+    private FragmentWebviewBinding mBinding;
     private String mUri;
 
-    public static WebviewFragment newInstance(String uri) {
+    static WebviewFragment newInstance(String uri) {
         WebviewFragment fragment = new WebviewFragment();
         Bundle bundle = new Bundle();
         bundle.putString(BUNDLE_URI, uri);
@@ -34,11 +37,11 @@ public class WebviewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_webview, container, false);
-        initView(view);
-        return view;
+        mBinding = FragmentWebviewBinding.inflate(inflater, container, false);
+        initView();
+        return mBinding.getRoot();
     }
 
     @Override
@@ -52,9 +55,9 @@ public class WebviewFragment extends Fragment {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private void initView(View view) {
+    private void initView() {
         setHasOptionsMenu(true);
-        WebView webView = view.findViewById(R.id.wv_container);
+        WebView webView = mBinding.wvContainer;
         webView.setBackgroundColor(Color.TRANSPARENT);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);

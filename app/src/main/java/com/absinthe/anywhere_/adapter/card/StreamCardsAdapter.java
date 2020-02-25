@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter.card;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -39,9 +40,9 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ItemStreamCardViewBinding binding = ItemStreamCardViewBinding.inflate(inflater, parent, false);
-        return new ItemViewHolder(binding);
+        return new ItemViewHolder(
+                ItemStreamCardViewBinding.inflate(
+                        LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -49,8 +50,6 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
         super.onBindViewHolder(viewHolder, position);
         AnywhereEntity item = mItems.get(position);
         viewHolder.bind(item);
-
-//        UiUtils.setVisibility(viewHolder.binding.tvDescription, !item.getDescription().isEmpty());
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -61,8 +60,8 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
             this.binding = binding;
         }
 
+        @SuppressLint("SetTextI18n")
         void bind(AnywhereEntity item) {
-            binding.executePendingBindings();
 
             String pkgName;
             if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
@@ -72,17 +71,17 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
             }
             try {
                 if (IceBox.getAppEnabledSetting(mContext, pkgName) != 0) {
-                    binding.setAppName(item.getAppName() + "\u2744");
+                    binding.tvAppName.setText(item.getAppName() + "\u2744");
                 } else {
-                    binding.setAppName(item.getAppName());
+                    binding.tvAppName.setText(item.getAppName());
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
                 Logger.e(e.getMessage());
-                binding.setAppName(item.getAppName());
+                binding.tvAppName.setText(item.getAppName());
             }
 
-            binding.setDescription(item.getDescription());
+            binding.tvDescription.setText(item.getDescription());
             Glide.with(mContext)
                     .load(UiUtils.getAppIconByPackageName(mContext, item))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)

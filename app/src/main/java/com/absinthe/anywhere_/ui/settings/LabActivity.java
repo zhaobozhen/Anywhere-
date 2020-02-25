@@ -1,18 +1,21 @@
 package com.absinthe.anywhere_.ui.settings;
 
 import com.absinthe.anywhere_.BaseActivity;
-import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.databinding.ActivityLabBinding;
 
 public class LabActivity extends BaseActivity {
 
+    private ActivityLabBinding mBinding;
+
     @Override
     protected void setViewBinding() {
-        setContentView(R.layout.activity_lab);
+        mBinding = ActivityLabBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
     }
 
     @Override
     protected void setToolbar() {
-        mToolbar = findViewById(R.id.toolbar);
+        mToolbar = mBinding.toolbar.toolbar;
     }
 
     @Override

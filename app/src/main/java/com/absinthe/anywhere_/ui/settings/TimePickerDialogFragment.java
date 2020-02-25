@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.ui.settings;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -25,20 +24,13 @@ import java.util.Locale;
 
 public class TimePickerDialogFragment extends AnywhereDialogFragment {
 
-    private Context mContext;
     private TimePickerBuilder mBuilder;
     private SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mContext = getActivity();
-    }
-
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
-        mBuilder = new TimePickerBuilder(mContext);
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(getContext());
+        mBuilder = new TimePickerBuilder(getContext());
 
         Calendar start = Calendar.getInstance();
         start.setTimeInMillis(GlobalValues.sAutoDarkModeStart);
@@ -58,7 +50,7 @@ public class TimePickerDialogFragment extends AnywhereDialogFragment {
         }
 
         View.OnClickListener listener = v -> {
-            ObservableTimePickerDialog timePickerDialog = new ObservableTimePickerDialog(mContext,
+            ObservableTimePickerDialog timePickerDialog = new ObservableTimePickerDialog(getContext(),
                     (view, hourOfDay, minute) -> {
                         ((MaterialButton) v).setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute));
                         DialogStack.pop();

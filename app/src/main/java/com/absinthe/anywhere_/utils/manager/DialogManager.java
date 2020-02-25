@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils.manager;
 
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -192,7 +193,12 @@ public class DialogManager {
                         ((AppCompatActivity) context).startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION);
                     } else {
                         ToastUtil.makeText(R.string.toast_not_install_shizuku);
-                        URLSchemeHandler.parse(URLManager.SHIZUKU_COOLAPK_DOWNLOAD_PAGE, context);
+                        try {
+                            URLSchemeHandler.parse(URLManager.SHIZUKU_COOLAPK_DOWNLOAD_PAGE, context);
+                        } catch (ActivityNotFoundException e) {
+                            e.printStackTrace();
+                            ToastUtil.makeText(R.string.toast_no_react_url);
+                        }
                     }
                 })
                 .show();

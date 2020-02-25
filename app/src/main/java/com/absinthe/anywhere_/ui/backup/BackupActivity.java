@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.databinding.ActivityBackupBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
@@ -30,15 +31,17 @@ import java.util.List;
 public class BackupActivity extends BaseActivity {
 
     public static boolean INSERT_CORRECT = true;
+    private ActivityBackupBinding mBinding;
 
     @Override
     protected void setViewBinding() {
-        setContentView(R.layout.activity_backup);
+        mBinding = ActivityBackupBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
     }
 
     @Override
     protected void setToolbar() {
-        mToolbar = findViewById(R.id.toolbar);
+        mToolbar = mBinding.toolbar.toolbar;
     }
 
     @Override

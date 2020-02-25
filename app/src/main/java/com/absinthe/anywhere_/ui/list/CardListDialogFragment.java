@@ -20,20 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardListDialogFragment extends AnywhereDialogFragment {
-    private Context mContext;
     private CardListDialogBuilder mBuilder;
     private AppListAdapter.OnItemClickListener mListener;
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mContext = getActivity();
-    }
-
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
-        mBuilder = new CardListDialogBuilder(mContext);
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(getContext());
+        mBuilder = new CardListDialogBuilder(getContext());
         if (mListener != null) {
             mBuilder.setOnItemClickListener(mListener);
         }

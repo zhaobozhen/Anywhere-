@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
-import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.background.BackgroundAdapter;
+import com.absinthe.anywhere_.databinding.ActivityBackgroundBinding;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
@@ -20,6 +19,7 @@ public class BackgroundActivity extends BaseActivity {
 
     private static BackgroundActivity sInstance;
     private BackgroundAdapter mAdapter;
+    private ActivityBackgroundBinding mBinding;
 
     public static BackgroundActivity getInstance() {
         return sInstance;
@@ -27,12 +27,13 @@ public class BackgroundActivity extends BaseActivity {
 
     @Override
     protected void setViewBinding() {
-        setContentView(R.layout.activity_background);
+        mBinding = ActivityBackgroundBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
     }
 
     @Override
     protected void setToolbar() {
-        mToolbar = findViewById(R.id.toolbar);
+        mToolbar = mBinding.toolbar.toolbar;
     }
 
     @Override
@@ -49,8 +50,7 @@ public class BackgroundActivity extends BaseActivity {
             finish();
         }
 
-        RecyclerView rvList = findViewById(R.id.rv_list);
-        rvList.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.rvList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BackgroundAdapter();
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -67,7 +67,7 @@ public class BackgroundActivity extends BaseActivity {
 
             });
         });
-        rvList.setAdapter(mAdapter);
+        mBinding.rvList.setAdapter(mAdapter);
 
         List<PageEntity> pageEntityList = AnywhereApplication.sRepository.getAllPageEntities().getValue();
         if (pageEntityList != null) {

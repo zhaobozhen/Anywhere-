@@ -3,11 +3,12 @@ package com.absinthe.anywhere_.ui.settings;
 import android.os.Bundle;
 
 import com.absinthe.anywhere_.BaseActivity;
-import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.databinding.ActivitySettingsBinding;
 
 public class SettingsActivity extends BaseActivity {
 
     private static SettingsActivity sInstance;
+    private ActivitySettingsBinding mBinding;
 
     public static SettingsActivity getInstance() {
         return sInstance;
@@ -19,12 +20,13 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void setViewBinding() {
-        setContentView(R.layout.activity_settings);
+        mBinding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
     }
 
     @Override
     protected void setToolbar() {
-        mToolbar = findViewById(R.id.toolbar);
+        mToolbar = mBinding.toolbar.toolbar;
     }
 
     @Override

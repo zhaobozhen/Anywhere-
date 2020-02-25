@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.ui.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,6 @@ import com.absinthe.anywhere_.viewbuilder.entity.DynamicParamsDialogBuilder;
 
 public class DynamicParamsDialogFragment extends AnywhereDialogFragment {
 
-    private Context mContext;
     private DynamicParamsDialogBuilder mBuilder;
     private OnParamsInputListener mListener;
     private String mText;
@@ -22,16 +20,10 @@ public class DynamicParamsDialogFragment extends AnywhereDialogFragment {
         mText = text;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mContext = getActivity();
-    }
-
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
-        mBuilder = new DynamicParamsDialogBuilder(mContext);
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(getContext());
+        mBuilder = new DynamicParamsDialogBuilder(getContext());
         mBuilder.setParams(mText);
 
         setWrapOnDismissListener(() -> mListener.onCancel());

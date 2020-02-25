@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Handler;
 import android.view.HapticFeedbackConstants;
@@ -11,9 +12,11 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
@@ -21,7 +24,9 @@ import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.Opener;
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.view.editor.AnywhereEditor;
 import com.absinthe.anywhere_.view.editor.Editor;
@@ -174,7 +179,16 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, item.getParam3(), new DynamicParamsDialogFragment.OnParamsInputListener() {
                     @Override
                     public void onFinish(String text) {
-                        CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text);
+                        if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
+                            try {
+                                URLSchemeHandler.parse(item.getParam1() + text, mContext);
+                            } catch (ActivityNotFoundException e) {
+                                e.printStackTrace();
+                                ToastUtil.makeText(R.string.toast_no_react_url);
+                            }
+                        } else {
+                            CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text);
+                        }
                     }
 
                     @Override

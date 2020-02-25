@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.main;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import com.absinthe.anywhere_.adapter.card.SingleLineStreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.card.StreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager;
+import com.absinthe.anywhere_.databinding.FragmentMainBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
@@ -51,6 +53,7 @@ public class MainFragment extends Fragment {
     private static AnywhereViewModel mViewModel;
 
     private Context mContext;
+    private FragmentMainBinding mBinding;
     private String category;
 
     private RecyclerView mRecyclerView;
@@ -90,9 +93,9 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        initView(view);
-        return view;
+        mBinding = FragmentMainBinding.inflate(inflater, container, false);
+        initView();
+        return mBinding.getRoot();
     }
 
     @Override
@@ -215,6 +218,7 @@ public class MainFragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.toolbar_settings) {
@@ -306,8 +310,8 @@ public class MainFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initView(View view) {
-        mRecyclerView = view.findViewById(R.id.recycler_view);
+    private void initView() {
+        mRecyclerView = mBinding.recyclerView;
         setUpRecyclerView(mRecyclerView);
         setHasOptionsMenu(true);
     }

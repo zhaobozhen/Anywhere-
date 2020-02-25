@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter.card;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
@@ -59,8 +60,8 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
             this.binding = binding;
         }
 
+        @SuppressLint("SetTextI18n")
         private void bind(AnywhereEntity item) {
-            binding.executePendingBindings();
 
             int type = item.getAnywhereType();
             String pkgName;
@@ -72,19 +73,19 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
             }
             try {
                 if (IceBox.getAppEnabledSetting(mContext, pkgName) != 0) {
-                    binding.setAppName(item.getAppName() + "\u2744");
+                    binding.tvAppName.setText(item.getAppName() + "\u2744");
                 } else {
-                    binding.setAppName(item.getAppName());
+                    binding.tvAppName.setText(item.getAppName());
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
                 Logger.e(e.getMessage());
-                binding.setAppName(item.getAppName());
+                binding.tvAppName.setText(item.getAppName());
             }
 
-            binding.setParam1(item.getParam1());
-            binding.setParam2(item.getParam2());
-            binding.setDescription(item.getDescription());
+            binding.tvParam1.setText(item.getParam1());
+            binding.tvParam2.setText(item.getParam2());
+            binding.tvDescription.setText(item.getDescription());
 
             switch (type) {
                 case AnywhereType.URL_SCHEME:

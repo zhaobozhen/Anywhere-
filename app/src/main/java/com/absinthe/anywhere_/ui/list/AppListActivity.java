@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.BaseActivity;
@@ -32,7 +31,8 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
 
     @Override
     protected void setViewBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_list);
+        binding = ActivityAppListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 
     @Override

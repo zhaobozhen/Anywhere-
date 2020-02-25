@@ -5,7 +5,6 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absinthe.anywhere_.BaseActivity;
@@ -24,7 +23,8 @@ public class QRCodeCollectionActivity extends BaseActivity {
 
     @Override
     protected void setViewBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_qrcode_collection);
+        binding = ActivityQrcodeCollectionBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 
     @Override

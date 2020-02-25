@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter.card;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -39,9 +40,9 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ItemStreamCardSingleLineBinding binding = ItemStreamCardSingleLineBinding.inflate(inflater, parent, false);
-        return new ItemViewHolder(binding);
+        return new ItemViewHolder(
+                ItemStreamCardSingleLineBinding.inflate(
+                        LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -60,8 +61,8 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
             this.binding = binding;
         }
 
+        @SuppressLint("SetTextI18n")
         void bind(AnywhereEntity item) {
-            binding.executePendingBindings();
 
             String pkgName;
             if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
@@ -71,14 +72,14 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
             }
             try {
                 if (IceBox.getAppEnabledSetting(mContext, pkgName) != 0) {
-                    binding.setAppName(item.getAppName() + "\u2744");
+                    binding.tvAppName.setText(item.getAppName() + "\u2744");
                 } else {
-                    binding.setAppName(item.getAppName());
+                    binding.tvAppName.setText(item.getAppName());
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
                 Logger.e(e.getMessage());
-                binding.setAppName(item.getAppName());
+                binding.tvAppName.setText(item.getAppName());
             }
 
             Glide.with(mContext)

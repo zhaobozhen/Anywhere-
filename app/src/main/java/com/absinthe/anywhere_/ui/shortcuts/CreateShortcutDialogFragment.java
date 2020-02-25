@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.ui.shortcuts;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -28,7 +27,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import static android.app.Activity.RESULT_OK;
 
 public class CreateShortcutDialogFragment extends AnywhereDialogFragment {
-    private Context mContext;
     private CreateShortcutDialogBuilder mBuilder;
 
     private AnywhereEntity mEntity;
@@ -41,17 +39,11 @@ public class CreateShortcutDialogFragment extends AnywhereDialogFragment {
         mIcon = UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae);
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mContext = getActivity();
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(mContext);
-        mBuilder = new CreateShortcutDialogBuilder(mContext);
+        AnywhereDialogBuilder builder = new AnywhereDialogBuilder(getContext());
+        mBuilder = new CreateShortcutDialogBuilder(getContext());
         initView();
 
         return builder.setView(mBuilder.getRoot())
@@ -88,7 +80,7 @@ public class CreateShortcutDialogFragment extends AnywhereDialogFragment {
                                 .load(iconUri)
                                 .transition(DrawableTransitionOptions.withCrossFade())
                                 .into(mBuilder.ivIcon);
-                        AppUtils.takePersistableUriPermission(mContext, iconUri, data);
+                        AppUtils.takePersistableUriPermission(requireContext(), iconUri, data);
                     }
                 }
             }

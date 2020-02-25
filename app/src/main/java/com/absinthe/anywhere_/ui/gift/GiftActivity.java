@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.absinthe.anywhere_.BaseActivity;
@@ -35,13 +34,10 @@ public class GiftActivity extends BaseActivity {
         return sInstance;
     }
 
-    public ActivityGiftBinding getBinding() {
-        return mBinding;
-    }
-
     @Override
     protected void setViewBinding() {
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_gift);
+        mBinding = ActivityGiftBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
     }
 
     @Override
