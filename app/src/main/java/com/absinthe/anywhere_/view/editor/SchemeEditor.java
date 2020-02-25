@@ -3,8 +3,8 @@ package com.absinthe.anywhere_.view.editor;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Build;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,10 +29,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class SchemeEditor extends Editor<SchemeEditor> {
 
-    private TextInputLayout tilUrlScheme;
-    private TextInputEditText tietUrlScheme;
-    private TextInputLayout tilDynamicParams;
-    private TextInputEditText tietDynamicParams;
+    private TextInputLayout tilAppName, tilUrlScheme;
+    private TextInputEditText tietAppName, tietUrlScheme, tietDynamicParams, tietDescription;
 
     public SchemeEditor(Context context) {
         super(context, Editor.URL_SCHEME);
@@ -47,20 +45,32 @@ public class SchemeEditor extends Editor<SchemeEditor> {
     protected void initView() {
         super.initView();
 
-        tilUrlScheme = mBottomSheetDialog.findViewById(R.id.til_url_scheme);
-        tietUrlScheme = mBottomSheetDialog.findViewById(R.id.tiet_url_scheme);
-        tilDynamicParams = mBottomSheetDialog.findViewById(R.id.til_dynamic_params);
-        tietDynamicParams = mBottomSheetDialog.findViewById(R.id.tiet_dynamic_params);
+        tilAppName = container.findViewById(R.id.til_app_name);
+        tilUrlScheme = container.findViewById(R.id.til_url_scheme);
+
+        tietAppName = container.findViewById(R.id.tiet_app_name);
+        tietUrlScheme = container.findViewById(R.id.tiet_url_scheme);
+        tietDynamicParams = container.findViewById(R.id.tiet_dynamic_params);
+        tietDescription = container.findViewById(R.id.tiet_description);
 
         if (tietUrlScheme != null) {
             tietUrlScheme.setText(mItem.getParam1());
+        }
+        if (tietAppName != null) {
+            tietAppName.setText(mItem.getAppName());
+        }
+        if (tietDescription != null) {
+            tietDescription.setText(mItem.getDescription());
         }
 
         if (tietDynamicParams != null && !TextUtils.isEmpty(mItem.getParam3())) {
             tietDynamicParams.setText(mItem.getParam3());
         }
 
-        Button btnUrlSchemeCommunity = mBottomSheetDialog.findViewById(R.id.btn_url_scheme_community);
+        View communityLayout = View.inflate(mContext, R.layout.layout_url_scheme_editor_custom_tool, null);
+        setCustomTool(communityLayout);
+
+        Button btnUrlSchemeCommunity = communityLayout.findViewById(R.id.btn_url_scheme_community);
         if (btnUrlSchemeCommunity != null) {
             btnUrlSchemeCommunity.setOnClickListener(view -> {
                 try {
@@ -75,9 +85,8 @@ public class SchemeEditor extends Editor<SchemeEditor> {
 
     @Override
     protected void setDoneButton() {
-        Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
-        if (btnEditAnywhereDone != null) {
-            btnEditAnywhereDone.setOnClickListener(view -> {
+        if (btnDone != null) {
+            btnDone.setOnClickListener(view -> {
                 if (tietUrlScheme != null && tietAppName != null && tietDescription != null && tietDynamicParams != null) {
                     String uScheme = tietUrlScheme.getText() == null ? "" : tietUrlScheme.getText().toString();
                     String aName = tietAppName.getText() == null ? mContext.getString(R.string.bsd_new_url_scheme_name) : tietAppName.getText().toString();
@@ -133,7 +142,6 @@ public class SchemeEditor extends Editor<SchemeEditor> {
 
     @Override
     protected void setRunButton() {
-        ImageButton ibRun = mBottomSheetDialog.findViewById(R.id.ib_trying_run);
         if (ibRun != null) {
             ibRun.setOnClickListener(view -> {
                 if (tietUrlScheme != null) {

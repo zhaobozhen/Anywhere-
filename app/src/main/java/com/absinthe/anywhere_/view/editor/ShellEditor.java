@@ -2,9 +2,7 @@ package com.absinthe.anywhere_.view.editor;
 
 import android.content.Context;
 import android.os.Build;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
@@ -15,9 +13,13 @@ import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class ShellEditor extends Editor<ShellEditor> {
 
+    private TextInputLayout tilAppName;
+    private TextInputEditText tietAppName, tietDescription;
     private EditText etShellContent;
 
     public ShellEditor(Context context) {
@@ -33,7 +35,19 @@ public class ShellEditor extends Editor<ShellEditor> {
     protected void initView() {
         super.initView();
 
-        etShellContent = mBottomSheetDialog.findViewById(R.id.et_shell_content);
+        tilAppName = container.findViewById(R.id.til_app_name);
+        tietAppName = container.findViewById(R.id.tiet_app_name);
+        tietDescription = container.findViewById(R.id.tiet_description);
+        etShellContent = container.findViewById(R.id.et_shell_content);
+
+        if (tietAppName != null) {
+            tietAppName.setText(mItem.getAppName());
+        }
+
+        if (tietDescription != null) {
+            tietDescription.setText(mItem.getDescription());
+        }
+
         if (etShellContent != null) {
             etShellContent.setText(mItem.getParam1());
             etShellContent.requestFocus();
@@ -42,9 +56,8 @@ public class ShellEditor extends Editor<ShellEditor> {
 
     @Override
     protected void setDoneButton() {
-        Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
-        if (btnEditAnywhereDone != null) {
-            btnEditAnywhereDone.setOnClickListener(view -> {
+        if (btnDone != null) {
+            btnDone.setOnClickListener(view -> {
                 if (etShellContent != null && tietAppName != null && tietDescription != null) {
                     String shell = etShellContent.getText() == null ? "" : etShellContent.getText().toString();
                     String aName = tietAppName.getText() == null ? mContext.getString(R.string.bsd_new_url_scheme_name) : tietAppName.getText().toString();
@@ -102,7 +115,6 @@ public class ShellEditor extends Editor<ShellEditor> {
 
     @Override
     protected void setRunButton() {
-        ImageButton ibRun = mBottomSheetDialog.findViewById(R.id.ib_trying_run);
         if (ibRun != null) {
             ibRun.setOnClickListener(view -> {
                 if (etShellContent != null) {

@@ -1,186 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Design.BottomSheet.Modal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottom_sheet_anywhere"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_app_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.Design.BottomSheet.Modal"
-        android:background="@color/transparent">
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_content_margin_top"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:hint="@string/bsd_text_input_layout_app_name_label"
+        app:errorEnabled="true"
+        app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/ll_buttons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/bsd_content_margin_top"
-            android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/ib_overlay"
-                android:layout_width="@dimen/bsd_tool_size"
-                android:layout_height="@dimen/bsd_tool_size"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/anywhere_more_todo"
-                android:tooltipText="@string/menu_overlay"
-                app:srcCompat="@drawable/ic_float"
-                tools:targetApi="o" />
-
-            <ImageButton
-                android:id="@+id/ib_trying_run"
-                android:layout_width="@dimen/bsd_tool_size"
-                android:layout_height="@dimen/bsd_tool_size"
-                android:layout_marginStart="@dimen/bsd_function_button_margin"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/anywhere_more_todo"
-                android:tooltipText="@string/menu_trying_run"
-                app:srcCompat="@drawable/ic_play"
-                tools:targetApi="o" />
-
-            <ImageButton
-                android:id="@+id/ib_editor_menu"
-                android:layout_width="@dimen/bsd_tool_size"
-                android:layout_height="@dimen/bsd_tool_size"
-                android:layout_marginStart="@dimen/bsd_function_button_margin"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/anywhere_more_todo"
-                android:tooltipText="@string/menu_more"
-                app:srcCompat="@drawable/ic_more_vert"
-                tools:targetApi="o" />
-
-        </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_app_name"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ll_buttons"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginTop="@dimen/bsd_content_margin_top"
-            android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
-            android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
-            android:hint="@string/bsd_text_input_layout_app_name_label"
-            app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
-            app:helperTextEnabled="true"
-            app:errorEnabled="true">
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/tiet_package_name"
+            android:singleLine="true" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_app_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:singleLine="true"
-                android:nextFocusForward="@id/tiet_package_name" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_package_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:hint="@string/bsd_text_input_layout_package_name_label"
+        app:helperText="@string/bsd_text_input_layout_package_name_helper_text"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/til_app_name">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_package_name"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_package_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/til_app_name"
-            android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-            android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
-            android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
-            android:hint="@string/bsd_text_input_layout_package_name_label"
-            app:helperText="@string/bsd_text_input_layout_package_name_helper_text"
-            app:helperTextEnabled="true">
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/tiet_class_name"
+            android:singleLine="true" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_package_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:singleLine="true"
-                android:nextFocusForward="@id/tiet_class_name" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_class_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:hint="@string/bsd_text_input_layout_class_name_label"
+        app:helperText="@string/bsd_text_input_layout_class_name_helper_text"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/til_package_name">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_class_name"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_class_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/til_package_name"
-            android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-            android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
-            android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
-            android:hint="@string/bsd_text_input_layout_class_name_label"
-            app:helperText="@string/bsd_text_input_layout_class_name_helper_text"
-            app:helperTextEnabled="true">
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/tiet_description"
+            android:singleLine="true" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_class_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:singleLine="true"
-                android:nextFocusForward="@id/tiet_description" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_description"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:hint="@string/bsd_text_input_layout_description_label"
+        app:helperText="@string/bsd_text_input_layout_description_helper_text"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/til_class_name">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_description"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/til_class_name"
-            android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-            android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
-            android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
-            android:hint="@string/bsd_text_input_layout_description_label"
-            app:helperText="@string/bsd_text_input_layout_description_helper_text"
-            app:helperTextEnabled="true">
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/tiet_intent_extra"
+            android:singleLine="true" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:singleLine="true"
-                android:nextFocusForward="@id/tiet_intent_extra" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_intent_extra"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:hint="@string/bsd_text_input_layout_intent_extra_label"
+        app:helperText="@string/bsd_text_input_layout_intent_extra_helper_text"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/til_description">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_intent_extra"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_intent_extra"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/til_description"
-            android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-            android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
-            android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
-            android:hint="@string/bsd_text_input_layout_intent_extra_label"
-            app:helperText="@string/bsd_text_input_layout_intent_extra_helper_text"
-            app:helperTextEnabled="true">
+            android:layout_height="wrap_content" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_intent_extra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btn_edit_anywhere_done"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/bsd_btn_done"
-            android:textAllCaps="true"
-            app:layout_constraintTop_toBottomOf="@id/til_intent_extra"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="@dimen/bsd_edit_text_margin_horizontal" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

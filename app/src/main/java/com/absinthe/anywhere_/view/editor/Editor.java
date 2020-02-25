@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.RequiresApi;
@@ -25,8 +27,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.view.AnywhereBottomSheetDialog;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.button.MaterialButton;
 
 import jonathanfinerty.once.Once;
 
@@ -42,8 +43,12 @@ public abstract class Editor<T extends Editor<?>> {
 
     AnywhereBottomSheetDialog mBottomSheetDialog;
     AnywhereEntity mItem;
-    TextInputLayout tilAppName;
-    TextInputEditText tietAppName, tietDescription;
+
+    ViewGroup container;
+    ImageButton ibRun;
+    MaterialButton btnDone;
+    ImageButton ibOverlay, ibMore;
+    LinearLayout llCustomContainer;
 
     private int mEditorType;
     private boolean isExported;
@@ -115,11 +120,6 @@ public abstract class Editor<T extends Editor<?>> {
         /*void onChange();*/
     }
 
-    @SuppressWarnings("unchecked")
-    protected T getThis() {
-        return (T) this;
-    }
-
     protected abstract void setBottomSheetDialog();
 
     protected abstract void setDoneButton();
@@ -127,25 +127,27 @@ public abstract class Editor<T extends Editor<?>> {
     protected abstract void setRunButton();
 
     protected void initView() {
-        tilAppName = mBottomSheetDialog.findViewById(R.id.til_app_name);
-        tietAppName = mBottomSheetDialog.findViewById(R.id.tiet_app_name);
-        tietDescription = mBottomSheetDialog.findViewById(R.id.tiet_description);
-
-        if (tietAppName != null) {
-            tietAppName.setText(mItem.getAppName());
-        }
-
-        if (tietDescription != null) {
-            tietDescription.setText(mItem.getDescription());
-        }
+        ibOverlay = container.findViewById(R.id.ib_overlay);
+        ibRun = container.findViewById(R.id.ib_trying_run);
+        ibMore = container.findViewById(R.id.ib_editor_menu);
+        btnDone = container.findViewById(R.id.btn_edit_anywhere_done);
+        llCustomContainer = container.findViewById(R.id.ll_custom_tool);
     }
 
-    private void setOverlayButton() {
-        ImageButton ibOverlay = mBottomSheetDialog.findViewById(R.id.ib_overlay);
+    @SuppressWarnings("unchecked")
+    private T getThis() {
+        return (T) this;
+    }
+
+    protected void setOverlayButton() {
         if (ibOverlay != null) {
             UiUtils.setVisibility(ibOverlay, isEditMode);
             ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
         }
+    }
+
+    protected void setCustomTool(View view) {
+        llCustomContainer.addView(view, 0);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
@@ -171,12 +173,17 @@ public abstract class Editor<T extends Editor<?>> {
     }
 
     void setBottomSheetDialogImpl(Context context, @LayoutRes int layout) {
-        View contentView = View.inflate(context, layout, null);
-        mBottomSheetDialog.setContentView(contentView);
+        container = (ViewGroup) View.inflate(context, R.layout.layout_editor_frame, null);
+
+        mBottomSheetDialog.setContentView(container);
         mBottomSheetDialog.setDismissWithAnimation(true);
-        View parent = (View) contentView.getParent();
+        View parent = (View) container.getParent();
         BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        container = container.findViewById(R.id.container);
+        View contentView = View.inflate(context, layout, null);
+        container.addView(contentView, 1);
     }
 
     private void startOverlay(String cmd) {
@@ -208,7 +215,6 @@ public abstract class Editor<T extends Editor<?>> {
     }
 
     private void setMoreButton() {
-        ImageButton ibMore = mBottomSheetDialog.findViewById(R.id.ib_editor_menu);
         if (ibMore != null) {
             UiUtils.setVisibility(ibMore, isEditMode);
             ibMore.setOnClickListener(view -> {

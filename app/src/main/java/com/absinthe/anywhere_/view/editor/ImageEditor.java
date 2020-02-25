@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.Button;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.absinthe.anywhere_.AnywhereApplication;
@@ -30,8 +31,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonToggleGroup.OnButtonCheckedListener {
 
-    private TextInputLayout tilUrl;
-    private TextInputEditText tietUrl;
+    private TextInputLayout tilUrl, tilAppName;
+    private TextInputEditText tietUrl, tietAppName, tietDescription;
     private ImageView ivPreview;
 
     public ImageEditor(Context context) {
@@ -46,12 +47,25 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
         if (btns != null) {
             btns.addOnButtonCheckedListener(this);
         }
-        tilUrl = mBottomSheetDialog.findViewById(R.id.til_url);
+
+        tilUrl = container.findViewById(R.id.til_url);
+        tilAppName = container.findViewById(R.id.til_app_name);
+        tietUrl = container.findViewById(R.id.tiet_url);
+        tietAppName = container.findViewById(R.id.tiet_app_name);
+        tietDescription = container.findViewById(R.id.tiet_description);
+        ivPreview = container.findViewById(R.id.iv_preview);
+
         if (tilUrl != null) {
             tilUrl.setEnabled(false);
         }
 
-        ivPreview = mBottomSheetDialog.findViewById(R.id.iv_preview);
+        if (tietAppName != null) {
+            tietAppName.setText(mItem.getAppName());
+        }
+
+        if (tietDescription != null) {
+            tietDescription.setText(mItem.getDescription());
+        }
 
         if (ivPreview != null) {
             ivPreview.setOnClickListener(v -> {
@@ -74,7 +88,6 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
             }
         });
 
-        tietUrl = mBottomSheetDialog.findViewById(R.id.tiet_url);
         if (tietUrl != null) {
             if (isEditMode) {
                 tietUrl.setText(mItem.getParam1());
@@ -99,6 +112,9 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
                 }
             });
         }
+
+        View view = View.inflate(mContext, R.layout.layout_image_editor_custom_tool, null);
+        setCustomTool(view);
     }
 
     @Override
@@ -108,9 +124,8 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
 
     @Override
     protected void setDoneButton() {
-        Button btnEditAnywhereDone = mBottomSheetDialog.findViewById(R.id.btn_edit_anywhere_done);
-        if (btnEditAnywhereDone != null) {
-            btnEditAnywhereDone.setOnClickListener(view -> {
+        if (btnDone != null) {
+            btnDone.setOnClickListener(view -> {
                 if (tietUrl != null && tietAppName != null && tietDescription != null) {
                     String appName = tietAppName.getText() == null ? mItem.getAppName() : tietAppName.getText().toString();
                     String desc = tietDescription.getText() == null ? "" : tietDescription.getText().toString();
@@ -159,7 +174,12 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
 
     @Override
     protected void setRunButton() {
+        ibRun.setVisibility(View.GONE);
+    }
 
+    @Override
+    protected void setOverlayButton() {
+        ibOverlay.setVisibility(View.GONE);
     }
 
     @Override
