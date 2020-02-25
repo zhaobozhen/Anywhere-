@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.absinthe.anywhere_.AnywhereApplication;
@@ -32,7 +31,7 @@ import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 
 import java.util.Objects;
 
-public class ShortcutsActivity extends AppCompatActivity implements LifecycleOwner {
+public class ShortcutsActivity extends AppCompatActivity {
     public static final String ACTION_START_COLLECTOR = "START_COLLECTOR";
     public static final String ACTION_START_COMMAND = "START_COMMAND";
     public static final String ACTION_START_FROM_WIDGET = "START_FROM_WIDGET";

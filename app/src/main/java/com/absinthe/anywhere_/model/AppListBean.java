@@ -23,6 +23,14 @@ public class AppListBean {
         this.mType = type;
     }
 
+    public AppListBean(String appName, String packageName, String className, int type, Drawable icon) {
+        this.mAppName = appName;
+        this.mPackageName = packageName;
+        this.mClassName = className;
+        this.mType = type;
+        this.mIcon = icon;
+    }
+
     public String getAppName() {
         return mAppName;
     }

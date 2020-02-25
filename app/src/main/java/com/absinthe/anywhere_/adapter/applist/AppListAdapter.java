@@ -96,7 +96,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 }
             } else if (mMode == MODE_CARD_LIST) {
                 if (mListener != null) {
-                    mListener.onClick(position);
+                    mListener.onClick(mList.get(position), position);
                 }
             }
         });
@@ -204,6 +204,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
     }
 
     public interface OnItemClickListener {
-        void onClick(int which);
+        void onClick(AppListBean bean, int which);
     }
 }

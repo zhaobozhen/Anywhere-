@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/include_select_working_mode"
+            android:id="@+id/select_working_mode"
             layout="@layout/card_select_working_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

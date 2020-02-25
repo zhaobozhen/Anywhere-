@@ -130,6 +130,7 @@ public class MainActivity extends BaseActivity {
         sInstance = this;
         mViewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        initObserver();
 
         Observer<List<PageEntity>> observer = new Observer<List<PageEntity>>() {
             @Override
@@ -152,20 +153,11 @@ public class MainActivity extends BaseActivity {
                 SPUtils.getBoolean(this, Const.PREF_FIRST_LAUNCH, true)) {
             mBinding.fab.setVisibility(View.GONE);
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .add(R.id.fragment_container_view, welcomeFragment)
-                    .commit();
             mViewModel.getFragment().setValue(welcomeFragment);
         } else {
             MainFragment mainFragment = MainFragment.newInstance(GlobalValues.sCategory);
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(mBinding.fragmentContainerView.getId(), mainFragment)
-                    .commitNow();
             mViewModel.getFragment().setValue(mainFragment);
             initFab();
-            initObserver();
             getAnywhereIntent(getIntent());
         }
     }
@@ -273,20 +265,10 @@ public class MainActivity extends BaseActivity {
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             if (pe.getType() == AnywhereType.CARD_PAGE) {
                                 MainFragment mainFragment = MainFragment.newInstance(pe.getTitle());
-                                getSupportFragmentManager()
-                                        .beginTransaction()
-                                        .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                        .replace(mBinding.fragmentContainerView.getId(), mainFragment)
-                                        .commitNow();
                                 mViewModel.getFragment().setValue(mainFragment);
                                 GlobalValues.setsCategory(pe.getTitle(), position);
                             } else if (pe.getType() == AnywhereType.WEB_PAGE) {
                                 WebviewFragment webviewFragment = WebviewFragment.newInstance(pe.getExtra());
-                                getSupportFragmentManager()
-                                        .beginTransaction()
-                                        .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                                        .replace(mBinding.fragmentContainerView.getId(), webviewFragment)
-                                        .commitNow();
                                 mViewModel.getFragment().setValue(webviewFragment);
                             }
                             if (!TextUtils.isEmpty(pe.getBackgroundUri())) {
@@ -402,6 +384,12 @@ public class MainActivity extends BaseActivity {
         });
         mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
         mViewModel.getFragment().observe(this, fragment -> {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                    .replace(mBinding.fragmentContainerView.getId(), fragment)
+                    .commitNow();
+
             if (fragment instanceof MainFragment) {
                 if (mBinding.fab.getVisibility() == View.GONE) {
                     AnimationUtil.showAndHiddenAnimation(mBinding.fab, AnimationUtil.AnimationState.STATE_SHOW, 300);

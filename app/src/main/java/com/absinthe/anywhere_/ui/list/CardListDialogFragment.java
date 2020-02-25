@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.ui.list;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.widget.ViewFlipper;
 
@@ -12,6 +11,7 @@ import com.absinthe.anywhere_.adapter.applist.AppListAdapter;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.AppListBean;
+import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.viewbuilder.entity.CardListDialogBuilder;
@@ -61,9 +61,11 @@ public class CardListDialogFragment extends AnywhereDialogFragment {
                     if (ae.getAnywhereType() == AnywhereType.URL_SCHEME
                             || ae.getAnywhereType() == AnywhereType.IMAGE
                             || ae.getAnywhereType() == AnywhereType.SHELL) {
-                        listBeans.add(new AppListBean(ae.getAppName(), ae.getParam2(), ae.getParam1(), ae.getAnywhereType()));
+                        listBeans.add(new AppListBean(ae.getAppName(), ae.getParam2(), ae.getParam1(),
+                                ae.getAnywhereType(), UiUtils.getAppIconByPackageName(getContext(), ae.getParam2())));
                     } else {
-                        listBeans.add(new AppListBean(ae.getAppName(), ae.getParam1(), ae.getParam2(), ae.getAnywhereType()));
+                        listBeans.add(new AppListBean(ae.getAppName(), ae.getParam1(), ae.getParam2(),
+                                ae.getAnywhereType(), UiUtils.getAppIconByPackageName(getContext(), ae.getParam1())));
                     }
                 }
                 mBuilder.mAdapter.setList(listBeans);

@@ -19,28 +19,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/textColorNormal" />
 
-    <include
-        android:id="@+id/cv_tile_one"
-        layout="@layout/card_tile"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTiles"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/cardview_spacing"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-    <include
-        android:id="@+id/cv_tile_two"
-        layout="@layout/card_tile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/cardview_spacing"
-        app:layout_constraintTop_toBottomOf="@id/cv_tile_one" />
-
-    <include
-        android:id="@+id/cv_tile_three"
-        layout="@layout/card_tile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/cardview_spacing"
-        app:layout_constraintTop_toBottomOf="@id/cv_tile_two" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

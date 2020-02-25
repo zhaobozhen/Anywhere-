@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +23,11 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.absinthe.anywhere_.R;
+import com.absinthe.anywhere_.databinding.CardAcquireOverlayPermissionBinding;
+import com.absinthe.anywhere_.databinding.CardAcquirePopupPermissionBinding;
+import com.absinthe.anywhere_.databinding.CardAcquireRootPermissionBinding;
+import com.absinthe.anywhere_.databinding.CardAcquireShizukuPermissionBinding;
+import com.absinthe.anywhere_.databinding.FragmentInitializeBinding;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.PermissionUtils;
@@ -32,13 +36,13 @@ import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
 import com.google.android.material.button.MaterialButtonToggleGroup;
-import com.google.android.material.card.MaterialCardView;
 
 import java.util.Objects;
 
 import moe.shizuku.api.ShizukuApiConstants;
 
 public class InitializeFragment extends Fragment implements MaterialButtonToggleGroup.OnButtonCheckedListener, LifecycleOwner {
+
     private static final int CARD_ROOT = 1;
     private static final int CARD_SHIZUKU = 2;
     private static final int CARD_OVERLAY = 3;
@@ -47,12 +51,14 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     private static InitializeViewModel mViewModel;
 
     private Context mContext;
-    private ViewGroup mContainerView, vgRoot, vgShizuku, vgOverlay, vgPopup;
-    private MaterialCardView cvRoot, cvShizuku, cvOverlay;
-    private Button btnRoot, btnShizukuCheck, btnShizuku, btnOverlay, btnPopup;
-    private boolean bRoot, bShizuku, bOverlay, bPopup;
+    private FragmentInitializeBinding mBinding;
+    private CardAcquireRootPermissionBinding rootBinding;
+    private CardAcquireShizukuPermissionBinding shizukuBinding;
+    private CardAcquireOverlayPermissionBinding overlayBinding;
+    private CardAcquirePopupPermissionBinding popupBinding;
 
-    private String workingMode;
+    private boolean bRoot, bShizuku, bOverlay, bPopup;
+    private String mWorkingMode;
 
     static InitializeFragment newInstance() {
         return new InitializeFragment();
@@ -65,12 +71,15 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_initialize, container, false);
-        initView(view);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mBinding = FragmentInitializeBinding.inflate(inflater, container, false);
+        rootBinding = CardAcquireRootPermissionBinding.inflate(inflater, container, false);
+        shizukuBinding = CardAcquireShizukuPermissionBinding.inflate(inflater, container, false);
+        overlayBinding = CardAcquireOverlayPermissionBinding.inflate(inflater, container, false);
+        popupBinding = CardAcquirePopupPermissionBinding.inflate(inflater, container, false);
+        initView();
 
-        return view;
+        return mBinding.getRoot();
     }
 
     @Override
@@ -78,7 +87,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         super.onActivityCreated(savedInstanceState);
 
         mViewModel = new ViewModelProvider(this).get(InitializeViewModel.class);
-        workingMode = Const.WORKING_MODE_URL_SCHEME;
+        mWorkingMode = Const.WORKING_MODE_URL_SCHEME;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.OVERLAY_PERM);
         }
@@ -86,13 +95,11 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         initObserver();
     }
 
-    private void initView(View view) {
-        mContainerView = view.findViewById(R.id.container);
+    private void initView() {
         bRoot = bShizuku = bOverlay = bPopup = false;
 
         setHasOptionsMenu(true);
-        MaterialButtonToggleGroup toggleGroup = view.findViewById(R.id.toggle_group);
-        toggleGroup.addOnButtonCheckedListener(this);
+        mBinding.selectWorkingMode.toggleGroup.addOnButtonCheckedListener(this);
     }
 
     @Override
@@ -106,7 +113,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                     actCards(CARD_SHIZUKU, false);
                     actCards(CARD_OVERLAY, false);
                     actCards(CARD_POPUP, false);
-                    workingMode = Const.WORKING_MODE_URL_SCHEME;
+                    mWorkingMode = Const.WORKING_MODE_URL_SCHEME;
                 }
                 break;
             case R.id.btn_root:
@@ -115,7 +122,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                     actCards(CARD_ROOT, true);
                     actCards(CARD_OVERLAY, true);
                     actCards(CARD_POPUP, true);
-                    workingMode = Const.WORKING_MODE_ROOT;
+                    mWorkingMode = Const.WORKING_MODE_ROOT;
                 }
                 break;
             case R.id.btn_shizuku:
@@ -124,7 +131,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                     actCards(CARD_SHIZUKU, true);
                     actCards(CARD_OVERLAY, true);
                     actCards(CARD_POPUP, true);
-                    workingMode = Const.WORKING_MODE_SHIZUKU;
+                    mWorkingMode = Const.WORKING_MODE_SHIZUKU;
                 }
                 break;
         }
@@ -138,11 +145,11 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.toolbar_initialize_done) {
-            GlobalValues.setsWorkingMode(workingMode);
+            GlobalValues.setsWorkingMode(mWorkingMode);
 
             boolean flag = false;
             int allPerm = Objects.requireNonNull(mViewModel.getAllPerm().getValue());
-            switch (workingMode) {
+            switch (mWorkingMode) {
                 case Const.WORKING_MODE_URL_SCHEME:
                     flag = true;
                     break;
@@ -171,11 +178,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     private void enterMainFragment() {
         MainFragment fragment = MainFragment.newInstance(GlobalValues.sCategory);
-        MainActivity.getInstance()
-                .getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                .replace(R.id.fragment_container_view, fragment)
-                .commitNow();
+        MainActivity.getInstance().getViewModel().getFragment().setValue(fragment);
         MainActivity.getInstance().initFab();
         MainActivity.getInstance().initObserver();
     }
@@ -183,12 +186,11 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     private void initObserver() {
         mViewModel.getIsRoot().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
-                btnRoot.setText(R.string.btn_acquired);
-                btnRoot.setEnabled(false);
-                cvRoot.findViewById(R.id.done).setVisibility(View.VISIBLE);
+                rootBinding.btnAcquireRootPermission.setText(R.string.btn_acquired);
+                rootBinding.btnAcquireRootPermission.setEnabled(false);
+                rootBinding.done.setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.ROOT_PERM);
                 Logger.d("allPerm = " + mViewModel.getAllPerm().getValue());
-
             } else {
                 Logger.d("ROOT permission denied.");
                 ToastUtil.makeText(R.string.toast_root_permission_denied);
@@ -197,32 +199,32 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
         mViewModel.getIsShizukuCheck().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
-                btnShizukuCheck.setText(R.string.btn_checked);
-                btnShizukuCheck.setEnabled(false);
+                shizukuBinding.btnCheckShizukuState.setText(R.string.btn_checked);
+                shizukuBinding.btnCheckShizukuState.setEnabled(false);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.SHIZUKU_CHECK_PERM);
-                btnShizuku.setEnabled(true);
+                shizukuBinding.btnAcquirePermission.setEnabled(true);
             }
             if ((Objects.requireNonNull(mViewModel.getAllPerm().getValue()) & InitializeViewModel.SHIZUKU_GROUP_PERM) == InitializeViewModel.SHIZUKU_GROUP_PERM) {
-                cvShizuku.findViewById(R.id.done).setVisibility(View.VISIBLE);
+                shizukuBinding.done.setVisibility(View.VISIBLE);
             }
         });
 
         mViewModel.getIsShizuku().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
-                btnShizuku.setText(R.string.btn_acquired);
-                btnShizuku.setEnabled(false);
+                shizukuBinding.btnAcquirePermission.setText(R.string.btn_acquired);
+                shizukuBinding.btnAcquirePermission.setEnabled(false);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.SHIZUKU_PERM);
             }
             if ((Objects.requireNonNull(mViewModel.getAllPerm().getValue()) & InitializeViewModel.SHIZUKU_GROUP_PERM) == InitializeViewModel.SHIZUKU_GROUP_PERM) {
-                cvShizuku.findViewById(R.id.done).setVisibility(View.VISIBLE);
+                shizukuBinding.done.setVisibility(View.VISIBLE);
             }
         });
 
         mViewModel.getIsOverlay().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
-                btnOverlay.setText(R.string.btn_acquired);
-                btnOverlay.setEnabled(false);
-                cvOverlay.findViewById(R.id.done).setVisibility(View.VISIBLE);
+                overlayBinding.btnAcquireOverlayPermission.setText(R.string.btn_acquired);
+                overlayBinding.btnAcquireOverlayPermission.setEnabled(false);
+                overlayBinding.done.setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.OVERLAY_PERM);
                 Logger.d("allPerm = " + mViewModel.getAllPerm().getValue());
             }
@@ -234,94 +236,70 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
         switch (card) {
             case CARD_ROOT:
-                if (vgRoot == null) {
-                    vgRoot = (ViewGroup) LayoutInflater.from(mContext).inflate(
-                            R.layout.card_acquire_root_permission, mContainerView, false);
-                }
-                cvRoot = vgRoot.findViewById(R.id.cv_acquire_root_permission);
-                btnRoot = cvRoot.findViewById(R.id.btn_acquire_root_permission);
-                btnRoot.setOnClickListener(view -> {
+                rootBinding.btnAcquireRootPermission.setOnClickListener(view -> {
                     boolean result = PermissionUtils.upgradeRootPermission(mContext.getPackageCodePath());
                     mViewModel.getIsRoot().setValue(result);
                 });
                 if (isAdd) {
                     if (!bRoot) {
-                        mContainerView.addView(vgRoot, 1);
+                        mBinding.container.addView(rootBinding.getRoot(), 1);
                         bRoot = true;
                     }
                 } else {
-                    mContainerView.removeView(vgRoot);
+                    mBinding.container.removeView(rootBinding.getRoot());
                     bRoot = false;
                 }
                 break;
             case CARD_SHIZUKU:
-                if (vgShizuku == null) {
-                    vgShizuku = (ViewGroup) LayoutInflater.from(mContext).inflate(
-                            R.layout.card_acquire_shizuku_permission, mContainerView, false);
-                }
-                cvShizuku = vgShizuku.findViewById(R.id.cv_acquire_shizuku_permission);
-                btnShizuku = cvShizuku.findViewById(R.id.btn_acquire_permission);
-                btnShizukuCheck = cvShizuku.findViewById(R.id.btn_check_shizuku_state);
-                btnShizuku.setEnabled(false);
-                btnShizukuCheck.setOnClickListener(view -> {
+                shizukuBinding.btnAcquirePermission.setEnabled(false);
+                shizukuBinding.btnCheckShizukuState.setOnClickListener(view -> {
                     boolean result = PermissionUtils.checkShizukuOnWorking(mContext);
                     mViewModel.getIsShizukuCheck().setValue(result);
                 });
 
-                btnShizuku.setOnClickListener(view -> {
+                shizukuBinding.btnAcquirePermission.setOnClickListener(view -> {
                     boolean result = PermissionUtils.shizukuPermissionCheck(this);
                     mViewModel.getIsShizuku().setValue(result);
                 });
                 if (isAdd) {
                     if (!bShizuku) {
-                        mContainerView.addView(vgShizuku, 1);
+                        mBinding.container.addView(shizukuBinding.getRoot(), 1);
                         bShizuku = true;
                     }
                 } else {
-                    mContainerView.removeView(vgShizuku);
+                    mBinding.container.removeView(shizukuBinding.getRoot());
                     bShizuku = false;
                 }
                 break;
             case CARD_OVERLAY:
-                if (vgOverlay == null) {
-                    vgOverlay = (ViewGroup) LayoutInflater.from(mContext).inflate(
-                            R.layout.card_acquire_overlay_permission, mContainerView, false);
-                }
-                cvOverlay = vgOverlay.findViewById(R.id.cv_acquire_overlay_permission);
-                btnOverlay = cvOverlay.findViewById(R.id.btn_acquire_overlay_permission);
-                btnOverlay.setOnClickListener(view -> {
+                overlayBinding.btnAcquireOverlayPermission.setOnClickListener(view -> {
                     boolean result = PermissionUtils.checkOverlayPermission(this, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION);
                     mViewModel.getIsOverlay().setValue(result);
                 });
                 if (isAdd) {
                     if (!bOverlay) {
-                        mContainerView.addView(vgOverlay, -1);
+                        mBinding.container.addView(overlayBinding.getRoot(), -1);
                         bOverlay = true;
                     }
                 } else {
-                    mContainerView.removeView(vgOverlay);
+                    mBinding.container.removeView(overlayBinding.getRoot());
                     bOverlay = false;
                 }
                 break;
             case CARD_POPUP:
             default:
-                if (vgPopup == null) {
-                    vgPopup = (ViewGroup) LayoutInflater.from(mContext).inflate(
-                            R.layout.card_acquire_popup_permission, mContainerView, false);
-                }
-                btnPopup = vgPopup.findViewById(R.id.btn_acquire_popup_permission);
-                btnPopup.setOnClickListener(view -> {
+                popupBinding.btnAcquirePopupPermission.setOnClickListener(view -> {
                     if (PermissionUtils.isMIUI()) {
                         PermissionUtils.goToMIUIPermissionManager(mContext);
                     }
                 });
                 if (isAdd) {
                     if (!bPopup) {
-                        mContainerView.addView(vgPopup, -1);
+                        mBinding.container.addView(popupBinding.getRoot(), -1);
                         bPopup = true;
                     }
                 } else {
-                    mContainerView.removeView(vgPopup);
+                    mBinding.container.removeView(popupBinding.getRoot());
                     bPopup = false;
                 }
                 break;
