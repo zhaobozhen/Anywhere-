@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:id="@+id/ll_custom_tool"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ib_overlay"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/ib_overlay"
@@ -22,9 +13,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/anywhere_more_todo"
         android:tooltipText="@string/menu_overlay"
-        app:layout_constraintBottom_toBottomOf="@id/ib_editor_menu"
-        app:layout_constraintEnd_toStartOf="@id/ib_trying_run"
-        app:layout_constraintTop_toTopOf="@id/ib_editor_menu"
         app:srcCompat="@drawable/ic_float"
         tools:targetApi="o" />
 
@@ -36,9 +24,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/anywhere_more_todo"
         android:tooltipText="@string/menu_trying_run"
-        app:layout_constraintBottom_toBottomOf="@id/ib_editor_menu"
-        app:layout_constraintEnd_toStartOf="@id/ib_editor_menu"
-        app:layout_constraintTop_toTopOf="@id/ib_editor_menu"
         app:srcCompat="@drawable/ic_play"
         tools:targetApi="o" />
 
@@ -50,10 +35,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/anywhere_more_todo"
         android:tooltipText="@string/menu_more"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_more_vert"
         tools:targetApi="o" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

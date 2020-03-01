@@ -7,7 +7,6 @@ import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.absinthe.anywhere_.AnywhereApplication;
@@ -112,9 +111,6 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
                 }
             });
         }
-
-        View view = View.inflate(mContext, R.layout.layout_image_editor_custom_tool, null);
-        setCustomTool(view);
     }
 
     @Override

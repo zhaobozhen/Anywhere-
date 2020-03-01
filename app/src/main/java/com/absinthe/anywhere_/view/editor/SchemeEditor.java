@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.view.editor;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Build;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,10 +66,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
             tietDynamicParams.setText(mItem.getParam3());
         }
 
-        View communityLayout = View.inflate(mContext, R.layout.layout_url_scheme_editor_custom_tool, null);
-        setCustomTool(communityLayout);
-
-        Button btnUrlSchemeCommunity = communityLayout.findViewById(R.id.btn_url_scheme_community);
+        Button btnUrlSchemeCommunity = container.findViewById(R.id.btn_url_scheme_community);
         if (btnUrlSchemeCommunity != null) {
             btnUrlSchemeCommunity.setOnClickListener(view -> {
                 try {

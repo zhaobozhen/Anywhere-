@@ -51,6 +51,7 @@ public class PermissionUtils {
     public static void goToMIUIPermissionManager(Context context) {
         try {
             Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction("miui.intent.action.APP_PERM_EDITOR");
             intent.setClassName("com.miui.securitycenter",
                     "com.miui.permcenter.permissions.PermissionsEditorActivity");
@@ -285,8 +286,10 @@ public class PermissionUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(context)) {
                 try {
-                    context.startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                            Uri.parse("package:" + AnywhereApplication.sContext.getPackageName())));
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:" + AnywhereApplication.sContext.getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
                 } catch (ActivityNotFoundException e) {
                     e.printStackTrace();
                 }

@@ -22,7 +22,6 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.services.CollectorService;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -110,7 +109,7 @@ public class AnywhereViewModel extends AndroidViewModel {
 
     public void setUpUrlScheme(Context context, String url) {
         AnywhereEntity ae = AnywhereEntity.Builder();
-        ae.setAppName(MainActivity.getInstance().getString(R.string.bsd_new_url_scheme_name));
+        ae.setAppName(getApplication().getString(R.string.bsd_new_url_scheme_name));
         ae.setParam1(url);
         ae.setType(AnywhereType.URL_SCHEME);
 

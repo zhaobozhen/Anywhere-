@@ -24,7 +24,6 @@ import com.absinthe.anywhere_.utils.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class AppDetailActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     private ActivityAppDetailBinding mBinding;
@@ -39,6 +38,12 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
     @Override
     protected void setToolbar() {
         mToolbar = mBinding.toolbar;
+        Intent intent = getIntent();
+        if (intent == null) {
+            finish();
+        } else {
+            mToolbar.setTitle(intent.getStringExtra(Const.INTENT_EXTRA_APP_NAME));
+        }
     }
 
     @Override
@@ -54,16 +59,9 @@ public class AppDetailActivity extends BaseActivity implements SearchView.OnQuer
         if (intent == null) {
             finish();
         } else {
-            mBinding.toolbar.setTitle(intent.getStringExtra(Const.INTENT_EXTRA_APP_NAME));
+            initRecyclerView();
+            initData(intent.getStringExtra(Const.INTENT_EXTRA_PKG_NAME));
         }
-
-        initRecyclerView();
-        initData(Objects.requireNonNull(intent).getStringExtra(Const.INTENT_EXTRA_PKG_NAME));
-    }
-
-    @Override
-    protected void initView() {
-        super.initView();
     }
 
     private void initRecyclerView() {

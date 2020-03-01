@@ -131,7 +131,6 @@ public abstract class Editor<T extends Editor<?>> {
         ibRun = container.findViewById(R.id.ib_trying_run);
         ibMore = container.findViewById(R.id.ib_editor_menu);
         btnDone = container.findViewById(R.id.btn_edit_anywhere_done);
-        llCustomContainer = container.findViewById(R.id.ll_custom_tool);
     }
 
     @SuppressWarnings("unchecked")
@@ -144,10 +143,6 @@ public abstract class Editor<T extends Editor<?>> {
             UiUtils.setVisibility(ibOverlay, isEditMode);
             ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
         }
-    }
-
-    protected void setCustomTool(View view) {
-        llCustomContainer.addView(view, 0);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
@@ -173,7 +168,14 @@ public abstract class Editor<T extends Editor<?>> {
     }
 
     void setBottomSheetDialogImpl(Context context, @LayoutRes int layout) {
-        container = (ViewGroup) View.inflate(context, R.layout.layout_editor_frame, null);
+        int frameRes = R.layout.layout_editor_frame;
+        if (mEditorType == URL_SCHEME) {
+            frameRes = R.layout.layout_url_scheme_editor_frame;
+        } else if (mEditorType == IMAGE) {
+            frameRes = R.layout.layout_image_editor_frame;
+        }
+
+        container = (ViewGroup) View.inflate(context, frameRes, null);
 
         mBottomSheetDialog.setContentView(container);
         mBottomSheetDialog.setDismissWithAnimation(true);

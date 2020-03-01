@@ -68,7 +68,6 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-
         initView();
     }
 
@@ -78,7 +77,7 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
             return new int[] {0, 0};
         }
 
-        return new int[] {Integer.valueOf(params[0]), Integer.valueOf(params[1])};
+        return new int[] {Integer.parseInt(params[0]), Integer.parseInt(params[1])};
     }
 
     private void initView() {

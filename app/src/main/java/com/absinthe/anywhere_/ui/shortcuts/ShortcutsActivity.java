@@ -130,6 +130,8 @@ public class ShortcutsActivity extends AppCompatActivity {
                     AnywhereEntity ae = AnywhereEntity.Builder();
                     ae.setParam1(uri);
                     DialogManager.showImageDialog(this, ae, this::finish);
+                } else {
+                    finish();
                 }
             } else if (action.equals(Intent.ACTION_VIEW)) {
                 Uri uri = i.getData();
