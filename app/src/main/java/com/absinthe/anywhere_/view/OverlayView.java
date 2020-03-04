@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.services.OverlayService;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -58,7 +59,7 @@ public class OverlayView extends LinearLayout {
         mBuilder.ivIcon.setOnClickListener(v -> {
             Logger.d("Overlay window clicked!");
 
-            CommandUtils.execCmd(mCommand);
+            CommandUtils.execCmd(MainActivity.getInstance(), mCommand);
         });
 
         mBuilder.ivIcon.setOnTouchListener(new OnTouchListener() {

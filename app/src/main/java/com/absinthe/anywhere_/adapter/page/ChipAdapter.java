@@ -58,7 +58,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
                 String result = CommandUtils.execAdbCmd(ae.getParam1());
                 DialogManager.showShellResultDialog(MainActivity.getInstance(), result, null, null);
             } else {
-                CommandUtils.execCmd(TextUtils.getItemCommand(ae));
+                CommandUtils.execCmd(MainActivity.getInstance(), TextUtils.getItemCommand(ae));
             }
         });
     }

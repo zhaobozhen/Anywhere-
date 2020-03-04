@@ -19,8 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -42,7 +42,6 @@ import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
-import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -50,11 +49,12 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
     private static final String BUNDLE_CATEGORY = "CATEGORY";
-    private static AnywhereViewModel mViewModel;
+    private static MutableLiveData<String> sCardMode = new MutableLiveData<>();
+    private static boolean sRefreshLock = false;
 
     private Context mContext;
     private FragmentMainBinding mBinding;
-    private String category;
+    private String mCategory;
 
     private RecyclerView mRecyclerView;
     private BaseAdapter adapter;
@@ -69,10 +69,17 @@ public class MainFragment extends Fragment {
         return fragment;
     }
 
-    public static AnywhereViewModel getViewModelInstance() {
-        return mViewModel;
+    public static MutableLiveData<String> getCardMode() {
+        if (sCardMode == null) {
+            sCardMode = new MutableLiveData<>();
+        }
+        return sCardMode;
     }
-
+    
+    public static void setRefreshLock(boolean lock) { 
+        sRefreshLock = lock;
+    }
+    
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -83,9 +90,9 @@ public class MainFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            category = getArguments().getString(BUNDLE_CATEGORY);
+            mCategory = getArguments().getString(BUNDLE_CATEGORY);
         } else {
-            category = GlobalValues.sCategory;
+            mCategory = GlobalValues.sCategory;
         }
     }
 
@@ -107,10 +114,10 @@ public class MainFragment extends Fragment {
     private Observer<List<AnywhereEntity>> listObserver = new Observer<List<AnywhereEntity>>() {
         @Override
         public void onChanged(List<AnywhereEntity> anywhereEntities) {
-            if (!mViewModel.refreshLock) {
+            if (!sRefreshLock) {
                 List<AnywhereEntity> filtered = new ArrayList<>();
                 for (AnywhereEntity ae : anywhereEntities) {
-                    if (ae.getCategory().equals(category)) {
+                    if (ae.getCategory().equals(mCategory)) {
                         filtered.add(ae);
                     }
                 }
@@ -160,7 +167,7 @@ public class MainFragment extends Fragment {
         List<AnywhereEntity> anywhereEntities = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
         if (anywhereEntities != null) {
             for (AnywhereEntity ae : anywhereEntities) {
-                if (ae.getCategory().equals(category)) {
+                if (ae.getCategory().equals(mCategory)) {
                     filtered.add(ae);
                 }
             }
@@ -317,10 +324,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initObserver() {
-        if (mViewModel == null) {
-            mViewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
-        }
-        mViewModel.getCardMode().observe(getViewLifecycleOwner(), s -> refreshRecyclerView());
+        getCardMode().observe(getViewLifecycleOwner(), s -> refreshRecyclerView());
         AnywhereApplication.sRepository.getAllAnywhereEntities().observe(getViewLifecycleOwner(), listObserver);
     }
 }

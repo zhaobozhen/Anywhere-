@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,7 +34,6 @@ import com.catchingnow.icebox.sdk_client.IceBox;
 import java.io.DataOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Objects;
 
 import moe.shizuku.api.ShizukuApiConstants;
 import moe.shizuku.api.ShizukuClientHelperPre23;
@@ -155,7 +155,7 @@ public class PermissionUtils {
      *
      * @param activity to bind an activity to show a dialog
      */
-    public static boolean shizukuPermissionCheck(Activity activity) {
+    public static boolean shizukuPermissionCheck(@NonNull Activity activity) {
         if (!ShizukuClientHelperPre23.isPreM()) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (ActivityCompat.checkSelfPermission(activity, ShizukuApiConstants.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
@@ -170,7 +170,7 @@ public class PermissionUtils {
                         }
                     });
                 } else {
-                    ActivityCompat.requestPermissions(Objects.requireNonNull(activity), new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
+                    ActivityCompat.requestPermissions(activity, new String[]{ShizukuApiConstants.PERMISSION}, REQUEST_CODE_PERMISSION_V3);
                 }
                 return false;
             } else {

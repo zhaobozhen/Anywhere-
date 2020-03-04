@@ -81,7 +81,7 @@ public class Opener {
                         }
                     } else {
                         final OnAppUnfreezeListener onAppUnfreezeListener = () -> {
-                            CommandUtils.execCmd(cmd);
+                            CommandUtils.execCmd((Activity) sContext.get(), cmd);
                         };
                         if (mItem.getAnywhereType() == AnywhereType.URL_SCHEME) {
                             PermissionUtils.unfreezeApp(sContext.get(), mItem.getParam2(), onAppUnfreezeListener);
@@ -90,7 +90,7 @@ public class Opener {
                         }
                     }
                 } else {
-                    CommandUtils.execCmd(cmd);
+                    CommandUtils.execCmd((Activity) sContext.get(), cmd);
                 }
             }
         } else if (type == TYPE_CMD) {
@@ -139,18 +139,18 @@ public class Opener {
     private void openCmd(String cmd) {
         String packageName = TextUtils.getPkgNameByCommand(cmd);
         if (packageName.isEmpty()) {
-            CommandUtils.execCmd(cmd);
+            CommandUtils.execCmd((Activity) sContext.get(), cmd);
         } else {
             try {
                 if (IceBox.getAppEnabledSetting(sContext.get(), packageName) != 0) {
                     PermissionUtils.unfreezeApp(sContext.get(), packageName, () ->
-                            CommandUtils.execCmd(cmd));
+                            CommandUtils.execCmd((Activity) sContext.get(), cmd));
                 } else {
-                    CommandUtils.execCmd(cmd);
+                    CommandUtils.execCmd((Activity) sContext.get(), cmd);
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
-                CommandUtils.execCmd(cmd);
+                CommandUtils.execCmd((Activity) sContext.get(), cmd);
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
                 ToastUtil.makeText(R.string.toast_wrong_cmd);

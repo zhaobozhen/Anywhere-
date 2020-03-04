@@ -108,7 +108,7 @@ public class TextUtils {
                 cmd.append(String.format(AnywhereType.DYNAMIC_PARAMS_PREFIX_FORMAT, item.getParam3()));
             }
 
-            if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
+            if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                 cmd.append(urlScheme);
             } else {
                 cmd.append(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, urlScheme));

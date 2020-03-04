@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -16,7 +17,6 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 
@@ -37,7 +37,7 @@ public class CommandUtils {
     public static String execAdbCmd(String cmd) {
         String result = null;
 
-        switch (GlobalValues.sWorkingMode) {
+        switch (GlobalValues.getWorkingMode()) {
             case Const.WORKING_MODE_SHIZUKU:
                 result = execShizukuCmd(cmd);
                 break;
@@ -58,7 +58,7 @@ public class CommandUtils {
      * @param cmd command
      */
     @SuppressLint("NewApi")
-    public static void execCmd(String cmd) {
+    public static void execCmd(Activity activity, String cmd) {
         if (cmd == null) {
             return;
         }
@@ -135,7 +135,7 @@ public class CommandUtils {
                 case CommandResult.RESULT_SHIZUKU_PERM_ERROR:
                     ToastUtil.makeText(R.string.toast_check_perm);
                     try {
-                        PermissionUtils.shizukuPermissionCheck(MainActivity.getInstance());
+                        PermissionUtils.shizukuPermissionCheck(activity);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

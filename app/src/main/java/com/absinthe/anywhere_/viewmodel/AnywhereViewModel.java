@@ -40,12 +40,9 @@ public class AnywhereViewModel extends AndroidViewModel {
     private AnywhereRepository mRepository;
     private LiveData<List<AnywhereEntity>> mAllAnywhereEntities;
 
-    private MutableLiveData<String> mWorkingMode = new MutableLiveData<>();
     private MutableLiveData<String> mBackground = new MutableLiveData<>();
     private MutableLiveData<String> mCardMode = new MutableLiveData<>();
     private MutableLiveData<Fragment> mFragment = new MutableLiveData<>();
-
-    public boolean refreshLock = false;
 
     public AnywhereViewModel(Application application) {
         super(application);
@@ -67,13 +64,6 @@ public class AnywhereViewModel extends AndroidViewModel {
 
     public void delete(AnywhereEntity ae) {
         mRepository.delete(ae);
-    }
-
-    public MutableLiveData<String> getWorkingMode() {
-        if (mWorkingMode == null) {
-            mWorkingMode = new MutableLiveData<>();
-        }
-        return mWorkingMode;
     }
 
     public MutableLiveData<String> getBackground() {
@@ -154,34 +144,31 @@ public class AnywhereViewModel extends AndroidViewModel {
     }
 
     public void checkWorkingPermission(Activity activity) {
-        if (GlobalValues.sWorkingMode != null) {
-            switch (GlobalValues.sWorkingMode) {
-                case Const.WORKING_MODE_URL_SCHEME:
-                    setUpUrlScheme(activity);
-                    break;
-                case Const.WORKING_MODE_SHIZUKU:
-                    if (!PermissionUtils.checkOverlayPermission(activity, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
-                        return;
-                    }
-                    if (PermissionUtils.checkShizukuOnWorking(activity) && PermissionUtils.shizukuPermissionCheck(activity)) {
-                        startCollector(activity);
-                    }
-                    break;
-                case Const.WORKING_MODE_ROOT:
-                    if (!PermissionUtils.checkOverlayPermission(activity, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
-                        return;
-                    }
-                    if (PermissionUtils.upgradeRootPermission(activity.getPackageCodePath())) {
-                        startCollector(activity);
-                    } else {
-                        Logger.d("ROOT permission denied.");
-                        ToastUtil.makeText(R.string.toast_root_permission_denied);
-                    }
-                    break;
-                default:
-            }
+        switch (GlobalValues.getWorkingMode()) {
+            case Const.WORKING_MODE_URL_SCHEME:
+                setUpUrlScheme(activity);
+                break;
+            case Const.WORKING_MODE_SHIZUKU:
+                if (!PermissionUtils.checkOverlayPermission(activity, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    return;
+                }
+                if (PermissionUtils.checkShizukuOnWorking(activity) && PermissionUtils.shizukuPermissionCheck(activity)) {
+                    startCollector(activity);
+                }
+                break;
+            case Const.WORKING_MODE_ROOT:
+                if (!PermissionUtils.checkOverlayPermission(activity, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
+                    return;
+                }
+                if (PermissionUtils.upgradeRootPermission(activity.getPackageCodePath())) {
+                    startCollector(activity);
+                } else {
+                    Logger.d("ROOT permission denied.");
+                    ToastUtil.makeText(R.string.toast_root_permission_denied);
+                }
+                break;
+            default:
         }
-
     }
 
     public void addPage() {

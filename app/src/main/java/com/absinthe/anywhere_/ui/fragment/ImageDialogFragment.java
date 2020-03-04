@@ -33,6 +33,8 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
     private String mUri;
     private int mWidth, mHeight;
 
+    public ImageDialogFragment() {}
+
     public ImageDialogFragment(AnywhereEntity ae) {
         this(ae, null);
     }

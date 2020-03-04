@@ -378,11 +378,11 @@ public class MainActivity extends BaseActivity {
         });
         mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
 
-        mViewModel.getWorkingMode().observe(this, s -> {
+        GlobalValues.sWorkingMode.observe(this, s -> {
             GlobalValues.setsWorkingMode(s);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         });
-        mViewModel.getWorkingMode().setValue(GlobalValues.sWorkingMode);
+        GlobalValues.sWorkingMode.setValue(GlobalValues.getWorkingMode());
         mViewModel.getFragment().observe(this, fragment -> {
             getSupportFragmentManager()
                     .beginTransaction()

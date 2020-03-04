@@ -3,8 +3,11 @@ package com.absinthe.anywhere_.model;
 import android.content.Context;
 import android.text.Html;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.utils.SPUtils;
+import com.absinthe.anywhere_.utils.TextUtils;
 
 public class GlobalValues {
     public static boolean sIsDebugMode;
@@ -15,7 +18,7 @@ public class GlobalValues {
     public static boolean sIsCollectorPlus;
     public static boolean sIsExcludeFromRecent;
 
-    public static String sWorkingMode;
+    public static MutableLiveData<String> sWorkingMode = new MutableLiveData<>();
     public static String sActionBarType;
     public static String sDarkMode;
     public static String sBackgroundUri;
@@ -39,7 +42,7 @@ public class GlobalValues {
         sIsCollectorPlus = SPUtils.getBoolean(context, Const.PREF_COLLECTOR_PLUS, false);
         sIsExcludeFromRecent = SPUtils.getBoolean(context, Const.PREF_EXCLUDE_FROM_RECENT, false);
 
-        sWorkingMode = SPUtils.getString(context, Const.PREF_WORKING_MODE);
+        sWorkingMode.setValue(SPUtils.getString(context, Const.PREF_WORKING_MODE));
         sActionBarType = SPUtils.getString(context, Const.PREF_ACTION_BAR_TYPE);
         sDarkMode = SPUtils.getString(context, Const.PREF_DARK_MODE);
         sBackgroundUri = SPUtils.getString(context, Const.PREF_CHANGE_BACKGROUND);
@@ -57,7 +60,7 @@ public class GlobalValues {
 
     public static CharSequence getInfo() {
         StringBuilder sb = new StringBuilder()
-                .append(getInfoLine("Working Mode", sWorkingMode))
+                .append(getInfoLine("Working Mode", sWorkingMode.getValue()))
                 .append(getInfoLine("Background Uri", sBackgroundUri))
                 .append(getInfoLine("ActionBar Type", sActionBarType))
                 .append(getInfoLine("Sort Mode", sSortMode))
@@ -92,7 +95,7 @@ public class GlobalValues {
     }
 
     public static void setsWorkingMode(String sWorkingMode) {
-        GlobalValues.sWorkingMode = sWorkingMode;
+        GlobalValues.sWorkingMode.setValue(sWorkingMode);
         SPUtils.putString(AnywhereApplication.sContext, Const.PREF_WORKING_MODE, sWorkingMode);
     }
 
@@ -174,5 +177,12 @@ public class GlobalValues {
     public static void setsAutoDarkModeEnd(long sAutoDarkModeEnd) {
         GlobalValues.sAutoDarkModeEnd = sAutoDarkModeEnd;
         SPUtils.putLong(AnywhereApplication.sContext, Const.PREF_AUTO_DARK_MODE_END, sAutoDarkModeEnd);
+    }
+
+    public static String getWorkingMode() {
+        if (sWorkingMode == null || TextUtils.isEmpty(sWorkingMode.getValue())) {
+            return Const.WORKING_MODE_URL_SCHEME;
+        }
+        return sWorkingMode.getValue();
     }
 }

@@ -29,6 +29,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:hardwareAccelerated="true"
+        android:largeHeap="true"
         tools:targetApi="m">
         <activity
             android:name=".ui.main.MainActivity"

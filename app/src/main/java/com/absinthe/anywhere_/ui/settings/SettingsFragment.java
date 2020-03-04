@@ -25,7 +25,6 @@ import com.absinthe.anywhere_.ui.main.MainFragment;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 
 
@@ -151,7 +150,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         mContext.startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
                         mContext.setDocumentResultListener(uri -> {
                             if (uri != null) {
-                                Logger.d("backgroundUri = " + uri);
                                 GlobalValues.setsBackgroundUri(uri.toString());
                                 GlobalValues.setsActionBarType("");
                                 if (MainActivity.isAvailable()) {
@@ -171,8 +169,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 DialogManager.showResetBackgroundDialog(mContext);
                 return true;
             case Const.PREF_HELP:
-                CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
-                        .build();
+                CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder().build();
                 tabsIntent.launchUrl(mContext, Uri.parse(URLManager.OLD_DOCUMENT_PAGE));
                 return true;
             case Const.PREF_CLEAR_SHORTCUTS:
@@ -190,9 +187,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()) {
             case Const.PREF_WORKING_MODE:
-                if (MainActivity.isAvailable()) {
-                    MainActivity.getInstance().getViewModel().getWorkingMode().setValue(newValue.toString());
-                }
+                GlobalValues.sWorkingMode.setValue((String) newValue);
                 break;
             case Const.PREF_DARK_MODE:
                 if (newValue.toString().equals(Const.DARK_MODE_AUTO)) {
@@ -204,7 +199,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 break;
             case Const.PREF_STREAM_CARD_MODE:
                 GlobalValues.setsIsStreamCardMode((boolean) newValue);
-                MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
+                MainFragment.getCardMode().setValue(newValue.toString());
 
                 SwitchPreferenceCompat streamCardSingleLinePreference = findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE);
                 if (streamCardSingleLinePreference != null) {
@@ -217,11 +212,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 return true;
             case Const.PREF_STREAM_CARD_SINGLE_LINE:
                 GlobalValues.setsIsStreamCardModeSingleLine((boolean) newValue);
-                MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
+                MainFragment.getCardMode().setValue(newValue.toString());
                 return true;
             case Const.PREF_CARD_BACKGROUND:
                 GlobalValues.setsCardBackgroundMode(newValue.toString());
-                MainFragment.getViewModelInstance().getCardMode().setValue(newValue.toString());
+                MainFragment.getCardMode().setValue(newValue.toString());
                 return true;
             case Const.PREF_COLLECTOR_PLUS:
                 GlobalValues.setsIsCollectorPlus((boolean) newValue);

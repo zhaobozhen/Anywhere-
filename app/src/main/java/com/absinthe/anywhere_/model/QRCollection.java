@@ -1,13 +1,13 @@
 package com.absinthe.anywhere_.model;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.view.accessibility.AccessibilityManager;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.IzukoService;
@@ -30,8 +30,12 @@ public class QRCollection {
         INSTANCE;
         private QRCollection instance;
 
+        Singleton(Activity activity) {
+            instance = new QRCollection(activity);
+        }
+
         Singleton() {
-            instance = new QRCollection();
+
         }
 
         public QRCollection getInstance() {
@@ -39,14 +43,14 @@ public class QRCollection {
         }
     }
 
-    private Context mContext;
+    private Activity mContext;
     private AccessibilityManager mAccessibilityManager;
     private ArrayList<AnywhereEntity> mList;
     private HashMap<String, QREntity> mMap;
     private int mPriority = 0;
 
-    private QRCollection() {
-        mContext = AnywhereApplication.sContext;
+    private QRCollection(Activity activity) {
+        mContext = activity;
         mAccessibilityManager = (AccessibilityManager) mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
 
         mList = new ArrayList<>();
@@ -159,7 +163,7 @@ public class QRCollection {
         String clsName = ".plugin.offline.ui.WalletOfflineCoinPurseUI";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatPay = new QREntity(() -> CommandUtils.execCmd(cmd));
+        wechatPay = new QREntity(() -> CommandUtils.execCmd(mContext, cmd));
 
         wechatPay.setPkgName(pkgName);
         wechatPay.setClsName(clsName);
@@ -241,7 +245,7 @@ public class QRCollection {
         String clsName = ".plugin.collect.ui.CollectMainUI";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatCollect = new QREntity(() -> CommandUtils.execCmd(cmd));
+        wechatCollect = new QREntity(() -> CommandUtils.execCmd(mContext, cmd));
 
         wechatCollect.setPkgName(pkgName);
         wechatCollect.setClsName(clsName);
@@ -450,7 +454,7 @@ public class QRCollection {
         String clsName = ".olympic.activity.ScanTorchActivity";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        qqScan = new QREntity(() -> CommandUtils.execCmd(cmd));
+        qqScan = new QREntity(() -> CommandUtils.execCmd(mContext, cmd));
 
         qqScan.setPkgName(pkgName);
         qqScan.setClsName(clsName);

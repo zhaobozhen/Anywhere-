@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Handler;
@@ -179,7 +180,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, item.getParam3(), new DynamicParamsDialogFragment.OnParamsInputListener() {
                     @Override
                     public void onFinish(String text) {
-                        if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
+                        if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                             try {
                                 URLSchemeHandler.parse(item.getParam1() + text, mContext);
                             } catch (ActivityNotFoundException e) {
@@ -187,7 +188,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                                 ToastUtil.makeText(R.string.toast_no_react_url);
                             }
                         } else {
-                            CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text);
+                            CommandUtils.execCmd((Activity) mContext, String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text);
                         }
                     }
 
@@ -248,7 +249,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
 
     public void updateSortedList() {
         new Handler().postDelayed(() -> {
-            MainFragment.getViewModelInstance().refreshLock = true;
+            MainFragment.setRefreshLock(true);
             long startTime = System.currentTimeMillis();
 
             for (int iter = 0, len = mItems.size(); iter < len; iter++) {
@@ -256,7 +257,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 item.setTimeStamp(startTime - iter * 100 + "");
                 AnywhereApplication.sRepository.update(item);
             }
-            MainFragment.getViewModelInstance().refreshLock = false;
+            MainFragment.setRefreshLock(false);
         }, 1000);
     }
 

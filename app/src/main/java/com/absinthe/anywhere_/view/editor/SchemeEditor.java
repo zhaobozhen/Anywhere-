@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.view.editor;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Build;
@@ -153,7 +154,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                             DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, dynamic, new DynamicParamsDialogFragment.OnParamsInputListener() {
                                 @Override
                                 public void onFinish(String text) {
-                                    if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
+                                    if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                                         try {
                                             URLSchemeHandler.parse(mItem.getParam1() + text, mContext);
                                         } catch (ActivityNotFoundException e) {
@@ -161,7 +162,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                             ToastUtil.makeText(R.string.toast_no_react_url);
                                         }
                                     } else {
-                                        CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, mItem.getParam1()) + text);
+                                        CommandUtils.execCmd((Activity) mContext, String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, mItem.getParam1()) + text);
                                     }
                                 }
 
@@ -171,7 +172,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                 }
                             });
                         } else {
-                            if (GlobalValues.sWorkingMode.equals(Const.WORKING_MODE_URL_SCHEME)) {
+                            if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                                 try {
                                     URLSchemeHandler.parse(mItem.getParam1(), mContext);
                                 } catch (ActivityNotFoundException e) {
@@ -179,7 +180,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                     ToastUtil.makeText(R.string.toast_no_react_url);
                                 }
                             } else {
-                                CommandUtils.execCmd(TextUtils.getItemCommand(ae));
+                                CommandUtils.execCmd((Activity) mContext, TextUtils.getItemCommand(ae));
                             }
                         }
                     }

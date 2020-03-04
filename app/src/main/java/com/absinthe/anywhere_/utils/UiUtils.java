@@ -209,7 +209,7 @@ public class UiUtils {
     public static String getActionBarTitle() {
         StringBuilder title = new StringBuilder();
 
-        switch (GlobalValues.sWorkingMode) {
+        switch (GlobalValues.getWorkingMode()) {
             case "":
                 title.append(AnywhereType.NOWHERE);
                 break;
