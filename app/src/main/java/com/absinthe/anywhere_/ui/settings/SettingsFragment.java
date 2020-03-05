@@ -62,6 +62,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         SwitchPreferenceCompat collectorPlusPreference = findPreference(Const.PREF_COLLECTOR_PLUS);
         SwitchPreferenceCompat md2Preference = findPreference(Const.PREF_MD2_TOOLBAR);
         SwitchPreferenceCompat excludePreference = findPreference(Const.PREF_EXCLUDE_FROM_RECENT);
+        SwitchPreferenceCompat showShellResultPreference = findPreference(Const.PREF_SHOW_SHELL_RESULT);
 
         if (workingModePreference != null) {
             workingModePreference.setOnPreferenceChangeListener(this);
@@ -119,6 +120,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         if (excludePreference != null) {
             excludePreference.setOnPreferenceChangeListener(this);
+        }
+        if (showShellResultPreference != null) {
+            showShellResultPreference.setOnPreferenceChangeListener(this);
         }
     }
 
@@ -233,6 +237,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 return true;
             case Const.PREF_EXCLUDE_FROM_RECENT:
                 GlobalValues.setsIsExcludeFromRecent((boolean) newValue);
+                return true;
+            case Const.PREF_SHOW_SHELL_RESULT:
+                GlobalValues.setsIsShowShellResult((boolean) newValue);
                 return true;
             default:
         }

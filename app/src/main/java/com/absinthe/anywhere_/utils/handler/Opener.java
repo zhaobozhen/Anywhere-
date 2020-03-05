@@ -12,6 +12,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
@@ -121,15 +122,19 @@ public class Opener {
             } else if (mCmd.startsWith(AnywhereType.SHELL_PREFIX)) {
                 mCmd = mCmd.replace(AnywhereType.SHELL_PREFIX, "");
                 String result = CommandUtils.execAdbCmd(mCmd);
-                DialogManager.showShellResultDialog(sContext.get(), result, (dialog, which) -> {
-                    if (mListener != null) {
-                        mListener.onOpened();
-                    }
-                }, dialog -> {
-                    if (mListener != null) {
-                        mListener.onOpened();
-                    }
-                });
+                if (GlobalValues.sIsShowShellResult) {
+                    DialogManager.showShellResultDialog(sContext.get(), result, (dialog, which) -> {
+                        if (mListener != null) {
+                            mListener.onOpened();
+                        }
+                    }, dialog -> {
+                        if (mListener != null) {
+                            mListener.onOpened();
+                        }
+                    });
+                } else {
+                    mListener.onOpened();
+                }
             } else {
                 openCmd(mCmd);
             }

@@ -50,7 +50,7 @@ public class WebviewFragment extends Fragment {
         if (getArguments() != null) {
             mUri = getArguments().getString(BUNDLE_URI);
         } else {
-            mUri = URLManager.DOCUMENT_PAGE;
+            mUri = URLManager.OLD_DOCUMENT_PAGE;
         }
     }
 

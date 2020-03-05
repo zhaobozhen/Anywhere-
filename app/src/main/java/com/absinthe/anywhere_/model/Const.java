@@ -40,6 +40,7 @@ public class Const {
     public static final String PREF_CURR_PAGE_NUM = "currPageNum";
     public static final String PREF_COLLECTOR_PLUS = "collectorPlus";
     public static final String PREF_EXCLUDE_FROM_RECENT = "excludeFromRecent";
+    public static final String PREF_SHOW_SHELL_RESULT = "showShellResult";
     public static final String PREF_DUMP_INTERVAL = "dumpInterval";
     public static final String PREF_AUTO_DARK_MODE_START = "autoDarkModeStart";
     public static final String PREF_AUTO_DARK_MODE_END = "autoDarkModeEnd";

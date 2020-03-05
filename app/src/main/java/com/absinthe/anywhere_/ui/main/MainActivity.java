@@ -154,6 +154,11 @@ public class MainActivity extends BaseActivity {
             mBinding.fab.setVisibility(View.GONE);
             WelcomeFragment welcomeFragment = WelcomeFragment.newInstance();
             mViewModel.getFragment().setValue(welcomeFragment);
+            AnywhereEntity helpCard = AnywhereEntity.Builder();
+            helpCard.setAppName(getString(R.string.help_card_title));
+            helpCard.setType(AnywhereType.URL_SCHEME);
+            helpCard.setParam1(URLManager.OLD_DOCUMENT_PAGE);
+            mViewModel.insert(helpCard);
         } else {
             MainFragment mainFragment = MainFragment.newInstance(GlobalValues.sCategory);
             mViewModel.getFragment().setValue(mainFragment);
@@ -379,7 +384,6 @@ public class MainActivity extends BaseActivity {
         mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
 
         GlobalValues.sWorkingMode.observe(this, s -> {
-            GlobalValues.setsWorkingMode(s);
             UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
         });
         GlobalValues.sWorkingMode.setValue(GlobalValues.getWorkingMode());

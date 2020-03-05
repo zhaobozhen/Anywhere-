@@ -16,6 +16,7 @@
     <string name="notification_channel_collector" translatable="false">Collector</string>
     <string name="notification_collector_title">Collector is running</string>
     <string name="notification_collector_content">This notification can be ignored</string>
+    <string name="help_card_title">Help Docs</string>
 
     <!--  About page  -->
     <string name="slogan">Anywhere- To Where You Want to</string>
@@ -126,6 +127,7 @@
     <string name="settings_tiles">Tiles</string>
     <string name="settings_collector_plus" translatable="false">Collector+</string>
     <string name="settings_exclude_from_recent">Exclude from Recent</string>
+    <string name="settings_show_shell_result">Show Shell Result</string>
     <string name="settings_lab">Lab</string>
     <string name="settings_help">Help</string>
     <string name="settings_about">About</string>
@@ -145,6 +147,7 @@
     <string name="settings_tiles_summary">Quickly open an Anywhere- on Notification bar</string>
     <string name="settings_collector_plus_summary">Display current Activity info while using Collector</string>
     <string name="settings_exclude_from_recent_summary">Not displayed in the recent apps list after exiting the app</string>
+    <string name="settings_show_shell_result_summary">Show a Dialog to notify result after executing a shell command</string>
     <string name="settings_lab_summary">Experimental features</string>
     <string name="settings_help_summary">Help document</string>
     <string name="settings_about_summary">This is Anywhere- !</string>
@@ -192,6 +195,7 @@
     <string name="toast_grant_accessibility">Please turn on Accessibility service</string>
     <string name="toast_file_uri_exposed">Do not support custom file paths</string>
     <string name="toast_security_exception">Activity is forbidden to open</string>
+    <string name="toast_execute_shell_successful">Executing Shell successful</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>

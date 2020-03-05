@@ -17,6 +17,7 @@ public class GlobalValues {
     public static boolean sIsPages;
     public static boolean sIsCollectorPlus;
     public static boolean sIsExcludeFromRecent;
+    public static boolean sIsShowShellResult;
 
     public static MutableLiveData<String> sWorkingMode = new MutableLiveData<>();
     public static String sActionBarType;
@@ -41,6 +42,7 @@ public class GlobalValues {
         sIsPages = SPUtils.getBoolean(context, Const.PREF_PAGES, false);
         sIsCollectorPlus = SPUtils.getBoolean(context, Const.PREF_COLLECTOR_PLUS, false);
         sIsExcludeFromRecent = SPUtils.getBoolean(context, Const.PREF_EXCLUDE_FROM_RECENT, false);
+        sIsShowShellResult = SPUtils.getBoolean(context, Const.PREF_SHOW_SHELL_RESULT, false);
 
         sWorkingMode.setValue(SPUtils.getString(context, Const.PREF_WORKING_MODE));
         sActionBarType = SPUtils.getString(context, Const.PREF_ACTION_BAR_TYPE);
@@ -167,6 +169,11 @@ public class GlobalValues {
     public static void setsIsExcludeFromRecent(boolean sIsExcludeFromRecent) {
         GlobalValues.sIsExcludeFromRecent = sIsExcludeFromRecent;
         SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_EXCLUDE_FROM_RECENT, sIsExcludeFromRecent);
+    }
+
+    public static void setsIsShowShellResult(boolean sIsShowShellResult) {
+        GlobalValues.sIsShowShellResult = sIsShowShellResult;
+        SPUtils.putBoolean(AnywhereApplication.sContext, Const.PREF_SHOW_SHELL_RESULT, sIsShowShellResult);
     }
 
     public static void setsAutoDarkModeStart(long sAutoDarkModeStart) {

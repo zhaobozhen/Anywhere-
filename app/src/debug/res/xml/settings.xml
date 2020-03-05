@@ -124,6 +124,13 @@
             android:icon="@drawable/ic_visibility_off"
             app:defaultValue="false" />
 
+        <SwitchPreferenceCompat
+            app:key="showShellResult"
+            app:title="@string/settings_show_shell_result"
+            android:summary="@string/settings_show_shell_result_summary"
+            android:icon="@drawable/ic_code_setting"
+            app:defaultValue="false" />
+
         <Preference
             app:key="lab"
             app:title="@string/settings_lab"

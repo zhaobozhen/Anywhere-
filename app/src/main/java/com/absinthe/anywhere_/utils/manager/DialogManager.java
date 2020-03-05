@@ -280,6 +280,11 @@ public class DialogManager {
     }
 
     public static void showShellResultDialog(Context context, String result, DialogInterface.OnClickListener posListener, DialogInterface.OnCancelListener cancelListener) {
+        if (!GlobalValues.sIsShowShellResult) {
+            ToastUtil.makeText(R.string.toast_execute_shell_successful);
+            return;
+        }
+
         AnywhereDialogBuilder builder = new AnywhereDialogBuilder(context);
         builder.setTitle(R.string.dialog_shell_result_title)
                 .setMessage(result)

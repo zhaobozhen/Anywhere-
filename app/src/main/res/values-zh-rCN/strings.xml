@@ -279,4 +279,8 @@
     <string name="btn_add_advanced_card">高级卡片</string>
     <string name="dialog_add_shortcut_anymore_button">仍要添加</string>
     <string name="toast_security_exception">Activity 被阻止访问</string>
+    <string name="help_card_title">帮助文档</string>
+    <string name="settings_show_shell_result">展示 Shell 结果</string>
+    <string name="settings_show_shell_result_summary">显示一个对话框来通知 Shell 执行结果</string>
+    <string name="toast_execute_shell_successful">Shell 执行成功</string>
 </resources>
