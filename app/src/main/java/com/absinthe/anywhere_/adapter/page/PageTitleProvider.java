@@ -12,7 +12,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
-import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
@@ -90,7 +90,7 @@ public class PageTitleProvider extends BaseNodeProvider {
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.rename_page:
-                        DialogManager.showRenameDialog(MainActivity.getInstance(), node.getTitle());
+                        DialogManager.showRenameDialog(ActivityStackManager.getInstance().getTopActivity(), node.getTitle());
                         break;
                     case R.id.delete_page:
                         DialogManager.showDeletePageDialog(getContext(), node.getTitle(), (dialog1, which) -> {

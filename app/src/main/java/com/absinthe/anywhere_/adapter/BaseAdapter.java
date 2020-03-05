@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.adapter;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Handler;
@@ -188,7 +187,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                                 ToastUtil.makeText(R.string.toast_no_react_url);
                             }
                         } else {
-                            CommandUtils.execCmd((Activity) mContext, String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text);
+                            CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text);
                         }
                     }
 

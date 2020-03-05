@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.view.editor;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Build;
@@ -162,7 +161,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                             ToastUtil.makeText(R.string.toast_no_react_url);
                                         }
                                     } else {
-                                        CommandUtils.execCmd((Activity) mContext, String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, mItem.getParam1()) + text);
+                                        CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, mItem.getParam1()) + text);
                                     }
                                 }
 
@@ -180,7 +179,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                     ToastUtil.makeText(R.string.toast_no_react_url);
                                 }
                             } else {
-                                CommandUtils.execCmd((Activity) mContext, TextUtils.getItemCommand(ae));
+                                CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                             }
                         }
                     }

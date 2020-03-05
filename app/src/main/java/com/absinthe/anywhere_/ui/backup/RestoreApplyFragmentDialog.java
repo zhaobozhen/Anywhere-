@@ -17,7 +17,6 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.PageEntity;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -81,7 +80,7 @@ public class RestoreApplyFragmentDialog extends AnywhereDialogFragment {
                                 AnywhereApplication.sRepository.insertPage(pe);
                             }
                         }
-                        MainActivity.getInstance().getViewModel().insert(ae);
+                        AnywhereApplication.sRepository.insert(ae);
                     }
                     if (INSERT_CORRECT) {
                         ToastUtil.makeText(getString(R.string.toast_restore_success));

@@ -216,4 +216,17 @@ public class AppUtils {
         // Check for the freshest data.
         context.getContentResolver().takePersistableUriPermission(uri, takeFlags);
     }
+
+    /**
+     * Restart App
+     *
+     */
+    public static void restart() {
+        Intent intent = AnywhereApplication.sContext.getPackageManager()
+                .getLaunchIntentForPackage(AnywhereApplication.sContext.getPackageName());
+        if (intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            AnywhereApplication.sContext.startActivity(intent);
+        }
+    }
 }

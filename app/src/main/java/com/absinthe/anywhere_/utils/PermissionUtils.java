@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
@@ -339,7 +340,7 @@ public class PermissionUtils {
                         if (context instanceof ShortcutsActivity) {
                             context.startActivity(new Intent(context, MainActivity.class));
                             new Handler(Looper.getMainLooper()).postDelayed(() ->
-                                    DialogManager.showGrantPrivilegedPermDialog(MainActivity.getInstance()), 200);
+                                    DialogManager.showGrantPrivilegedPermDialog(ActivityStackManager.getInstance().getTopActivity()), 200);
                         } else {
                             DialogManager.showGrantPrivilegedPermDialog((AppCompatActivity) context);
                         }

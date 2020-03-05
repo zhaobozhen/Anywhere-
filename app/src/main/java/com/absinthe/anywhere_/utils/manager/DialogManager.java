@@ -28,13 +28,12 @@ import com.absinthe.anywhere_.ui.fragment.IceBoxGrantDialogFragment;
 import com.absinthe.anywhere_.ui.fragment.ImageDialogFragment;
 import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment;
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.RenameFragmentDialog;
 import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment;
 import com.absinthe.anywhere_.ui.settings.IntervalDialogFragment;
-import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.ui.settings.TimePickerDialogFragment;
 import com.absinthe.anywhere_.ui.shortcuts.CreateShortcutDialogFragment;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -58,12 +57,7 @@ public class DialogManager {
                 .setMessage(R.string.dialog_reset_background_confirm_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button, (dialogInterface, i) -> {
                     GlobalValues.setsBackgroundUri("");
-                    if (MainActivity.isAvailable()) {
-                        MainActivity.getInstance().restartActivity();
-                    }
-                    if (SettingsActivity.isAvailable()) {
-                        SettingsActivity.getInstance().finish();
-                    }
+                    AppUtils.restart();
                 })
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show();

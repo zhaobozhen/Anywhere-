@@ -16,12 +16,16 @@ import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
+
+import java.lang.ref.WeakReference;
 
 @SuppressLint("Registered")
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected Toolbar mToolbar;
+    private WeakReference<BaseActivity> reference;
     private OnDocumentResultListener mListener;
 
     protected abstract void setViewBinding();
@@ -32,8 +36,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Logger.i(this.getClass().getSimpleName(), "onCreate");
+
+        reference = new WeakReference<>(this);
+        ActivityStackManager.getInstance().addActivity(reference);
+
         setViewBinding();
         initView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ActivityStackManager.getInstance().removeActivity(reference);
+        super.onDestroy();
     }
 
     protected void initView() {
@@ -54,12 +68,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    public void restartActivity() {
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
     }
 
     public void setDocumentResultListener(OnDocumentResultListener listener) {

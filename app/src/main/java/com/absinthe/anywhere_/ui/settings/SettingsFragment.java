@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.settings;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +19,8 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.main.MainFragment;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
@@ -156,11 +155,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                             if (uri != null) {
                                 GlobalValues.setsBackgroundUri(uri.toString());
                                 GlobalValues.setsActionBarType("");
-                                if (MainActivity.isAvailable()) {
-                                    MainActivity.getInstance().getViewModel().getBackground().setValue(uri.toString());
-                                    MainActivity.getInstance().restartActivity();
-                                    mContext.finish();
-                                }
+                                AppUtils.restart();
                             }
                         });
                     }
@@ -230,10 +225,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 return true;
             case Const.PREF_MD2_TOOLBAR:
                 GlobalValues.setsIsMd2Toolbar((boolean) newValue);
-                if (MainActivity.isAvailable()) {
-                    MainActivity.getInstance().restartActivity();
-                }
-                ((Activity) mContext).finish();
+                AppUtils.restart();
                 return true;
             case Const.PREF_EXCLUDE_FROM_RECENT:
                 GlobalValues.setsIsExcludeFromRecent((boolean) newValue);

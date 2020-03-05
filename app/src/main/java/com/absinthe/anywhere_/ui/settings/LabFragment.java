@@ -9,7 +9,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
-import com.absinthe.anywhere_.ui.main.MainActivity;
+import com.absinthe.anywhere_.utils.AppUtils;
 
 public class LabFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
@@ -43,13 +43,7 @@ public class LabFragment extends PreferenceFragmentCompat implements Preference.
         switch (preference.getKey()) {
             case Const.PREF_PAGES:
                 GlobalValues.setsIsPages((boolean) newValue);
-                if (MainActivity.isAvailable()) {
-                    MainActivity.getInstance().restartActivity();
-                }
-                requireActivity().finish();
-                if (SettingsActivity.isAvailable()) {
-                    SettingsActivity.getInstance().finish();
-                }
+                AppUtils.restart();
                 return true;
             default:
                 break;

@@ -91,7 +91,7 @@ public class ShortcutsActivity extends AppCompatActivity {
                 }
             } else if (action.equals(ACTION_START_QR_CODE)) {
                 String id = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
-                CommandUtils.execCmd(this, id);
+                CommandUtils.execCmd(id);
                 finish();
             } else if (action.equals(Intent.ACTION_CREATE_SHORTCUT)) {
                 viewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
@@ -157,7 +157,7 @@ public class ShortcutsActivity extends AppCompatActivity {
                                 ae.setParam3(param3);
                                 ae.setType(AnywhereType.ACTIVITY);
 
-                                CommandUtils.execCmd(this, TextUtils.getItemCommand(ae));
+                                CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                             }
                         }
                     }

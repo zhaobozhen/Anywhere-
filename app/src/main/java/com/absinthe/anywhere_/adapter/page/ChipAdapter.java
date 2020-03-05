@@ -11,10 +11,10 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.google.android.material.chip.Chip;
 
@@ -53,12 +53,12 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
         holder.chip.setOnClickListener(v -> {
             AnywhereEntity ae = mList.get(position);
             if (ae.getAnywhereType() == AnywhereType.IMAGE) {
-                DialogManager.showImageDialog(MainActivity.getInstance(), ae);
+                DialogManager.showImageDialog(ActivityStackManager.getInstance().getTopActivity(), ae);
             } else if (ae.getAnywhereType() == AnywhereType.SHELL) {
                 String result = CommandUtils.execAdbCmd(ae.getParam1());
-                DialogManager.showShellResultDialog(MainActivity.getInstance(), result, null, null);
+                DialogManager.showShellResultDialog(ActivityStackManager.getInstance().getTopActivity(), result, null, null);
             } else {
-                CommandUtils.execCmd(MainActivity.getInstance(), TextUtils.getItemCommand(ae));
+                CommandUtils.execCmd(TextUtils.getItemCommand(ae));
             }
         });
     }
@@ -68,7 +68,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
         return mList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private Chip chip;
 
         ViewHolder(@NonNull View itemView) {

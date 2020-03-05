@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.view.editor;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 
@@ -149,7 +148,7 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                         ae.setType(mItem.getType());
                         ae.setTimeStamp(mItem.getTimeStamp());
 
-                        CommandUtils.execCmd((Activity) mContext, TextUtils.getItemCommand(ae));
+                        CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                     }
                 }
             });

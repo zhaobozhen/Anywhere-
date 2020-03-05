@@ -160,7 +160,7 @@ public class QRCollection {
         String clsName = ".plugin.offline.ui.WalletOfflineCoinPurseUI";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatPay = new QREntity(() -> CommandUtils.execCmd(MainActivity.getInstance(), cmd));
+        wechatPay = new QREntity(() -> CommandUtils.execCmd(cmd));
 
         wechatPay.setPkgName(pkgName);
         wechatPay.setClsName(clsName);
@@ -242,7 +242,7 @@ public class QRCollection {
         String clsName = ".plugin.collect.ui.CollectMainUI";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatCollect = new QREntity(() -> CommandUtils.execCmd(MainActivity.getInstance(), cmd));
+        wechatCollect = new QREntity(() -> CommandUtils.execCmd(cmd));
 
         wechatCollect.setPkgName(pkgName);
         wechatCollect.setClsName(clsName);
@@ -451,7 +451,7 @@ public class QRCollection {
         String clsName = ".olympic.activity.ScanTorchActivity";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        qqScan = new QREntity(() -> CommandUtils.execCmd(MainActivity.getInstance(), cmd));
+        qqScan = new QREntity(() -> CommandUtils.execCmd(cmd));
 
         qqScan.setPkgName(pkgName);
         qqScan.setClsName(clsName);

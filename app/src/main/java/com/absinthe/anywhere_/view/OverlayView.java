@@ -59,7 +59,7 @@ public class OverlayView extends LinearLayout {
         mBuilder.ivIcon.setOnClickListener(v -> {
             Logger.d("Overlay window clicked!");
 
-            CommandUtils.execCmd(MainActivity.getInstance(), mCommand);
+            CommandUtils.execCmd(mCommand);
         });
 
         mBuilder.ivIcon.setOnTouchListener(new OnTouchListener() {
