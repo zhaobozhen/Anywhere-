@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.utils.handler;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
@@ -14,6 +13,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
+import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.PermissionUtils;
@@ -78,12 +78,11 @@ public class Opener {
                         if (PermissionUtils.isMIUI()) {
                             DialogManager.showGrantPrivilegedPermDialog((AppCompatActivity) sContext.get());
                         } else {
-                            ActivityCompat.requestPermissions((Activity) sContext.get(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
+                            ActivityCompat.requestPermissions(MainActivity.getInstance(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
                         }
                     } else {
-                        final OnAppUnfreezeListener onAppUnfreezeListener = () -> {
-                            CommandUtils.execCmd((Activity) sContext.get(), cmd);
-                        };
+                        final OnAppUnfreezeListener onAppUnfreezeListener = () ->
+                                CommandUtils.execCmd(MainActivity.getInstance(), cmd);
                         if (mItem.getAnywhereType() == AnywhereType.URL_SCHEME) {
                             PermissionUtils.unfreezeApp(sContext.get(), mItem.getParam2(), onAppUnfreezeListener);
                         } else {
@@ -91,7 +90,7 @@ public class Opener {
                         }
                     }
                 } else {
-                    CommandUtils.execCmd((Activity) sContext.get(), cmd);
+                    CommandUtils.execCmd(MainActivity.getInstance(), cmd);
                 }
             }
         } else if (type == TYPE_CMD) {
@@ -103,7 +102,7 @@ public class Opener {
                 int splitIndex = mCmd.indexOf(']');
                 String param = mCmd.substring(0, splitIndex);
                 mCmd = mCmd.substring(splitIndex + 1);
-                DialogManager.showDynamicParamsDialog((AppCompatActivity) sContext.get(), param, new DynamicParamsDialogFragment.OnParamsInputListener() {
+                DialogManager.showDynamicParamsDialog(MainActivity.getInstance(), param, new DynamicParamsDialogFragment.OnParamsInputListener() {
                     @Override
                     public void onFinish(String text) {
                         openCmd(mCmd + text);
@@ -144,18 +143,18 @@ public class Opener {
     private void openCmd(String cmd) {
         String packageName = TextUtils.getPkgNameByCommand(cmd);
         if (packageName.isEmpty()) {
-            CommandUtils.execCmd((Activity) sContext.get(), cmd);
+            CommandUtils.execCmd(MainActivity.getInstance(), cmd);
         } else {
             try {
                 if (IceBox.getAppEnabledSetting(sContext.get(), packageName) != 0) {
                     PermissionUtils.unfreezeApp(sContext.get(), packageName, () ->
-                            CommandUtils.execCmd((Activity) sContext.get(), cmd));
+                            CommandUtils.execCmd(MainActivity.getInstance(), cmd));
                 } else {
-                    CommandUtils.execCmd((Activity) sContext.get(), cmd);
+                    CommandUtils.execCmd(MainActivity.getInstance(), cmd);
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
-                CommandUtils.execCmd((Activity) sContext.get(), cmd);
+                CommandUtils.execCmd(MainActivity.getInstance(), cmd);
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
                 ToastUtil.makeText(R.string.toast_wrong_cmd);
