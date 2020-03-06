@@ -87,7 +87,6 @@ public class MainActivity extends BaseActivity {
 
     private static MainActivity sInstance;
     private static boolean isPageInit = false;
-
     private AnywhereViewModel mViewModel;
     private FirebaseAnalytics mFirebaseAnalytics;
 

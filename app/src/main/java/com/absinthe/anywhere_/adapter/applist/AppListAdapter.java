@@ -47,7 +47,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
     public AppListAdapter(Context context, int mode) {
         mContext = context;
         mList = new ArrayList<>();
-        this.mMode = mode;
+        mMode = mode;
     }
 
     @NonNull
