@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:divider="@drawable/bg_widget_list_divider"
         android:dividerHeight="1dp"
-        android:paddingBottom="20dp" />
+        android:layout_marginTop="1dp"
+        android:paddingBottom="15dp"
+        android:scrollbars="none" />
 
 </LinearLayout>

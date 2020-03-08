@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -68,8 +66,6 @@ import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
@@ -92,7 +88,6 @@ public class MainActivity extends BaseActivity {
 
     private ActionBarDrawerToggle mToggle;
     private ItemTouchHelper mItemTouchHelper;
-    private Drawable mDrawableBack;
 
     public static MainActivity getInstance() {
         return sInstance;
@@ -382,9 +377,8 @@ public class MainActivity extends BaseActivity {
         });
         mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
 
-        GlobalValues.sWorkingMode.observe(this, s -> {
-            UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle());
-        });
+        GlobalValues.sWorkingMode.observe(this, s ->
+                UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle()));
         GlobalValues.sWorkingMode.setValue(GlobalValues.getWorkingMode());
         mViewModel.getFragment().observe(this, fragment -> {
             getSupportFragmentManager()
@@ -526,47 +520,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loadBackground(String url) {
-        if (mDrawableBack == null) {
-            Glide.with(this)
-                    .load(url)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(new CustomTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                            mDrawableBack = resource;
-                            try {
-                                mBinding.ivBack.setImageDrawable(resource);
-                            } catch (RuntimeException e) {
-                                e.printStackTrace();
-                                ToastUtil.makeText("Image too large :(");
-                            }
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                        }
-                    });
-        } else {
-            Glide.with(this)
-                    .load(url)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .placeholder(mDrawableBack)
-                    .into(new CustomTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                            mDrawableBack = resource;
-                            mBinding.ivBack.setImageDrawable(resource);
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                        }
-                    });
-        }
+        Glide.with(this)
+                .load(url)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into(mBinding.ivBack);
     }
 
     @Override
