@@ -42,7 +42,7 @@ public class ShortcutsUtils {
         Intent intent = new Intent(AnywhereApplication.sContext, ShortcutsActivity.class);
         if (ae.getAnywhereType() == AnywhereType.QR_CODE) {
             intent.setAction(ShortcutsActivity.ACTION_START_QR_CODE);
-            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam2());
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.QRCODE_PREFIX + ae.getParam2());
         } else if (ae.getAnywhereType() == AnywhereType.IMAGE) {
             intent.setAction(ShortcutsActivity.ACTION_START_IMAGE);
             intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());

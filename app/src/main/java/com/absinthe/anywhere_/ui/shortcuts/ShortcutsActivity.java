@@ -45,6 +45,7 @@ public class ShortcutsActivity extends BaseActivity {
         AnywhereViewModel viewModel = new ViewModelProvider(this).get(AnywhereViewModel.class);
         Intent i = getIntent();
         String action = i.getAction();
+        Logger.d("action=",action);
 
         if (action != null) {
             if (action.equals(ACTION_START_COLLECTOR)) {
@@ -57,6 +58,7 @@ public class ShortcutsActivity extends BaseActivity {
             } else if (action.equals(ACTION_START_COMMAND)) {
                 String cmd = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
                 if (cmd != null) {
+                    Logger.d(cmd);
                     if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
                             cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
                         Opener.with(this)
@@ -88,6 +90,7 @@ public class ShortcutsActivity extends BaseActivity {
                 }
             } else if (action.equals(ACTION_START_QR_CODE)) {
                 String id = i.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD);
+                Logger.d(id);
                 CommandUtils.execCmd(id);
                 finish();
             } else if (action.equals(Intent.ACTION_CREATE_SHORTCUT)) {
