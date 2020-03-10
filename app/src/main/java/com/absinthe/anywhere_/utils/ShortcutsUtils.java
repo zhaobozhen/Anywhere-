@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
+import com.blankj.utilcode.util.ConvertUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class ShortcutsUtils {
         List<ShortcutInfo> infos = new ArrayList<>();
         ShortcutInfo info = new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getId())
                 .setShortLabel(ae.getAppName())
-                .setIcon(Icon.createWithBitmap(UiUtils.drawableToBitmap(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
+                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
                 .setIntent(intent)
                 .build();
         infos.add(info);
@@ -96,7 +97,7 @@ public class ShortcutsUtils {
             ShortcutInfo pinShortcutInfo =
                     new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getId())
                             .setShortLabel(name)
-                            .setIcon(Icon.createWithBitmap(UiUtils.drawableToBitmap(icon)))
+                            .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(icon)))
                             .setIntent(intent)
                             .build();
 

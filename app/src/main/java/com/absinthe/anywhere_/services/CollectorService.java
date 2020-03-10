@@ -25,6 +25,8 @@ import com.absinthe.anywhere_.utils.NotificationUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.PermissionUtils;
 
 public class CollectorService extends Service {
     public static final String COMMAND = "COMMAND";
@@ -128,6 +130,25 @@ public class CollectorService extends Service {
     }
 
     public static void startCollector(Context context) {
+        if (!PermissionUtils.isGrantedDrawOverlays()) {
+            ToastUtil.makeText(R.string.toast_permission_overlap);
+            PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
+                @Override
+                public void onGranted() {
+                    startCollectorImpl(context);
+                }
+
+                @Override
+                public void onDenied() {
+
+                }
+            });
+        } else {
+            startCollectorImpl(context);
+        }
+    }
+
+    private static void startCollectorImpl(Context context) {
         Intent intent = new Intent(context, CollectorService.class);
         intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
 
@@ -139,11 +160,7 @@ public class CollectorService extends Service {
         }
 
         ToastUtil.makeText(R.string.toast_collector_opened);
-
-        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-        homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        homeIntent.addCategory(Intent.CATEGORY_HOME);
-        context.startActivity(homeIntent);
+        ActivityUtils.startHomeActivity();
     }
 
     public static void closeCollector(Context context) {

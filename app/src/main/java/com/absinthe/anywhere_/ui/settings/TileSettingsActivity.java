@@ -20,12 +20,12 @@ import com.absinthe.anywhere_.services.TileOneService;
 import com.absinthe.anywhere_.services.TileThreeService;
 import com.absinthe.anywhere_.services.TileTwoService;
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment;
-import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
+import com.blankj.utilcode.util.ServiceUtils;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class TileSettingsActivity extends BaseActivity {
                             tileLabel = Const.PREF_TILE_ONE_LABEL;
                             tileCmd = Const.PREF_TILE_ONE_CMD;
 
-                            if (!AppUtils.isServiceRunning(mContext, TileOneService.class.getName())) {
+                            if (!ServiceUtils.isServiceRunning(TileOneService.class)) {
                                 startService(new Intent(mContext, TileOneService.class));
                             }
                             break;
@@ -92,7 +92,7 @@ public class TileSettingsActivity extends BaseActivity {
                             tileLabel = Const.PREF_TILE_TWO_LABEL;
                             tileCmd = Const.PREF_TILE_TWO_CMD;
 
-                            if (!AppUtils.isServiceRunning(mContext, TileTwoService.class.getName())) {
+                            if (!ServiceUtils.isServiceRunning(TileTwoService.class)) {
                                 startService(new Intent(mContext, TileTwoService.class));
                             }
                             break;
@@ -101,7 +101,7 @@ public class TileSettingsActivity extends BaseActivity {
                             tileLabel = Const.PREF_TILE_THREE_LABEL;
                             tileCmd = Const.PREF_TILE_THREE_CMD;
 
-                            if (!AppUtils.isServiceRunning(mContext, TileThreeService.class.getName())) {
+                            if (!ServiceUtils.isServiceRunning(TileThreeService.class)) {
                                 startService(new Intent(mContext, TileThreeService.class));
                             }
                             break;

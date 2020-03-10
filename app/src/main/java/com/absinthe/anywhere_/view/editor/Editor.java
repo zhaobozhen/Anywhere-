@@ -18,7 +18,6 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.OnceTag;
 import com.absinthe.anywhere_.services.OverlayService;
-import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -26,6 +25,7 @@ import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.view.AnywhereBottomSheetDialog;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 
@@ -189,31 +189,39 @@ public abstract class Editor<T extends Editor<?>> {
     }
 
     private void startOverlay(String cmd) {
-        if (PermissionUtils.checkOverlayPermission(mContext)) {
-            Intent intent = new Intent(mContext, OverlayService.class);
-            intent.putExtra(OverlayService.COMMAND, OverlayService.COMMAND_OPEN);
-            intent.putExtra(OverlayService.COMMAND_STR, cmd);
-            String pkgName;
-            if (mEditorType == URL_SCHEME) {
-                pkgName = mItem.getParam2();
-            } else {
-                pkgName = mItem.getParam1();
+        PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
+            @Override
+            public void onGranted() {
+                Intent intent = new Intent(mContext, OverlayService.class);
+                intent.putExtra(OverlayService.COMMAND, OverlayService.COMMAND_OPEN);
+                intent.putExtra(OverlayService.COMMAND_STR, cmd);
+                String pkgName;
+                if (mEditorType == URL_SCHEME) {
+                    pkgName = mItem.getParam2();
+                } else {
+                    pkgName = mItem.getParam1();
+                }
+                intent.putExtra(OverlayService.PKG_NAME, pkgName);
+                mContext.startService(intent);
+
+                mBottomSheetDialog.dismiss();
+
+                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                homeIntent.addCategory(Intent.CATEGORY_HOME);
+                mContext.startActivity(homeIntent);
+
+                if (!Once.beenDone(OnceTag.OVERLAY_TIP)) {
+                    ToastUtil.makeText(R.string.toast_overlay_tip);
+                    Once.markDone(OnceTag.OVERLAY_TIP);
+                }
             }
-            intent.putExtra(OverlayService.PKG_NAME, pkgName);
-            mContext.startService(intent);
 
-            mBottomSheetDialog.dismiss();
+            @Override
+            public void onDenied() {
 
-            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-            homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            homeIntent.addCategory(Intent.CATEGORY_HOME);
-            mContext.startActivity(homeIntent);
-
-            if (!Once.beenDone(OnceTag.OVERLAY_TIP)) {
-                ToastUtil.makeText(R.string.toast_overlay_tip);
-                Once.markDone(OnceTag.OVERLAY_TIP);
             }
-        }
+        });
     }
 
     private void setMoreButton() {

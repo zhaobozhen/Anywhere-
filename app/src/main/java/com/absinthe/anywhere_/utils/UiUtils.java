@@ -11,11 +11,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -60,6 +58,7 @@ import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
+import com.blankj.utilcode.util.ConvertUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -109,9 +108,9 @@ public class UiUtils {
                 apkTempPackageName = item.getParam1();
                 return getAppIconByPackageName(context, apkTempPackageName);
             case AnywhereType.IMAGE:
-                return ContextCompat.getDrawable(context, R.drawable.ic_photo);
+                return context.getDrawable(R.drawable.ic_photo);
             case AnywhereType.SHELL:
-                return ContextCompat.getDrawable(context, R.drawable.ic_code);
+                return context.getDrawable(R.drawable.ic_code);
         }
 
         return context.getDrawable(R.drawable.ic_logo);
@@ -342,7 +341,7 @@ public class UiUtils {
             return;
         }
 
-        Bitmap bitmap = drawableToBitmap(drawable);
+        Bitmap bitmap = ConvertUtils.drawable2Bitmap(drawable);
         if (bitmap == null) {
             return;
         }
@@ -371,7 +370,7 @@ public class UiUtils {
             return;
         }
 
-        Bitmap bitmap = drawableToBitmap(drawable);
+        Bitmap bitmap = ConvertUtils.drawable2Bitmap(drawable);
         if (bitmap == null) {
             return;
         }
@@ -439,7 +438,7 @@ public class UiUtils {
             GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
             activity.invalidateOptionsMenu();
 
-            clearLightStatusBarAndNavigationBar(activity.getWindow().getDecorView());
+            StatusBarUtil.clearLightStatusBarAndNavigationBar(activity.getWindow().getDecorView());
         }
     }
 
@@ -504,37 +503,6 @@ public class UiUtils {
     }
 
     /**
-     * transform drawable object to a bitmap object
-     *
-     * @param drawable our target
-     */
-    public static Bitmap drawableToBitmap(@NonNull Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-        Bitmap bitmap;
-        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1,
-                    drawable.getOpacity() != PixelFormat.OPAQUE
-                            ? Bitmap.Config.ARGB_8888
-                            : Bitmap.Config.RGB_565);
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                    drawable.getIntrinsicHeight(),
-                    drawable.getOpacity() != PixelFormat.OPAQUE
-                            ? Bitmap.Config.ARGB_8888
-                            : Bitmap.Config.RGB_565);
-        }
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
-    /**
      * Set visibility of a view
      *
      * @param view          our target
@@ -590,24 +558,6 @@ public class UiUtils {
 //                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(view);
-    }
-
-    /**
-     * Clear light status bar state
-     *
-     * @param view decor view
-     */
-    public static void clearLightStatusBarAndNavigationBar(@NonNull View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int flags = view.getSystemUiVisibility();
-            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            view.setSystemUiVisibility(flags);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            int flags = view.getSystemUiVisibility();
-            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-            view.setSystemUiVisibility(flags);
-        }
     }
 
     /**

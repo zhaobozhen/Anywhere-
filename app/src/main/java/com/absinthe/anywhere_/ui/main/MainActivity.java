@@ -51,7 +51,6 @@ import com.absinthe.anywhere_.utils.ClipboardUtil;
 import com.absinthe.anywhere_.utils.FirebaseUtil;
 import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.SPUtils;
-import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
@@ -63,6 +62,7 @@ import com.absinthe.anywhere_.view.FabBuilder;
 import com.absinthe.anywhere_.view.editor.AnywhereEditor;
 import com.absinthe.anywhere_.view.editor.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
+import com.blankj.utilcode.util.BarUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -219,7 +219,7 @@ public class MainActivity extends BaseActivity {
 
             ConstraintLayout.LayoutParams newLayoutParams = (ConstraintLayout.LayoutParams) mBinding.toolbar.getLayoutParams();
             newLayoutParams.leftMargin = newLayoutParams.rightMargin = marginHorizontal;
-            newLayoutParams.topMargin = StatusBarUtil.getStatusBarHeight(this);
+            newLayoutParams.topMargin = BarUtils.getStatusBarHeight();
             newLayoutParams.bottomMargin = marginVertical;
             newLayoutParams.height = UiUtils.d2p(this, 55);
             mBinding.toolbar.setLayoutParams(newLayoutParams);
@@ -412,7 +412,7 @@ public class MainActivity extends BaseActivity {
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_activity_list", "click_fab_activity_list");
                     break;
                 case R.id.fab_collector:
-                    mViewModel.checkWorkingPermission(this);
+                    mViewModel.startCollector(this);
                     FirebaseUtil.logEvent(mFirebaseAnalytics, "fab_collector", "click_fab_collector");
                     break;
                 case R.id.fab_qr_code_collection:
@@ -534,17 +534,6 @@ public class MainActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
-            Logger.d("REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION");
-            if (resultCode == RESULT_OK) {
-                mViewModel.checkWorkingPermission(this);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

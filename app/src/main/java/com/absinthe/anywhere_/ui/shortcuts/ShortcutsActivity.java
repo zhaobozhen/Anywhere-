@@ -18,7 +18,6 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
-import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.handler.Opener;
@@ -52,9 +51,7 @@ public class ShortcutsActivity extends BaseActivity {
                 if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                     AppUtils.openNewURLScheme(this);
                 } else {
-                    if (PermissionUtils.checkOverlayPermission(this, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
-                        CollectorService.startCollector(this);
-                    }
+                    CollectorService.startCollector(this);
                 }
                 finish();
             } else if (action.equals(ACTION_START_COMMAND)) {

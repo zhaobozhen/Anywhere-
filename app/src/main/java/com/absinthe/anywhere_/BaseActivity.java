@@ -18,6 +18,7 @@ import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.blankj.utilcode.util.BarUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -52,16 +53,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void initView() {
         if (GlobalValues.sBackgroundUri.isEmpty() || !(this instanceof MainActivity)) {
-            if (UiUtils.isDarkMode(this)) {
-                StatusBarUtil.setDarkMode(this);
-            } else {
-                StatusBarUtil.setLightMode(this);
-            }
+            StatusBarUtil.setDarkMode(this, UiUtils.isDarkMode(this));
         }
 
         setToolbar();
         if (isPaddingToolbar()) {
-            mToolbar.setPadding(0, StatusBarUtil.getStatusBarHeight(this), 0, 0);
+            mToolbar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0);
         }
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();

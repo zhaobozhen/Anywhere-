@@ -8,7 +8,6 @@ import android.service.quicksettings.TileService;
 import androidx.annotation.RequiresApi;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.utils.PermissionUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class CollectorTileService extends TileService {
@@ -27,9 +26,7 @@ public class CollectorTileService extends TileService {
             tile.setState(Tile.STATE_INACTIVE);
             tile.setLabel(getString(R.string.tile_collector_on));
         } else {
-            if (PermissionUtils.checkOverlayPermission(this)) {
-                CollectorService.startCollector(this);
-            }
+            CollectorService.startCollector(this);
 
             tile.setState(Tile.STATE_ACTIVE);
             tile.setLabel(getString(R.string.tile_collector_off));

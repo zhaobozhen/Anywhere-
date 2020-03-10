@@ -23,13 +23,15 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
-import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
 import com.absinthe.anywhere_.view.editor.Editor;
 import com.absinthe.anywhere_.view.editor.ImageEditor;
 import com.absinthe.anywhere_.view.editor.SchemeEditor;
 import com.absinthe.anywhere_.view.editor.ShellEditor;
+import com.blankj.utilcode.util.DeviceUtils;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
 import java.util.ArrayList;
@@ -41,7 +43,6 @@ public class AnywhereViewModel extends AndroidViewModel {
     private LiveData<List<AnywhereEntity>> mAllAnywhereEntities;
 
     private MutableLiveData<String> mBackground = new MutableLiveData<>();
-    private MutableLiveData<String> mCardMode = new MutableLiveData<>();
     private MutableLiveData<Fragment> mFragment = new MutableLiveData<>();
 
     public AnywhereViewModel(Application application) {
@@ -71,13 +72,6 @@ public class AnywhereViewModel extends AndroidViewModel {
             mBackground = new MutableLiveData<>();
         }
         return mBackground;
-    }
-
-    public MutableLiveData<String> getCardMode() {
-        if (mCardMode == null) {
-            mCardMode = new MutableLiveData<>();
-        }
-        return mCardMode;
     }
 
     public MutableLiveData<Fragment> getFragment() {
@@ -143,29 +137,46 @@ public class AnywhereViewModel extends AndroidViewModel {
         editor.show();
     }
 
-    public void checkWorkingPermission(Activity activity) {
+    public void startCollector(Activity activity) {
         switch (GlobalValues.getWorkingMode()) {
             case Const.WORKING_MODE_URL_SCHEME:
                 setUpUrlScheme(activity);
                 break;
             case Const.WORKING_MODE_SHIZUKU:
-                if (!PermissionUtils.checkOverlayPermission(activity, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
-                    return;
-                }
-                if (PermissionUtils.checkShizukuOnWorking(activity) && PermissionUtils.shizukuPermissionCheck(activity)) {
-                    startCollector(activity);
-                }
+                PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
+                    @Override
+                    public void onGranted() {
+                        if (ShizukuHelper.checkShizukuOnWorking(activity) && ShizukuHelper.isGrantShizukuPermission()) {
+                            CollectorService.startCollector(activity);
+                        } else {
+                            ShizukuHelper.requestShizukuPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onDenied() {
+
+                    }
+                });
                 break;
             case Const.WORKING_MODE_ROOT:
-                if (!PermissionUtils.checkOverlayPermission(activity, Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION)) {
-                    return;
-                }
-                if (PermissionUtils.upgradeRootPermission(activity.getPackageCodePath())) {
-                    startCollector(activity);
-                } else {
-                    Logger.d("ROOT permission denied.");
-                    ToastUtil.makeText(R.string.toast_root_permission_denied);
-                }
+                PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
+                    @Override
+                    public void onGranted() {
+                        if (DeviceUtils.isDeviceRooted()) {
+                            CollectorService.startCollector(activity);
+                        } else {
+                            Logger.d("ROOT permission denied.");
+                            ToastUtil.makeText(R.string.toast_root_permission_denied);
+                            com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.getPackageCodePath());
+                        }
+                    }
+
+                    @Override
+                    public void onDenied() {
+
+                    }
+                });
                 break;
             default:
         }
@@ -204,9 +215,4 @@ public class AnywhereViewModel extends AndroidViewModel {
             AppUtils.takePersistableUriPermission(getApplication(), uri, intent);
         }
     }
-
-    private void startCollector(Activity activity) {
-        CollectorService.startCollector(activity);
-    }
-
 }

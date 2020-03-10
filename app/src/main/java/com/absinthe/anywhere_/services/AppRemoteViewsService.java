@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.services;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Looper;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -14,6 +15,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.blankj.utilcode.util.ConvertUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.List;
@@ -118,9 +120,11 @@ public class AppRemoteViewsService extends RemoteViewsService {
 
             // 设置要显示的内容
             rv.setTextViewText(R.id.tv_title, content);
-            rv.setImageViewBitmap(R.id.iv_app_icon,
-                    UiUtils.drawableToBitmap(
-                            UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, sList.get(position))));
+
+            Drawable icon = UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, sList.get(position));
+            if (icon != null) {
+                rv.setImageViewBitmap(R.id.iv_app_icon, ConvertUtils.drawable2Bitmap(icon));
+            }
 
             // 填充Intent，填充在AppWidgetProvider中创建的PendingIntent
             Intent intent = new Intent();

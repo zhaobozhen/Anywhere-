@@ -17,8 +17,8 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
-import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
+import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -135,7 +135,7 @@ public class CommandUtils {
                 case CommandResult.RESULT_SHIZUKU_PERM_ERROR:
                     ToastUtil.makeText(R.string.toast_check_perm);
                     try {
-                        PermissionUtils.shizukuPermissionCheck(ActivityStackManager.getInstance().getTopActivity());
+                        ShizukuHelper.requestShizukuPermission();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
