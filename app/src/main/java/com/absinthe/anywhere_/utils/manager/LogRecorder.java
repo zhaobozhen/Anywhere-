@@ -37,29 +37,29 @@ public class LogRecorder {
     public static final int WARNING = 5;
     public static final int ERROR = 6;
 
-    public static final int LOG_BUFFER_DEFAULT = LOG_BUFFER_MAIN | LOG_BUFFER_SYSTEM;
+    private static final int LOG_BUFFER_DEFAULT = LOG_BUFFER_MAIN | LOG_BUFFER_SYSTEM;
 
-    public static final int INVALID_PID = -1;
+    private static final int INVALID_PID = -1;
 
-    public String mFileSuffix;
-    public String mFolderPath;
-    public int mFileSizeLimitation;
-    public int mLevel;
-    public List<String> mFilterTags = new ArrayList<>();
-    public int mPID = INVALID_PID;
+    private String mFileSuffix;
+    private String mFolderPath;
+    private int mFileSizeLimitation;
+    private int mLevel;
+    private List<String> mFilterTags = new ArrayList<>();
+    private int mPID = INVALID_PID;
 
-    public boolean mUseLogcatFileOut = false;
+    private boolean mUseLogcatFileOut = false;
 
     private LogDumper mLogDumper = null;
 
-    public static final int EVENT_RESTART_LOG = 1001;
+    private static final int EVENT_RESTART_LOG = 1001;
 
     private RestartHandler mHandler;
 
     private static class RestartHandler extends Handler {
         final LogRecorder logRecorder;
 
-        public RestartHandler(LogRecorder logRecorder) {
+        RestartHandler(LogRecorder logRecorder) {
             this.logRecorder = logRecorder;
         }
 
@@ -72,7 +72,7 @@ public class LogRecorder {
         }
     }
 
-    public LogRecorder() {
+    private LogRecorder() {
         mHandler = new RestartHandler(this);
     }
 

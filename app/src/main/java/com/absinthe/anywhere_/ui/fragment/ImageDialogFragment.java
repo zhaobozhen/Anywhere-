@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.absinthe.anywhere_.viewbuilder.entity.ImageDialogBuilder;
@@ -87,6 +86,7 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
                 .asBitmap()
                 .load(mUri)
                 .placeholder(new ColorDrawable(Color.TRANSPARENT))
+                .override(600, 600)
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -99,18 +99,13 @@ public class ImageDialogFragment extends AnywhereDialogFragment {
 
                             int width = mBuilder.getRoot().getWidth();
                             int height = width * imageHeight / imageWidth;
-
                             mBuilder.getRoot().setLayoutParams(new FrameLayout.LayoutParams(width, height));
                             mBuilder.image.setLayoutParams(new LinearLayout.LayoutParams(width, height));
                             mItem.setParam2(width + "," + height);
                             AnywhereApplication.sRepository.update(mItem);
                         }
 
-                        try {
-                            mBuilder.image.setImageBitmap(resource);
-                        } catch (RuntimeException e) {
-                            ToastUtil.makeText("Image too large :(");
-                        }
+                        mBuilder.image.setImageBitmap(resource);
                     }
 
                     @Override
