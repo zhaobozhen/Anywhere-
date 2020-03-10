@@ -63,7 +63,7 @@ public class Settings {
         Logger.setDebugMode(BuildConfig.DEBUG | GlobalValues.sIsDebugMode);
     }
 
-    private static void initIconPackManager() {
+    public static void initIconPackManager() {
         sIconPackManager = new IconPackManager();
         sIconPackManager.setContext(AnywhereApplication.sContext);
 

@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
@@ -60,31 +61,37 @@ public class RestoreApplyFragmentDialog extends AnywhereDialogFragment {
                 String content1 = CipherUtils.decrypt(encrypted1);
                 Logger.d(content1);
                 Gson gson = new Gson();
-                List<AnywhereEntity> list = gson.fromJson(content1,
-                        new TypeToken<List<AnywhereEntity>>() {}.getType());
 
-                if (list != null) {
-                    INSERT_CORRECT = true;
-                    for (AnywhereEntity ae : list) {
-                        if (!INSERT_CORRECT) {
-                            ToastUtil.makeText(R.string.toast_backup_file_error);
-                            break;
-                        }
-                        List<PageEntity> pageEntityList = AnywhereApplication.sRepository.getAllPageEntities().getValue();
-                        if (pageEntityList != null) {
-                            if (ListUtils.getPageEntityByTitle(ae.getCategory()) == null) {
-                                PageEntity pe = PageEntity.Builder();
-                                pe.setTitle(ae.getCategory());
-                                pe.setPriority(pageEntityList.size() + 1);
-                                pe.setType(AnywhereType.CARD_PAGE);
-                                AnywhereApplication.sRepository.insertPage(pe);
+                try {
+                    List<AnywhereEntity> list = gson.fromJson(content1,
+                            new TypeToken<List<AnywhereEntity>>() {}.getType());
+
+                    if (list != null) {
+                        INSERT_CORRECT = true;
+                        for (AnywhereEntity ae : list) {
+                            if (!INSERT_CORRECT) {
+                                ToastUtil.makeText(R.string.toast_backup_file_error);
+                                break;
                             }
+                            List<PageEntity> pageEntityList = AnywhereApplication.sRepository.getAllPageEntities().getValue();
+                            if (pageEntityList != null) {
+                                if (ListUtils.getPageEntityByTitle(ae.getCategory()) == null) {
+                                    PageEntity pe = PageEntity.Builder();
+                                    pe.setTitle(ae.getCategory());
+                                    pe.setPriority(pageEntityList.size() + 1);
+                                    pe.setType(AnywhereType.CARD_PAGE);
+                                    AnywhereApplication.sRepository.insertPage(pe);
+                                }
+                            }
+                            AnywhereApplication.sRepository.insert(ae);
                         }
-                        AnywhereApplication.sRepository.insert(ae);
+                        if (INSERT_CORRECT) {
+                            ToastUtil.makeText(getString(R.string.toast_restore_success));
+                        }
                     }
-                    if (INSERT_CORRECT) {
-                        ToastUtil.makeText(getString(R.string.toast_restore_success));
-                    }
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
+                    ToastUtil.makeText(R.string.toast_backup_file_error);
                 }
             }
         };

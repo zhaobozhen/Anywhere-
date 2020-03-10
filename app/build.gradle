@@ -16,7 +16,7 @@ android {
     }
 
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
@@ -112,7 +112,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.fragment:fragment:1.2.2'
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.room:room-runtime:2.2.4'
@@ -120,8 +120,9 @@ dependencies {
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.browser:browser:1.2.0'
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
 
     //Google
     implementation 'com.google.android.material:material:1.2.0-alpha05'
@@ -140,6 +141,7 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.1'
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'moe.feng:AlipayZeroSdk:1.1'
+    implementation 'me.drakeet.support:toastcompat:1.1.0'
 
     //UX
     implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'

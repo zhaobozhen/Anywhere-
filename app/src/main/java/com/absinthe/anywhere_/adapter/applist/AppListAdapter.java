@@ -21,10 +21,11 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.list.AppDetailActivity;
 import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
-import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.editor.AnywhereEditor;
 
@@ -89,11 +90,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 editor.show();
             } else if (mMode == MODE_ICON_PACK) {
                 GlobalValues.setsIconPack(item.getPackageName());
-                mIconPackDialogFragment.requireActivity().finish();
-                ToastUtil.makeText(R.string.toast_restart_to_active);
-                if (mIconPackDialogFragment != null) {
-                    mIconPackDialogFragment.dismiss();
-                }
+                Settings.initIconPackManager();
+                AppUtils.restart();
             } else if (mMode == MODE_CARD_LIST) {
                 if (mListener != null) {
                     mListener.onClick(mList.get(position), position);

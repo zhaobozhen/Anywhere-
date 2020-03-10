@@ -338,6 +338,10 @@ public class UiUtils {
      * @param listener notify when Palette finished
      */
     public static void setCardUseIconColor(View view, Drawable drawable, OnPaletteFinishedListener listener) {
+        if (drawable == null) {
+            return;
+        }
+
         Bitmap bitmap = drawableToBitmap(drawable);
         if (bitmap == null) {
             return;
@@ -363,6 +367,10 @@ public class UiUtils {
      * @param drawable icon drawable
      */
     public static void setCardUseIconColor(View view, Drawable drawable) {
+        if (drawable == null) {
+            return;
+        }
+
         Bitmap bitmap = drawableToBitmap(drawable);
         if (bitmap == null) {
             return;

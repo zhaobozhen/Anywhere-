@@ -168,8 +168,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 DialogManager.showResetBackgroundDialog(mContext);
                 return true;
             case Const.PREF_HELP:
-                CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder().build();
-                tabsIntent.launchUrl(mContext, Uri.parse(URLManager.OLD_DOCUMENT_PAGE));
+                try {
+                    CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder().build();
+                    tabsIntent.launchUrl(mContext, Uri.parse(URLManager.OLD_DOCUMENT_PAGE));
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(URLManager.OLD_DOCUMENT_PAGE));
+                    requireContext().startActivity(intent);
+                }
                 return true;
             case Const.PREF_CLEAR_SHORTCUTS:
                 DialogManager.showClearShortcutsDialog(mContext);
