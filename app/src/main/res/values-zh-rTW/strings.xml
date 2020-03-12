@@ -283,4 +283,6 @@
     <string name="settings_show_shell_result">展示 Shell 結果</string>
     <string name="settings_show_shell_result_summary">顯示一個對話框來通知 Shell 執行結果</string>
     <string name="toast_execute_shell_successful">Shell 執行成功</string>
+    <string name="other_works">其他作品</string>
+    <string name="kage_intro">一款可以向其它 Android 設備投射多媒體文件的 App</string>
 </resources>

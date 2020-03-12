@@ -377,8 +377,8 @@ public class MainActivity extends BaseActivity {
         });
         mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
 
-        GlobalValues.sWorkingMode.observe(this, s ->
-                UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle()));
+//        GlobalValues.sWorkingMode.observe(this, s ->
+//                UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle()));
         GlobalValues.sWorkingMode.setValue(GlobalValues.getWorkingMode());
         mViewModel.getFragment().observe(this, fragment -> {
             getSupportFragmentManager()

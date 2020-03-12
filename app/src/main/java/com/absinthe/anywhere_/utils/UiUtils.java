@@ -29,7 +29,6 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -254,6 +253,7 @@ public class UiUtils {
 
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         window.setStatusBarColor(Color.TRANSPARENT);
         window.setNavigationBarColor(Color.TRANSPARENT);
@@ -469,13 +469,6 @@ public class UiUtils {
             endMinute = end.get(Calendar.MINUTE);
         }
 
-        Logger.d("hour = ", hour);
-        Logger.d("minute = ", minute);
-        Logger.d("start hour = ", startHour);
-        Logger.d("start minute = ", startMinute);
-        Logger.d("end hour = ", endHour);
-        Logger.d("end minute = ", endMinute);
-
         if (startHour < endHour) {
             if ((hour >= startHour && minute >= startMinute) && (hour <= endHour && minute <= endMinute)) {
                 return AppCompatDelegate.MODE_NIGHT_YES;
@@ -573,21 +566,6 @@ public class UiUtils {
             case Configuration.UI_MODE_NIGHT_NO:
             default:
                 return false;
-        }
-    }
-
-    /**
-     * Set view margins on vertical
-     *
-     * @param v view
-     * @param t top margin
-     * @param b bottom margin
-     */
-    public static void setMargins(View v, int t, int b) {
-        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            p.setMargins(p.leftMargin, t, p.rightMargin, b);
-            v.requestLayout();
         }
     }
 

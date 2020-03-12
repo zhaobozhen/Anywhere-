@@ -189,39 +189,47 @@ public abstract class Editor<T extends Editor<?>> {
     }
 
     private void startOverlay(String cmd) {
-        PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
-            @Override
-            public void onGranted() {
-                Intent intent = new Intent(mContext, OverlayService.class);
-                intent.putExtra(OverlayService.COMMAND, OverlayService.COMMAND_OPEN);
-                intent.putExtra(OverlayService.COMMAND_STR, cmd);
-                String pkgName;
-                if (mEditorType == URL_SCHEME) {
-                    pkgName = mItem.getParam2();
-                } else {
-                    pkgName = mItem.getParam1();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            startCollectorImpl(cmd);
+        } else {
+            PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
+                @Override
+                public void onGranted() {
+                    startCollectorImpl(cmd);
                 }
-                intent.putExtra(OverlayService.PKG_NAME, pkgName);
-                mContext.startService(intent);
 
-                mBottomSheetDialog.dismiss();
+                @Override
+                public void onDenied() {
 
-                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                homeIntent.addCategory(Intent.CATEGORY_HOME);
-                mContext.startActivity(homeIntent);
-
-                if (!Once.beenDone(OnceTag.OVERLAY_TIP)) {
-                    ToastUtil.makeText(R.string.toast_overlay_tip);
-                    Once.markDone(OnceTag.OVERLAY_TIP);
                 }
-            }
+            });
+        }
+    }
 
-            @Override
-            public void onDenied() {
+    private void startCollectorImpl(String cmd) {
+        Intent intent = new Intent(mContext, OverlayService.class);
+        intent.putExtra(OverlayService.COMMAND, OverlayService.COMMAND_OPEN);
+        intent.putExtra(OverlayService.COMMAND_STR, cmd);
+        String pkgName;
+        if (mEditorType == URL_SCHEME) {
+            pkgName = mItem.getParam2();
+        } else {
+            pkgName = mItem.getParam1();
+        }
+        intent.putExtra(OverlayService.PKG_NAME, pkgName);
+        mContext.startService(intent);
 
-            }
-        });
+        mBottomSheetDialog.dismiss();
+
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        homeIntent.addCategory(Intent.CATEGORY_HOME);
+        mContext.startActivity(homeIntent);
+
+        if (!Once.beenDone(OnceTag.OVERLAY_TIP)) {
+            ToastUtil.makeText(R.string.toast_overlay_tip);
+            Once.markDone(OnceTag.OVERLAY_TIP);
+        }
     }
 
     private void setMoreButton() {

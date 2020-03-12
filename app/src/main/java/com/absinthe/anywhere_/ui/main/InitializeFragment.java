@@ -277,20 +277,24 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 break;
             case CARD_OVERLAY:
                 overlayBinding.btnAcquireOverlayPermission.setOnClickListener(view -> {
-                    boolean isGrant = com.blankj.utilcode.util.PermissionUtils.isGrantedDrawOverlays();
-                    mViewModel.getIsOverlay().setValue(isGrant);
-                    if (!isGrant) {
-                        com.blankj.utilcode.util.PermissionUtils.requestDrawOverlays(new com.blankj.utilcode.util.PermissionUtils.SimpleCallback() {
-                            @Override
-                            public void onGranted() {
-                                mViewModel.getIsOverlay().setValue(true);
-                            }
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                        mViewModel.getIsOverlay().setValue(true);
+                    } else {
+                        boolean isGrant = com.blankj.utilcode.util.PermissionUtils.isGrantedDrawOverlays();
+                        mViewModel.getIsOverlay().setValue(isGrant);
+                        if (!isGrant) {
+                            com.blankj.utilcode.util.PermissionUtils.requestDrawOverlays(new com.blankj.utilcode.util.PermissionUtils.SimpleCallback() {
+                                @Override
+                                public void onGranted() {
+                                    mViewModel.getIsOverlay().setValue(true);
+                                }
 
-                            @Override
-                            public void onDenied() {
-                                mViewModel.getIsOverlay().setValue(false);
-                            }
-                        });
+                                @Override
+                                public void onDenied() {
+                                    mViewModel.getIsOverlay().setValue(false);
+                                }
+                            });
+                        }
                     }
                 });
                 if (isAdd) {

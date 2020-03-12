@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
@@ -143,40 +144,58 @@ public class AnywhereViewModel extends AndroidViewModel {
                 setUpUrlScheme(activity);
                 break;
             case Const.WORKING_MODE_SHIZUKU:
-                PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
-                    @Override
-                    public void onGranted() {
-                        if (ShizukuHelper.checkShizukuOnWorking(activity) && ShizukuHelper.isGrantShizukuPermission()) {
-                            CollectorService.startCollector(activity);
-                        } else {
-                            ShizukuHelper.requestShizukuPermission();
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    if (ShizukuHelper.checkShizukuOnWorking(activity) && ShizukuHelper.isGrantShizukuPermission()) {
+                        CollectorService.startCollector(activity);
+                    } else {
+                        ShizukuHelper.requestShizukuPermission();
+                    }
+                } else {
+                    PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
+                        @Override
+                        public void onGranted() {
+                            if (ShizukuHelper.checkShizukuOnWorking(activity) && ShizukuHelper.isGrantShizukuPermission()) {
+                                CollectorService.startCollector(activity);
+                            } else {
+                                ShizukuHelper.requestShizukuPermission();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onDenied() {
+                        @Override
+                        public void onDenied() {
 
-                    }
-                });
+                        }
+                    });
+                }
                 break;
             case Const.WORKING_MODE_ROOT:
-                PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
-                    @Override
-                    public void onGranted() {
-                        if (DeviceUtils.isDeviceRooted()) {
-                            CollectorService.startCollector(activity);
-                        } else {
-                            Logger.d("ROOT permission denied.");
-                            ToastUtil.makeText(R.string.toast_root_permission_denied);
-                            com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.getPackageCodePath());
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    if (DeviceUtils.isDeviceRooted()) {
+                        CollectorService.startCollector(activity);
+                    } else {
+                        Logger.d("ROOT permission denied.");
+                        ToastUtil.makeText(R.string.toast_root_permission_denied);
+                        com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.getPackageCodePath());
+                    }
+                } else {
+                    PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
+                        @Override
+                        public void onGranted() {
+                            if (DeviceUtils.isDeviceRooted()) {
+                                CollectorService.startCollector(activity);
+                            } else {
+                                Logger.d("ROOT permission denied.");
+                                ToastUtil.makeText(R.string.toast_root_permission_denied);
+                                com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.getPackageCodePath());
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onDenied() {
+                        @Override
+                        public void onDenied() {
 
-                    }
-                });
+                        }
+                    });
+                }
                 break;
             default:
         }

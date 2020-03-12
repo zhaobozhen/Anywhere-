@@ -130,21 +130,25 @@ public class CollectorService extends Service {
     }
 
     public static void startCollector(Context context) {
-        if (!PermissionUtils.isGrantedDrawOverlays()) {
-            ToastUtil.makeText(R.string.toast_permission_overlap);
-            PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
-                @Override
-                public void onGranted() {
-                    startCollectorImpl(context);
-                }
-
-                @Override
-                public void onDenied() {
-
-                }
-            });
-        } else {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             startCollectorImpl(context);
+        } else {
+            if (!PermissionUtils.isGrantedDrawOverlays()) {
+                ToastUtil.makeText(R.string.toast_permission_overlap);
+                PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
+                    @Override
+                    public void onGranted() {
+                        startCollectorImpl(context);
+                    }
+
+                    @Override
+                    public void onDenied() {
+
+                    }
+                });
+            } else {
+                startCollectorImpl(context);
+            }
         }
     }
 
