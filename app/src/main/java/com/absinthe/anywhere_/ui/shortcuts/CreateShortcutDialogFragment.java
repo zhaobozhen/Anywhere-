@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.ui.shortcuts;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
+import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
@@ -62,10 +64,15 @@ public class CreateShortcutDialogFragment extends AnywhereDialogFragment {
         mBuilder.etName.setText(mName);
 
         mBuilder.ivIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/*");
-            startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+            try {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+                startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+                ToastUtil.makeText(R.string.toast_no_document_app);
+            }
         });
     }
 

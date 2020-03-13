@@ -146,11 +146,11 @@ dependencies {
     implementation 'com.blankj:utilcodex:1.26.0'
 
     //UX
-    implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'
     implementation 'com.drakeet.about:about:2.4.1'
     implementation 'com.drakeet.about:about-extension:2.4.1'
     implementation 'com.drakeet.multitype:multitype:4.2.0'
     implementation "com.leinardi.android:speed-dial:3.1.1"
+    implementation 'com.github.sephiroth74:android-target-tooltip:2.0.4'
 
     //Network
     implementation("com.squareup.okhttp3:okhttp:4.3.1")

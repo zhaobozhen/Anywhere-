@@ -284,5 +284,5 @@
     <string name="settings_show_shell_result_summary">显示一个对话框来通知 Shell 执行结果</string>
     <string name="toast_execute_shell_successful">Shell 执行成功</string>
     <string name="other_works">其他作品</string>
-    <string name="kage_intro">一款可以向其它 Android 设备投射多媒体文件的 App</string>
+    <string name="kage_intro">一款向其它 Android 设备投射多媒体文件的 App</string>
 </resources>

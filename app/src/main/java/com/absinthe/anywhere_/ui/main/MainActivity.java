@@ -63,6 +63,7 @@ import com.absinthe.anywhere_.view.editor.AnywhereEditor;
 import com.absinthe.anywhere_.view.editor.Editor;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ConvertUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -75,8 +76,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import it.sephiroth.android.library.xtooltip.ClosePolicy;
+import it.sephiroth.android.library.xtooltip.Tooltip;
 import jonathanfinerty.once.Once;
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class MainActivity extends BaseActivity {
     public ActivityMainBinding mBinding;
@@ -206,6 +208,24 @@ public class MainActivity extends BaseActivity {
         }
 
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (mToggle != null && mToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mBinding.drawer.isDrawerVisible(GravityCompat.START)) {
+            mBinding.drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -375,11 +395,10 @@ public class MainActivity extends BaseActivity {
                 UiUtils.setActionBarTransparent(this);
             }
         });
-        mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
 
-//        GlobalValues.sWorkingMode.observe(this, s ->
-//                UiUtils.setAdaptiveActionBarTitleColor(this, getSupportActionBar(), UiUtils.getActionBarTitle()));
+        mViewModel.getBackground().setValue(GlobalValues.sBackgroundUri);
         GlobalValues.sWorkingMode.setValue(GlobalValues.getWorkingMode());
+
         mViewModel.getFragment().observe(this, fragment -> {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -441,11 +460,7 @@ public class MainActivity extends BaseActivity {
         });
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE)) {
-            new MaterialTapTargetPrompt.Builder(this)
-                    .setTarget(R.id.fab)
-                    .setPrimaryText(R.string.first_launch_guide_title)
-                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                    .show();
+            showFirstTip(mBinding.fab);
             Once.markDone(OnceTag.FAB_GUIDE);
         }
     }
@@ -527,21 +542,15 @@ public class MainActivity extends BaseActivity {
                 .into(mBinding.ivBack);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (mToggle != null && mToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mBinding.drawer.isDrawerVisible(GravityCompat.START)) {
-            mBinding.drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    private void showFirstTip(View target) {
+        target.post(() -> {
+            Tooltip tooltip = new Tooltip.Builder(MainActivity.this)
+                    .anchor(target, 0, 0, false)
+                    .text(getText(R.string.first_launch_guide_title))
+                    .closePolicy(ClosePolicy.Companion.getTOUCH_ANYWHERE_CONSUME())
+                    .maxWidth(ConvertUtils.dp2px(150))
+                    .create();
+            tooltip.show(target, Tooltip.Gravity.LEFT, true);
+        });
     }
 }

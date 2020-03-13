@@ -65,16 +65,15 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
         items.add(new Contributor(R.drawable.ic_green_android, getString(R.string.green_android_title), "https://green-android.org/", "https://green-android.org/"));
 
         items.add(new Category(getString(R.string.other_works)));
-        items.add(new Contributor(R.mipmap.kage_icon, "Kage(Beta)", getString(R.string.kage_intro)));
+        items.add(new Contributor(R.mipmap.kage_icon, "Kage(Beta)", getString(R.string.kage_intro), "https://www.coolapk.com/apk/com.absinthe.kage"));
 
         items.add(new Category(getString(R.string.open_source_licenses)));
-        items.add(new License("Shizuku", "Rikka", "License", "https://github.com/RikkaApps/Shizuku"));
+        items.add(new License("Shizuku", "Rikka", License.APACHE_2, "https://github.com/RikkaApps/Shizuku"));
         items.add(new License("FreeReflection", "tiann", License.MIT, "https://github.com/tiann/FreeReflection"));
         items.add(new License("MultiType", "drakeet", License.APACHE_2, "https://github.com/drakeet/MultiType"));
         items.add(new License("about-page", "drakeet", License.APACHE_2, "https://github.com/drakeet/about-page"));
-        items.add(new License("Material Tap Target Prompt", "sjwall", License.APACHE_2, "https://github.com/sjwall/MaterialTapTargetPrompt"));
         items.add(new License("FloatingActionButtonSpeedDial", "leinardi", License.APACHE_2, "https://github.com/leinardi/FloatingActionButtonSpeedDial"));
-        items.add(new License("glide", "bumptech", "License", "https://github.com/bumptech/glide"));
+        items.add(new License("glide", "bumptech", "BSD, part MIT and Apache 2.0", "https://github.com/bumptech/glide"));
         items.add(new License("AndResGuard", "shwenzhang", License.APACHE_2, "https://github.com/shwenzhang/AndResGuard"));
         items.add(new License("IceBox-SDK", "heruoxin", License.APACHE_2, "https://github.com/heruoxin/IceBox-SDK"));
         items.add(new License("Robfuscate", "heruoxin", License.APACHE_2, "https://github.com/heruoxin/Robfuscate"));
@@ -91,6 +90,7 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
         items.add(new License("LeakCanary", "Square", License.APACHE_2, "https://github.com/square/leakcanary"));
         items.add(new License("RxAndroid", "JakeWharton", License.APACHE_2, "https://github.com/ReactiveX/RxAndroid"));
         items.add(new License("RxJava", "ReactiveX", License.APACHE_2, "https://github.com/ReactiveX/RxJava"));
+        items.add(new License("android-target-tooltip", "sephiroth74", License.MIT, "https://github.com/sephiroth74/android-target-tooltip"));
 
         RecommendationLoaderDelegate.attach(this, items.size(), new GsonJsonConverter());
     }
