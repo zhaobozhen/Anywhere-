@@ -10,19 +10,18 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.log.LogAdapter;
 import com.absinthe.anywhere_.databinding.ActivityLogcatBinding;
 import com.absinthe.anywhere_.model.LogModel;
+import com.absinthe.anywhere_.utils.AppUtils;
+import com.blankj.utilcode.util.FileUtils;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class LogcatActivity extends BaseActivity {
 
     private ActivityLogcatBinding mBinding;
     private LogAdapter mAdapter;
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 
     @Override
     protected void setViewBinding() {
@@ -47,6 +46,20 @@ public class LogcatActivity extends BaseActivity {
         mBinding.rvLog.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new LogAdapter();
         mBinding.rvLog.setAdapter(mAdapter);
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            LogModel logModel = (LogModel) adapter.getItem(position);
+
+            if (logModel != null) {
+                if (view.getId() == R.id.btn_delete) {
+                    if (FileUtils.delete(logModel.getFilePath())) {
+                        mAdapter.remove(position);
+                    }
+                } else if (view.getId() == R.id.btn_send) {
+                    File file = FileUtils.getFileByPath(logModel.getFilePath());
+                    AppUtils.sendLogcat(this, file);
+                }
+            }
+        });
 
         initData();
     }
@@ -63,8 +76,9 @@ public class LogcatActivity extends BaseActivity {
         List<LogModel> list = new ArrayList<>();
 
         File file = getExternalFilesDir(getString(R.string.logcat));
-        if (file != null && file.exists()) {
-            File[] fileList = file.listFiles();
+        if (FileUtils.isFileExists(file)) {
+            List<File> fileList = FileUtils.listFilesInDir(file, (o1, o2) ->
+                    String.valueOf(o1.lastModified()).compareTo(String.valueOf(o2.lastModified())));
 
             if (fileList != null) {
                 for (File logFile : fileList) {

@@ -4,14 +4,21 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.UriPermission;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Parcelable;
+
+import androidx.core.content.FileProvider;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
@@ -25,6 +32,7 @@ import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -190,6 +198,15 @@ public class AppUtils {
         );
     }
 
+    /**
+     * Take a persistable URI permission grant that has been offered. Once
+     * taken, the permission grant will be remembered across device reboots.
+     * Only URI permissions granted with
+     * {@link Intent#FLAG_GRANT_PERSISTABLE_URI_PERMISSION} can be persisted. If
+     * the grant has already been persisted, taking it again will touch
+     * {@link UriPermission#getPersistedTime()}.
+     *
+     */
     public static void takePersistableUriPermission(Context context, Uri uri, Intent intent) {
         final int takeFlags = intent.getFlags()
                 & (Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -210,6 +227,12 @@ public class AppUtils {
         }
     }
 
+    /**
+     *
+     * Start recording log
+     *
+     * @param context Context
+     */
     public static void startLogcat(Context context) {
         LogRecorder logRecorder = new LogRecorder.Builder(context)
                 .setLogFolderName(context.getString(R.string.logcat))
@@ -220,5 +243,55 @@ public class AppUtils {
                 .build();
         LogRecorder.setInstance(logRecorder);
         NotifyUtils.createLogcatNotification(context);
+    }
+
+    /**
+     *
+     * Send selected log file to my mailbox
+     *
+     * @param context Context
+     * @param file Log file
+     */
+    public static void sendLogcat(Context context, File file) {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        if (file != null) {
+            emailIntent.setType("application/octet-stream");
+            String[] emailReceiver = new String[]{"zhaobozhen2025@gmail.com"};
+
+            String emailTitle = String.format("[Anywhere- 问题回报] App Version Code: %s", BuildConfig.VERSION_CODE);
+
+            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, emailReceiver);
+            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, emailTitle);
+            String emailContent = "*请描述问题情况: \n\n" +
+                    "App Version Name: " + BuildConfig.VERSION_NAME + "\n" +
+                    "App Version Code: " + BuildConfig.VERSION_CODE + "\n" +
+                    "Device: " + Build.MODEL + "\n" +
+                    "Android Version: " + Build.VERSION.RELEASE;
+            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, emailContent);
+
+            Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
+
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+            //Filter Email Apps
+            Intent queryIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"));
+            List<ResolveInfo> resolveInfos = context.getPackageManager().queryIntentActivities(queryIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY
+                            | PackageManager.GET_RESOLVED_FILTER);
+
+            ArrayList<Intent> targetIntents = new ArrayList<>();
+            for (ResolveInfo info : resolveInfos) {
+                ActivityInfo ai = info.activityInfo;
+                Intent intent = new Intent(emailIntent);
+                intent.setPackage(ai.packageName);
+                intent.setComponent(new ComponentName(ai.packageName, ai.name));
+                targetIntents.add(intent);
+            }
+
+            Intent chooser = Intent.createChooser(targetIntents.remove(0), "请选择邮件 App");
+            chooser.putExtra(
+                    Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
+            context.startActivity(chooser);
+        }
     }
 }

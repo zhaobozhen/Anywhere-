@@ -13,6 +13,8 @@ public class LogAdapter extends BaseQuickAdapter<LogModel, BaseViewHolder> {
 
     public LogAdapter() {
         super(R.layout.item_card_logcat);
+        addChildClickViewIds(R.id.btn_send);
+        addChildClickViewIds(R.id.btn_delete);
     }
 
     @Override
