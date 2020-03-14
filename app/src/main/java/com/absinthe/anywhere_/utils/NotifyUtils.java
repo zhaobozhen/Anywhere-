@@ -21,6 +21,8 @@ public class NotifyUtils {
 
     public static final String COLLECTOR_CHANNEL_ID = "collector_channel";
     public static final String LOGCAT_CHANNEL_ID = "logcat_channel";
+    public static final int COLLECTOR_NOTIFICATION_ID = 1001;
+    public static final int LOGCAT_NOTIFICATION_ID = 1002;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void createCollectorChannel(Context context) {
@@ -44,7 +46,7 @@ public class NotifyUtils {
         Intent intent = new Intent(context, NotificationClickReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
-        NotificationUtils.notify(1, channelConfig, param -> {
+        NotificationUtils.notify(LOGCAT_NOTIFICATION_ID, channelConfig, param -> {
             param.setContentTitle(context.getString(R.string.notification_logcat_title))
                     .setContentText(context.getString(R.string.notification_logcat_content))
                     .setSmallIcon(R.drawable.ic_logo)

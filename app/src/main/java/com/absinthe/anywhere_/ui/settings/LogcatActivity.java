@@ -1,5 +1,7 @@
 package com.absinthe.anywhere_.ui.settings;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -11,7 +13,11 @@ import com.absinthe.anywhere_.adapter.log.LogAdapter;
 import com.absinthe.anywhere_.databinding.ActivityLogcatBinding;
 import com.absinthe.anywhere_.model.LogModel;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.NotifyUtils;
+import com.absinthe.anywhere_.utils.manager.LogRecorder;
+import com.absinthe.anywhere_.utils.manager.Logger;
 import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.NotificationUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,6 +25,8 @@ import java.util.Date;
 import java.util.List;
 
 public class LogcatActivity extends BaseActivity {
+
+    public static boolean isStartCatching = false;
 
     private ActivityLogcatBinding mBinding;
     private LogAdapter mAdapter;
@@ -37,6 +45,12 @@ public class LogcatActivity extends BaseActivity {
     @Override
     protected boolean isPaddingToolbar() {
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        Logger.setDebugMode(false);
+        super.onDestroy();
     }
 
     @Override
@@ -60,8 +74,26 @@ public class LogcatActivity extends BaseActivity {
                 }
             }
         });
+        if (isStartCatching) {
+            mBinding.btnLogcat.setText(getText((R.string.btn_stop_catch_log)));
+        } else {
+            mBinding.btnLogcat.setText(getText((R.string.btn_start_catch_log)));
+        }
+        mBinding.btnLogcat.setOnClickListener(v -> {
+            if (isStartCatching) {
+                mBinding.btnLogcat.setText(getText(R.string.btn_start_catch_log));
+                isStartCatching = false;
+                LogRecorder.getInstance().stop();
+                NotificationUtils.cancel(NotifyUtils.LOGCAT_NOTIFICATION_ID);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> initData(true), 100);
+            } else {
+                mBinding.btnLogcat.setText(getText(R.string.btn_stop_catch_log));
+                isStartCatching = true;
+                AppUtils.startLogcat(LogcatActivity.this);
+            }
+        });
 
-        initData();
+        initData(false);
     }
 
     @Override
@@ -72,13 +104,13 @@ public class LogcatActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initData() {
+    private void initData(boolean isRefresh) {
         List<LogModel> list = new ArrayList<>();
 
         File file = getExternalFilesDir(getString(R.string.logcat));
         if (FileUtils.isFileExists(file)) {
             List<File> fileList = FileUtils.listFilesInDir(file, (o1, o2) ->
-                    String.valueOf(o1.lastModified()).compareTo(String.valueOf(o2.lastModified())));
+                    - String.valueOf(o1.lastModified()).compareTo(String.valueOf(o2.lastModified())));
 
             if (fileList != null) {
                 for (File logFile : fileList) {

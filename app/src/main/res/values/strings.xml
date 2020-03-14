@@ -156,6 +156,7 @@
     <string name="settings_show_shell_result_summary">Show a Dialog to notify result after executing a shell command</string>
     <string name="settings_lab_summary">Experimental features</string>
     <string name="settings_help_summary">Help document</string>
+    <string name="settings_logcat_summary">Catch system logs and report problems</string>
     <string name="settings_about_summary">This is Anywhere- !</string>
     <string name="settings_gift_summary" translatable="false"><i>\"Do you like it?\" </i></string>
     <string name="settings_gift_purchase_summary" translatable="false"><i>\"Anywhere, I like it.\" </i></string>
@@ -268,6 +269,8 @@
     <string name="btn_web_image">Web</string>
 
     <string name="btn_send">Send</string>
+    <string name="btn_start_catch_log">Start Catch Log</string>
+    <string name="btn_stop_catch_log">Stop Catch Log</string>
 
     <!--  Description  -->
     <string name="background_todo">Main page background</string>

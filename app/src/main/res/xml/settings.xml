@@ -150,6 +150,18 @@
         app:title="@string/settings_category_others">
 
         <Preference
+            app:key="logcat"
+            app:title="@string/logcat"
+            app:summary="@string/settings_logcat_summary"
+            android:icon="@drawable/ic_cat">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_"
+                android:targetClass="com.absinthe.anywhere_.ui.settings.LogcatActivity"/>
+
+        </Preference>
+
+        <Preference
             app:key="help"
             app:title="@string/settings_help"
             app:summary="@string/settings_help_summary"

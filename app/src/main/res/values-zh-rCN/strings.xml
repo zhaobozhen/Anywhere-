@@ -288,4 +288,7 @@
     <string name="notification_logcat_title">Logcat 已开始记录</string>
     <string name="notification_logcat_content">点按停止记录</string>
     <string name="btn_send">发送</string>
+    <string name="btn_start_catch_log">开始抓取日志</string>
+    <string name="btn_stop_catch_log">停止抓取日志</string>
+    <string name="settings_logcat_summary">抓取系统日志并回报问题</string>
 </resources>

@@ -12,6 +12,7 @@ public class NotificationClickReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         LogRecorder.getInstance().stop();
+        LogcatActivity.isStartCatching = false;
         Intent newIntent = new Intent(context, LogcatActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(newIntent);

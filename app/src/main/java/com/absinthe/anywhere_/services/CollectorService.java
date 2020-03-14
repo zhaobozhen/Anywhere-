@@ -69,14 +69,14 @@ public class CollectorService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        startForeground(1, getNotificationInstance());
+        startForeground(NotifyUtils.COLLECTOR_NOTIFICATION_ID, getNotificationInstance());
         Logger.i("CollectorService onCreate");
     }
 
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-        startForeground(1, getNotificationInstance());
+        startForeground(NotifyUtils.COLLECTOR_NOTIFICATION_ID, getNotificationInstance());
     }
 
     @Override

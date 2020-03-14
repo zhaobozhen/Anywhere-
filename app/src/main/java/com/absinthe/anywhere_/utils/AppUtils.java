@@ -26,6 +26,7 @@ import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider;
+import com.absinthe.anywhere_.ui.settings.LogcatActivity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.LogRecorder;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -234,6 +235,7 @@ public class AppUtils {
      * @param context Context
      */
     public static void startLogcat(Context context) {
+        Logger.setDebugMode(true);
         LogRecorder logRecorder = new LogRecorder.Builder(context)
                 .setLogFolderName(context.getString(R.string.logcat))
                 .setLogFileNameSuffix(com.blankj.utilcode.util.AppUtils.getAppName())
@@ -243,6 +245,7 @@ public class AppUtils {
                 .build();
         LogRecorder.setInstance(logRecorder);
         NotifyUtils.createLogcatNotification(context);
+        LogcatActivity.isStartCatching = true;
     }
 
     /**
