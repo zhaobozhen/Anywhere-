@@ -64,6 +64,7 @@ public class GiftActivity extends BaseActivity {
     protected void onDestroy() {
         sInstance = null;
         mViewModel.stopOffer();
+        mViewModel = null;
         super.onDestroy();
     }
 

@@ -11,11 +11,15 @@
     <string name="shortcut_open">Open an Anywhere-</string>
     <string name="welcome_title">Welcome to Anywhere-</string>
     <string name="welcome_start_button">Start</string>
+    <string name="logcat" translatable="false">Logcat</string>
     <string name="drawer_open" translatable="false">Open navigation drawer</string>
     <string name="drawer_close" translatable="false">Close navigation drawer</string>
     <string name="notification_channel_collector" translatable="false">Collector</string>
+    <string name="notification_channel_logcat" translatable="false">@string/logcat</string>
     <string name="notification_collector_title">Collector is running</string>
     <string name="notification_collector_content">This notification can be ignored</string>
+    <string name="notification_logcat_title">Logcat is starting recording</string>
+    <string name="notification_logcat_content">Tap to stop recording</string>
     <string name="help_card_title">Help Docs</string>
 
     <!--  About page  -->
@@ -262,6 +266,8 @@
 
     <string name="btn_local_image">Local</string>
     <string name="btn_web_image">Web</string>
+
+    <string name="btn_send">Send</string>
 
     <!--  Description  -->
     <string name="background_todo">Main page background</string>

@@ -40,6 +40,7 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.google.android.material.card.MaterialCardView;
@@ -198,7 +199,7 @@ public class MainFragment extends Fragment {
             if (GlobalValues.sIsStreamCardMode) {
                 mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             } else {
-                mLayoutManager = new WrapContentLinearLayoutManager(mContext);
+                mLayoutManager = new WrapContentLinearLayoutManager(ActivityStackManager.getInstance().getTopActivity());
             }
         }
         mRecyclerView.setLayoutManager(mLayoutManager);

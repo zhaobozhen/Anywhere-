@@ -21,7 +21,7 @@ import com.absinthe.anywhere_.model.CommandResult;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.CommandUtils;
-import com.absinthe.anywhere_.utils.NotificationUtils;
+import com.absinthe.anywhere_.utils.NotifyUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.Logger;
@@ -157,7 +157,7 @@ public class CollectorService extends Service {
         intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_OPEN);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationUtils.createCollectorChannel(context);
+            NotifyUtils.createCollectorChannel(context);
             context.startForegroundService(intent);
         } else {
             context.startService(intent);
@@ -172,7 +172,7 @@ public class CollectorService extends Service {
         intent.putExtra(CollectorService.COMMAND, CollectorService.COMMAND_CLOSE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationUtils.createCollectorChannel(context);
+            NotifyUtils.createCollectorChannel(context);
             context.startForegroundService(intent);
         } else {
             context.startService(intent);
@@ -180,7 +180,7 @@ public class CollectorService extends Service {
     }
 
     private Notification getNotificationInstance() {
-        return new NotificationCompat.Builder(this, NotificationUtils.COLLECTOR_CHANNEL_ID)
+        return new NotificationCompat.Builder(this, NotifyUtils.COLLECTOR_CHANNEL_ID)
                 .setContentTitle(getText(R.string.notification_collector_title))
                 .setContentText(getText(R.string.notification_collector_content))
                 .setSmallIcon(R.drawable.ic_logo)

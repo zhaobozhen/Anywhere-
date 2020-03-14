@@ -102,7 +102,10 @@ public class DialogManager {
                 .setTitle("Debug info")
                 .setMessage(GlobalValues.getInfo())
                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
-                .setNeutralButton("LOGCAT", (dialogInterface, i) -> Settings.setLogger())
+                .setNeutralButton(R.string.logcat, (dialogInterface, i) -> {
+                    Settings.setLogger();
+                    AppUtils.startLogcat(context);
+                })
                 .setCancelable(false)
                 .show();
     }

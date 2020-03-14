@@ -16,8 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/bsd_content_margin_top"
-            android:clipToPadding="false">
+            android:layout_marginTop="@dimen/bsd_content_margin_top">
 
             <include
                 layout="@layout/layout_editor_custom_tool_url_scheme"

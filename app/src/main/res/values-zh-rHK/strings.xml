@@ -197,14 +197,14 @@
     <string name="desc_work_at_any_mode">無需權限</string>
     <string name="qr_tip_title">長按以添加 Anywhere-</string>
     <string name="qr_tip_subtitle">這個頁面的 Anywhere- 與其他的不同，它們是主動適配的。未來將會適配更多的 App。</string>
-    <string name="shortcut_open">打开 Anywhere-</string>
+    <string name="shortcut_open">打開 Anywhere-</string>
     <string name="settings_lab">實驗室</string>
     <string name="settings_lab_summary">實驗性功能</string>
     <string name="btn_apply">應用</string>
     <string name="btn_backup_copy">複製</string>
     <string name="btn_backup_share">分享</string>
-    <string name="dialog_restore_apply_paste_hint">粘貼配置</string>
-    <string name="settings_backup_apply_summary">添加分享的 Anywhere- pei\'zhi</string>
+    <string name="dialog_restore_apply_paste_hint">黏貼配置</string>
+    <string name="settings_backup_apply_summary">添加分享的 Anywhere- 配置</string>
     <string name="settings_backup_apply_title">應用配置</string>
     <string name="settings_backup_share_summary">複製和分享 Anywhere-</string>
     <string name="settings_backup_share_title">分享配置</string>
@@ -226,8 +226,8 @@
     <string name="android_links_title">已加入 「Android 應用友鏈」</string>
     <string name="green_android_title">遵循 「Android 綠色應用公約」</string>
     <string name="bsd_default">默認</string>
-    <string name="settings_pages_summary">將卡片歸類到多個頁面</string>
     <string name="settings_pages_title">分頁</string>
+    <string name="settings_pages_summary">將卡片歸類到多個頁面</string>
     <string name="dialog_set_interval_title">設置時間間隔</string>
     <string name="settings_collector_plus_summary">開啟 Collector 時顯示當前 Activity 訊息</string>
     <string name="dialog_set_icon_and_name_title">設置圖標和名稱</string>
@@ -252,7 +252,7 @@
     <string name="btn_add_image">添加圖片</string>
     <string name="bsd_text_input_layout_image_uri_hint">圖片 URI</string>
     <string name="btn_local_image">本地</string>
-    <string name="btn_web_image">網路</string>
+    <string name="btn_web_image">網絡</string>
     <string name="bsd_text_input_layout_image_uri_helper_text">點按上方圖片選擇本地圖片或填入網絡圖片 URI</string>
     <string name="menu_sort_page">頁排序</string>
     <string name="desc_need_accessibility">需要無障礙服務</string>
@@ -271,10 +271,10 @@
     <string name="bsd_text_input_layout_shell_name_label">Shell 名稱</string>
     <string name="dialog_shell_result_title">Shell 結果</string>
     <string name="gift_alipay_purchase">支付寶付款</string>
-    <string name="gift_infinity_info">單設備\n激活無限次</string>
-    <string name="gift_tip">*重裝設備或者更換設備後需要重新激活</string>
-    <string name="gift_feature">激活“艾薇的饋贈”，將獲得：\n◉ 為每頁設置單獨的背景\n◉ 新建自定義 HTML 頁\n◉ ···</string>
-    <string name="gift_third_info">單設備\n激活三次</string>
+    <string name="gift_infinity_info">單設備\n啟動無限次</string>
+    <string name="gift_tip">*重裝設備或者更換設備後需要重新啟動</string>
+    <string name="gift_feature">啟動“艾薇的饋贈”，將獲得：\n◉ 為每頁設置單獨的背景\n◉ 新建自定義 HTML 頁\n◉ ···</string>
+    <string name="gift_third_info">單設備\n啟動三次</string>
     <string name="dialog_close_button">關閉</string>
     <string name="btn_add_advanced_card">高級卡片</string>
     <string name="dialog_add_shortcut_anymore_button">仍要添加</string>
@@ -284,5 +284,8 @@
     <string name="settings_show_shell_result_summary">顯示一個對話框來通知 Shell 執行結果</string>
     <string name="toast_execute_shell_successful">Shell 執行成功</string>
     <string name="other_works">其他作品</string>
-    <string name="kage_intro">一款向其它 Android 設備投射多媒體文件的 App</string>
+    <string name="kage_intro">一款向其他 Android 設備投射多媒體文件的 App</string>
+    <string name="notification_logcat_title">Logcat 已開始記錄</string>
+    <string name="notification_logcat_content">點按停止記錄</string>
+    <string name="btn_send">發送</string>
 </resources>

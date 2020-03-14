@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.AppListBean;
@@ -19,6 +20,7 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
+import com.absinthe.anywhere_.utils.manager.LogRecorder;
 import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.catchingnow.icebox.sdk_client.IceBox;
@@ -198,7 +200,6 @@ public class AppUtils {
 
     /**
      * Restart App
-     *
      */
     public static void restart() {
         Intent intent = AnywhereApplication.sContext.getPackageManager()
@@ -207,5 +208,17 @@ public class AppUtils {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             AnywhereApplication.sContext.startActivity(intent);
         }
+    }
+
+    public static void startLogcat(Context context) {
+        LogRecorder logRecorder = new LogRecorder.Builder(context)
+                .setLogFolderName(context.getString(R.string.logcat))
+                .setLogFileNameSuffix(com.blankj.utilcode.util.AppUtils.getAppName())
+                .setLogFileSizeLimitation(256)
+                .setLogLevel(LogRecorder.DEBUG)
+                .setPID(android.os.Process.myPid())
+                .build();
+        LogRecorder.setInstance(logRecorder);
+        NotifyUtils.createLogcatNotification(context);
     }
 }

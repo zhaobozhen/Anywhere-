@@ -41,6 +41,8 @@ public class LogRecorder {
 
     private static final int INVALID_PID = -1;
 
+    private static LogRecorder sInstance;
+
     private String mFileSuffix;
     private String mFolderPath;
     private int mFileSizeLimitation;
@@ -55,6 +57,17 @@ public class LogRecorder {
     private static final int EVENT_RESTART_LOG = 1001;
 
     private RestartHandler mHandler;
+
+    public static LogRecorder getInstance() {
+        if (sInstance == null) {
+            sInstance = new LogRecorder();
+        }
+        return sInstance;
+    }
+
+    public static void setInstance(LogRecorder logRecorder) {
+        sInstance = logRecorder;
+    }
 
     private static class RestartHandler extends Handler {
         final LogRecorder logRecorder;
@@ -217,7 +230,7 @@ public class LogRecorder {
             logCmd = command;
             restartHandler = handler;
 
-            String date = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault())
+            String date = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.getDefault())
                     .format(new Date(System.currentTimeMillis()));
             String fileName = (TextUtils.isEmpty(logFileSuffix)) ? date : (logFileSuffix + "-" + date);
             try {

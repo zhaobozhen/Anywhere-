@@ -198,8 +198,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        Logger.d("onPrepareOptionsMenu: actionBarType =", GlobalValues.sActionBarType);
-
         if (GlobalValues.sActionBarType.equals(Const.ACTION_BAR_TYPE_LIGHT)
                 || (UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty())) {
             UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_LIGHT);
