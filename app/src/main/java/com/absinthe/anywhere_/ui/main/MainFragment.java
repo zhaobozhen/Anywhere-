@@ -178,7 +178,7 @@ public class MainFragment extends Fragment {
     }
 
     private void resetSelectState() {
-        Timber.d("getSelectedIndex() = %d", adapter.getSelectedIndex());
+        Timber.d("getSelectedIndex() = %s", adapter.getSelectedIndex());
         for (int iter = 0, len = adapter.getItemCount(); iter < len; iter++) {
             View view = mLayoutManager.findViewByPosition(iter);
             if (view != null) {
