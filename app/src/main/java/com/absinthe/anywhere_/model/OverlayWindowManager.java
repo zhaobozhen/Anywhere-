@@ -7,8 +7,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.OverlayView;
+
+import timber.log.Timber;
 
 public class OverlayWindowManager {
     private static final WindowManager.LayoutParams LAYOUT_PARAMS;
@@ -54,7 +55,7 @@ public class OverlayWindowManager {
             mOverlayView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 
             mWindowManager.addView(mOverlayView, LAYOUT_PARAMS);
-            Logger.d("Overlay window addView.");
+            Timber.d("Overlay window addView.");
         }
     }
 
@@ -62,7 +63,7 @@ public class OverlayWindowManager {
         if (mOverlayView != null) {
             mWindowManager.removeView(mOverlayView);
             mOverlayView = null;
-            Logger.d("Overlay window removeView.");
+            Timber.d("Overlay window removeView.");
         }
     }
 }

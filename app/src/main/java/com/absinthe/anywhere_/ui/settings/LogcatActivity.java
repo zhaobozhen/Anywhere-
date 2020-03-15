@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.log.LogAdapter;
+import com.absinthe.anywhere_.adapter.log.LogDiffCallback;
 import com.absinthe.anywhere_.databinding.ActivityLogcatBinding;
+import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.LogModel;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.NotifyUtils;
 import com.absinthe.anywhere_.utils.manager.LogRecorder;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.NotificationUtils;
 
@@ -49,7 +50,7 @@ public class LogcatActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        Logger.setDebugMode(false);
+        GlobalValues.sIsDebugMode = false;
         super.onDestroy();
     }
 
@@ -59,6 +60,7 @@ public class LogcatActivity extends BaseActivity {
 
         mBinding.rvLog.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new LogAdapter();
+        mAdapter.setDiffCallback(new LogDiffCallback());
         mBinding.rvLog.setAdapter(mAdapter);
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             LogModel logModel = (LogModel) adapter.getItem(position);
@@ -121,7 +123,11 @@ public class LogcatActivity extends BaseActivity {
                     logModel.setFileSize(logFile.length());
                     list.add(logModel);
                 }
-                mAdapter.setNewData(list);
+                if (isRefresh) {
+                    mAdapter.setDiffNewData(list);
+                } else {
+                    mAdapter.setNewData(list);
+                }
             }
         }
     }

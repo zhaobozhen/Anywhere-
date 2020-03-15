@@ -5,11 +5,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class DynamicParamsDialogBuilder extends ViewBuilder {
 
@@ -30,11 +31,11 @@ public class DynamicParamsDialogBuilder extends ViewBuilder {
     }
 
     public void setParams(String paramString) {
-        Logger.d(paramString);
+        Timber.d(paramString);
         params = paramString.split("&");
 
         for (String para : params) {
-            Logger.d(para);
+            Timber.d(para);
             EditText editText = new EditText(mContext);
             editText.setLayoutParams(Params.LL.MATCH_WRAP);
             editText.setSingleLine(true);
@@ -57,7 +58,7 @@ public class DynamicParamsDialogBuilder extends ViewBuilder {
                 sb.append("&");
             }
         }
-        Logger.d(sb);
+        Timber.d(sb.toString());
         return sb.toString();
     }
 }

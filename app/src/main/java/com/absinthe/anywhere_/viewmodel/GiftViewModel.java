@@ -21,7 +21,6 @@ import com.absinthe.anywhere_.model.GiftChatString;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.StorageUtils;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 
@@ -32,6 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 public class GiftViewModel extends AndroidViewModel {
 
@@ -97,7 +97,7 @@ public class GiftViewModel extends AndroidViewModel {
                     if (giftModel.getStatusCode() == GiftStatusCode.STATUS_SUCCESS) {
                         GiftModel.Data data = giftModel.getData();
                         if (data == null) {
-                            Logger.d("data == null");
+                            Timber.d("data == null");
                             return;
                         }
                         if (data.isActive == 0) {
@@ -132,7 +132,7 @@ public class GiftViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(@NonNull Call<GiftModel> call, @NonNull Throwable t) {
-                Logger.d("Failed:", t.getMessage());
+                Timber.d("Failed: %s", t.getMessage());
             }
         });
     }

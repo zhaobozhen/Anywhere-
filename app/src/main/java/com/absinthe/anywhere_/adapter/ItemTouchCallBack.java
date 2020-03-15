@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.absinthe.anywhere_.utils.manager.Logger;
+import timber.log.Timber;
 
 public class ItemTouchCallBack extends ItemTouchHelper.Callback {
     private OnItemTouchListener mListener;
@@ -27,7 +27,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public int getMovementFlags(RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        Logger.i("getMovementFlags");
+        Timber.i("getMovementFlags");
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager ||
                 recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
             //此处不需要进行滑动操作，可设置为除4和8之外的整数，这里设为0
@@ -51,7 +51,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        Logger.i("onMove");
+        Timber.i("onMove");
         int fromPosition = viewHolder.getAdapterPosition();
         int toPosition = target.getAdapterPosition();
         mListener.onMove(fromPosition, toPosition);
@@ -67,7 +67,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        Logger.i("onSwiped");
+        Timber.i("onSwiped");
         //此处是侧滑删除的主要代码
         int position = viewHolder.getAdapterPosition();
         mListener.onSwiped(position);
@@ -81,7 +81,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-        Logger.i("onSelectedChanged");
+        Timber.i("onSelectedChanged");
         //...
         super.onSelectedChanged(viewHolder, actionState);
     }
@@ -94,7 +94,7 @@ public class ItemTouchCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        Logger.i("clearView");
+        Timber.i("clearView");
         //...
         super.clearView(recyclerView, viewHolder);
     }

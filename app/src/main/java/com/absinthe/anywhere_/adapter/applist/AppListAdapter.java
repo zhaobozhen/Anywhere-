@@ -42,7 +42,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
     private List<AppListBean> mList, mTempList;
     private ListFilter mFilter;
     private int mMode;
-    private IconPackDialogFragment mIconPackDialogFragment;
     private OnItemClickListener mListener;
 
     public AppListAdapter(Context context, int mode) {
@@ -195,10 +194,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
                 notifyDataSetChanged();
             }
         }
-    }
-
-    public void setIconPackDialogFragment(IconPackDialogFragment fragment) {
-        mIconPackDialogFragment = fragment;
     }
 
     public interface OnItemClickListener {

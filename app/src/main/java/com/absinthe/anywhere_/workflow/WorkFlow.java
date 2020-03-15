@@ -1,12 +1,11 @@
 package com.absinthe.anywhere_.workflow;
 
-import com.absinthe.anywhere_.utils.manager.Logger;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class WorkFlow {
 
@@ -28,11 +27,11 @@ public class WorkFlow {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<FlowNode>() {
                     @Override public void onComplete() {
-                        Logger.d("onComplete()");
+                        Timber.d("onComplete()");
                     }
 
                     @Override public void onError(Throwable e) {
-                        Logger.e("onError()", e);
+                        Timber.e(e);
                     }
 
                     @Override public void onNext(FlowNode flowNode) {

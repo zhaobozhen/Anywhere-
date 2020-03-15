@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.absinthe.anywhere_.utils.manager.Logger;
+import timber.log.Timber;
 
 public class WrapContentLinearLayoutManager extends LinearLayoutManager {
     public WrapContentLinearLayoutManager(Context context) {
@@ -21,7 +21,7 @@ public class WrapContentLinearLayoutManager extends LinearLayoutManager {
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Logger.e("encounter an IOOBE in RecyclerView");
+            Timber.e("encounter an IOOBE in RecyclerView");
         }
     }
 }

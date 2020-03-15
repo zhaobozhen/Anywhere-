@@ -16,7 +16,6 @@ import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,6 +25,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class BackupActivity extends BaseActivity {
 
@@ -84,7 +85,7 @@ public class BackupActivity extends BaseActivity {
                             stringBuilder.append(line);
                         }
                         String content = CipherUtils.decrypt(stringBuilder.toString());
-                        Logger.d(content);
+                        Timber.d(content);
 
                         Gson gson = new Gson();
                         List<AnywhereEntity> list = gson.fromJson(content,

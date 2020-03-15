@@ -315,4 +315,9 @@
     <string name="gift_feature">After activating \"Anywhere- Gift\", you will get:\n◉ Set a separate background for each page\n◉ New a custom HTML page\n◉ ···</string>
     <string name="gift_alipay_purchase">Alipay payment</string>
 
+    <!--  Log Report  -->
+    <string name="report_title">Anywhere- Issue Report</string>
+    <string name="report_describe">* Please describe the issue:</string>
+    <string name="report_select_mail_app">Please select the mail app</string>
+
 </resources>

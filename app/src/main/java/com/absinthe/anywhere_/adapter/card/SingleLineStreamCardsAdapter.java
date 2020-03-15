@@ -21,12 +21,13 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener {
 
@@ -78,7 +79,7 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
-                Logger.e(e.getMessage());
+                Timber.e(e);
                 binding.tvAppName.setText(item.getAppName());
             }
 

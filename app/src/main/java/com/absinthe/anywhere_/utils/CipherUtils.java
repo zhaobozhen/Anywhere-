@@ -6,13 +6,14 @@ import android.util.Base64;
 import androidx.annotation.Keep;
 
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
-import com.absinthe.anywhere_.utils.manager.Logger;
 
 import java.nio.charset.StandardCharsets;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import timber.log.Timber;
 
 @Keep
 public class CipherUtils {
@@ -46,7 +47,7 @@ public class CipherUtils {
             return Base64.encodeToString(encrypted, Base64.DEFAULT);
         } catch (Exception e) {
             e.printStackTrace();
-            Logger.e(e.getMessage());
+            Timber.e(e);
             return null;
         }
     }

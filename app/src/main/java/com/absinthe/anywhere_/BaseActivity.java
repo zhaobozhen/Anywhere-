@@ -17,10 +17,11 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.StatusBarUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.blankj.utilcode.util.BarUtils;
 
 import java.lang.ref.WeakReference;
+
+import timber.log.Timber;
 
 @SuppressLint("Registered")
 public abstract class BaseActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.i(this.getClass().getSimpleName(), "onCreate");
+        Timber.i("onCreate");
 
         reference = new WeakReference<>(this);
         ActivityStackManager.getInstance().addActivity(reference);

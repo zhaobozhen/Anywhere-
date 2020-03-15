@@ -20,7 +20,6 @@ import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.utils.CipherUtils;
 import com.absinthe.anywhere_.utils.ListUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.view.AnywhereDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,6 +28,8 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
+
+import timber.log.Timber;
 
 import static com.absinthe.anywhere_.ui.backup.BackupActivity.INSERT_CORRECT;
 
@@ -59,7 +60,7 @@ public class RestoreApplyFragmentDialog extends AnywhereDialogFragment {
             String encrypted1 = getText();
             if (encrypted1 != null) {
                 String content1 = CipherUtils.decrypt(encrypted1);
-                Logger.d(content1);
+                Timber.d(content1);
                 Gson gson = new Gson();
 
                 try {

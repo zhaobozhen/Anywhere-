@@ -11,11 +11,11 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.absinthe.anywhere_.services.OverlayService;
-import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder;
+
+import timber.log.Timber;
 
 public class OverlayView extends LinearLayout {
 
@@ -57,7 +57,7 @@ public class OverlayView extends LinearLayout {
         mBuilder = new OverlayBuilder(mContext, this);
 
         mBuilder.ivIcon.setOnClickListener(v -> {
-            Logger.d("Overlay window clicked!");
+            Timber.d("Overlay window clicked!");
 
             CommandUtils.execCmd(mCommand);
         });
@@ -79,7 +79,7 @@ public class OverlayView extends LinearLayout {
                         // 获取按下时的X，Y坐标
                         lastX = motionEvent.getRawX();
                         lastY = motionEvent.getRawY();
-                        Logger.d("MotionEvent.ACTION_DOWN last:", lastX, lastY);
+                        Timber.d("MotionEvent.ACTION_DOWN last: %d %d", lastX, lastY);
 
                         isClick = false;
                         mStartTime = System.currentTimeMillis();
@@ -91,12 +91,12 @@ public class OverlayView extends LinearLayout {
                         // 获取移动时的X，Y坐标
                         nowX = motionEvent.getRawX();
                         nowY = motionEvent.getRawY();
-                        Logger.d("MotionEvent.ACTION_MOVE now:", nowX, nowY);
+                        Timber.d("MotionEvent.ACTION_MOVE now: %d %d", nowX, nowY);
 
                         // 计算XY坐标偏移量
                         tranX = nowX - lastX;
                         tranY = nowY - lastY;
-                        Logger.d("MotionEvent.ACTION_MOVE tran:", tranX, tranY);
+                        Timber.d("MotionEvent.ACTION_MOVE tran: %d %d", tranX, tranY);
 
                         if (tranX * tranX + tranY * tranY > mTouchSlop * mTouchSlop) {
                             removeCallbacks(removeWindowTask);
@@ -114,7 +114,7 @@ public class OverlayView extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         mEndTime = System.currentTimeMillis();
-                        Logger.d("Touch period =", (mEndTime - mStartTime));
+                        Timber.d("Touch period = %d", (mEndTime - mStartTime));
 
                         isClick = (mEndTime - mStartTime) > 0.2 * 1000L;
                         removeCallbacks(removeWindowTask);

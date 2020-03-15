@@ -20,10 +20,11 @@ import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.lang.ref.WeakReference;
+
+import timber.log.Timber;
 
 public class Opener {
 
@@ -94,7 +95,7 @@ public class Opener {
                 }
             }
         } else if (type == TYPE_CMD) {
-            Logger.d(mCmd);
+            Timber.d(mCmd);
 
             if (mCmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX)) {
                 mCmd = mCmd.replace(AnywhereType.DYNAMIC_PARAMS_PREFIX, "");

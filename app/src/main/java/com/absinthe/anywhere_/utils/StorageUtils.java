@@ -11,7 +11,6 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -19,6 +18,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class StorageUtils {
     /* Checks if external storage is available for read and write */
@@ -73,7 +74,7 @@ public class StorageUtils {
                 ae.setType(ae.getAnywhereType() + ae.getExportedType() * 100);
             }
             String s = gson.toJson(list);
-            Logger.d(s);
+            Timber.d(s);
             return s;
         }
         return null;

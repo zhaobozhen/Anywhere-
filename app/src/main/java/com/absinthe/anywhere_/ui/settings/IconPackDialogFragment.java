@@ -45,7 +45,6 @@ public class IconPackDialogFragment extends AnywhereDialogFragment {
     private void initView() {
         mBuilder.rvIconPack.setLayoutManager(new LinearLayoutManager(mContext));
         AppListAdapter adapter = new AppListAdapter(mContext, AppListAdapter.MODE_ICON_PACK);
-        adapter.setIconPackDialogFragment(this);
         mBuilder.rvIconPack.setAdapter(adapter);
 
         HashMap<String, IconPackManager.IconPack> hashMap = Settings.sIconPackManager.getAvailableIconPacks(true);

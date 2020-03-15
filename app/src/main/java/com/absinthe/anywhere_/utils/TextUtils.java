@@ -16,7 +16,6 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.google.gson.Gson;
 
@@ -27,6 +26,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import timber.log.Timber;
 
 public class TextUtils {
 
@@ -50,8 +51,8 @@ public class TextUtils {
         packageName = result.substring(result.indexOf(" u0 ") + 4, result.indexOf("/"));
         className = result.substring(result.indexOf("/") + 1, result.indexOf(" ", result.indexOf("/") + 1));
 
-        Logger.d("packageName =", packageName);
-        Logger.d("className =", className);
+        Timber.d("packageName = %s", packageName);
+        Timber.d("className = %s", className);
 
         return new String[]{packageName, className};
     }
@@ -87,7 +88,7 @@ public class TextUtils {
             String packageName = item.getParam1();
             String className = item.getParam2();
             String extras = item.getParam3();
-            Logger.d("packageName =", packageName, "className =", className, "extras =", extras);
+            Timber.d("packageName = %s, className = %s, extras = %s", packageName, className, extras);
 
             if (className.startsWith(".")) {
                 className = packageName + className;
@@ -102,7 +103,7 @@ public class TextUtils {
             }
         } else if (type == AnywhereType.URL_SCHEME) {
             String urlScheme = item.getParam1();
-            Logger.d("urlScheme =", urlScheme);
+            Timber.d("urlScheme = %s", urlScheme);
 
             if (!isEmpty(item.getParam3())) {
                 cmd.append(String.format(AnywhereType.DYNAMIC_PARAMS_PREFIX_FORMAT, item.getParam3()));
@@ -118,9 +119,9 @@ public class TextUtils {
         } else if (type == AnywhereType.SHELL) {
             cmd.append(AnywhereType.SHELL_PREFIX).append(item.getParam1());
         } else {
-            Logger.d("AnywhereType has problem.");
+            Timber.d("AnywhereType has problem.");
         }
-        Logger.d(cmd);
+        Timber.d(cmd.toString());
         return cmd.toString();
     }
 

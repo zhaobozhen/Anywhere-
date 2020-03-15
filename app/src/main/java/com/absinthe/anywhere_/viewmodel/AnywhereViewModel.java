@@ -25,7 +25,6 @@ import com.absinthe.anywhere_.model.PageEntity;
 import com.absinthe.anywhere_.services.CollectorService;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
 import com.absinthe.anywhere_.view.editor.Editor;
 import com.absinthe.anywhere_.view.editor.ImageEditor;
@@ -37,6 +36,8 @@ import com.chad.library.adapter.base.entity.node.BaseNode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class AnywhereViewModel extends AndroidViewModel {
 
@@ -173,7 +174,7 @@ public class AnywhereViewModel extends AndroidViewModel {
                     if (DeviceUtils.isDeviceRooted()) {
                         CollectorService.startCollector(activity);
                     } else {
-                        Logger.d("ROOT permission denied.");
+                        Timber.d("ROOT permission denied.");
                         ToastUtil.makeText(R.string.toast_root_permission_denied);
                         com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.getPackageCodePath());
                     }
@@ -184,7 +185,7 @@ public class AnywhereViewModel extends AndroidViewModel {
                             if (DeviceUtils.isDeviceRooted()) {
                                 CollectorService.startCollector(activity);
                             } else {
-                                Logger.d("ROOT permission denied.");
+                                Timber.d("ROOT permission denied.");
                                 ToastUtil.makeText(R.string.toast_root_permission_denied);
                                 com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.getPackageCodePath());
                             }

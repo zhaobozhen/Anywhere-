@@ -3,7 +3,8 @@ package com.absinthe.anywhere_.workflow;
 import androidx.annotation.NonNull;
 
 import com.absinthe.anywhere_.services.IzukoService;
-import com.absinthe.anywhere_.utils.manager.Logger;
+
+import timber.log.Timber;
 
 public class FlowNode {
     public static final int TYPE_ACCESSIBILITY_TEXT = 0;
@@ -18,7 +19,7 @@ public class FlowNode {
     }
 
     public void trigger() {
-        Logger.d("trigger");
+        Timber.d("trigger");
         switch (type) {
             case TYPE_ACCESSIBILITY_TEXT:
                 IzukoService.isClicked(false);

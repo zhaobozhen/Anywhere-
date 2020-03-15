@@ -72,13 +72,13 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
         items.add(new License("FreeReflection", "tiann", License.MIT, "https://github.com/tiann/FreeReflection"));
         items.add(new License("MultiType", "drakeet", License.APACHE_2, "https://github.com/drakeet/MultiType"));
         items.add(new License("about-page", "drakeet", License.APACHE_2, "https://github.com/drakeet/about-page"));
-        items.add(new License("FloatingActionButtonSpeedDial", "leinardi", License.APACHE_2, "https://github.com/leinardi/FloatingActionButtonSpeedDial"));
         items.add(new License("glide", "bumptech", "BSD, part MIT and Apache 2.0", "https://github.com/bumptech/glide"));
         items.add(new License("AndResGuard", "shwenzhang", License.APACHE_2, "https://github.com/shwenzhang/AndResGuard"));
         items.add(new License("IceBox-SDK", "heruoxin", License.APACHE_2, "https://github.com/heruoxin/IceBox-SDK"));
         items.add(new License("Robfuscate", "heruoxin", License.APACHE_2, "https://github.com/heruoxin/Robfuscate"));
         items.add(new License("Once", "jonfinerty", License.APACHE_2, "https://github.com/jonfinerty/Once"));
         items.add(new License("BaseRecyclerViewAdapterHelper", "CymChad", License.MIT, "https://github.com/CymChad/BaseRecyclerViewAdapterHelper"));
+        items.add(new License("FloatingActionButtonSpeedDial", "leinardi", License.APACHE_2, "https://github.com/leinardi/FloatingActionButtonSpeedDial"));
         items.add(new License("colorpicker", "QuadFlask", License.APACHE_2, "https://github.com/QuadFlask/colorpicker"));
         items.add(new License("gson", "Google", License.APACHE_2, "https://github.com/google/gson"));
         items.add(new License("zxing", "zxing", License.APACHE_2, "https://github.com/zxing/zxing"));
@@ -88,9 +88,11 @@ public class AboutActivity extends AbsAboutActivity implements OnRecommendationC
         items.add(new License("OkHttp", "Square", License.APACHE_2, "https://github.com/square/okhttp"));
         items.add(new License("Retrofit", "Square", License.APACHE_2, "https://github.com/square/retrofit"));
         items.add(new License("LeakCanary", "Square", License.APACHE_2, "https://github.com/square/leakcanary"));
+        items.add(new License("timber", "JakeWharton", License.APACHE_2, "https://github.com/JakeWharton/timber"));
         items.add(new License("RxAndroid", "JakeWharton", License.APACHE_2, "https://github.com/ReactiveX/RxAndroid"));
         items.add(new License("RxJava", "ReactiveX", License.APACHE_2, "https://github.com/ReactiveX/RxJava"));
         items.add(new License("android-target-tooltip", "sephiroth74", License.MIT, "https://github.com/sephiroth74/android-target-tooltip"));
+        items.add(new License("AndroidUtilCode", "Blankj", License.APACHE_2, "https://github.com/Blankj/AndroidUtilCode"));
 
         RecommendationLoaderDelegate.attach(this, items.size(), new GsonJsonConverter());
     }

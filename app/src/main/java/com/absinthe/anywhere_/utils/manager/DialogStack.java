@@ -9,6 +9,8 @@ import com.absinthe.anywhere_.view.AnywhereBottomSheetDialog;
 import java.util.Objects;
 import java.util.Stack;
 
+import timber.log.Timber;
+
 /**
  * Created by Absinthe at 2020/1/13
  * <p>
@@ -36,7 +38,7 @@ public class DialogStack {
 
     public static void push(Object dialog) {
         printStack();
-        Logger.i("Push Start");
+        Timber.i("Push Start");
         if (!(dialog instanceof Dialog) && !(dialog instanceof DialogFragment)) {
             return;
         }
@@ -66,13 +68,13 @@ public class DialogStack {
             ((Dialog) dialog).show();
         }
 
-        Logger.i("Push End");
+        Timber.i("Push End");
         printStack();
     }
 
     public static void pop() {
         printStack();
-        Logger.i("Pop Start");
+        Timber.i("Pop Start");
         if (Singleton.INSTANCE.getInstance().empty()) {
             return;
         }
@@ -106,7 +108,7 @@ public class DialogStack {
             e.printStackTrace();
         }
 
-        Logger.i("Pop End");
+        Timber.i("Pop End");
         printStack();
     }
 
@@ -116,13 +118,13 @@ public class DialogStack {
 
     private static void printStack() {
         if (isPrintStack) {
-            Logger.i("DialogStack:");
+            Timber.i("DialogStack:");
 
             for (Object object : Singleton.INSTANCE.getInstance()) {
-                Logger.i(object.getClass());
+                Timber.i(object.getClass().toString());
             }
 
-            Logger.i("--------------------------------------");
+            Timber.i("--------------------------------------");
         }
     }
 }

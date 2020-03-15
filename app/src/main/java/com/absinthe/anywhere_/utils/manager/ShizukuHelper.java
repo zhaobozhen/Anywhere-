@@ -21,6 +21,7 @@ import moe.shizuku.api.ShizukuClientHelper;
 import moe.shizuku.api.ShizukuClientHelperPre23;
 import moe.shizuku.api.ShizukuMultiProcessHelper;
 import moe.shizuku.api.ShizukuService;
+import timber.log.Timber;
 
 import static com.absinthe.anywhere_.AnywhereApplication.getProcessName;
 
@@ -49,14 +50,14 @@ public class ShizukuHelper {
     }
 
     public static void bind(Context context) {
-        Logger.d("initialize ", ShizukuMultiProcessHelper.initialize(context, !getProcessName().endsWith(":test")));
+        Timber.d("initialize %s", ShizukuMultiProcessHelper.initialize(context, !getProcessName().endsWith(":test")));
 
         ShizukuClientHelper.setBinderReceivedListener(() -> {
-            Logger.d("onBinderReceived");
+            Timber.d("onBinderReceived");
 
             if (ShizukuService.getBinder() == null) {
                 // ShizukuBinderReceiveProvider started without binder, should never happened
-                Logger.d("binder is null");
+                Timber.d("binder is null");
                 v3Failed = true;
             } else {
                 try {
@@ -71,7 +72,7 @@ public class ShizukuHelper {
                     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_SEND_BINDER));
                 } catch (Throwable tr) {
                     // blocked by SELinux or server dead, should never happened
-                    Log.i(context.getClass().getSimpleName(), "can't contact with remote", tr);
+                    Timber.i(tr, "can't contact with remote");
                     v3Failed = true;
                 }
             }
@@ -96,7 +97,7 @@ public class ShizukuHelper {
             }
 
             // Shizuku v3 may not running, notify user
-            Logger.d("Shizuku v3 may not running.");
+            Timber.d("Shizuku v3 may not running.");
             DialogManager.showCheckShizukuWorkingDialog(mContext);
             // if your app support Shizuku v2, run old v2 codes here
             // for new apps, recommended to ignore v2
@@ -141,7 +142,7 @@ public class ShizukuHelper {
                 }
             } else {
                 // activity not found
-                Logger.d("activity not found.");
+                Timber.d("activity not found.");
                 ToastUtil.makeText("activity not found.");
             }
         }
@@ -172,7 +173,7 @@ public class ShizukuHelper {
                 }
             } else {
                 // activity not found
-                Logger.d("activity not found.");
+                Timber.d("activity not found.");
                 ToastUtil.makeText("activity not found.");
             }
         }

@@ -11,9 +11,9 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.absinthe.anywhere_.utils.manager.Logger;
-
 import java.util.List;
+
+import timber.log.Timber;
 
 @SuppressLint("Registered")
 public class BaseAccessibilityService extends AccessibilityService {
@@ -45,7 +45,7 @@ public class BaseAccessibilityService extends AccessibilityService {
         List<AccessibilityServiceInfo> accessibilityServices =
                 mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_SPOKEN);
         for (AccessibilityServiceInfo info : accessibilityServices) {
-            Logger.d(info.getId());
+            Timber.d(info.getId());
             if (info.getId().equals(serviceName)) {
                 return true;
             }

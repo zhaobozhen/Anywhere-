@@ -16,8 +16,9 @@ import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewbuilder.entity.CollectorBuilder;
+
+import timber.log.Timber;
 
 public class CollectorView extends LinearLayout {
 
@@ -51,7 +52,7 @@ public class CollectorView extends LinearLayout {
         mBuilder = new CollectorBuilder(mContext, this);
 
         mBuilder.ibCollector.setOnClickListener(v -> {
-            Logger.d("Collector clicked!");
+            Timber.d("Collector clicked!");
             collectActivity();
             CollectorService.closeCollector(mContext);
 
@@ -75,7 +76,7 @@ public class CollectorView extends LinearLayout {
                         // 获取按下时的X，Y坐标
                         lastX = motionEvent.getRawX();
                         lastY = motionEvent.getRawY();
-                        Logger.d("MotionEvent.ACTION_DOWN last:", lastX, lastY);
+                        Timber.d("MotionEvent.ACTION_DOWN last: %d %d", lastX, lastY);
 
                         isClick = false;
                         mStartTime = System.currentTimeMillis();
@@ -86,12 +87,12 @@ public class CollectorView extends LinearLayout {
                         // 获取移动时的X，Y坐标
                         nowX = motionEvent.getRawX();
                         nowY = motionEvent.getRawY();
-                        Logger.d("MotionEvent.ACTION_MOVE now:", nowX, nowY);
+                        Timber.d("MotionEvent.ACTION_MOVE now: %d %d", nowX, nowY);
 
                         // 计算XY坐标偏移量
                         tranX = nowX - lastX;
                         tranY = nowY - lastY;
-                        Logger.d("MotionEvent.ACTION_MOVE tran:", tranX, tranY);
+                        Timber.d("MotionEvent.ACTION_MOVE tran: %d %d", tranX, tranY);
 
                         // 移动悬浮窗
                         mLayoutParams.x -= tranX;
@@ -105,7 +106,7 @@ public class CollectorView extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         mEndTime = System.currentTimeMillis();
-                        Logger.d("Touch period =", (mEndTime - mStartTime));
+                        Timber.d("Touch period = %d", (mEndTime - mStartTime));
                         isClick = (mEndTime - mStartTime) > 0.2 * 1000L;
                         break;
                 }
@@ -118,7 +119,7 @@ public class CollectorView extends LinearLayout {
         String cmd = Const.CMD_GET_TOP_STACK_ACTIVITY;
         String result = CommandUtils.execAdbCmd(cmd);
 
-        Logger.d("Shell result =", result);
+        Timber.d("Shell result = %s", result);
 
         if (result == null) {
             ToastUtil.makeText(R.string.toast_adb_result_process_failed);

@@ -19,10 +19,11 @@ import com.absinthe.anywhere_.databinding.ActivityGiftBinding;
 import com.absinthe.anywhere_.model.GiftChatString;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.viewmodel.GiftViewModel;
 
 import java.util.Random;
+
+import timber.log.Timber;
 
 public class GiftActivity extends BaseActivity {
 
@@ -124,7 +125,7 @@ public class GiftActivity extends BaseActivity {
 
         mViewModel.getPrice();
         mViewModel.getChatQueue().offer(GiftChatString.chats);
-        Logger.d(AppUtils.getAndroidId(this));
+        Timber.d(AppUtils.getAndroidId(this));
     }
 
     @Override

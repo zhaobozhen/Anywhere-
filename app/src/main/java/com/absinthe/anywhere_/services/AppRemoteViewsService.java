@@ -14,11 +14,12 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.UiUtils;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.List;
+
+import timber.log.Timber;
 
 public class AppRemoteViewsService extends RemoteViewsService {
 
@@ -111,7 +112,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
-                Logger.e(e.getMessage());
+                Timber.e(e);
             }
 
             // 创建在当前索引位置要显示的View

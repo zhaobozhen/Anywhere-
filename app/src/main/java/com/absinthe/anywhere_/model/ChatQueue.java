@@ -3,9 +3,10 @@ package com.absinthe.anywhere_.model;
 import androidx.annotation.Nullable;
 
 import com.absinthe.anywhere_.adapter.gift.ChatAdapter;
-import com.absinthe.anywhere_.utils.manager.Logger;
 
 import java.util.LinkedList;
+
+import timber.log.Timber;
 
 public class ChatQueue extends LinkedList<String> {
 
@@ -19,7 +20,7 @@ public class ChatQueue extends LinkedList<String> {
 
     public boolean offer(String s, int type) {
         boolean result = super.offer(s);
-        Logger.d("Chat Enqueue:", s);
+        Timber.d("Chat Enqueue: %s", s);
         mListener.onEnqueue(type);
         return result;
     }
@@ -33,7 +34,7 @@ public class ChatQueue extends LinkedList<String> {
                     }
 
                     String prefix = str.substring(0, 3);
-                    Logger.d(prefix);
+                    Timber.d(prefix);
                     switch (prefix) {
                         case GiftChatString.L:
                             offer(str.substring(3), ChatAdapter.TYPE_LEFT);
@@ -59,7 +60,7 @@ public class ChatQueue extends LinkedList<String> {
     public String poll() {
         String head = super.poll();
         mListener.onDequeue(head);
-        Logger.d("Chat Dequeue:", head);
+        Timber.d("Chat Dequeue: %s", head);
         return head;
     }
 

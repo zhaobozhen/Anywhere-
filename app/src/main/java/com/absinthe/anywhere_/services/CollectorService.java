@@ -24,9 +24,10 @@ import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.NotifyUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.PermissionUtils;
+
+import timber.log.Timber;
 
 public class CollectorService extends Service {
     public static final String COMMAND = "COMMAND";
@@ -70,7 +71,7 @@ public class CollectorService extends Service {
     public void onCreate() {
         super.onCreate();
         startForeground(NotifyUtils.COLLECTOR_NOTIFICATION_ID, getNotificationInstance());
-        Logger.i("CollectorService onCreate");
+        Timber.i("CollectorService onCreate");
     }
 
     @Override
@@ -95,7 +96,7 @@ public class CollectorService extends Service {
                         mHandler.post(getCurrentInfoTask);
                     }
                 } else if (command.equals(COMMAND_CLOSE)) {
-                    Logger.d("Intent:COMMAND_CLOSE");
+                    Timber.d("Intent:COMMAND_CLOSE");
                     mHandler.removeCallbacks(getCurrentInfoTask);
                     mCollectorWindowManager.removeView();
 
@@ -125,7 +126,7 @@ public class CollectorService extends Service {
 
     @Override
     public void onDestroy() {
-        Logger.d("CollectorService onDestroy.");
+        Timber.d("CollectorService onDestroy.");
         super.onDestroy();
     }
 

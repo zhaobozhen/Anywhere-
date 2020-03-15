@@ -20,12 +20,13 @@ import com.absinthe.anywhere_.ui.main.MainActivity;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.io.DataOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import timber.log.Timber;
 
 public class PermissionUtils {
 
@@ -35,7 +36,7 @@ public class PermissionUtils {
     public static boolean isMIUI() {
         try {
             String brand = android.os.Build.BRAND.toLowerCase();
-            Logger.d("brand =", brand);
+            Timber.d("brand = %s", brand);
 
             if (!brand.contains("xiaomi") && !brand.contains("redmi")) {
                 return false;
@@ -92,7 +93,7 @@ public class PermissionUtils {
             os.flush();
             process.waitFor();
         } catch (Exception e) {
-            Logger.d("upgradeRootPermission:", e.toString());
+            Timber.d("upgradeRootPermission: %s", e.toString());
             return false;
         } finally {
             try {

@@ -9,7 +9,6 @@ import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.IconPackManager;
-import com.absinthe.anywhere_.utils.manager.Logger;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -60,7 +59,7 @@ public class Settings {
     }
 
     public static void setLogger() {
-        Logger.setDebugMode(BuildConfig.DEBUG | GlobalValues.sIsDebugMode);
+        GlobalValues.sIsDebugMode = BuildConfig.DEBUG | GlobalValues.sIsDebugMode;
     }
 
     public static void initIconPackManager() {

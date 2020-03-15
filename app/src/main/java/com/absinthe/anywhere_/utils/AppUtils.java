@@ -29,13 +29,14 @@ import com.absinthe.anywhere_.receiver.HomeWidgetProvider;
 import com.absinthe.anywhere_.ui.settings.LogcatActivity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.LogRecorder;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class AppUtils {
     /**
@@ -172,11 +173,11 @@ public class AppUtils {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
 
             if (packageInfo.activities != null) {
-                Logger.d(AppUtils.class, "Found ", packageInfo.activities.length, " activity in the AndroidManifest.xml");
+                Timber.d("Found %d activity in the AndroidManifest.xml", packageInfo.activities.length);
 
                 for (ActivityInfo ai : packageInfo.activities) {
                     returnClassList.add(ai.name);
-                    Logger.d(AppUtils.class, ai.name, "...OK");
+                    Timber.d(ai.name, "...OK");
                 }
 
             }
@@ -235,7 +236,7 @@ public class AppUtils {
      * @param context Context
      */
     public static void startLogcat(Context context) {
-        Logger.setDebugMode(true);
+        GlobalValues.sIsDebugMode = true;
         LogRecorder logRecorder = new LogRecorder.Builder(context)
                 .setLogFolderName(context.getString(R.string.logcat))
                 .setLogFileNameSuffix(com.blankj.utilcode.util.AppUtils.getAppName())
@@ -261,11 +262,11 @@ public class AppUtils {
             emailIntent.setType("application/octet-stream");
             String[] emailReceiver = new String[]{"zhaobozhen2025@gmail.com"};
 
-            String emailTitle = String.format("[Anywhere- 问题回报] App Version Code: %s", BuildConfig.VERSION_CODE);
+            String emailTitle = String.format("[%s] App Version Code: %s", context.getString(R.string.report_title), BuildConfig.VERSION_CODE);
 
             emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, emailReceiver);
             emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, emailTitle);
-            String emailContent = "*请描述问题情况: \n\n" +
+            String emailContent = context.getString(R.string.report_describe) + " \n\n" +
                     "App Version Name: " + BuildConfig.VERSION_NAME + "\n" +
                     "App Version Code: " + BuildConfig.VERSION_CODE + "\n" +
                     "Device: " + Build.MODEL + "\n" +
@@ -291,7 +292,7 @@ public class AppUtils {
                 targetIntents.add(intent);
             }
 
-            Intent chooser = Intent.createChooser(targetIntents.remove(0), "请选择邮件 App");
+            Intent chooser = Intent.createChooser(targetIntents.remove(0), context.getString(R.string.report_select_mail_app));
             chooser.putExtra(
                     Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
             context.startActivity(chooser);

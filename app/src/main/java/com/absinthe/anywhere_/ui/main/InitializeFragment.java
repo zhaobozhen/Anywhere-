@@ -33,7 +33,6 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
 import com.absinthe.anywhere_.viewmodel.InitializeViewModel;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -41,6 +40,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import java.util.Objects;
 
 import moe.shizuku.api.ShizukuApiConstants;
+import timber.log.Timber;
 
 public class InitializeFragment extends Fragment implements MaterialButtonToggleGroup.OnButtonCheckedListener, LifecycleOwner {
 
@@ -105,7 +105,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
 
     @Override
     public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-        Logger.d("onButtonChecked");
+        Timber.d("onButtonChecked");
 
         switch (checkedId) {
             case R.id.btn_url_scheme:
@@ -191,9 +191,9 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 rootBinding.btnAcquireRootPermission.setEnabled(false);
                 rootBinding.done.setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.ROOT_PERM);
-                Logger.d("allPerm = " + mViewModel.getAllPerm().getValue());
+                Timber.d("allPerm = %s", mViewModel.getAllPerm().getValue());
             } else {
-                Logger.d("ROOT permission denied.");
+                Timber.d("ROOT permission denied.");
                 ToastUtil.makeText(R.string.toast_root_permission_denied);
             }
         });
@@ -227,7 +227,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 overlayBinding.btnAcquireOverlayPermission.setEnabled(false);
                 overlayBinding.done.setVisibility(View.VISIBLE);
                 mViewModel.getAllPerm().setValue(Objects.requireNonNull(mViewModel.getAllPerm().getValue()) | InitializeViewModel.OVERLAY_PERM);
-                Logger.d("allPerm = " + mViewModel.getAllPerm().getValue());
+                Timber.d("allPerm = %s", mViewModel.getAllPerm().getValue());
             }
         });
 

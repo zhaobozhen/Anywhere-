@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.FileUriExposedException;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
@@ -17,7 +16,6 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
 
 import java.io.IOException;
@@ -26,6 +24,7 @@ import java.io.OutputStream;
 
 import moe.shizuku.api.RemoteProcess;
 import moe.shizuku.api.ShizukuService;
+import timber.log.Timber;
 
 public class CommandUtils {
 
@@ -48,7 +47,7 @@ public class CommandUtils {
                 ToastUtil.makeText(R.string.toast_change_work_mode);
                 break;
         }
-        Logger.d("execCmd result = ", result);
+        Timber.d("execCmd result = %s", result);
         return result;
     }
 
@@ -70,10 +69,10 @@ public class CommandUtils {
                 URLSchemeHandler.parse(cmd, AnywhereApplication.sContext);
                 result = CommandResult.RESULT_SUCCESS;
             } catch (ActivityNotFoundException e) {
-                Logger.e(e.getMessage());
+                Timber.e(e);
                 result = CommandResult.RESULT_NO_REACT_URL;
             } catch (FileUriExposedException e) {
-                Logger.e(e.getMessage());
+                Timber.e(e);
                 result = CommandResult.RESULT_FILE_URI_EXPOSED;
             }
         } else if (cmd.startsWith("am start -n")) {
@@ -89,10 +88,10 @@ public class CommandUtils {
                     AnywhereApplication.sContext.startActivity(intent);
                     result = CommandResult.RESULT_SUCCESS;
                 } catch (ActivityNotFoundException e) {
-                    Logger.d(e.getMessage());
+                    Timber.d(e);
                     result = CommandResult.RESULT_NO_REACT_URL;
                 } catch (SecurityException e) {
-                    Logger.d(e.getMessage());
+                    Timber.d(e);
                     result = CommandResult.RESULT_SECURITY_EXCEPTION;
                 }
             } else {
@@ -123,7 +122,7 @@ public class CommandUtils {
             }
         }
 
-        Logger.d("execCmd result = ", result);
+        Timber.d("execCmd result = %s", result);
         if (!TextUtils.isEmpty(result)) {
             switch (result) {
                 case CommandResult.RESULT_NO_REACT_URL:
@@ -166,7 +165,7 @@ public class CommandUtils {
             os = p.getOutputStream();
             is = p.getInputStream();
 
-            Logger.i(cmd);
+            Timber.i(cmd);
             os.write((cmd + "\n").getBytes());
             os.flush();
             os.write("exit\n".getBytes());
@@ -209,7 +208,7 @@ public class CommandUtils {
      * @param cmd command
      */
     private static String execShizukuCmd(String cmd) {
-        Logger.d(cmd);
+        Timber.d(cmd);
         StringBuilder sb = new StringBuilder();
         try {
             RemoteProcess remoteProcess = ShizukuService.newProcess(new String[]{"sh"}, null, null);
@@ -225,11 +224,11 @@ public class CommandUtils {
             }
             is.close();
 
-            Logger.d("newProcess: " + remoteProcess);
-            Logger.d("waitFor: " + remoteProcess.waitFor());
-            Logger.d("output: " + sb);
+            Timber.d("newProcess: %s", remoteProcess);
+            Timber.d("waitFor: %s", remoteProcess.waitFor());
+            Timber.d("output: %s", sb);
         } catch (Throwable tr) {
-            Log.e(PermissionUtils.class.getSimpleName(), "newProcess", tr);
+            Timber.e(tr, "newProcess");
             sb.append(CommandResult.RESULT_SHIZUKU_PERM_ERROR);
         }
         return sb.toString();

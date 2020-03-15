@@ -56,7 +56,6 @@ import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.absinthe.anywhere_.view.FabBuilder;
 import com.absinthe.anywhere_.view.editor.AnywhereEditor;
@@ -79,6 +78,7 @@ import java.util.Objects;
 import it.sephiroth.android.library.xtooltip.ClosePolicy;
 import it.sephiroth.android.library.xtooltip.Tooltip;
 import jonathanfinerty.once.Once;
+import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
     public ActivityMainBinding mBinding;
@@ -466,14 +466,14 @@ public class MainActivity extends BaseActivity {
     private void getAnywhereIntent(Intent intent) {
         String action = intent.getAction();
 
-        Logger.d("action = ", action);
+        Timber.d("action = %s", action);
 
         if (action == null || action.equals(Intent.ACTION_VIEW)) {
             Uri uri = intent.getData();
 
             if (uri != null) {
-                Logger.d("Received Url =", uri.toString());
-                Logger.d("Received path =", uri.getPath());
+                Timber.d("Received Url = %s", uri.toString());
+                Timber.d("Received path = %s", uri.getPath());
 
                 processUri(uri);
             }

@@ -7,8 +7,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.view.CollectorView;
+
+import timber.log.Timber;
 
 public class CollectorWindowManager {
     private static final WindowManager.LayoutParams LAYOUT_PARAMS;
@@ -48,7 +49,7 @@ public class CollectorWindowManager {
             mFloatingView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 
             mWindowManager.addView(mFloatingView, LAYOUT_PARAMS);
-            Logger.d("Collector addView.");
+            Timber.d("Collector addView.");
         }
     }
 
@@ -56,7 +57,7 @@ public class CollectorWindowManager {
         if (mFloatingView != null) {
             mWindowManager.removeView(mFloatingView);
             mFloatingView = null;
-            Logger.d("Collector removeView.");
+            Timber.d("Collector removeView.");
         }
     }
 

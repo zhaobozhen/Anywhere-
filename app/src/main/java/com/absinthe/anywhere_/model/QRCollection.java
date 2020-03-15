@@ -14,7 +14,6 @@ import com.absinthe.anywhere_.services.IzukoService;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.workflow.FlowNode;
 import com.absinthe.anywhere_.workflow.WorkFlow;
 
@@ -23,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
+import timber.log.Timber;
 
 public class QRCollection {
 
@@ -63,6 +63,7 @@ public class QRCollection {
         mList.add(genUnionpayPay());
         mList.add(genUnionpayCollect());
         mList.add(genUnionpayScan());
+        mList.add(genUnionpayBus());
 
         mMap = new HashMap<>();
         mMap.put(wechatScanId, wechatScan);
@@ -78,7 +79,7 @@ public class QRCollection {
         mMap.put(unionpayPayId, unionpayPay);
         mMap.put(unionpayCollectId, unionpayCollect);
         mMap.put(unionpayScanId, unionpayScan);
-
+        mMap.put(unionpayBusId, unionpayBus);
     }
 
     public ArrayList<AnywhereEntity> getList() {
@@ -106,7 +107,7 @@ public class QRCollection {
         List<AccessibilityServiceInfo> accessibilityServices =
                 mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_SPOKEN);
         for (AccessibilityServiceInfo info : accessibilityServices) {
-            Logger.d(info.getId());
+            Timber.d(info.getId());
             if (info.getId().equals(serviceName)) {
                 return true;
             }
@@ -211,7 +212,7 @@ public class QRCollection {
                         mContext.startActivity(intent);
                     }
                 } catch (Exception e) {
-                    Logger.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                    Timber.d("WORKING_MODE_URL_SCHEME:Exception: %s", e.getMessage());
                 }
             }
         });
@@ -296,7 +297,7 @@ public class QRCollection {
                         mContext.startActivity(intent);
                     }
                 } catch (Exception e) {
-                    Logger.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                    Timber.d("WORKING_MODE_URL_SCHEME:Exception: %s", e.getMessage());
                 }
             }
         });
@@ -483,6 +484,8 @@ public class QRCollection {
                 Observable<FlowNode> source = Observable.create(emitter -> {
                     emitter.onNext(new FlowNode("知道了", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     Thread.sleep(200);
+                    emitter.onNext(new FlowNode("跳过", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    Thread.sleep(200);
                     emitter.onNext(new FlowNode(text, FlowNode.TYPE_ACCESSIBILITY_TEXT));
 
                     emitter.onComplete();
@@ -496,7 +499,7 @@ public class QRCollection {
                         mContext.startActivity(intent);
                     }
                 } catch (Exception e) {
-                    Logger.d("WORKING_MODE_URL_SCHEME:Exception:", e.getMessage());
+                    Timber.d("WORKING_MODE_URL_SCHEME:Exception: %s", e.getMessage());
                 }
             }
         });
@@ -512,6 +515,9 @@ public class QRCollection {
                 break;
             case "扫一扫":
                 unionpayScan = qrEntity;
+                break;
+            case "乘车码":
+                unionpayBus = qrEntity;
                 break;
             default:
         }
@@ -556,4 +562,13 @@ public class QRCollection {
         return genUnionPay(unionpayScanId, "扫一扫", String.valueOf(mPriority++));
     }
 
+    /**
+     * UnionPay bus page
+     */
+    private static final String unionpayBusId = "unionpayBus";
+    private QREntity unionpayBus;
+
+    private AnywhereEntity genUnionpayBus() {
+        return genUnionPay(unionpayBusId, "乘车码", String.valueOf(mPriority++));
+    }
 }

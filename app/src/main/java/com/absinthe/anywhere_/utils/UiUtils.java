@@ -55,7 +55,6 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.bumptech.glide.Glide;
@@ -65,6 +64,8 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Calendar;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class UiUtils {
     /**
@@ -223,7 +224,7 @@ public class UiUtils {
 
         if (Settings.sDate.equals("12-25")) {
             title.append(" \uD83C\uDF84");
-            Logger.d("title = ", title);
+            Timber.d("title = %s", title);
         } else if (Settings.sDate.equals("01-25")) {
             title.append(" \uD83D\uDC2D");
         }
@@ -291,7 +292,7 @@ public class UiUtils {
 
         if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
-            Logger.d("actionBarHeight = " + actionBarHeight);
+            Timber.d("actionBarHeight = %d", actionBarHeight);
         }
 
         final int finalActionBarHeight = actionBarHeight;
@@ -303,8 +304,8 @@ public class UiUtils {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Bitmap actionBarBitmap = Bitmap.createBitmap(resource, 0, 0,
                                 resource.getWidth(), Math.min(finalActionBarHeight, resource.getHeight()));
-                        Logger.d("actionBarBitmap.getWidth() =", actionBarBitmap.getWidth());
-                        Logger.d("actionBarBitmap.getHeight() =", actionBarBitmap.getHeight());
+                        Timber.d("actionBarBitmap.getWidth() = %d", actionBarBitmap.getWidth());
+                        Timber.d("actionBarBitmap.getHeight() = %d", actionBarBitmap.getHeight());
 
                         Palette.from(actionBarBitmap).generate(p -> {
                             if (p != null) {
@@ -401,7 +402,7 @@ public class UiUtils {
         }
 
         if (type.equals(Const.ACTION_BAR_TYPE_DARK) || type.isEmpty()) {
-            Logger.d("Dark-");
+            Timber.d("Dark-");
 
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
@@ -429,7 +430,7 @@ public class UiUtils {
                 setActionBarTransparent(activity);
             }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
-            Logger.d("Light-");
+            Timber.d("Light-");
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.WHITE);
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -524,7 +525,7 @@ public class UiUtils {
      * @param color     secondary color
      */
     public static void createLinearGradientBitmap(ImageView view, int darkColor, int color) {
-        Logger.d("dark color = ",darkColor);
+        Timber.d("dark color = %d",darkColor);
         int[] bgColors = new int[2];
         bgColors[0] = darkColor;
         bgColors[1] = color;

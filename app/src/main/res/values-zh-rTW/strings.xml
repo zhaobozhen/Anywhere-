@@ -291,4 +291,7 @@
     <string name="btn_start_catch_log">開始抓取日誌</string>
     <string name="btn_stop_catch_log">停止抓取日誌</string>
     <string name="settings_logcat_summary">抓取系統日誌並回報問題</string>
+    <string name="report_title">Anywhere- 問題回報</string>
+    <string name="report_describe">*請描述問題情況:</string>
+    <string name="report_select_mail_app">請選擇郵件 App</string>
 </resources>

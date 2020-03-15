@@ -8,8 +8,9 @@ import androidx.annotation.Nullable;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.OverlayWindowManager;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.absinthe.anywhere_.utils.ToastUtil;
+
+import timber.log.Timber;
 
 public class OverlayService extends Service {
     public static final String COMMAND = "COMMAND";
@@ -29,7 +30,7 @@ public class OverlayService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Logger.i("OverlayService onCreate");
+        Timber.i("OverlayService onCreate");
     }
 
     @Override
@@ -48,7 +49,7 @@ public class OverlayService extends Service {
                 if (command.equals(COMMAND_OPEN)) {
                     mWindowManager.addView();
                 } else if (command.equals(COMMAND_CLOSE)) {
-                    Logger.d("Intent:COMMAND_CLOSE");
+                    Timber.d("Intent:COMMAND_CLOSE");
                     mWindowManager.removeView();
                     stopSelf();
                 }
@@ -67,7 +68,7 @@ public class OverlayService extends Service {
 
     @Override
     public void onDestroy() {
-        Logger.d("OverlayService onDestroy.");
+        Timber.d("OverlayService onDestroy.");
         super.onDestroy();
     }
 }

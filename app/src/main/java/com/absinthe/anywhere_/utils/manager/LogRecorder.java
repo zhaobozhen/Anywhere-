@@ -18,8 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Reference to http://blog.csdn.net/way_ping_li/article/details/8487866
- * and improved some features...
+ * LogRecorder
  */
 public class LogRecorder {
 
@@ -94,7 +93,11 @@ public class LogRecorder {
         // TODO support multi-phase path
         File file = new File(mFolderPath);
         if (!file.exists()) {
-            file.mkdirs();
+            boolean result = file.mkdirs();
+
+            if (!result) {
+                return;
+            }
         }
 
         String cmdStr = collectLogcatCommand();
@@ -183,7 +186,7 @@ public class LogRecorder {
     /**
      * Android`s user app pid is bigger than 1000.
      *
-     * @return
+     * @return adjusted PID
      */
     private String adjustPIDStr() {
         if (mPID == INVALID_PID) {
@@ -207,23 +210,22 @@ public class LogRecorder {
     private static class LogDumper extends Thread {
         final String logPath;
         final String logFileSuffix;
-        final int logFileLimitation;
         final String logCmd;
+        final int logFileLimitation;
+        final private Object mRunningLock = new Object();
 
         final RestartHandler restartHandler;
 
-        private Process logcatProc;
+        private Process logcatProcess;
         private BufferedReader mReader = null;
         private FileOutputStream out = null;
 
         private boolean mRunning = true;
-        final private Object mRunningLock = new Object();
-
         private long currentFileSize;
 
-        public LogDumper(String folderPath, String suffix,
-                         int fileSizeLimitation, String command,
-                         RestartHandler handler) {
+        LogDumper(String folderPath, String suffix,
+                  int fileSizeLimitation, String command,
+                  RestartHandler handler) {
             logPath = folderPath;
             logFileSuffix = suffix;
             logFileLimitation = fileSizeLimitation;
@@ -240,7 +242,7 @@ public class LogRecorder {
             }
         }
 
-        public void stopDumping() {
+        void stopDumping() {
             synchronized (mRunningLock) {
                 mRunning = false;
             }
@@ -249,10 +251,10 @@ public class LogRecorder {
         @Override
         public void run() {
             try {
-                logcatProc = Runtime.getRuntime().exec(logCmd);
+                logcatProcess = Runtime.getRuntime().exec(logCmd);
                 mReader = new BufferedReader(new InputStreamReader(
-                        logcatProc.getInputStream()), 1024);
-                String line = null;
+                        logcatProcess.getInputStream()), 1024);
+                String line;
                 while (mRunning && (line = mReader.readLine()) != null) {
                     if (!mRunning) {
                         break;
@@ -276,9 +278,9 @@ public class LogRecorder {
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                if (logcatProc != null) {
-                    logcatProc.destroy();
-                    logcatProc = null;
+                if (logcatProcess != null) {
+                    logcatProcess.destroy();
+                    logcatProcess = null;
                 }
                 if (mReader != null) {
                     try {
@@ -371,17 +373,17 @@ public class LogRecorder {
          * field. To do so, you use the -v option and specify one of the supported output formats
          * listed below.
          * <p/>
-         * brief      — Display priority/tag and PID of the process issuing the message.
-         * process    — Display PID only.
-         * tag        — Display the priority/tag only.
-         * thread     - Display the priority, tag, and the PID(process ID) and TID(thread ID)
+         * brief       — Display priority/tag and PID of the process issuing the message.
+         * process     — Display PID only.
+         * tag         — Display the priority/tag only.
+         * thread      — Display the priority, tag, and the PID(process ID) and TID(thread ID)
          * of the thread issuing the message.
-         * raw        — Display the raw log message, with no other metadata fields.
-         * time       — Display the date, invocation time, priority/tag, and PID of
+         * raw         — Display the raw log message, with no other metadata fields.
+         * time        — Display the date, invocation time, priority/tag, and PID of
          * the process issuing the message.
-         * threadtime — Display the date, invocation time, priority, tag, and the PID(process ID)
+         * thread time — Display the date, invocation time, priority, tag, and the PID(process ID)
          * and TID(thread ID) of the thread issuing the message.
-         * long       — Display all metadata fields and separate messages with blank lines.
+         * long        — Display all metadata fields and separate messages with blank lines.
          */
         private int mLogOutFormat;
 
@@ -410,7 +412,7 @@ public class LogRecorder {
         /**
          * set log file name suffix
          *
-         * @param logFileNameSuffix auto appened suffix
+         * @param logFileNameSuffix auto append suffix
          * @return the same Builder
          */
         public Builder setLogFileNameSuffix(String logFileNameSuffix) {
@@ -487,7 +489,7 @@ public class LogRecorder {
          * @return the same Builder
          */
         public Builder setLogOutFormat(int logOutFormat) {
-            this.mLogOutFormat = mLogOutFormat;
+            this.mLogOutFormat = logOutFormat;
             return this;
         }
 
@@ -498,10 +500,8 @@ public class LogRecorder {
         /**
          * call this only if mLogFolderName and mLogFolderPath not
          * be set both.
-         *
-         * @return
          */
-        private void applyAppNameAsOutfolderName() {
+        private void applyAppNameAsOutFolderName() {
             try {
                 String appName = mContext.getPackageName();
                 String versionName = mContext.getPackageManager().getPackageInfo(
@@ -509,12 +509,12 @@ public class LogRecorder {
                 int versionCode = mContext.getPackageManager()
                         .getPackageInfo(appName, 0).versionCode;
                 mLogFolderName = appName + "-" + versionName + "-" + versionCode;
-                mLogFolderPath = applyOutfolderPath();
+                mLogFolderPath = applyOutFolderPath();
             } catch (Exception ignored) {
             }
         }
 
-        private String applyOutfolderPath() {
+        private String applyOutFolderPath() {
             return mContext.getExternalFilesDir(null) + File.separator + mLogFolderName;
         }
 
@@ -528,12 +528,12 @@ public class LogRecorder {
             // no folder name & folder path be set
             if (TextUtils.isEmpty(mLogFolderName)
                     && TextUtils.isEmpty(mLogFolderPath)) {
-                applyAppNameAsOutfolderName();
+                applyAppNameAsOutFolderName();
             }
 
             // make sure out path be set
             if (TextUtils.isEmpty(mLogFolderPath)) {
-                mLogFolderPath = applyOutfolderPath();
+                mLogFolderPath = applyOutFolderPath();
             }
 
             logRecorder.mFolderPath = mLogFolderPath;

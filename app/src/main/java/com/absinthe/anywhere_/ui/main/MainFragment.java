@@ -42,11 +42,12 @@ import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
-import com.absinthe.anywhere_.utils.manager.Logger;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class MainFragment extends Fragment {
     private static final String BUNDLE_CATEGORY = "CATEGORY";
@@ -177,7 +178,7 @@ public class MainFragment extends Fragment {
     }
 
     private void resetSelectState() {
-        Logger.d("getSelectedIndex() = ", adapter.getSelectedIndex());
+        Timber.d("getSelectedIndex() = %d", adapter.getSelectedIndex());
         for (int iter = 0, len = adapter.getItemCount(); iter < len; iter++) {
             View view = mLayoutManager.findViewByPosition(iter);
             if (view != null) {
