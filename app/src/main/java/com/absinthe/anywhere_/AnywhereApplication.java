@@ -10,12 +10,15 @@ import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.manager.IzukoHelper;
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
+import com.absinthe.anywhere_.utils.timber.ReleaseTree;
+import com.absinthe.anywhere_.utils.timber.ThreadAwareDebugTree;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import jonathanfinerty.once.Once;
 import me.weishu.reflection.Reflection;
+import timber.log.Timber;
 
 public class AnywhereApplication extends Application {
     @SuppressLint("StaticFieldLeak")
@@ -26,8 +29,11 @@ public class AnywhereApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new ThreadAwareDebugTree());
+        } else {
             IzukoHelper.checkSignature();
+            Timber.plant(new ReleaseTree());
         }
 
         sContext = this;
