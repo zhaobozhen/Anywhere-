@@ -185,7 +185,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     }
 
     private void initObserver() {
-        mViewModel.getIsRoot().observe(getViewLifecycleOwner(), aBoolean -> {
+        mViewModel.isRoot().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
                 rootBinding.btnAcquireRootPermission.setText(R.string.btn_acquired);
                 rootBinding.btnAcquireRootPermission.setEnabled(false);
@@ -198,7 +198,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             }
         });
 
-        mViewModel.getIsShizukuCheck().observe(getViewLifecycleOwner(), aBoolean -> {
+        mViewModel.isShizukuCheck().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
                 shizukuBinding.btnCheckShizukuState.setText(R.string.btn_checked);
                 shizukuBinding.btnCheckShizukuState.setEnabled(false);
@@ -210,7 +210,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             }
         });
 
-        mViewModel.getIsShizuku().observe(getViewLifecycleOwner(), aBoolean -> {
+        mViewModel.isShizuku().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
                 shizukuBinding.btnAcquirePermission.setText(R.string.btn_acquired);
                 shizukuBinding.btnAcquirePermission.setEnabled(false);
@@ -221,7 +221,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             }
         });
 
-        mViewModel.getIsOverlay().observe(getViewLifecycleOwner(), aBoolean -> {
+        mViewModel.isOverlay().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
                 overlayBinding.btnAcquireOverlayPermission.setText(R.string.btn_acquired);
                 overlayBinding.btnAcquireOverlayPermission.setEnabled(false);
@@ -239,7 +239,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             case CARD_ROOT:
                 rootBinding.btnAcquireRootPermission.setOnClickListener(view -> {
                     boolean result = PermissionUtils.upgradeRootPermission(mContext.getPackageCodePath());
-                    mViewModel.getIsRoot().setValue(result);
+                    mViewModel.isRoot().setValue(result);
                 });
                 if (isAdd) {
                     if (!bRoot) {
@@ -255,12 +255,12 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                 shizukuBinding.btnAcquirePermission.setEnabled(false);
                 shizukuBinding.btnCheckShizukuState.setOnClickListener(view -> {
                     boolean result = ShizukuHelper.checkShizukuOnWorking(mContext);
-                    mViewModel.getIsShizukuCheck().setValue(result);
+                    mViewModel.isShizukuCheck().setValue(result);
                 });
 
                 shizukuBinding.btnAcquirePermission.setOnClickListener(view -> {
                     boolean result = ShizukuHelper.isGrantShizukuPermission();
-                    mViewModel.getIsShizuku().setValue(result);
+                    mViewModel.isShizuku().setValue(result);
                     if (!result) {
                         ShizukuHelper.requestShizukuPermission();
                     }
@@ -278,20 +278,20 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
             case CARD_OVERLAY:
                 overlayBinding.btnAcquireOverlayPermission.setOnClickListener(view -> {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                        mViewModel.getIsOverlay().setValue(true);
+                        mViewModel.isOverlay().setValue(true);
                     } else {
                         boolean isGrant = com.blankj.utilcode.util.PermissionUtils.isGrantedDrawOverlays();
-                        mViewModel.getIsOverlay().setValue(isGrant);
+                        mViewModel.isOverlay().setValue(isGrant);
                         if (!isGrant) {
                             com.blankj.utilcode.util.PermissionUtils.requestDrawOverlays(new com.blankj.utilcode.util.PermissionUtils.SimpleCallback() {
                                 @Override
                                 public void onGranted() {
-                                    mViewModel.getIsOverlay().setValue(true);
+                                    mViewModel.isOverlay().setValue(true);
                                 }
 
                                 @Override
                                 public void onDenied() {
-                                    mViewModel.getIsOverlay().setValue(false);
+                                    mViewModel.isOverlay().setValue(false);
                                 }
                             });
                         }
@@ -333,13 +333,13 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
         if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (Settings.canDrawOverlays(mContext)) {
-                    mViewModel.getIsOverlay().setValue(Boolean.TRUE);
+                    mViewModel.isOverlay().setValue(Boolean.TRUE);
                 }
             }
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (ActivityCompat.checkSelfPermission(mContext, ShizukuApiConstants.PERMISSION) == PackageManager.PERMISSION_GRANTED) {
-                    mViewModel.getIsShizuku().setValue(Boolean.TRUE);
+                    mViewModel.isShizuku().setValue(Boolean.TRUE);
                 }
             }, 3000);
         }
@@ -350,7 +350,7 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
             if (ActivityCompat.checkSelfPermission(mContext, ShizukuApiConstants.PERMISSION) == PackageManager.PERMISSION_GRANTED) {
-                mViewModel.getIsShizuku().setValue(Boolean.TRUE);
+                mViewModel.isShizuku().setValue(Boolean.TRUE);
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
