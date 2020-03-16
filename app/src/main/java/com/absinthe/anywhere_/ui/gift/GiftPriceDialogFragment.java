@@ -76,7 +76,7 @@ public class GiftPriceDialogFragment extends AnywhereDialogFragment {
         if (btnPurchase != null) {
             btnPurchase.setOnClickListener(v -> {
                 if (AlipayZeroSdk.hasInstalledAlipayClient(mContext)) {
-                    AlipayZeroSdk.startAlipayClient(GiftActivity.getInstance(), "fkx12584ebfzfjbjeov8h93");
+                    AlipayZeroSdk.startAlipayClient(GiftActivity.Companion.getInstance(), "fkx12584ebfzfjbjeov8h93");
                 } else {
                     ToastUtil.makeText("Please install Alipay");
                 }

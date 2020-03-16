@@ -23,7 +23,6 @@ import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.ui.list.AppDetailActivity;
-import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
@@ -183,7 +182,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            //这里对number进行过滤后重新赋值
+            //这里对 number 进行过滤后重新赋值
             mList = (List<AppListBean>) results.values;
             //如果过滤后的返回的值的个数大于等于 0 的话,对 Adapter 的界面进行刷新
             if (results.count > 0) {

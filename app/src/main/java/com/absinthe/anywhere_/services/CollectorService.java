@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.service.quicksettings.Tile;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -99,17 +98,6 @@ public class CollectorService extends Service {
                     Timber.d("Intent:COMMAND_CLOSE");
                     mHandler.removeCallbacks(getCurrentInfoTask);
                     mCollectorWindowManager.removeView();
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        if (CollectorTileService.getInstance() != null) {
-                            Tile tile = CollectorTileService.getInstance().getQsTile();
-                            if (tile != null) {
-                                tile.setState(Tile.STATE_INACTIVE);
-                                tile.setLabel(getString(R.string.tile_collector_on));
-                                tile.updateTile();
-                            }
-                        }
-                    }
                     stopSelf();
                 }
             }

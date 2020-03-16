@@ -5,21 +5,10 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
-import com.absinthe.anywhere_.ui.main.MainActivity;
-import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
-import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
-import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.io.DataOutputStream;
@@ -117,31 +106,11 @@ public class PermissionUtils {
     }
 
     public static void unfreezeApp(Context context, String pkgName, OnAppUnfreezeListener listener) {
-        try {
-            if (IceBox.getAppEnabledSetting(context, pkgName) != 0) { //0 为未冻结状态
-                if (ContextCompat.checkSelfPermission(context, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                    if (PermissionUtils.isMIUI()) {
-                        if (context instanceof ShortcutsActivity) {
-                            context.startActivity(new Intent(context, MainActivity.class));
-                            new Handler(Looper.getMainLooper()).postDelayed(() ->
-                                    DialogManager.showGrantPrivilegedPermDialog(ActivityStackManager.getInstance().getTopActivity()), 200);
-                        } else {
-                            DialogManager.showGrantPrivilegedPermDialog((AppCompatActivity) context);
-                        }
-                    } else {
-                        ActivityCompat.requestPermissions((Activity) context, new String[]{IceBox.SDK_PERMISSION}, 0x233);
-                    }
-                } else {
-                    new Thread(() -> {
-                        ((Activity) context).runOnUiThread(() -> ToastUtil.makeText(R.string.toast_defrosting));
-                        IceBox.setAppEnabledSettings(context, true, pkgName);
-                        ((Activity) context).runOnUiThread(listener::onAppUnfrozen);
-                    }).start();
-                }
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> {
+            ((Activity) context).runOnUiThread(() -> ToastUtil.makeText(R.string.toast_defrosting));
+            IceBox.setAppEnabledSettings(context, true, pkgName);
+            ((Activity) context).runOnUiThread(listener::onAppUnfrozen);
+        }).start();
     }
 
 }
