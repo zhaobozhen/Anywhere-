@@ -10,17 +10,19 @@ class IntervalDialogBuilder(context: Context) : ViewBuilder(context) {
     var slider: Slider = Slider(mContext)
 
     override fun init() {
-        root = LinearLayout(mContext)
-        root.layoutParams = Params.LL.MATCH_MATCH
+        root = LinearLayout(mContext).apply {
+            layoutParams = Params.LL.MATCH_MATCH
+            val padding = 10.dp
+            setPadding(padding, padding, padding, padding)
+        }
 
-        val padding = 10.dp
-        root.setPadding(padding, padding, padding, padding)
-
-        slider.layoutParams = Params.LL.MATCH_WRAP
-        slider.valueFrom = 0.5f
-        slider.valueTo = 2.5f
-        slider.stepSize = 0.25f
-        slider.setLabelFormatter { value: Float -> value.toString() + "s" }
+        slider.apply {
+            layoutParams = Params.LL.MATCH_WRAP
+            valueFrom = 0.5f
+            valueTo = 2.5f
+            stepSize = 0.25f
+            setLabelFormatter { value: Float -> value.toString() + "s" }
+        }
         addView(slider)
     }
 }

@@ -12,13 +12,16 @@ class ImageDialogBuilder(context: Context) : ViewBuilder(context) {
     var image: ImageView = ImageView(mContext)
 
     override fun init() {
-        root = LinearLayout(mContext)
-        root.layoutParams = Params.LL.MATCH_WRAP
-        root.setBackgroundColor(Color.TRANSPARENT)
-        root.elevation = 3.dp.toFloat()
+        root = LinearLayout(mContext).apply {
+            layoutParams = Params.LL.MATCH_WRAP
+            setBackgroundColor(Color.TRANSPARENT)
+            elevation = 3.dp.toFloat()
+        }
 
-        image.layoutParams = Params.LL.MATCH_WRAP
-        image.setImageDrawable(ColorDrawable(Color.TRANSPARENT))
+        image.apply {
+            layoutParams = Params.LL.MATCH_WRAP
+            setImageDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
         addView(image)
     }
 }

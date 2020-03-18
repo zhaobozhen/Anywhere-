@@ -19,30 +19,36 @@ class TimePickerBuilder(context: Context) : ViewBuilder(context) {
 
     @SuppressLint("SetTextI18n")
     override fun init() {
-        root = LinearLayout(mContext)
-        root.layoutParams = Params.LL.MATCH_MATCH
-        (root as LinearLayout).orientation = LinearLayout.HORIZONTAL
+        root = LinearLayout(mContext).apply {
+            layoutParams = Params.LL.MATCH_MATCH
+            orientation = LinearLayout.HORIZONTAL
 
-        val padding = 10.dp
-        root.setPadding(padding, padding, padding, padding)
-        (root as LinearLayout).setHorizontalGravity(Gravity.CENTER)
-        root.clipToPadding = false
+            val padding = 10.dp
+            setPadding(padding, padding, padding, padding)
+            setHorizontalGravity(Gravity.CENTER)
+            clipToPadding = false
+        }
 
         val wrapWrap = Params.LL.WRAP_WRAP
-        btnStart.layoutParams = wrapWrap
-        btnStart.setTextColor(ContextCompat.getColor(mContext, R.color.textColorNormal))
-        btnStart.setBackgroundColor(ContextCompat.getColor(mContext, R.color.navigationColorNormal))
+        btnStart.apply {
+            layoutParams = wrapWrap
+            setTextColor(ContextCompat.getColor(mContext, R.color.textColorNormal))
+            setBackgroundColor(ContextCompat.getColor(mContext, R.color.navigationColorNormal))
+        }
         addView(btnStart)
 
-        val tvTo = TextView(mContext)
-        tvTo.layoutParams = wrapWrap
-        tvTo.setPadding(20.dp, 0, 20.dp, 0)
-        tvTo.text = "To"
+        val tvTo = TextView(mContext).apply {
+            layoutParams = wrapWrap
+            setPadding(20.dp, 0, 20.dp, 0)
+            text = "To"
+        }
         addView(tvTo)
 
-        btnEnd.layoutParams = wrapWrap
-        btnEnd.setTextColor(ContextCompat.getColor(mContext, R.color.textColorNormal))
-        btnEnd.setBackgroundColor(ContextCompat.getColor(mContext, R.color.navigationColorNormal))
+        btnEnd.apply {
+            layoutParams = wrapWrap
+            setTextColor(ContextCompat.getColor(mContext, R.color.textColorNormal))
+            setBackgroundColor(ContextCompat.getColor(mContext, R.color.navigationColorNormal))
+        }
         addView(btnEnd)
     }
 }

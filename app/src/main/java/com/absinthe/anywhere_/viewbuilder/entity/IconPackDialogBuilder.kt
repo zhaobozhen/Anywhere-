@@ -10,12 +10,13 @@ class IconPackDialogBuilder(context: Context?) : ViewBuilder(context!!) {
     var rvIconPack: RecyclerView = RecyclerView(mContext)
 
     override fun init() {
-        root = LinearLayout(mContext)
-        root.layoutParams = Params.LL.MATCH_MATCH
+        root = LinearLayout(mContext).apply {
+            layoutParams = Params.LL.MATCH_MATCH
+        }
 
-        val rvParams = Params.LL.MATCH_WRAP
-        rvParams.setMargins(0, 0, 0, 10.dp)
-        rvIconPack.layoutParams = rvParams
+        rvIconPack.layoutParams = Params.LL.MATCH_WRAP.apply {
+            setMargins(0, 0, 0, 10.dp)
+        }
 
         addView(rvIconPack)
     }

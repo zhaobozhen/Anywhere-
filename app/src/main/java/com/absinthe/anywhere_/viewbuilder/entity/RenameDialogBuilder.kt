@@ -10,17 +10,21 @@ class RenameDialogBuilder(context: Context) : ViewBuilder(context) {
     var etName: EditText = EditText(mContext)
 
     override fun init() {
-        root = LinearLayout(mContext)
-        root.layoutParams = Params.LL.MATCH_MATCH
+        root = LinearLayout(mContext).apply {
+            layoutParams = Params.LL.MATCH_MATCH
 
-        val padding = 25.dp
-        root.setPadding(padding, padding, padding, padding)
-        (root as LinearLayout).orientation = LinearLayout.HORIZONTAL
+            val padding = 25.dp
+            setPadding(padding, padding, padding, padding)
+            orientation = LinearLayout.HORIZONTAL
+        }
 
-        val etParam = Params.LL.MATCH_WRAP
-        etParam.marginStart = 10.dp
-        etName.layoutParams = etParam
-        etName.setSingleLine()
+        val etParam = Params.LL.MATCH_WRAP.apply {
+            marginStart = 10.dp
+        }
+        etName.apply {
+            layoutParams = etParam
+            setSingleLine()
+        }
 
         addView(etName)
     }
