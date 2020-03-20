@@ -7,8 +7,7 @@ import android.widget.LinearLayout
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class OverlayBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(context, viewGroup) {
-    @JvmField
-    var ivIcon: ImageView = ImageView(mContext)
+    lateinit var ivIcon: ImageView
 
     override fun init() {
         val layoutParams = LinearLayout.LayoutParams(65.dp, 65.dp)

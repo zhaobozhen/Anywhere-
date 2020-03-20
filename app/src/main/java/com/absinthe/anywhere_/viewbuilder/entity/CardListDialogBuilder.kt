@@ -13,10 +13,10 @@ import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class CardListDialogBuilder(context: Context) : ViewBuilder(context) {
-    @JvmField
-    var mAdapter: AppListAdapter = AppListAdapter(context, AppListAdapter.MODE_CARD_LIST)
+    lateinit var mAdapter: AppListAdapter
 
     override fun init() {
+        mAdapter = AppListAdapter(mContext, AppListAdapter.MODE_CARD_LIST)
         root = ViewFlipper(mContext).apply {
             layoutParams = FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,

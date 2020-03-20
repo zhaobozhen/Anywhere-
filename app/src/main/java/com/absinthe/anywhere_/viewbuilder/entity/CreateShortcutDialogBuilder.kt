@@ -7,10 +7,8 @@ import android.widget.LinearLayout
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class CreateShortcutDialogBuilder(context: Context) : ViewBuilder(context) {
-    @JvmField
-    var ivIcon: ImageView = ImageView(mContext)
-    @JvmField
-    var etName: EditText = EditText(mContext)
+    lateinit var ivIcon: ImageView
+    lateinit var etName: EditText
 
     override fun init() {
         root = LinearLayout(mContext).apply {
@@ -26,7 +24,7 @@ class CreateShortcutDialogBuilder(context: Context) : ViewBuilder(context) {
         }
         addView(ivIcon)
 
-        etName.apply {
+        etName = EditText(mContext).apply {
             layoutParams = Params.LL.MATCH_WRAP.apply {
                 marginStart = 10.dp
             }

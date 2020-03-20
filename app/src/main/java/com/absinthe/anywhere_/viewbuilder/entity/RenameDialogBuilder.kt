@@ -6,8 +6,7 @@ import android.widget.LinearLayout
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class RenameDialogBuilder(context: Context) : ViewBuilder(context) {
-    @JvmField
-    var etName: EditText = EditText(mContext)
+    lateinit var etName: EditText
 
     override fun init() {
         root = LinearLayout(mContext).apply {

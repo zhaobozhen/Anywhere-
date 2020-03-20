@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class IconPackDialogBuilder(context: Context?) : ViewBuilder(context!!) {
-    @JvmField
-    var rvIconPack: RecyclerView = RecyclerView(mContext)
+    lateinit var rvIconPack: RecyclerView
 
     override fun init() {
         root = LinearLayout(mContext).apply {

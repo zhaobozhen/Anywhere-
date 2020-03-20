@@ -8,8 +8,7 @@ import android.widget.LinearLayout
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class ImageDialogBuilder(context: Context) : ViewBuilder(context) {
-    @JvmField
-    var image: ImageView = ImageView(mContext)
+    lateinit var image: ImageView
 
     override fun init() {
         root = LinearLayout(mContext).apply {

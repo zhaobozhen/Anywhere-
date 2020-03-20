@@ -6,8 +6,7 @@ import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 import com.google.android.material.slider.Slider
 
 class IntervalDialogBuilder(context: Context) : ViewBuilder(context) {
-    @JvmField
-    var slider: Slider = Slider(mContext)
+    lateinit var slider: Slider
 
     override fun init() {
         root = LinearLayout(mContext).apply {

@@ -9,7 +9,7 @@ import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class CardSharingBuilder(context: Context, private val text: String) : ViewBuilder(context) {
 
-    private var ivQrCode: ImageView = ImageView(context)
+    private lateinit var ivQrCode: ImageView
 
     override fun init() {
         root = LinearLayout(mContext).apply {
