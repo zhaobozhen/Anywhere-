@@ -21,7 +21,9 @@ class CreateShortcutDialogBuilder(context: Context) : ViewBuilder(context) {
             orientation = LinearLayout.HORIZONTAL
         }
 
-        ivIcon.layoutParams = LinearLayout.LayoutParams(45.dp, 45.dp)
+        ivIcon = ImageView(mContext).apply {
+            layoutParams = LinearLayout.LayoutParams(45.dp, 45.dp)
+        }
         addView(ivIcon)
 
         etName.apply {

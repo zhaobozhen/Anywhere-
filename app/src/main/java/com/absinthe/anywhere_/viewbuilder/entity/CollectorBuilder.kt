@@ -27,7 +27,7 @@ class CollectorBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(con
             orientation = LinearLayout.VERTICAL
         }
 
-        ibCollector.apply {
+        ibCollector = ImageButton(mContext).apply {
             layoutParams = LinearLayout.LayoutParams(65.dp, 65.dp).apply {
                 gravity = Gravity.CENTER_HORIZONTAL
             }
@@ -46,14 +46,14 @@ class CollectorBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(con
                 background = ContextCompat.getDrawable(mContext, R.drawable.bg_collector_info)
             }
 
-            tvPkgName.apply {
+            tvPkgName = TextView(mContext).apply {
                 layoutParams = wrapWrap
                 setTextColor(Color.WHITE)
                 textSize = 15f
             }
             infoLayout.addView(tvPkgName)
 
-            tvClsName.apply {
+            tvClsName = TextView(mContext).apply {
                 layoutParams = wrapWrap
                 setTextColor(Color.WHITE)
                 textSize = 15f

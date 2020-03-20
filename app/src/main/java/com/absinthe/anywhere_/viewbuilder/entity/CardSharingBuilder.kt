@@ -20,7 +20,9 @@ class CardSharingBuilder(context: Context, private val text: String) : ViewBuild
             gravity = Gravity.CENTER
         }
 
-        ivQrCode.layoutParams = LinearLayout.LayoutParams(250.dp, 250.dp)
+        ivQrCode = ImageView(mContext).apply {
+            layoutParams = LinearLayout.LayoutParams(250.dp, 250.dp)
+        }
         addView(ivQrCode)
     }
 

@@ -12,10 +12,8 @@ import com.google.android.material.button.MaterialButton
 
 class TimePickerBuilder(context: Context) : ViewBuilder(context) {
 
-    @JvmField
-    var btnStart: MaterialButton = MaterialButton(mContext)
-    @JvmField
-    var btnEnd: MaterialButton = MaterialButton(mContext)
+    lateinit var btnStart: MaterialButton
+    lateinit var btnEnd: MaterialButton
 
     @SuppressLint("SetTextI18n")
     override fun init() {
@@ -30,7 +28,7 @@ class TimePickerBuilder(context: Context) : ViewBuilder(context) {
         }
 
         val wrapWrap = Params.LL.WRAP_WRAP
-        btnStart.apply {
+        btnStart = MaterialButton(mContext).apply {
             layoutParams = wrapWrap
             setTextColor(ContextCompat.getColor(mContext, R.color.textColorNormal))
             setBackgroundColor(ContextCompat.getColor(mContext, R.color.navigationColorNormal))
@@ -44,7 +42,7 @@ class TimePickerBuilder(context: Context) : ViewBuilder(context) {
         }
         addView(tvTo)
 
-        btnEnd.apply {
+        btnEnd = MaterialButton(mContext).apply {
             layoutParams = wrapWrap
             setTextColor(ContextCompat.getColor(mContext, R.color.textColorNormal))
             setBackgroundColor(ContextCompat.getColor(mContext, R.color.navigationColorNormal))

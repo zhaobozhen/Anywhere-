@@ -16,7 +16,7 @@ class IntervalDialogBuilder(context: Context) : ViewBuilder(context) {
             setPadding(padding, padding, padding, padding)
         }
 
-        slider.apply {
+        slider = Slider(mContext).apply {
             layoutParams = Params.LL.MATCH_WRAP
             valueFrom = 0.5f
             valueTo = 2.5f

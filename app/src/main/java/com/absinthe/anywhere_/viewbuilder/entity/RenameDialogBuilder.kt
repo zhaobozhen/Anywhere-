@@ -21,7 +21,7 @@ class RenameDialogBuilder(context: Context) : ViewBuilder(context) {
         val etParam = Params.LL.MATCH_WRAP.apply {
             marginStart = 10.dp
         }
-        etName.apply {
+        etName = EditText(mContext).apply {
             layoutParams = etParam
             setSingleLine()
         }

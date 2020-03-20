@@ -14,8 +14,10 @@ class IconPackDialogBuilder(context: Context?) : ViewBuilder(context!!) {
             layoutParams = Params.LL.MATCH_MATCH
         }
 
-        rvIconPack.layoutParams = Params.LL.MATCH_WRAP.apply {
-            setMargins(0, 0, 0, 10.dp)
+        rvIconPack = RecyclerView(mContext).apply {
+            layoutParams = Params.LL.MATCH_WRAP.apply {
+                setMargins(0, 0, 0, 10.dp)
+            }
         }
 
         addView(rvIconPack)

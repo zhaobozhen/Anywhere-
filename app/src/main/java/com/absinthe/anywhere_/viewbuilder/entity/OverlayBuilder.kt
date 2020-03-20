@@ -14,7 +14,7 @@ class OverlayBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(conte
         val layoutParams = LinearLayout.LayoutParams(65.dp, 65.dp)
         root.layoutParams = layoutParams
 
-        ivIcon.apply {
+        ivIcon = ImageView(mContext).apply {
             this.layoutParams = layoutParams
             this.background = null
         }

@@ -18,7 +18,7 @@ class ImageDialogBuilder(context: Context) : ViewBuilder(context) {
             elevation = 3.dp.toFloat()
         }
 
-        image.apply {
+        image = ImageView(mContext).apply {
             layoutParams = Params.LL.MATCH_WRAP
             setImageDrawable(ColorDrawable(Color.TRANSPARENT))
         }
