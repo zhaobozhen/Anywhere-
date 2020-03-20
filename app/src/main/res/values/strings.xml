@@ -203,6 +203,7 @@
     <string name="toast_file_uri_exposed">Do not support custom file paths</string>
     <string name="toast_security_exception">Activity is forbidden to open</string>
     <string name="toast_execute_shell_successful">Executing Shell successful</string>
+    <string name="toast_overlay_choose_anywhere">Please choose \"Anywhere-\" and grant the permission</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>

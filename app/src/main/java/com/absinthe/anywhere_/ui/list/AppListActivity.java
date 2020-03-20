@@ -66,7 +66,6 @@ public class AppListActivity extends BaseActivity implements SearchView.OnQueryT
         if (searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setIconifiedByDefault(false);
-            searchView.setSubmitButtonEnabled(true);    // show search button
             searchView.setQueryRefinementEnabled(true);
             searchView.setOnQueryTextListener(this);
 

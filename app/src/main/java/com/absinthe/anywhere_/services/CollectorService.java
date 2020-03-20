@@ -123,7 +123,11 @@ public class CollectorService extends Service {
             startCollectorImpl(context);
         } else {
             if (!PermissionUtils.isGrantedDrawOverlays()) {
-                ToastUtil.makeText(R.string.toast_permission_overlap);
+                if (Build.VERSION.SDK_INT >= 30) {
+                    ToastUtil.makeText(R.string.toast_overlay_choose_anywhere);
+                } else {
+                    ToastUtil.makeText(R.string.toast_permission_overlap);
+                }
                 PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
                     @Override
                     public void onGranted() {

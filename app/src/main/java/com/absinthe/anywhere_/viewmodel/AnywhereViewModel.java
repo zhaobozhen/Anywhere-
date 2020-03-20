@@ -152,6 +152,9 @@ public class AnywhereViewModel extends AndroidViewModel {
                         ShizukuHelper.requestShizukuPermission();
                     }
                 } else {
+                    if (Build.VERSION.SDK_INT >= 30) {
+                        ToastUtil.makeText(R.string.toast_overlay_choose_anywhere);
+                    }
                     PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
                         @Override
                         public void onGranted() {
@@ -179,6 +182,9 @@ public class AnywhereViewModel extends AndroidViewModel {
                         com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.getPackageCodePath());
                     }
                 } else {
+                    if (Build.VERSION.SDK_INT >= 30) {
+                        ToastUtil.makeText(R.string.toast_overlay_choose_anywhere);
+                    }
                     PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
                         @Override
                         public void onGranted() {

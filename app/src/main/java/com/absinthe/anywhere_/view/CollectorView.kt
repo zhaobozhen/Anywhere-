@@ -34,7 +34,7 @@ class CollectorView(private val mContext: Context) : LinearLayout(mContext) {
     }
 
     fun setInfo(pkgName: String, clsName: String) {
-        if (GlobalValues.sIsCollectorPlus && mBuilder.tvPkgName != null && mBuilder.tvClsName != null) {
+        if (GlobalValues.sIsCollectorPlus) {
             mBuilder.tvPkgName.text = pkgName
             mBuilder.tvClsName.text = clsName
         }

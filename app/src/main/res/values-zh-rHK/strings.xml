@@ -294,4 +294,5 @@
     <string name="report_title">Anywhere- 問題回報</string>
     <string name="report_describe">*請描述問題情況:</string>
     <string name="report_select_mail_app">請選擇郵件 App</string>
+    <string name="toast_overlay_choose_anywhere">請選擇 \"Anywhere-\" 並授予權限</string>
 </resources>

@@ -56,6 +56,9 @@ public class IconPackManager {
         void load() {
             // load AppFilter.xml from the icon pack package
             PackageManager pm = mContext.getPackageManager();
+            if (pm == null) {
+                return;
+            }
             try {
                 XmlPullParser xpp = null;
 

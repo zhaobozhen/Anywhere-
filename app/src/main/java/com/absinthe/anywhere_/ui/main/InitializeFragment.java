@@ -283,6 +283,9 @@ public class InitializeFragment extends Fragment implements MaterialButtonToggle
                         boolean isGrant = com.blankj.utilcode.util.PermissionUtils.isGrantedDrawOverlays();
                         mViewModel.isOverlay().setValue(isGrant);
                         if (!isGrant) {
+                            if (Build.VERSION.SDK_INT >= 30) {
+                                ToastUtil.makeText(R.string.toast_overlay_choose_anywhere);
+                            }
                             com.blankj.utilcode.util.PermissionUtils.requestDrawOverlays(new com.blankj.utilcode.util.PermissionUtils.SimpleCallback() {
                                 @Override
                                 public void onGranted() {

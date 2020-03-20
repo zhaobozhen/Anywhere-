@@ -192,6 +192,9 @@ public abstract class Editor<T extends Editor<?>> {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             startCollectorImpl(cmd);
         } else {
+            if (Build.VERSION.SDK_INT >= 30) {
+                ToastUtil.makeText(R.string.toast_overlay_choose_anywhere);
+            }
             PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
                 @Override
                 public void onGranted() {
