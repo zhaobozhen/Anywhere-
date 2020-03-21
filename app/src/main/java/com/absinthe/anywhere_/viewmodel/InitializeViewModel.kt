@@ -12,6 +12,15 @@ class InitializeViewModel : ViewModel() {
     var isShizuku: MutableLiveData<Boolean> = MutableLiveData()
     var allPerm: MutableLiveData<Int> = MutableLiveData()
 
+    init {
+        isRoot = MutableLiveData()
+        isOverlay = MutableLiveData()
+        isPopup = MutableLiveData()
+        isShizukuCheck = MutableLiveData()
+        isShizuku = MutableLiveData()
+        allPerm = MutableLiveData()
+    }
+
     companion object {
         const val ROOT_PERM = 1
         const val SHIZUKU_CHECK_PERM = 2
