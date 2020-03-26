@@ -1,12 +1,12 @@
 package com.absinthe.anywhere_.view.editor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.RequiresApi;
@@ -48,7 +48,6 @@ public abstract class Editor<T extends Editor<?>> {
     ImageButton ibRun;
     MaterialButton btnDone;
     ImageButton ibOverlay, ibMore;
-    LinearLayout llCustomContainer;
 
     private int mEditorType;
     private boolean isExported;
@@ -235,6 +234,7 @@ public abstract class Editor<T extends Editor<?>> {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     private void setMoreButton() {
         if (ibMore != null) {
             UiUtils.setVisibility(ibMore, isEditMode);

@@ -15,30 +15,35 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 class BackgroundAdapter : BaseQuickAdapter<PageEntity?, BaseViewHolder>(R.layout.item_background) {
 
     override fun convert(helper: BaseViewHolder, item: PageEntity?) {
-        val toolbar: Toolbar = helper.getView(R.id.toolbar)
-        if (item != null) {
-            toolbar.title = item.title
-            toolbar.inflateMenu(R.menu.main_menu)
-            toolbar.setNavigationIcon(R.drawable.ic_dehaze)
+        item?.let {
+            val toolbar: Toolbar = helper.getView(R.id.toolbar)
+            
+            toolbar.apply {
+                title = it.title
+                inflateMenu(R.menu.main_menu)
+                setNavigationIcon(R.drawable.ic_dehaze)
+            }
 
             if (GlobalValues.sIsMd2Toolbar) {
                 val marginHorizontal = context.resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
                 val marginVertical = context.resources.getDimension(R.dimen.toolbar_margin_vertical).toInt()
                 val newLayoutParams = toolbar.layoutParams as ConstraintLayout.LayoutParams
-
-                newLayoutParams.rightMargin = marginHorizontal
-                newLayoutParams.leftMargin = newLayoutParams.rightMargin
-                newLayoutParams.bottomMargin = marginVertical
-                newLayoutParams.topMargin = newLayoutParams.bottomMargin
-                newLayoutParams.height = UiUtils.d2p(context, 55f)
-                toolbar.layoutParams = newLayoutParams
-                toolbar.contentInsetStartWithNavigation = 0
+                newLayoutParams.apply {
+                    rightMargin = marginHorizontal
+                    leftMargin = newLayoutParams.rightMargin
+                    bottomMargin = marginVertical
+                    topMargin = newLayoutParams.bottomMargin
+                    height = UiUtils.d2p(context, 55f)
+                }
+                toolbar.apply {
+                    layoutParams = newLayoutParams
+                    contentInsetStartWithNavigation = 0
+                }
                 UiUtils.drawMd2Toolbar(context, toolbar, 3)
             }
-        }
-        val ivBack: ImageView = helper.getView(R.id.iv_background)
-        if (item != null) {
-            var uri = item.backgroundUri
+
+            val ivBack: ImageView = helper.getView(R.id.iv_background)
+            var uri = it.backgroundUri
 
             if (TextUtils.isEmpty(uri)) {
                 uri = GlobalValues.sBackgroundUri

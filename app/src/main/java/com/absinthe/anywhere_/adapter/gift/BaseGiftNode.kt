@@ -5,7 +5,6 @@ import com.chad.library.adapter.base.entity.node.BaseNode
 open class BaseGiftNode : BaseNode() {
     
     var msg: String? = null
-    @JvmField
     var type = 0
     
     override val childNode: MutableList<BaseNode>?

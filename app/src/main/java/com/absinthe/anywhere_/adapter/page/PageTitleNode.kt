@@ -8,4 +8,5 @@ class PageTitleNode(override val childNode: MutableList<BaseNode>, val title: St
     init {
         isExpanded = false
     }
+
 }

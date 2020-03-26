@@ -49,9 +49,7 @@ class ItemTouchCallBack : ItemTouchHelper.Callback() {
      */
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         Timber.i("onMove")
-        val fromPosition = viewHolder.adapterPosition
-        val toPosition = target.adapterPosition
-        mListener!!.onMove(fromPosition, toPosition)
+        mListener?.onMove(viewHolder.adapterPosition, target.adapterPosition)
         return true
     }
 
@@ -65,8 +63,7 @@ class ItemTouchCallBack : ItemTouchHelper.Callback() {
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         Timber.i("onSwiped")
         //此处是侧滑删除的主要代码
-        val position = viewHolder.adapterPosition
-        mListener!!.onSwiped(position)
+        mListener?.onSwiped(viewHolder.adapterPosition)
     }
 
     /**

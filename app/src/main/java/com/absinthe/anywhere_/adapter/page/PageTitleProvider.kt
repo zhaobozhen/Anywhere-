@@ -30,6 +30,7 @@ class PageTitleProvider : BaseNodeProvider() {
         val node = data as PageTitleNode
 
         helper.setText(R.id.tv_title, node.title)
+
         val ivArrow = helper.getView<ImageView>(R.id.iv_arrow)
         if (node.isExpanded) {
             onExpansionToggled(ivArrow, true)
@@ -56,12 +57,13 @@ class PageTitleProvider : BaseNodeProvider() {
         if (isEditMode) {
             return false
         }
-        val popup = PopupMenu(context, view)
-        popup.menuInflater
-                .inflate(R.menu.page_menu, popup.menu)
-        if (popup.menu is MenuBuilder) {
-            val menuBuilder = popup.menu as MenuBuilder
-            menuBuilder.setOptionalIconsVisible(true)
+        val popup = PopupMenu(context, view).apply {
+            menuInflater.inflate(R.menu.page_menu, menu)
+
+            if (menu is MenuBuilder) {
+                val menuBuilder = menu as MenuBuilder
+                menuBuilder.setOptionalIconsVisible(true)
+            }
         }
 
         val node = data as PageTitleNode
@@ -70,42 +72,35 @@ class PageTitleProvider : BaseNodeProvider() {
                 R.id.rename_page -> DialogManager.showRenameDialog(ActivityStackManager.getInstance().topActivity, node.title)
                 R.id.delete_page -> DialogManager.showDeletePageDialog(context, node.title, DialogInterface.OnClickListener { _, _ ->
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
-                    val list = AnywhereApplication.sRepository.allPageEntities?.value
-
-                    if (list != null) {
+                    AnywhereApplication.sRepository.allPageEntities?.value?.let { list ->
                         val title = list[0].title
-                        val anywhereEntities = AnywhereApplication.sRepository.allAnywhereEntities?.value
 
-                        if (anywhereEntities != null) {
-                            for (ae in anywhereEntities) {
+                        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+                            for (ae in it) {
                                 if (ae.category == node.title) {
                                     ae.category = title
                                     AnywhereApplication.sRepository.update(ae)
                                 }
                             }
                         }
+
                         GlobalValues.setsCategory(title, 0)
                     }
                 }, false)
                 R.id.delete_page_and_item -> DialogManager.showDeletePageDialog(context, node.title, DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
-                    val list = AnywhereApplication.sRepository.allPageEntities?.value
-
-                    if (list != null) {
-                        val anywhereEntities = AnywhereApplication.sRepository.allAnywhereEntities?.value
-
-                        if (anywhereEntities != null) {
-                            for (ae in anywhereEntities) {
+                    AnywhereApplication.sRepository.allPageEntities?.value?.let { list ->
+                        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+                            for (ae in it) {
                                 if (ae.category == node.title) {
                                     AnywhereApplication.sRepository.delete(ae)
                                 }
                             }
                         }
+
                         GlobalValues.setsCategory(list[0].title, 0)
                     }
                 }, true)
-                else -> {
-                }
             }
             true
         }
@@ -123,9 +118,11 @@ class PageTitleProvider : BaseNodeProvider() {
             start = 90f
             target = 0f
         }
-        val objectAnimator = ObjectAnimator.ofFloat(arrow, View.ROTATION, start, target)
-        objectAnimator.duration = 200
-        objectAnimator.start()
+
+        ObjectAnimator.ofFloat(arrow, View.ROTATION, start, target).apply {
+            duration = 200
+            start()
+        }
     }
 
     companion object {
@@ -133,9 +130,8 @@ class PageTitleProvider : BaseNodeProvider() {
         var isEditMode = false
 
         private fun getPageEntity(title: String): PageEntity? {
-            val list = AnywhereApplication.sRepository.allPageEntities?.value
-            if (list != null) {
-                for (pe in list) {
+            AnywhereApplication.sRepository.allPageEntities?.value?.let {
+                for (pe in it) {
                     if (pe.title == title) {
                         return pe
                     }
@@ -145,20 +141,21 @@ class PageTitleProvider : BaseNodeProvider() {
         }
 
         @JvmStatic
-        fun renameTitle(oldTitle: String, newTitle: String?) {
+        fun renameTitle(oldTitle: String, newTitle: String) {
             val pe = getPageEntity(oldTitle)
-            val list = AnywhereApplication.sRepository.allAnywhereEntities?.value
-            if (list != null && pe != null) {
-                for (ae in list) {
-                    if (ae.category == pe.title) {
-                        ae.category = newTitle!!
-                        AnywhereApplication.sRepository.update(ae)
+            AnywhereApplication.sRepository.allAnywhereEntities?.value?.let { list ->
+                pe?.let {
+                    for (ae in list) {
+                        if (ae.category == pe.title) {
+                            ae.category = newTitle
+                            AnywhereApplication.sRepository.update(ae)
+                        }
                     }
+                    AnywhereApplication.sRepository.deletePage(pe)
+                    pe.title = newTitle
+                    AnywhereApplication.sRepository.insertPage(pe)
+                    GlobalValues.setsCategory(newTitle)
                 }
-                AnywhereApplication.sRepository.deletePage(pe)
-                pe.title = newTitle!!
-                AnywhereApplication.sRepository.insertPage(pe)
-                GlobalValues.setsCategory(newTitle)
             }
         }
     }

@@ -11,12 +11,14 @@ class SmoothScrollLayoutManager(context: Context?) : LinearLayoutManager(context
     override fun smoothScrollToPosition(recyclerView: RecyclerView,
                                         state: RecyclerView.State, position: Int) {
         val smoothScroller: LinearSmoothScroller = object : LinearSmoothScroller(recyclerView.context) {
-            // 返回：滑过1px时经历的时间(ms)。
+            // 返回：滑过1px时经历的时间(ms)
             override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
                 return 150f / displayMetrics.densityDpi
             }
+        }.apply {
+            targetPosition = position
         }
-        smoothScroller.targetPosition = position
+
         startSmoothScroll(smoothScroller)
     }
 }

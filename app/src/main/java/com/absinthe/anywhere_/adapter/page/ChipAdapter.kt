@@ -67,8 +67,10 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
         val chip: Chip = itemView.findViewById(R.id.chip)
 
         fun bind(item: AnywhereEntity) {
-            chip.text = item.appName
-            chip.chipIcon = UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, item)
+            chip.apply {
+                text = item.appName
+                chipIcon = UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, item)
+            }
         }
 
     }

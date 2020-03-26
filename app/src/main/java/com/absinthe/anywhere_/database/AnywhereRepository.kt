@@ -14,7 +14,7 @@ class AnywhereRepository(application: Application) {
     val allPageEntities: LiveData<List<PageEntity>?>?
     var allAnywhereEntities: LiveData<List<AnywhereEntity>?>?
         private set
-    private val mAnywhereDao: AnywhereDao = AnywhereRoomDatabase.getDatabase(application)!!.anywhereDao()
+    private val mAnywhereDao: AnywhereDao = AnywhereRoomDatabase.getDatabase(application).anywhereDao()
 
     init {
         allPageEntities = mAnywhereDao.allPageEntities
