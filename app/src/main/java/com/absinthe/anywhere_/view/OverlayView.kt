@@ -45,11 +45,14 @@ class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
             CommandUtils.execCmd(command)
         }
         mBuilder.ivIcon.setOnTouchListener(object : OnTouchListener {
-            private var lastX = 0f//上一次位置的X.Y坐标 = 0f
+            //Last x, y position = 0f
+            private var lastX = 0f
             private var lastY = 0f
-            private var nowX = 0f //当前移动位置的X.Y坐标 = 0f
+            //Current x, y position = 0f
+            private var nowX = 0f
             private var nowY = 0f
-            private var tranX = 0f //悬浮窗移动位置的相对值 = 0f
+            //悬浮窗移动位置的相对值 = 0f
+            private var tranX = 0f
             private var tranY = 0f
 
             override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {

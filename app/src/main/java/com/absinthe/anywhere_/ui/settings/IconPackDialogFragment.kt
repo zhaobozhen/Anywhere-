@@ -26,7 +26,7 @@ class IconPackDialogFragment : AnywhereDialogFragment() {
     }
 
     private fun initView() {
-        val adapter = AppListAdapter(context, AppListAdapter.MODE_ICON_PACK)
+        val adapter = AppListAdapter(requireContext(), AppListAdapter.MODE_ICON_PACK)
         val hashMap = Settings.sIconPackManager.getAvailableIconPacks(true)
         val listBeans: MutableList<AppListBean> = ArrayList()
 

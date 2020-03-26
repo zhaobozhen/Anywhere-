@@ -4,7 +4,7 @@ import com.chad.library.adapter.base.entity.node.BaseNode
 
 class PageNode : BaseNode() {
 
-    var title: String? = null
+    var title: String = "Page"
 
     override val childNode: MutableList<BaseNode>?
         get() = null
