@@ -14,6 +14,7 @@ import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showShellResultDialog
+import com.blankj.utilcode.util.Utils
 import com.google.android.material.chip.Chip
 import java.util.*
 
@@ -69,7 +70,7 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
         fun bind(item: AnywhereEntity) {
             chip.apply {
                 text = item.appName
-                chipIcon = UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, item)
+                chipIcon = UiUtils.getAppIconByPackageName(Utils.getApp(), item)
             }
         }
 

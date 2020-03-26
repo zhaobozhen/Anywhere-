@@ -45,7 +45,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.palette.graphics.Palette;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -57,6 +56,7 @@ import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -547,7 +547,7 @@ public class UiUtils {
         paint.setShader(gradient);
         RectF rectF = new RectF(0, 0, bgBitmap.getWidth(), bgBitmap.getHeight());
         canvas.drawRect(rectF, paint);
-        Glide.with(AnywhereApplication.sContext)
+        Glide.with(Utils.getApp())
                 .load(bgBitmap)
 //                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .transition(DrawableTransitionOptions.withCrossFade())

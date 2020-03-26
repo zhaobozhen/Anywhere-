@@ -58,7 +58,7 @@ public class BackupActivity extends BaseActivity {
                     OutputStream os = getContentResolver().openOutputStream(data.getData());
 
                     if (os != null) {
-                        String content = StorageUtils.ExportAnywhereEntityJsonString();
+                        String content = StorageUtils.exportAnywhereEntityJsonString();
                         String encrypted = CipherUtils.encrypt(content);
                         if (encrypted != null) {
                             os.write(encrypted.getBytes());

@@ -10,13 +10,13 @@ import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Patterns;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.URLManager;
+import com.blankj.utilcode.util.Utils;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
@@ -173,7 +173,7 @@ public class TextUtils {
      */
     public static String getPkgNameByUrlScheme(String url) {
         List<ResolveInfo> resolveInfo =
-                AnywhereApplication.sContext.getPackageManager()
+                Utils.getApp().getPackageManager()
                         .queryIntentActivities(URLSchemeHandler.handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY);
         if (resolveInfo.size() != 0) {
             return resolveInfo.get(0).activityInfo.packageName;

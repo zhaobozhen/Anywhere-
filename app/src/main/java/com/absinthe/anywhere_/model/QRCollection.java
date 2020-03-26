@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.view.accessibility.AccessibilityManager;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.services.IzukoService;
@@ -16,6 +15,7 @@ import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.workflow.FlowNode;
 import com.absinthe.anywhere_.workflow.WorkFlow;
+import com.blankj.utilcode.util.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ public class QRCollection {
     private int mPriority = 0;
 
     private QRCollection() {
-        mContext = AnywhereApplication.sContext;
+        mContext = Utils.getApp();
         mAccessibilityManager = (AccessibilityManager) mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
 
         mList = new ArrayList<>();

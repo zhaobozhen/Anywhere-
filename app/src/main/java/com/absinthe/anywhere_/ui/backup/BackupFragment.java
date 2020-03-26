@@ -66,7 +66,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
     public boolean onPreferenceClick(Preference preference) {
         switch (preference.getKey()) {
             case Const.PREF_BACKUP:
-                if (StorageUtils.isExternalStorageWritable()) {
+                if (StorageUtils.INSTANCE.isExternalStorageWritable()) {
                     StorageUtils.createFile(mContext, "*/*",
                             "Anywhere-Backups-" + TextUtils.getCurrFormatDate() + ".awbackups");
                 } else {
@@ -80,7 +80,7 @@ public class BackupFragment extends PreferenceFragmentCompat implements Preferen
                 mContext.startActivityForResult(intent, Const.REQUEST_CODE_RESTORE_BACKUPS);
                 return true;
             case Const.PREF_BACKUP_SHARE:
-                String content = StorageUtils.ExportAnywhereEntityJsonString();
+                String content = StorageUtils.exportAnywhereEntityJsonString();
                 String encrypted = CipherUtils.encrypt(content);
 
                 if (encrypted != null) {

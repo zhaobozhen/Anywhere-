@@ -4,11 +4,11 @@ import android.annotation.SuppressLint;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.utils.StorageUtils;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.IconPackManager;
+import com.blankj.utilcode.util.Utils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -64,7 +64,7 @@ public class Settings {
 
     public static void initIconPackManager() {
         sIconPackManager = new IconPackManager();
-        sIconPackManager.setContext(AnywhereApplication.sContext);
+        sIconPackManager.setContext(Utils.getApp());
 
         HashMap<String, IconPackManager.IconPack> hashMap = sIconPackManager.getAvailableIconPacks(true);
 
@@ -86,7 +86,7 @@ public class Settings {
 
     private static void initToken() {
         try {
-            sToken = StorageUtils.getTokenFromFile(AnywhereApplication.sContext);
+            sToken = StorageUtils.getTokenFromFile(Utils.getApp());
         } catch (IOException e) {
             sToken = "";
         }

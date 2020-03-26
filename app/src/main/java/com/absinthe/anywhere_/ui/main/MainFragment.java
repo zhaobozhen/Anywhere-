@@ -42,6 +42,7 @@ import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.blankj.utilcode.util.Utils;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -136,7 +137,7 @@ public class MainFragment extends Fragment {
                     }
                 }
             }
-            AppUtils.updateWidget(AnywhereApplication.sContext);
+            AppUtils.updateWidget(Utils.getApp());
         }
     };
 

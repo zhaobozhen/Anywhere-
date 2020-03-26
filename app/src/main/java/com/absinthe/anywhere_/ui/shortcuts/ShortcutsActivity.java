@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -26,6 +25,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder;
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
+import com.blankj.utilcode.util.Utils;
 
 import java.util.Objects;
 
@@ -96,7 +96,7 @@ public class ShortcutsActivity extends BaseActivity {
                 finish();
             } else if (action.equals(Intent.ACTION_CREATE_SHORTCUT)) {
                 viewModel.getAllAnywhereEntities().observe(this, anywhereEntities -> {
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(AnywhereApplication.sContext, android.R.layout.select_dialog_singlechoice);
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(Utils.getApp(), android.R.layout.select_dialog_singlechoice);
                     Timber.d("list = %s", anywhereEntities);
                     if (anywhereEntities != null) {
                         for (AnywhereEntity ae : anywhereEntities) {
