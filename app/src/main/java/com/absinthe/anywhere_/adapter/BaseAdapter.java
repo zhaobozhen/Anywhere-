@@ -173,7 +173,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 entity.launch();
             }
         } else if (item.getAnywhereType() == AnywhereType.IMAGE) {
-            DialogManager.showImageDialog((AppCompatActivity) mContext, item);
+            DialogManager.INSTANCE.showImageDialog((AppCompatActivity) mContext, item);
         } else if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
             if (!TextUtils.isEmpty(item.getParam3())) {
                 DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, item.getParam3(), new DynamicParamsDialogFragment.OnParamsInputListener() {

@@ -18,13 +18,12 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.viewbuilder.entity.CollectorBuilder
 import timber.log.Timber
 
-class CollectorView(private val mContext: Context) : LinearLayout(mContext) {
+class CollectorView(context: Context) : LinearLayout(context) {
 
-    private val mWindowManager: WindowManager = mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    private var mLayoutParams: WindowManager.LayoutParams = layoutParams as WindowManager.LayoutParams
-    private var mBuilder: CollectorBuilder = CollectorBuilder(mContext, this)
-    private var mPackageName: String? = null
-    private var mClassName: String? = null
+    private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private var mBuilder: CollectorBuilder = CollectorBuilder(context, this)
+    private var mPackageName: String = ""
+    private var mClassName: String = ""
     private var isClick = false
     private var mStartTime: Long = 0
     private var mEndTime: Long = 0
@@ -42,22 +41,26 @@ class CollectorView(private val mContext: Context) : LinearLayout(mContext) {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initView() {
-        mBuilder = CollectorBuilder(mContext, this)
         mBuilder.ibCollector.setOnClickListener {
             Timber.d("Collector clicked!")
             collectActivity()
-            CollectorService.closeCollector(mContext)
-            AppUtils.openUrl(mContext, mPackageName, mClassName, "")
+            CollectorService.closeCollector(context)
+            AppUtils.openUrl(context, mPackageName, mClassName, "")
         }
         mBuilder.ibCollector.setOnTouchListener(object : OnTouchListener {
-            private var lastX = 0f //Last x, y position = 0f
+            //Last x, y position = 0f
+            private var lastX = 0f
             private var lastY = 0f
-            private var nowX = 0f //Current x, y position = 0f
+            //Current x, y position = 0f
+            private var nowX = 0f
             private var nowY = 0f
-            private var tranX = 0f //悬浮窗移动位置的相对值 = 0f
+            //悬浮窗移动位置的相对值 = 0f
+            private var tranX = 0f
             private var tranY = 0f
 
             override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+                val mLayoutParams = layoutParams as WindowManager.LayoutParams
+
                 when (motionEvent.action) {
                     MotionEvent.ACTION_DOWN -> {
                         // 获取按下时的X，Y坐标
@@ -81,8 +84,10 @@ class CollectorView(private val mContext: Context) : LinearLayout(mContext) {
                         Timber.d("MotionEvent.ACTION_MOVE tran: %f %f", tranX, tranY)
 
                         // 移动悬浮窗
-                        mLayoutParams.x.minus(tranX.toInt())
-                        mLayoutParams.y.plus(tranY.toInt())
+                        mLayoutParams.apply {
+                            x.minus(tranX.toInt())
+                            y.plus(tranY.toInt())
+                        }
                         //更新悬浮窗位置
                         mWindowManager.updateViewLayout(this@CollectorView, mLayoutParams)
                         //记录当前坐标作为下一次计算的上一次移动的位置坐标

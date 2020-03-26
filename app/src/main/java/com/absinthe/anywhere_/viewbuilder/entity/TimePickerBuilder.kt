@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.viewbuilder.entity
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
 import android.widget.LinearLayout
@@ -12,40 +11,49 @@ import com.google.android.material.button.MaterialButton
 
 class TimePickerBuilder(context: Context) : ViewBuilder(context) {
 
-    lateinit var btnStart: MaterialButton
-    lateinit var btnEnd: MaterialButton
+    var btnStart: MaterialButton
+    var btnEnd: MaterialButton
 
-    @SuppressLint("SetTextI18n")
-    override fun init() {
-        root = LinearLayout(mContext).apply {
-            layoutParams = Params.LL.MATCH_MATCH
+    init {
+        root = LinearLayout(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT)
             orientation = LinearLayout.HORIZONTAL
+            clipToPadding = false
 
             val padding = 10.dp
             setPadding(padding, padding, padding, padding)
             setHorizontalGravity(Gravity.CENTER)
-            clipToPadding = false
         }
 
-        val wrapWrap = Params.LL.WRAP_WRAP
-        btnStart = MaterialButton(mContext).apply {
-            layoutParams = wrapWrap
-            setTextColor(ContextCompat.getColor(mContext, R.color.textColorNormal))
-            setBackgroundColor(ContextCompat.getColor(mContext, R.color.navigationColorNormal))
+        btnStart = MaterialButton(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
+            setBackgroundColor(ContextCompat.getColor(context, R.color.navigationColorNormal))
         }
         addView(btnStart)
 
-        val tvTo = TextView(mContext).apply {
-            layoutParams = wrapWrap
+        val tvTo = TextView(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            )
             setPadding(20.dp, 0, 20.dp, 0)
             text = "To"
         }
         addView(tvTo)
 
-        btnEnd = MaterialButton(mContext).apply {
-            layoutParams = wrapWrap
-            setTextColor(ContextCompat.getColor(mContext, R.color.textColorNormal))
-            setBackgroundColor(ContextCompat.getColor(mContext, R.color.navigationColorNormal))
+        btnEnd = MaterialButton(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
+            setBackgroundColor(ContextCompat.getColor(context, R.color.navigationColorNormal))
         }
         addView(btnEnd)
     }

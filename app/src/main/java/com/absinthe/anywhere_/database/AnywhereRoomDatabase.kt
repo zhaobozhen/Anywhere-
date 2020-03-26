@@ -11,25 +11,32 @@ import com.absinthe.anywhere_.model.PageEntity
 
 @Database(entities = [AnywhereEntity::class, PageEntity::class], version = 8, exportSchema = false)
 abstract class AnywhereRoomDatabase : RoomDatabase() {
+
     abstract fun anywhereDao(): AnywhereDao
 
     companion object {
+
+        @Volatile
         private var INSTANCE: AnywhereRoomDatabase? = null
-        fun getDatabase(context: Context): AnywhereRoomDatabase? {
-            if (INSTANCE == null) {
-                synchronized(AnywhereRoomDatabase::class.java) {
-                    if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(context.applicationContext,
-                                        AnywhereRoomDatabase::class.java, "anywhere_database")
-                                .addMigrations(MIGRATION_1_2, MIGRATION_2_3,
-                                        MIGRATION_3_4, MIGRATION_4_5,
-                                        MIGRATION_5_6, MIGRATION_6_7,
-                                        MIGRATION_7_8)
-                                .build()
-                    }
-                }
+
+        fun getDatabase(context: Context): AnywhereRoomDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
             }
-            return INSTANCE
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                                context.applicationContext,
+                                AnywhereRoomDatabase::class.java,
+                                "anywhere_database")
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3,
+                                MIGRATION_3_4, MIGRATION_4_5,
+                                MIGRATION_5_6, MIGRATION_6_7,
+                                MIGRATION_7_8)
+                        .build()
+                INSTANCE = instance
+                return instance
+            }
         }
 
         private val MIGRATION_1_2: Migration = object : Migration(1, 2) {

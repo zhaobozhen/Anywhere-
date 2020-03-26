@@ -6,22 +6,28 @@ import android.widget.LinearLayout
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class RenameDialogBuilder(context: Context) : ViewBuilder(context) {
-    lateinit var etName: EditText
 
-    override fun init() {
-        root = LinearLayout(mContext).apply {
-            layoutParams = Params.LL.MATCH_MATCH
+    var etName: EditText
+
+    init {
+        root = LinearLayout(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+            )
+            orientation = LinearLayout.HORIZONTAL
 
             val padding = 25.dp
             setPadding(padding, padding, padding, padding)
-            orientation = LinearLayout.HORIZONTAL
         }
 
-        val etParam = Params.LL.MATCH_WRAP.apply {
-            marginStart = 10.dp
-        }
-        etName = EditText(mContext).apply {
-            layoutParams = etParam
+        etName = EditText(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                marginStart = 10.dp
+            }
             setSingleLine()
         }
 

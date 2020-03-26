@@ -27,7 +27,6 @@ class TimePickerDialogFragment : AnywhereDialogFragment() {
     private val format = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AnywhereDialogBuilder(context)
         mBuilder = TimePickerBuilder(requireContext())
 
         val start = Calendar.getInstance().apply {
@@ -63,7 +62,8 @@ class TimePickerDialogFragment : AnywhereDialogFragment() {
         }
         mBuilder.btnStart.setOnClickListener(listener)
         mBuilder.btnEnd.setOnClickListener(listener)
-        return builder.setView(mBuilder.root)
+
+        return AnywhereDialogBuilder(context).setView(mBuilder.root)
                 .setTitle(R.string.dialog_set_dark_mode_period_title)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
                     try {

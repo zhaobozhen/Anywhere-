@@ -6,22 +6,28 @@ import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 import com.google.android.material.slider.Slider
 
 class IntervalDialogBuilder(context: Context) : ViewBuilder(context) {
-    lateinit var slider: Slider
 
-    override fun init() {
-        root = LinearLayout(mContext).apply {
-            layoutParams = Params.LL.MATCH_MATCH
+    var slider: Slider
+
+    init {
+        root = LinearLayout(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT)
             val padding = 10.dp
             setPadding(padding, padding, padding, padding)
         }
 
-        slider = Slider(mContext).apply {
-            layoutParams = Params.LL.MATCH_WRAP
+        slider = Slider(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT)
             valueFrom = 0.5f
             valueTo = 2.5f
             stepSize = 0.25f
             setLabelFormatter { value: Float -> value.toString() + "s" }
         }
+
         addView(slider)
     }
 }

@@ -14,12 +14,14 @@ import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class CollectorBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(context, viewGroup) {
 
-    lateinit var ibCollector: ImageButton
+    var ibCollector: ImageButton
     lateinit var tvPkgName: TextView
     lateinit var tvClsName: TextView
 
-    override fun init() {
-        val wrapWrap = Params.LL.WRAP_WRAP.apply {
+    init {
+        val wrapWrap = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT).apply {
             gravity = Gravity.CENTER_HORIZONTAL
         }
         (root as LinearLayout).apply {
@@ -27,7 +29,7 @@ class CollectorBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(con
             orientation = LinearLayout.VERTICAL
         }
 
-        ibCollector = ImageButton(mContext).apply {
+        ibCollector = ImageButton(context).apply {
             layoutParams = LinearLayout.LayoutParams(65.dp, 65.dp).apply {
                 gravity = Gravity.CENTER_HORIZONTAL
             }
@@ -37,23 +39,23 @@ class CollectorBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(con
         addView(ibCollector)
 
         if (GlobalValues.sIsCollectorPlus) {
-            val infoLayout = LinearLayout(mContext).apply {
+            val infoLayout = LinearLayout(context).apply {
                 layoutParams = wrapWrap
                 orientation = LinearLayout.VERTICAL
 
                 val padding = 5.dp
                 setPadding(padding, padding, padding, padding)
-                background = ContextCompat.getDrawable(mContext, R.drawable.bg_collector_info)
+                background = ContextCompat.getDrawable(context, R.drawable.bg_collector_info)
             }
 
-            tvPkgName = TextView(mContext).apply {
+            tvPkgName = TextView(context).apply {
                 layoutParams = wrapWrap
                 setTextColor(Color.WHITE)
                 textSize = 15f
             }
             infoLayout.addView(tvPkgName)
 
-            tvClsName = TextView(mContext).apply {
+            tvClsName = TextView(context).apply {
                 layoutParams = wrapWrap
                 setTextColor(Color.WHITE)
                 textSize = 15f

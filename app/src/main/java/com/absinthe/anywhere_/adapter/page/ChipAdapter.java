@@ -53,7 +53,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ViewHolder> {
         holder.chip.setOnClickListener(v -> {
             AnywhereEntity ae = mList.get(position);
             if (ae.getAnywhereType() == AnywhereType.IMAGE) {
-                DialogManager.showImageDialog(ActivityStackManager.getInstance().getTopActivity(), ae);
+                DialogManager.INSTANCE.showImageDialog(ActivityStackManager.getInstance().getTopActivity(), ae);
             } else if (ae.getAnywhereType() == AnywhereType.SHELL) {
                 String result = CommandUtils.execAdbCmd(ae.getParam1());
                 DialogManager.showShellResultDialog(ActivityStackManager.getInstance().getTopActivity(), result, null, null);

@@ -1,19 +1,16 @@
 package com.absinthe.anywhere_.ui.main
 
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.Settings
 import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.databinding.*
 import com.absinthe.anywhere_.model.Const
@@ -21,13 +18,15 @@ import com.absinthe.anywhere_.model.GlobalValues
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper
-import com.absinthe.anywhere_.viewmodel.InitializeViewModel
 import com.blankj.utilcode.util.PermissionUtils
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import moe.shizuku.api.ShizukuApiConstants
 import timber.log.Timber
-import java.util.*
 
 class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
@@ -36,6 +35,13 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     private lateinit var shizukuBinding: CardAcquireShizukuPermissionBinding
     private lateinit var overlayBinding: CardAcquireOverlayPermissionBinding
     private lateinit var popupBinding: CardAcquirePopupPermissionBinding
+
+    private var isRoot: MutableLiveData<Boolean> = MutableLiveData()
+    private var isOverlay: MutableLiveData<Boolean> = MutableLiveData()
+    private var isPopup: MutableLiveData<Boolean> = MutableLiveData()
+    private var isShizukuCheck: MutableLiveData<Boolean> = MutableLiveData()
+    private var isShizuku: MutableLiveData<Boolean> = MutableLiveData()
+    private var allPerm: MutableLiveData<Int> = MutableLiveData()
 
     private var bRoot = false
     private var bShizuku = false
@@ -56,21 +62,16 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProvider(this).get(InitializeViewModel::class.java)
-        mWorkingMode = Const.WORKING_MODE_URL_SCHEME
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            mViewModel!!.allPerm.value = Objects.requireNonNull(mViewModel!!.allPerm.value) or InitializeViewModel.OVERLAY_PERM
-        }
         initObserver()
     }
 
     private fun initView() {
-        bPopup = false
-        bOverlay = bPopup
-        bShizuku = bOverlay
-        bRoot = bShizuku
         setHasOptionsMenu(true)
         mBinding.selectWorkingMode.toggleGroup.addOnButtonCheckedListener(this)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            allPerm.value?.or(OVERLAY_PERM)
+        }
     }
 
     override fun onButtonChecked(group: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
@@ -106,24 +107,25 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.toolbar_initialize_done) {
+            Timber.d("enterMain")
             GlobalValues.setsWorkingMode(mWorkingMode)
             var flag = false
-            val allPerm = Objects.requireNonNull(mViewModel!!.allPerm.value)
+            val allPerm = allPerm.value ?: 0
             when (mWorkingMode) {
                 Const.WORKING_MODE_URL_SCHEME -> flag = true
-                Const.WORKING_MODE_ROOT -> if (allPerm == InitializeViewModel.ROOT_PERM or InitializeViewModel.OVERLAY_PERM) {
+                Const.WORKING_MODE_ROOT -> if (allPerm == ROOT_PERM or OVERLAY_PERM) {
                     flag = true
                 }
-                Const.WORKING_MODE_SHIZUKU -> if (allPerm == InitializeViewModel.SHIZUKU_GROUP_PERM or InitializeViewModel.OVERLAY_PERM) {
+                Const.WORKING_MODE_SHIZUKU -> if (allPerm == SHIZUKU_GROUP_PERM or OVERLAY_PERM) {
                     flag = true
-                }
-                else -> {
                 }
             }
             if (flag) {
                 enterMainFragment()
             } else {
-                DialogManager.showHasNotGrantPermYetDialog(context) { _: DialogInterface?, _: Int -> enterMainFragment() }
+                DialogManager.showHasNotGrantPermYetDialog(context, DialogInterface.OnClickListener { _, _ ->
+                    enterMainFragment()
+                })
             }
         }
         return super.onOptionsItemSelected(item)
@@ -137,46 +139,46 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     }
 
     private fun initObserver() {
-        mViewModel!!.isRoot.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
+        isRoot.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
             if (aBoolean) {
                 rootBinding.btnAcquireRootPermission.setText(R.string.btn_acquired)
                 rootBinding.btnAcquireRootPermission.isEnabled = false
                 rootBinding.done.visibility = View.VISIBLE
-                mViewModel!!.allPerm.value = Objects.requireNonNull(mViewModel!!.allPerm.value) or InitializeViewModel.ROOT_PERM
-                Timber.d("allPerm = %s", mViewModel!!.allPerm.value)
+                allPerm.value?.or(ROOT_PERM)
+                Timber.d("allPerm = %s", allPerm.value)
             } else {
                 Timber.d("ROOT permission denied.")
                 ToastUtil.makeText(R.string.toast_root_permission_denied)
             }
         })
-        mViewModel!!.isShizukuCheck.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
+        isShizukuCheck.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
             if (aBoolean) {
                 shizukuBinding.btnCheckShizukuState.setText(R.string.btn_checked)
                 shizukuBinding.btnCheckShizukuState.isEnabled = false
-                mViewModel!!.allPerm.value = Objects.requireNonNull(mViewModel!!.allPerm.value) or InitializeViewModel.SHIZUKU_CHECK_PERM
+                allPerm.value?.or(SHIZUKU_CHECK_PERM)
                 shizukuBinding.btnAcquirePermission.isEnabled = true
             }
-            if (Objects.requireNonNull(mViewModel!!.allPerm.value) and InitializeViewModel.SHIZUKU_GROUP_PERM == InitializeViewModel.SHIZUKU_GROUP_PERM) {
+            if (allPerm.value!! and SHIZUKU_GROUP_PERM == SHIZUKU_GROUP_PERM) {
                 shizukuBinding.done.visibility = View.VISIBLE
             }
         })
-        mViewModel!!.isShizuku.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
+        isShizuku.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
             if (aBoolean) {
                 shizukuBinding.btnAcquirePermission.setText(R.string.btn_acquired)
                 shizukuBinding.btnAcquirePermission.isEnabled = false
-                mViewModel!!.allPerm.value = Objects.requireNonNull(mViewModel!!.allPerm.value) or InitializeViewModel.SHIZUKU_PERM
+                allPerm.value?.or(SHIZUKU_PERM)
             }
-            if (mViewModel!!.allPerm.value and InitializeViewModel.SHIZUKU_GROUP_PERM == InitializeViewModel.SHIZUKU_GROUP_PERM) {
+            if (allPerm.value!! and SHIZUKU_GROUP_PERM == SHIZUKU_GROUP_PERM) {
                 shizukuBinding.done.visibility = View.VISIBLE
             }
         })
-        mViewModel!!.isOverlay.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
+        isOverlay.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
             if (aBoolean) {
                 overlayBinding.btnAcquireOverlayPermission.setText(R.string.btn_acquired)
                 overlayBinding.btnAcquireOverlayPermission.isEnabled = false
                 overlayBinding.done.visibility = View.VISIBLE
-                mViewModel!!.allPerm.value?.or(InitializeViewModel.OVERLAY_PERM)
-                Timber.d("allPerm = %s", mViewModel!!.allPerm.value)
+                allPerm.value?.or(OVERLAY_PERM)
+                Timber.d("allPerm = %s", allPerm.value)
             }
         })
     }
@@ -186,7 +188,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             CARD_ROOT -> {
                 rootBinding.btnAcquireRootPermission.setOnClickListener {
                     val result = com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(context?.packageCodePath)
-                    mViewModel!!.isRoot.setValue(result)
+                    isRoot.setValue(result)
                 }
                 if (isAdd) {
                     if (!bRoot) {
@@ -202,11 +204,11 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 shizukuBinding.btnAcquirePermission.isEnabled = false
                 shizukuBinding.btnCheckShizukuState.setOnClickListener {
                     val result = ShizukuHelper.checkShizukuOnWorking(context)
-                    mViewModel!!.isShizukuCheck.setValue(result)
+                    isShizukuCheck.setValue(result)
                 }
                 shizukuBinding.btnAcquirePermission.setOnClickListener {
                     val result = ShizukuHelper.isGrantShizukuPermission()
-                    mViewModel!!.isShizuku.value = result
+                    isShizuku.value = result
                     if (!result) {
                         ShizukuHelper.requestShizukuPermission()
                     }
@@ -224,21 +226,21 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             CARD_OVERLAY -> {
                 overlayBinding.btnAcquireOverlayPermission.setOnClickListener {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                        mViewModel!!.isOverlay.setValue(true)
+                        isOverlay.setValue(true)
                     } else {
                         val isGrant = PermissionUtils.isGrantedDrawOverlays()
-                        mViewModel!!.isOverlay.value = isGrant
+                        isOverlay.value = isGrant
                         if (!isGrant) {
                             if (Build.VERSION.SDK_INT >= 30) {
                                 ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
                             }
                             PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
                                 override fun onGranted() {
-                                    mViewModel!!.isOverlay.value = true
+                                    isOverlay.value = true
                                 }
 
                                 override fun onDenied() {
-                                    mViewModel!!.isOverlay.value = false
+                                    isOverlay.value = false
                                 }
                             })
                         }
@@ -293,23 +295,25 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (Settings.canDrawOverlays(context)) {
-                    mViewModel!!.isOverlay.value = java.lang.Boolean.TRUE
+                    isOverlay.value = java.lang.Boolean.TRUE
                 }
             }
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (ActivityCompat.checkSelfPermission(context!!, ShizukuApiConstants.PERMISSION) == PackageManager.PERMISSION_GRANTED) {
-                    mViewModel!!.isShizuku.value = java.lang.Boolean.TRUE
+            GlobalScope.launch(Dispatchers.Main) {
+                delay(3000)
+                if (ActivityCompat.checkSelfPermission(requireContext(), ShizukuApiConstants.PERMISSION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    isShizuku.value = java.lang.Boolean.TRUE
                 }
-            }, 3000)
+            }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
-            if (ActivityCompat.checkSelfPermission(context!!, ShizukuApiConstants.PERMISSION) == PackageManager.PERMISSION_GRANTED) {
-                mViewModel!!.isShizuku.value = java.lang.Boolean.TRUE
+            if (ActivityCompat.checkSelfPermission(requireContext(), ShizukuApiConstants.PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+                isShizuku.value = java.lang.Boolean.TRUE
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -320,7 +324,13 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         private const val CARD_SHIZUKU = 2
         private const val CARD_OVERLAY = 3
         private const val CARD_POPUP = 4
-        private var mViewModel: InitializeViewModel? = null
+
+        const val ROOT_PERM = 1
+        const val SHIZUKU_CHECK_PERM = 2
+        const val SHIZUKU_PERM = 4
+        const val OVERLAY_PERM = 8
+        const val SHIZUKU_GROUP_PERM = 6
+
         @JvmStatic
         fun newInstance(): InitializeFragment {
             return InitializeFragment()

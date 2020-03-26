@@ -11,16 +11,19 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class AdvancedCardSelectDialogBuilder(context: Context) : ViewBuilder(context) {
-    @JvmField
-    var tvAddImage: TextView = addItem(R.string.btn_add_image, R.drawable.ic_photo)
-    @JvmField
-    var tvAddShell: TextView = addItem(R.string.btn_add_shell, R.drawable.ic_code)
 
-    override fun init() {
-        root = LinearLayout(mContext).apply {
-            layoutParams = Params.LL.MATCH_WRAP
+    var tvAddImage: TextView
+    var tvAddShell: TextView
+
+    init {
+        root = LinearLayout(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT)
             orientation = LinearLayout.HORIZONTAL
         }
+        tvAddImage = addItem(R.string.btn_add_image, R.drawable.ic_photo)
+        tvAddShell = addItem(R.string.btn_add_shell, R.drawable.ic_code)
     }
 
     private fun addItem(titleRes: Int, iconRes: Int): TextView {
@@ -30,7 +33,7 @@ class AdvancedCardSelectDialogBuilder(context: Context) : ViewBuilder(context) {
             }
             textSize = 15f
             gravity = Gravity.CENTER
-            compoundDrawablePadding = d2p(5f)
+            compoundDrawablePadding = 5.dp
             isClickable = true
 
             setPadding(15.dp, 15.dp, 15.dp, 15.dp)

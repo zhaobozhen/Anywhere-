@@ -11,11 +11,13 @@ class DynamicParamsDialogBuilder(context: Context) : ViewBuilder(context) {
 
     private val paramsMap: MutableMap<String, EditText> = mapOf<String, EditText>().toMutableMap()
 
-    override fun init() {
-        root = LinearLayout(mContext).apply {
-            layoutParams = Params.LL.MATCH_WRAP
+    init {
+        root = LinearLayout(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT)
 
-            val padding = mResources.getDimension(R.dimen.bsd_edit_text_margin_horizontal).toInt()
+            val padding = context.resources.getDimension(R.dimen.bsd_edit_text_margin_horizontal).toInt()
             setPadding(padding, 0, padding, 0)
             orientation = LinearLayout.VERTICAL
         }
@@ -27,7 +29,9 @@ class DynamicParamsDialogBuilder(context: Context) : ViewBuilder(context) {
 
         for (para in params) {
             val editText = EditText(mContext).apply {
-                layoutParams = Params.LL.MATCH_WRAP
+                layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT)
                 isSingleLine = true
                 hint = para
             }
@@ -42,8 +46,8 @@ class DynamicParamsDialogBuilder(context: Context) : ViewBuilder(context) {
             val sb = StringBuilder().apply {
                 append("?")
 
-                for (iter in paramsMap) {
-                    append("${iter.key}=${iter.value.text}&")
+                for (iterator in paramsMap) {
+                    append("${iterator.key}=${iterator.value.text}&")
                 }
 
                 removeSuffix("&")

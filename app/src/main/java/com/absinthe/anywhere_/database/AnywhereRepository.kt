@@ -10,24 +10,30 @@ import com.absinthe.anywhere_.model.PageEntity
 import com.absinthe.anywhere_.ui.backup.BackupActivity
 
 class AnywhereRepository(application: Application) {
-    private val mAnywhereDao: AnywhereDao
+
     val allPageEntities: LiveData<List<PageEntity>?>?
     var allAnywhereEntities: LiveData<List<AnywhereEntity>?>?
         private set
+    private val mAnywhereDao: AnywhereDao = AnywhereRoomDatabase.getDatabase(application)!!.anywhereDao()
+
+    init {
+        allPageEntities = mAnywhereDao.allPageEntities
+        allAnywhereEntities = sortedEntities
+    }
 
     fun refresh() {
         allAnywhereEntities = sortedEntities
     }
 
-    fun insert(ae: AnywhereEntity?) {
+    fun insert(ae: AnywhereEntity) {
         InsertAsyncTask(mAnywhereDao).execute(ae)
     }
 
-    fun update(ae: AnywhereEntity?) {
+    fun update(ae: AnywhereEntity) {
         UpdateAsyncTask(mAnywhereDao).execute(ae)
     }
 
-    fun delete(ae: AnywhereEntity?) {
+    fun delete(ae: AnywhereEntity) {
         DeleteAsyncTask(mAnywhereDao).execute(ae)
     }
 
@@ -59,15 +65,15 @@ class AnywhereRepository(application: Application) {
 
     }
 
-    fun insertPage(pe: PageEntity?) {
+    fun insertPage(pe: PageEntity) {
         InsertPageAsyncTask(mAnywhereDao).execute(pe)
     }
 
-    fun updatePage(pe: PageEntity?) {
+    fun updatePage(pe: PageEntity) {
         UpdatePageAsyncTask(mAnywhereDao).execute(pe)
     }
 
-    fun deletePage(pe: PageEntity?) {
+    fun deletePage(pe: PageEntity) {
         DeletePageAsyncTask(mAnywhereDao).execute(pe)
     }
 
@@ -103,11 +109,4 @@ class AnywhereRepository(application: Application) {
             Const.SORT_MODE_TIME_DESC -> mAnywhereDao.allAnywhereEntitiesOrderByTimeDesc
             else -> mAnywhereDao.allAnywhereEntitiesOrderByTimeDesc
         }
-
-    init {
-        val db = AnywhereRoomDatabase.getDatabase(application)
-        mAnywhereDao = db!!.anywhereDao()
-        allPageEntities = mAnywhereDao.allPageEntities
-        allAnywhereEntities = sortedEntities
-    }
 }
