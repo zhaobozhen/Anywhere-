@@ -1,5 +1,8 @@
 package com.absinthe.anywhere_.model;
 
+import io.michaelrocks.paranoid.Obfuscate;
+
+@Obfuscate
 public class GiftChatString {
 
     public static final String L = "[L]";

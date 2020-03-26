@@ -1,5 +1,8 @@
 package com.absinthe.anywhere_.model;
 
+import io.michaelrocks.paranoid.Obfuscate;
+
+@Obfuscate
 public class Const {
     public static final String SP_NAME = "com.absinthe.anywhere__preferences";
     public static final String SP_NAME_DEBUG = "com.absinthe.anywhere_.debug_preferences";

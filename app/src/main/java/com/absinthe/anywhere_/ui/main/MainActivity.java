@@ -518,7 +518,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         } else if (android.text.TextUtils.equals(uri.getHost(), URLManager.CARD_SHARING_HOST)) {
-            if (uri.getPath() != null) {
+            if (uri.getPath() != null && !uri.toString().isEmpty()) {
                 String encrypted = uri.getPath().substring(1);
                 String decrypted = CipherUtils.decrypt(encrypted);
                 AnywhereEntity ae = new Gson().fromJson(decrypted, AnywhereEntity.class);

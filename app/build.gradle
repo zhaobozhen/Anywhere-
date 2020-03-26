@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'sdk-editor'
 apply plugin: 'com.catchingnow.robfuscate'
+apply plugin: 'io.michaelrocks.paranoid'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply from: 'and_res_guard.gradle'
 
@@ -20,6 +21,7 @@ android {
     compileSdkVersion 29
     //noinspection GradleDependency
     buildToolsVersion "29.0.2"
+
     defaultConfig {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
@@ -49,8 +51,9 @@ android {
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
             signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
         dev {
@@ -161,9 +164,9 @@ dependencies {
 
     //Network
     implementation("com.squareup.okhttp3:okhttp:4.3.1")
-    implementation("com.squareup.retrofit2:retrofit:2.7.1")
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
-    implementation("com.squareup.okio:okio:2.4.3")
+    implementation("com.squareup.retrofit2:retrofit:2.8.1")
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
+    implementation("com.squareup.okio:okio:2.5.0")
 
     //Rx
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
@@ -172,7 +175,7 @@ dependencies {
     //Debug
     kapt 'androidx.room:room-compiler:2.2.5'
     testImplementation 'junit:junit:4.13'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'

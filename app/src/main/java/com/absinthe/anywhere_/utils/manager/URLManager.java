@@ -1,10 +1,13 @@
 package com.absinthe.anywhere_.utils.manager;
 
+import io.michaelrocks.paranoid.Obfuscate;
+
 /**
  * URL Manager
  *
  * All URLs in App.
  */
+@Obfuscate
 public class URLManager {
 
     //General

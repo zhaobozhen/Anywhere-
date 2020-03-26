@@ -63,6 +63,7 @@ public class IconPackManager {
                 XmlPullParser xpp = null;
 
                 iconPackres = pm.getResourcesForApplication(packageName);
+
                 int appFilterId = iconPackres.getIdentifier("appfilter", "xml", packageName);
                 if (appFilterId > 0) {
                     xpp = iconPackres.getXml(appFilterId);
