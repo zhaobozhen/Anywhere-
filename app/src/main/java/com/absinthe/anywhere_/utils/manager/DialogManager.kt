@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils.manager
 
+import android.app.Activity
 import android.content.*
 import android.os.Build
 import android.text.Html
@@ -25,7 +26,6 @@ import com.absinthe.anywhere_.ui.settings.TimePickerDialogFragment
 import com.absinthe.anywhere_.ui.shortcuts.CreateShortcutDialogFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
-import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder
@@ -40,9 +40,9 @@ import com.flask.colorpicker.ColorPickerView
  * To manage all Dialogs / DialogFragments / BottomSheetDialogs in App.
  */
 object DialogManager {
-    @JvmStatic
-    fun showResetBackgroundDialog(context: Context?) {
-        AnywhereDialogBuilder(context)
+
+    fun showResetBackgroundDialog(activity: Activity) {
+        AnywhereDialogBuilder(activity)
                 .setTitle(R.string.dialog_reset_background_confirm_title)
                 .setMessage(R.string.dialog_reset_background_confirm_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
@@ -53,9 +53,8 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
-    fun showClearShortcutsDialog(context: Context?) {
-        AnywhereDialogBuilder(context)
+    fun showClearShortcutsDialog(activity: Activity) {
+        AnywhereDialogBuilder(activity)
                 .setTitle(R.string.dialog_reset_background_confirm_title)
                 .setMessage(R.string.dialog_reset_shortcuts_confirm_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
@@ -87,15 +86,14 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
-    fun showDebugDialog(context: Context?) {
-        AnywhereDialogBuilder(context)
+    fun showDebugDialog(activity: Activity) {
+        AnywhereDialogBuilder(activity)
                 .setTitle("Debug info")
                 .setMessage(GlobalValues.getInfo())
                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
                 .setNeutralButton(R.string.logcat) { _: DialogInterface?, _: Int ->
                     Settings.setLogger()
-                    AppUtils.startLogcat(context)
+                    AppUtils.startLogcat(activity)
                 }
                 .setCancelable(false)
                 .show()
@@ -170,15 +168,14 @@ object DialogManager {
                 .show()
     }
 
-    fun showHasNotGrantPermYetDialog(context: Context?, listener: DialogInterface.OnClickListener) {
-        AnywhereDialogBuilder(context)
+    fun showHasNotGrantPermYetDialog(activity: Activity, listener: DialogInterface.OnClickListener) {
+        AnywhereDialogBuilder(activity)
                 .setMessage(R.string.dialog_message_perm_not_ever)
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show()
     }
 
-    @JvmStatic
     fun showCheckShizukuWorkingDialog(context: Context) {
         AnywhereDialogBuilder(context)
                 .setMessage(R.string.dialog_message_shizuku_not_running)
@@ -199,9 +196,8 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
-    fun showGotoShizukuManagerDialog(context: Context?, listener: DialogInterface.OnClickListener?) {
-        AnywhereDialogBuilder(context)
+    fun showGotoShizukuManagerDialog(activity: Activity, listener: DialogInterface.OnClickListener?) {
+        AnywhereDialogBuilder(activity)
                 .setTitle(R.string.dialog_permission_title)
                 .setMessage(R.string.dialog_permission_message)
                 .setCancelable(false)
@@ -227,19 +223,21 @@ object DialogManager {
 
     @JvmStatic
     fun showPageListDialog(context: Context?, ae: AnywhereEntity) {
-        var items: Array<String?>? = arrayOf()
-        val list = AnywhereApplication.sRepository.allPageEntities!!.value
-        if (list != null) {
-            for (pe in list) {
-                items = TextUtils.insertStringArray(items, pe.title)
+        val items: MutableList<String> = ArrayList()
+
+        AnywhereApplication.sRepository.allPageEntities?.value?.let {
+            for (pe in it) {
+                items.add(pe.title)
             }
-            val builder = AnywhereDialogBuilder(context)
-            builder.setItems(items) { _: DialogInterface?, which: Int ->
-                ae.category = list[which].title
-                AnywhereApplication.sRepository.update(ae)
-                builder.setDismissParent(true)
+
+            AnywhereDialogBuilder(context).apply {
+                setItems(items.toTypedArray()) { _: DialogInterface?, which: Int ->
+                    ae.category = it[which].title
+                    AnywhereApplication.sRepository.update(ae)
+                    setDismissParent(true)
+                }
+                show()
             }
-            builder.show()
         }
     }
 
@@ -332,8 +330,8 @@ object DialogManager {
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 
-    fun showImageDialog(activity: AppCompatActivity, ae: AnywhereEntity?) {
-        val dialog = ImageDialogFragment(ae!!)
+    fun showImageDialog(activity: AppCompatActivity, ae: AnywhereEntity) {
+        val dialog = ImageDialogFragment(ae)
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 

@@ -181,7 +181,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                     public void onFinish(String text) {
                         if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                             try {
-                                URLSchemeHandler.parse(item.getParam1() + text, mContext);
+                                URLSchemeHandler.INSTANCE.parse(item.getParam1() + text, mContext);
                             } catch (ActivityNotFoundException e) {
                                 e.printStackTrace();
                                 ToastUtil.makeText(R.string.toast_no_react_url);

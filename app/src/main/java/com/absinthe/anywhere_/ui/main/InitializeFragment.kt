@@ -123,7 +123,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             if (flag) {
                 enterMainFragment()
             } else {
-                DialogManager.showHasNotGrantPermYetDialog(context, DialogInterface.OnClickListener { _, _ ->
+                DialogManager.showHasNotGrantPermYetDialog(requireActivity(), DialogInterface.OnClickListener { _, _ ->
                     enterMainFragment()
                 })
             }
@@ -203,13 +203,12 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             CARD_SHIZUKU -> {
                 shizukuBinding.btnAcquirePermission.isEnabled = false
                 shizukuBinding.btnCheckShizukuState.setOnClickListener {
-                    val result = ShizukuHelper.checkShizukuOnWorking(context)
+                    val result = ShizukuHelper.checkShizukuOnWorking(requireContext())
                     isShizukuCheck.setValue(result)
                 }
                 shizukuBinding.btnAcquirePermission.setOnClickListener {
-                    val result = ShizukuHelper.isGrantShizukuPermission()
-                    isShizuku.value = result
-                    if (!result) {
+                    isShizuku.value = ShizukuHelper.isGrantShizukuPermission
+                    if (!ShizukuHelper.isGrantShizukuPermission) {
                         ShizukuHelper.requestShizukuPermission()
                     }
                 }

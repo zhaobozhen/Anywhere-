@@ -201,7 +201,7 @@ public class MainFragment extends Fragment {
             if (GlobalValues.sIsStreamCardMode) {
                 mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             } else {
-                mLayoutManager = new WrapContentLinearLayoutManager(ActivityStackManager.getInstance().getTopActivity());
+                mLayoutManager = new WrapContentLinearLayoutManager(ActivityStackManager.INSTANCE.getTopActivity());
             }
         }
         mRecyclerView.setLayoutManager(mLayoutManager);

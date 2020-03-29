@@ -79,7 +79,7 @@ public class Opener {
                         if (PermissionUtils.isMIUI()) {
                             DialogManager.showGrantPrivilegedPermDialog((AppCompatActivity) sContext.get());
                         } else {
-                            ActivityCompat.requestPermissions(ActivityStackManager.getInstance().getTopActivity(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
+                            ActivityCompat.requestPermissions(ActivityStackManager.INSTANCE.getTopActivity(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
                         }
                     } else {
                         final OnAppUnfreezeListener onAppUnfreezeListener = () ->
@@ -103,7 +103,7 @@ public class Opener {
                 int splitIndex = mCmd.indexOf(']');
                 String param = mCmd.substring(0, splitIndex);
                 mCmd = mCmd.substring(splitIndex + 1);
-                DialogManager.showDynamicParamsDialog(ActivityStackManager.getInstance().getTopActivity(), param, new DynamicParamsDialogFragment.OnParamsInputListener() {
+                DialogManager.showDynamicParamsDialog(ActivityStackManager.INSTANCE.getTopActivity(), param, new DynamicParamsDialogFragment.OnParamsInputListener() {
                     @Override
                     public void onFinish(String text) {
                         openCmd(mCmd + text);

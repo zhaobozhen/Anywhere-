@@ -146,10 +146,10 @@ public class AnywhereViewModel extends AndroidViewModel {
                 break;
             case Const.WORKING_MODE_SHIZUKU:
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                    if (ShizukuHelper.checkShizukuOnWorking(activity) && ShizukuHelper.isGrantShizukuPermission()) {
+                    if (ShizukuHelper.checkShizukuOnWorking(activity) && ShizukuHelper.INSTANCE.isGrantShizukuPermission()) {
                         CollectorService.startCollector(activity);
                     } else {
-                        ShizukuHelper.requestShizukuPermission();
+                        ShizukuHelper.INSTANCE.requestShizukuPermission();
                     }
                 } else {
                     if (Build.VERSION.SDK_INT >= 30) {
@@ -158,10 +158,10 @@ public class AnywhereViewModel extends AndroidViewModel {
                     PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
                         @Override
                         public void onGranted() {
-                            if (ShizukuHelper.checkShizukuOnWorking(activity) && ShizukuHelper.isGrantShizukuPermission()) {
+                            if (ShizukuHelper.checkShizukuOnWorking(activity) && ShizukuHelper.INSTANCE.isGrantShizukuPermission()) {
                                 CollectorService.startCollector(activity);
                             } else {
-                                ShizukuHelper.requestShizukuPermission();
+                                ShizukuHelper.INSTANCE.requestShizukuPermission();
                             }
                         }
 

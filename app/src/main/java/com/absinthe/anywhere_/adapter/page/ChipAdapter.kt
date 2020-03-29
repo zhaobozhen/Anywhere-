@@ -46,11 +46,13 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
 
             when (ae.anywhereType) {
                 AnywhereType.IMAGE -> {
-                    showImageDialog(ActivityStackManager.getInstance().topActivity, ae)
+                    ActivityStackManager.topActivity?.let {
+                        showImageDialog(it, ae)
+                    }
                 }
                 AnywhereType.SHELL -> {
                     val result = CommandUtils.execAdbCmd(ae.param1)
-                    showShellResultDialog(ActivityStackManager.getInstance().topActivity, result, null, null)
+                    showShellResultDialog(ActivityStackManager.topActivity, result, null, null)
                 }
                 else -> {
                     CommandUtils.execCmd(TextUtils.getItemCommand(ae))
