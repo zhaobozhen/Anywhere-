@@ -63,10 +63,11 @@ class BackupFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickL
                 return true
             }
             Const.PREF_BACKUP_SHARE -> {
-                val content = exportAnywhereEntityJsonString()
-                val encrypted = CipherUtils.encrypt(content)?.let {
-                    val dig = if (it.length > 50) it.substring(0, 50) + "…" else it
-                    showBackupShareDialog(requireActivity(), dig, it)
+                exportAnywhereEntityJsonString()?.let { content ->
+                    CipherUtils.encrypt(content)?.let {
+                        val dig = if (it.length > 50) it.substring(0, 50) + "…" else it
+                        showBackupShareDialog(requireActivity(), dig, it)
+                    }
                 }
                 return true
             }

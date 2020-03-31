@@ -4,10 +4,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Typeface;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.util.Patterns;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
@@ -204,21 +200,6 @@ public class TextUtils {
     }
 
     /**
-     * Insert String in String array
-     *
-     * @param arr old array
-     * @param str inserted String
-     * @return new array
-     */
-    public static String[] insertStringArray(String[] arr, String str) {
-        int size = arr.length;
-        String[] tmp = new String[size + 1];
-        System.arraycopy(arr, 0, tmp, 0, size);
-        tmp[size] = str;
-        return tmp;
-    }
-
-    /**
      * Judge that whether the url is an image url
      *
      * @param s url
@@ -266,12 +247,5 @@ public class TextUtils {
             encrypted = encrypted.replaceAll("\n", "");
         }
         return URLManager.ANYWHERE_SCHEME + URLManager.CARD_SHARING_HOST + "/" + encrypted;
-    }
-
-    public static SpannableString getBoldString(String str) {
-        SpannableString spanString = new SpannableString(str);
-        StyleSpan span = new StyleSpan(Typeface.BOLD);//加粗
-        spanString.setSpan(span, 0, str.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return spanString;
     }
 }

@@ -34,8 +34,9 @@ open class TileSettingsActivity : BaseActivity() {
     private var mAdapter: TileCardAdapter = TileCardAdapter()
     private var mList: List<AnywhereEntity> = ArrayList()
 
-    override val isPaddingToolbar: Boolean
-        get() = true
+    init {
+        isPaddingToolbar = true
+    }
 
     override fun setViewBinding() {
         mBinding = ActivityTileSettingsBinding.inflate(layoutInflater)

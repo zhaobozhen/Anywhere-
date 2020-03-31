@@ -15,7 +15,7 @@ class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
 
     private lateinit var mBuilder: OverlayBuilder
 
-    var command: String? = null
+    var command: String = ""
     private val mWindowManager: WindowManager = mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val mTouchSlop: Int = ViewConfiguration.get(mContext).scaledTouchSlop
 

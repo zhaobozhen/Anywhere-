@@ -11,7 +11,7 @@ object IzukoHelper {
     }
 
     @JvmStatic
-    val cipherKey: String?
+    val cipherKey: String
         external get
 
     val isHitagi: Boolean

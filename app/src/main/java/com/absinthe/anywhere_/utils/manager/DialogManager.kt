@@ -350,13 +350,13 @@ object DialogManager {
     }
 
     @JvmStatic
-    fun showCardSharingDialog(activity: AppCompatActivity, text: String?) {
+    fun showCardSharingDialog(activity: AppCompatActivity, text: String) {
         val dialogFragment = CardSharingDialogFragment(text)
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 
     @JvmStatic
-    fun showDynamicParamsDialog(activity: AppCompatActivity, text: String?, listener: OnParamsInputListener?) {
+    fun showDynamicParamsDialog(activity: AppCompatActivity, text: String, listener: OnParamsInputListener?) {
         val dialogFragment = DynamicParamsDialogFragment(text)
         dialogFragment.setListener(listener)
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)

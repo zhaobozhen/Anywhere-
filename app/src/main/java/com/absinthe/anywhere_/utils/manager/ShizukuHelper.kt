@@ -103,7 +103,7 @@ object ShizukuHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (!isGrantShizukuPermission) {
-                if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI()) {
+                if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {
                     showPermissionDialog(activity)
                 } else {
                     activity.requestPermissions(arrayOf(ShizukuApiConstants.PERMISSION), Const.REQUEST_CODE_SHIZUKU_PERMISSION)
@@ -132,7 +132,7 @@ object ShizukuHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (!isGrantShizukuPermission) {
-                if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI()) {
+                if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {
                     showPermissionDialog(fragment)
                 } else {
                     fragment.requestPermissions(arrayOf(ShizukuApiConstants.PERMISSION), Const.REQUEST_CODE_SHIZUKU_PERMISSION)

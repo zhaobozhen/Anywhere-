@@ -66,19 +66,23 @@ class GiftViewModel(application: Application) : AndroidViewModel(application) {
                         if (data.isActive == 0) {
                             chatQueue.clear()
                             chatQueue.offer(GiftChatString.purchaseResponse)
-                            val encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()))
-                            try {
-                                StorageUtils.storageToken(getApplication(), encode)
-                            } catch (e: IOException) {
-                                e.printStackTrace()
+
+                            CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()))?.let {
+                                try {
+                                    StorageUtils.storageToken(getApplication(), it)
+                                } catch (e: IOException) {
+                                    e.printStackTrace()
+                                }
                             }
                         } else if (data.isActive == 1 && data.ssaid == AppUtils.getAndroidId(getApplication())) {
                             chatQueue.offer(GiftChatString.hasPurchasedResponse)
-                            val encode = CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()))
-                            try {
-                                StorageUtils.storageToken(getApplication(), encode)
-                            } catch (e: IOException) {
-                                e.printStackTrace()
+
+                            CipherUtils.encrypt(AppUtils.getAndroidId(getApplication()))?.let {
+                                try {
+                                    StorageUtils.storageToken(getApplication(), it)
+                                } catch (e: IOException) {
+                                    e.printStackTrace()
+                                }
                             }
                         } else if (data.isActive == 1 && data.ssaid != AppUtils.getAndroidId(getApplication())) {
                             chatQueue.offer(GiftChatString.notYourCodeResponse)

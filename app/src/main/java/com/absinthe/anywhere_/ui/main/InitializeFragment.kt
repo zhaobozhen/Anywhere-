@@ -187,7 +187,8 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         when (card) {
             CARD_ROOT -> {
                 rootBinding.btnAcquireRootPermission.setOnClickListener {
-                    val result = com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(context?.packageCodePath)
+                    val result = com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(context?.packageCodePath
+                            ?: "")
                     isRoot.setValue(result)
                 }
                 if (isAdd) {
@@ -257,8 +258,8 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             }
             CARD_POPUP -> {
                 popupBinding.btnAcquirePopupPermission.setOnClickListener {
-                    if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI()) {
-                        com.absinthe.anywhere_.utils.PermissionUtils.goToMIUIPermissionManager(context)
+                    if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {
+                        com.absinthe.anywhere_.utils.PermissionUtils.goToMIUIPermissionManager(requireContext())
                     }
                 }
                 if (isAdd) {
@@ -273,8 +274,8 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             }
             else -> {
                 popupBinding.btnAcquirePopupPermission.setOnClickListener {
-                    if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI()) {
-                        com.absinthe.anywhere_.utils.PermissionUtils.goToMIUIPermissionManager(context)
+                    if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {
+                        com.absinthe.anywhere_.utils.PermissionUtils.goToMIUIPermissionManager(requireContext())
                     }
                 }
                 if (isAdd) {

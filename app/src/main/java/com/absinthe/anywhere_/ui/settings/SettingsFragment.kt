@@ -159,7 +159,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClic
 
     override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
         when (preference.key) {
-            Const.PREF_WORKING_MODE -> GlobalValues.sWorkingMode.setValue(newValue as String)
+            Const.PREF_WORKING_MODE -> GlobalValues.sWorkingMode?.setValue(newValue as String)
             Const.PREF_DARK_MODE -> if (newValue.toString() == Const.DARK_MODE_AUTO) {
                 showDarkModeTimePickerDialog(requireActivity() as BaseActivity)
             } else {

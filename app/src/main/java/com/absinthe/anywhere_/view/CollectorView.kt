@@ -110,9 +110,9 @@ class CollectorView(context: Context) : LinearLayout(context) {
         val result = CommandUtils.execAdbCmd(cmd)
         Timber.d("Shell result = %s", result)
 
-        if (result == null) {
-            ToastUtil.makeText(R.string.toast_adb_result_process_failed)
-        } else if (result == CommandResult.RESULT_SHIZUKU_PERM_ERROR || result == CommandResult.RESULT_ROOT_PERM_ERROR) {
+        if (result == CommandResult.RESULT_SHIZUKU_PERM_ERROR
+                || result == CommandResult.RESULT_ROOT_PERM_ERROR
+                || result == CommandResult.RESULT_ERROR) {
             ToastUtil.makeText(R.string.toast_check_perm)
         } else {
             val processed = TextUtils.processResultString(result)
