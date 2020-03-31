@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.FileUriExposedException;
 import android.text.TextUtils;
 
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.CommandResult;
@@ -17,6 +16,7 @@ import com.absinthe.anywhere_.model.QRCollection;
 import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper;
+import com.blankj.utilcode.util.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,7 +66,7 @@ public class CommandUtils {
         if (cmd.startsWith("am start -a")) {
             cmd = cmd.replace(Const.CMD_OPEN_URL_SCHEME, "");
             try {
-                URLSchemeHandler.parse(cmd, AnywhereApplication.sContext);
+                URLSchemeHandler.parse(cmd, Utils.getApp());
                 result = CommandResult.RESULT_SUCCESS;
             } catch (ActivityNotFoundException e) {
                 Timber.e(e);
@@ -80,12 +80,12 @@ public class CommandUtils {
             String pkg = pkgClsString.split("/")[0];
             String cls = pkgClsString.split("/")[1];
 
-            if (UiUtils.isActivityExported(AnywhereApplication.sContext, new ComponentName(pkg, cls))) {
+            if (UiUtils.isActivityExported(Utils.getApp(), new ComponentName(pkg, cls))) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.setComponent(new ComponentName(pkg, cls));
-                    AnywhereApplication.sContext.startActivity(intent);
+                    Utils.getApp().startActivity(intent);
                     result = CommandResult.RESULT_SUCCESS;
                 } catch (ActivityNotFoundException e) {
                     Timber.d(e);
@@ -111,7 +111,7 @@ public class CommandUtils {
                 result = CommandResult.RESULT_SUCCESS;
             } else if (cmd.contains("://")) {
                 try {
-                    URLSchemeHandler.parse(cmd, AnywhereApplication.sContext);
+                    URLSchemeHandler.parse(cmd, Utils.getApp());
                 } catch (ActivityNotFoundException e) {
                     e.printStackTrace();
                     ToastUtil.makeText(R.string.toast_no_react_url);

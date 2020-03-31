@@ -28,6 +28,10 @@ class GiftActivity : BaseActivity() {
     private lateinit var mBinding: ActivityGiftBinding
     private var mAdapter: ChatAdapter = ChatAdapter()
 
+    init {
+        isPaddingToolbar = true
+    }
+
     override fun setViewBinding() {
         mBinding = ActivityGiftBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
@@ -35,10 +39,6 @@ class GiftActivity : BaseActivity() {
 
     override fun setToolbar() {
         mToolbar = mBinding.toolbar.toolbar
-    }
-
-    override fun isPaddingToolbar(): Boolean {
-        return true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

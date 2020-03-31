@@ -89,7 +89,7 @@ object DialogManager {
     fun showDebugDialog(activity: Activity) {
         AnywhereDialogBuilder(activity)
                 .setTitle("Debug info")
-                .setMessage(GlobalValues.getInfo())
+                .setMessage(GlobalValues.info)
                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
                 .setNeutralButton(R.string.logcat) { _: DialogInterface?, _: Int ->
                     Settings.setLogger()
@@ -288,19 +288,16 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
     fun showIconPackChoosingDialog(activity: AppCompatActivity) {
         val fragment = IconPackDialogFragment()
         fragment.show(activity.supportFragmentManager, fragment.tag)
     }
 
-    @JvmStatic
     fun showDarkModeTimePickerDialog(activity: AppCompatActivity) {
         val fragment = TimePickerDialogFragment()
         fragment.show(activity.supportFragmentManager, fragment.tag)
     }
 
-    @JvmStatic
     fun showIntervalSetupDialog(activity: AppCompatActivity) {
         val fragment = IntervalDialogFragment()
         fragment.show(activity.supportFragmentManager, fragment.tag)

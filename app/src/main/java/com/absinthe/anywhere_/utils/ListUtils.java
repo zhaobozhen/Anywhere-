@@ -8,6 +8,7 @@ import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.model.GlobalValues;
 import com.absinthe.anywhere_.model.PageEntity;
+import com.blankj.utilcode.util.Utils;
 
 import java.text.Collator;
 import java.util.Collections;
@@ -65,10 +66,10 @@ public class ListUtils {
 
     public static List<AppListBean> sortAppListByExported(List<AppListBean> list) {
         Collections.sort(list, (item, t1) -> {
-            if (UiUtils.isActivityExported(AnywhereApplication.sContext,
+            if (UiUtils.isActivityExported(Utils.getApp(),
                     new ComponentName(item.getPackageName(), item.getClassName()))) {
                 return -1;
-            } else if (UiUtils.isActivityExported(AnywhereApplication.sContext,
+            } else if (UiUtils.isActivityExported(Utils.getApp(),
                     new ComponentName(t1.getPackageName(), t1.getClassName()))) {
                 return 1;
             } else {

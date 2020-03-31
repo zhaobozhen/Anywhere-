@@ -17,7 +17,7 @@ object FabBuilder {
                 .create())
         fab.addActionItem(SpeedDialActionItem.Builder(R.id.fab_collector, R.drawable.ic_logo)
                 .setFabBackgroundColor(resources.getColor(R.color.white))
-                .setLabel(GlobalValues.getCollectorMode())
+                .setLabel(GlobalValues.collectorMode)
                 .setLabelClickable(false)
                 .create())
         fab.addActionItem(SpeedDialActionItem.Builder(R.id.fab_activity_list, R.drawable.ic_activity_list)

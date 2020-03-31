@@ -21,7 +21,7 @@ import java.lang.ref.WeakReference
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
 
-    protected abstract val isPaddingToolbar: Boolean
+    protected var isPaddingToolbar: Boolean = false
 
     @JvmField
     protected var mToolbar: Toolbar? = null

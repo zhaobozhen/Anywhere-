@@ -17,6 +17,7 @@ import com.absinthe.anywhere_.model.AnywhereType;
 import com.absinthe.anywhere_.model.Const;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ShortcutsUtils {
         private ShortcutManager instance;
 
         Singleton() {
-            instance = AnywhereApplication.sContext.getSystemService(ShortcutManager.class);
+            instance = Utils.getApp().getSystemService(ShortcutManager.class);
         }
 
         public ShortcutManager getInstance() {
@@ -39,7 +40,7 @@ public class ShortcutsUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public static void addShortcut(AnywhereEntity ae) {
-        Intent intent = new Intent(AnywhereApplication.sContext, ShortcutsActivity.class);
+        Intent intent = new Intent(Utils.getApp(), ShortcutsActivity.class);
         if (ae.getAnywhereType() == AnywhereType.QR_CODE) {
             intent.setAction(ShortcutsActivity.ACTION_START_QR_CODE);
             intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.QRCODE_PREFIX + ae.getParam2());
@@ -52,9 +53,9 @@ public class ShortcutsUtils {
         }
 
         List<ShortcutInfo> infos = new ArrayList<>();
-        ShortcutInfo info = new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getId())
+        ShortcutInfo info = new ShortcutInfo.Builder(Utils.getApp(), ae.getId())
                 .setShortLabel(ae.getAppName())
-                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(AnywhereApplication.sContext, ae))))
+                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae))))
                 .setIntent(intent)
                 .build();
         infos.add(info);
@@ -85,7 +86,7 @@ public class ShortcutsUtils {
         if (Singleton.INSTANCE.getInstance().isRequestPinShortcutSupported()) {
             // Assumes there's already a shortcut with the ID "my-shortcut".
             // The shortcut must be enabled.
-            Intent intent = new Intent(AnywhereApplication.sContext, ShortcutsActivity.class);
+            Intent intent = new Intent(Utils.getApp(), ShortcutsActivity.class);
             if (ae.getAnywhereType() == AnywhereType.IMAGE) {
                 intent.setAction(ShortcutsActivity.ACTION_START_IMAGE);
                 intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
@@ -95,7 +96,7 @@ public class ShortcutsUtils {
             }
 
             ShortcutInfo pinShortcutInfo =
-                    new ShortcutInfo.Builder(AnywhereApplication.sContext, ae.getId())
+                    new ShortcutInfo.Builder(Utils.getApp(), ae.getId())
                             .setShortLabel(name)
                             .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(icon)))
                             .setIntent(intent)
@@ -111,7 +112,7 @@ public class ShortcutsUtils {
 
             // Configure the intent so that your app's broadcast receiver gets
             // the callback successfully.For details, see PendingIntent.getBroadcast().
-            PendingIntent successCallback = PendingIntent.getBroadcast(AnywhereApplication.sContext, /* request code */ 0,
+            PendingIntent successCallback = PendingIntent.getBroadcast(Utils.getApp(), /* request code */ 0,
                     pinnedShortcutCallbackIntent, /* flags */ 0);
 
             Singleton.INSTANCE.getInstance().requestPinShortcut(pinShortcutInfo,

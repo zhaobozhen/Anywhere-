@@ -26,15 +26,15 @@ object SPUtils {
         }
     }
 
-    fun getString(context: Context, key: String?): String? {
+    fun getString(context: Context, key: String?): String {
         val sp = context.getSharedPreferences(sPName, Context.MODE_PRIVATE)
-        return sp.getString(key, "")
+        return sp.getString(key, "") ?: ""
     }
 
     @JvmStatic
-    fun getString(context: Context, key: String?, defaultValue: String?): String? {
+    fun getString(context: Context, key: String?, defaultValue: String?): String {
         val sp = context.getSharedPreferences(sPName, Context.MODE_PRIVATE)
-        return sp.getString(key, defaultValue)
+        return sp.getString(key, defaultValue) ?: ""
     }
 
     @JvmStatic

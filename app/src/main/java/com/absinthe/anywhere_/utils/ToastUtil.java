@@ -4,7 +4,7 @@ import android.widget.Toast;
 
 import androidx.annotation.StringRes;
 
-import com.absinthe.anywhere_.AnywhereApplication;
+import com.blankj.utilcode.util.Utils;
 
 import me.drakeet.support.toast.ToastCompat;
 
@@ -15,7 +15,7 @@ public class ToastUtil {
      * @param text a string text
      */
     public static void makeText(String text) {
-        ToastCompat.makeText(AnywhereApplication.sContext, text, Toast.LENGTH_SHORT).show();
+        ToastCompat.makeText(Utils.getApp(), text, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -24,6 +24,6 @@ public class ToastUtil {
      * @param resId a string resource id
      */
     public static void makeText(@StringRes int resId) {
-        ToastCompat.makeText(AnywhereApplication.sContext, AnywhereApplication.sContext.getText(resId), Toast.LENGTH_SHORT).show();
+        ToastCompat.makeText(Utils.getApp(), Utils.getApp().getText(resId), Toast.LENGTH_SHORT).show();
     }
 }

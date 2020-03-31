@@ -21,8 +21,7 @@ import me.weishu.reflection.Reflection;
 import timber.log.Timber;
 
 public class AnywhereApplication extends Application {
-    @SuppressLint("StaticFieldLeak")
-    public static Context sContext = null;
+
     public static AnywhereRepository sRepository;
 
     @Override
@@ -36,7 +35,6 @@ public class AnywhereApplication extends Application {
             Timber.plant(new ReleaseTree());
         }
 
-        sContext = this;
         GlobalValues.init(this);
         sRepository = new AnywhereRepository(this);
         Once.initialise(this);
