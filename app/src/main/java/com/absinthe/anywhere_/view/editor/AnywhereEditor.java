@@ -108,7 +108,7 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                             }
                             AnywhereApplication.sRepository.update(ae);
                         } else {
-                            if (EditUtils.hasSameAppName(pName, cName)) {
+                            if (EditUtils.INSTANCE.hasSameAppName(pName, cName)) {
                                 DialogManager.showHasSameCardDialog(mContext, (dialog, which) -> {
                                     AnywhereApplication.sRepository.insert(ae);
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {

@@ -133,9 +133,9 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
     private fun enterMainFragment() {
         val fragment = MainFragment.newInstance(GlobalValues.sCategory)
-        MainActivity.getInstance().viewModel.fragment.value = fragment
-        MainActivity.getInstance().initFab()
-        MainActivity.getInstance().initObserver()
+        MainActivity.instance?.viewModel?.fragment?.value = fragment
+        MainActivity.instance?.initFab()
+        MainActivity.instance?.initObserver()
     }
 
     private fun initObserver() {

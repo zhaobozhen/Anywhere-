@@ -83,6 +83,6 @@ object ClipboardUtil {
         /**
          * Invokes the function.
          */
-        operator fun invoke(text: String?)
+        operator fun invoke(text: String)
     }
 }

@@ -14,7 +14,7 @@ class WelcomeFragment : Fragment() {
         val binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         binding.btnWelcomeStart.setOnClickListener {
-            MainActivity.getInstance().viewModel.fragment.setValue(InitializeFragment.newInstance())
+            MainActivity.instance?.viewModel?.fragment?.setValue(InitializeFragment.newInstance())
         }
 
         return binding.root

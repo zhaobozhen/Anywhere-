@@ -24,12 +24,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : AnywhereDialogFragment() {
-    private var mBuilder: CreateShortcutDialogBuilder = CreateShortcutDialogBuilder(MainActivity.getInstance())
-    private val mIcon: Drawable = UiUtils.getAppIconByPackageName(MainActivity.getInstance(), mEntity)
+    private lateinit var mBuilder: CreateShortcutDialogBuilder
+    private val mIcon: Drawable = UiUtils.getAppIconByPackageName(MainActivity.instance, mEntity)
     private val mName: String = mEntity.appName
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        mBuilder = CreateShortcutDialogBuilder(requireContext())
         val builder = AnywhereDialogBuilder(context)
         initView()
 

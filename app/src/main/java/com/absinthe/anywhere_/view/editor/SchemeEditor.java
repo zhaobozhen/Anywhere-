@@ -70,7 +70,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
         if (btnUrlSchemeCommunity != null) {
             btnUrlSchemeCommunity.setOnClickListener(view -> {
                 try {
-                    URLSchemeHandler.parse(URLManager.SHORTCUT_COMMUNITY_PAGE, mContext);
+                    URLSchemeHandler.INSTANCE.parse(URLManager.SHORTCUT_COMMUNITY_PAGE, mContext);
                 } catch (ActivityNotFoundException e) {
                     e.printStackTrace();
                     ToastUtil.makeText(R.string.toast_no_react_url);
@@ -155,7 +155,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                 public void onFinish(String text) {
                                     if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                                         try {
-                                            URLSchemeHandler.parse(mItem.getParam1() + text, mContext);
+                                            URLSchemeHandler.INSTANCE.parse(mItem.getParam1() + text, mContext);
                                         } catch (ActivityNotFoundException e) {
                                             e.printStackTrace();
                                             ToastUtil.makeText(R.string.toast_no_react_url);
@@ -173,7 +173,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                         } else {
                             if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                                 try {
-                                    URLSchemeHandler.parse(mItem.getParam1(), mContext);
+                                    URLSchemeHandler.INSTANCE.parse(mItem.getParam1(), mContext);
                                 } catch (ActivityNotFoundException e) {
                                     e.printStackTrace();
                                     ToastUtil.makeText(R.string.toast_no_react_url);

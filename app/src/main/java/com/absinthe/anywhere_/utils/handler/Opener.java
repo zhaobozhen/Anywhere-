@@ -76,7 +76,7 @@ public class Opener {
             if (!cmd.isEmpty()) {
                 if (AppUtils.isAppFrozen(sContext.get(), mItem)) {
                     if (ContextCompat.checkSelfPermission(sContext.get(), IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                        if (PermissionUtils.isMIUI()) {
+                        if (PermissionUtils.INSTANCE.isMIUI()) {
                             DialogManager.showGrantPrivilegedPermDialog((AppCompatActivity) sContext.get());
                         } else {
                             ActivityCompat.requestPermissions(ActivityStackManager.INSTANCE.getTopActivity(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
