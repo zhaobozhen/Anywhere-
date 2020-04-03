@@ -18,7 +18,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
 
 class BackupFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
-    override fun onCreatePreferences(savedInstanceState: Bundle, rootKey: String) {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_backup, rootKey)
     }
 

@@ -27,8 +27,6 @@ import com.catchingnow.icebox.sdk_client.IceBox;
 
 import java.util.ArrayList;
 
-import timber.log.Timber;
-
 public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewHolder> implements ItemTouchCallBack.OnItemTouchListener {
 
     public StreamCardsAdapter(Context context) {
@@ -77,8 +75,6 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
                     binding.tvAppName.setText(item.getAppName());
                 }
             } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-                Timber.e(e);
                 binding.tvAppName.setText(item.getAppName());
             }
 

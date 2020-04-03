@@ -319,8 +319,10 @@ class MainActivity : BaseActivity() {
         ibPageSort.setOnClickListener {
             ibPageSort.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
-            for (i in adapter.data.indices) {
-                adapter.collapse(i)
+            for (i in (adapter.data.indices)) {
+                try {
+                    adapter.collapse(i)
+                } catch (ignore: IndexOutOfBoundsException) { }
             }
             PageTitleProvider.isEditMode = true
             val touchCallBack = ItemTouchCallBack().apply {
