@@ -7,7 +7,7 @@ import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 
 object FabBuilder {
-    @JvmStatic
+
     fun build(context: Context, fab: SpeedDialView) {
         val resources = context.resources
         fab.addActionItem(SpeedDialActionItem.Builder(R.id.fab_url_scheme, R.drawable.ic_url_scheme)

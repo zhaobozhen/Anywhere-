@@ -16,6 +16,17 @@
             app:entryValues="@array/list_working_mode_value" />
 
         <Preference
+            app:key="defrostMode"
+            app:title="@string/title_activity_defrost"
+            app:summary="@string/settings_backup_summary"
+            android:icon="@drawable/ic_backup_and_restore">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_.debug"
+                android:targetClass="com.absinthe.anywhere_.ui.settings.DefrostActivity"/>
+        </Preference>
+
+        <Preference
             app:key="changeBackground"
             app:title="@string/settings_change_background"
             app:summary="@string/settings_change_background_summary"

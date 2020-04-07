@@ -142,6 +142,10 @@
             android:label="@string/settings_lab"
             android:parentActivityName=".ui.settings.SettingsActivity" />
         <activity
+            android:name=".ui.settings.DefrostActivity"
+            android:label="@string/title_activity_defrost"
+            android:parentActivityName=".ui.settings.SettingsActivity" />
+        <activity
             android:name=".ui.gift.GiftActivity"
             android:label="@string/settings_gift"
             android:parentActivityName=".ui.settings.SettingsActivity" />
@@ -167,8 +171,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-            </meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
 
         <service

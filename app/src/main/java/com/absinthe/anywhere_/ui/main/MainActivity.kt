@@ -86,7 +86,7 @@ class MainActivity : BaseActivity() {
 
     private lateinit var mToggle: ActionBarDrawerToggle
     private lateinit var mItemTouchHelper: ItemTouchHelper
-    private var mFirebaseAnalytics: FirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+    private lateinit var mFirebaseAnalytics: FirebaseAnalytics
     private var mObserver: Observer<List<PageEntity>?>? = null
 
     init {
@@ -407,6 +407,7 @@ class MainActivity : BaseActivity() {
 
     fun initFab() {
         build(this, mBinding.fab)
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         mBinding.fab.setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
             when (actionItem.id) {
                 R.id.fab_url_scheme -> {
