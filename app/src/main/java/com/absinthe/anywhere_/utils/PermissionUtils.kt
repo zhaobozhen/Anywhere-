@@ -29,7 +29,8 @@ object PermissionUtils {
             val c = Class.forName("android.os.SystemProperties")
             val get = c.getMethod("get", String::class.java)
             val result = get.invoke(c, "ro.miui.ui.version.code") as String
-            result.isNotEmpty() && !brand.contains("xiaomi") && !brand.contains("redmi")
+
+            result.isNotEmpty() || brand.contains("xiaomi") || brand.contains("redmi")
         } catch (e: Exception) {
             e.printStackTrace()
             false
@@ -68,7 +69,7 @@ object PermissionUtils {
             val cmd = "chmod 777 $pkgCodePath"
             process = Runtime.getRuntime().exec("su") //change to super user
             os = DataOutputStream(process.outputStream).apply {
-                writeBytes(cmd.trimIndent())
+                writeBytes("$cmd\n")
                 writeBytes("exit\n")
                 flush()
             }

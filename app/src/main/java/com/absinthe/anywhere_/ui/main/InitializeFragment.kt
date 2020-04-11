@@ -69,6 +69,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         setHasOptionsMenu(true)
         mBinding.selectWorkingMode.toggleGroup.addOnButtonCheckedListener(this)
 
+        allPerm.value = 0
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             allPerm.value?.or(OVERLAY_PERM)
         }
@@ -107,10 +108,11 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.toolbar_initialize_done) {
-            Timber.d("enterMain")
             GlobalValues.setsWorkingMode(mWorkingMode)
+
             var flag = false
             val allPerm = allPerm.value ?: 0
+
             when (mWorkingMode) {
                 Const.WORKING_MODE_URL_SCHEME -> flag = true
                 Const.WORKING_MODE_ROOT -> if (allPerm == ROOT_PERM or OVERLAY_PERM) {
@@ -120,6 +122,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                     flag = true
                 }
             }
+
             if (flag) {
                 enterMainFragment()
             } else {
@@ -187,8 +190,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         when (card) {
             CARD_ROOT -> {
                 rootBinding.btnAcquireRootPermission.setOnClickListener {
-                    val result = com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(context?.packageCodePath
-                            ?: "")
+                    val result = com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(requireContext().packageCodePath)
                     isRoot.setValue(result)
                 }
                 if (isAdd) {
@@ -259,7 +261,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             CARD_POPUP -> {
                 popupBinding.btnAcquirePopupPermission.setOnClickListener {
                     if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {
-                        com.absinthe.anywhere_.utils.PermissionUtils.goToMIUIPermissionManager(requireContext())
+                        com.absinthe.anywhere_.utils.PermissionUtils.goToMIUIPermissionManager(requireActivity())
                     }
                 }
                 if (isAdd) {

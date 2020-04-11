@@ -34,22 +34,26 @@ object ClipboardUtil {
     private fun getTextFroClipFromAndroidQ(activity: Activity, f: Function) {
         val runnable = Runnable label@{
             val clipboardManager = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            if (!clipboardManager.hasPrimaryClip()) {
-                f.invoke("")
-                return@label
+            try {
+                if (!clipboardManager.hasPrimaryClip()) {
+                    f.invoke("")
+                    return@label
+                }
+                val clipData = clipboardManager.primaryClip
+                if (null == clipData || clipData.itemCount < 1) {
+                    f.invoke("")
+                    return@label
+                }
+                val item = clipData.getItemAt(0)
+                if (item == null) {
+                    f.invoke("")
+                    return@label
+                }
+                val clipText = item.text
+                if (TextUtils.isEmpty(clipText)) f.invoke("") else f.invoke(clipText.toString())
+            } catch (e: SecurityException) {
+                e.printStackTrace()
             }
-            val clipData = clipboardManager.primaryClip
-            if (null == clipData || clipData.itemCount < 1) {
-                f.invoke("")
-                return@label
-            }
-            val item = clipData.getItemAt(0)
-            if (item == null) {
-                f.invoke("")
-                return@label
-            }
-            val clipText = item.text
-            if (TextUtils.isEmpty(clipText)) f.invoke("") else f.invoke(clipText.toString())
         }
         activity.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
