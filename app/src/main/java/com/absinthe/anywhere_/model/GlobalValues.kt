@@ -148,7 +148,6 @@ object GlobalValues {
         putString(Utils.getApp(), Const.PREF_SORT_MODE, sSortMode)
     }
 
-    @JvmStatic
     fun setsIconPack(sIconPack: String) {
         this.sIconPack = sIconPack
         putString(Utils.getApp(), Const.PREF_ICON_PACK, sIconPack)

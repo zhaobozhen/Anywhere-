@@ -134,7 +134,7 @@ public class UiUtils {
     public static Drawable getAppIconByPackageName(Context context, String packageName) {
         Drawable drawable;
         try {
-            if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty() || Settings.sIconPack == null) {
+            if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty()) {
                 drawable = context.getPackageManager().getApplicationIcon(packageName);
             } else {
                 drawable = Settings.sIconPack.getDrawableIconForPackage(packageName, context.getPackageManager().getApplicationIcon(packageName));

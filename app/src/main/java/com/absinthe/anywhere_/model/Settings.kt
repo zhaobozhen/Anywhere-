@@ -15,8 +15,8 @@ import java.util.*
 object Settings {
 
     var sIconPackManager: IconPackManager = IconPackManager()
-    var sIconPack: IconPack? = null
 
+    lateinit var sIconPack: IconPack
     lateinit var sDate: String
     lateinit var sToken: String
 
@@ -51,15 +51,12 @@ object Settings {
         sIconPackManager.setContext(Utils.getApp())
         val hashMap = sIconPackManager.getAvailableIconPacks(true)
 
+        setsIconPack(DEFAULT_ICON_PACK)
         for ((key, value) in hashMap) {
             if (key == GlobalValues.sIconPack) {
                 sIconPack = value
                 break
             }
-        }
-
-        if (sIconPack == null) {
-            setsIconPack(DEFAULT_ICON_PACK)
         }
     }
 

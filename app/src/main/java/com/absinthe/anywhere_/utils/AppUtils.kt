@@ -135,7 +135,7 @@ object AppUtils {
                 val bean = AppListBean().apply {
                     this.packageName = packageInfo.packageName
                     this.appName = TextUtils.getAppName(Utils.getApp(), packageInfo.packageName)
-                    this.icon = if (GlobalValues.sIconPack == com.absinthe.anywhere_.model.Settings.DEFAULT_ICON_PACK || GlobalValues.sIconPack!!.isEmpty()) {
+                    this.icon = if (GlobalValues.sIconPack == com.absinthe.anywhere_.model.Settings.DEFAULT_ICON_PACK || GlobalValues.sIconPack.isEmpty()) {
                         packageInfo.applicationInfo.loadIcon(packageManager)
                     } else {
                         com.absinthe.anywhere_.model.Settings.sIconPack.getDrawableIconForPackage(packageInfo.packageName, packageInfo.applicationInfo.loadIcon(packageManager))

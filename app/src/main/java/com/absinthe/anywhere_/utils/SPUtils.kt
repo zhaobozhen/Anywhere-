@@ -88,7 +88,7 @@ object SPUtils {
         return sp.getLong(key, defaultValue)
     }
 
-    fun putToken(context: Context, value: String?) {
+    fun putToken(context: Context, value: String) {
         context.getSharedPreferences(Const.TOKEN_SP_NAME, Context.MODE_PRIVATE).edit().apply {
             putString(Const.PREF_TOKEN, value)
             apply()

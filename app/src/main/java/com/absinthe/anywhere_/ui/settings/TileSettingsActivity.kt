@@ -1,6 +1,8 @@
 package com.absinthe.anywhere_.ui.settings
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
@@ -54,62 +56,64 @@ open class TileSettingsActivity : BaseActivity() {
 
         mAdapter.setOnItemChildClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int ->
             if (view.id == R.id.btn_select) {
-                val fragment = showCardListDialog(this)
-                fragment.setOnItemClickListener(object : AppListAdapter.OnItemClickListener {
-                    override fun onClick(bean: AppListBean?, which: Int) {
-                        mAdapter.setData(position, bean)
-                        var tile = ""
-                        var tileLabel = ""
-                        var tileCmd = ""
-                        when (position) {
-                            0 -> {
-                                tile = Const.PREF_TILE_ONE
-                                tileLabel = Const.PREF_TILE_ONE_LABEL
-                                tileCmd = Const.PREF_TILE_ONE_CMD
-                                if (!ServiceUtils.isServiceRunning(TileOneService::class.java)) {
-                                    startService(Intent(this@TileSettingsActivity, TileOneService::class.java))
+                showCardListDialog(this).apply {
+                    setOnItemClickListener(object : AppListAdapter.OnItemClickListener {
+                        override fun onClick(bean: AppListBean?, which: Int) {
+                            mAdapter.setData(position, bean)
+                            var tile = ""
+                            var tileLabel = ""
+                            var tileCmd = ""
+                            when (position) {
+                                0 -> {
+                                    tile = Const.PREF_TILE_ONE
+                                    tileLabel = Const.PREF_TILE_ONE_LABEL
+                                    tileCmd = Const.PREF_TILE_ONE_CMD
+                                    if (!ServiceUtils.isServiceRunning(TileOneService::class.java)) {
+                                        startService(Intent(this@TileSettingsActivity, TileOneService::class.java))
+                                    }
+                                }
+                                1 -> {
+                                    tile = Const.PREF_TILE_TWO
+                                    tileLabel = Const.PREF_TILE_TWO_LABEL
+                                    tileCmd = Const.PREF_TILE_TWO_CMD
+                                    if (!ServiceUtils.isServiceRunning(TileTwoService::class.java)) {
+                                        startService(Intent(this@TileSettingsActivity, TileTwoService::class.java))
+                                    }
+                                }
+                                2 -> {
+                                    tile = Const.PREF_TILE_THREE
+                                    tileLabel = Const.PREF_TILE_THREE_LABEL
+                                    tileCmd = Const.PREF_TILE_THREE_CMD
+                                    if (!ServiceUtils.isServiceRunning(TileThreeService::class.java)) {
+                                        startService(Intent(this@TileSettingsActivity, TileThreeService::class.java))
+                                    }
+                                }
+                                else -> {
                                 }
                             }
-                            1 -> {
-                                tile = Const.PREF_TILE_TWO
-                                tileLabel = Const.PREF_TILE_TWO_LABEL
-                                tileCmd = Const.PREF_TILE_TWO_CMD
-                                if (!ServiceUtils.isServiceRunning(TileTwoService::class.java)) {
-                                    startService(Intent(this@TileSettingsActivity, TileTwoService::class.java))
-                                }
-                            }
-                            2 -> {
-                                tile = Const.PREF_TILE_THREE
-                                tileLabel = Const.PREF_TILE_THREE_LABEL
-                                tileCmd = Const.PREF_TILE_THREE_CMD
-                                if (!ServiceUtils.isServiceRunning(TileThreeService::class.java)) {
-                                    startService(Intent(this@TileSettingsActivity, TileThreeService::class.java))
-                                }
-                            }
-                            else -> {
-                            }
+                            putString(this@TileSettingsActivity, tile, mList[which].id)
+                            putString(this@TileSettingsActivity, tileLabel, mList[which].appName)
+                            putString(this@TileSettingsActivity, tileCmd, TextUtils.getItemCommand(mList[which]))
+                            dismiss()
                         }
-                        putString(this@TileSettingsActivity, tile, mList[which].id)
-                        putString(this@TileSettingsActivity, tileLabel, mList[which].appName)
-                        putString(this@TileSettingsActivity, tileCmd, TextUtils.getItemCommand(mList[which]))
-                        fragment.dismiss()
-                    }
-                })
+                    })
+                }
             }
         }
-        val viewModel = ViewModelProvider(this).get(AnywhereViewModel::class.java)
-        viewModel.allAnywhereEntities?.observe(this, Observer { anywhereEntities: List<AnywhereEntity>? ->
-            anywhereEntities?.let { mList = it }
-            load()
-        })
+        ViewModelProvider(this).get(AnywhereViewModel::class.java).apply {
+            allAnywhereEntities?.observe(this@TileSettingsActivity, Observer { anywhereEntities: List<AnywhereEntity>? ->
+                anywhereEntities?.let { mList = it }
+                load()
+            })
+        }
     }
 
     private fun initCard(): AppListBean {
         return AppListBean().apply {
-            appName = getString(R.string.app_name)
-            packageName = packageName
-            className = localClassName
-            icon = getDrawable(R.mipmap.ic_launcher)
+            this.appName = getString(R.string.app_name)
+            this.packageName = getPackageName()
+            this.className = localClassName
+            this.icon = getDrawable(R.mipmap.ic_launcher) ?: ColorDrawable(Color.TRANSPARENT)
         }
     }
 
