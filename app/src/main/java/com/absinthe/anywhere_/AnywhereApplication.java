@@ -38,7 +38,7 @@ public class AnywhereApplication extends Application {
         GlobalValues.init(this);
         sRepository = new AnywhereRepository(this);
         Once.initialise(this);
-        Settings.init();
+        Settings.INSTANCE.init();
     }
 
     public static String getProcessName() {

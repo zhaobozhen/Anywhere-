@@ -6,41 +6,39 @@ import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
-import com.absinthe.anywhere_.view.CollectorView
+import com.absinthe.anywhere_.view.OverlayView
 import timber.log.Timber
 
-class CollectorWindowManager(private val context: Context) {
+class OverlayWindowManager(private val mContext: Context, cmd: String, pkgName: String) {
 
-    private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-
-    var view: CollectorView? = null
-        private set
+    private val mWindowManager: WindowManager = mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private val mCommand: String = cmd
+    private val mPkgName: String = pkgName
+    private var mOverlayView: OverlayView? = null
 
     fun addView() {
-        if (view == null) {
-            view = CollectorView(context).apply {
+        if (mOverlayView == null) {
+            mOverlayView = OverlayView(mContext).apply {
+                command = mCommand
+                pkgName = mPkgName
                 layoutParams = LAYOUT_PARAMS
                 measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
             }
-            mWindowManager.addView(view, LAYOUT_PARAMS)
-            Timber.d("Collector addView.")
+
+            mWindowManager.addView(mOverlayView, LAYOUT_PARAMS)
+            Timber.d("Overlay window addView.")
         }
     }
 
     fun removeView() {
-        if (view != null) {
-            mWindowManager.removeView(view)
-            view = null
-            Timber.d("Collector removeView.")
+        if (mOverlayView != null) {
+            mWindowManager.removeView(mOverlayView)
+            mOverlayView = null
+            Timber.d("Overlay window removeView.")
         }
     }
 
-    fun setInfo(pkgName: String, clsName: String) {
-        view?.setInfo(pkgName, clsName)
-    }
-
     companion object {
-
         private var LAYOUT_PARAMS = WindowManager.LayoutParams().apply {
             x = width
             y = height / 2
@@ -57,4 +55,5 @@ class CollectorWindowManager(private val context: Context) {
             }
         }
     }
+
 }
