@@ -130,17 +130,6 @@ class MainActivity : BaseActivity() {
 
             val welcomeFragment = newInstance()
             viewModel.fragment.value = welcomeFragment
-
-            AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
-                if (it.isEmpty()) {
-                    val helpCard = AnywhereEntity.Builder().apply {
-                        appName = getString(R.string.help_card_title)
-                        type = AnywhereType.URL_SCHEME
-                        param1 = URLManager.OLD_DOCUMENT_PAGE
-                    }
-                    viewModel.insert(helpCard)
-                }
-            }
         } else {
             val mainFragment = MainFragment.newInstance(GlobalValues.sCategory)
             viewModel.fragment.value = mainFragment
@@ -452,6 +441,13 @@ class MainActivity : BaseActivity() {
         }
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE)) {
             showFirstTip(mBinding.fab)
+
+            viewModel.insert(AnywhereEntity.Builder().apply {
+                appName = getString(R.string.help_card_title)
+                type = AnywhereType.URL_SCHEME
+                param1 = URLManager.OLD_DOCUMENT_PAGE
+            })
+
             Once.markDone(OnceTag.FAB_GUIDE)
         }
     }

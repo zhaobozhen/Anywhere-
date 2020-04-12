@@ -152,7 +152,7 @@ object CommandUtils {
 
             Timber.i(cmd)
             os.apply {
-                write(cmd.toByteArray())
+                write("$cmd\n".toByteArray())
                 flush()
                 write("exit\n".toByteArray())
                 flush()
@@ -194,7 +194,7 @@ object CommandUtils {
             val os = remoteProcess.outputStream
 
             os.apply {
-                write(cmd.toByteArray())
+                write("$cmd\n".toByteArray())
                 write("exit\n".toByteArray())
                 close()
             }
