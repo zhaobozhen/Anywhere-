@@ -27,7 +27,7 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1821
+        versionCode 1822
         versionName "1.8.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

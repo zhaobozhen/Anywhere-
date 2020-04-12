@@ -25,6 +25,7 @@
 # Preserve some attributes that may be required for reflection.
 -keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
 
+-keep class * extends androidx.fragment.app.Fragment{}
 -keep public class com.google.vending.licensing.ILicensingService
 -keep public class com.android.vending.licensing.ILicensingService
 -keep public class com.google.android.vending.licensing.ILicensingService
