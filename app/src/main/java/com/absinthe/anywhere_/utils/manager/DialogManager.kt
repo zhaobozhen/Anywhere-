@@ -9,10 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.Const
-import com.absinthe.anywhere_.model.GlobalValues
-import com.absinthe.anywhere_.model.Settings
+import com.absinthe.anywhere_.model.*
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
 import com.absinthe.anywhere_.ui.fragment.*
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
@@ -280,9 +277,15 @@ object DialogManager {
             ToastUtil.makeText(R.string.toast_execute_shell_successful)
             return
         }
-        val builder = AnywhereDialogBuilder(context)
-        builder.setTitle(R.string.dialog_shell_result_title)
-                .setMessage(result)
+
+        val parsedResult = if (CommandResult.MAP.containsKey(result)) {
+            CommandResult.MAP[result]
+        } else {
+            result
+        }
+
+        AnywhereDialogBuilder(context).setTitle(R.string.dialog_shell_result_title)
+                .setMessage(parsedResult)
                 .setPositiveButton(R.string.dialog_close_button, posListener)
                 .setOnCancelListener(cancelListener)
                 .show()

@@ -174,7 +174,7 @@ object CommandUtils {
             }
         }
         if (result.toString().isEmpty()) {
-            result.append(CommandResult.RESULT_ROOT_PERM_ERROR)
+            result.append(CommandResult.RESULT_EMPTY)
         }
         return result.toString()
     }
@@ -211,6 +211,11 @@ object CommandUtils {
             Timber.e(tr, "newProcess")
             sb.append(CommandResult.RESULT_SHIZUKU_PERM_ERROR)
         }
+
+        if (sb.toString().isEmpty()) {
+            sb.append(CommandResult.RESULT_EMPTY)
+        }
+
         return sb.toString()
     }
 }
