@@ -86,7 +86,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 if (list.isEmpty()) {
                     mBinding.vfContainer.displayedChild = 1
                 } else {
-                    mAdapter.setList(ListUtils.sortAppListByExported(list))
+                    mAdapter.setList(ListUtils.sortAppListByExported(list).toMutableList())
                     mBinding.vfContainer.displayedChild = 0
                 }
                 mBinding.srlAppDetail.isRefreshing = false

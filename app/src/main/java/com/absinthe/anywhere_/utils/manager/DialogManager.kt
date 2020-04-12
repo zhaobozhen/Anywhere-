@@ -279,7 +279,7 @@ object DialogManager {
         }
 
         val parsedResult = if (CommandResult.MAP.containsKey(result)) {
-            CommandResult.MAP[result]
+            "[Anywhere- $result] ${CommandResult.MAP[result]}"
         } else {
             result
         }

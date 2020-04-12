@@ -34,7 +34,7 @@ import com.absinthe.anywhere_.adapter.page.PageTitleProvider
 import com.absinthe.anywhere_.databinding.ActivityMainBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.*
-import com.absinthe.anywhere_.model.GlobalValues.setsActionBarType
+import com.absinthe.anywhere_.model.GlobalValues.clearActionBarType
 import com.absinthe.anywhere_.model.GlobalValues.setsBackgroundUri
 import com.absinthe.anywhere_.model.GlobalValues.setsCategory
 import com.absinthe.anywhere_.model.GlobalValues.workingMode
@@ -71,10 +71,7 @@ import com.leinardi.android.speeddial.SpeedDialActionItem
 import it.sephiroth.android.library.xtooltip.ClosePolicy.Companion.TOUCH_ANYWHERE_CONSUME
 import it.sephiroth.android.library.xtooltip.Tooltip
 import jonathanfinerty.once.Once
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.*
 
@@ -239,29 +236,30 @@ class MainActivity : BaseActivity() {
     private fun initDrawer(drawer: DrawerLayout) {
         val recyclerView: RecyclerView = drawer.findViewById(R.id.rv_pages)
         val adapter = PageListAdapter()
-        adapter.setOnItemChildClickListener { adapter1: BaseQuickAdapter<*, *>, view: View, position: Int ->
+        adapter.setOnItemChildClickListener { _: BaseQuickAdapter<*, *>, view: View, position: Int ->
 
             if (view.id == R.id.iv_entry) {
                 drawer.closeDrawer(GravityCompat.START)
-                val node = adapter1.getItem(position) as PageTitleNode?
 
-                if (node != null) {
-                    ListUtils.getPageEntityByTitle(node.title)?.let { pe ->
-                        GlobalScope.launch(Dispatchers.Main) {
+                (adapter.getItem(position) as PageTitleNode?)?.let {
+                    ListUtils.getPageEntityByTitle(it.title)?.let { pe ->
+                        GlobalScope.launch(Dispatchers.Default) {
                             delay(300)
 
-                            if (pe.type == AnywhereType.CARD_PAGE) {
-                                val mainFragment = MainFragment.newInstance(pe.title)
-                                viewModel.fragment.value = mainFragment
-                                setsCategory(pe.title, position)
-                            } else if (pe.type == AnywhereType.WEB_PAGE) {
-                                val webviewFragment = WebviewFragment.newInstance(pe.extra)
-                                viewModel.fragment.value = webviewFragment
-                            }
+                            withContext(Dispatchers.Main) {
+                                if (pe.type == AnywhereType.CARD_PAGE) {
+                                    viewModel.fragment.value = MainFragment.newInstance(pe.title)
+                                    setsCategory(pe.title, position)
+                                } else if (pe.type == AnywhereType.WEB_PAGE) {
+                                    viewModel.fragment.value = WebviewFragment.newInstance(pe.extra)
+                                }
 
-                            if (pe.backgroundUri.isNotEmpty()) {
-                                setsActionBarType("")
-                                viewModel.background.value = pe.backgroundUri
+                                pe.backgroundUri?.let { uri ->
+                                    if (uri.isNotEmpty()) {
+                                        clearActionBarType()
+                                        viewModel.background.value = uri
+                                    }
+                                }
                             }
                         }
                     }
@@ -315,7 +313,8 @@ class MainActivity : BaseActivity() {
             for (i in (adapter.data.indices)) {
                 try {
                     adapter.collapse(i)
-                } catch (ignore: IndexOutOfBoundsException) { }
+                } catch (ignore: IndexOutOfBoundsException) {
+                }
             }
             PageTitleProvider.isEditMode = true
             val touchCallBack = ItemTouchCallBack().apply {

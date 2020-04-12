@@ -130,7 +130,7 @@ class SettingsActivity : BaseActivity() {
                             (requireActivity() as BaseActivity).setDocumentResultListener(object : OnDocumentResultListener {
                                 override fun onResult(uri: Uri) {
                                     GlobalValues.setsBackgroundUri(uri.toString())
-                                    GlobalValues.setsActionBarType("")
+                                    GlobalValues.clearActionBarType()
                                     AppUtils.restart()
                                 }
                             })

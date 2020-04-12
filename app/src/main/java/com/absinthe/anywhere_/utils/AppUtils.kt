@@ -146,7 +146,9 @@ object AppUtils {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return ListUtils.sortAppListByNameAsc(list)
+        list.sortBy { it.appName }
+
+        return list
     }
 
     /**

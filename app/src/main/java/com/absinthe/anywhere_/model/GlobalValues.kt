@@ -126,9 +126,13 @@ object GlobalValues {
     }
 
     @JvmStatic
-    fun setsActionBarType(sActionBarType: String) {
+    fun setsActionBarType(sActionBarType: String = "") {
         this.sActionBarType = sActionBarType
         putString(Utils.getApp(), Const.PREF_ACTION_BAR_TYPE, sActionBarType)
+    }
+
+    fun clearActionBarType() {
+        setsActionBarType()
     }
 
     fun setsDarkMode(sDarkMode: String) {
