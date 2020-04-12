@@ -64,6 +64,7 @@ object Const {
     const val DARK_MODE_ON = "on"
     const val DARK_MODE_AUTO = "auto"
     const val DARK_MODE_SYSTEM = "system"
+    const val DARK_MODE_BATTERY = "battery"
 
     const val SORT_MODE_TIME_ASC = "TIME_ASC"
     const val SORT_MODE_TIME_DESC = "TIME_DESC"

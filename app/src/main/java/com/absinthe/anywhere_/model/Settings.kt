@@ -39,6 +39,7 @@ object Settings {
             Const.DARK_MODE_OFF, "" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             Const.DARK_MODE_ON -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             Const.DARK_MODE_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            Const.DARK_MODE_BATTERY -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
             Const.DARK_MODE_AUTO -> AppCompatDelegate.setDefaultNightMode(UiUtils.getAutoDarkMode())
         }
     }

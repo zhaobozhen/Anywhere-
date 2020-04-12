@@ -289,7 +289,8 @@
     <string name="array_dark_mode_off">Off</string>
     <string name="array_dark_mode_on">On</string>
     <string name="array_dark_mode_auto">Auto</string>
-    <string name="array_dark_mode_system">Follow System</string>
+    <string name="array_dark_mode_system">System Default</string>
+    <string name="array_dark_mode_battery">Set by Battery Saver</string>
 
     <string name="array_card_bg_off">Off</string>
     <string name="array_card_bg_pure">Pure</string>
@@ -321,20 +322,5 @@
     <string name="report_describe">* Please describe the issue:</string>
     <string name="report_select_mail_app">Please select the mail app</string>
     <string name="title_activity_defrost">Defrost mode</string>
-
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 </resources>
