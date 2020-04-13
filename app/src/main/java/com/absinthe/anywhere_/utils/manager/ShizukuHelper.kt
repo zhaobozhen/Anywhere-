@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.Const
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -17,7 +16,10 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showCheckShizukuWorkin
 import com.absinthe.anywhere_.utils.manager.DialogManager.showGotoShizukuManagerDialog
 import com.blankj.utilcode.util.IntentUtils
 import com.blankj.utilcode.util.PermissionUtils
-import moe.shizuku.api.*
+import moe.shizuku.api.ShizukuApiConstants
+import moe.shizuku.api.ShizukuClientHelper
+import moe.shizuku.api.ShizukuClientHelperPre23
+import moe.shizuku.api.ShizukuService
 import timber.log.Timber
 
 /**
@@ -36,27 +38,27 @@ object ShizukuHelper {
     private var isShizukuV3TokenValid = false
 
     @JvmStatic
-    fun bind(context: Context?) {
-        Timber.d("initialize %s", ShizukuMultiProcessHelper.initialize(context, !AnywhereApplication.getProcessName().endsWith(":test")))
+    fun bind(context: Context) {
         ShizukuClientHelper.setBinderReceivedListener {
             Timber.d("onBinderReceived")
 
             if (ShizukuService.getBinder() == null) {
                 // ShizukuBinderReceiveProvider started without binder, should never happened
-                Timber.d("binder is null")
+                Timber.e("binder is null")
                 isShizukuV3Failed = true
             } else {
                 try {
                     // test the binder first
                     ShizukuService.pingBinder()
+
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                        val token = ShizukuClientHelperPre23.loadPre23Token(context!!)
+                        val token = ShizukuClientHelperPre23.loadPre23Token(context)
                         isShizukuV3TokenValid = ShizukuService.setTokenPre23(token)
                     }
-                    LocalBroadcastManager.getInstance(context!!).sendBroadcast(Intent(ACTION_SEND_BINDER))
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(ACTION_SEND_BINDER))
                 } catch (tr: Throwable) {
                     // blocked by SELinux or server dead, should never happened
-                    Timber.i(tr, "can't contact with remote")
+                    Timber.e(tr, "can't contact with remote")
                     isShizukuV3Failed = true
                 }
             }
@@ -81,7 +83,7 @@ object ShizukuHelper {
             }
 
             // Shizuku v3 may not running, notify user
-            Timber.d("Shizuku v3 may not running.")
+            Timber.e("Shizuku v3 may not running.")
             showCheckShizukuWorkingDialog(context)
             // if your app support Shizuku v2, run old v2 codes here
             // for new apps, recommended to ignore v2
@@ -111,16 +113,12 @@ object ShizukuHelper {
             }
         } else if (!isShizukuV3TokenValid) {
             // on API pre-23, Shizuku v3 uses old token, get token from Shizuku app
-            val intent = ShizukuClientHelperPre23.createPre23AuthorizationIntent(activity)
-            if (intent != null) {
+            ShizukuClientHelperPre23.createPre23AuthorizationIntent(activity)?.let {
                 try {
-                    activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
+                    activity.startActivityForResult(it, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
                 } catch (tr: Throwable) {
                     // should never happened
                 }
-            } else {
-                // activity not found
-                Timber.d("activity not found.")
             }
         }
     }

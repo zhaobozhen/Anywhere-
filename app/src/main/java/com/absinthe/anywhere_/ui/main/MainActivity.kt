@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.HapticFeedbackConstants
 import android.view.Menu
 import android.view.MenuItem
@@ -84,7 +83,7 @@ class MainActivity : BaseActivity() {
     private lateinit var mToggle: ActionBarDrawerToggle
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mFirebaseAnalytics: FirebaseAnalytics
-    private var mObserver: Observer<List<PageEntity>?>? = null
+    private lateinit var mObserver: Observer<List<PageEntity>?>
 
     init {
         isPaddingToolbar = !GlobalValues.sIsMd2Toolbar
@@ -101,26 +100,10 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        instance = this
         viewModel = ViewModelProvider(this).get(AnywhereViewModel::class.java)
 
         initObserver()
-        mObserver = Observer<List<PageEntity>?> { pageEntities ->
-            if (pageEntities == null) return@Observer
 
-            AnywhereApplication.sRepository.allPageEntities?.removeObserver(mObserver!!)
-
-            if (pageEntities.isEmpty() && !isPageInit) {
-                val pe = PageEntity.Builder().apply {
-                    title = GlobalValues.sCategory
-                    priority = 1
-                }
-                AnywhereApplication.sRepository.insertPage(pe)
-                isPageInit = true
-            }
-        }
-
-        AnywhereApplication.sRepository.allPageEntities?.observe(this, mObserver!!)
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) &&
                 getBoolean(this, Const.PREF_FIRST_LAUNCH, true)) {
             mBinding.fab.visibility = View.GONE
@@ -153,11 +136,6 @@ class MainActivity : BaseActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         getAnywhereIntent(intent)
-    }
-
-    override fun onDestroy() {
-        instance = null
-        super.onDestroy()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -363,16 +341,33 @@ class MainActivity : BaseActivity() {
         for (pe in pageEntities) {
             list.add(viewModel.getEntity(pe.title))
         }
-        adapter.setNewData(list)
+        adapter.setNewInstance(list)
     }
 
     fun initObserver() {
+        mObserver = Observer<List<PageEntity>?> { pageEntities ->
+            if (pageEntities == null) return@Observer
+
+            AnywhereApplication.sRepository.allPageEntities?.removeObserver(mObserver)
+
+            if (pageEntities.isEmpty() && !isPageInit) {
+                val pe = PageEntity.Builder().apply {
+                    title = GlobalValues.sCategory
+                    priority = 1
+                }
+                AnywhereApplication.sRepository.insertPage(pe)
+                isPageInit = true
+            }
+        }
+
+        AnywhereApplication.sRepository.allPageEntities?.observe(this, mObserver)
+
         viewModel.background.observe(this, Observer { s: String ->
             setsBackgroundUri(s)
 
             if (s.isNotEmpty()) {
                 loadBackground(GlobalValues.sBackgroundUri)
-                UiUtils.setAdaptiveActionBarTitleColor(instance, supportActionBar, UiUtils.getActionBarTitle())
+                UiUtils.setAdaptiveActionBarTitleColor(this, supportActionBar, UiUtils.getActionBarTitle())
                 UiUtils.setActionBarTransparent(this)
             }
         })
@@ -438,6 +433,7 @@ class MainActivity : BaseActivity() {
             mBinding.fab.close()
             true
         }
+
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE)) {
             showFirstTip(mBinding.fab)
 
@@ -456,20 +452,19 @@ class MainActivity : BaseActivity() {
         Timber.d("action = %s", action)
 
         if (action == null || action == Intent.ACTION_VIEW) {
-            val uri = intent.data
-            if (uri != null) {
-                Timber.d("Received Url = %s", uri.toString())
-                Timber.d("Received path = %s", uri.path)
-                processUri(uri)
+            intent.data?.let {
+                Timber.d("Received Url = %s", it.toString())
+                Timber.d("Received path = %s", it.path)
+                processUri(it)
             }
         } else if (action == Intent.ACTION_SEND) {
             val sharing = intent.getStringExtra(Intent.EXTRA_TEXT)
-            viewModel.setUpUrlScheme(this, com.absinthe.anywhere_.utils.TextUtils.parseUrlFromSharingText(sharing))
+            viewModel.setUpUrlScheme(this, TextUtils.parseUrlFromSharingText(sharing))
         }
     }
 
     private fun processUri(uri: Uri) {
-        if (TextUtils.equals(uri.host, URLManager.URL_HOST)) {
+        if (uri.host == URLManager.URL_HOST) {
             val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1)
             val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2)
             val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3)
@@ -478,7 +473,7 @@ class MainActivity : BaseActivity() {
                 if (param2.isEmpty() && param3.isEmpty()) {
                     viewModel.setUpUrlScheme(this, param1)
                 } else {
-                    val appName: String = com.absinthe.anywhere_.utils.TextUtils.getAppName(this, param1)
+                    val appName: String = TextUtils.getAppName(this, param1)
                     var exported = 0
 
                     if (UiUtils.isActivityExported(this, ComponentName(param1,
@@ -500,7 +495,7 @@ class MainActivity : BaseActivity() {
                     editor.show()
                 }
             }
-        } else if (TextUtils.equals(uri.host, URLManager.CARD_SHARING_HOST)) {
+        } else if (uri.host == URLManager.CARD_SHARING_HOST) {
             if (uri.path != null && uri.toString().isNotEmpty()) {
                 val encrypted = uri.path!!.substring(1)
                 val decrypted = decrypt(encrypted)
@@ -536,9 +531,6 @@ class MainActivity : BaseActivity() {
     }
 
     companion object {
-        @JvmStatic
-        var instance: MainActivity? = null
-            private set
         private var isPageInit = false
     }
 }

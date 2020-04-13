@@ -12,7 +12,6 @@ import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.Const
-import com.absinthe.anywhere_.ui.main.MainActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -20,12 +19,13 @@ import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.CreateShortcutDialogBuilder
+import com.blankj.utilcode.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : AnywhereDialogFragment() {
     private lateinit var mBuilder: CreateShortcutDialogBuilder
-    private val mIcon: Drawable = UiUtils.getAppIconByPackageName(MainActivity.instance, mEntity)
+    private val mIcon: Drawable = UiUtils.getAppIconByPackageName(Utils.getApp(), mEntity)
     private val mName: String = mEntity.appName
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -78,11 +78,11 @@ public class MainFragment extends Fragment {
         }
         return sCardMode;
     }
-    
-    public static void setRefreshLock(boolean lock) { 
+
+    public static void setRefreshLock(boolean lock) {
         sRefreshLock = lock;
     }
-    
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -132,9 +132,7 @@ public class MainFragment extends Fragment {
                 }
 
                 if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
-                    if (MainActivity.getInstance() != null) {
-                        MainActivity.getInstance().mBinding.fab.show();
-                    }
+                    ((MainActivity) requireActivity()).mBinding.fab.show();
                 }
             }
             AppUtils.updateWidget(Utils.getApp());

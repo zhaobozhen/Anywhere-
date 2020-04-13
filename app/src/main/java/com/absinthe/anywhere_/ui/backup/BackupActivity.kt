@@ -109,7 +109,6 @@ class BackupActivity : BaseActivity() {
     }
 
     companion object {
-        @JvmField
         var INSERT_CORRECT = true
     }
 }

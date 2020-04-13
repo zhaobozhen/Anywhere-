@@ -17,10 +17,7 @@ import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.NotificationUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.File
 import java.util.*
 
@@ -49,24 +46,30 @@ class LogcatActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        mBinding.rvLog.layoutManager = LinearLayoutManager(this)
-        mAdapter.setDiffCallback(LogDiffCallback())
-        mBinding.rvLog.adapter = mAdapter
 
-        mAdapter.setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>, view: View, position: Int ->
-            val logModel = adapter.getItem(position) as LogModel?
+        mAdapter.apply {
+            setDiffCallback(LogDiffCallback())
+            setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>, view: View, position: Int ->
+                val logModel = adapter.getItem(position) as LogModel?
 
-            if (logModel != null) {
-                if (view.id == R.id.btn_delete) {
-                    if (FileUtils.delete(logModel.filePath)) {
-                        mAdapter.remove(position)
+                if (logModel != null) {
+                    if (view.id == R.id.btn_delete) {
+                        if (FileUtils.delete(logModel.filePath)) {
+                            mAdapter.removeAt(position)
+                        }
+                    } else if (view.id == R.id.btn_send) {
+                        val file = FileUtils.getFileByPath(logModel.filePath)
+                        sendLogcat(this@LogcatActivity, file)
                     }
-                } else if (view.id == R.id.btn_send) {
-                    val file = FileUtils.getFileByPath(logModel.filePath)
-                    sendLogcat(this, file)
                 }
             }
         }
+
+        mBinding.rvLog.apply {
+            layoutManager = LinearLayoutManager(this@LogcatActivity)
+            adapter = mAdapter
+        }
+
         if (isStartCatching) {
             mBinding.btnLogcat.text = getText(R.string.btn_stop_catch_log)
         } else {
@@ -78,11 +81,7 @@ class LogcatActivity : BaseActivity() {
                 isStartCatching = false
                 LogRecorder.getInstance().stop()
                 NotificationUtils.cancel(NotifyUtils.LOGCAT_NOTIFICATION_ID)
-
-                GlobalScope.launch(Dispatchers.IO) {
-                    delay(100)
-                    initData(true)
-                }
+                initData(true)
             } else {
                 mBinding.btnLogcat.text = getText(R.string.btn_stop_catch_log)
                 isStartCatching = true
@@ -104,24 +103,27 @@ class LogcatActivity : BaseActivity() {
         val file = getExternalFilesDir(getString(R.string.logcat))
 
         if (FileUtils.isFileExists(file)) {
-            val fileList = FileUtils.listFilesInDir(file) { o1: File, o2: File ->
+            FileUtils.listFilesInDir(file) { o1: File, o2: File ->
                 - o1.lastModified().toString().compareTo(o2.lastModified().toString())
-            }
-
-            if (fileList != null) {
-                for (logFile in fileList) {
-                    val date = Date(logFile.lastModified()).toLocaleString()
-                    val logModel = LogModel().apply {
-                        createTime = date
-                        filePath = logFile.absolutePath
-                        fileSize = logFile.length()
+            }?.let {
+                GlobalScope.launch(Dispatchers.IO) {
+                    for (logFile in it) {
+                        val date = Date(logFile.lastModified()).toLocaleString()
+                        val logModel = LogModel().apply {
+                            createTime = date
+                            filePath = logFile.absolutePath
+                            fileSize = logFile.length()
+                        }
+                        list.add(logModel)
                     }
-                    list.add(logModel)
-                }
-                if (isRefresh) {
-                    mAdapter.setDiffNewData(list)
-                } else {
-                    mAdapter.setNewData(list)
+
+                    withContext(Dispatchers.Main) {
+                        if (isRefresh) {
+                            mAdapter.setDiffNewData(list)
+                        } else {
+                            mAdapter.setNewInstance(list)
+                        }
+                    }
                 }
             }
         }

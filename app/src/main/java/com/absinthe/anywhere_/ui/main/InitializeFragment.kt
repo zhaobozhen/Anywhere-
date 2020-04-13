@@ -136,17 +136,21 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
     private fun enterMainFragment() {
         val fragment = MainFragment.newInstance(GlobalValues.sCategory)
-        MainActivity.instance?.viewModel?.fragment?.value = fragment
-        MainActivity.instance?.initFab()
-        MainActivity.instance?.initObserver()
+        (requireActivity() as MainActivity).apply {
+            viewModel.fragment.value = fragment
+            initFab()
+            initObserver()
+        }
     }
 
     private fun initObserver() {
         isRoot.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
             if (aBoolean) {
-                rootBinding.btnAcquireRootPermission.setText(R.string.btn_acquired)
-                rootBinding.btnAcquireRootPermission.isEnabled = false
-                rootBinding.done.visibility = View.VISIBLE
+                rootBinding.apply {
+                    btnAcquireRootPermission.setText(R.string.btn_acquired)
+                    btnAcquireRootPermission.isEnabled = false
+                    done.visibility = View.VISIBLE
+                }
                 allPerm.value?.or(ROOT_PERM)
                 Timber.d("allPerm = %s", allPerm.value)
             } else {
@@ -156,30 +160,41 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         })
         isShizukuCheck.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
             if (aBoolean) {
-                shizukuBinding.btnCheckShizukuState.setText(R.string.btn_checked)
-                shizukuBinding.btnCheckShizukuState.isEnabled = false
                 allPerm.value?.or(SHIZUKU_CHECK_PERM)
-                shizukuBinding.btnAcquirePermission.isEnabled = true
+
+                shizukuBinding.apply {
+                    btnCheckShizukuState.setText(R.string.btn_checked)
+                    btnCheckShizukuState.isEnabled = false
+                    btnAcquirePermission.isEnabled = true
+                }
             }
-            if (allPerm.value!! and SHIZUKU_GROUP_PERM == SHIZUKU_GROUP_PERM) {
-                shizukuBinding.done.visibility = View.VISIBLE
+            allPerm.value?.let {
+                if (it and SHIZUKU_GROUP_PERM == SHIZUKU_GROUP_PERM) {
+                    shizukuBinding.done.visibility = View.VISIBLE
+                }
             }
         })
         isShizuku.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
             if (aBoolean) {
-                shizukuBinding.btnAcquirePermission.setText(R.string.btn_acquired)
-                shizukuBinding.btnAcquirePermission.isEnabled = false
+                shizukuBinding.apply {
+                    btnAcquirePermission.setText(R.string.btn_acquired)
+                    btnAcquirePermission.isEnabled = false
+                }
                 allPerm.value?.or(SHIZUKU_PERM)
             }
-            if (allPerm.value!! and SHIZUKU_GROUP_PERM == SHIZUKU_GROUP_PERM) {
-                shizukuBinding.done.visibility = View.VISIBLE
+            allPerm.value?.let {
+                if (it and SHIZUKU_GROUP_PERM == SHIZUKU_GROUP_PERM) {
+                    shizukuBinding.done.visibility = View.VISIBLE
+                }
             }
         })
         isOverlay.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
             if (aBoolean) {
-                overlayBinding.btnAcquireOverlayPermission.setText(R.string.btn_acquired)
-                overlayBinding.btnAcquireOverlayPermission.isEnabled = false
-                overlayBinding.done.visibility = View.VISIBLE
+                overlayBinding.apply {
+                    btnAcquireOverlayPermission.setText(R.string.btn_acquired)
+                    btnAcquireOverlayPermission.isEnabled = false
+                    done.visibility = View.VISIBLE
+                }
                 allPerm.value?.or(OVERLAY_PERM)
                 Timber.d("allPerm = %s", allPerm.value)
             }
@@ -302,7 +317,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             }
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
             GlobalScope.launch(Dispatchers.Main) {
-                delay(3000)
+                delay(1500)
                 if (ActivityCompat.checkSelfPermission(requireContext(), ShizukuApiConstants.PERMISSION)
                         == PackageManager.PERMISSION_GRANTED) {
                     isShizuku.value = java.lang.Boolean.TRUE

@@ -176,11 +176,11 @@ dependencies {
 
     //Debug
     kapt 'androidx.room:room-compiler:2.2.5'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
     testImplementation 'junit:junit:4.13'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     androidTestImplementation 'androidx.room:room-testing:2.2.5'
 }
 
