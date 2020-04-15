@@ -19,7 +19,7 @@ android {
     compileSdkVersion 29
     //noinspection GradleDependency
     buildToolsVersion "29.0.2"
-    ndkVersion "17.2.4988734"
+    ndkVersion "18.1.5063045"
 
     defaultConfig {
         applicationId "com.absinthe.anywhere_"
