@@ -8,6 +8,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.absinthe.anywhere_.constants.AnywhereType;
+import com.absinthe.anywhere_.constants.GlobalValues;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;

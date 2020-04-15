@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog

@@ -6,7 +6,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.Const
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.utils.CipherUtils
 import com.absinthe.anywhere_.utils.StorageUtils.createFile
 import com.absinthe.anywhere_.utils.StorageUtils.exportAnywhereEntityJsonString

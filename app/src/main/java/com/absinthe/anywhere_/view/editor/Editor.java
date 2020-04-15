@@ -16,7 +16,7 @@ import androidx.appcompat.widget.PopupMenu;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.model.OnceTag;
+import com.absinthe.anywhere_.constants.OnceTag;
 import com.absinthe.anywhere_.services.OverlayService;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;

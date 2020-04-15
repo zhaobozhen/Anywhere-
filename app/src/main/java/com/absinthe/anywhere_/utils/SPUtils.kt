@@ -2,7 +2,7 @@ package com.absinthe.anywhere_.utils
 
 import android.content.Context
 import com.absinthe.anywhere_.BuildConfig
-import com.absinthe.anywhere_.model.Const
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.model.Settings
 
 object SPUtils {

@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TimePicker
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.Const
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.manager.DialogStack
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder

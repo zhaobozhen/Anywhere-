@@ -2,7 +2,9 @@ package com.absinthe.anywhere_.model
 
 import androidx.appcompat.app.AppCompatDelegate
 import com.absinthe.anywhere_.BuildConfig
-import com.absinthe.anywhere_.model.GlobalValues.setsIconPack
+import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.constants.GlobalValues.setsIconPack
 import com.absinthe.anywhere_.utils.StorageUtils.getTokenFromFile
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.IconPackManager

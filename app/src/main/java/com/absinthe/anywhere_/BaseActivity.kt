@@ -7,8 +7,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
-import com.absinthe.anywhere_.model.Const
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.ui.main.MainActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.StatusBarUtil.setDarkMode

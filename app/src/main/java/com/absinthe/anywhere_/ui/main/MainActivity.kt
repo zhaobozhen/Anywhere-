@@ -30,13 +30,14 @@ import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.adapter.page.PageListAdapter
 import com.absinthe.anywhere_.adapter.page.PageTitleNode
 import com.absinthe.anywhere_.adapter.page.PageTitleProvider
+import com.absinthe.anywhere_.constants.*
 import com.absinthe.anywhere_.databinding.ActivityMainBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.*
-import com.absinthe.anywhere_.model.GlobalValues.clearActionBarType
-import com.absinthe.anywhere_.model.GlobalValues.setsBackgroundUri
-import com.absinthe.anywhere_.model.GlobalValues.setsCategory
-import com.absinthe.anywhere_.model.GlobalValues.workingMode
+import com.absinthe.anywhere_.constants.GlobalValues.clearActionBarType
+import com.absinthe.anywhere_.constants.GlobalValues.setsBackgroundUri
+import com.absinthe.anywhere_.constants.GlobalValues.setsCategory
+import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
 import com.absinthe.anywhere_.ui.list.AppListActivity
@@ -396,34 +397,34 @@ class MainActivity : BaseActivity() {
             when (actionItem.id) {
                 R.id.fab_url_scheme -> {
                     viewModel.setUpUrlScheme(this)
-                    Analytics.trackEvent("Fab Url Scheme clicked")
+                    Analytics.trackEvent(EventTag.FAB_URL_SCHEME_CLICK)
                 }
                 R.id.fab_activity_list -> {
                     startActivity(Intent(this, AppListActivity::class.java))
-                    Analytics.trackEvent("Fab Activity List clicked")
+                    Analytics.trackEvent(EventTag.FAB_ACTIVITY_LIST_CLICK)
                 }
                 R.id.fab_collector -> {
                     viewModel.startCollector(this)
-                    Analytics.trackEvent("Fab Collector clicked")
+                    Analytics.trackEvent(EventTag.FAB_COLLECTOR_CLICK)
                 }
                 R.id.fab_qr_code_collection -> {
                     startActivity(Intent(this, QRCodeCollectionActivity::class.java))
-                    Analytics.trackEvent("Fab QRCode Collection clicked")
+                    Analytics.trackEvent(EventTag.FAB_QR_CODE_COLLECTION_CLICK)
                 }
                 R.id.fab_advanced -> showAdvancedCardSelectDialog(this, object : OnClickItemListener {
                     override fun onClick(item: Int) {
                         when (item) {
                             AdvancedCardSelectDialogFragment.ITEM_ADD_IMAGE -> {
                                 viewModel.openImageEditor(this@MainActivity, true)
-                                Analytics.trackEvent("Fab Image clicked")
+                                Analytics.trackEvent(EventTag.FAB_IMAGE_CLICK)
                             }
                             AdvancedCardSelectDialogFragment.ITEM_ADD_SHELL -> {
                                 viewModel.openShellEditor(this@MainActivity, true)
-                                Analytics.trackEvent("Fab Shell clicked")
+                                Analytics.trackEvent(EventTag.FAB_SHELL_CLICK)
                             }
                             AdvancedCardSelectDialogFragment.ITEM_ADD_SWITCH_SHELL -> {
                                 viewModel.openShellEditor(this@MainActivity, true)
-                                Analytics.trackEvent("Fab Switch Shell clicked")
+                                Analytics.trackEvent(EventTag.FAB_SWITCH_SHELL_CLICK)
                             }
                         }
                     }

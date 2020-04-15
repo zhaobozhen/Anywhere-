@@ -16,9 +16,9 @@ import androidx.core.content.ContextCompat;
 
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.CollectorWindowManager;
-import com.absinthe.anywhere_.model.CommandResult;
-import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.constants.CommandResult;
+import com.absinthe.anywhere_.constants.Const;
+import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.NotifyUtils;
 import com.absinthe.anywhere_.utils.TextUtils;

@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.model
+package com.absinthe.anywhere_.constants
 
 import android.content.Context
 import android.text.Html
@@ -106,28 +106,28 @@ object GlobalValues {
     }
 
     fun setsIsStreamCardMode(sIsStreamCardMode: Boolean) {
-        this.sIsStreamCardMode = sIsStreamCardMode
+        GlobalValues.sIsStreamCardMode = sIsStreamCardMode
         putBoolean(Utils.getApp(), Const.PREF_STREAM_CARD_MODE, sIsStreamCardMode)
     }
 
     fun setsIsStreamCardModeSingleLine(sIsStreamCardModeSingleLine: Boolean) {
-        this.sIsStreamCardModeSingleLine = sIsStreamCardModeSingleLine
+        GlobalValues.sIsStreamCardModeSingleLine = sIsStreamCardModeSingleLine
         putBoolean(Utils.getApp(), Const.PREF_STREAM_CARD_SINGLE_LINE, sIsStreamCardModeSingleLine)
     }
 
     fun setsCardBackgroundMode(sCardBackgroundMode: String) {
-        this.sCardBackgroundMode = sCardBackgroundMode
+        GlobalValues.sCardBackgroundMode = sCardBackgroundMode
         putString(Utils.getApp(), Const.PREF_CARD_BACKGROUND, sCardBackgroundMode)
     }
 
     fun setsWorkingMode(sWorkingMode: String) {
-        this.sWorkingMode!!.value = sWorkingMode
+        GlobalValues.sWorkingMode!!.value = sWorkingMode
         putString(Utils.getApp(), Const.PREF_WORKING_MODE, sWorkingMode)
     }
 
     @JvmStatic
     fun setsActionBarType(sActionBarType: String = "") {
-        this.sActionBarType = sActionBarType
+        GlobalValues.sActionBarType = sActionBarType
         putString(Utils.getApp(), Const.PREF_ACTION_BAR_TYPE, sActionBarType)
     }
 
@@ -136,57 +136,57 @@ object GlobalValues {
     }
 
     fun setsDarkMode(sDarkMode: String) {
-        this.sDarkMode = sDarkMode
+        GlobalValues.sDarkMode = sDarkMode
         putString(Utils.getApp(), Const.PREF_DARK_MODE, sDarkMode)
     }
 
     @JvmStatic
     fun setsBackgroundUri(sBackgroundUri: String) {
-        this.sBackgroundUri = sBackgroundUri
+        GlobalValues.sBackgroundUri = sBackgroundUri
         putString(Utils.getApp(), Const.PREF_CHANGE_BACKGROUND, sBackgroundUri)
     }
 
     @JvmStatic
     fun setsSortMode(sSortMode: String) {
-        this.sSortMode = sSortMode
+        GlobalValues.sSortMode = sSortMode
         putString(Utils.getApp(), Const.PREF_SORT_MODE, sSortMode)
     }
 
     fun setsIconPack(sIconPack: String) {
-        this.sIconPack = sIconPack
+        GlobalValues.sIconPack = sIconPack
         putString(Utils.getApp(), Const.PREF_ICON_PACK, sIconPack)
     }
 
     fun setsIsMd2Toolbar(sIsMd2Toolbar: Boolean) {
-        this.sIsMd2Toolbar = sIsMd2Toolbar
+        GlobalValues.sIsMd2Toolbar = sIsMd2Toolbar
         putBoolean(Utils.getApp(), Const.PREF_MD2_TOOLBAR, false)
     }
 
     fun setsCategory(sCategory: String, page: Int) {
-        this.sCategory = sCategory
+        GlobalValues.sCategory = sCategory
         sCurrentPage = page
         putString(Utils.getApp(), Const.PREF_CURR_CATEGORY, sCategory)
         putInt(Utils.getApp(), Const.PREF_CURR_PAGE_NUM, page)
     }
 
     fun setsCategory(sCategory: String) {
-        this.sCategory = sCategory
+        GlobalValues.sCategory = sCategory
         putString(Utils.getApp(), Const.PREF_CURR_CATEGORY, sCategory)
     }
 
     @JvmStatic
     fun setsIsPages(sIsPages: Boolean) {
-        this.sIsPages = sIsPages
+        GlobalValues.sIsPages = sIsPages
         putBoolean(Utils.getApp(), Const.PREF_PAGES, sIsPages)
     }
 
     fun setsIsCollectorPlus(sIsCollectorPlus: Boolean) {
-        this.sIsCollectorPlus = sIsCollectorPlus
+        GlobalValues.sIsCollectorPlus = sIsCollectorPlus
         putBoolean(Utils.getApp(), Const.PREF_COLLECTOR_PLUS, sIsCollectorPlus)
     }
 
     fun setsDumpInterval(sDumpInterval: Int) {
-        this.sDumpInterval = sDumpInterval
+        GlobalValues.sDumpInterval = sDumpInterval
         putInt(Utils.getApp(), Const.PREF_DUMP_INTERVAL, sDumpInterval)
     }
 
@@ -198,22 +198,22 @@ object GlobalValues {
         }
 
     fun setsIsExcludeFromRecent(sIsExcludeFromRecent: Boolean) {
-        this.sIsExcludeFromRecent = sIsExcludeFromRecent
+        GlobalValues.sIsExcludeFromRecent = sIsExcludeFromRecent
         putBoolean(Utils.getApp(), Const.PREF_EXCLUDE_FROM_RECENT, sIsExcludeFromRecent)
     }
 
     fun setsIsShowShellResult(sIsShowShellResult: Boolean) {
-        this.sIsShowShellResult = sIsShowShellResult
+        GlobalValues.sIsShowShellResult = sIsShowShellResult
         putBoolean(Utils.getApp(), Const.PREF_SHOW_SHELL_RESULT, sIsShowShellResult)
     }
 
     fun setsAutoDarkModeStart(sAutoDarkModeStart: Long) {
-        this.sAutoDarkModeStart = sAutoDarkModeStart
+        GlobalValues.sAutoDarkModeStart = sAutoDarkModeStart
         putLong(Utils.getApp(), Const.PREF_AUTO_DARK_MODE_START, sAutoDarkModeStart)
     }
 
     fun setsAutoDarkModeEnd(sAutoDarkModeEnd: Long) {
-        this.sAutoDarkModeEnd = sAutoDarkModeEnd
+        GlobalValues.sAutoDarkModeEnd = sAutoDarkModeEnd
         putLong(Utils.getApp(), Const.PREF_AUTO_DARK_MODE_END, sAutoDarkModeEnd)
     }
 

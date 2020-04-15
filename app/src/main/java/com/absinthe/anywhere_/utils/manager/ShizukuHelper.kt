@@ -8,7 +8,7 @@ import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.Const
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager.topActivity

@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.IntervalDialogBuilder

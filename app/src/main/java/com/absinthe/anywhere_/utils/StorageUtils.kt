@@ -7,7 +7,7 @@ import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.Const
+import com.absinthe.anywhere_.constants.Const
 import com.google.gson.Gson
 import timber.log.Timber
 import java.io.File

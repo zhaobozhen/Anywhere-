@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.model
 
 import com.absinthe.anywhere_.adapter.gift.ChatAdapter
+import com.absinthe.anywhere_.constants.GiftChatString
 import timber.log.Timber
 import java.util.*
 

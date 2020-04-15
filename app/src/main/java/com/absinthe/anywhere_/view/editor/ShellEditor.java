@@ -7,7 +7,7 @@ import android.widget.EditText;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;

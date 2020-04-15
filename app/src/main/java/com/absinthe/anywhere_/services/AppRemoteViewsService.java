@@ -11,7 +11,7 @@ import android.widget.RemoteViewsService;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.model.Const;
+import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.blankj.utilcode.util.ConvertUtils;

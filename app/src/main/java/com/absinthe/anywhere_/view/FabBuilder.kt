@@ -2,7 +2,7 @@ package com.absinthe.anywhere_.view
 
 import android.content.Context
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 

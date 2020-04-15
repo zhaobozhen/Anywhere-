@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.model;
+package com.absinthe.anywhere_.constants;
 
 import io.michaelrocks.paranoid.Obfuscate;
 

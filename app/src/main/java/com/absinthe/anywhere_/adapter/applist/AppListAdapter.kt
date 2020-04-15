@@ -13,6 +13,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.*
 import com.absinthe.anywhere_.ui.list.AppDetailActivity
 import com.absinthe.anywhere_.utils.AppUtils

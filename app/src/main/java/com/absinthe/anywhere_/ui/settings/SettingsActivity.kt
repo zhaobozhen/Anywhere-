@@ -14,8 +14,8 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.databinding.ActivitySettingsBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
-import com.absinthe.anywhere_.model.Const
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.ui.main.MainFragment
 import com.absinthe.anywhere_.utils.AppUtils

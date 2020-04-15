@@ -6,10 +6,10 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.FileUriExposedException
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.AnywhereType
-import com.absinthe.anywhere_.model.CommandResult
-import com.absinthe.anywhere_.model.Const
-import com.absinthe.anywhere_.model.GlobalValues.workingMode
+import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.constants.CommandResult
+import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.model.QRCollection
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission

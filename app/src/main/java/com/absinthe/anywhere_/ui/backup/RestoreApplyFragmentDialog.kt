@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.AnywhereType
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.PageEntity
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ListUtils

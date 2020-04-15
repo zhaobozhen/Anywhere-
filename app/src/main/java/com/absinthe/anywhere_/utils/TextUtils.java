@@ -7,9 +7,9 @@ import android.content.pm.ResolveInfo;
 import android.util.Patterns;
 
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.model.AnywhereType;
-import com.absinthe.anywhere_.model.Const;
-import com.absinthe.anywhere_.model.GlobalValues;
+import com.absinthe.anywhere_.constants.AnywhereType;
+import com.absinthe.anywhere_.constants.Const;
+import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.blankj.utilcode.util.Utils;

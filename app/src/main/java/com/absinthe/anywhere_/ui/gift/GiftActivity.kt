@@ -15,7 +15,7 @@ import com.absinthe.anywhere_.adapter.gift.ChatAdapter
 import com.absinthe.anywhere_.adapter.gift.LeftChatNode
 import com.absinthe.anywhere_.adapter.manager.SmoothScrollLayoutManager
 import com.absinthe.anywhere_.databinding.ActivityGiftBinding
-import com.absinthe.anywhere_.model.GiftChatString
+import com.absinthe.anywhere_.constants.GiftChatString
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.viewmodel.GiftViewModel

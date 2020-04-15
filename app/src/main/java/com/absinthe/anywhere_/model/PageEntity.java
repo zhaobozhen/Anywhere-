@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.absinthe.anywhere_.constants.AnywhereType;
+
 @Entity(tableName = "page_table")
 public class PageEntity {
 

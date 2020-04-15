@@ -7,9 +7,9 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.LinearLayout
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.CommandResult
-import com.absinthe.anywhere_.model.Const
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.CommandResult
+import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.services.CollectorService
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CommandUtils

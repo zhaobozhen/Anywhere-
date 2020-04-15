@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.ViewFlipper
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
-import com.absinthe.anywhere_.model.AnywhereType
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.AppListBean
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder

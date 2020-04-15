@@ -13,8 +13,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.databinding.*
-import com.absinthe.anywhere_.model.Const
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper

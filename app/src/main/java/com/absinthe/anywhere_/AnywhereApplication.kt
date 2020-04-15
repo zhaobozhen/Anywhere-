@@ -3,7 +3,7 @@ package com.absinthe.anywhere_
 import android.app.Application
 import android.content.Context
 import com.absinthe.anywhere_.database.AnywhereRepository
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.checkSignature
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper

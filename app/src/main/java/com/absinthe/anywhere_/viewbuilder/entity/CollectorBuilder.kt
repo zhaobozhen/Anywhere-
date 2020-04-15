@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class CollectorBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(context, viewGroup) {

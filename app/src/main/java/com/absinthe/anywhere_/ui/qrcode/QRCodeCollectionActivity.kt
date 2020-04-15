@@ -6,7 +6,7 @@ import com.absinthe.anywhere_.adapter.card.QRCollectionAdapter
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager
 import com.absinthe.anywhere_.databinding.ActivityQrcodeCollectionBinding
 import com.absinthe.anywhere_.databinding.CardQrCollectionTipBinding
-import com.absinthe.anywhere_.model.OnceTag
+import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.model.QRCollection
 import jonathanfinerty.once.Once
 import kotlinx.coroutines.Dispatchers

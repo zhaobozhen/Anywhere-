@@ -15,9 +15,9 @@ import androidx.core.content.FileProvider
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.AnywhereType
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.AppListBean
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider
 import com.absinthe.anywhere_.ui.settings.LogcatActivity
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse

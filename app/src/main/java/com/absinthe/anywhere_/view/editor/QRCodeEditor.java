@@ -7,7 +7,7 @@ import android.view.View;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.model.AnywhereType;
+import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.google.android.material.textfield.TextInputEditText;

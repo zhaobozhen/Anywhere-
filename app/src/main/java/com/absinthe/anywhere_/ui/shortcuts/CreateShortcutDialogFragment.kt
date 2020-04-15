@@ -11,7 +11,7 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.Const
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil

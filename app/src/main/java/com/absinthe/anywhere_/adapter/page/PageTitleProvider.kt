@@ -10,7 +10,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.PageEntity
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.DialogManager

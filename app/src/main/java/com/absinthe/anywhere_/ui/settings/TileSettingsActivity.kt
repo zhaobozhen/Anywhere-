@@ -16,7 +16,7 @@ import com.absinthe.anywhere_.adapter.tile.TileCardAdapter
 import com.absinthe.anywhere_.databinding.ActivityTileSettingsBinding
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.AppListBean
-import com.absinthe.anywhere_.model.Const
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.services.TileOneService
 import com.absinthe.anywhere_.services.TileThreeService
 import com.absinthe.anywhere_.services.TileTwoService

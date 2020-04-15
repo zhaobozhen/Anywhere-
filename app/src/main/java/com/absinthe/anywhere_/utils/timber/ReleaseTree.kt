@@ -1,7 +1,7 @@
 package com.absinthe.anywhere_.utils.timber
 
 import android.util.Log
-import com.absinthe.anywhere_.model.GlobalValues
+import com.absinthe.anywhere_.constants.GlobalValues
 import timber.log.Timber.DebugTree
 
 class ReleaseTree : DebugTree() {

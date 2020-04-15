@@ -15,7 +15,7 @@ import com.absinthe.anywhere_.cloud.model.GiftModel
 import com.absinthe.anywhere_.cloud.model.GiftPriceModel
 import com.absinthe.anywhere_.model.ChatQueue
 import com.absinthe.anywhere_.model.ChatQueue.IChatQueueListener
-import com.absinthe.anywhere_.model.GiftChatString
+import com.absinthe.anywhere_.constants.GiftChatString
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CipherUtils
 import com.absinthe.anywhere_.utils.StorageUtils

@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.model
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import com.absinthe.anywhere_.constants.AnywhereType
 
 class AppListBean {
 

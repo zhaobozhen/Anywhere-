@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.AnywhereType
-import com.absinthe.anywhere_.model.Const
-import com.absinthe.anywhere_.model.GlobalValues.workingMode
+import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.EventTag
+import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.services.CollectorService
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.CommandUtils.execCmd
@@ -27,6 +28,7 @@ import com.absinthe.anywhere_.view.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.blankj.utilcode.util.Utils
+import com.microsoft.appcenter.analytics.Analytics
 import timber.log.Timber
 
 class ShortcutsActivity : BaseActivity() {
@@ -38,6 +40,7 @@ class ShortcutsActivity : BaseActivity() {
         val viewModel = ViewModelProvider(this).get(AnywhereViewModel::class.java)
         val action = intent.action
         Timber.d("action = %s", action)
+        Analytics.trackEvent(EventTag.SHORTCUT_OPEN)
 
         if (action != null) {
             if (action == ACTION_START_COLLECTOR) {
