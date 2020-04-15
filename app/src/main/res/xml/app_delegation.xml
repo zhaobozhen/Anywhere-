@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <device-delegation>
     <uses-policies>
-        <!-- 以官方 DevicePolicyManager.DELEGATION_APP_RESTRICTIONS 为例，需要此权限就直接添加其字符串常量 -->
-        <delegation-app-restrictions />
-        <!-- 上述的自定义权限也可以如此添加，SDK 自定义权限均以 dsm- 开头 -->
-        <dsm-delegation-set-app-ops />
+        <delegation-package-access />
     </uses-policies>
 </device-delegation>

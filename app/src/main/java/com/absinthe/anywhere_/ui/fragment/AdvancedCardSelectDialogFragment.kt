@@ -31,6 +31,9 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
         mBuilder.tvAddShell.setOnClickListener {
             mListener?.onClick(ITEM_ADD_SHELL)
         }
+        mBuilder.tvAddSwitchShell.setOnClickListener {
+            mListener?.onClick(ITEM_ADD_SWITCH_SHELL)
+        }
     }
 
     interface OnClickItemListener {
@@ -40,5 +43,6 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
     companion object {
         const val ITEM_ADD_IMAGE = 0
         const val ITEM_ADD_SHELL = 1
+        const val ITEM_ADD_SWITCH_SHELL = 2
     }
 }

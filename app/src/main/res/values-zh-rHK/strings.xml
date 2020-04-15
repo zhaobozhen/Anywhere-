@@ -296,4 +296,6 @@
     <string name="report_describe">*請描述問題情況:</string>
     <string name="report_select_mail_app">請選擇郵件 App</string>
     <string name="toast_overlay_choose_anywhere">請選擇 \"Anywhere-\" 並授予權限</string>
+    <string name="btn_add_switch_shell">Shell 開關</string>
+    <string name="title_activity_defrost">解凍模式</string>
 </resources>

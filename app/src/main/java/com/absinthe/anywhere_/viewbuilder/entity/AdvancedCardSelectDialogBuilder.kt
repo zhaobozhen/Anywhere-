@@ -14,6 +14,7 @@ class AdvancedCardSelectDialogBuilder(context: Context) : ViewBuilder(context) {
 
     var tvAddImage: TextView
     var tvAddShell: TextView
+    var tvAddSwitchShell: TextView
 
     init {
         root = LinearLayout(context).apply {
@@ -24,6 +25,7 @@ class AdvancedCardSelectDialogBuilder(context: Context) : ViewBuilder(context) {
         }
         tvAddImage = addItem(R.string.btn_add_image, R.drawable.ic_photo)
         tvAddShell = addItem(R.string.btn_add_shell, R.drawable.ic_code)
+        tvAddSwitchShell = addItem(R.string.btn_add_switch_shell, R.drawable.ic_switch)
     }
 
     private fun addItem(titleRes: Int, iconRes: Int): TextView {

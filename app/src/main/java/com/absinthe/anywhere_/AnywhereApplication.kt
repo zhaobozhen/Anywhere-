@@ -9,10 +9,15 @@ import com.absinthe.anywhere_.utils.manager.IzukoHelper.checkSignature
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper
 import com.absinthe.anywhere_.utils.timber.ReleaseTree
 import com.absinthe.anywhere_.utils.timber.ThreadAwareDebugTree
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
+import io.michaelrocks.paranoid.Obfuscate
 import jonathanfinerty.once.Once
 import me.weishu.reflection.Reflection
 import timber.log.Timber
 
+@Obfuscate
 class AnywhereApplication : Application() {
 
     override fun onCreate() {
@@ -25,10 +30,13 @@ class AnywhereApplication : Application() {
             Timber.plant(ReleaseTree())
         }
 
-        sRepository = AnywhereRepository(this)
+        AppCenter.start(this, "ec71d412-5886-4a99-89a7-805436b91671",
+                Analytics::class.java, Crashes::class.java)
+
         GlobalValues.init(this)
         Once.initialise(this)
         Settings.init()
+        sRepository = AnywhereRepository(this)
     }
 
     override fun attachBaseContext(base: Context) {

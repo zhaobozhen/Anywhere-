@@ -252,6 +252,7 @@
     <string name="btn_qr_code_collection">QR Codes</string>
     <string name="btn_add_image">Add Image</string>
     <string name="btn_add_shell" translatable="false">Shell</string>
+    <string name="btn_add_switch_shell">Switch Shell</string>
     <string name="btn_add_advanced_card">Advanced Card</string>
 
     <string name="btn_acquire_permission">Grant</string>

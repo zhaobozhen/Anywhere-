@@ -47,7 +47,6 @@ import com.absinthe.anywhere_.utils.AnimationUtil.showAndHiddenAnimation
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
 import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
-import com.absinthe.anywhere_.utils.FirebaseUtil.logEvent
 import com.absinthe.anywhere_.utils.SPUtils.getBoolean
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
@@ -64,9 +63,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.node.BaseNode
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.leinardi.android.speeddial.SpeedDialActionItem
+import com.microsoft.appcenter.analytics.Analytics
 import it.sephiroth.android.library.xtooltip.ClosePolicy.Companion.TOUCH_ANYWHERE_CONSUME
 import it.sephiroth.android.library.xtooltip.Tooltip
 import jonathanfinerty.once.Once
@@ -82,7 +81,6 @@ class MainActivity : BaseActivity() {
 
     private lateinit var mToggle: ActionBarDrawerToggle
     private lateinit var mItemTouchHelper: ItemTouchHelper
-    private lateinit var mFirebaseAnalytics: FirebaseAnalytics
     private lateinit var mObserver: Observer<List<PageEntity>?>
 
     init {
@@ -394,35 +392,38 @@ class MainActivity : BaseActivity() {
 
     fun initFab() {
         build(this, mBinding.fab)
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         mBinding.fab.setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
             when (actionItem.id) {
                 R.id.fab_url_scheme -> {
                     viewModel.setUpUrlScheme(this)
-                    logEvent(mFirebaseAnalytics, "fab_url_scheme", "click_fab_url_scheme")
+                    Analytics.trackEvent("Fab Url Scheme clicked")
                 }
                 R.id.fab_activity_list -> {
                     startActivity(Intent(this, AppListActivity::class.java))
-                    logEvent(mFirebaseAnalytics, "fab_activity_list", "click_fab_activity_list")
+                    Analytics.trackEvent("Fab Activity List clicked")
                 }
                 R.id.fab_collector -> {
                     viewModel.startCollector(this)
-                    logEvent(mFirebaseAnalytics, "fab_collector", "click_fab_collector")
+                    Analytics.trackEvent("Fab Collector clicked")
                 }
                 R.id.fab_qr_code_collection -> {
                     startActivity(Intent(this, QRCodeCollectionActivity::class.java))
-                    logEvent(mFirebaseAnalytics, "fab_qr_code_collection", "click_fab_qr_code_collection")
+                    Analytics.trackEvent("Fab QRCode Collection clicked")
                 }
                 R.id.fab_advanced -> showAdvancedCardSelectDialog(this, object : OnClickItemListener {
                     override fun onClick(item: Int) {
                         when (item) {
                             AdvancedCardSelectDialogFragment.ITEM_ADD_IMAGE -> {
                                 viewModel.openImageEditor(this@MainActivity, true)
-                                logEvent(mFirebaseAnalytics, "fab_image", "click_fab_image")
+                                Analytics.trackEvent("Fab Image clicked")
                             }
                             AdvancedCardSelectDialogFragment.ITEM_ADD_SHELL -> {
                                 viewModel.openShellEditor(this@MainActivity, true)
-                                logEvent(mFirebaseAnalytics, "fab_shell", "click_fab_shell")
+                                Analytics.trackEvent("Fab Shell clicked")
+                            }
+                            AdvancedCardSelectDialogFragment.ITEM_ADD_SWITCH_SHELL -> {
+                                viewModel.openShellEditor(this@MainActivity, true)
+                                Analytics.trackEvent("Fab Switch Shell clicked")
                             }
                         }
                     }
