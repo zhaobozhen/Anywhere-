@@ -12,28 +12,32 @@ import com.blankj.utilcode.util.ServiceUtils
 class CollectorTileService : TileService() {
 
     override fun onClick() {
-        if (qsTile.state == Tile.STATE_ACTIVE) {
-            CollectorService.closeCollector(this)
-            qsTile.state = Tile.STATE_INACTIVE
-            qsTile.label = getString(R.string.tile_collector_on)
-        } else {
-            CollectorService.startCollector(this)
-            qsTile.state = Tile.STATE_ACTIVE
-            qsTile.label = getString(R.string.tile_collector_off)
+        qsTile?.let {
+            if (it.state == Tile.STATE_ACTIVE) {
+                CollectorService.closeCollector(this)
+                it.state = Tile.STATE_INACTIVE
+                it.label = getString(R.string.tile_collector_on)
+            } else {
+                CollectorService.startCollector(this)
+                it.state = Tile.STATE_ACTIVE
+                it.label = getString(R.string.tile_collector_off)
+            }
+            sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+            it.updateTile()
         }
-        sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        qsTile.updateTile()
     }
 
     override fun onStartListening() {
         super.onStartListening()
 
-        if (ServiceUtils.isServiceRunning(CollectorService::class.java)) {
-            qsTile.state = Tile.STATE_ACTIVE
-            qsTile.label = getString(R.string.tile_collector_off)
-        } else {
-            qsTile.state = Tile.STATE_INACTIVE
-            qsTile.label = getString(R.string.tile_collector_on)
+        qsTile?.let {
+            if (ServiceUtils.isServiceRunning(CollectorService::class.java)) {
+                it.state = Tile.STATE_ACTIVE
+                it.label = getString(R.string.tile_collector_off)
+            } else {
+                it.state = Tile.STATE_INACTIVE
+                it.label = getString(R.string.tile_collector_on)
+            }
         }
     }
 }

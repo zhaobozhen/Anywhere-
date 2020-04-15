@@ -15,11 +15,13 @@ class TileOneService : TileService() {
     override fun onStartListening() {
         super.onStartListening()
 
-        val label = SPUtils.getString(this, Const.PREF_TILE_ONE_LABEL)
-        if (label.isNotEmpty()) {
-            qsTile.label = label
+        qsTile?.let {
+            val label = SPUtils.getString(this, Const.PREF_TILE_ONE_LABEL)
+            if (label.isNotEmpty()) {
+                it.label = label
+            }
+            it.updateTile()
         }
-        qsTile.updateTile()
     }
 
     override fun onClick() {
@@ -38,6 +40,6 @@ class TileOneService : TileService() {
             startActivity(intent)
         }
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        qsTile.updateTile()
+        qsTile?.updateTile()
     }
 }

@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
@@ -26,6 +28,7 @@ class AdvancedCardSelectDialogBuilder(context: Context) : ViewBuilder(context) {
         tvAddImage = addItem(R.string.btn_add_image, R.drawable.ic_photo)
         tvAddShell = addItem(R.string.btn_add_shell, R.drawable.ic_code)
         tvAddSwitchShell = addItem(R.string.btn_add_switch_shell, R.drawable.ic_switch)
+        if (!BuildConfig.DEBUG) tvAddSwitchShell.visibility = View.GONE
     }
 
     private fun addItem(titleRes: Int, iconRes: Int): TextView {

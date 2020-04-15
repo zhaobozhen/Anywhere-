@@ -2,11 +2,11 @@ package com.absinthe.anywhere_.ui.settings
 
 import android.view.MenuItem
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.log.LogAdapter
 import com.absinthe.anywhere_.adapter.log.LogDiffCallback
+import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.databinding.ActivityLogcatBinding
 import com.absinthe.anywhere_.model.GlobalValues
 import com.absinthe.anywhere_.model.LogModel
@@ -17,7 +17,10 @@ import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.NotificationUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 
@@ -66,7 +69,7 @@ class LogcatActivity : BaseActivity() {
         }
 
         mBinding.rvLog.apply {
-            layoutManager = LinearLayoutManager(this@LogcatActivity)
+            layoutManager = WrapContentLinearLayoutManager(this@LogcatActivity)
             adapter = mAdapter
         }
 
