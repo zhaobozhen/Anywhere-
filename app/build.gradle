@@ -19,7 +19,7 @@ android {
     compileSdkVersion 29
     //noinspection GradleDependency
     buildToolsVersion "29.0.2"
-    ndkVersion "18.1.5063045"
+    ndkVersion "17.2.4988734"
 
     defaultConfig {
         applicationId "com.absinthe.anywhere_"
@@ -31,7 +31,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
         externalNativeBuild {
-            ndk {
+            cmake {
+				cppFlags "-std=c++11"
                 abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
             }
         }
