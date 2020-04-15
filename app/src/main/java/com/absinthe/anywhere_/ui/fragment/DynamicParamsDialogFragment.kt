@@ -17,7 +17,7 @@ class DynamicParamsDialogFragment(private val mText: String) : AnywhereDialogFra
         mBuilder = DynamicParamsDialogBuilder(requireContext())
         mBuilder.setParams(mText)
 
-        val builder = AnywhereDialogBuilder(context)
+        val builder = AnywhereDialogBuilder(requireContext())
         setWrapOnDismissListener(object : OnDismissListener {
             override fun onDismiss() {
                 mListener?.onCancel()

@@ -63,7 +63,7 @@ class TimePickerDialogFragment : AnywhereDialogFragment() {
         mBuilder.btnStart.setOnClickListener(listener)
         mBuilder.btnEnd.setOnClickListener(listener)
 
-        return AnywhereDialogBuilder(context).setView(mBuilder.root)
+        return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root)
                 .setTitle(R.string.dialog_set_dark_mode_period_title)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
                     try {

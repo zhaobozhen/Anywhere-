@@ -31,7 +31,7 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
     @RequiresApi(api = Build.VERSION_CODES.O)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = CreateShortcutDialogBuilder(requireContext())
-        val builder = AnywhereDialogBuilder(context)
+        val builder = AnywhereDialogBuilder(requireContext())
         initView()
 
         return builder.setView(mBuilder.root)

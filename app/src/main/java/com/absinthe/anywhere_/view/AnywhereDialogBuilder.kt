@@ -11,8 +11,8 @@ class AnywhereDialogBuilder : MaterialAlertDialogBuilder {
 
     private var isDismissParent = false //Dismiss this Dialog and its parent Dialog
 
-    constructor(context: Context?) : super(context, R.style.AppTheme_Dialog)
-    constructor(context: Context?, overrideThemeResId: Int) : super(context, overrideThemeResId)
+    constructor(context: Context) : super(context, R.style.AppTheme_Dialog)
+    constructor(context: Context, overrideThemeResId: Int) : super(context, overrideThemeResId)
 
     override fun show(): AlertDialog {
         setOnDismissListener {

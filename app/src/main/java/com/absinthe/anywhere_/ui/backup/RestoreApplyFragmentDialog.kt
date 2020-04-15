@@ -35,7 +35,7 @@ class RestoreApplyFragmentDialog : AnywhereDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AnywhereDialogBuilder(requireActivity())
+        val builder = AnywhereDialogBuilder(requireContext())
         val layoutInflater = (requireActivity()).layoutInflater
 
         @SuppressLint("InflateParams")

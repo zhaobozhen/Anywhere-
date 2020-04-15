@@ -27,7 +27,7 @@ class GiftPriceDialogFragment : AnywhereDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AnywhereDialogBuilder(activity)
+        val builder = AnywhereDialogBuilder(requireContext())
         val layoutInflater = requireActivity().layoutInflater
         val inflate = layoutInflater.inflate(R.layout.layout_gift_purchase, null, false)
         initView(inflate)

@@ -14,7 +14,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = AdvancedCardSelectDialogBuilder(requireContext())
 
-        val builder = AnywhereDialogBuilder(context)
+        val builder = AnywhereDialogBuilder(requireContext())
         initView()
         return builder.setView(mBuilder.root)
                 .create()

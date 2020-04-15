@@ -123,7 +123,7 @@ object DialogManager {
     }
 
     @JvmStatic
-    fun showCannotAddShortcutDialog(context: Context?, listener: DialogInterface.OnClickListener?) {
+    fun showCannotAddShortcutDialog(context: Context, listener: DialogInterface.OnClickListener?) {
         AnywhereDialogBuilder(context)
                 .setTitle(R.string.dialog_cant_add_shortcut_title)
                 .setMessage(R.string.dialog_cant_add_shortcut_message)
@@ -147,7 +147,7 @@ object DialogManager {
     }
 
     @JvmStatic
-    fun showDeleteSelectCardDialog(context: Context?, listener: DialogInterface.OnClickListener?) {
+    fun showDeleteSelectCardDialog(context: Context, listener: DialogInterface.OnClickListener?) {
         AnywhereDialogBuilder(context)
                 .setTitle(R.string.dialog_delete_selected_title)
                 .setMessage(R.string.dialog_delete_selected_message)
@@ -157,7 +157,7 @@ object DialogManager {
     }
 
     @JvmStatic
-    fun showHasSameCardDialog(context: Context?, listener: DialogInterface.OnClickListener?) {
+    fun showHasSameCardDialog(context: Context, listener: DialogInterface.OnClickListener?) {
         AnywhereDialogBuilder(context)
                 .setMessage(R.string.dialog_message_same_app_name)
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
@@ -219,7 +219,7 @@ object DialogManager {
     }
 
     @JvmStatic
-    fun showPageListDialog(context: Context?, ae: AnywhereEntity) {
+    fun showPageListDialog(context: Context, ae: AnywhereEntity) {
         val items: MutableList<String> = ArrayList()
 
         AnywhereApplication.sRepository.allPageEntities?.value?.let {
@@ -261,7 +261,7 @@ object DialogManager {
     }
 
     @JvmStatic
-    fun showAddPageDialog(context: Context?, listener: DialogInterface.OnClickListener) {
+    fun showAddPageDialog(context: Context, listener: DialogInterface.OnClickListener) {
         val items = arrayOf("Add card page", "Add WebView")
         val builder = AnywhereDialogBuilder(context)
         builder.setItems(items) { dialog: DialogInterface?, which: Int ->
@@ -272,7 +272,7 @@ object DialogManager {
     }
 
     @JvmStatic
-    fun showShellResultDialog(context: Context?, result: String?, posListener: DialogInterface.OnClickListener?, cancelListener: DialogInterface.OnCancelListener?) {
+    fun showShellResultDialog(context: Context, result: String?, posListener: DialogInterface.OnClickListener?, cancelListener: DialogInterface.OnCancelListener?) {
         if (!GlobalValues.sIsShowShellResult) {
             ToastUtil.makeText(R.string.toast_execute_shell_successful)
             return

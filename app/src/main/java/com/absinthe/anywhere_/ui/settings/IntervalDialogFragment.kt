@@ -15,7 +15,7 @@ class IntervalDialogFragment : AnywhereDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = IntervalDialogBuilder(requireContext())
-        val builder = AnywhereDialogBuilder(context)
+        val builder = AnywhereDialogBuilder(requireContext())
 
         mBuilder.slider.value = GlobalValues.sDumpInterval / 1000f
         return builder.setView(mBuilder.root)

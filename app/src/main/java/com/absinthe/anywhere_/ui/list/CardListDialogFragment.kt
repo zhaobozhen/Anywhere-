@@ -20,7 +20,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = CardListDialogBuilder(requireContext())
-        val builder = AnywhereDialogBuilder(context)
+        val builder = AnywhereDialogBuilder(requireContext())
 
         mBuilder.setOnItemClickListener(mListener)
         initView()
