@@ -14,6 +14,7 @@ object URLManager {
     const val DOCUMENT_PAGE = "https://absinthe.life/Anywhere-Docs/"
     const val SHIZUKU_COOLAPK_DOWNLOAD_PAGE = "https://www.coolapk.com/apk/moe.shizuku.privileged.api/"
     const val SHORTCUT_COMMUNITY_PAGE = "https://sharecuts.cn/apps/"
+    const val BETA_DISTRIBUTE_URL = "https://install.appcenter.ms/users/zhaobozhen2025-gmail.com/apps/anywhere/distribution_groups/public"
 
     //Scheme
     const val ANYWHERE_SCHEME = "anywhere://"

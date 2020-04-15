@@ -136,6 +136,7 @@
     <string name="settings_show_shell_result">Show Shell Result</string>
     <string name="settings_lab">Lab</string>
     <string name="settings_help">Help</string>
+    <string name="settings_beta">Beta Version</string>
     <string name="settings_about">About</string>
     <string name="settings_gift">Anywhere- Gift</string>
     <string name="settings_gift_typing">Typing…</string>
@@ -156,6 +157,7 @@
     <string name="settings_show_shell_result_summary">Show a Dialog to notify result after executing a shell command</string>
     <string name="settings_lab_summary">Experimental features</string>
     <string name="settings_help_summary">Help document</string>
+    <string name="settings_beta_summary">Experience the beta version under development in advance</string>
     <string name="settings_logcat_summary">Catch system logs and report problems</string>
     <string name="settings_about_summary">This is Anywhere- !</string>
     <string name="settings_gift_summary" translatable="false"><i>\"Do you like it?\" </i></string>

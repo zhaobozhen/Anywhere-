@@ -178,6 +178,12 @@
             android:icon="@drawable/ic_help_outline"/>
 
         <Preference
+            app:key="beta"
+            app:title="@string/settings_beta"
+            app:summary="@string/settings_beta_summary"
+            android:icon="@drawable/ic_beta"/>
+
+        <Preference
             app:key="about"
             app:title="@string/settings_about"
             app:summary="@string/settings_about_summary"

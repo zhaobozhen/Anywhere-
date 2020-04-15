@@ -298,4 +298,6 @@
     <string name="toast_overlay_choose_anywhere">请选择 \"Anywhere-\" 并授予权限</string>
     <string name="btn_add_switch_shell">Shell 开关</string>
     <string name="title_activity_defrost">解冻模式</string>
+    <string name="settings_beta">测试版</string>
+    <string name="settings_beta_summary">提前体验正在开发的测试版本</string>
 </resources>

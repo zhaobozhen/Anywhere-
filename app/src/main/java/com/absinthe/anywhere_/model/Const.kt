@@ -20,6 +20,7 @@ object Const {
     const val PREF_CARD_BACKGROUND = "cardBackgroundMode"
     const val PREF_ACTION_BAR_TYPE = "actionBarType"
     const val PREF_HELP = "help"
+    const val PREF_BETA = "beta"
     const val PREF_CLEAR_SHORTCUTS = "clearShortcuts"
     const val PREF_ICON_PACK = "iconPack"
     const val PREF_TILES = "tiles"

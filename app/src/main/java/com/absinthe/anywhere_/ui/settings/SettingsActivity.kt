@@ -53,13 +53,16 @@ class SettingsActivity : BaseActivity() {
             val workingModePreference = findPreference<DropDownPreference>(Const.PREF_WORKING_MODE)
             val darkModePreference = findPreference<DropDownPreference>(Const.PREF_DARK_MODE)
             val cardBackgroundPreference = findPreference<DropDownPreference>(Const.PREF_CARD_BACKGROUND)
+
             val changeBgPreference = findPreference<Preference>(Const.PREF_CHANGE_BACKGROUND)
             val resetBgPreference = findPreference<Preference>(Const.PREF_RESET_BACKGROUND)
             val helpPreference = findPreference<Preference>(Const.PREF_HELP)
+            val betaPreference = findPreference<Preference>(Const.PREF_BETA)
             val clearShortcutsPreference = findPreference<Preference>(Const.PREF_CLEAR_SHORTCUTS)
             val iconPackPreference = findPreference<Preference>(Const.PREF_ICON_PACK)
             val tilesPreference = findPreference<Preference>(Const.PREF_TILES)
             val giftPreference = findPreference<Preference>(Const.PREF_GIFT)
+
             val streamCardModePreference = findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_MODE)
             val streamCardSingleLinePreference = findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_SINGLE_LINE)
             val collectorPlusPreference = findPreference<SwitchPreferenceCompat>(Const.PREF_COLLECTOR_PLUS)
@@ -72,6 +75,7 @@ class SettingsActivity : BaseActivity() {
             resetBgPreference?.onPreferenceClickListener = this
             darkModePreference?.onPreferenceChangeListener = this
             helpPreference?.onPreferenceClickListener = this
+            betaPreference?.onPreferenceClickListener = this
             clearShortcutsPreference?.onPreferenceClickListener = this
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
@@ -154,6 +158,20 @@ class SettingsActivity : BaseActivity() {
                         e.printStackTrace()
                         val intent = Intent(Intent.ACTION_VIEW).apply {
                             data = Uri.parse(URLManager.OLD_DOCUMENT_PAGE)
+                        }
+                        requireActivity().startActivity(intent)
+                    }
+                    return true
+                }
+                Const.PREF_BETA -> {
+                    try {
+                        CustomTabsIntent.Builder().build().apply {
+                            launchUrl(requireActivity(), Uri.parse(URLManager.BETA_DISTRIBUTE_URL))
+                        }
+                    } catch (e: ActivityNotFoundException) {
+                        e.printStackTrace()
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            data = Uri.parse(URLManager.BETA_DISTRIBUTE_URL)
                         }
                         requireActivity().startActivity(intent)
                     }
