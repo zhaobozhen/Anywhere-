@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.adapter.page
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
@@ -107,6 +108,7 @@ class PageTitleProvider : BaseNodeProvider() {
             true
         }
         popup.show()
+        view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         return super.onLongClick(helper, view, data, position)
     }
 

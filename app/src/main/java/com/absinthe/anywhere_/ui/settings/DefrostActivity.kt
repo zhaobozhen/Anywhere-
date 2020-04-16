@@ -24,12 +24,15 @@ class DefrostActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        mBinding.tvSummary.text = DSMClient.getOwnerPackageName(this)
+        mBinding.item.tvSummary.text = DSMClient.getOwnerPackageName(this)
 
-        mBinding.btnGrantDsm.setOnClickListener {
+        mBinding.item.button.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 DSMClient.requestScopes(this, 1, DevicePolicyManager.DELEGATION_PACKAGE_ACCESS)
             }
+        }
+        mBinding.item.root.setOnClickListener {
+            mBinding.item.radio.isChecked = true
         }
     }
 }
