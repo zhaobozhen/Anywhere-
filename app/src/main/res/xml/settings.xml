@@ -15,16 +15,16 @@
             app:entries="@array/list_working_mode"
             app:entryValues="@array/list_working_mode_value"/>
 
-<!--        <Preference-->
-<!--            app:key="defrostMode"-->
-<!--            app:title="@string/title_activity_defrost"-->
-<!--            app:summary="@string/settings_backup_summary"-->
-<!--            android:icon="@drawable/ic_backup_and_restore">-->
+        <Preference
+            app:key="defrostMode"
+            app:title="@string/title_activity_defrost"
+            app:summary="@string/settings_backup_summary"
+            android:icon="@drawable/ic_snowflake">
 
-<!--            <intent-->
-<!--                android:targetPackage="com.absinthe.anywhere_"-->
-<!--                android:targetClass="com.absinthe.anywhere_.ui.settings.DefrostActivity"/>-->
-<!--        </Preference>-->
+            <intent
+                android:targetPackage="com.absinthe.anywhere_"
+                android:targetClass="com.absinthe.anywhere_.ui.settings.DefrostActivity"/>
+        </Preference>
 
         <Preference
             app:key="changeBackground"

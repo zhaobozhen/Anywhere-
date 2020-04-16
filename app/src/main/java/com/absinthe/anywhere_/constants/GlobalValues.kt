@@ -48,6 +48,7 @@ object GlobalValues {
     lateinit var sSortMode: String
     lateinit var sIconPack: String
     lateinit var sCategory: String
+    lateinit var sDefrostMode: String
     var sCurrentPage = 0
 
     @JvmField
@@ -78,6 +79,7 @@ object GlobalValues {
         sSortMode = getString(context, Const.PREF_SORT_MODE)
         sIconPack = getString(context, Const.PREF_ICON_PACK)
         sCategory = getString(context, Const.PREF_CURR_CATEGORY, AnywhereType.DEFAULT_CATEGORY)
+        sDefrostMode = getString(context, Const.PREF_DEFROST_MODE, Const.DEFROST_MODE_DSM)
         sCurrentPage = getInt(context, Const.PREF_CURR_PAGE_NUM)
         sDumpInterval = getInt(context, Const.PREF_DUMP_INTERVAL, 1000)
         sAutoDarkModeStart = getLong(context, Const.PREF_AUTO_DARK_MODE_START)

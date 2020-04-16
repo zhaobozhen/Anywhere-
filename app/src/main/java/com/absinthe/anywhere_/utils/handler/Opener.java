@@ -8,10 +8,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener;
-import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.GlobalValues;
+import com.absinthe.anywhere_.interfaces.OnAppDefrostListener;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
@@ -82,12 +82,12 @@ public class Opener {
                             ActivityCompat.requestPermissions(ActivityStackManager.INSTANCE.getTopActivity(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
                         }
                     } else {
-                        final OnAppUnfreezeListener onAppUnfreezeListener = () ->
+                        final OnAppDefrostListener onAppDefrostListener = () ->
                                 CommandUtils.execCmd(cmd);
                         if (mItem.getAnywhereType() == AnywhereType.URL_SCHEME) {
-                            PermissionUtils.unfreezeApp(sContext.get(), mItem.getParam2(), onAppUnfreezeListener);
+                            DefrostHandler.defrost(sContext.get(), mItem.getParam2(), onAppDefrostListener);
                         } else {
-                            PermissionUtils.unfreezeApp(sContext.get(), mItem.getParam1(), onAppUnfreezeListener);
+                            DefrostHandler.defrost(sContext.get(), mItem.getParam1(), onAppDefrostListener);
                         }
                     }
                 } else {
@@ -148,8 +148,7 @@ public class Opener {
         } else {
             try {
                 if (IceBox.getAppEnabledSetting(sContext.get(), packageName) != 0) {
-                    PermissionUtils.unfreezeApp(sContext.get(), packageName, () ->
-                            CommandUtils.execCmd(cmd));
+                    DefrostHandler.defrost(sContext.get(), packageName, () -> CommandUtils.execCmd(cmd));
                 } else {
                     CommandUtils.execCmd(cmd);
                 }

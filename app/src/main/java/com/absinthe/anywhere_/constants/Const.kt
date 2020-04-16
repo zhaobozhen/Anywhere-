@@ -49,6 +49,7 @@ object Const {
     const val PREF_AUTO_DARK_MODE_START = "autoDarkModeStart"
     const val PREF_AUTO_DARK_MODE_END = "autoDarkModeEnd"
     const val PREF_GIFT = "gift"
+    const val PREF_DEFROST_MODE = "defrostMode"
 
     const val WORKING_MODE_URL_SCHEME = "url_scheme"
     const val WORKING_MODE_ROOT = "root"
@@ -93,4 +94,10 @@ object Const {
     const val REQUEST_CODE_IMAGE_CAPTURE = 1004
     const val REQUEST_CODE_WRITE_FILE = 1005
     const val REQUEST_CODE_RESTORE_BACKUPS = 1006
+
+    const val DEFROST_MODE_ROOT = "root"
+    const val DEFROST_MODE_ICEBOX_SDK = "icebox"
+    const val DEFROST_MODE_DSM = "dsm"
+    const val DEFROST_MODE_DPM = "dpm"
+    const val DEFROST_MODE_SHIZUKU = "shizuku"
 }

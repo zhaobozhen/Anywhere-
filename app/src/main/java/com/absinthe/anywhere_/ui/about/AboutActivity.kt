@@ -65,6 +65,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(License("about-page", "drakeet", License.APACHE_2, "https://github.com/drakeet/about-page"))
             add(License("glide", "bumptech", "BSD, part MIT and Apache 2.0", "https://github.com/bumptech/glide"))
             add(License("AndResGuard", "shwenzhang", License.APACHE_2, "https://github.com/shwenzhang/AndResGuard"))
+            add(License("Delegated-Scopes-Manager", "heruoxin", "WTFPL", "https://github.com/heruoxin/Delegated-Scopes-Manager"))
             add(License("IceBox-SDK", "heruoxin", License.APACHE_2, "https://github.com/heruoxin/IceBox-SDK"))
             add(License("Robfuscate", "heruoxin", License.APACHE_2, "https://github.com/heruoxin/Robfuscate"))
             add(License("Once", "jonfinerty", License.APACHE_2, "https://github.com/jonfinerty/Once"))

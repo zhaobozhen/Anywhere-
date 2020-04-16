@@ -26,8 +26,8 @@ class PageTitleProvider : BaseNodeProvider() {
     override val layoutId: Int
         get() = R.layout.item_page_title
 
-    override fun convert(helper: BaseViewHolder, data: BaseNode) {
-        val node = data as PageTitleNode
+    override fun convert(helper: BaseViewHolder, item: BaseNode) {
+        val node = item as PageTitleNode
 
         helper.setText(R.id.tv_title, node.title)
 

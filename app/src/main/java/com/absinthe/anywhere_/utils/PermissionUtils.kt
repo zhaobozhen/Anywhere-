@@ -4,17 +4,8 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.interfaces.OnAppUnfreezeListener
-import com.catchingnow.icebox.sdk_client.IceBox
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.DataOutputStream
-import java.util.*
 
 object PermissionUtils {
     /**
@@ -22,15 +13,12 @@ object PermissionUtils {
      */
     val isMIUI: Boolean
         get() = try {
-            val brand = Build.BRAND.toLowerCase(Locale.ROOT)
-            Timber.d("brand = %s", brand)
-
             @SuppressLint("PrivateApi")
             val c = Class.forName("android.os.SystemProperties")
             val get = c.getMethod("get", String::class.java)
             val result = get.invoke(c, "ro.miui.ui.version.code") as String
 
-            result.isNotEmpty() || brand.contains("xiaomi") || brand.contains("redmi")
+            result.isNotEmpty()
         } catch (e: Exception) {
             e.printStackTrace()
             false
@@ -92,20 +80,5 @@ object PermissionUtils {
             e.printStackTrace()
         }
         return false
-    }
-
-    @JvmStatic
-    fun unfreezeApp(context: Context, pkgName: String, listener: OnAppUnfreezeListener) {
-        GlobalScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
-                ToastUtil.makeText(R.string.toast_defrosting)
-            }
-
-            IceBox.setAppEnabledSettings(context, true, pkgName)
-
-            withContext(Dispatchers.Main) {
-                listener.onAppUnfrozen()
-            }
-        }
     }
 }

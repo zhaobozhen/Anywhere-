@@ -19,7 +19,7 @@
             app:key="defrostMode"
             app:title="@string/title_activity_defrost"
             app:summary="@string/settings_backup_summary"
-            android:icon="@drawable/ic_backup_and_restore">
+            android:icon="@drawable/ic_snowflake">
 
             <intent
                 android:targetPackage="com.absinthe.anywhere_.debug"
