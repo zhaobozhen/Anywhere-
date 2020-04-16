@@ -17,7 +17,7 @@
     <string name="toast_permission_overlap">請先授予 \"Anywhere-\" 懸浮窗權限</string>
     <string name="toast_collector_opened">已開啟 Collector</string>
     <string name="ib_collector_todo">Collector</string>
-    <string name="accessibility_service_description">開啟功能, 以實現自動點擊功能</string>
+    <string name="accessibility_service_description">開啟此輔助項以實現自動點擊功能</string>
     <string name="dialog_permission_title">需要權限</string>
     <string name="dialog_permission_message">需要 Shizuku 權限，MIUI 由於系統限制，請到 Shizuku 打開</string>
 
@@ -46,11 +46,11 @@
     <string name="bsd_text_input_layout_description_label">描述(選填)</string>
     <string name="bsd_text_input_layout_intent_extra_label">添加 Intent Extras(選填)</string>
 
-    <string name="bsd_text_input_layout_app_name_helper_text">給 Anywhere- 起個名字吧</string>
-    <string name="bsd_text_input_layout_package_name_helper_text">App 包名，一般來說默認即可</string>
+    <string name="bsd_text_input_layout_app_name_helper_text">給 Anywhere- 卡片取個名字吧</string>
+    <string name="bsd_text_input_layout_package_name_helper_text">App 包名，通常默認即可</string>
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme,可在捷徑社區尋找</string>
-    <string name="bsd_text_input_layout_class_name_helper_text">App 類名，一般來說默認即可</string>
-    <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 吧</string>
+    <string name="bsd_text_input_layout_class_name_helper_text">App 類名，通常默認即可</string>
+    <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 卡片吧</string>
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">啟動 Intent 時傳遞參數，格式：\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\ncmd 指令可前往幫助查看</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
@@ -103,7 +103,7 @@
     <string name="settings_card_background_summary">取圖標主導顏色為背景</string>
     <string name="settings_clear_shortcuts_summary">重置所有 Shortcuts</string>
     <string name="settings_icon_pack_summary">更換圖標包</string>
-    <string name="settings_backup_summary">導入和導出所有的 Anywhere-</string>
+    <string name="settings_backup_summary">導入和導出所有的 Anywhere- 卡片</string>
     <string name="settings_help_summary">幫助文檔</string>
     <string name="settings_about_summary">這裏是 Anywhere- !</string>
 
@@ -112,8 +112,8 @@
     <string name="settings_backup_backup_title">創建新的備份文件</string>
     <string name="settings_backup_restore_title">從存儲文件中恢復</string>
 
-    <string name="settings_backup_backup_summary">在存儲中創建一個備份文件來導出 Anywhere-</string>
-    <string name="settings_backup_restore_summary">選擇一個 *.awbackups 後綴的文件來導入 Anywhere-</string>
+    <string name="settings_backup_backup_summary">在存儲中創建一個備份文件來導出 Anywhere- 卡片</string>
+    <string name="settings_backup_restore_summary">選擇一個 *.awbackups 後綴的文件來導入 Anywhere- 卡片</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root 權限被拒絕</string>
@@ -140,7 +140,7 @@
     <string name="dialog_reset_background_confirm_message">確定要重置背景嗎？</string>
     <string name="dialog_url_scheme_community">捷徑社區</string>
     <string name="dialog_message_perm_not_ever">尚有未授予的權限，確定要進入嗎？</string>
-    <string name="dialog_message_same_app_name">似乎有相似的 Anywhere-，要添加嗎？</string>
+    <string name="dialog_message_same_app_name">似乎有相似的 Anywhere- 卡片，要添加嗎？</string>
     <string name="dialog_reset_shortcuts_confirm_message">確定要重置所有 Shortcuts 嗎？</string>
     <string name="dialog_message_ice_box_perm_not_support">新版 MIUI 無法自動授予自定義權限，點擊 去授予 進入原生應用管理頁面並手動授予權限</string>
     <string name="dialog_title_choose_icon_pack">選擇圖標包</string>
@@ -160,7 +160,7 @@
     <string name="subtitle_acquire_shizuku_permission">使用 Shizuku 權限執行 adb 指令</string>
     <string name="subtitle_check_shizuku_state">檢查 Shizuku 服務狀態</string>
     <string name="subtitle_check_shizuku_permission">獲取 Shizuku 權限</string>
-    <string name="first_launch_guide_title">創建你的第一個 Anywhere- 吧！</string>
+    <string name="first_launch_guide_title">創建你的第一個 Anywhere- 卡片吧！</string>
 
     <string name="btn_url_scheme">URL Scheme</string>
     <string name="btn_normal">Normal</string>
@@ -196,8 +196,8 @@
     <string name="btn_qr_code_collection">掃碼合集</string>
     <string name="desc_need_root">需要 Root</string>
     <string name="desc_work_at_any_mode">無需權限</string>
-    <string name="qr_tip_title">長按以添加 Anywhere-</string>
-    <string name="qr_tip_subtitle">這個頁面的 Anywhere- 與其他的不同，它們是主動適配的。未來將會適配更多的 App。</string>
+    <string name="qr_tip_title">長按以添加 Anywhere- 卡片到主頁</string>
+    <string name="qr_tip_subtitle">這個頁面的 Anywhere- 卡片與其他的不同，它們是主動適配的。未來將會適配更多的 App。</string>
     <string name="shortcut_open">打開 Anywhere-</string>
     <string name="settings_lab">實驗室</string>
     <string name="settings_lab_summary">實驗性功能</string>
@@ -300,4 +300,5 @@
     <string name="title_activity_defrost">解凍模式</string>
     <string name="settings_beta">測試版</string>
     <string name="settings_beta_summary">提前體驗正在開發的測試版本</string>
+    <string name="settings_defrost_mode_summary">選擇一個解凍模式</string>
 </resources>

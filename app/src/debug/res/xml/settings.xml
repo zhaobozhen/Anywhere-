@@ -18,7 +18,7 @@
         <Preference
             app:key="defrostMode"
             app:title="@string/title_activity_defrost"
-            app:summary="@string/settings_backup_summary"
+            app:summary="@string/settings_defrost_mode_summary"
             android:icon="@drawable/ic_snowflake">
 
             <intent

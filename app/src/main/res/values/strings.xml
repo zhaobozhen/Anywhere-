@@ -38,7 +38,7 @@
     <string name="toast_permission_overlap">Please grant Overlay permission to \"Anywhere-\"</string>
     <string name="toast_collector_opened">Collector opened</string>
     <string name="ib_collector_todo">Collector</string>
-    <string name="accessibility_service_description">Enable this toggle to achieve auto click function</string>
+    <string name="accessibility_service_description">Turn on this auxiliary item for automatic click function.</string>
     <string name="dialog_permission_title">Permission Required</string>
     <string name="dialog_permission_message">Shizuku permission required, due to the MIUI ROM limitations, please go to Shizuku Manager to acquire permission</string>
 
@@ -76,11 +76,11 @@
     <string name="bsd_text_input_layout_dynamic_params_label">Dynamic Params(Optional)</string>
     <string name="bsd_text_input_layout_shell_name_label">Shell Name</string>
 
-    <string name="bsd_text_input_layout_app_name_helper_text">Name your Anywhere-</string>
-    <string name="bsd_text_input_layout_package_name_helper_text">App\'s package name, generally by default</string>
+    <string name="bsd_text_input_layout_app_name_helper_text">Give your Anywhere- card a name</string>
+    <string name="bsd_text_input_layout_package_name_helper_text">App \'s package name, usually default</string>
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme, you can have a look in Shortcuts Community</string>
-    <string name="bsd_text_input_layout_class_name_helper_text">App\'s class name, generally by default</string>
-    <string name="bsd_text_input_layout_description_helper_text">Describe your Anywhere-</string>
+    <string name="bsd_text_input_layout_class_name_helper_text">App\'s class name, usually default</string>
+    <string name="bsd_text_input_layout_description_helper_text">Describe your Anywhere- card</string>
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from the HELP page</string>
     <string name="bsd_text_input_layout_image_uri_helper_text">Tap IMAGE above to select local picture or fill in web picture URI</string>
     <string name="bsd_text_input_layout_dynamic_params_helper_text">Enter parameters while each opening\nExample: param1&amp;param2</string>
@@ -142,6 +142,7 @@
     <string name="settings_gift_typing">Typing…</string>
 
     <string name="settings_working_mode_summary">Select a working mode</string>
+    <string name="settings_defrost_mode_summary">Select a defrost mode</string>
     <string name="settings_change_background_summary">Choose an image as background to home page</string>
     <string name="settings_reset_background_summary">Reset home page background to blank</string>
     <string name="settings_dark_mode_oled_summary">Enable pure dark background on OLED devices</string>
@@ -150,7 +151,7 @@
     <string name="settings_card_background_summary">Take the dominate color of the icon as background</string>
     <string name="settings_clear_shortcuts_summary">Reset all Shortcuts</string>
     <string name="settings_icon_pack_summary">Choose an icon pack</string>
-    <string name="settings_backup_summary">Import/Export all Anywhere-</string>
+    <string name="settings_backup_summary">Import/Export all Anywhere- cards</string>
     <string name="settings_tiles_summary">Quickly open an Anywhere- on Notification bar</string>
     <string name="settings_collector_plus_summary">Display current Activity info while using Collector</string>
     <string name="settings_exclude_from_recent_summary">Not displayed in the recent apps list after exiting the app</string>
@@ -169,9 +170,9 @@
     <string name="settings_backup_restore_title">Restore from Storage Files</string>
     <string name="settings_backup_apply_title">Apply Configurations</string>
 
-    <string name="settings_backup_backup_summary">Create a backup file in storage to export Anywhere-</string>
+    <string name="settings_backup_backup_summary">Create a backup file in storage to export Anywhere- cards</string>
     <string name="settings_backup_share_summary">Copy &amp; share your Anywhere-</string>
-    <string name="settings_backup_restore_summary">Select a *.awbackups suffix file to import Anywhere-</string>
+    <string name="settings_backup_restore_summary">Select a *.awbackups suffix file to import Anywhere- cards</string>
     <string name="settings_backup_apply_summary">Apply shared Anywhere- configurations</string>
     <string name="settings_backup_tip">Starting from version %s, the structure of data backup has changed, and backup files before version %s will not be available! Please backup a new file again.</string>
 
@@ -193,7 +194,7 @@
     <string name="toast_try_to_add_pinned_shortcut">Tried to add it</string>
     <string name="toast_backup_success">Backup success</string>
     <string name="toast_restore_success">Restore success</string>
-    <string name="toast_defrosting">Thawing</string>
+    <string name="toast_defrosting">Defrosting</string>
     <string name="toast_restart_to_active">Restart to take effect</string>
     <string name="toast_check_device_storage_state">Please check the storage state of device</string>
     <string name="toast_copied">Copied to clipboard</string>
@@ -216,7 +217,7 @@
     <string name="dialog_reset_background_confirm_message">Are you sure to reset the background image?</string>
     <string name="dialog_url_scheme_community">Community</string>
     <string name="dialog_message_perm_not_ever">There still has ungranted permissions, are you sure to enter?</string>
-    <string name="dialog_message_same_app_name">It seems that there is a similar Anywhere-, are you sure to add it?</string>
+    <string name="dialog_message_same_app_name">It seems that there is a similar Anywhere- card, are you sure to add it?</string>
     <string name="dialog_reset_shortcuts_confirm_message">Are you sure to reset all Shortcuts?</string>
     <string name="dialog_message_ice_box_perm_not_support">MIUI ROM cannot grant the custom permissions, click to go to origin Package Manager and grant permission manually</string>
     <string name="dialog_title_choose_icon_pack">Choose an Icon Pack</string>
@@ -243,7 +244,7 @@
     <string name="subtitle_acquire_shizuku_permission">Execute the adb commands by Shizuku permission</string>
     <string name="subtitle_check_shizuku_state">Check Shizuku service</string>
     <string name="subtitle_check_shizuku_permission">Check Shizuku permission</string>
-    <string name="first_launch_guide_title">Create your first Anywhere-!</string>
+    <string name="first_launch_guide_title">Create your first Anywhere- card!</string>
 
     <!--  Button  -->
     <string name="btn_url_scheme">URL Scheme</string>
@@ -306,8 +307,8 @@
     <string name="desc_work_at_any_mode">Work at Any Mode</string>
     <string name="desc_need_root">Need Root</string>
     <string name="desc_need_accessibility">Need Accessibility Service</string>
-    <string name="qr_tip_title">LONG Press to Add Anywhere-</string>
-    <string name="qr_tip_subtitle">All the Anywhere-\'s in this pages are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
+    <string name="qr_tip_title">Long press to add the Anywhere- card to the homepage</string>
+    <string name="qr_tip_subtitle">All the Anywhere- cards in this pages are different from others, which are adapted actively. We will gradually adapt to more apps in the future.</string>
 
     <!--  Drawer  -->
     <string name="drawer_title">Pages</string>

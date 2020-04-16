@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.adapter;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.HapticFeedbackConstants;
 import android.view.ViewGroup;
 
@@ -106,7 +107,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
             if (mode == ADAPTER_MODE_NORMAL) {
                 if (AppUtils.isAppFrozen(mContext, item)) {
                     openAnywhereActivity(item);
-                    notifyItemChanged(position);
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> notifyItemChanged(position), 500);
                 } else {
                     openAnywhereActivity(item);
                 }
