@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.adapter.defrost
 
 import android.view.View
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.button.MaterialButton
@@ -22,6 +23,11 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
         val button: MaterialButton = holder.getView(R.id.button)
         val radio: MaterialRadioButton = holder.getView(R.id.radio)
 
+        if (item.mode == GlobalValues.sDefrostMode) {
+            radio.isChecked = true
+            position = holder.adapterPosition
+        }
+
         if (item.buttonText.isEmpty()) {
             button.visibility = View.GONE
         }
@@ -34,6 +40,7 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
             }
             position = holder.adapterPosition
             radio.isChecked = true
+            GlobalValues.setsDefrostMode(item.mode)
         }
     }
 

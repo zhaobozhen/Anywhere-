@@ -3,10 +3,6 @@ package com.absinthe.anywhere_.utils.handler;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.GlobalValues;
@@ -15,7 +11,6 @@ import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
-import com.absinthe.anywhere_.utils.PermissionUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
@@ -75,20 +70,12 @@ public class Opener {
             String cmd = TextUtils.getItemCommand(mItem);
             if (!cmd.isEmpty()) {
                 if (AppUtils.isAppFrozen(sContext.get(), mItem)) {
-                    if (ContextCompat.checkSelfPermission(sContext.get(), IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                        if (PermissionUtils.INSTANCE.isMIUI()) {
-                            DialogManager.showGrantPrivilegedPermDialog((AppCompatActivity) sContext.get());
-                        } else {
-                            ActivityCompat.requestPermissions(ActivityStackManager.INSTANCE.getTopActivity(), new String[]{IceBox.SDK_PERMISSION}, 0x233);
-                        }
+                    final OnAppDefrostListener onAppDefrostListener = () ->
+                            CommandUtils.execCmd(cmd);
+                    if (mItem.getAnywhereType() == AnywhereType.URL_SCHEME) {
+                        DefrostHandler.defrost(sContext.get(), mItem.getParam2(), onAppDefrostListener);
                     } else {
-                        final OnAppDefrostListener onAppDefrostListener = () ->
-                                CommandUtils.execCmd(cmd);
-                        if (mItem.getAnywhereType() == AnywhereType.URL_SCHEME) {
-                            DefrostHandler.defrost(sContext.get(), mItem.getParam2(), onAppDefrostListener);
-                        } else {
-                            DefrostHandler.defrost(sContext.get(), mItem.getParam1(), onAppDefrostListener);
-                        }
+                        DefrostHandler.defrost(sContext.get(), mItem.getParam1(), onAppDefrostListener);
                     }
                 } else {
                     CommandUtils.execCmd(cmd);

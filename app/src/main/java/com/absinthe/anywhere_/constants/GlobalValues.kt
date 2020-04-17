@@ -49,6 +49,7 @@ object GlobalValues {
     lateinit var sIconPack: String
     lateinit var sCategory: String
     lateinit var sDefrostMode: String
+
     var sCurrentPage = 0
 
     @JvmField
@@ -98,6 +99,7 @@ object GlobalValues {
                     .append(getInfoLine("Card Background Mode", sCardBackgroundMode))
                     .append(getInfoLine("Dump Interval", sDumpInterval.toString()))
                     .append(getInfoLine("Current Page", sCurrentPage.toString()))
+                    .append(getInfoLine("Defrost Mode", sDefrostMode))
             return Html.fromHtml(sb.toString())
         }
 
@@ -217,6 +219,11 @@ object GlobalValues {
     fun setsAutoDarkModeEnd(sAutoDarkModeEnd: Long) {
         GlobalValues.sAutoDarkModeEnd = sAutoDarkModeEnd
         putLong(Utils.getApp(), Const.PREF_AUTO_DARK_MODE_END, sAutoDarkModeEnd)
+    }
+
+    fun setsDefrostMode(sDefrostMode: String) {
+        GlobalValues.sDefrostMode = sDefrostMode
+        putString(Utils.getApp(), Const.PREF_DEFROST_MODE, sDefrostMode)
     }
 
     @JvmStatic

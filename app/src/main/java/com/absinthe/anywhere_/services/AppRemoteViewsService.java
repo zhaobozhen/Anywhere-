@@ -8,10 +8,12 @@ import android.os.Looper;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import androidx.lifecycle.LiveData;
+
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.constants.Const;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -40,9 +42,14 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         RemoteViewsFactory(Context context, Intent intent) {
             mContext = context;
-            List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
-            if (list != null && list.size() > 0) {
-                sList = list;
+            LiveData<List<AnywhereEntity>> liveData = AnywhereApplication.sRepository.getAllAnywhereEntities();
+
+            if (liveData != null) {
+                List<AnywhereEntity> list = liveData.getValue();
+
+                if (list != null && list.size() > 0) {
+                    sList = list;
+                }
             }
 
             if(Looper.myLooper() == null){
@@ -68,9 +75,14 @@ public class AppRemoteViewsService extends RemoteViewsService {
         @Override
         public void onDataSetChanged() {
             // 需要显示的数据
-            List<AnywhereEntity> list = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
-            if (list != null && list.size() > 0) {
-                sList = list;
+            LiveData<List<AnywhereEntity>> liveData = AnywhereApplication.sRepository.getAllAnywhereEntities();
+
+            if (liveData != null) {
+                List<AnywhereEntity> list = liveData.getValue();
+
+                if (list != null && list.size() > 0) {
+                    sList = list;
+                }
             }
         }
 

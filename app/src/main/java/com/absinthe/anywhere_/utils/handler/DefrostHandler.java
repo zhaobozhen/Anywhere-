@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.utils.handler;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -63,12 +62,8 @@ public class DefrostHandler {
         if (workMode == IceBox.WorkMode.MODE_NOT_AVAILABLE) return false;
 
         new Handler().post(() -> {
-            try {
-                IceBox.getAppEnabledSetting(context, packageName);
-                new Handler(Looper.getMainLooper()).post(listener::onAppDefrost);
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
+            IceBox.setAppEnabledSettings(context, true, packageName);
+            new Handler(Looper.getMainLooper()).post(listener::onAppDefrost);
         });
 
         return true;
