@@ -301,4 +301,14 @@
     <string name="settings_beta">测试版</string>
     <string name="settings_beta_summary">提前体验正在开发的测试版本</string>
     <string name="settings_defrost_mode_summary">选择一个解冻模式</string>
+    <string name="defrost_mode_dsm_summary">获得来自其他设备管理员的共享权限</string>
+    <string name="defrost_mode_dsm">托管设备管理员模式</string>
+    <string name="defrost_mode_dpm">设备管理员模式</string>
+    <string name="defrost_mode_icebox_sdk">冰箱 SDK 模式</string>
+    <string name="defrost_mode_root">Root 模式</string>
+    <string name="defrost_mode_shizuku">Shizuku 模式</string>
+    <string name="defrost_mode_dpm_summary">成为设备管理员来获得解冻应用的能力</string>
+    <string name="defrost_mode_icebox_sdk_summary">这需要设备中已安装冰箱 App 并且版本号大于 3.6.0</string>
+    <string name="defrost_mode_root_summary">需要设备已 root</string>
+    <string name="defrost_mode_shizuku_summary">需要使用 root 方式激活的 Shizuku</string>
 </resources>

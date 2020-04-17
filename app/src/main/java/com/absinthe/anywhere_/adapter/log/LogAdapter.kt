@@ -8,8 +8,8 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
 class LogAdapter : BaseQuickAdapter<LogModel, BaseViewHolder>(R.layout.item_card_logcat) {
 
-    override fun convert(helper: BaseViewHolder, item: LogModel) {
-        helper.apply {
+    override fun convert(holder: BaseViewHolder, item: LogModel) {
+        holder.apply {
             setText(R.id.tv_create_time, item.createTime)
             setText(R.id.tv_file_path, item.filePath)
             setText(R.id.tv_file_size, Formatter.formatFileSize(context, item.fileSize))

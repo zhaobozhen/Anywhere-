@@ -301,4 +301,14 @@
     <string name="settings_defrost_mode_summary">選擇一個解凍模式</string>
     <string name="bsd_text_input_layout_app_name_helper_text">給 Anywhere- 卡片取個名字吧</string>
     <string name="settings_backup_backup_summary">在存儲中創建一個備份文件來導出 Anywhere- 卡片</string>
+    <string name="defrost_mode_dsm_summary">獲得來自其他設備管理員的共享權限</string>
+    <string name="defrost_mode_dsm">託管設備管理員模式</string>
+    <string name="defrost_mode_dpm">託管設備管理員模式</string>
+    <string name="defrost_mode_icebox_sdk">IceBox SDK 模式</string>
+    <string name="defrost_mode_root">Root 模式</string>
+    <string name="defrost_mode_shizuku">Shizuku 模式</string>
+    <string name="defrost_mode_dpm_summary">成為設備管理員來獲得解凍應用的能力</string>
+    <string name="defrost_mode_icebox_sdk_summary">這需要設備中已安裝 IceBox 並且版本號大於 3.6.0</string>
+    <string name="defrost_mode_root_summary">需要設備已 root</string>
+    <string name="defrost_mode_shizuku_summary">需要使用 root 方式激活的 Shizuku</string>
 </resources>

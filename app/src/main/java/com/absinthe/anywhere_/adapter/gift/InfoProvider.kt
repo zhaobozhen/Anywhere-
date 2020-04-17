@@ -13,8 +13,8 @@ class InfoProvider : BaseNodeProvider() {
     override val layoutId: Int
         get() = R.layout.item_gift_info
 
-    override fun convert(helper: BaseViewHolder, data: BaseNode) {
-        val msg = (data as InfoNode).msg
+    override fun convert(helper: BaseViewHolder, item: BaseNode) {
+        val msg = (item as InfoNode).msg
         helper.setText(R.id.tv_message, msg)
     }
 }

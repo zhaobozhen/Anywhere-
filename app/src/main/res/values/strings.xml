@@ -327,4 +327,17 @@
     <string name="report_select_mail_app">Please select the mail app</string>
     <string name="title_activity_defrost">Defrost mode</string>
 
+    <!--  Defrost Mode  -->
+    <string name="defrost_mode_dsm">Delegated Scopes Manager Mode</string>
+    <string name="defrost_mode_dpm">Device Policy Manager Mode</string>
+    <string name="defrost_mode_icebox_sdk">IceBox SDK Mode</string>
+    <string name="defrost_mode_root">Root Mode</string>
+    <string name="defrost_mode_shizuku">Shizuku Mode</string>
+
+    <string name="defrost_mode_dsm_summary">Get sharing permissions from other Device Policy Manager</string>
+    <string name="defrost_mode_dpm_summary">Become a Device Policy Manager to gain the ability to unfreeze apps</string>
+    <string name="defrost_mode_icebox_sdk_summary">This requires that the IceBox is installed in the device and the version number >= 3.6.0</string>
+    <string name="defrost_mode_root_summary">The device needs to be rooted</string>
+    <string name="defrost_mode_shizuku_summary">Requires Shizuku activated by root method</string>
+
 </resources>

@@ -13,8 +13,8 @@ class RightChatProvider : BaseNodeProvider() {
     override val layoutId: Int
         get() = R.layout.item_right_chat
 
-    override fun convert(helper: BaseViewHolder, data: BaseNode) {
-        val msg = (data as RightChatNode).msg
+    override fun convert(helper: BaseViewHolder, item: BaseNode) {
+        val msg = (item as RightChatNode).msg
         helper.setText(R.id.tv_message, msg)
     }
 }

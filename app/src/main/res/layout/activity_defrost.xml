@@ -12,49 +12,11 @@
         layout="@layout/toolbar"
         app:layout_constraintTop_toBottomOf="parent" />
 
-    <RadioGroup
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/item"
-            layout="@layout/item_defrost_mode"/>
-
-        <RadioButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
-            android:padding="10dp"
-            android:enabled="false"
-            android:text="IceBox SDK" />
-
-        <RadioButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
-            android:padding="10dp"
-            android:enabled="false"
-            android:text="Device Policy Manager" />
-
-        <RadioButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
-            android:padding="10dp"
-            android:enabled="false"
-            android:text="Root" />
-
-        <RadioButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
-            android:padding="10dp"
-            android:enabled="false"
-            android:text="Shizuku" />
-
-    </RadioGroup>
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

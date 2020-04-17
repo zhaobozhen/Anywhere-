@@ -14,9 +14,9 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
 class BackgroundAdapter : BaseQuickAdapter<PageEntity?, BaseViewHolder>(R.layout.item_background) {
 
-    override fun convert(helper: BaseViewHolder, item: PageEntity?) {
+    override fun convert(holder: BaseViewHolder, item: PageEntity?) {
         item?.let {
-            val toolbar: Toolbar = helper.getView(R.id.toolbar)
+            val toolbar: Toolbar = holder.getView(R.id.toolbar)
             
             toolbar.apply {
                 title = it.title
@@ -42,7 +42,7 @@ class BackgroundAdapter : BaseQuickAdapter<PageEntity?, BaseViewHolder>(R.layout
                 UiUtils.drawMd2Toolbar(context, toolbar, 3)
             }
 
-            val ivBack: ImageView = helper.getView(R.id.iv_background)
+            val ivBack: ImageView = holder.getView(R.id.iv_background)
             var uri = it.backgroundUri
 
             if (TextUtils.isEmpty(uri)) {
