@@ -94,6 +94,8 @@ object Const {
     const val REQUEST_CODE_IMAGE_CAPTURE = 1004
     const val REQUEST_CODE_WRITE_FILE = 1005
     const val REQUEST_CODE_RESTORE_BACKUPS = 1006
+    const val REQUEST_CODE_ICEBOX = 1007
+    const val REQUEST_CODE_DSM = 1008
 
     const val DEFROST_MODE_ROOT = "root"
     const val DEFROST_MODE_ICEBOX_SDK = "icebox"

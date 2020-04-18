@@ -169,7 +169,7 @@
     <string name="btn_activity_list">活动列表</string>
 
     <string name="btn_acquire_permission">点击授权</string>
-    <string name="btn_acquired">已获取</string>
+    <string name="btn_acquired">已授权</string>
 
     <string name="btn_check_permission">点击检查</string>
     <string name="btn_checked">已检查</string>
@@ -311,4 +311,6 @@
     <string name="defrost_mode_icebox_sdk_summary">这需要设备中已安装冰箱 App 并且版本号大于 3.6.0</string>
     <string name="defrost_mode_root_summary">需要设备已 root</string>
     <string name="defrost_mode_shizuku_summary">需要使用 root 方式激活的 Shizuku</string>
+    <string name="menu_custom_icon">自定义图标</string>
+    <string name="menu_restore_icon">恢复图标</string>
 </resources>

@@ -25,7 +25,7 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1901
+        versionCode 1902
         versionName "1.9.0-beta2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Looper;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -19,6 +20,7 @@ import com.absinthe.anywhere_.utils.UiUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import timber.log.Timber;
@@ -120,7 +122,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
 
             try {
                 if (IceBox.getAppEnabledSetting(mContext, sList.get(position).getParam1()) != 0) {
-                    content = content + "\u2744";
+                    content = "\u2744" + content;
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
@@ -134,7 +136,20 @@ public class AppRemoteViewsService extends RemoteViewsService {
             // 设置要显示的内容
             rv.setTextViewText(R.id.tv_title, content);
 
-            Drawable icon = UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, sList.get(position));
+            Drawable icon;
+            AnywhereEntity ae = sList.get(position);
+
+            if (ae.getIconUri().isEmpty()) {
+                icon = UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, ae);
+            } else {
+                try {
+                    icon = Drawable.createFromStream(getContentResolver().openInputStream(Uri.parse(ae.getIconUri())), null);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    icon = UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, ae);
+                }
+            }
+
             if (icon != null) {
                 rv.setImageViewBitmap(R.id.iv_app_icon, ConvertUtils.drawable2Bitmap(icon));
             }
@@ -142,7 +157,6 @@ public class AppRemoteViewsService extends RemoteViewsService {
             // 填充Intent，填充在AppWidgetProvider中创建的PendingIntent
             Intent intent = new Intent();
             // 传入点击行的数据
-            AnywhereEntity ae = sList.get(position);
             intent.putExtra(Const.INTENT_EXTRA_WIDGET_ENTITY, ae);
             rv.setOnClickFillInIntent(R.id.rl_item, intent);
 

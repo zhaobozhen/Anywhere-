@@ -41,11 +41,13 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
                 Const.DEFROST_MODE_DSM -> {
                     if (DSMClient.getDelegatedScopes(context).contains(DevicePolicyManager.DELEGATION_PACKAGE_ACCESS)) {
                         isEnabled = false
+                        text = context.getText(R.string.btn_acquired)
                     }
                 }
                 Const.DEFROST_MODE_ICEBOX_SDK -> {
                     if (ContextCompat.checkSelfPermission(context, IceBox.SDK_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
                         isEnabled = false
+                        text = context.getText(R.string.btn_acquired)
                     }
                 }
             }

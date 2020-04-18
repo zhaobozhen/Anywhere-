@@ -169,7 +169,7 @@
     <string name="btn_activity_list">活動列表</string>
 
     <string name="btn_acquire_permission">點擊授權</string>
-    <string name="btn_acquired">已獲取</string>
+    <string name="btn_acquired">已授權</string>
 
     <string name="btn_check_permission">點擊檢查</string>
     <string name="btn_checked">已檢查</string>
@@ -311,4 +311,6 @@
     <string name="defrost_mode_icebox_sdk_summary">這需要設備中已安裝 IceBox 並且版本號大於 3.6.0</string>
     <string name="defrost_mode_root_summary">需要設備已 root</string>
     <string name="defrost_mode_shizuku_summary">需要使用 root 方式激活的 Shizuku</string>
+    <string name="menu_custom_icon">自定義圖標</string>
+    <string name="menu_restore_icon">恢復圖標</string>
 </resources>

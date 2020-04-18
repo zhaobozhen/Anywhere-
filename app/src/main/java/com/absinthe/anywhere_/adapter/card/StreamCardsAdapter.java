@@ -70,7 +70,7 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
             }
             try {
                 if (IceBox.getAppEnabledSetting(mContext, pkgName) != 0) {
-                    binding.tvAppName.setText(item.getAppName() + "\u2744");
+                    binding.tvAppName.setText("\u2744" + item.getAppName());
                 } else {
                     binding.tvAppName.setText(item.getAppName());
                 }
@@ -79,10 +79,19 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
             }
 
             binding.tvDescription.setText(item.getDescription());
-            Glide.with(mContext)
-                    .load(UiUtils.getAppIconByPackageName(mContext, item))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(binding.ivAppIcon);
+
+            if (item.getIconUri().isEmpty()) {
+                Glide.with(mContext)
+                        .load(UiUtils.getAppIconByPackageName(mContext, item))
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(binding.ivAppIcon);
+            } else {
+                Glide.with(mContext)
+                        .load(item.getIconUri())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(binding.ivAppIcon);
+            }
+
             if (GlobalValues.sCardBackgroundMode.equals(Const.CARD_BG_MODE_PURE)) {
                 if (item.getColor() == 0) {
                     UiUtils.setCardUseIconColor(binding.ivCardBg,

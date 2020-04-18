@@ -64,6 +64,10 @@ public class AnywhereEntity implements Parcelable {
     @SerializedName("color")
     private Integer mColor;
 
+    @ColumnInfo(name = "iconUri")
+    @SerializedName("iconUri")
+    private String mIconUri;
+
     public static AnywhereEntity Builder() {
         String time = System.currentTimeMillis() + "";
         return new AnywhereEntity(
@@ -76,12 +80,14 @@ public class AnywhereEntity implements Parcelable {
                 AnywhereType.ACTIVITY,
                 GlobalValues.sCategory,
                 time,
-                0);
+                0,
+                "");
     }
 
     public AnywhereEntity(@NonNull String id, @NonNull String appName, @NonNull String param1,
                           String param2, String param3, String description,
-                          @NonNull Integer type, String category, @NonNull String timeStamp, @NonNull Integer color) {
+                          @NonNull Integer type, String category, @NonNull String timeStamp,
+                          @NonNull Integer color, String iconUri) {
         mId = id;
         mAppName = appName;
         mParam1 = param1;
@@ -92,6 +98,27 @@ public class AnywhereEntity implements Parcelable {
         mCategory = category;
         mTimeStamp = timeStamp;
         mColor = color;
+        mIconUri = iconUri;
+
+        if (param2 == null) {
+            mParam2 = "";
+        }
+
+        if (param3 == null) {
+            mParam3 = "";
+        }
+
+        if (description == null) {
+            mDescription = "";
+        }
+
+        if (category == null) {
+            mCategory = "";
+        }
+
+        if (iconUri == null) {
+            mIconUri = "";
+        }
     }
 
     public AnywhereEntity(AnywhereEntity ae) {
@@ -105,6 +132,7 @@ public class AnywhereEntity implements Parcelable {
         mCategory = ae.getCategory();
         mTimeStamp = ae.getTimeStamp();
         mColor = ae.getColor();
+        mIconUri = ae.getIconUri();
     }
 
     private AnywhereEntity(Parcel in) {
@@ -118,6 +146,7 @@ public class AnywhereEntity implements Parcelable {
         mCategory = in.readString();
         mTimeStamp = Objects.requireNonNull(in.readString());
         mColor = in.readInt();
+        mIconUri = in.readString();
     }
 
     @NonNull
@@ -219,6 +248,14 @@ public class AnywhereEntity implements Parcelable {
 
     public void setColor(@NonNull Integer mColor) {
         this.mColor = mColor;
+    }
+
+    public String getIconUri() {
+        return mIconUri;
+    }
+
+    public void setIconUri(String mIconUri) {
+        this.mIconUri = mIconUri;
     }
 
     @Override

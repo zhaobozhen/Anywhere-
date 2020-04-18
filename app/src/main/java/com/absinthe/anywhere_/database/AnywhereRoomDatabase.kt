@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.PageEntity
 
-@Database(entities = [AnywhereEntity::class, PageEntity::class], version = 8, exportSchema = false)
+@Database(entities = [AnywhereEntity::class, PageEntity::class], version = 9, exportSchema = false)
 abstract class AnywhereRoomDatabase : RoomDatabase() {
 
     abstract fun anywhereDao(): AnywhereDao
@@ -32,7 +32,7 @@ abstract class AnywhereRoomDatabase : RoomDatabase() {
                         .addMigrations(MIGRATION_1_2, MIGRATION_2_3,
                                 MIGRATION_3_4, MIGRATION_4_5,
                                 MIGRATION_5_6, MIGRATION_6_7,
-                                MIGRATION_7_8)
+                                MIGRATION_7_8, MIGRATION_8_9)
                         .build()
                 INSTANCE = instance
                 return instance
@@ -106,6 +106,12 @@ abstract class AnywhereRoomDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE page_table "
                         + " ADD COLUMN backgroundUri TEXT")
+            }
+        }
+        private val MIGRATION_8_9: Migration = object : Migration(8, 9) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE anywhere_table "
+                        + " ADD COLUMN iconUri TEXT")
             }
         }
     }

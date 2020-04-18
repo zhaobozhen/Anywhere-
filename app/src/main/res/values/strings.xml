@@ -114,6 +114,8 @@
     <string name="menu_move_to_page">Move to page</string>
     <string name="menu_custom_color">Custom color</string>
     <string name="menu_share_card">Share card</string>
+    <string name="menu_custom_icon">Custom icon</string>
+    <string name="menu_restore_icon">Restore icon</string>
 
     <!--  Settings  -->
     <string name="settings_category_advanced">Advanced</string>

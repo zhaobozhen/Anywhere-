@@ -66,6 +66,7 @@ object StorageUtils {
         AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
             for (ae in it) {
                 ae.type = ae.anywhereType + ae.exportedType * 100
+                ae.iconUri = ""
             }
             val s = gson.toJson(it)
             Timber.d(s)

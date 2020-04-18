@@ -38,7 +38,7 @@ class BackupFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickL
             onPreferenceClickListener = this@BackupFragment
         }
         findPreference<Preference>("backupTip")?.apply {
-            summary = getBackupTip("1.7.0")
+            summary = getBackupTip("1.9.0")
         }
 
     }

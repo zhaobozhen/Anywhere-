@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.view.editor;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -14,9 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 
+import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.OnceTag;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.services.OverlayService;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
@@ -284,6 +288,26 @@ public abstract class Editor<T extends Editor<?>> {
                             break;
                         case R.id.share_card:
                             DialogManager.showCardSharingDialog((AppCompatActivity) mContext, TextUtils.genCardSharingUrl(mItem));
+                            break;
+                        case R.id.custom_icon:
+                            ((BaseActivity) mContext).setDocumentResultListener(uri -> {
+                                mItem.setIconUri(uri.toString());
+                                AnywhereApplication.sRepository.update(mItem);
+                            });
+
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                                intent.setType("image/*");
+                                ((BaseActivity) mContext).startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE);
+                            } catch (ActivityNotFoundException e) {
+                                e.printStackTrace();
+                                ToastUtil.makeText(R.string.toast_no_document_app);
+                            }
+                            break;
+                        case R.id.restore_icon:
+                            mItem.setIconUri("");
+                            AnywhereApplication.sRepository.update(mItem);
                             break;
                         default:
                     }
