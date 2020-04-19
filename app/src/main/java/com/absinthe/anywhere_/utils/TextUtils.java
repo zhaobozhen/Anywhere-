@@ -1,15 +1,13 @@
 package com.absinthe.anywhere_.utils;
 
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.util.Patterns;
 
-import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.blankj.utilcode.util.Utils;
@@ -51,24 +49,6 @@ public class TextUtils {
         Timber.d("className = %s", className);
 
         return new String[]{packageName, className};
-    }
-
-    /**
-     * get the app name by package name
-     *
-     * @param context to get PackageManager
-     * @param pkgName package name
-     */
-    public static String getAppName(Context context, String pkgName) {
-        PackageManager pm = context.getPackageManager();
-        try {
-            ApplicationInfo info = pm.getApplicationInfo(pkgName, 0);
-            return info.loadLabel(pm).toString();
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
     /**
@@ -217,7 +197,7 @@ public class TextUtils {
         list.add("tiff");
 
         for (String suffix : list) {
-            if (s.contains(suffix)) {
+            if (s.endsWith(suffix)) {
                 return true;
             }
         }

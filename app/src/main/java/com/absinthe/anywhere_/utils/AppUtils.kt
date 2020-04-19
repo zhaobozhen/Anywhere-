@@ -14,10 +14,10 @@ import android.provider.Settings
 import androidx.core.content.FileProvider
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.constants.AnywhereType
-import com.absinthe.anywhere_.model.AppListBean
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.AppListBean
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider
 import com.absinthe.anywhere_.ui.settings.LogcatActivity
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
@@ -134,7 +134,7 @@ object AppUtils {
 
                 val bean = AppListBean().apply {
                     this.packageName = packageInfo.packageName
-                    this.appName = TextUtils.getAppName(Utils.getApp(), packageInfo.packageName)
+                    this.appName = AppUtils.getAppName(packageInfo.packageName)
                     this.icon = if (GlobalValues.sIconPack == com.absinthe.anywhere_.model.Settings.DEFAULT_ICON_PACK || GlobalValues.sIconPack.isEmpty()) {
                         packageInfo.applicationInfo.loadIcon(packageManager)
                     } else {

@@ -313,4 +313,9 @@
     <string name="defrost_mode_shizuku_summary">需要使用 root 方式激活的 Shizuku</string>
     <string name="menu_custom_icon">自定義圖標</string>
     <string name="menu_restore_icon">恢復圖標</string>
+    <string name="bsd_text_input_layout_switch_shell_name_label">Shell 開關名稱</string>
+    <string name="bsd_text_input_layout_switch_on_label">開指令</string>
+    <string name="bsd_text_input_layout_switch_off_label">關指令</string>
+    <string name="bsd_text_input_layout_switch_on_helper_text">在開狀態時執行以上 Shell</string>
+    <string name="bsd_text_input_layout_switch_off_helper_text">在關狀態時執行以上 Shell</string>
 </resources>

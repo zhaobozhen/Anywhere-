@@ -8,6 +8,7 @@ object AnywhereType {
     const val QR_CODE = 3
     const val IMAGE = 4
     const val SHELL = 5
+    const val SWITCH_SHELL = 6
 
     const val SHORTCUTS = 1
     const val EXPORTED = 1

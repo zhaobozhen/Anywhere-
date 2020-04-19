@@ -34,6 +34,7 @@ import com.absinthe.anywhere_.view.editor.ImageEditor;
 import com.absinthe.anywhere_.view.editor.QRCodeEditor;
 import com.absinthe.anywhere_.view.editor.SchemeEditor;
 import com.absinthe.anywhere_.view.editor.ShellEditor;
+import com.absinthe.anywhere_.view.editor.SwitchShellEditor;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -229,6 +230,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 break;
             case Editor.SHELL:
                 mEditor = new ShellEditor(mContext);
+                break;
+            case Editor.SWITCH_SHELL:
+                mEditor = new SwitchShellEditor(mContext);
                 break;
         }
 

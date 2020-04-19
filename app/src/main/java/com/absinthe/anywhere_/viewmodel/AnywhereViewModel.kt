@@ -25,10 +25,7 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.checkShizukuOnWorking
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.isGrantShizukuPermission
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
-import com.absinthe.anywhere_.view.editor.Editor
-import com.absinthe.anywhere_.view.editor.ImageEditor
-import com.absinthe.anywhere_.view.editor.SchemeEditor
-import com.absinthe.anywhere_.view.editor.ShellEditor
+import com.absinthe.anywhere_.view.editor.*
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.chad.library.adapter.base.entity.node.BaseNode
@@ -120,6 +117,20 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
             type = AnywhereType.SHELL
         }
         val editor: Editor<*> = ShellEditor(context)
+                .item(ae)
+                .isEditorMode(false)
+                .isShortcut(false)
+                .setDismissParent(isDismissParent)
+                .build()
+        editor.show()
+    }
+
+    fun openSwitchShellEditor(context: Context, isDismissParent: Boolean) {
+        val ae = AnywhereEntity.Builder().apply {
+            appName = "New Switch Shell"
+            type = AnywhereType.SWITCH_SHELL
+        }
+        val editor: Editor<*> = SwitchShellEditor(context)
                 .item(ae)
                 .isEditorMode(false)
                 .isShortcut(false)

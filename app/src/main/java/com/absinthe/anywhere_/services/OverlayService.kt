@@ -49,7 +49,7 @@ class OverlayService : Service() {
         Timber.d("OverlayService onDestroy.")
         super.onDestroy()
     }
-
+    
     companion object {
         const val COMMAND = "COMMAND"
         const val COMMAND_STR = "COMMAND_STR"

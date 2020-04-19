@@ -61,8 +61,8 @@ class DefrostActivity : BaseActivity() {
             }
         }
         mBinding.recyclerView.apply {
-            this.adapter = adapter
-            this.layoutManager = LinearLayoutManager(this@DefrostActivity)
+            adapter = mAdapter
+            layoutManager = LinearLayoutManager(this@DefrostActivity)
         }
     }
 

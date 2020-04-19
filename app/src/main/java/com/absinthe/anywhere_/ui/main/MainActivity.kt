@@ -31,13 +31,15 @@ import com.absinthe.anywhere_.adapter.page.PageListAdapter
 import com.absinthe.anywhere_.adapter.page.PageTitleNode
 import com.absinthe.anywhere_.adapter.page.PageTitleProvider
 import com.absinthe.anywhere_.constants.*
-import com.absinthe.anywhere_.databinding.ActivityMainBinding
-import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
-import com.absinthe.anywhere_.model.*
 import com.absinthe.anywhere_.constants.GlobalValues.clearActionBarType
 import com.absinthe.anywhere_.constants.GlobalValues.setsBackgroundUri
 import com.absinthe.anywhere_.constants.GlobalValues.setsCategory
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
+import com.absinthe.anywhere_.databinding.ActivityMainBinding
+import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
+import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.PageEntity
+import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
 import com.absinthe.anywhere_.ui.list.AppListActivity
@@ -57,6 +59,7 @@ import com.absinthe.anywhere_.view.FabBuilder.build
 import com.absinthe.anywhere_.view.editor.AnywhereEditor
 import com.absinthe.anywhere_.view.editor.Editor
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
+import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
@@ -423,7 +426,7 @@ class MainActivity : BaseActivity() {
                                 Analytics.trackEvent(EventTag.FAB_SHELL_CLICK)
                             }
                             AdvancedCardSelectDialogFragment.ITEM_ADD_SWITCH_SHELL -> {
-                                viewModel.openShellEditor(this@MainActivity, true)
+                                viewModel.openSwitchShellEditor(this@MainActivity, true)
                                 Analytics.trackEvent(EventTag.FAB_SWITCH_SHELL_CLICK)
                             }
                         }
@@ -475,7 +478,7 @@ class MainActivity : BaseActivity() {
                 if (param2.isEmpty() && param3.isEmpty()) {
                     viewModel.setUpUrlScheme(this, param1)
                 } else {
-                    val appName: String = TextUtils.getAppName(this, param1)
+                    val appName: String = AppUtils.getAppName(param1)
                     var exported = 0
 
                     if (UiUtils.isActivityExported(this, ComponentName(param1,

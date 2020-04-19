@@ -41,6 +41,7 @@ public abstract class Editor<T extends Editor<?>> {
     public static final int QR_CODE = 3;
     public static final int IMAGE = 4;
     public static final int SHELL = 5;
+    public static final int SWITCH_SHELL = 6;
 
     protected Context mContext;
     private OnEditorListener mListener;
