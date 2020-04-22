@@ -2,6 +2,8 @@ package com.absinthe.anywhere_.adapter;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.os.Build;
+import android.os.FileUriExposedException;
 import android.os.Handler;
 import android.view.HapticFeedbackConstants;
 import android.view.ViewGroup;
@@ -183,9 +185,16 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                         if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                             try {
                                 URLSchemeHandler.INSTANCE.parse(item.getParam1() + text, mContext);
-                            } catch (ActivityNotFoundException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
-                                ToastUtil.makeText(R.string.toast_no_react_url);
+
+                                if (e instanceof ActivityNotFoundException) {
+                                    ToastUtil.makeText(R.string.toast_no_react_url);
+                                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    if (e instanceof FileUriExposedException) {
+                                        ToastUtil.makeText(R.string.toast_file_uri_exposed);
+                                    }
+                                }
                             }
                         } else {
                             CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text);

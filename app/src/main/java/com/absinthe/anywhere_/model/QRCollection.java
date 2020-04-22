@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.model;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -331,7 +330,7 @@ public class QRCollection {
         alipayScan = new QREntity(() -> {
             try {
                 URLSchemeHandler.INSTANCE.parse(urlScheme, mContext);
-            } catch (ActivityNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -362,7 +361,7 @@ public class QRCollection {
         alipayPay = new QREntity(() -> {
             try {
                 URLSchemeHandler.INSTANCE.parse(urlScheme, mContext);
-            } catch (ActivityNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -393,7 +392,7 @@ public class QRCollection {
         alipayBus = new QREntity(() -> {
             try {
                 URLSchemeHandler.INSTANCE.parse(urlScheme, mContext);
-            } catch (ActivityNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -424,7 +423,7 @@ public class QRCollection {
         alipayCollect = new QREntity(() -> {
             try {
                 URLSchemeHandler.INSTANCE.parse(urlScheme, mContext);
-            } catch (ActivityNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });

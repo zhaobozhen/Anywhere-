@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.view.editor;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Build;
+import android.os.FileUriExposedException;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -71,9 +72,16 @@ public class SchemeEditor extends Editor<SchemeEditor> {
             btnUrlSchemeCommunity.setOnClickListener(view -> {
                 try {
                     URLSchemeHandler.INSTANCE.parse(URLManager.SHORTCUT_COMMUNITY_PAGE, mContext);
-                } catch (ActivityNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                    ToastUtil.makeText(R.string.toast_no_react_url);
+
+                    if (e instanceof ActivityNotFoundException) {
+                        ToastUtil.makeText(R.string.toast_no_react_url);
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        if (e instanceof FileUriExposedException) {
+                            ToastUtil.makeText(R.string.toast_file_uri_exposed);
+                        }
+                    }
                 }
             });
         }
@@ -156,9 +164,16 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                     if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                                         try {
                                             URLSchemeHandler.INSTANCE.parse(mItem.getParam1() + text, mContext);
-                                        } catch (ActivityNotFoundException e) {
+                                        } catch (Exception e) {
                                             e.printStackTrace();
-                                            ToastUtil.makeText(R.string.toast_no_react_url);
+
+                                            if (e instanceof ActivityNotFoundException) {
+                                                ToastUtil.makeText(R.string.toast_no_react_url);
+                                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                                if (e instanceof FileUriExposedException) {
+                                                    ToastUtil.makeText(R.string.toast_file_uri_exposed);
+                                                }
+                                            }
                                         }
                                     } else {
                                         CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, mItem.getParam1()) + text);
@@ -174,9 +189,16 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                             if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                                 try {
                                     URLSchemeHandler.INSTANCE.parse(mItem.getParam1(), mContext);
-                                } catch (ActivityNotFoundException e) {
+                                } catch (Exception e) {
                                     e.printStackTrace();
-                                    ToastUtil.makeText(R.string.toast_no_react_url);
+
+                                    if (e instanceof ActivityNotFoundException) {
+                                        ToastUtil.makeText(R.string.toast_no_react_url);
+                                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                        if (e instanceof FileUriExposedException) {
+                                            ToastUtil.makeText(R.string.toast_file_uri_exposed);
+                                        }
+                                    }
                                 }
                             } else {
                                 CommandUtils.execCmd(TextUtils.getItemCommand(ae));

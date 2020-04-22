@@ -4,21 +4,24 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.FileUriExposedException
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.EventTag
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
+import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.services.CollectorService
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.CommandUtils.execCmd
 import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
@@ -156,8 +159,16 @@ class ShortcutsActivity : BaseActivity() {
                             if (param2.isEmpty() && param3.isEmpty()) {
                                 try {
                                     parse(param1, this)
-                                } catch (e: ActivityNotFoundException) {
+                                } catch (e: Exception) {
                                     e.printStackTrace()
+
+                                    if (e is ActivityNotFoundException) {
+                                        ToastUtil.makeText(R.string.toast_no_react_url)
+                                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                        if (e is FileUriExposedException) {
+                                            ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                                        }
+                                    }
                                 }
                             } else {
                                 val ae = AnywhereEntity.Builder().apply {

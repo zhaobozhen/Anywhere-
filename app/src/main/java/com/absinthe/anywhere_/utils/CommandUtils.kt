@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
+import android.os.Build
 import android.os.FileUriExposedException
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -104,9 +105,16 @@ object CommandUtils {
                 newCmd.contains("://") -> {
                     try {
                         parse(newCmd, Utils.getApp())
-                    } catch (e: ActivityNotFoundException) {
+                    } catch (e: Exception) {
                         e.printStackTrace()
-                        ToastUtil.makeText(R.string.toast_no_react_url)
+
+                        if (e is ActivityNotFoundException) {
+                            ToastUtil.makeText(R.string.toast_no_react_url)
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            if (e is FileUriExposedException) {
+                                ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                            }
+                        }
                     }
                     result = CommandResult.RESULT_URL_SCHEME
                 }
