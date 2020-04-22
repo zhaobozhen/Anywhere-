@@ -2,6 +2,9 @@ package com.absinthe.anywhere_.ui.settings
 
 import android.app.Activity
 import android.app.admin.DevicePolicyManager
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -14,7 +17,9 @@ import com.absinthe.anywhere_.adapter.defrost.DefrostAdapter
 import com.absinthe.anywhere_.adapter.defrost.DefrostItem
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityDefrostBinding
+import com.absinthe.anywhere_.receiver.AdminReceiver
 import com.absinthe.anywhere_.utils.PermissionUtils.isMIUI
+import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager.showGrantPrivilegedPermDialog
 import com.catchingnow.delegatedscopeclient.DSMClient
 import com.catchingnow.icebox.sdk_client.IceBox
@@ -46,7 +51,11 @@ class DefrostActivity : BaseActivity() {
                 if (view.id == R.id.button) {
                     if (mList[position].mode == Const.DEFROST_MODE_DSM) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            DSMClient.requestScopes(this@DefrostActivity, Const.REQUEST_CODE_DSM, DevicePolicyManager.DELEGATION_PACKAGE_ACCESS)
+                            try {
+                                DSMClient.requestScopes(this@DefrostActivity, Const.REQUEST_CODE_DSM, DevicePolicyManager.DELEGATION_PACKAGE_ACCESS)
+                            } catch (e: ActivityNotFoundException) {
+                                ToastUtil.makeText(R.string.toast_dsm_not_support)
+                            }
                         }
                     } else if (mList[position].mode == Const.DEFROST_MODE_ICEBOX_SDK) {
                         if (ContextCompat.checkSelfPermission(this@DefrostActivity, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
@@ -55,6 +64,16 @@ class DefrostActivity : BaseActivity() {
                             } else {
                                 ActivityCompat.requestPermissions(this@DefrostActivity, arrayOf(IceBox.SDK_PERMISSION), Const.REQUEST_CODE_ICEBOX)
                             }
+                        }
+                    } else if (mList[position].mode == Const.DEFROST_MODE_DPM) {
+                        val devicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+
+                        if (devicePolicyManager.isAdminActive(AdminReceiver.componentName)) {
+                            val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).apply {
+                                putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, AdminReceiver.componentName)
+                                putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, getString(R.string.defrost_mode_dpm_desc))
+                            }
+                            startActivityForResult(intent, Const.REQUEST_CODE_DPM)
                         }
                     }
                 }
@@ -72,6 +91,8 @@ class DefrostActivity : BaseActivity() {
         if (requestCode == Const.REQUEST_CODE_ICEBOX && grantResults[0] == Activity.RESULT_OK) {
             mAdapter.notifyDataSetChanged()
         } else if (requestCode == Const.REQUEST_CODE_DSM && grantResults[0] == Activity.RESULT_OK) {
+            mAdapter.notifyDataSetChanged()
+        } else if (requestCode == Const.REQUEST_CODE_DPM && grantResults[0] == Activity.RESULT_OK) {
             mAdapter.notifyDataSetChanged()
         }
     }

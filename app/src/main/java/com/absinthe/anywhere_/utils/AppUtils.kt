@@ -115,7 +115,6 @@ object AppUtils {
      * @param showSystem     true if show system apps
      * @return apps list
      */
-    @JvmStatic
     fun getAppList(packageManager: PackageManager, showSystem: Boolean): List<AppListBean> {
         val list: MutableList<AppListBean> = ArrayList()
         try {
@@ -158,7 +157,6 @@ object AppUtils {
      * @param packageName package name of the app
      * @return activities list
      */
-    @JvmStatic
     fun getActivitiesClass(context: Context, packageName: String): List<String> {
         val returnClassList: MutableList<String> = ArrayList()
         try {
@@ -212,7 +210,6 @@ object AppUtils {
     /**
      * Restart App
      */
-    @JvmStatic
     fun restart() {
         Utils.getApp().packageManager.getLaunchIntentForPackage(Utils.getApp().packageName)?.let {
             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -226,7 +223,6 @@ object AppUtils {
      *
      * @param context Context
      */
-    @JvmStatic
     fun startLogcat(context: Context) {
         GlobalValues.sIsDebugMode = true
         val logRecorder = LogRecorder.Builder(context)
@@ -248,7 +244,6 @@ object AppUtils {
      * @param context Context
      * @param file Log file
      */
-    @JvmStatic
     fun sendLogcat(context: Context, file: File?) {
         val emailIntent = Intent(Intent.ACTION_SEND)
 

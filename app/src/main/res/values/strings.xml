@@ -33,6 +33,7 @@
     <string name="open_source_licenses">Open Source Licenses</string>
     <string name="other_works">Other Works</string>
     <string name="kage_intro">An app which can cast multi-media files to other Android devices.</string>
+    <string name="lc_intro">An app which can look at the CPU architecture of apps in your device.</string>
 
     <!--  Collector  -->
     <string name="toast_permission_overlap">Please grant Overlay permission to \"Anywhere-\"</string>
@@ -214,6 +215,7 @@
     <string name="toast_security_exception">Activity is forbidden to open</string>
     <string name="toast_execute_shell_successful">Executing Shell successful</string>
     <string name="toast_overlay_choose_anywhere">Please choose \"Anywhere-\" and grant the permission</string>
+    <string name="toast_dsm_not_support">Your device may not support this mode</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>
@@ -346,5 +348,7 @@
     <string name="defrost_mode_icebox_sdk_summary">This requires that the IceBox is installed in the device and the version number >= 3.6.0</string>
     <string name="defrost_mode_root_summary">The device needs to be rooted</string>
     <string name="defrost_mode_shizuku_summary">Requires Shizuku activated by root method</string>
+
+    <string name="defrost_mode_dpm_desc">Active Anywhere- as a Device Policy Manager to gain the ability to defrost apps.</string>
 
 </resources>

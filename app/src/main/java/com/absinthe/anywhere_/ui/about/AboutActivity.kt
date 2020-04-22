@@ -56,6 +56,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
 
             add(Category(getString(R.string.other_works)))
             add(Contributor(R.mipmap.kage_icon, "Kage(Beta)", getString(R.string.kage_intro), "https://www.coolapk.com/apk/com.absinthe.kage"))
+            add(Contributor(R.mipmap.libchecker_icon, "LibChecker", getString(R.string.lc_intro), "https://www.coolapk.com/apk/com.absinthe.libchecker"))
 
             add(Category(getString(R.string.open_source_licenses)))
             add(License("Kotlin", "JetBrains", License.APACHE_2, "https://github.com/JetBrains/kotlin"))

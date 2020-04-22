@@ -91,7 +91,7 @@ object CommandUtils {
             when {
                 newCmd.startsWith(AnywhereType.QRCODE_PREFIX) -> {
                     newCmd = newCmd.replace(AnywhereType.QRCODE_PREFIX, "")
-                    QRCollection.Singleton.INSTANCE.instance.getQREntity(newCmd).apply {
+                    QRCollection.Singleton.INSTANCE.instance.getQREntity(newCmd)?.apply {
                         launch()
                     }
                     result = CommandResult.RESULT_SUCCESS

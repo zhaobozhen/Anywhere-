@@ -96,6 +96,7 @@ object Const {
     const val REQUEST_CODE_RESTORE_BACKUPS = 1006
     const val REQUEST_CODE_ICEBOX = 1007
     const val REQUEST_CODE_DSM = 1008
+    const val REQUEST_CODE_DPM = 1009
 
     const val DEFROST_MODE_ROOT = "root"
     const val DEFROST_MODE_ICEBOX_SDK = "icebox"

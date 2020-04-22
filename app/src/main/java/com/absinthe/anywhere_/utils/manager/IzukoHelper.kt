@@ -10,7 +10,6 @@ object IzukoHelper {
         System.loadLibrary("izuko")
     }
 
-    @JvmStatic
     val cipherKey: String
         external get
 

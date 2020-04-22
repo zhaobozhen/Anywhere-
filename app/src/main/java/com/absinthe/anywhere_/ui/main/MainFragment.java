@@ -34,15 +34,14 @@ import com.absinthe.anywhere_.adapter.card.SingleLineStreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.card.StreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager;
-import com.absinthe.anywhere_.databinding.FragmentMainBinding;
-import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
+import com.absinthe.anywhere_.databinding.FragmentMainBinding;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
-import com.blankj.utilcode.util.Utils;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -135,7 +134,7 @@ public class MainFragment extends Fragment {
                     ((MainActivity) requireActivity()).mBinding.fab.show();
                 }
             }
-            AppUtils.updateWidget(Utils.getApp());
+            AppUtils.updateWidget(requireContext());
         }
     };
 

@@ -488,7 +488,10 @@ public class QRCollection {
                     Thread.sleep(200);
                     emitter.onNext(new FlowNode("跳过", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     Thread.sleep(200);
-                    emitter.onNext(new FlowNode(text, FlowNode.TYPE_ACCESSIBILITY_TEXT));
+
+                    for (String split : text.split("&")) {
+                        emitter.onNext(new FlowNode(split, FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    }
 
                     emitter.onComplete();
                 });
@@ -518,7 +521,7 @@ public class QRCollection {
             case "扫一扫":
                 unionpayScan = qrEntity;
                 break;
-            case "乘车码":
+            case unionPayBusConstants:
                 unionpayBus = qrEntity;
                 break;
             default:
@@ -526,7 +529,7 @@ public class QRCollection {
 
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setId(id);
-        ae.setAppName("云闪付" + text);
+        ae.setAppName("云闪付" + text.split("&")[0]);
         ae.setParam1(pkgName);
         ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
         ae.setType(AnywhereType.QR_CODE);
@@ -567,10 +570,11 @@ public class QRCollection {
     /**
      * UnionPay bus page
      */
+    private static final String unionPayBusConstants = "乘车码&坐公交";
     private static final String unionpayBusId = "unionpayBus";
     private QREntity unionpayBus;
 
     private AnywhereEntity genUnionpayBus() {
-        return genUnionPay(unionpayBusId, "乘车码", String.valueOf(mPriority++));
+        return genUnionPay(unionpayBusId, unionPayBusConstants, String.valueOf(mPriority++));
     }
 }
