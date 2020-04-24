@@ -20,6 +20,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.lang.RuntimeException
 
 object CommandUtils {
     /**
@@ -64,6 +65,9 @@ object CommandUtils {
             } catch (e: FileUriExposedException) {
                 Timber.e(e)
                 CommandResult.RESULT_FILE_URI_EXPOSED
+            } catch (e: RuntimeException) {
+                Timber.e(e)
+                CommandResult.RESULT_ERROR
             }
         } else if (newCmd.startsWith("am start -n")) {
             val pkgClsString = newCmd.replace("am start -n ", "")
@@ -84,6 +88,9 @@ object CommandUtils {
                 } catch (e: SecurityException) {
                     Timber.d(e)
                     result = CommandResult.RESULT_SECURITY_EXCEPTION
+                } catch (e: RuntimeException) {
+                    Timber.e(e)
+                    result = CommandResult.RESULT_ERROR
                 }
             } else {
                 result = execAdbCmd(newCmd)
@@ -110,6 +117,8 @@ object CommandUtils {
 
                         if (e is ActivityNotFoundException) {
                             ToastUtil.makeText(R.string.toast_no_react_url)
+                        } else if (e is RuntimeException) {
+                            ToastUtil.makeText(R.string.toast_runtime_error)
                         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             if (e is FileUriExposedException) {
                                 ToastUtil.makeText(R.string.toast_file_uri_exposed)
@@ -138,8 +147,7 @@ object CommandUtils {
             }
             CommandResult.RESULT_FILE_URI_EXPOSED -> ToastUtil.makeText(R.string.toast_file_uri_exposed)
             CommandResult.RESULT_SECURITY_EXCEPTION -> ToastUtil.makeText(R.string.toast_security_exception)
-            else -> {
-            }
+            CommandResult.RESULT_ERROR -> ToastUtil.makeText(R.string.toast_runtime_error)
         }
     }
 

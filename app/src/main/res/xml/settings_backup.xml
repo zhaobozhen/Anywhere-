@@ -3,6 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+        android:key="cloudBackupCategory"
+        android:title="Cloud Backup">
+
+        <EditTextPreference
+            android:key="webdavHost"
+            android:title="WebDAV Hostname"
+            app:icon="@drawable/ic_backup"/>
+
+        <EditTextPreference
+            android:key="webdavUsername"
+            android:title="WebDAV Username"/>
+
+        <EditTextPreference
+            android:key="webdavPassword"
+            app:title="WebDAV Password"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="backupCategory"
         android:title="@string/settings_backup">
 

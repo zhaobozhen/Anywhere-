@@ -10,47 +10,27 @@ object URLSchemeHandler {
 
     @Throws(Exception::class)
     fun parse(url: String?, context: Context) {
-        try {
-            context.startActivity(handleIntent(url))
-        } catch (e: Exception) {
-            throw Exception()
-        }
+        context.startActivity(handleIntent(url))
     }
 
     @Throws(Exception::class)
     fun parse(url: String?, activity: Activity) {
-        try {
-            activity.startActivity(handleIntent(url))
-        } catch (e: Exception) {
-            throw Exception()
-        }
+        activity.startActivity(handleIntent(url))
     }
 
     @Throws(Exception::class)
     fun parseForResult(url: String?, activity: Activity, requestCode: Int) {
-        try {
-            activity.startActivityForResult(handleIntent(url), requestCode)
-        } catch (e: Exception) {
-            throw Exception()
-        }
+        activity.startActivityForResult(handleIntent(url), requestCode)
     }
 
     @Throws(Exception::class)
     fun parse(url: String?, fragment: Fragment) {
-        try {
-            fragment.startActivity(handleIntent(url))
-        } catch (e: Exception) {
-            throw Exception()
-        }
+        fragment.startActivity(handleIntent(url))
     }
 
     @Throws(Exception::class)
     fun parseForResult(url: String?, fragment: Fragment, requestCode: Int) {
-        try {
-            fragment.startActivityForResult(handleIntent(url), requestCode)
-        } catch (e: Exception) {
-            throw Exception()
-        }
+        fragment.startActivityForResult(handleIntent(url), requestCode)
     }
 
     @JvmStatic

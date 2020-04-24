@@ -258,6 +258,18 @@ public class AnywhereEntity implements Parcelable {
         this.mIconUri = mIconUri;
     }
 
+    public String getPackageName() {
+        switch (getAnywhereType()) {
+            case AnywhereType.URL_SCHEME:
+                return mParam2;
+            case AnywhereType.ACTIVITY:
+            case AnywhereType.QR_CODE:
+                return mParam1;
+            default:
+                return "";
+        }
+    }
+
     @Override
     public int describeContents() {
         return 0;

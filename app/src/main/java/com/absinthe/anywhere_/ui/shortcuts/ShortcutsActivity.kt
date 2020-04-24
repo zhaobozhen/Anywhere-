@@ -19,7 +19,6 @@ import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.services.CollectorService
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
-import com.absinthe.anywhere_.utils.CommandUtils.execCmd
 import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UiUtils
@@ -41,121 +40,116 @@ class ShortcutsActivity : BaseActivity() {
         UiUtils.setActionBarTransparent(this)
 
         val viewModel = ViewModelProvider(this).get(AnywhereViewModel::class.java)
-        val action = intent.action
-        Timber.d("action = %s", action)
         Analytics.trackEvent(EventTag.SHORTCUT_OPEN)
 
-        if (action != null) {
-            if (action == ACTION_START_COLLECTOR) {
-                if (workingMode == Const.WORKING_MODE_URL_SCHEME) {
-                    openNewURLScheme(this)
-                } else {
-                    CollectorService.startCollector(this)
-                }
-                finish()
-            } else if (action == ACTION_START_COMMAND) {
-                val cmd = intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)
+        intent.action?.let {
+            Timber.d("action = %s", it)
 
-                if (cmd != null) {
-                    Timber.d(cmd)
-                    if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
-                            cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
-                        Opener.with(this)
-                                .load(cmd)
-                                .setOpenedListener { finish() }
-                                .open()
+            when (it) {
+                ACTION_START_COLLECTOR -> {
+                    if (workingMode == Const.WORKING_MODE_URL_SCHEME) {
+                        openNewURLScheme(this)
                     } else {
-                        Opener.with(this).load(cmd).open()
-                        finish()
+                        CollectorService.startCollector(this)
                     }
-                } else {
                     finish()
                 }
-            } else if (action == ACTION_START_FROM_WIDGET) {
-                val cmd = intent.getStringExtra(Const.INTENT_EXTRA_WIDGET_COMMAND)
-
-                if (cmd != null) {
-                    if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
-                            cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
-                        Opener.with(this)
-                                .load(cmd)
-                                .setOpenedListener { finish() }
-                                .open()
-                    } else {
-                        Opener.with(this).load(cmd).open()
-                        finish()
-                    }
-                } else {
-                    finish()
-                }
-            } else if (action == ACTION_START_QR_CODE) {
-                intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let {
-                    Timber.d(it)
-                    execCmd(it)
-                }
-                finish()
-            } else if (action == Intent.ACTION_CREATE_SHORTCUT) {
-                viewModel.allAnywhereEntities?.observe(this, Observer { anywhereEntities: List<AnywhereEntity>? ->
-                    val arrayAdapter = ArrayAdapter<String>(Utils.getApp(), android.R.layout.select_dialog_singlechoice)
-                    Timber.d("list = %s", anywhereEntities)
-
-                    if (anywhereEntities != null) {
-                        for (ae in anywhereEntities) {
-                            arrayAdapter.add(ae.appName)
-                        }
-                    }
-                    AnywhereDialogBuilder(this)
-                            .setAdapter(arrayAdapter) { _: DialogInterface?, i: Int ->
-                                val shortcutIntent = Intent(this@ShortcutsActivity, ShortcutsActivity::class.java).apply {
-                                    val cmd = TextUtils.getItemCommand(anywhereEntities?.get(i))
-
-                                    if (cmd.startsWith(AnywhereType.QRCODE_PREFIX)) {
-                                        this.action = ACTION_START_QR_CODE
-                                    } else {
-                                        this.action = ACTION_START_COMMAND
-                                    }
-                                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, cmd)
-                                }
-
-                                val intent = Intent().apply {
-                                    putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-                                    putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_open))
-                                    putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                            Intent.ShortcutIconResource.fromContext(
-                                                    this@ShortcutsActivity, R.drawable.ic_shortcut_start_collector))
-                                }
-                                setResult(Activity.RESULT_OK, intent)
-                                finish()
-                            }
-                            .setOnCancelListener { finish() }
-                            .show()
-                })
-            } else if (action == ACTION_START_IMAGE) {
-                val uri = intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)
-
-                if (uri != null) {
-                    val ae = AnywhereEntity.Builder().apply {
-                        param1 = uri
-                    }
-                    showImageDialog(this, ae, object : AnywhereDialogFragment.OnDismissListener {
-                        override fun onDismiss() {
+                ACTION_START_COMMAND -> {
+                    intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { cmd ->
+                        Timber.d(cmd)
+                        if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
+                                cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
+                            Opener.with(this)
+                                    .load(cmd)
+                                    .setOpenedListener { finish() }
+                                    .open()
+                        } else {
+                            Opener.with(this).load(cmd).open()
                             finish()
                         }
-                    })
-                } else {
+                    } ?: finish()
+                }
+                ACTION_START_FROM_WIDGET -> {
+                    intent.getStringExtra(Const.INTENT_EXTRA_WIDGET_COMMAND)?.let { cmd ->
+                        if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
+                                cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
+                            Opener.with(this)
+                                    .load(cmd)
+                                    .setOpenedListener { finish() }
+                                    .open()
+                        } else {
+                            Opener.with(this).load(cmd).open()
+                            finish()
+                        }
+                    } ?: finish()
+                }
+                ACTION_START_QR_CODE -> {
+                    intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { cmd ->
+                        Opener.with(this).load(cmd).open()
+                    }
                     finish()
                 }
-            } else if (action == Intent.ACTION_VIEW) {
-                val uri = intent.data
-                if (uri != null) {
-                    val host = uri.host
+                Intent.ACTION_CREATE_SHORTCUT -> {
+                    viewModel.allAnywhereEntities?.observe(this, Observer { anywhereEntities: List<AnywhereEntity>? ->
+                        val arrayAdapter = ArrayAdapter<String>(Utils.getApp(), android.R.layout.select_dialog_singlechoice)
 
-                    if (android.text.TextUtils.equals(host, URLManager.OPEN_HOST)) {
-                        val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1)
-                        val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2)
-                        val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3)
+                        anywhereEntities?.let { entities ->
+                            Timber.d("list = %s", entities)
 
-                        if (param1 != null && param2 != null && param3 != null) {
+                            for (ae in entities) {
+                                arrayAdapter.add(ae.appName)
+                            }
+                        }
+
+                        AnywhereDialogBuilder(this)
+                                .setAdapter(arrayAdapter) { _: DialogInterface?, i: Int ->
+                                    val shortcutIntent = Intent(this@ShortcutsActivity, ShortcutsActivity::class.java).apply {
+                                        val cmd = TextUtils.getItemCommand(anywhereEntities?.get(i))
+
+                                        action = if (cmd.startsWith(AnywhereType.QRCODE_PREFIX)) {
+                                            ACTION_START_QR_CODE
+                                        } else {
+                                            ACTION_START_COMMAND
+                                        }
+
+                                        putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, cmd)
+                                    }
+
+                                    val intent = Intent().apply {
+                                        putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+                                        putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_open))
+                                        putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                                Intent.ShortcutIconResource.fromContext(
+                                                        this@ShortcutsActivity, R.drawable.ic_shortcut_start_collector))
+                                    }
+                                    setResult(Activity.RESULT_OK, intent)
+                                    finish()
+                                }
+                                .setOnCancelListener { finish() }
+                                .show()
+                    })
+                }
+                ACTION_START_IMAGE -> {
+                    intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { uri ->
+                        val ae = AnywhereEntity.Builder().apply {
+                            param1 = uri
+                        }
+                        showImageDialog(this, ae, object : AnywhereDialogFragment.OnDismissListener {
+                            override fun onDismiss() {
+                                finish()
+                            }
+                        })
+                    } ?: finish()
+                }
+                Intent.ACTION_VIEW -> {
+                    intent.data?.let { uri ->
+                        val host = uri.host
+
+                        if (android.text.TextUtils.equals(host, URLManager.OPEN_HOST)) {
+                            val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1) ?: ""
+                            val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2) ?: ""
+                            val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3) ?: ""
+
                             if (param2.isEmpty() && param3.isEmpty()) {
                                 try {
                                     parse(param1, this)
@@ -177,15 +171,15 @@ class ShortcutsActivity : BaseActivity() {
                                     this.param3 = param3
                                     this.type = AnywhereType.ACTIVITY
                                 }
-                                execCmd(TextUtils.getItemCommand(ae))
+
+                                Opener.with(this).load(ae).open()
                             }
                         }
                     }
+                    finish()
                 }
-                finish()
+                else -> finish()
             }
-        } else {
-            finish()
         }
     }
 

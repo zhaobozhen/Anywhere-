@@ -212,10 +212,12 @@
     <string name="toast_no_document_app">Your ROM does not have a Document app, please contact to your device manufacturer</string>
     <string name="toast_grant_accessibility">Please turn on Accessibility service</string>
     <string name="toast_file_uri_exposed">Do not support custom file paths</string>
+    <string name="toast_runtime_error">Runtime error</string>
     <string name="toast_security_exception">Activity is forbidden to open</string>
     <string name="toast_execute_shell_successful">Executing Shell successful</string>
     <string name="toast_overlay_choose_anywhere">Please choose \"Anywhere-\" and grant the permission</string>
     <string name="toast_dsm_not_support">Your device may not support this mode</string>
+    <string name="toast_this_app_not_dpm">Not set as a Device Policy Manager</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>

@@ -321,4 +321,6 @@
     <string name="lc_intro">這是一款查看設備中 App 使用的 lib 架構的 App。</string>
     <string name="toast_dsm_not_support">您的設備可能不支持使用此方式</string>
     <string name="defrost_mode_dpm_desc">激活 Anywhere- 為設備管理員以獲得解凍 App 的能力</string>
+    <string name="toast_runtime_error">運行時錯誤</string>
+    <string name="toast_this_app_not_dpm">未設置成設備管理員</string>
 </resources>

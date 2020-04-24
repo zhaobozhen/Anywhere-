@@ -134,6 +134,7 @@ dependencies {
     implementation 'com.blankj:utilcodex:1.27.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.3'
     implementation 'com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT'
+    implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.6'
 
     //UX
     implementation 'com.drakeet.about:about:2.4.1'

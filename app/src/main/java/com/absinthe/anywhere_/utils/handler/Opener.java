@@ -3,17 +3,17 @@ package com.absinthe.anywhere_.utils.handler;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.GlobalValues;
-import com.absinthe.anywhere_.interfaces.OnAppDefrostListener;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
@@ -68,15 +68,10 @@ public class Opener {
     public void open() {
         if (type == TYPE_ENTITY) {
             String cmd = TextUtils.getItemCommand(mItem);
+
             if (!cmd.isEmpty()) {
                 if (AppUtils.isAppFrozen(sContext.get(), mItem)) {
-                    final OnAppDefrostListener onAppDefrostListener = () ->
-                            CommandUtils.execCmd(cmd);
-                    if (mItem.getAnywhereType() == AnywhereType.URL_SCHEME) {
-                        DefrostHandler.defrost(sContext.get(), mItem.getParam2(), onAppDefrostListener);
-                    } else {
-                        DefrostHandler.defrost(sContext.get(), mItem.getParam1(), onAppDefrostListener);
-                    }
+                    DefrostHandler.defrost(sContext.get(), mItem.getPackageName(), () -> CommandUtils.execCmd(cmd));
                 } else {
                     CommandUtils.execCmd(cmd);
                 }
@@ -90,7 +85,7 @@ public class Opener {
                 int splitIndex = mCmd.indexOf(']');
                 String param = mCmd.substring(0, splitIndex);
                 mCmd = mCmd.substring(splitIndex + 1);
-                DialogManager.showDynamicParamsDialog(ActivityStackManager.INSTANCE.getTopActivity(), param, new DynamicParamsDialogFragment.OnParamsInputListener() {
+                DialogManager.showDynamicParamsDialog((AppCompatActivity) sContext.get(), param, new DynamicParamsDialogFragment.OnParamsInputListener() {
                     @Override
                     public void onFinish(String text) {
                         openCmd(mCmd + text);
@@ -109,6 +104,7 @@ public class Opener {
             } else if (mCmd.startsWith(AnywhereType.SHELL_PREFIX)) {
                 mCmd = mCmd.replace(AnywhereType.SHELL_PREFIX, "");
                 String result = CommandUtils.execAdbCmd(mCmd);
+
                 if (GlobalValues.sIsShowShellResult) {
                     DialogManager.showShellResultDialog(sContext.get(), result, (dialog, which) -> {
                         if (mListener != null) {
@@ -130,6 +126,7 @@ public class Opener {
 
     private void openCmd(String cmd) {
         String packageName = TextUtils.getPkgNameByCommand(cmd);
+
         if (packageName.isEmpty()) {
             CommandUtils.execCmd(cmd);
         } else {

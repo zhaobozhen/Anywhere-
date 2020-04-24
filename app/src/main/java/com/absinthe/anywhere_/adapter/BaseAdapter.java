@@ -108,11 +108,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         holder.itemView.setOnClickListener(view -> {
             if (mode == ADAPTER_MODE_NORMAL) {
                 if (AppUtils.isAppFrozen(mContext, item)) {
-                    openAnywhereActivity(item);
                     holder.itemView.postDelayed(() -> notifyItemChanged(position), 500);
-                } else {
-                    openAnywhereActivity(item);
                 }
+                openAnywhereActivity(item);
             } else if (mode == ADAPTER_MODE_SELECT) {
                 if (mSelectedIndex.contains(position)) {
                     holder.itemView.setScaleX(1.0f);
@@ -197,7 +195,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                                 }
                             }
                         } else {
-                            CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text);
+                            Opener.with(mContext)
+                                    .load(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.getParam1()) + text)
+                                    .open();
                         }
                     }
 
@@ -207,18 +207,14 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                     }
                 });
             } else {
-                generalOpen(item);
+                Opener.with(mContext).load(item).open();
             }
         } else if (item.getAnywhereType() == AnywhereType.SHELL) {
             String result = CommandUtils.execAdbCmd(item.getParam1());
             DialogManager.showShellResultDialog(mContext, result, null, null);
         } else if (item.getAnywhereType() == AnywhereType.ACTIVITY) {
-            generalOpen(item);
+            Opener.with(mContext).load(item).open();
         }
-    }
-
-    private void generalOpen(AnywhereEntity item) {
-        Opener.with(mContext).load(item).open();
     }
 
     private void openEditor(AnywhereEntity item, int type) {

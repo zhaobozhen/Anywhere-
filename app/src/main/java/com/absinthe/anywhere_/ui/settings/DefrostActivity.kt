@@ -74,6 +74,8 @@ class DefrostActivity : BaseActivity() {
                                 putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, getString(R.string.defrost_mode_dpm_desc))
                             }
                             startActivityForResult(intent, Const.REQUEST_CODE_DPM)
+                        } else {
+                            ToastUtil.makeText(R.string.toast_this_app_not_dpm)
                         }
                     }
                 }
