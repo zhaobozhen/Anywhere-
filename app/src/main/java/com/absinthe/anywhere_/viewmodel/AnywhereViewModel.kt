@@ -34,7 +34,7 @@ import java.util.*
 
 class AnywhereViewModel(application: Application) : AndroidViewModel(application) {
 
-    val allAnywhereEntities: LiveData<List<AnywhereEntity>?>?
+    val allAnywhereEntities: LiveData<List<AnywhereEntity>>
     private val mRepository: AnywhereRepository = AnywhereApplication.sRepository
     private var mBackground: MutableLiveData<String>? = MutableLiveData()
     private var mFragment: MutableLiveData<Fragment>? = MutableLiveData()
@@ -79,7 +79,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         })
 
         return PageTitleNode(pageNodeList, title).apply {
-            isExpanded = (title == GlobalValues.sCategory)
+            isExpanded = (title == GlobalValues.category)
         }
     }
 
@@ -194,7 +194,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun addPage() {
-        mRepository.allPageEntities?.value?.let {
+        mRepository.allPageEntities.value?.let {
             val pe = PageEntity.Builder().apply {
                 if (it.isNotEmpty()) {
                     title = "Page " + (it.size + 1)
@@ -210,7 +210,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun addWebPage(uri: Uri, intent: Intent) {
-        mRepository.allPageEntities?.value?.let {
+        mRepository.allPageEntities.value?.let {
             val pe = PageEntity.Builder().apply {
                 title = "Web Page " + (it.size + 1)
                 priority = it.size + 1

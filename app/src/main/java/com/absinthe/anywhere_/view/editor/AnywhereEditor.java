@@ -95,7 +95,7 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                         ae.setParam2(cName);
                         ae.setParam3(iExtra);
                         ae.setDescription(desc);
-                        ae.setCategory(GlobalValues.sCategory);
+                        ae.setCategory(GlobalValues.INSTANCE.getCategory());
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !pName.equals(mItem.getParam1()) || !cName.equals(mItem.getParam2())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {

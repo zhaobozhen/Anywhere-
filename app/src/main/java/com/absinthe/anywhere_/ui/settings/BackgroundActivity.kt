@@ -57,7 +57,7 @@ class BackgroundActivity : BaseActivity() {
         }
         mBinding.rvList.adapter = mAdapter
 
-        AnywhereApplication.sRepository.allPageEntities?.value?.let {
+        AnywhereApplication.sRepository.allPageEntities.value?.let {
             mAdapter.addData(it)
 
         }

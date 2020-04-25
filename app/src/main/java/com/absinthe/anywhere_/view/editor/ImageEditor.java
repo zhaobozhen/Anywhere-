@@ -142,7 +142,7 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
                         ae.setParam1(url);
                         ae.setDescription(desc);
                         ae.setType(mItem.getType());
-                        ae.setCategory(GlobalValues.sCategory);
+                        ae.setCategory(GlobalValues.INSTANCE.getCategory());
                         ae.setTimeStamp(mItem.getTimeStamp());
                         ae.setColor(mItem.getColor());
                         if (isEditMode) {

@@ -58,7 +58,7 @@ class RestoreApplyFragmentDialog : AnywhereDialogFragment() {
                             break
                         }
 
-                        AnywhereApplication.sRepository.allPageEntities?.value?.let { entities ->
+                        AnywhereApplication.sRepository.allPageEntities.value?.let { entities ->
                             if (ListUtils.getPageEntityByTitle(ae.category) == null) {
                                 AnywhereApplication.sRepository.insertPage(PageEntity.Builder().apply {
                                     title = ae.category

@@ -75,10 +75,10 @@ class PageTitleProvider : BaseNodeProvider() {
                 }
                 R.id.delete_page -> DialogManager.showDeletePageDialog(context, node.title, DialogInterface.OnClickListener { _, _ ->
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
-                    AnywhereApplication.sRepository.allPageEntities?.value?.let { list ->
+                    AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
                         val title = list[0].title
 
-                        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+                        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
                             for (ae in it) {
                                 if (ae.category == node.title) {
                                     ae.category = title
@@ -92,8 +92,8 @@ class PageTitleProvider : BaseNodeProvider() {
                 }, false)
                 R.id.delete_page_and_item -> DialogManager.showDeletePageDialog(context, node.title, DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
-                    AnywhereApplication.sRepository.allPageEntities?.value?.let { list ->
-                        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+                    AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
+                        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
                             for (ae in it) {
                                 if (ae.category == node.title) {
                                     AnywhereApplication.sRepository.delete(ae)
@@ -134,7 +134,7 @@ class PageTitleProvider : BaseNodeProvider() {
         var isEditMode = false
 
         private fun getPageEntity(title: String): PageEntity? {
-            AnywhereApplication.sRepository.allPageEntities?.value?.let {
+            AnywhereApplication.sRepository.allPageEntities.value?.let {
                 for (pe in it) {
                     if (pe.title == title) {
                         return pe
@@ -147,7 +147,7 @@ class PageTitleProvider : BaseNodeProvider() {
         @JvmStatic
         fun renameTitle(oldTitle: String, newTitle: String) {
             val pe = getPageEntity(oldTitle)
-            AnywhereApplication.sRepository.allAnywhereEntities?.value?.let { list ->
+            AnywhereApplication.sRepository.allAnywhereEntities.value?.let { list ->
                 pe?.let {
                     for (ae in list) {
                         if (ae.category == pe.title) {

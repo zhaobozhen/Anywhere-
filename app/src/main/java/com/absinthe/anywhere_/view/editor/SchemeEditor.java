@@ -158,7 +158,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                             DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, dynamic, new DynamicParamsDialogFragment.OnParamsInputListener() {
                                 @Override
                                 public void onFinish(String text) {
-                                    if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
+                                    if (GlobalValues.INSTANCE.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                                         try {
                                             URLSchemeHandler.INSTANCE.parse(mItem.getParam1() + text, mContext);
                                         } catch (Exception e) {
@@ -181,7 +181,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                 }
                             });
                         } else {
-                            if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
+                            if (GlobalValues.INSTANCE.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                                 try {
                                     URLSchemeHandler.INSTANCE.parse(mItem.getParam1(), mContext);
                                 } catch (Exception e) {

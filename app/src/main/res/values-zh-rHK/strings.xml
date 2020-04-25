@@ -323,4 +323,8 @@
     <string name="defrost_mode_dpm_desc">激活 Anywhere- 為設備管理員以獲得解凍 App 的能力</string>
     <string name="toast_runtime_error">運行時錯誤</string>
     <string name="toast_this_app_not_dpm">未設置成設備管理員</string>
+    <string name="settings_backup_cloud_category">雲備份</string>
+    <string name="settings_backup_webdav_host_title">WebDAV 域名</string>
+    <string name="settings_backup_webdav_username_title">WebDAV 用戶名</string>
+    <string name="settings_backup_webdav_password_title">WebDAV 密碼</string>
 </resources>

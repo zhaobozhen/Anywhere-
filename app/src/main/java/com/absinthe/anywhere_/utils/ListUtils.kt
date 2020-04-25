@@ -32,7 +32,7 @@ object ListUtils {
     }
 
     fun getPageEntityByTitle(title: String): PageEntity? {
-        AnywhereApplication.sRepository.allPageEntities?.value?.let {
+        AnywhereApplication.sRepository.allPageEntities.value?.let {
             for (pe in it) {
                 if (pe.title == title) {
                     return pe

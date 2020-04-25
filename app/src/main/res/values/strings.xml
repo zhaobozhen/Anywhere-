@@ -184,6 +184,11 @@
     <string name="settings_backup_apply_summary">Apply shared Anywhere- configurations</string>
     <string name="settings_backup_tip">Starting from version %s, the structure of data backup has changed, and backup files before version %s will not be available! Please backup a new file again.</string>
 
+    <string name="settings_backup_cloud_category">Cloud Backup</string>
+    <string name="settings_backup_webdav_host_title">WebDAV Host</string>
+    <string name="settings_backup_webdav_username_title">WebDAV Username</string>
+    <string name="settings_backup_webdav_password_title">WebDAV Password</string>
+
     <string name="settings_md2_toolbar_title">Material Design 2 Toolbar</string>
     <string name="settings_pages_title">Pages</string>
 

@@ -24,7 +24,7 @@ class BackgroundAdapter : BaseQuickAdapter<PageEntity?, BaseViewHolder>(R.layout
                 setNavigationIcon(R.drawable.ic_dehaze)
             }
 
-            if (GlobalValues.sIsMd2Toolbar) {
+            if (GlobalValues.isMd2Toolbar) {
                 val marginHorizontal = context.resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
                 val marginVertical = context.resources.getDimension(R.dimen.toolbar_margin_vertical).toInt()
                 val newLayoutParams = toolbar.layoutParams as ConstraintLayout.LayoutParams
@@ -46,7 +46,7 @@ class BackgroundAdapter : BaseQuickAdapter<PageEntity?, BaseViewHolder>(R.layout
             var uri = it.backgroundUri
 
             if (TextUtils.isEmpty(uri)) {
-                uri = GlobalValues.sBackgroundUri
+                uri = GlobalValues.backgroundUri
             }
             Glide.with(context)
                     .load(uri)

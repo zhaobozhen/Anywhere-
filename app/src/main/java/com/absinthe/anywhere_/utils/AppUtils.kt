@@ -15,6 +15,7 @@ import androidx.core.content.FileProvider
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.AppListBean
@@ -134,7 +135,7 @@ object AppUtils {
                 val bean = AppListBean().apply {
                     this.packageName = packageInfo.packageName
                     this.appName = AppUtils.getAppName(packageInfo.packageName)
-                    this.icon = if (GlobalValues.sIconPack == com.absinthe.anywhere_.model.Settings.DEFAULT_ICON_PACK || GlobalValues.sIconPack.isEmpty()) {
+                    this.icon = if (GlobalValues.iconPack == Const.DEFAULT_ICON_PACK || GlobalValues.iconPack.isEmpty()) {
                         packageInfo.applicationInfo.loadIcon(packageManager)
                     } else {
                         com.absinthe.anywhere_.model.Settings.sIconPack.getDrawableIconForPackage(packageInfo.packageName, packageInfo.applicationInfo.loadIcon(packageManager))

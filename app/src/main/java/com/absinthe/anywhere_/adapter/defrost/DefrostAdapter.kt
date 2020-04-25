@@ -26,7 +26,7 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
         val button: MaterialButton = holder.getView(R.id.button)
         val radio: MaterialRadioButton = holder.getView(R.id.radio)
 
-        if (item.mode == GlobalValues.sDefrostMode) {
+        if (item.mode == GlobalValues.defrostMode) {
             radio.isChecked = true
             mPosition = holder.adapterPosition
         }
@@ -64,7 +64,7 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
                 }
                 mPosition = holder.adapterPosition
                 radio.isChecked = true
-                GlobalValues.setsDefrostMode(item.mode)
+                GlobalValues.defrostMode = item.mode
             }
         }
 

@@ -32,7 +32,6 @@ class AnywhereApplication : Application() {
                     Analytics::class.java, Crashes::class.java)
         }
 
-        GlobalValues.init(this)
         Once.initialise(this)
         Settings.init()
         sRepository = AnywhereRepository(this)

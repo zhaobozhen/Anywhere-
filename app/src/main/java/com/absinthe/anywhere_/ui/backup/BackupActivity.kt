@@ -80,7 +80,7 @@ class BackupActivity : BaseActivity() {
                                     ToastUtil.makeText(R.string.toast_backup_file_error)
                                     break
                                 }
-                                AnywhereApplication.sRepository.allPageEntities?.value?.let { entities ->
+                                AnywhereApplication.sRepository.allPageEntities.value?.let { entities ->
                                     if (ListUtils.getPageEntityByTitle(ae.category) == null) {
                                         val pe = PageEntity.Builder().apply {
                                             title = ae.category

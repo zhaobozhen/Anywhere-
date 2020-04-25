@@ -4,20 +4,21 @@
 
     <PreferenceCategory
         android:key="cloudBackupCategory"
-        android:title="Cloud Backup">
+        android:title="@string/settings_backup_cloud_category">
 
         <EditTextPreference
             android:key="webdavHost"
-            android:title="WebDAV Hostname"
+            android:title="@string/settings_backup_webdav_host_title"
             app:icon="@drawable/ic_backup"/>
 
         <EditTextPreference
             android:key="webdavUsername"
-            android:title="WebDAV Username"/>
+            android:title="@string/settings_backup_webdav_username_title"/>
 
         <EditTextPreference
             android:key="webdavPassword"
-            app:title="WebDAV Password"/>
+            android:inputType="textPassword"
+            app:title="@string/settings_backup_webdav_password_title" />
 
     </PreferenceCategory>
 

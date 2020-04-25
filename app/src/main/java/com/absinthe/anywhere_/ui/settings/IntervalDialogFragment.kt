@@ -17,12 +17,11 @@ class IntervalDialogFragment : AnywhereDialogFragment() {
         mBuilder = IntervalDialogBuilder(requireContext())
         val builder = AnywhereDialogBuilder(requireContext())
 
-        mBuilder.slider.value = GlobalValues.sDumpInterval / 1000f
+        mBuilder.slider.value = GlobalValues.dumpInterval / 1000f
         return builder.setView(mBuilder.root)
                 .setTitle(R.string.dialog_set_interval_title)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
-                    val interval = mBuilder.slider.value.toInt() * 1000
-                    GlobalValues.setsDumpInterval(interval)
+                    GlobalValues.dumpInterval = mBuilder.slider.value.toInt() * 1000
                 }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .create()

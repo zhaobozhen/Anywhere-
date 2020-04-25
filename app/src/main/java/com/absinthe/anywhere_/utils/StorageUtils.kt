@@ -63,7 +63,7 @@ object StorageUtils {
     @JvmStatic
     fun exportAnywhereEntityJsonString(): String? {
         val gson = Gson()
-        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
             for (ae in it) {
                 ae.type = ae.anywhereType + ae.exportedType * 100
                 ae.iconUri = ""

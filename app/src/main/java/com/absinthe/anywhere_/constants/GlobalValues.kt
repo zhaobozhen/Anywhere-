@@ -1,106 +1,175 @@
 package com.absinthe.anywhere_.constants
 
-import android.content.Context
 import android.text.Html
-import androidx.lifecycle.MutableLiveData
-import com.absinthe.anywhere_.utils.SPUtils.getBoolean
-import com.absinthe.anywhere_.utils.SPUtils.getInt
-import com.absinthe.anywhere_.utils.SPUtils.getLong
-import com.absinthe.anywhere_.utils.SPUtils.getString
-import com.absinthe.anywhere_.utils.SPUtils.putBoolean
-import com.absinthe.anywhere_.utils.SPUtils.putInt
-import com.absinthe.anywhere_.utils.SPUtils.putLong
-import com.absinthe.anywhere_.utils.SPUtils.putString
-import com.absinthe.anywhere_.utils.TextUtils
-import com.blankj.utilcode.util.Utils
+import com.absinthe.anywhere_.utils.SPUtils
+import com.tencent.mmkv.MMKV
 
 object GlobalValues {
 
-    @JvmField
-     var sIsDebugMode = false
+    private val mmkv: MMKV = MMKV.mmkvWithID(SPUtils.sPName)
 
-    @JvmField
-    var sIsStreamCardMode = false
+    var sIsDebugMode = false
 
-    @JvmField
-    var sIsStreamCardModeSingleLine = false
+    var isStreamCardMode
+        get() = mmkv.decodeBool(Const.PREF_STREAM_CARD_MODE)
+        set(value) {
+            mmkv.encode(Const.PREF_STREAM_CARD_MODE, value)
+        }
 
-    @JvmField
-    var sIsMd2Toolbar = false
+    var isStreamCardModeSingleLine
+        get() = mmkv.decodeBool(Const.PREF_STREAM_CARD_SINGLE_LINE)
+        set(value) {
+            mmkv.encode(Const.PREF_STREAM_CARD_SINGLE_LINE, value)
+        }
 
-    @JvmField
-    var sIsPages = false
+    var isMd2Toolbar
+        get() = mmkv.decodeBool(Const.PREF_MD2_TOOLBAR)
+        set(value) {
+            mmkv.encode(Const.PREF_MD2_TOOLBAR, value)
+        }
 
-    @JvmField
-    var sIsCollectorPlus = false
-    var sIsExcludeFromRecent = false
+    var isPages
+        get() = mmkv.decodeBool(Const.PREF_PAGES)
+        set(value) {
+            mmkv.encode(Const.PREF_PAGES, value)
+        }
 
-    @JvmField
-    var sIsShowShellResult = false
+    var isCollectorPlus
+        get() = mmkv.decodeBool(Const.PREF_COLLECTOR_PLUS)
+        set(value) {
+            mmkv.encode(Const.PREF_COLLECTOR_PLUS, value)
+        }
 
-    @JvmField
-    var sWorkingMode: MutableLiveData<String>? = MutableLiveData()
+    var isExcludeFromRecent
+        get() = mmkv.decodeBool(Const.PREF_EXCLUDE_FROM_RECENT)
+        set(value) {
+            mmkv.encode(Const.PREF_EXCLUDE_FROM_RECENT, value)
+        }
 
-    lateinit var sActionBarType: String
-    lateinit var sDarkMode: String
-    lateinit var sBackgroundUri: String
-    lateinit var sCardBackgroundMode: String
-    lateinit var sSortMode: String
-    lateinit var sIconPack: String
-    lateinit var sCategory: String
-    lateinit var sDefrostMode: String
+    var isShowShellResult
+        get() = mmkv.decodeBool(Const.PREF_SHOW_SHELL_RESULT)
+        set(value) {
+            mmkv.encode(Const.PREF_SHOW_SHELL_RESULT, value)
+        }
 
-    var sCurrentPage = 0
+    var workingMode
+        get() = mmkv.decodeString(Const.PREF_WORKING_MODE, Const.WORKING_MODE_URL_SCHEME)
+                ?: Const.WORKING_MODE_URL_SCHEME
+        set(value) {
+            mmkv.encode(Const.PREF_WORKING_MODE, value)
+        }
 
-    @JvmField
-    var sDumpInterval = 0
+    var actionBarType
+        get() = mmkv.decodeString(Const.PREF_ACTION_BAR_TYPE, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_ACTION_BAR_TYPE, value)
+        }
 
-    @JvmField
-    var sAutoDarkModeStart: Long = 0
+    var darkMode
+        get() = mmkv.decodeString(Const.PREF_DARK_MODE, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_DARK_MODE, value)
+        }
 
-    @JvmField
-    var sAutoDarkModeEnd: Long = 0
+    var backgroundUri
+        get() = mmkv.decodeString(Const.PREF_CHANGE_BACKGROUND, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_CHANGE_BACKGROUND, value)
+        }
 
-    @JvmStatic
+    var sCardBackgroundMode
+        get() = mmkv.decodeString(Const.PREF_CARD_BACKGROUND, "off") ?: "off"
+        set(value) {
+            mmkv.encode(Const.PREF_CARD_BACKGROUND, value)
+        }
 
-    fun init(context: Context) {
-        sIsDebugMode = false
-        sIsStreamCardMode = getBoolean(context, Const.PREF_STREAM_CARD_MODE, false)
-        sIsStreamCardModeSingleLine = getBoolean(context, Const.PREF_STREAM_CARD_SINGLE_LINE, false)
-        sIsMd2Toolbar = getBoolean(context, Const.PREF_MD2_TOOLBAR, false)
-        sIsPages = getBoolean(context, Const.PREF_PAGES, false)
-        sIsCollectorPlus = getBoolean(context, Const.PREF_COLLECTOR_PLUS, false)
-        sIsExcludeFromRecent = getBoolean(context, Const.PREF_EXCLUDE_FROM_RECENT, false)
-        sIsShowShellResult = getBoolean(context, Const.PREF_SHOW_SHELL_RESULT, false)
-        sWorkingMode?.value = getString(context, Const.PREF_WORKING_MODE)
-        sActionBarType = getString(context, Const.PREF_ACTION_BAR_TYPE)
-        sDarkMode = getString(context, Const.PREF_DARK_MODE)
-        sBackgroundUri = getString(context, Const.PREF_CHANGE_BACKGROUND)
-        sCardBackgroundMode = getString(context, Const.PREF_CARD_BACKGROUND, "off")
-        sSortMode = getString(context, Const.PREF_SORT_MODE)
-        sIconPack = getString(context, Const.PREF_ICON_PACK)
-        sCategory = getString(context, Const.PREF_CURR_CATEGORY, AnywhereType.DEFAULT_CATEGORY)
-        sDefrostMode = getString(context, Const.PREF_DEFROST_MODE, Const.DEFROST_MODE_DSM)
-        sCurrentPage = getInt(context, Const.PREF_CURR_PAGE_NUM)
-        sDumpInterval = getInt(context, Const.PREF_DUMP_INTERVAL, 1000)
-        sAutoDarkModeStart = getLong(context, Const.PREF_AUTO_DARK_MODE_START)
-        sAutoDarkModeEnd = getLong(context, Const.PREF_AUTO_DARK_MODE_END)
-    }
+    var sortMode
+        get() = mmkv.decodeString(Const.PREF_SORT_MODE, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_SORT_MODE, value)
+        }
+
+    var iconPack
+        get() = mmkv.decodeString(Const.PREF_ICON_PACK, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_ICON_PACK, value)
+        }
+
+    var category
+        get() = mmkv.decodeString(Const.PREF_CURR_CATEGORY, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_CURR_CATEGORY, value)
+        }
+
+    var defrostMode
+        get() = mmkv.decodeString(Const.PREF_DEFROST_MODE, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_DEFROST_MODE, value)
+        }
+
+    var webdavHost
+        get() = mmkv.decodeString(Const.PREF_WEBDAV_HOST, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_WEBDAV_HOST, value)
+        }
+
+    var webdavUsername
+        get() = mmkv.decodeString(Const.PREF_WEBDAV_USERNAME, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_WEBDAV_USERNAME, value)
+        }
+
+    var webdavPassword
+        get() = mmkv.decodeString(Const.PREF_WEBDAV_PASSWORD, "") ?: ""
+        set(value) {
+            mmkv.encode(Const.PREF_WEBDAV_PASSWORD, value)
+        }
+
+    var currentPage
+        get() = mmkv.decodeInt(Const.PREF_CURR_PAGE_NUM, 0)
+        set(value) {
+            mmkv.encode(Const.PREF_CURR_PAGE_NUM, value)
+        }
+
+    var dumpInterval
+        get() = mmkv.decodeInt(Const.PREF_DUMP_INTERVAL, 1000)
+        set(value) {
+            mmkv.encode(Const.PREF_DUMP_INTERVAL, value)
+        }
+
+    var autoDarkModeStart
+        get() = mmkv.decodeLong(Const.PREF_AUTO_DARK_MODE_START, 0)
+        set(value) {
+            mmkv.encode(Const.PREF_AUTO_DARK_MODE_START, value)
+        }
+
+    var autoDarkModeEnd
+        get() = mmkv.decodeLong(Const.PREF_AUTO_DARK_MODE_END, 0)
+        set(value) {
+            mmkv.encode(Const.PREF_AUTO_DARK_MODE_END, value)
+        }
 
     val info: CharSequence
         get() {
             val sb = StringBuilder()
-                    .append(getInfoLine("Working Mode", sWorkingMode!!.value))
-                    .append(getInfoLine("Background Uri", sBackgroundUri))
-                    .append(getInfoLine("ActionBar Type", sActionBarType))
-                    .append(getInfoLine("Sort Mode", sSortMode))
-                    .append(getInfoLine("Icon Pack", sIconPack))
-                    .append(getInfoLine("Dark Mode", sDarkMode))
+                    .append(getInfoLine("Working Mode", workingMode))
+                    .append(getInfoLine("Background Uri", backgroundUri))
+                    .append(getInfoLine("ActionBar Type", actionBarType))
+                    .append(getInfoLine("Sort Mode", sortMode))
+                    .append(getInfoLine("Icon Pack", iconPack))
+                    .append(getInfoLine("Dark Mode", darkMode))
                     .append(getInfoLine("Card Background Mode", sCardBackgroundMode))
-                    .append(getInfoLine("Dump Interval", sDumpInterval.toString()))
-                    .append(getInfoLine("Current Page", sCurrentPage.toString()))
-                    .append(getInfoLine("Defrost Mode", sDefrostMode))
+                    .append(getInfoLine("Dump Interval", dumpInterval.toString()))
+                    .append(getInfoLine("Current Page", currentPage.toString()))
+                    .append(getInfoLine("Defrost Mode", defrostMode))
             return Html.fromHtml(sb.toString())
+        }
+
+    val collectorMode: String
+        get() = if (isCollectorPlus) {
+            "Collector+"
+        } else {
+            "Collector"
         }
 
     private fun getInfoLine(infoName: String, infoValue: String?): CharSequence {
@@ -109,130 +178,16 @@ object GlobalValues {
                 .append(": ").append(infoValue).append("<br>")
     }
 
-    fun setsIsStreamCardMode(sIsStreamCardMode: Boolean) {
-        GlobalValues.sIsStreamCardMode = sIsStreamCardMode
-        putBoolean(Utils.getApp(), Const.PREF_STREAM_CARD_MODE, sIsStreamCardMode)
-    }
-
-    fun setsIsStreamCardModeSingleLine(sIsStreamCardModeSingleLine: Boolean) {
-        GlobalValues.sIsStreamCardModeSingleLine = sIsStreamCardModeSingleLine
-        putBoolean(Utils.getApp(), Const.PREF_STREAM_CARD_SINGLE_LINE, sIsStreamCardModeSingleLine)
-    }
-
-    fun setsCardBackgroundMode(sCardBackgroundMode: String) {
-        GlobalValues.sCardBackgroundMode = sCardBackgroundMode
-        putString(Utils.getApp(), Const.PREF_CARD_BACKGROUND, sCardBackgroundMode)
-    }
-
-    fun setsWorkingMode(sWorkingMode: String) {
-        GlobalValues.sWorkingMode!!.value = sWorkingMode
-        putString(Utils.getApp(), Const.PREF_WORKING_MODE, sWorkingMode)
-    }
-
-    @JvmStatic
-    fun setsActionBarType(sActionBarType: String = "") {
-        GlobalValues.sActionBarType = sActionBarType
-        putString(Utils.getApp(), Const.PREF_ACTION_BAR_TYPE, sActionBarType)
-    }
-
     fun clearActionBarType() {
-        setsActionBarType()
-    }
-
-    fun setsDarkMode(sDarkMode: String) {
-        GlobalValues.sDarkMode = sDarkMode
-        putString(Utils.getApp(), Const.PREF_DARK_MODE, sDarkMode)
-    }
-
-    @JvmStatic
-    fun setsBackgroundUri(sBackgroundUri: String) {
-        GlobalValues.sBackgroundUri = sBackgroundUri
-        putString(Utils.getApp(), Const.PREF_CHANGE_BACKGROUND, sBackgroundUri)
-    }
-
-    @JvmStatic
-    fun setsSortMode(sSortMode: String) {
-        GlobalValues.sSortMode = sSortMode
-        putString(Utils.getApp(), Const.PREF_SORT_MODE, sSortMode)
-    }
-
-    fun setsIconPack(sIconPack: String) {
-        GlobalValues.sIconPack = sIconPack
-        putString(Utils.getApp(), Const.PREF_ICON_PACK, sIconPack)
-    }
-
-    fun setsIsMd2Toolbar(sIsMd2Toolbar: Boolean) {
-        GlobalValues.sIsMd2Toolbar = sIsMd2Toolbar
-        putBoolean(Utils.getApp(), Const.PREF_MD2_TOOLBAR, false)
+        actionBarType = ""
     }
 
     fun setsCategory(sCategory: String, page: Int) {
-        GlobalValues.sCategory = sCategory
-        sCurrentPage = page
-        putString(Utils.getApp(), Const.PREF_CURR_CATEGORY, sCategory)
-        putInt(Utils.getApp(), Const.PREF_CURR_PAGE_NUM, page)
+        category = sCategory
+        currentPage = page
     }
 
     fun setsCategory(sCategory: String) {
-        GlobalValues.sCategory = sCategory
-        putString(Utils.getApp(), Const.PREF_CURR_CATEGORY, sCategory)
+        category = sCategory
     }
-
-    @JvmStatic
-    fun setsIsPages(sIsPages: Boolean) {
-        GlobalValues.sIsPages = sIsPages
-        putBoolean(Utils.getApp(), Const.PREF_PAGES, sIsPages)
-    }
-
-    fun setsIsCollectorPlus(sIsCollectorPlus: Boolean) {
-        GlobalValues.sIsCollectorPlus = sIsCollectorPlus
-        putBoolean(Utils.getApp(), Const.PREF_COLLECTOR_PLUS, sIsCollectorPlus)
-    }
-
-    fun setsDumpInterval(sDumpInterval: Int) {
-        GlobalValues.sDumpInterval = sDumpInterval
-        putInt(Utils.getApp(), Const.PREF_DUMP_INTERVAL, sDumpInterval)
-    }
-
-    val collectorMode: String
-        get() = if (sIsCollectorPlus) {
-            "Collector+"
-        } else {
-            "Collector"
-        }
-
-    fun setsIsExcludeFromRecent(sIsExcludeFromRecent: Boolean) {
-        GlobalValues.sIsExcludeFromRecent = sIsExcludeFromRecent
-        putBoolean(Utils.getApp(), Const.PREF_EXCLUDE_FROM_RECENT, sIsExcludeFromRecent)
-    }
-
-    fun setsIsShowShellResult(sIsShowShellResult: Boolean) {
-        GlobalValues.sIsShowShellResult = sIsShowShellResult
-        putBoolean(Utils.getApp(), Const.PREF_SHOW_SHELL_RESULT, sIsShowShellResult)
-    }
-
-    fun setsAutoDarkModeStart(sAutoDarkModeStart: Long) {
-        GlobalValues.sAutoDarkModeStart = sAutoDarkModeStart
-        putLong(Utils.getApp(), Const.PREF_AUTO_DARK_MODE_START, sAutoDarkModeStart)
-    }
-
-    fun setsAutoDarkModeEnd(sAutoDarkModeEnd: Long) {
-        GlobalValues.sAutoDarkModeEnd = sAutoDarkModeEnd
-        putLong(Utils.getApp(), Const.PREF_AUTO_DARK_MODE_END, sAutoDarkModeEnd)
-    }
-
-    fun setsDefrostMode(sDefrostMode: String) {
-        GlobalValues.sDefrostMode = sDefrostMode
-        putString(Utils.getApp(), Const.PREF_DEFROST_MODE, sDefrostMode)
-    }
-
-    @JvmStatic
-    val workingMode: String
-        get() = sWorkingMode?.let {
-            if (TextUtils.isEmpty(it.value)) {
-                Const.WORKING_MODE_URL_SCHEME
-            } else {
-                it.value
-            }
-        } ?: Const.WORKING_MODE_URL_SCHEME
 }

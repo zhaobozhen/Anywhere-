@@ -119,18 +119,23 @@
     static void checkNotNullParameter(java.lang.Object, java.lang.String);
 }
 
-#Firebase
--dontwarn com.google.firebase.**
--keep class com.google.firebase.** { *; }
--dontwarn com.google.android.gms.**
--keep class com.google.android.gms.** { *; }
--keep class com.crashlytics.** { *; }
--keep class io.fabric.sdk.** { *; }
--dontwarn com.crashlytics.**
+-dontwarn org.xmlpull.v1.XmlPullParser
+-dontwarn org.xmlpull.v1.XmlSerializer
+-keep class org.xmlpull.v1.* {*;}
 
 #Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
    **[] $VALUES;
    public *;
+}
+
+# Keep all native methods, their classes and any classes in their descriptors
+-keepclasseswithmembers,includedescriptorclasses class com.tencent.mmkv.** {
+    native <methods>;
+    long nativeHandle;
+    private static *** onMMKVCRCCheckFail(***);
+    private static *** onMMKVFileLengthError(***);
+    private static *** mmkvLogImp(...);
+    private static *** onContentChangedByOuterProcess(***);
 }

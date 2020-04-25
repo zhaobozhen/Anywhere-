@@ -32,9 +32,7 @@ import com.absinthe.anywhere_.adapter.page.PageTitleNode
 import com.absinthe.anywhere_.adapter.page.PageTitleProvider
 import com.absinthe.anywhere_.constants.*
 import com.absinthe.anywhere_.constants.GlobalValues.clearActionBarType
-import com.absinthe.anywhere_.constants.GlobalValues.setsBackgroundUri
 import com.absinthe.anywhere_.constants.GlobalValues.setsCategory
-import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.databinding.ActivityMainBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.AnywhereEntity
@@ -50,7 +48,6 @@ import com.absinthe.anywhere_.utils.AnimationUtil.showAndHiddenAnimation
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
 import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
-import com.absinthe.anywhere_.utils.SPUtils.getBoolean
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
@@ -88,7 +85,7 @@ class MainActivity : BaseActivity() {
     private lateinit var mObserver: Observer<List<PageEntity>?>
 
     init {
-        isPaddingToolbar = !GlobalValues.sIsMd2Toolbar
+        isPaddingToolbar = !GlobalValues.isMd2Toolbar
     }
 
     override fun setViewBinding() {
@@ -106,14 +103,13 @@ class MainActivity : BaseActivity() {
 
         initObserver()
 
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE) &&
-                getBoolean(this, Const.PREF_FIRST_LAUNCH, true)) {
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE)) {
             mBinding.fab.visibility = View.GONE
 
             val welcomeFragment = newInstance()
             viewModel.fragment.value = welcomeFragment
         } else {
-            val mainFragment = MainFragment.newInstance(GlobalValues.sCategory)
+            val mainFragment = MainFragment.newInstance(GlobalValues.category)
             viewModel.fragment.value = mainFragment
 
             initFab()
@@ -123,7 +119,7 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        Settings.setTheme(GlobalValues.sDarkMode)
+        Settings.setTheme(GlobalValues.darkMode)
         getClipBoardText(this, object : ClipboardUtil.Function {
             override fun invoke(text: String) {
                 if (text.contains(URLManager.ANYWHERE_SCHEME)) {
@@ -142,13 +138,13 @@ class MainActivity : BaseActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        loadBackground(GlobalValues.sBackgroundUri)
+        loadBackground(GlobalValues.backgroundUri)
         mToggle.onConfigurationChanged(newConfig)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (GlobalValues.sActionBarType == Const.ACTION_BAR_TYPE_LIGHT
-                || UiUtils.isDarkMode(this) && GlobalValues.sBackgroundUri.isEmpty()) {
+        if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_LIGHT
+                || UiUtils.isDarkMode(this) && GlobalValues.backgroundUri.isEmpty()) {
             UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_LIGHT)
         } else {
             UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_DARK)
@@ -174,7 +170,7 @@ class MainActivity : BaseActivity() {
         super.initView()
         val actionBar = supportActionBar
 
-        if (GlobalValues.sIsMd2Toolbar) {
+        if (GlobalValues.isMd2Toolbar) {
             val marginHorizontal = resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
             val marginVertical = resources.getDimension(R.dimen.toolbar_margin_vertical).toInt()
             val newLayoutParams = mBinding.toolbar.layoutParams as ConstraintLayout.LayoutParams
@@ -193,8 +189,8 @@ class MainActivity : BaseActivity() {
             mToggle = ActionBarDrawerToggle(this, mBinding.drawer, mBinding.toolbar,
                     R.string.drawer_open, R.string.drawer_close)
 
-            if (GlobalValues.sIsPages) {
-                if (GlobalValues.sActionBarType == Const.ACTION_BAR_TYPE_DARK) {
+            if (GlobalValues.isPages) {
+                if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_DARK) {
                     mToggle.drawerArrowDrawable.color = resources.getColor(R.color.black)
                 } else {
                     mToggle.drawerArrowDrawable.color = resources.getColor(R.color.white)
@@ -202,9 +198,8 @@ class MainActivity : BaseActivity() {
                 actionBar.setDisplayHomeAsUpEnabled(true)
                 mBinding.drawer.addDrawerListener(mToggle)
                 mToggle.syncState()
-                AnywhereApplication.sRepository
-                        .allAnywhereEntities
-                        ?.observe(this, Observer<List<AnywhereEntity?>?> { initDrawer(mBinding.drawer) })
+                AnywhereApplication.sRepository.allAnywhereEntities
+                        .observe(this, Observer<List<AnywhereEntity?>?> { initDrawer(mBinding.drawer) })
             } else {
                 actionBar.setHomeButtonEnabled(false)
                 actionBar.setDisplayHomeAsUpEnabled(false)
@@ -247,7 +242,7 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        AnywhereApplication.sRepository.allPageEntities?.observe(this, Observer { pageEntities: List<PageEntity>? ->
+        AnywhereApplication.sRepository.allPageEntities.observe(this, Observer { pageEntities: List<PageEntity>? ->
             pageEntities?.let { setupDrawerData(adapter, it) }
         })
 
@@ -327,7 +322,7 @@ class MainActivity : BaseActivity() {
                 }
             }
 
-            AnywhereApplication.sRepository.allPageEntities?.value?.let {
+            AnywhereApplication.sRepository.allPageEntities.value?.let {
                 for (pe in it) {
                     map[pe.title]?.let { entity ->
                         pe.priority = entity
@@ -350,11 +345,11 @@ class MainActivity : BaseActivity() {
         mObserver = Observer<List<PageEntity>?> { pageEntities ->
             if (pageEntities == null) return@Observer
 
-            AnywhereApplication.sRepository.allPageEntities?.removeObserver(mObserver)
+            AnywhereApplication.sRepository.allPageEntities.removeObserver(mObserver)
 
             if (pageEntities.isEmpty() && !isPageInit) {
                 val pe = PageEntity.Builder().apply {
-                    title = GlobalValues.sCategory
+                    title = GlobalValues.category
                     priority = 1
                 }
                 AnywhereApplication.sRepository.insertPage(pe)
@@ -362,19 +357,18 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        AnywhereApplication.sRepository.allPageEntities?.observe(this, mObserver)
+        AnywhereApplication.sRepository.allPageEntities.observe(this, mObserver)
 
         viewModel.background.observe(this, Observer { s: String ->
-            setsBackgroundUri(s)
+            GlobalValues.backgroundUri = s
 
             if (s.isNotEmpty()) {
-                loadBackground(GlobalValues.sBackgroundUri)
+                loadBackground(GlobalValues.backgroundUri)
                 UiUtils.setAdaptiveActionBarTitleColor(this, supportActionBar, UiUtils.getActionBarTitle())
                 UiUtils.setActionBarTransparent(this)
             }
         })
-        viewModel.background.value = GlobalValues.sBackgroundUri
-        GlobalValues.sWorkingMode?.value = workingMode
+        viewModel.background.value = GlobalValues.backgroundUri
 
         viewModel.fragment.observe(this, Observer { fragment: Fragment? ->
             supportFragmentManager

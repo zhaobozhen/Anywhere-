@@ -46,7 +46,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected open fun initView() {
-        if (GlobalValues.sBackgroundUri.isEmpty() || this !is MainActivity) {
+        if (GlobalValues.backgroundUri.isEmpty() || this !is MainActivity) {
             setDarkMode(this, UiUtils.isDarkMode(this))
         }
         setToolbar()
@@ -72,7 +72,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun finish() {
-        if (GlobalValues.sIsExcludeFromRecent) {
+        if (GlobalValues.isExcludeFromRecent) {
             finishAndRemoveTask()
         } else {
             super.finish()

@@ -25,7 +25,7 @@ public class DefrostHandler {
     public static boolean defrost(@NonNull Context context, @NonNull String packageName, OnAppDefrostListener listener) {
         ToastUtil.makeText(R.string.toast_defrosting);
 
-        switch (GlobalValues.sDefrostMode) {
+        switch (GlobalValues.INSTANCE.getDefrostMode()) {
             case Const.DEFROST_MODE_DSM:
                 return defrostWithDelegatedScopeManager(context, packageName, listener);
             case Const.DEFROST_MODE_ICEBOX_SDK:

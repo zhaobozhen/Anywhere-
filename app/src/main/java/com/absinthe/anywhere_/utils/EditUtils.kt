@@ -12,7 +12,7 @@ object EditUtils {
      * @return true if has same Anywhere-
      */
     fun hasSameAppName(param1: String, param2: String): Boolean {
-        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
             for (ae in it) {
                 if (param1 == ae.param1 && param2 == ae.param2) {
                     return true
@@ -30,7 +30,7 @@ object EditUtils {
      * @return true if has same Anywhere-
      */
     fun hasSameAppNameEntity(param1: String, param2: String): AnywhereEntity? {
-        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
             for (ae in it) {
                 if (param1 == ae.param1 && param2 == ae.param2) {
                     return ae
@@ -48,7 +48,7 @@ object EditUtils {
      */
     @JvmStatic
     fun hasSameAppName(param1: String): Boolean {
-        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
             for (ae in it) {
                 if (param1 == ae.param1) {
                     return true
@@ -66,7 +66,7 @@ object EditUtils {
      */
     @JvmStatic
     fun hasSameAppNameEntity(param1: String): AnywhereEntity? {
-        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
             for (ae in it) {
                 if (param1 == ae.param1) {
                     return ae

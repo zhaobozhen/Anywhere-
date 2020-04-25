@@ -23,7 +23,7 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
     private val mList: MutableList<AnywhereEntity> = ArrayList()
 
     init {
-        AnywhereApplication.sRepository.allAnywhereEntities?.value?.let {
+        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
             for (item in it) {
                 if (TextUtils.isEmpty(item.category) && category == AnywhereType.DEFAULT_CATEGORY
                         || item.category == category) {

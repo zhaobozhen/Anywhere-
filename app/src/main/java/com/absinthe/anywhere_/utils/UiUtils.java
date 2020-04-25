@@ -134,7 +134,7 @@ public class UiUtils {
     public static Drawable getAppIconByPackageName(Context context, String packageName) {
         Drawable drawable;
         try {
-            if (GlobalValues.sIconPack.equals(Settings.DEFAULT_ICON_PACK) || GlobalValues.sIconPack.isEmpty()) {
+            if (GlobalValues.INSTANCE.getIconPack().equals(Const.DEFAULT_ICON_PACK) || GlobalValues.INSTANCE.getIconPack().isEmpty()) {
                 drawable = context.getPackageManager().getApplicationIcon(packageName);
             } else {
                 drawable = Settings.sIconPack.getDrawableIconForPackage(packageName, context.getPackageManager().getApplicationIcon(packageName));
@@ -208,7 +208,7 @@ public class UiUtils {
     public static String getActionBarTitle() {
         StringBuilder title = new StringBuilder();
 
-        switch (GlobalValues.getWorkingMode()) {
+        switch (GlobalValues.INSTANCE.getWorkingMode()) {
             case "":
                 title.append(AnywhereType.NOWHERE);
                 break;
@@ -242,7 +242,7 @@ public class UiUtils {
         Window window = activity.getWindow();
         View view = window.getDecorView();
 
-        if (actionBar != null && !GlobalValues.sIsMd2Toolbar) {
+        if (actionBar != null && !GlobalValues.INSTANCE.isMd2Toolbar()) {
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
@@ -278,12 +278,12 @@ public class UiUtils {
      * @param activity Activity for use Glide
      */
     public static void setAdaptiveActionBarTitleColor(AppCompatActivity activity, ActionBar actionBar, String title) {
-        if (GlobalValues.sBackgroundUri.isEmpty()) {
+        if (GlobalValues.INSTANCE.getBackgroundUri().isEmpty()) {
             return;
         }
 
-        if (!GlobalValues.sActionBarType.isEmpty()) {
-            setTopWidgetColor(activity, actionBar, GlobalValues.sActionBarType, title);
+        if (!GlobalValues.INSTANCE.getActionBarType().isEmpty()) {
+            setTopWidgetColor(activity, actionBar, GlobalValues.INSTANCE.getActionBarType(), title);
             return;
         }
 
@@ -298,7 +298,7 @@ public class UiUtils {
         final int finalActionBarHeight = actionBarHeight;
         Glide.with(activity)
                 .asBitmap()
-                .load(Uri.parse(GlobalValues.sBackgroundUri))
+                .load(Uri.parse(GlobalValues.INSTANCE.getBackgroundUri()))
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -396,8 +396,8 @@ public class UiUtils {
      * @param title     action bar title
      */
     private static void setTopWidgetColor(AppCompatActivity activity, ActionBar actionBar, String type, String title) {
-        if (GlobalValues.sBackgroundUri.isEmpty() && type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
-            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
+        if (GlobalValues.INSTANCE.getBackgroundUri().isEmpty() && type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
+            GlobalValues.INSTANCE.setActionBarType(Const.ACTION_BAR_TYPE_DARK);
             type = Const.ACTION_BAR_TYPE_DARK;
         }
 
@@ -407,14 +407,14 @@ public class UiUtils {
             SpannableString spanString = new SpannableString(title);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.BLACK);
 
-            if (isDarkMode(activity) && GlobalValues.sBackgroundUri.isEmpty()) {
+            if (isDarkMode(activity) && GlobalValues.INSTANCE.getBackgroundUri().isEmpty()) {
                 span = new ForegroundColorSpan(Color.WHITE);
             }
 
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             actionBar.setTitle(spanString);
 
-            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_DARK);
+            GlobalValues.INSTANCE.setActionBarType(Const.ACTION_BAR_TYPE_DARK);
             activity.invalidateOptionsMenu();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -426,7 +426,7 @@ public class UiUtils {
                         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR |
                                 activity.getWindow().getDecorView().getSystemUiVisibility());
             }
-            if (!GlobalValues.sBackgroundUri.isEmpty() || GlobalValues.sIsPages) {
+            if (!GlobalValues.INSTANCE.getBackgroundUri().isEmpty() || GlobalValues.INSTANCE.isPages()) {
                 setActionBarTransparent(activity);
             }
         } else if (type.equals(Const.ACTION_BAR_TYPE_LIGHT)) {
@@ -436,7 +436,7 @@ public class UiUtils {
             spanString.setSpan(span, 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             actionBar.setTitle(spanString);
 
-            GlobalValues.setsActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
+            GlobalValues.INSTANCE.setActionBarType(Const.ACTION_BAR_TYPE_LIGHT);
             activity.invalidateOptionsMenu();
 
             StatusBarUtil.clearLightStatusBarAndNavigationBar(activity.getWindow().getDecorView());
@@ -452,20 +452,20 @@ public class UiUtils {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int minute = Calendar.getInstance().get(Calendar.MINUTE);
         Calendar start = Calendar.getInstance();
-        start.setTimeInMillis(GlobalValues.sAutoDarkModeStart);
+        start.setTimeInMillis(GlobalValues.INSTANCE.getAutoDarkModeStart());
         Calendar end = Calendar.getInstance();
-        end.setTimeInMillis(GlobalValues.sAutoDarkModeEnd);
+        end.setTimeInMillis(GlobalValues.INSTANCE.getAutoDarkModeEnd());
 
         int startHour = 22;
         int startMinute = 0;
-        if (GlobalValues.sAutoDarkModeStart != 0) {
+        if (GlobalValues.INSTANCE.getAutoDarkModeStart() != 0) {
             startHour = start.get(Calendar.HOUR_OF_DAY);
             startMinute = start.get(Calendar.MINUTE);
         }
 
         int endHour = 7;
         int endMinute = 0;
-        if (GlobalValues.sAutoDarkModeEnd != 0) {
+        if (GlobalValues.INSTANCE.getAutoDarkModeEnd() != 0) {
             endHour = end.get(Calendar.HOUR_OF_DAY);
             endMinute = end.get(Calendar.MINUTE);
         }

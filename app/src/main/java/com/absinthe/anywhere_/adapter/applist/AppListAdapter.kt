@@ -71,7 +71,7 @@ class AppListAdapter(private val mContext: Context, mode: Int) : RecyclerView.Ad
                     editor.show()
                 }
                 MODE_ICON_PACK -> {
-                    GlobalValues.setsIconPack(item.packageName)
+                    GlobalValues.iconPack = item.packageName
                     Settings.initIconPackManager()
                     AppUtils.restart()
                 }

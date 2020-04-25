@@ -12,10 +12,10 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.databinding.ActivitySettingsBinding
-import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.databinding.ActivitySettingsBinding
+import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.ui.main.MainFragment
 import com.absinthe.anywhere_.utils.AppUtils
@@ -133,7 +133,7 @@ class SettingsActivity : BaseActivity() {
                             requireActivity().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
                             (requireActivity() as BaseActivity).setDocumentResultListener(object : OnDocumentResultListener {
                                 override fun onResult(uri: Uri) {
-                                    GlobalValues.setsBackgroundUri(uri.toString())
+                                    GlobalValues.backgroundUri = uri.toString()
                                     GlobalValues.clearActionBarType()
                                     AppUtils.restart()
                                 }
@@ -191,15 +191,15 @@ class SettingsActivity : BaseActivity() {
 
         override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
             when (preference.key) {
-                Const.PREF_WORKING_MODE -> GlobalValues.sWorkingMode?.setValue(newValue as String)
+                Const.PREF_WORKING_MODE -> GlobalValues.workingMode = newValue as String
                 Const.PREF_DARK_MODE -> if (newValue.toString() == Const.DARK_MODE_AUTO) {
                     DialogManager.showDarkModeTimePickerDialog(requireActivity() as BaseActivity)
                 } else {
                     Settings.setTheme(newValue.toString())
-                    GlobalValues.setsDarkMode(newValue.toString())
+                    GlobalValues.darkMode = newValue.toString()
                 }
                 Const.PREF_STREAM_CARD_MODE -> {
-                    GlobalValues.setsIsStreamCardMode(newValue as Boolean)
+                    GlobalValues.isStreamCardMode = newValue as Boolean
                     MainFragment.getCardMode().value = newValue.toString()
 
                     findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_SINGLE_LINE)?.apply {
@@ -211,33 +211,33 @@ class SettingsActivity : BaseActivity() {
                     return true
                 }
                 Const.PREF_STREAM_CARD_SINGLE_LINE -> {
-                    GlobalValues.setsIsStreamCardModeSingleLine(newValue as Boolean)
+                    GlobalValues.isStreamCardModeSingleLine = newValue as Boolean
                     MainFragment.getCardMode().value = newValue.toString()
                     return true
                 }
                 Const.PREF_CARD_BACKGROUND -> {
-                    GlobalValues.setsCardBackgroundMode(newValue.toString())
+                    GlobalValues.sCardBackgroundMode = newValue.toString()
                     MainFragment.getCardMode().value = newValue.toString()
                     return true
                 }
                 Const.PREF_COLLECTOR_PLUS -> {
-                    GlobalValues.setsIsCollectorPlus(newValue as Boolean)
+                    GlobalValues.isCollectorPlus = newValue as Boolean
                     if (newValue) {
                         DialogManager.showIntervalSetupDialog(requireActivity() as BaseActivity)
                     }
                     return true
                 }
                 Const.PREF_MD2_TOOLBAR -> {
-                    GlobalValues.setsIsMd2Toolbar(newValue as Boolean)
+                    GlobalValues.isMd2Toolbar = newValue as Boolean
                     AppUtils.restart()
                     return true
                 }
                 Const.PREF_EXCLUDE_FROM_RECENT -> {
-                    GlobalValues.setsIsExcludeFromRecent(newValue as Boolean)
+                    GlobalValues.isExcludeFromRecent = newValue as Boolean
                     return true
                 }
                 Const.PREF_SHOW_SHELL_RESULT -> {
-                    GlobalValues.setsIsShowShellResult(newValue as Boolean)
+                    GlobalValues.isShowShellResult = newValue as Boolean
                     return true
                 }
             }

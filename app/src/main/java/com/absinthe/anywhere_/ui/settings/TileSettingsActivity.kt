@@ -101,7 +101,7 @@ open class TileSettingsActivity : BaseActivity() {
             }
         }
         ViewModelProvider(this).get(AnywhereViewModel::class.java).apply {
-            allAnywhereEntities?.observe(this@TileSettingsActivity, Observer { anywhereEntities: List<AnywhereEntity>? ->
+            allAnywhereEntities.observe(this@TileSettingsActivity, Observer { anywhereEntities: List<AnywhereEntity>? ->
                 anywhereEntities?.let { mList = it }
                 load()
             })

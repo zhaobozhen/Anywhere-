@@ -108,7 +108,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.toolbar_initialize_done) {
-            GlobalValues.setsWorkingMode(mWorkingMode)
+            GlobalValues.workingMode = mWorkingMode
 
             var flag = false
             val allPerm = allPerm.value ?: 0
@@ -135,7 +135,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     }
 
     private fun enterMainFragment() {
-        val fragment = MainFragment.newInstance(GlobalValues.sCategory)
+        val fragment = MainFragment.newInstance(GlobalValues.category)
         (requireActivity() as MainActivity).apply {
             viewModel.fragment.value = fragment
             initFab()

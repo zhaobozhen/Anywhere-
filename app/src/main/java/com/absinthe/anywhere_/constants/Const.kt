@@ -50,6 +50,9 @@ object Const {
     const val PREF_AUTO_DARK_MODE_END = "autoDarkModeEnd"
     const val PREF_GIFT = "gift"
     const val PREF_DEFROST_MODE = "defrostMode"
+    const val PREF_WEBDAV_HOST = "webdavHost"
+    const val PREF_WEBDAV_USERNAME = "webdavUsername"
+    const val PREF_WEBDAV_PASSWORD = "webdavPassword"
 
     const val WORKING_MODE_URL_SCHEME = "url_scheme"
     const val WORKING_MODE_ROOT = "root"
@@ -103,4 +106,6 @@ object Const {
     const val DEFROST_MODE_DSM = "dsm"
     const val DEFROST_MODE_DPM = "dpm"
     const val DEFROST_MODE_SHIZUKU = "shizuku"
+
+    const val DEFAULT_ICON_PACK = "default.icon.pack"
 }

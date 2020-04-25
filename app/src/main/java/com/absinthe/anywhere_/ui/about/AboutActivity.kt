@@ -86,6 +86,8 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(License("RxJava", "ReactiveX", License.APACHE_2, "https://github.com/ReactiveX/RxJava"))
             add(License("android-target-tooltip", "sephiroth74", License.MIT, "https://github.com/sephiroth74/android-target-tooltip"))
             add(License("AndroidUtilCode", "Blankj", License.APACHE_2, "https://github.com/Blankj/AndroidUtilCode"))
+            add(License("MMKV", "Tencent", "BSD 3-Clause License", "https://github.com/Tencent/MMKV"))
+
         }
 
         RecommendationLoaderDelegate.attach(this, items.size, GsonJsonConverter())

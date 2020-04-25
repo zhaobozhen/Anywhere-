@@ -91,7 +91,7 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
                         .into(binding.ivAppIcon);
             }
 
-            if (GlobalValues.sCardBackgroundMode.equals(Const.CARD_BG_MODE_PURE)) {
+            if (GlobalValues.INSTANCE.getSCardBackgroundMode().equals(Const.CARD_BG_MODE_PURE)) {
                 if (item.getColor() == 0) {
                     UiUtils.setCardUseIconColor(binding.ivCardBg,
                             UiUtils.getAppIconByPackageName(mContext, item),
@@ -104,7 +104,7 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
                     binding.ivCardBg.setBackgroundColor(item.getColor());
                     binding.tvAppName.setTextColor(UiUtils.isLightColor(item.getColor()) ? Color.BLACK : Color.WHITE);
                 }
-            } else if (GlobalValues.sCardBackgroundMode.equals(Const.CARD_BG_MODE_GRADIENT)) {
+            } else if (GlobalValues.INSTANCE.getSCardBackgroundMode().equals(Const.CARD_BG_MODE_GRADIENT)) {
                 if (item.getColor() == 0) {
                     UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
                 } else {

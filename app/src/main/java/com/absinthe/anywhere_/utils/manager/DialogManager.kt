@@ -46,7 +46,7 @@ object DialogManager {
                 .setTitle(R.string.dialog_reset_background_confirm_title)
                 .setMessage(R.string.dialog_reset_background_confirm_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
-                    GlobalValues.setsBackgroundUri("")
+                    GlobalValues.backgroundUri = ""
                     AppUtils.restart()
                 }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
@@ -225,7 +225,7 @@ object DialogManager {
     fun showPageListDialog(context: Context, ae: AnywhereEntity) {
         val items: MutableList<String> = ArrayList()
 
-        AnywhereApplication.sRepository.allPageEntities?.value?.let {
+        AnywhereApplication.sRepository.allPageEntities.value?.let {
             for (pe in it) {
                 items.add(pe.title)
             }
@@ -276,7 +276,7 @@ object DialogManager {
 
     @JvmStatic
     fun showShellResultDialog(context: Context, result: String?, posListener: DialogInterface.OnClickListener?, cancelListener: DialogInterface.OnCancelListener?) {
-        if (!GlobalValues.sIsShowShellResult) {
+        if (!GlobalValues.isShowShellResult) {
             ToastUtil.makeText(R.string.toast_execute_shell_successful)
             return
         }

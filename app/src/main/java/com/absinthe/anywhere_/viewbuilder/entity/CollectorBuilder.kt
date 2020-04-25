@@ -38,7 +38,7 @@ class CollectorBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(con
         }
         addView(ibCollector)
 
-        if (GlobalValues.sIsCollectorPlus) {
+        if (GlobalValues.isCollectorPlus) {
             val infoLayout = LinearLayout(context).apply {
                 layoutParams = wrapWrap
                 orientation = LinearLayout.VERTICAL

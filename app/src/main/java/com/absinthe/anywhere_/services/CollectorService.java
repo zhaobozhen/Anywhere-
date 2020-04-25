@@ -61,7 +61,7 @@ public class CollectorService extends Service {
                 }
             }
 
-            mHandler.postDelayed(this, GlobalValues.sDumpInterval);
+            mHandler.postDelayed(this, GlobalValues.INSTANCE.getDumpInterval());
         }
     };
 
@@ -90,7 +90,7 @@ public class CollectorService extends Service {
                 if (command.equals(COMMAND_OPEN)) {
                     mCollectorWindowManager.addView();
 
-                    if (GlobalValues.sIsCollectorPlus) {
+                    if (GlobalValues.INSTANCE.isCollectorPlus()) {
                         mHandler.post(getCurrentInfoTask);
                     }
                 } else if (command.equals(COMMAND_CLOSE)) {

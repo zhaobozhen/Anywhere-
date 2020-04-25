@@ -15,7 +15,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.EventTag
-import com.absinthe.anywhere_.constants.GlobalValues.workingMode
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.services.CollectorService
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
@@ -47,7 +47,7 @@ class ShortcutsActivity : BaseActivity() {
 
             when (it) {
                 ACTION_START_COLLECTOR -> {
-                    if (workingMode == Const.WORKING_MODE_URL_SCHEME) {
+                    if (GlobalValues.workingMode == Const.WORKING_MODE_URL_SCHEME) {
                         openNewURLScheme(this)
                     } else {
                         CollectorService.startCollector(this)
@@ -90,7 +90,7 @@ class ShortcutsActivity : BaseActivity() {
                     finish()
                 }
                 Intent.ACTION_CREATE_SHORTCUT -> {
-                    viewModel.allAnywhereEntities?.observe(this, Observer { anywhereEntities: List<AnywhereEntity>? ->
+                    viewModel.allAnywhereEntities.observe(this, Observer { anywhereEntities: List<AnywhereEntity>? ->
                         val arrayAdapter = ArrayAdapter<String>(Utils.getApp(), android.R.layout.select_dialog_singlechoice)
 
                         anywhereEntities?.let { entities ->

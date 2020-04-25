@@ -33,7 +33,7 @@ class CollectorView(context: Context) : LinearLayout(context) {
     }
 
     fun setInfo(pkgName: String, clsName: String) {
-        if (GlobalValues.sIsCollectorPlus) {
+        if (GlobalValues.isCollectorPlus) {
             mBuilder.tvPkgName.text = pkgName
             mBuilder.tvClsName.text = clsName
         }

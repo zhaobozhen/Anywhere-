@@ -7,6 +7,7 @@ import androidx.preference.PreferenceFragmentCompat
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.utils.CipherUtils
 import com.absinthe.anywhere_.utils.StorageUtils.createFile
 import com.absinthe.anywhere_.utils.StorageUtils.exportAnywhereEntityJsonString
@@ -16,7 +17,9 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
 
-class BackupFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
+class BackupFragment : PreferenceFragmentCompat(),
+        Preference.OnPreferenceClickListener,
+        Preference.OnPreferenceChangeListener {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_backup, rootKey)
@@ -24,6 +27,19 @@ class BackupFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickL
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        findPreference<Preference>(Const.PREF_WEBDAV_HOST)?.apply {
+            onPreferenceChangeListener = this@BackupFragment
+            summary = GlobalValues.webdavHost
+        }
+        findPreference<Preference>(Const.PREF_WEBDAV_USERNAME)?.apply {
+            onPreferenceChangeListener = this@BackupFragment
+            summary = GlobalValues.webdavUsername
+        }
+        findPreference<Preference>(Const.PREF_WEBDAV_PASSWORD)?.apply {
+            onPreferenceChangeListener = this@BackupFragment
+            summary = GlobalValues.webdavPassword
+        }
 
         findPreference<Preference>(Const.PREF_BACKUP)?.apply {
             onPreferenceClickListener = this@BackupFragment
@@ -77,6 +93,24 @@ class BackupFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickL
             }
         }
         return false
+    }
+
+    override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
+        when (preference.key) {
+            Const.PREF_WEBDAV_HOST -> {
+                GlobalValues.webdavHost = newValue.toString()
+                preference.summary = newValue.toString()
+            }
+            Const.PREF_WEBDAV_USERNAME -> {
+                GlobalValues.webdavUsername = newValue.toString()
+                preference.summary = newValue.toString()
+            }
+            Const.PREF_WEBDAV_PASSWORD -> {
+                GlobalValues.webdavPassword = newValue.toString()
+                preference.summary = newValue.toString()
+            }
+        }
+        return true
     }
 
     private fun getBackupTip(versionName: String): String {

@@ -42,14 +42,12 @@ class CardListDialogFragment : AnywhereDialogFragment() {
 
     private fun initView() {
         val listBeans: MutableList<AppListBean> = ArrayList()
-        val list = AnywhereApplication.sRepository.allAnywhereEntities?.value
-
-        if (list != null) {
-            if (list.isEmpty()) {
+        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
+            if (it.isEmpty()) {
                 setDisplayPlaceholder(true)
             } else {
                 setDisplayPlaceholder(false)
-                for (ae in list) {
+                for (ae in it) {
                     if (ae.anywhereType == AnywhereType.URL_SCHEME
                             || ae.anywhereType == AnywhereType.IMAGE
                             || ae.anywhereType == AnywhereType.SHELL) {

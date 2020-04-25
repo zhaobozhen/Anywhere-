@@ -78,7 +78,7 @@ public class AnywhereEntity implements Parcelable {
                 "",
                 "",
                 AnywhereType.ACTIVITY,
-                GlobalValues.sCategory,
+                GlobalValues.INSTANCE.getCategory(),
                 time,
                 0,
                 "");
@@ -202,7 +202,7 @@ public class AnywhereEntity implements Parcelable {
     }
 
     public String getCategory() {
-        return mCategory == null ? GlobalValues.sCategory : mCategory;
+        return mCategory == null ? GlobalValues.INSTANCE.getCategory() : mCategory;
     }
 
     public void setCategory(@NonNull String mCategory) {

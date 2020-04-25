@@ -102,10 +102,12 @@ dependencies {
 
     //Android X
     def lifecycle_version = '2.2.0'
+    def room_version = '2.2.5'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.fragment:fragment:1.2.4'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'androidx.room:room-runtime:2.2.5'
+    implementation "androidx.room:room-runtime:${room_version}"
+    implementation "androidx.room:room-ktx:${room_version}"
     implementation "androidx.preference:preference:1.1.1"
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.browser:browser:1.2.0'
@@ -135,6 +137,7 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.3'
     implementation 'com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT'
     implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.6'
+    implementation 'com.tencent:mmkv-static:1.1.1'
 
     //UX
     implementation 'com.drakeet.about:about:2.4.1'

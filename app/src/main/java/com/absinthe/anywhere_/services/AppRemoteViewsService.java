@@ -45,13 +45,10 @@ public class AppRemoteViewsService extends RemoteViewsService {
         RemoteViewsFactory(Context context, Intent intent) {
             mContext = context;
             LiveData<List<AnywhereEntity>> liveData = AnywhereApplication.sRepository.getAllAnywhereEntities();
+            List<AnywhereEntity> list = liveData.getValue();
 
-            if (liveData != null) {
-                List<AnywhereEntity> list = liveData.getValue();
-
-                if (list != null && list.size() > 0) {
-                    sList = list;
-                }
+            if (list != null && list.size() > 0) {
+                sList = list;
             }
 
             if(Looper.myLooper() == null){
@@ -78,13 +75,10 @@ public class AppRemoteViewsService extends RemoteViewsService {
         public void onDataSetChanged() {
             // 需要显示的数据
             LiveData<List<AnywhereEntity>> liveData = AnywhereApplication.sRepository.getAllAnywhereEntities();
+            List<AnywhereEntity> list = liveData.getValue();
 
-            if (liveData != null) {
-                List<AnywhereEntity> list = liveData.getValue();
-
-                if (list != null && list.size() > 0) {
-                    sList = list;
-                }
+            if (list != null && list.size() > 0) {
+                sList = list;
             }
         }
 

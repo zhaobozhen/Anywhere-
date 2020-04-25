@@ -105,7 +105,7 @@ public class Opener {
                 mCmd = mCmd.replace(AnywhereType.SHELL_PREFIX, "");
                 String result = CommandUtils.execAdbCmd(mCmd);
 
-                if (GlobalValues.sIsShowShellResult) {
+                if (GlobalValues.INSTANCE.isShowShellResult()) {
                     DialogManager.showShellResultDialog(sContext.get(), result, (dialog, which) -> {
                         if (mListener != null) {
                             mListener.onOpened();

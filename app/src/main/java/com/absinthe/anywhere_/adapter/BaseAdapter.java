@@ -180,7 +180,7 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                 DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, item.getParam3(), new DynamicParamsDialogFragment.OnParamsInputListener() {
                     @Override
                     public void onFinish(String text) {
-                        if (GlobalValues.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
+                        if (GlobalValues.INSTANCE.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
                             try {
                                 URLSchemeHandler.INSTANCE.parse(item.getParam1() + text, mContext);
                             } catch (Exception e) {

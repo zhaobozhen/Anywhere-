@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.model.AppListBean
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder
@@ -30,7 +31,7 @@ class IconPackDialogFragment : AnywhereDialogFragment() {
         val hashMap = Settings.sIconPackManager.getAvailableIconPacks(true)
         val listBeans: MutableList<AppListBean> = ArrayList()
 
-        listBeans.add(AppListBean(requireContext().getString(R.string.bsd_default), Settings.DEFAULT_ICON_PACK, "", -1))
+        listBeans.add(AppListBean(requireContext().getString(R.string.bsd_default), Const.DEFAULT_ICON_PACK, "", -1))
         for ((_, iconPack) in hashMap) {
             listBeans.add(AppListBean(iconPack.name, iconPack.packageName, "", -1))
         }

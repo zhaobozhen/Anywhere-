@@ -94,7 +94,7 @@ public class MainFragment extends Fragment {
         if (getArguments() != null) {
             mCategory = getArguments().getString(BUNDLE_CATEGORY);
         } else {
-            mCategory = GlobalValues.sCategory;
+            mCategory = GlobalValues.INSTANCE.getCategory();
         }
     }
 
@@ -141,8 +141,8 @@ public class MainFragment extends Fragment {
     private void setUpRecyclerView(RecyclerView recyclerView) {
         ArrayList<AnywhereEntity> anywhereEntityList = new ArrayList<>();
 
-        if (GlobalValues.sIsStreamCardMode) {
-            if (GlobalValues.sIsStreamCardModeSingleLine) {
+        if (GlobalValues.INSTANCE.isStreamCardMode()) {
+            if (GlobalValues.INSTANCE.isStreamCardModeSingleLine()) {
                 adapter = new SingleLineStreamCardsAdapter(mContext);
             } else {
                 adapter = new StreamCardsAdapter(mContext);
@@ -189,13 +189,13 @@ public class MainFragment extends Fragment {
 
     private void setRecyclerViewLayoutManager(Configuration configuration) {
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            if (GlobalValues.sIsStreamCardMode) {
+            if (GlobalValues.INSTANCE.isStreamCardMode()) {
                 mLayoutManager = new WrapContentStaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
             } else {
                 mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             }
         } else {
-            if (GlobalValues.sIsStreamCardMode) {
+            if (GlobalValues.INSTANCE.isStreamCardMode()) {
                 mLayoutManager = new WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             } else {
                 mLayoutManager = new WrapContentLinearLayoutManager(ActivityStackManager.INSTANCE.getTopActivity());
@@ -239,7 +239,7 @@ public class MainFragment extends Fragment {
                 menuBuilder.setOptionalIconsVisible(true);
             }
 
-            switch (GlobalValues.sSortMode) {
+            switch (GlobalValues.INSTANCE.getSortMode()) {
                 default:
                 case Const.SORT_MODE_TIME_DESC:
                     popup.getMenu().getItem(0).setChecked(true);
@@ -258,16 +258,16 @@ public class MainFragment extends Fragment {
             popup.setOnMenuItemClickListener(popupItem -> {
                 switch (popupItem.getItemId()) {
                     case R.id.sort_by_time_desc:
-                        GlobalValues.setsSortMode(Const.SORT_MODE_TIME_DESC);
+                        GlobalValues.INSTANCE.setSortMode(Const.SORT_MODE_TIME_DESC);
                         break;
                     case R.id.sort_by_time_asc:
-                        GlobalValues.setsSortMode(Const.SORT_MODE_TIME_ASC);
+                        GlobalValues.INSTANCE.setSortMode(Const.SORT_MODE_TIME_ASC);
                         break;
                     case R.id.sort_by_name_desc:
-                        GlobalValues.setsSortMode(Const.SORT_MODE_NAME_DESC);
+                        GlobalValues.INSTANCE.setSortMode(Const.SORT_MODE_NAME_DESC);
                         break;
                     case R.id.sort_by_name_asc:
-                        GlobalValues.setsSortMode(Const.SORT_MODE_NAME_ASC);
+                        GlobalValues.INSTANCE.setSortMode(Const.SORT_MODE_NAME_ASC);
                         break;
                     case R.id.sort:
                         adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
@@ -300,7 +300,7 @@ public class MainFragment extends Fragment {
                 mItemTouchHelper.attachToRecyclerView(null);
                 ((Activity) mContext).invalidateOptionsMenu();
                 adapter.updateSortedList();
-                GlobalValues.setsSortMode(Const.SORT_MODE_TIME_DESC);
+                GlobalValues.INSTANCE.setSortMode(Const.SORT_MODE_TIME_DESC);
             } else if (adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_SELECT) {
                 resetSelectState();
                 adapter.clearSelect();

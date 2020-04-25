@@ -47,7 +47,7 @@ class LabActivity : BaseActivity() {
         override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
             when (preference.key) {
                 Const.PREF_PAGES -> {
-                    GlobalValues.setsIsPages(newValue as Boolean)
+                    GlobalValues.isPages = newValue as Boolean
                     AppUtils.restart()
                     return true
                 }
