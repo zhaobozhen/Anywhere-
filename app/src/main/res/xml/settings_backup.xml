@@ -9,7 +9,7 @@
         <EditTextPreference
             android:key="webdavHost"
             android:title="@string/settings_backup_webdav_host_title"
-            app:icon="@drawable/ic_backup"/>
+            app:icon="@drawable/ic_cloud_backup"/>
 
         <EditTextPreference
             android:key="webdavUsername"

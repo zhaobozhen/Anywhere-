@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
+import java.lang.StringBuilder
 
 class BackupFragment : PreferenceFragmentCompat(),
         Preference.OnPreferenceClickListener,
@@ -38,7 +39,7 @@ class BackupFragment : PreferenceFragmentCompat(),
         }
         findPreference<Preference>(Const.PREF_WEBDAV_PASSWORD)?.apply {
             onPreferenceChangeListener = this@BackupFragment
-            summary = GlobalValues.webdavPassword
+            summary = getPWString(GlobalValues.webdavPassword)
         }
 
         findPreference<Preference>(Const.PREF_BACKUP)?.apply {
@@ -107,7 +108,7 @@ class BackupFragment : PreferenceFragmentCompat(),
             }
             Const.PREF_WEBDAV_PASSWORD -> {
                 GlobalValues.webdavPassword = newValue.toString()
-                preference.summary = newValue.toString()
+                preference.summary = getPWString(newValue.toString())
             }
         }
         return true
@@ -115,5 +116,15 @@ class BackupFragment : PreferenceFragmentCompat(),
 
     private fun getBackupTip(versionName: String): String {
         return String.format(getString(R.string.settings_backup_tip), versionName, versionName)
+    }
+
+    private fun getPWString(text: String) : String {
+        val sb = StringBuilder().apply {
+            for (char in text) {
+                append("•")
+            }
+        }
+
+        return sb.toString()
     }
 }
