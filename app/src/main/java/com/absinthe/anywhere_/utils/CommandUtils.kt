@@ -71,8 +71,8 @@ object CommandUtils {
             }
         } else if (newCmd.startsWith("am start -n")) {
             val pkgClsString = newCmd.replace("am start -n ", "")
-            val pkg = pkgClsString.split("/").toTypedArray()[0]
-            val cls = pkgClsString.split("/").toTypedArray()[1]
+            val pkg = pkgClsString.split("/")[0]
+            val cls = pkgClsString.split("/")[1]
 
             if (UiUtils.isActivityExported(Utils.getApp(), ComponentName(pkg, cls))) {
                 try {

@@ -101,8 +101,8 @@ public class DefrostHandler {
         String cmd = "pm enable " + packageName;
         String result = CommandUtils.execAdbCmd(cmd);
 
-        if (result.equals(String.format("Package %s new state: enabled", packageName))) {
-            new Handler(Looper.getMainLooper()).postDelayed(listener::onAppDefrost, 700);
+        if (result.contains(" new state: enabled")) {
+            listener.onAppDefrost();
             return true;
         } else {
             return false;
