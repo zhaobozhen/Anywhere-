@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.absinthe.anywhere_.AnywhereApplication;
+import com.absinthe.anywhere_.BuildConfig;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.BaseAdapter;
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
@@ -35,18 +37,27 @@ import com.absinthe.anywhere_.adapter.card.StreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager;
 import com.absinthe.anywhere_.constants.Const;
+import com.absinthe.anywhere_.constants.EventTag;
 import com.absinthe.anywhere_.constants.GlobalValues;
+import com.absinthe.anywhere_.constants.OnceTag;
 import com.absinthe.anywhere_.databinding.FragmentMainBinding;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
+import com.absinthe.anywhere_.utils.TimeRecorder;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.google.android.material.card.MaterialCardView;
+import com.microsoft.appcenter.analytics.Analytics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
+import jonathanfinerty.once.Once;
 import timber.log.Timber;
 
 public class MainFragment extends Fragment {
@@ -111,6 +122,17 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initObserver();
+
+        if (TimeRecorder.INSTANCE.getShouldRecord() && !Once.beenDone(Once.THIS_APP_VERSION, OnceTag.SHOULD_RECORD_TIME)) {
+            Map<String, String> properties = new HashMap<>();
+            properties.put("Launch Time(ms)", String.valueOf(TimeRecorder.INSTANCE.endRecord()));
+            properties.put("Device", DeviceUtils.getManufacturer() + ", " + DeviceUtils.getModel());
+            properties.put("API Version", String.valueOf(Build.VERSION.SDK_INT));
+            properties.put("App Version", String.format(Locale.getDefault(), "%s(%d)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
+
+            Analytics.trackEvent(EventTag.LAUNCH_INFO, properties);
+            Once.markDone(OnceTag.SHOULD_RECORD_TIME);
+        }
     }
 
     private Observer<List<AnywhereEntity>> listObserver = new Observer<List<AnywhereEntity>>() {

@@ -39,7 +39,7 @@ object CommandUtils {
             }
             else -> CommandResult.RESULT_ERROR
         }
-        Timber.d("execCmd result = %s", result)
+        Timber.d("execAdbCmd result = %s", result)
         return result
     }
 

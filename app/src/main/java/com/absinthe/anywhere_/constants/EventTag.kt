@@ -11,4 +11,7 @@ object EventTag {
     const val FAB_SWITCH_SHELL_CLICK = "Fab Switch Shell clicked"
 
     const val SHORTCUT_OPEN = "Shortcut Open"
+
+    const val ACTIVITY_LIST_ITEM = "Activity List Item"
+    const val LAUNCH_INFO = "Launch Info"
 }

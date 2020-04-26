@@ -18,6 +18,7 @@
         <EditTextPreference
             android:key="webdavPassword"
             android:inputType="textPassword"
+            app:dialogMessage=""
             app:title="@string/settings_backup_webdav_password_title" />
 
     </PreferenceCategory>

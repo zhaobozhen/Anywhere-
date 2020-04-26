@@ -54,7 +54,6 @@ object Settings {
         sIconPackManager.setContext(Utils.getApp())
         val hashMap = sIconPackManager.getAvailableIconPacks(true)
 
-        GlobalValues.iconPack = DEFAULT_ICON_PACK
         for ((key, value) in hashMap) {
             if (key == GlobalValues.iconPack) {
                 sIconPack = value

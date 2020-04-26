@@ -16,6 +16,12 @@
     app:cardCornerRadius="@dimen/cardview_corner_radius"
     app:cardElevation="@dimen/cardview_elevation">
 
+<!--    <io.alterac.blurkit.BlurLayout-->
+<!--        android:id="@+id/blurLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        blurkit:blk_fps="0" />-->
+
     <ImageView
         android:id="@+id/iv_card_bg"
         android:layout_width="match_parent"

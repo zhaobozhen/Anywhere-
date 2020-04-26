@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -34,6 +35,8 @@ public class CollectorService extends Service {
     public static final String COMMAND_CLOSE = "COMMAND_CLOSE";
 
     CollectorWindowManager mCollectorWindowManager;
+
+    private CollectorBinder binder = new CollectorBinder();
 
     private void initCollectorWindowManager() {
         if (mCollectorWindowManager == null)
@@ -102,13 +105,13 @@ public class CollectorService extends Service {
             }
         }
 
-        return super.onStartCommand(intent, flags, startId);
+        return START_NOT_STICKY;
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return binder;
     }
 
     @Override
@@ -180,5 +183,13 @@ public class CollectorService extends Service {
                 .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .build();
+    }
+
+    public class CollectorBinder extends Binder {
+
+        public CollectorService getService() {
+            return CollectorService.this;
+        }
+
     }
 }

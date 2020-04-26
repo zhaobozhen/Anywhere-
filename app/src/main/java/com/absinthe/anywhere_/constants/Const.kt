@@ -64,6 +64,7 @@ object Const {
     const val CARD_BG_MODE_OFF = "off"
     const val CARD_BG_MODE_PURE = "pure"
     const val CARD_BG_MODE_GRADIENT = "gradient"
+    const val CARD_BG_MODE_BLURRY = "blurry"
 
     const val DARK_MODE_OFF = "off"
     const val DARK_MODE_ON = "on"

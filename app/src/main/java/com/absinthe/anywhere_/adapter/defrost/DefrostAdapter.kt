@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.adapter.defrost
 import android.app.admin.DevicePolicyManager
 import android.content.pm.PackageManager
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
@@ -25,6 +26,7 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
     override fun convert(holder: BaseViewHolder, item: DefrostItem) {
         val button: MaterialButton = holder.getView(R.id.button)
         val radio: MaterialRadioButton = holder.getView(R.id.radio)
+        val addition: TextView = holder.getView(R.id.tv_addition)
 
         if (item.mode == GlobalValues.defrostMode) {
             radio.isChecked = true
@@ -34,8 +36,9 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
         button.apply {
             if (item.buttonText.isEmpty()) {
                 visibility = View.GONE
+            } else {
+                text = item.buttonText
             }
-            text = item.buttonText
 
             when(item.mode) {
                 Const.DEFROST_MODE_DSM -> {
@@ -50,6 +53,14 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
                         text = context.getText(R.string.btn_acquired)
                     }
                 }
+            }
+        }
+
+        addition.apply {
+            if (item.addition.isEmpty()) {
+                visibility = View.GONE
+            } else {
+                text = item.addition
             }
         }
 

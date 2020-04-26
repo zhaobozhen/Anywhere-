@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.backup
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.absinthe.anywhere_.BaseActivity
@@ -16,7 +17,6 @@ import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
-import java.lang.StringBuilder
 
 class BackupFragment : PreferenceFragmentCompat(),
         Preference.OnPreferenceClickListener,
@@ -114,14 +114,14 @@ class BackupFragment : PreferenceFragmentCompat(),
         return true
     }
 
-    private fun getBackupTip(versionName: String): String {
-        return String.format(getString(R.string.settings_backup_tip), versionName, versionName)
+    private fun getBackupTip(versionName: String): CharSequence {
+        return Html.fromHtml(String.format(getString(R.string.settings_backup_tip), versionName, versionName))
     }
 
     private fun getPWString(text: String) : String {
         val sb = StringBuilder().apply {
             for (char in text) {
-                append("•")
+                append("●")
             }
         }
 

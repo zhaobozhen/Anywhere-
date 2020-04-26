@@ -180,9 +180,9 @@
 
     <string name="settings_backup_backup_summary">Create a backup file in storage to export Anywhere- cards</string>
     <string name="settings_backup_share_summary">Copy &amp; share your Anywhere-</string>
-    <string name="settings_backup_restore_summary">Select a *.awbackups suffix file to import Anywhere- cards</string>
+    <string name="settings_backup_restore_summary">Select a <b>*.awbackups</b> suffix file to import Anywhere- cards</string>
     <string name="settings_backup_apply_summary">Apply shared Anywhere- configurations</string>
-    <string name="settings_backup_tip">Starting from version %s, the structure of data backup has changed, and backup files before version %s will not be available! Please backup a new file again.</string>
+    <string name="settings_backup_tip"><![CDATA[Starting from version <b>%s</b>, the structure of data backup has changed, and backup files before version <b>%s</b> will not be available! Please backup a new file again.]]></string>
 
     <string name="settings_backup_cloud_category">Cloud Backup</string>
     <string name="settings_backup_webdav_host_title">WebDAV Host</string>
@@ -315,6 +315,7 @@
     <string name="array_card_bg_off">Off</string>
     <string name="array_card_bg_pure">Pure</string>
     <string name="array_card_bg_gradient">Gradient</string>
+    <string name="array_card_bg_blurry">Blurry</string>
 
     <string name="activity_list_empty_title">Empty list</string>
     <string name="activity_list_empty_subtitle">Have you disabled/frozen this app?</string>
@@ -357,5 +358,6 @@
     <string name="defrost_mode_shizuku_summary">Requires Shizuku activated by root method</string>
 
     <string name="defrost_mode_dpm_desc">Active Anywhere- as a Device Policy Manager to gain the ability to defrost apps.</string>
+    <string name="defrost_mode_dpm_addition"><![CDATA[<b>Connect to PC and enter adb command:</b><br><i>adb shell dpm set-device-owner com.absinthe.anywhere_/.receiver.AdminReceiver</i>]]></string>
 
 </resources>

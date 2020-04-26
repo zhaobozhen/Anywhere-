@@ -15,11 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.adapter.BaseAdapter;
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
-import com.absinthe.anywhere_.databinding.ItemStreamCardViewBinding;
-import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
+import com.absinthe.anywhere_.databinding.ItemStreamCardViewBinding;
+import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -93,6 +93,8 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
             }
 
             if (GlobalValues.INSTANCE.getSCardBackgroundMode().equals(Const.CARD_BG_MODE_PURE)) {
+//                binding.blurLayout.setVisibility(View.GONE);
+
                 if (item.getColor() == 0) {
                     UiUtils.setCardUseIconColor(binding.ivCardBg,
                             UiUtils.getAppIconByPackageName(mContext, item),
@@ -106,11 +108,17 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
                     binding.tvAppName.setTextColor(UiUtils.isLightColor(item.getColor()) ? Color.BLACK : Color.WHITE);
                 }
             } else if (GlobalValues.INSTANCE.getSCardBackgroundMode().equals(Const.CARD_BG_MODE_GRADIENT)) {
+//                binding.blurLayout.setVisibility(View.GONE);
+
                 if (item.getColor() == 0) {
                     UiUtils.setCardUseIconColor(binding.ivCardBg, UiUtils.getAppIconByPackageName(mContext, item));
                 } else {
                     UiUtils.createLinearGradientBitmap(binding.ivCardBg, item.getColor(), Color.TRANSPARENT);
                 }
+            } else if (GlobalValues.INSTANCE.getSCardBackgroundMode().equals(Const.CARD_BG_MODE_BLURRY)) {
+//                binding.blurLayout.startBlur();
+                binding.ivCardBg.setVisibility(View.GONE);
+                binding.itemCard.setCardBackgroundColor(Color.TRANSPARENT);
             }
 
             if (item.getShortcutType() == AnywhereType.SHORTCUTS) {

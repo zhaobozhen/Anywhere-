@@ -15,14 +15,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.EventTag
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.*
+import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.AppListBean
+import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.ui.list.AppDetailActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.view.editor.AnywhereEditor
+import com.microsoft.appcenter.analytics.Analytics
 import java.util.*
+
 
 class AppListAdapter(private val mContext: Context, mode: Int) : RecyclerView.Adapter<AppListAdapter.ViewHolder>(), Filterable {
 
@@ -79,6 +84,13 @@ class AppListAdapter(private val mContext: Context, mode: Int) : RecyclerView.Ad
                     mListener?.onClick(mList[position], position)
                 }
             }
+
+            val properties: MutableMap<String, String> = HashMap()
+            properties["AppName"] = item.appName
+            properties["Package Name"] = item.packageName
+            properties["Class Name"] = item.className
+
+            Analytics.trackEvent(EventTag.ACTIVITY_LIST_ITEM, properties)
         }
     }
 

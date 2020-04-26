@@ -113,7 +113,7 @@
     <string name="settings_backup_restore_title">從存儲文件中恢復</string>
 
     <string name="settings_backup_backup_summary">在存儲中創建一個備份文件來導出 Anywhere- 卡片</string>
-    <string name="settings_backup_restore_summary">選擇一個 *.awbackups 後綴的文件來導入 Anywhere- 卡片</string>
+    <string name="settings_backup_restore_summary">選擇一個 <b>*.awbackups</b> 後綴的文件來導入 Anywhere- 卡片</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root 權限被拒絕</string>
@@ -238,7 +238,7 @@
     <string name="dialog_set_dark_mode_period_title">設置夜間模式時間</string>
     <string name="toast_no_document_app">你的 ROM 沒有文檔 App，請聯繫你的設備製造商</string>
     <string name="dialog_rename_title">重命名</string>
-    <string name="settings_backup_tip">從 %s 版本開始，數據備份的結構發生變化，%s 版本之前的備份文件將不可用！請重新備份新的文件。</string>
+    <string name="settings_backup_tip"><![CDATA[從 <b>%s</b> 版本開始，數據備份的結構發生變化，<b>%s</b> 版本之前的備份文件將不可用！請重新備份新的文件。]]></string>
     <string name="dialog_delete_with_sub_item_message">確定要刪除 %s 和其子項嗎?</string>
     <string name="menu_rename">重命名</string>
     <string name="menu_delete_page">刪除頁</string>
@@ -327,4 +327,6 @@
     <string name="settings_backup_webdav_host_title">WebDAV 域名</string>
     <string name="settings_backup_webdav_username_title">WebDAV 用戶名</string>
     <string name="settings_backup_webdav_password_title">WebDAV 密碼</string>
+    <string name="array_card_bg_blurry">毛玻璃</string>
+    <string name="defrost_mode_dpm_addition"><![CDATA[<b>連接 PC 並輸入 adb 指令:</b><br><i>adb shell dpm set-device-owner com.absinthe.anywhere_/.receiver.AdminReceiver</i>]]></string>
 </resources>
