@@ -6,10 +6,12 @@ import android.text.Html
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.utils.CipherUtils
+import com.absinthe.anywhere_.utils.StorageUtils
 import com.absinthe.anywhere_.utils.StorageUtils.createFile
 import com.absinthe.anywhere_.utils.StorageUtils.exportAnywhereEntityJsonString
 import com.absinthe.anywhere_.utils.StorageUtils.isExternalStorageWritable
@@ -17,6 +19,12 @@ import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
+import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class BackupFragment : PreferenceFragmentCompat(),
         Preference.OnPreferenceClickListener,
@@ -40,6 +48,9 @@ class BackupFragment : PreferenceFragmentCompat(),
         findPreference<Preference>(Const.PREF_WEBDAV_PASSWORD)?.apply {
             onPreferenceChangeListener = this@BackupFragment
             summary = getPWString(GlobalValues.webdavPassword)
+        }
+        findPreference<Preference>(Const.PREF_WEBDAV_TEST)?.apply {
+            onPreferenceClickListener = this@BackupFragment
         }
 
         findPreference<Preference>(Const.PREF_BACKUP)?.apply {
@@ -92,6 +103,11 @@ class BackupFragment : PreferenceFragmentCompat(),
                 showRestoreApplyDialog(requireActivity() as BaseActivity)
                 return true
             }
+            Const.PREF_WEBDAV_TEST -> {
+                StorageUtils.webdavBackup()
+
+                return true
+            }
         }
         return false
     }
@@ -118,7 +134,7 @@ class BackupFragment : PreferenceFragmentCompat(),
         return Html.fromHtml(String.format(getString(R.string.settings_backup_tip), versionName, versionName))
     }
 
-    private fun getPWString(text: String) : String {
+    private fun getPWString(text: String): String {
         val sb = StringBuilder().apply {
             for (char in text) {
                 append("●")

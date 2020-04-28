@@ -20,7 +20,6 @@ import com.absinthe.anywhere_.utils.UiUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 import timber.log.Timber;
@@ -138,7 +137,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
             } else {
                 try {
                     icon = Drawable.createFromStream(getContentResolver().openInputStream(Uri.parse(ae.getIconUri())), null);
-                } catch (FileNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     icon = UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, ae);
                 }

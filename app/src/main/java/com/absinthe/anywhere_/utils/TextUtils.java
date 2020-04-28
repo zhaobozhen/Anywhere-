@@ -121,6 +121,12 @@ public class TextUtils {
         return simpleDateFormat.format(date);
     }
 
+    public static String getWebDavFormatDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
+    }
+
     /**
      * Judge that whether a string contains the other string **ignore case**
      *

@@ -162,6 +162,9 @@ class MainActivity : BaseActivity() {
         if (mBinding.drawer.isDrawerVisible(GravityCompat.START)) {
             mBinding.drawer.closeDrawer(GravityCompat.START)
         } else {
+            if (AnywhereApplication.sRepository.needBackup) {
+                StorageUtils.webdavBackup()
+            }
             super.onBackPressed()
         }
     }

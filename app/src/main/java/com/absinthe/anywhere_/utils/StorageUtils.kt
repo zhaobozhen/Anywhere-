@@ -6,9 +6,16 @@ import android.content.Intent
 import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.google.gson.Gson
+import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -108,5 +115,38 @@ object StorageUtils {
         while (fis.read(buffer) != -1) { }
         fis.close()
         return String(buffer)
+    }
+
+    fun webdavBackup() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val sardine = OkHttpSardine()
+            sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
+
+            try {
+                val hostDir = GlobalValues.webdavHost + "Anywhere-/"
+                if (!sardine.exists(hostDir)) {
+                    sardine.createDirectory(hostDir)
+                }
+
+                val backupName = "Anywhere-Backups-${TextUtils.getWebDavFormatDate()}-${BuildConfig.VERSION_NAME}.awbackups"
+
+                exportAnywhereEntityJsonString()?.let { content ->
+                    CipherUtils.encrypt(content)?.let { encrypted ->
+                        if (!sardine.exists(hostDir + backupName)) {
+                            sardine.put(hostDir + backupName, encrypted.toByteArray())
+                        }
+                    }
+                }
+
+                withContext(Dispatchers.Main) {
+                    ToastUtil.makeText("Upload success")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    ToastUtil.makeText(e.toString())
+                }
+            }
+        }
     }
 }
