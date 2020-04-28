@@ -15,6 +15,9 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class SwitchShellEditor extends Editor<SwitchShellEditor> {
 
+    public static final String SWITCH_SHELL_OFF_STATUS = "off";
+    public static final String SWITCH_SHELL_ON_STATUS = "on";
+
     private TextInputLayout tilAppName, tilSwitchOn, tilSwitchOff;
     private TextInputEditText tietAppName, tietDescription, tietSwitchOn, tietSwitchOff;
 
@@ -87,6 +90,7 @@ public class SwitchShellEditor extends Editor<SwitchShellEditor> {
                         ae.setAppName(aName);
                         ae.setParam1(shellOn);
                         ae.setParam2(shellOff);
+                        ae.setParam3(SWITCH_SHELL_OFF_STATUS);
                         ae.setDescription(desc);
                         ae.setType(mItem.getType());
                         ae.setCategory(mItem.getCategory());

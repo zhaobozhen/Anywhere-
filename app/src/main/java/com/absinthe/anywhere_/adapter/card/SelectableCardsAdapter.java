@@ -62,14 +62,8 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
         @SuppressLint("SetTextI18n")
         private void bind(AnywhereEntity item) {
 
-            int type = item.getAnywhereType();
-            String pkgName;
+            String pkgName = item.getPackageName();
 
-            if (type == AnywhereType.URL_SCHEME) {
-                pkgName = item.getParam2();
-            } else {
-                pkgName = item.getParam1();
-            }
             try {
                 if (IceBox.getAppEnabledSetting(mContext, pkgName) != 0) {
                     binding.tvAppName.setText("\u2744" + item.getAppName());
@@ -84,7 +78,7 @@ public class SelectableCardsAdapter extends BaseAdapter<SelectableCardsAdapter.I
             binding.tvParam2.setText(item.getParam2());
             binding.tvDescription.setText(item.getDescription());
 
-            switch (type) {
+            switch (item.getAnywhereType()) {
                 case AnywhereType.URL_SCHEME:
                     binding.tvParam2.setVisibility(View.GONE);
                     break;

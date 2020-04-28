@@ -55,6 +55,7 @@ import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
+import com.absinthe.anywhere_.view.editor.SwitchShellEditor;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
@@ -111,6 +112,11 @@ public class UiUtils {
                 return context.getDrawable(R.drawable.ic_photo);
             case AnywhereType.SHELL:
                 return context.getDrawable(R.drawable.ic_code);
+            case AnywhereType.SWITCH_SHELL:
+                if (item.getParam3().equals(SwitchShellEditor.SWITCH_SHELL_OFF_STATUS))
+                    return context.getDrawable(R.drawable.ic_switch_off);
+                else
+                    return context.getDrawable(R.drawable.ic_switch_on);
         }
 
         return context.getDrawable(R.drawable.ic_logo);

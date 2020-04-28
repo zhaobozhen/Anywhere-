@@ -21,12 +21,15 @@ import timber.log.Timber
 class CollectorView(context: Context) : LinearLayout(context) {
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private val mLayoutParams = layoutParams as WindowManager.LayoutParams
+
     private var mBuilder: CollectorBuilder = CollectorBuilder(context, this)
     private var mPackageName: String = ""
     private var mClassName: String = ""
     private var isClick = false
     private var mStartTime: Long = 0
     private var mEndTime: Long = 0
+
 
     init {
         initView()
@@ -59,8 +62,6 @@ class CollectorView(context: Context) : LinearLayout(context) {
             private var tranY = 0f
 
             override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-                val mLayoutParams = layoutParams as WindowManager.LayoutParams
-
                 when (motionEvent.action) {
                     MotionEvent.ACTION_DOWN -> {
                         // 获取按下时的X，Y坐标

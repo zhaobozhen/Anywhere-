@@ -40,7 +40,7 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
                 text = item.buttonText
             }
 
-            when(item.mode) {
+            when (item.mode) {
                 Const.DEFROST_MODE_DSM -> {
                     if (DSMClient.getDelegatedScopes(context).contains(DevicePolicyManager.DELEGATION_PACKAGE_ACCESS)) {
                         isEnabled = false

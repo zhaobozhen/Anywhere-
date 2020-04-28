@@ -120,25 +120,23 @@ class AppListAdapter(private val mContext: Context, mode: Int) : RecyclerView.Ad
         val clAppList: ConstraintLayout = itemView.findViewById(R.id.cl_app_list)
 
         fun bind(item: AppListBean) {
+            tvAppName.text = item.appName
+
             when (mMode) {
                 MODE_APP_LIST -> {
                     ivIcon.setImageDrawable(item.icon)
-                    tvAppName.text = item.appName
                     tvPkgName.text = item.packageName
                 }
                 MODE_APP_DETAIL -> {
                     ivIcon.setImageDrawable(UiUtils.getActivityIcon(mContext, ComponentName(item.packageName, item.className)))
-                    tvAppName.text = item.appName
                     tvPkgName.text = item.className
                 }
                 MODE_CARD_LIST -> {
                     ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item))
-                    tvAppName.text = item.appName
                     tvPkgName.text = item.className
                 }
                 MODE_ICON_PACK -> {
                     ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item.packageName))
-                    tvAppName.text = item.appName
                     tvPkgName.text = item.packageName
                 }
             }
@@ -169,14 +167,16 @@ class AppListAdapter(private val mContext: Context, mode: Int) : RecyclerView.Ad
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
             //这里对 number 进行过滤后重新赋值
-            mList = results.values as List<AppListBean>
-            //如果过滤后的返回的值的个数大于等于 0 的话,对 Adapter 的界面进行刷新
-            if (results.count > 0) {
-                notifyDataSetChanged()
-            } else {
-                //否则说明没有任何过滤的结果,直接提示用户"没有符合条件的结果"
-                mList = ArrayList()
-                notifyDataSetChanged()
+            results.values?.let {
+                mList = it as List<AppListBean>
+                //如果过滤后的返回的值的个数大于等于 0 的话,对 Adapter 的界面进行刷新
+                if (results.count > 0) {
+                    notifyDataSetChanged()
+                } else {
+                    //否则说明没有任何过滤的结果,直接提示用户"没有符合条件的结果"
+                    mList = ArrayList()
+                    notifyDataSetChanged()
+                }
             }
         }
     }

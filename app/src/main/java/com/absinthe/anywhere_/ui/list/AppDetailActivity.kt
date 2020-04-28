@@ -12,12 +12,12 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding
 import com.absinthe.anywhere_.model.AppListBean
-import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.utils.AppUtils.getActivitiesClass
-import com.absinthe.anywhere_.utils.ListUtils
 import com.absinthe.anywhere_.utils.UiUtils
+import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -86,7 +86,8 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 if (list.isEmpty()) {
                     mBinding.vfContainer.displayedChild = 1
                 } else {
-                    mAdapter.setList(ListUtils.sortAppListByExported(list).toMutableList())
+                    list.sortBy { UiUtils.isActivityExported(Utils.getApp(), ComponentName(it.packageName, it.className)) }
+                    mAdapter.setList(list)
                     mBinding.vfContainer.displayedChild = 0
                 }
                 mBinding.srlAppDetail.isRefreshing = false

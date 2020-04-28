@@ -15,8 +15,8 @@ class PageProvider : BaseNodeProvider() {
     override val layoutId: Int
         get() = R.layout.item_page
 
-    override fun convert(helper: BaseViewHolder, data: BaseNode) {
-        val title = (data as PageNode).title
+    override fun convert(helper: BaseViewHolder, item: BaseNode) {
+        val title = (item as PageNode).title
         val recyclerView = helper.getView<RecyclerView>(R.id.rv_chip)
         val adapter = ChipAdapter(title)
 

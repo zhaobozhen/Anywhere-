@@ -73,7 +73,6 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         this.mItems.addAll(items);
         diffResult.dispatchUpdatesTo(this);
         notifyItemRangeChanged(0, getItemCount());
-
     }
 
     public void setMode(int mode) {
@@ -149,6 +148,9 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
                     case AnywhereType.SHELL:
                         openEditor(item, Editor.SHELL);
                         break;
+                    case AnywhereType.SWITCH_SHELL:
+                        openEditor(item, Editor.SWITCH_SHELL);
+                        break;
                 }
                 return true;
             }
@@ -212,6 +214,15 @@ public class BaseAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerVie
         } else if (item.getAnywhereType() == AnywhereType.SHELL) {
             String result = CommandUtils.execAdbCmd(item.getParam1());
             DialogManager.showShellResultDialog(mContext, result, null, null);
+        } else if (item.getAnywhereType() == AnywhereType.SWITCH_SHELL) {
+            Opener.with(mContext).load(item).open();
+            if (item.getParam3().equals(SwitchShellEditor.SWITCH_SHELL_OFF_STATUS)) {
+                item.setParam3(SwitchShellEditor.SWITCH_SHELL_ON_STATUS);
+                AnywhereApplication.sRepository.update(item);
+            } else {
+                item.setParam3(SwitchShellEditor.SWITCH_SHELL_OFF_STATUS);
+                AnywhereApplication.sRepository.update(item);
+            }
         } else if (item.getAnywhereType() == AnywhereType.ACTIVITY) {
             Opener.with(mContext).load(item).open();
         }

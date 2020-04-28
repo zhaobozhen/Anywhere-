@@ -10,6 +10,7 @@ import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.URLManager;
+import com.absinthe.anywhere_.view.editor.SwitchShellEditor;
 import com.blankj.utilcode.util.Utils;
 import com.google.gson.Gson;
 
@@ -94,6 +95,14 @@ public class TextUtils {
             cmd.append(AnywhereType.QRCODE_PREFIX).append(item.getParam2());
         } else if (type == AnywhereType.SHELL) {
             cmd.append(AnywhereType.SHELL_PREFIX).append(item.getParam1());
+        } else if (type == AnywhereType.SWITCH_SHELL) {
+            cmd.append(AnywhereType.SHELL_PREFIX);
+
+            if (item.getParam3().equals(SwitchShellEditor.SWITCH_SHELL_OFF_STATUS)) {
+                cmd.append(item.getParam1());
+            } else if (item.getParam3().equals(SwitchShellEditor.SWITCH_SHELL_ON_STATUS)) {
+                cmd.append(item.getParam2());
+            }
         } else {
             Timber.d("AnywhereType has problem.");
         }

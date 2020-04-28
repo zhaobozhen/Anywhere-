@@ -62,12 +62,8 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
         @SuppressLint("SetTextI18n")
         void bind(AnywhereEntity item) {
 
-            String pkgName;
-            if (item.getAnywhereType() == AnywhereType.URL_SCHEME) {
-                pkgName = item.getParam2();
-            } else {
-                pkgName = item.getParam1();
-            }
+            String pkgName = item.getPackageName();
+
             try {
                 if (IceBox.getAppEnabledSetting(mContext, pkgName) != 0) {
                     binding.tvAppName.setText("\u2744" + item.getAppName());

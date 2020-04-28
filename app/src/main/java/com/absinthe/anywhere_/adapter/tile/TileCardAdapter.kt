@@ -11,15 +11,15 @@ class TileCardAdapter : BaseQuickAdapter<AppListBean?, BaseViewHolder>(R.layout.
         addChildClickViewIds(R.id.btn_select)
     }
 
-    override fun convert(helper: BaseViewHolder, item: AppListBean?) {
-        when (helper.layoutPosition) {
-            0 -> helper.setText(R.id.tv_title, "Tile One")
-            1 -> helper.setText(R.id.tv_title, "Tile Two")
-            2 -> helper.setText(R.id.tv_title, "Tile Three")
+    override fun convert(holder: BaseViewHolder, item: AppListBean?) {
+        when (holder.layoutPosition) {
+            0 -> holder.setText(R.id.tv_title, "Tile One")
+            1 -> holder.setText(R.id.tv_title, "Tile Two")
+            2 -> holder.setText(R.id.tv_title, "Tile Three")
         }
 
         item?.let {
-            helper.apply {
+            holder.apply {
                 setText(R.id.tv_app_name, item.appName)
                 setText(R.id.tv_param_1, item.packageName)
                 setText(R.id.tv_param_2, item.className)

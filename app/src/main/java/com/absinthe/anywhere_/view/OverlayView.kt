@@ -13,12 +13,19 @@ import timber.log.Timber
 
 class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
 
-    private lateinit var mBuilder: OverlayBuilder
-
     var command: String = ""
+    var pkgName: String?
+        get() = mPkgName
+        set(mPkgName) {
+            this.mPkgName = mPkgName
+            mBuilder.ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, mPkgName))
+        }
+
     private val mWindowManager: WindowManager = mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val mTouchSlop: Int = ViewConfiguration.get(mContext).scaledTouchSlop
+    private val mLayoutParams = layoutParams as WindowManager.LayoutParams
 
+    private lateinit var mBuilder: OverlayBuilder
     private var mPkgName: String? = null
     private var isClick = false
     private var mStartTime: Long = 0
@@ -48,15 +55,16 @@ class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
             //Last x, y position = 0f
             private var lastX = 0f
             private var lastY = 0f
+
             //Current x, y position = 0f
             private var nowX = 0f
             private var nowY = 0f
+
             //悬浮窗移动位置的相对值 = 0f
             private var tranX = 0f
             private var tranY = 0f
 
             override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-                val mLayoutParams = layoutParams as WindowManager.LayoutParams
 
                 when (motionEvent.action) {
                     MotionEvent.ACTION_DOWN -> {
@@ -104,11 +112,4 @@ class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
             }
         })
     }
-
-    var pkgName: String?
-        get() = mPkgName
-        set(mPkgName) {
-            this.mPkgName = mPkgName
-            mBuilder.ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, mPkgName))
-        }
 }
