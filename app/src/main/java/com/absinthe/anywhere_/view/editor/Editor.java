@@ -261,6 +261,9 @@ public abstract class Editor<T extends Editor<?>> {
                 }
                 if (this instanceof ImageEditor) {
                     popup.getMenu().findItem(R.id.share_card).setVisible(false);
+                } else if (this instanceof SwitchShellEditor) {
+                    popup.getMenu().findItem(R.id.add_shortcuts).setEnabled(false);
+                    popup.getMenu().findItem(R.id.add_home_shortcuts).setEnabled(false);
                 }
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {

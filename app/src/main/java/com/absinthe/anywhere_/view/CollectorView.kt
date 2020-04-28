@@ -10,6 +10,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.model.CollectorWindowManager
 import com.absinthe.anywhere_.services.CollectorService
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CommandUtils
@@ -21,7 +22,7 @@ import timber.log.Timber
 class CollectorView(context: Context) : LinearLayout(context) {
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    private val mLayoutParams = layoutParams as WindowManager.LayoutParams
+    private val mLayoutParams: WindowManager.LayoutParams = CollectorWindowManager.LAYOUT_PARAMS
 
     private var mBuilder: CollectorBuilder = CollectorBuilder(context, this)
     private var mPackageName: String = ""
@@ -54,9 +55,11 @@ class CollectorView(context: Context) : LinearLayout(context) {
             //Last x, y position = 0f
             private var lastX = 0f
             private var lastY = 0f
+
             //Current x, y position = 0f
             private var nowX = 0f
             private var nowY = 0f
+
             //悬浮窗移动位置的相对值 = 0f
             private var tranX = 0f
             private var tranY = 0f
@@ -86,8 +89,8 @@ class CollectorView(context: Context) : LinearLayout(context) {
 
                         // 移动悬浮窗
                         mLayoutParams.apply {
-                            x.minus(tranX.toInt())
-                            y.plus(tranY.toInt())
+                            x -= tranX.toInt()
+                            y += tranY.toInt()
                         }
                         //更新悬浮窗位置
                         mWindowManager.updateViewLayout(this@CollectorView, mLayoutParams)

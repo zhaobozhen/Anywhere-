@@ -47,10 +47,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_switch_on"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@id/tiet_switch_off"
-            android:singleLine="true" />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,10 +68,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_switch_off"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@id/tiet_description"
-            android:singleLine="true" />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

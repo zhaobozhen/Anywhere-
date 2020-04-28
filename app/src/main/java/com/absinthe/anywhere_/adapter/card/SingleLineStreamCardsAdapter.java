@@ -96,6 +96,8 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
                             color -> {
                                 if (color != 0) {
                                     binding.tvAppName.setTextColor(UiUtils.isLightColor(color) ? Color.BLACK : Color.WHITE);
+                                } else {
+                                    binding.tvAppName.setTextColor(mContext.getResources().getColor(R.color.textColorNormal));
                                 }
                             });
                 } else {

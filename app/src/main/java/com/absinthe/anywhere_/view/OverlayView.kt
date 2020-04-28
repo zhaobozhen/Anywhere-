@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.*
 import android.widget.LinearLayout
+import com.absinthe.anywhere_.model.OverlayWindowManager
 import com.absinthe.anywhere_.services.OverlayService
 import com.absinthe.anywhere_.utils.CommandUtils
 import com.absinthe.anywhere_.utils.UiUtils
@@ -23,7 +24,7 @@ class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
 
     private val mWindowManager: WindowManager = mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val mTouchSlop: Int = ViewConfiguration.get(mContext).scaledTouchSlop
-    private val mLayoutParams = layoutParams as WindowManager.LayoutParams
+    private val mLayoutParams = OverlayWindowManager.LAYOUT_PARAMS
 
     private lateinit var mBuilder: OverlayBuilder
     private var mPkgName: String? = null
@@ -93,8 +94,10 @@ class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
                         }
 
                         // 移动悬浮窗
-                        mLayoutParams.x.minus(tranX.toInt())
-                        mLayoutParams.y.plus(tranY.toInt())
+                        mLayoutParams.apply {
+                            x -= tranX.toInt()
+                            y += tranY.toInt()
+                        }
                         //更新悬浮窗位置
                         mWindowManager.updateViewLayout(this@OverlayView, mLayoutParams)
                         //记录当前坐标作为下一次计算的上一次移动的位置坐标

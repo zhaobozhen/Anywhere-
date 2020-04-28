@@ -39,7 +39,7 @@ class OverlayWindowManager(private val mContext: Context, cmd: String, pkgName: 
     }
 
     companion object {
-        private var LAYOUT_PARAMS = WindowManager.LayoutParams().apply {
+        var LAYOUT_PARAMS = WindowManager.LayoutParams().apply {
             x = width
             y = height / 2
             width = WindowManager.LayoutParams.WRAP_CONTENT

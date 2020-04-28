@@ -97,6 +97,10 @@ public class StreamCardsAdapter extends BaseAdapter<StreamCardsAdapter.ItemViewH
                             color -> {
                                 if (color != 0) {
                                     binding.tvAppName.setTextColor(UiUtils.isLightColor(color) ? Color.BLACK : Color.WHITE);
+                                    binding.tvDescription.setTextColor(UiUtils.isLightColor(color) ? Color.BLACK : Color.WHITE);
+                                } else {
+                                    binding.tvAppName.setTextColor(mContext.getResources().getColor(R.color.textColorNormal));
+                                    binding.tvDescription.setTextColor(mContext.getResources().getColor(R.color.textColorNormal));
                                 }
                             });
                 } else {

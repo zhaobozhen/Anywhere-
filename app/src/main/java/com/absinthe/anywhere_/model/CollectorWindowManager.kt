@@ -17,7 +17,7 @@ class CollectorWindowManager(private val context: Context) {
         private set
 
     fun addView() {
-        if (view == null) {
+        view ?: run {
             view = CollectorView(context).apply {
                 layoutParams = LAYOUT_PARAMS
                 measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
@@ -28,7 +28,7 @@ class CollectorWindowManager(private val context: Context) {
     }
 
     fun removeView() {
-        if (view != null) {
+        view?.let {
             mWindowManager.removeView(view)
             view = null
             Timber.d("Collector removeView.")
@@ -40,8 +40,7 @@ class CollectorWindowManager(private val context: Context) {
     }
 
     companion object {
-
-        private var LAYOUT_PARAMS = WindowManager.LayoutParams().apply {
+        var LAYOUT_PARAMS = WindowManager.LayoutParams().apply {
             x = width
             y = height / 2
             width = WindowManager.LayoutParams.WRAP_CONTENT

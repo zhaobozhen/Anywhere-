@@ -86,7 +86,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 if (list.isEmpty()) {
                     mBinding.vfContainer.displayedChild = 1
                 } else {
-                    list.sortBy { UiUtils.isActivityExported(Utils.getApp(), ComponentName(it.packageName, it.className)) }
+                    list.sortByDescending { UiUtils.isActivityExported(Utils.getApp(), ComponentName(it.packageName, it.className)) }
                     mAdapter.setList(list)
                     mBinding.vfContainer.displayedChild = 0
                 }
