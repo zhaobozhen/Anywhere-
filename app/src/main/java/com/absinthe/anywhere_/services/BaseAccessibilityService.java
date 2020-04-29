@@ -18,21 +18,12 @@ import timber.log.Timber;
 @SuppressLint("Registered")
 public class BaseAccessibilityService extends AccessibilityService {
 
-    @SuppressLint("StaticFieldLeak")
-    private static BaseAccessibilityService mInstance;
     private AccessibilityManager mAccessibilityManager;
     private Context mContext;
 
     public void init(Context context) {
         mContext = context.getApplicationContext();
         mAccessibilityManager = (AccessibilityManager) mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
-    }
-
-    public static BaseAccessibilityService getInstance() {
-        if (mInstance == null) {
-            mInstance = new BaseAccessibilityService();
-        }
-        return mInstance;
     }
 
     /**

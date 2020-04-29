@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.services;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -8,23 +9,22 @@ import com.absinthe.anywhere_.workflow.WorkFlow;
 
 public class IzukoService extends BaseAccessibilityService {
     @SuppressLint("StaticFieldLeak")
-    public static IzukoService sInstance;
-
-    private static WorkFlow sWorkFlow = null;
-    private static boolean isClicked = true;
-    private static String sPackageName = "";
-    private static String sClassName = "";
+    private static IzukoService sInstance;
+    private WorkFlow mWorkFlow = new WorkFlow();
+    private String mPackageName = "";
+    private String mClassName = "";
+    private boolean isClicked = true;
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    protected void onServiceConnected() {
+        super.onServiceConnected();
         sInstance = this;
     }
 
     @Override
-    public void onDestroy() {
+    public boolean onUnbind(Intent intent) {
         sInstance = null;
-        super.onDestroy();
+        return super.onUnbind(intent);
     }
 
     @Override
@@ -32,11 +32,12 @@ public class IzukoService extends BaseAccessibilityService {
         if (isClicked) return;
 
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
-                TextUtils.equals(event.getPackageName(), sPackageName)) {
+                TextUtils.equals(event.getPackageName(), mPackageName)) {
 
             CharSequence className = event.getClassName();
-            if (className.equals(sClassName)) {
-                sWorkFlow.start();
+
+            if (className.equals(mClassName)) {
+                mWorkFlow.start();
             }
         }
     }
@@ -46,19 +47,23 @@ public class IzukoService extends BaseAccessibilityService {
 
     }
 
-    public static void isClicked(boolean isClicked) {
-        IzukoService.isClicked = isClicked;
+    public static IzukoService getInstance() {
+        return sInstance;
     }
 
-    public static void setPackageName(String sPackageName) {
-        IzukoService.sPackageName = sPackageName;
+    public void isClicked(boolean isClicked) {
+        this.isClicked = isClicked;
     }
 
-    public static void setClassName(String sClassName) {
-        IzukoService.sClassName = sClassName;
+    public void setPackageName(String packageName) {
+        mPackageName = packageName;
     }
 
-    public static void setWorkFlow(WorkFlow sWorkFlow) {
-        IzukoService.sWorkFlow = sWorkFlow;
+    public void setClassName(String className) {
+        mClassName = className;
+    }
+
+    public void setWorkFlow(WorkFlow workFlow) {
+        mWorkFlow = workFlow;
     }
 }

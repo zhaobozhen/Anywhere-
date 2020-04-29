@@ -7,18 +7,21 @@ class FlowNode(private val content: String, private val type: Int) {
 
     fun trigger() {
         Timber.d("trigger")
+
         when (type) {
             TYPE_ACCESSIBILITY_TEXT -> {
-                IzukoService.isClicked(false)
-                IzukoService.sInstance.clickTextViewByText(content)
-                IzukoService.isClicked(true)
+                IzukoService.getInstance().apply {
+                    isClicked(false)
+                    clickTextViewByText(content)
+                    isClicked(true)
+                }
             }
             TYPE_ACCESSIBILITY_VIEW_ID -> {
-                IzukoService.isClicked(false)
-                IzukoService.sInstance.clickTextViewByID(content)
-                IzukoService.isClicked(true)
-            }
-            else -> {
+                IzukoService.getInstance().apply {
+                    isClicked(false)
+                    clickTextViewByID(content)
+                    isClicked(true)
+                }
             }
         }
     }

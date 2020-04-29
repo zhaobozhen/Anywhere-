@@ -194,9 +194,9 @@ public class QRCollection {
                 mContext.startActivity(intent);
                 ToastUtil.makeText(R.string.toast_grant_accessibility);
             } else {
-                IzukoService.setPackageName(pkgName);
-                IzukoService.setClassName(clsName);
-                IzukoService.isClicked(false);
+                IzukoService.getInstance().setPackageName(pkgName);
+                IzukoService.getInstance().setClassName(clsName);
+                IzukoService.getInstance().isClicked(false);
                 Observable<FlowNode> source = Observable.create(emitter -> {
                     emitter.onNext(new FlowNode("com.tencent.mm:id/c7", FlowNode.TYPE_ACCESSIBILITY_VIEW_ID));
                     Thread.sleep(200);
@@ -204,7 +204,7 @@ public class QRCollection {
 
                     emitter.onComplete();
                 });
-                IzukoService.setWorkFlow(new WorkFlow().observe(source));
+                IzukoService.getInstance().setWorkFlow(new WorkFlow().observe(source));
 
                 try {
                     Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(pkgName);
@@ -276,20 +276,20 @@ public class QRCollection {
                 mContext.startActivity(intent);
                 ToastUtil.makeText(R.string.toast_grant_accessibility);
             } else {
-                IzukoService.setPackageName(pkgName);
-                IzukoService.setClassName(clsName);
-                IzukoService.isClicked(false);
+                IzukoService.getInstance().setPackageName(pkgName);
+                IzukoService.getInstance().setClassName(clsName);
+                IzukoService.getInstance().isClicked(false);
                 Observable<FlowNode> source = Observable.create(emitter -> {
                     emitter.onNext(new FlowNode("com.tencent.mm:id/c7", FlowNode.TYPE_ACCESSIBILITY_VIEW_ID));
                     Thread.sleep(200);
                     emitter.onNext(new FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     Thread.sleep(800);
-                    IzukoService.setClassName("com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI");
+                    IzukoService.getInstance().setClassName("com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI");
                     emitter.onNext(new FlowNode("二维码收款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
 
                     emitter.onComplete();
                 });
-                IzukoService.setWorkFlow(new WorkFlow().observe(source));
+                IzukoService.getInstance().setWorkFlow(new WorkFlow().observe(source));
 
                 try {
                     Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(pkgName);
@@ -479,9 +479,9 @@ public class QRCollection {
                 mContext.startActivity(intent);
                 ToastUtil.makeText(R.string.toast_grant_accessibility);
             } else {
-                IzukoService.isClicked(false);
-                IzukoService.setPackageName(pkgName);
-                IzukoService.setClassName(clsName);
+                IzukoService.getInstance().isClicked(false);
+                IzukoService.getInstance().setPackageName(pkgName);
+                IzukoService.getInstance().setClassName(clsName);
                 Observable<FlowNode> source = Observable.create(emitter -> {
                     emitter.onNext(new FlowNode("知道了", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     Thread.sleep(200);
@@ -494,7 +494,7 @@ public class QRCollection {
 
                     emitter.onComplete();
                 });
-                IzukoService.setWorkFlow(new WorkFlow().observe(source));
+                IzukoService.getInstance().setWorkFlow(new WorkFlow().observe(source));
 
                 try {
                     Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(pkgName);
