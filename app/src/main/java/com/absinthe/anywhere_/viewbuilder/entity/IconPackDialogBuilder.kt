@@ -22,6 +22,7 @@ class IconPackDialogBuilder(context: Context) : ViewBuilder(context) {
                     LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 setMargins(0, 0, 0, 10.dp)
+                overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             }
         }
 

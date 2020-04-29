@@ -6,5 +6,6 @@
 - 新增 设置 - 备份 - WebDAV 云备份
 - 优化 使用 MMKV 替换 SharedPreference，提升启动速度
 - 优化 数据库 CRUD 操作
+- 优化 Shizuku 使用 binder transact
 - 修复 云闪付公交码可能无效问题
 - 修复 桌面小部件固定时间后空白问题（自己挂了好几天也没掉

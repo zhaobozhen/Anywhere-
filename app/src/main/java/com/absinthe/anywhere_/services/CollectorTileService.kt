@@ -10,7 +10,6 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.R
-import com.blankj.utilcode.util.ServiceUtils
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 class CollectorTileService : TileService() {
@@ -32,40 +31,16 @@ class CollectorTileService : TileService() {
 
     override fun onClick() {
         qsTile?.let {
-            if (it.state == Tile.STATE_ACTIVE) {
-                collectorService?.stopCollector()
-                if (isBound) {
-                    unbindService(conn)
-                }
-
-                it.state = Tile.STATE_INACTIVE
-                it.label = getString(R.string.tile_collector_on)
+            if (isBound) {
+                collectorService?.startCollector()
             } else {
-                if (isBound) {
-                    collectorService?.startCollector()
-                } else {
-                    bindService(Intent(this, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
-                }
-
-                it.state = Tile.STATE_ACTIVE
-                it.label = getString(R.string.tile_collector_off)
+                bindService(Intent(this, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
             }
+
+            it.state = Tile.STATE_ACTIVE
+            it.label = getString(R.string.tile_collector_off)
             sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
             it.updateTile()
-        }
-    }
-
-    override fun onStartListening() {
-        super.onStartListening()
-
-        qsTile?.let {
-            if (ServiceUtils.isServiceRunning(CollectorService::class.java)) {
-                it.state = Tile.STATE_ACTIVE
-                it.label = getString(R.string.tile_collector_off)
-            } else {
-                it.state = Tile.STATE_INACTIVE
-                it.label = getString(R.string.tile_collector_on)
-            }
         }
     }
 }
