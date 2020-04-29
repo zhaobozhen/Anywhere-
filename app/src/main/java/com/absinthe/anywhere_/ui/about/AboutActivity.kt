@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -57,6 +58,9 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(Category(getString(R.string.other_works)))
             add(Contributor(R.mipmap.kage_icon, "Kage(Beta)", getString(R.string.kage_intro), "https://www.coolapk.com/apk/com.absinthe.kage"))
             add(Contributor(R.mipmap.libchecker_icon, "LibChecker", getString(R.string.lc_intro), "https://www.coolapk.com/apk/com.absinthe.libchecker"))
+
+            add(Category(getString(R.string.communication)))
+            add(Card(Html.fromHtml("Telegram: <a href=\"t.me/anywhereee\">t.me/anywhereee</a><br>E-mail: zhaobozhen2025@gmail.com")))
 
             add(Category(getString(R.string.open_source_licenses)))
             add(License("Kotlin", "JetBrains", License.APACHE_2, "https://github.com/JetBrains/kotlin"))

@@ -112,12 +112,19 @@ object StorageUtils {
         }
 
         val buffer = ByteArray(fis.available())
-        while (fis.read(buffer) != -1) { }
+        while (fis.read(buffer) != -1) {
+        }
         fis.close()
         return String(buffer)
     }
 
     fun webdavBackup() {
+        if (GlobalValues.webdavHost.isEmpty() ||
+                GlobalValues.webdavUsername.isEmpty() ||
+                GlobalValues.webdavPassword.isEmpty()) {
+            return
+        }
+
         GlobalScope.launch(Dispatchers.IO) {
             val sardine = OkHttpSardine()
             sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
@@ -137,14 +144,10 @@ object StorageUtils {
                         }
                     }
                 }
-
-                withContext(Dispatchers.Main) {
-                    ToastUtil.makeText("Upload success")
-                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    ToastUtil.makeText(e.toString())
+                    ToastUtil.makeText("Backup failed: $e")
                 }
             }
         }

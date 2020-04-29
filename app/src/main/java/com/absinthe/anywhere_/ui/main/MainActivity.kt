@@ -1,12 +1,10 @@
 package com.absinthe.anywhere_.ui.main
 
-import android.content.ActivityNotFoundException
-import android.content.ComponentName
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
 import android.view.HapticFeedbackConstants
 import android.view.Menu
 import android.view.MenuItem
@@ -38,6 +36,7 @@ import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.PageEntity
 import com.absinthe.anywhere_.model.Settings
+import com.absinthe.anywhere_.services.CollectorService
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
 import com.absinthe.anywhere_.ui.list.AppListActivity
@@ -56,6 +55,7 @@ import com.absinthe.anywhere_.view.FabBuilder.build
 import com.absinthe.anywhere_.view.editor.AnywhereEditor
 import com.absinthe.anywhere_.view.editor.Editor
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
@@ -83,6 +83,23 @@ class MainActivity : BaseActivity() {
     private lateinit var mToggle: ActionBarDrawerToggle
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mObserver: Observer<List<PageEntity>?>
+
+    private var isBound = false
+    private var collectorService: CollectorService? = null
+
+    private val conn = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound = false
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            isBound = true
+            collectorService = (service as CollectorService.CollectorBinder).service
+            collectorService?.startCollector()
+            ActivityUtils.startHomeActivity()
+        }
+
+    }
 
     init {
         isPaddingToolbar = !GlobalValues.isMd2Toolbar
@@ -114,6 +131,7 @@ class MainActivity : BaseActivity() {
 
             initFab()
             getAnywhereIntent(intent)
+            backupIfNeeded()
         }
     }
 
@@ -162,9 +180,7 @@ class MainActivity : BaseActivity() {
         if (mBinding.drawer.isDrawerVisible(GravityCompat.START)) {
             mBinding.drawer.closeDrawer(GravityCompat.START)
         } else {
-            if (AnywhereApplication.sRepository.needBackup) {
-                StorageUtils.webdavBackup()
-            }
+            backupIfNeeded()
             super.onBackPressed()
         }
     }
@@ -404,7 +420,16 @@ class MainActivity : BaseActivity() {
                     Analytics.trackEvent(EventTag.FAB_ACTIVITY_LIST_CLICK)
                 }
                 R.id.fab_collector -> {
-                    viewModel.startCollector(this)
+                    viewModel.startCollector(this, object : AnywhereViewModel.OnStartCollectorListener {
+                        override fun onStart() {
+                            if (isBound) {
+                                collectorService?.startCollector()
+                                ActivityUtils.startHomeActivity()
+                            } else {
+                                bindService(Intent(this@MainActivity, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
+                            }
+                        }
+                    })
                     Analytics.trackEvent(EventTag.FAB_COLLECTOR_CLICK)
                 }
                 R.id.fab_qr_code_collection -> {
@@ -529,6 +554,13 @@ class MainActivity : BaseActivity() {
                     .maxWidth(ConvertUtils.dp2px(150f))
                     .create()
             tooltip.show(target, Tooltip.Gravity.LEFT, true)
+        }
+    }
+
+    private fun backupIfNeeded() {
+        if (GlobalValues.needBackup) {
+            StorageUtils.webdavBackup()
+            GlobalValues.needBackup = false
         }
     }
 

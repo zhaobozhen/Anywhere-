@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.Settings
-import com.absinthe.anywhere_.utils.TimeRecorder
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.checkSignature
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper
 import com.absinthe.anywhere_.utils.timber.ReleaseTree
@@ -40,7 +39,6 @@ class AnywhereApplication : Application() {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
 
-        TimeRecorder.startRecord()
         Reflection.unseal(base)
         ShizukuHelper.bind(base)
     }

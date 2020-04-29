@@ -32,6 +32,7 @@
     <string name="green_android_title">Comply to “Convention of Green Apps for Android”</string>
     <string name="open_source_licenses">Open Source Licenses</string>
     <string name="other_works">Other Works</string>
+    <string name="communication">Communication</string>
     <string name="kage_intro">An app which can cast multi-media files to other Android devices.</string>
     <string name="lc_intro">An app which can look at the CPU architecture of apps in your device.</string>
 

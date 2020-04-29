@@ -15,7 +15,6 @@ class AnywhereRepository(application: Application) {
     var allAnywhereEntities: LiveData<List<AnywhereEntity>>
         private set
     val allPageEntities: LiveData<List<PageEntity>>
-    var needBackup = false
 
     private val mAnywhereDao: AnywhereDao = AnywhereRoomDatabase.getDatabase(application).anywhereDao()
 
@@ -41,41 +40,41 @@ class AnywhereRepository(application: Application) {
         GlobalScope.launch(Dispatchers.IO) {
             mAnywhereDao.insert(ae)
         }
-        needBackup = true
+        GlobalValues.needBackup = true
     }
 
     fun update(ae: AnywhereEntity) {
         GlobalScope.launch(Dispatchers.IO) {
             mAnywhereDao.update(ae)
         }
-        needBackup = true
+        GlobalValues.needBackup = true
     }
 
     fun delete(ae: AnywhereEntity) {
         GlobalScope.launch(Dispatchers.IO) {
             mAnywhereDao.delete(ae)
         }
-        needBackup = true
+        GlobalValues.needBackup = true
     }
 
     fun insertPage(pe: PageEntity) {
         GlobalScope.launch(Dispatchers.IO) {
             mAnywhereDao.insertPage(pe)
         }
-        needBackup = true
+        GlobalValues.needBackup = true
     }
 
     fun updatePage(pe: PageEntity) {
         GlobalScope.launch(Dispatchers.IO) {
             mAnywhereDao.updatePage(pe)
         }
-        needBackup = true
+        GlobalValues.needBackup = true
     }
 
     fun deletePage(pe: PageEntity) {
         GlobalScope.launch(Dispatchers.IO) {
             mAnywhereDao.deletePage(pe)
         }
-        needBackup = true
+        GlobalValues.needBackup = true
     }
 }

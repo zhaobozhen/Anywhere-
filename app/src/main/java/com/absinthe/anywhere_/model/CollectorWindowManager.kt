@@ -6,37 +6,36 @@ import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
+import com.absinthe.anywhere_.services.CollectorService
 import com.absinthe.anywhere_.view.CollectorView
 import timber.log.Timber
 
-class CollectorWindowManager(private val context: Context) {
+class CollectorWindowManager(context: Context, service: CollectorService) {
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
-    var view: CollectorView? = null
+    var view: CollectorView = CollectorView(context, service)
         private set
 
     fun addView() {
-        view ?: run {
-            view = CollectorView(context).apply {
-                layoutParams = LAYOUT_PARAMS
-                measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-            }
-            mWindowManager.addView(view, LAYOUT_PARAMS)
-            Timber.d("Collector addView.")
+        view.apply {
+            layoutParams = LAYOUT_PARAMS
+            measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         }
+
+        mWindowManager.addView(view, LAYOUT_PARAMS)
+        Timber.d("Collector addView.")
     }
 
     fun removeView() {
-        view?.let {
+        view.let {
             mWindowManager.removeView(view)
-            view = null
             Timber.d("Collector removeView.")
         }
     }
 
     fun setInfo(pkgName: String, clsName: String) {
-        view?.setInfo(pkgName, clsName)
+        view.setInfo(pkgName, clsName)
     }
 
     companion object {

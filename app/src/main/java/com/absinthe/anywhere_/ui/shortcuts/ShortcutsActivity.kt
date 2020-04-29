@@ -1,12 +1,11 @@
 package com.absinthe.anywhere_.ui.shortcuts
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.os.Build
 import android.os.Bundle
 import android.os.FileUriExposedException
+import android.os.IBinder
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +34,22 @@ import timber.log.Timber
 
 class ShortcutsActivity : BaseActivity() {
 
+    private var isBound = false
+    private var collectorService: CollectorService? = null
+
+    private val conn = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound = false
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            isBound = true
+            collectorService = (service as CollectorService.CollectorBinder).service
+            collectorService?.startCollector()
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         UiUtils.setActionBarTransparent(this)
@@ -50,7 +65,11 @@ class ShortcutsActivity : BaseActivity() {
                     if (GlobalValues.workingMode == Const.WORKING_MODE_URL_SCHEME) {
                         openNewURLScheme(this)
                     } else {
-                        CollectorService.startCollector(this)
+                        if (isBound) {
+                            collectorService?.startCollector()
+                        } else {
+                            bindService(Intent(this, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
+                        }
                     }
                     finish()
                 }

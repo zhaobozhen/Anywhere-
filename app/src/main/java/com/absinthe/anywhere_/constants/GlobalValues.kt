@@ -149,6 +149,12 @@ object GlobalValues {
             mmkv.encode(Const.PREF_AUTO_DARK_MODE_END, value)
         }
 
+    var needBackup
+        get() = mmkv.decodeBool(Const.PREF_NEED_BACKUP, true)
+        set(value) {
+            mmkv.encode(Const.PREF_NEED_BACKUP, value)
+        }
+
     val info: CharSequence
         get() {
             val sb = StringBuilder()

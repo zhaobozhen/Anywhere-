@@ -18,8 +18,8 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.database.AnywhereRepository
-import com.absinthe.anywhere_.model.*
-import com.absinthe.anywhere_.services.CollectorService
+import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.PageEntity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.checkShizukuOnWorking
@@ -36,8 +36,8 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
 
     val allAnywhereEntities: LiveData<List<AnywhereEntity>>
     private val mRepository: AnywhereRepository = AnywhereApplication.sRepository
-    private var mBackground: MutableLiveData<String>? = MutableLiveData()
-    private var mFragment: MutableLiveData<Fragment>? = MutableLiveData()
+    private var mBackground: MutableLiveData<String> = MutableLiveData()
+    private var mFragment: MutableLiveData<Fragment> = MutableLiveData()
 
     init {
         allAnywhereEntities = mRepository.allAnywhereEntities
@@ -45,18 +45,12 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
 
     val background: MutableLiveData<String>
         get() {
-            if (mBackground == null) {
-                mBackground = MutableLiveData()
-            }
-            return mBackground!!
+            return mBackground
         }
 
     val fragment: MutableLiveData<Fragment>
         get() {
-            if (mFragment == null) {
-                mFragment = MutableLiveData()
-            }
-            return mFragment!!
+            return mFragment
         }
 
     fun insert(ae: AnywhereEntity) {
@@ -139,12 +133,12 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         editor.show()
     }
 
-    fun startCollector(activity: Activity) {
+    fun startCollector(activity: Activity, listener: OnStartCollectorListener) {
         when (GlobalValues.workingMode) {
             Const.WORKING_MODE_URL_SCHEME -> setUpUrlScheme(activity)
             Const.WORKING_MODE_SHIZUKU -> if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
-                    CollectorService.startCollector(activity)
+                    listener.onStart()
                 } else {
                     requestShizukuPermission()
                 }
@@ -155,7 +149,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                 PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
                     override fun onGranted() {
                         if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
-                            CollectorService.startCollector(activity)
+                            listener.onStart()
                         } else {
                             requestShizukuPermission()
                         }
@@ -166,7 +160,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
             }
             Const.WORKING_MODE_ROOT -> if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 if (DeviceUtils.isDeviceRooted()) {
-                    CollectorService.startCollector(activity)
+                    listener.onStart()
                 } else {
                     Timber.d("ROOT permission denied.")
                     ToastUtil.makeText(R.string.toast_root_permission_denied)
@@ -179,7 +173,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                 PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
                     override fun onGranted() {
                         if (DeviceUtils.isDeviceRooted()) {
-                            CollectorService.startCollector(activity)
+                            listener.onStart()
                         } else {
                             Timber.d("ROOT permission denied.")
                             ToastUtil.makeText(R.string.toast_root_permission_denied)
@@ -220,5 +214,9 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
             mRepository.insertPage(pe)
             AppUtils.takePersistableUriPermission(getApplication(), uri, intent)
         }
+    }
+
+    interface OnStartCollectorListener {
+        fun onStart()
     }
 }

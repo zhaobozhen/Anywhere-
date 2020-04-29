@@ -285,6 +285,7 @@
     <string name="settings_show_shell_result_summary">顯示一個對話框來通知 Shell 執行結果</string>
     <string name="toast_execute_shell_successful">Shell 執行成功</string>
     <string name="other_works">其他作品</string>
+    <string name="communication">交流</string>
     <string name="kage_intro">一款向其他 Android 設備投射多媒體文件的 App</string>
     <string name="notification_logcat_title">Logcat 已開始記錄</string>
     <string name="notification_logcat_content">點按停止記錄</string>
