@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.utils.manager
 
 import android.app.Dialog
 import androidx.fragment.app.DialogFragment
+import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.view.AnywhereBottomSheetDialog
 import timber.log.Timber
 import java.util.*
@@ -19,7 +20,7 @@ import java.util.*
 object DialogStack {
 
     private val stack: Stack<Any> = Stack()
-    var isPrintStack = false
+    private val isPrintStack = BuildConfig.DEBUG
 
     fun push(dialog: Any) {
         printStack()
@@ -77,16 +78,14 @@ object DialogStack {
                 stack.pop()
 
                 if (stack.isNotEmpty()) {
-                    val peekObject = stack.peek()
-
-                    if (peekObject == null) {
-                        stack.pop()
-                    } else {
-                        if (peekObject is Dialog) {
-                            peekObject.show()
-                        } else if (peekObject is DialogFragment) {
-                            peekObject.dialog?.show()
+                    stack.peek()?.let { peek ->
+                        if (peek is Dialog) {
+                            peek.show()
+                        } else if (peek is DialogFragment) {
+                            peek.dialog?.show()
                         }
+                    } ?: let {
+                        stack.pop()
                     }
                 }
             } catch (e: Exception) {

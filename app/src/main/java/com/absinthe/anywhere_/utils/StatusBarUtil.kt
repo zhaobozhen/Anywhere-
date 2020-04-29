@@ -34,14 +34,10 @@ object StatusBarUtil {
                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.window.decorView.systemUiVisibility = (
-                        activity.window.decorView.systemUiVisibility
-                                or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+                activity.window.decorView.systemUiVisibility.or(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                activity.window.decorView.systemUiVisibility = (
-                        activity.window.decorView.systemUiVisibility
-                                or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
+                activity.window.decorView.systemUiVisibility.or(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
             }
         }
     }

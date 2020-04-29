@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.ui.gift.GiftActivity.Companion.instance
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.view.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.AnywhereDialogFragment
@@ -58,7 +57,7 @@ class GiftPriceDialogFragment : AnywhereDialogFragment() {
         val btnPurchase: MaterialButton = view.findViewById(R.id.btn_purchase)
         btnPurchase.setOnClickListener {
             if (AlipayZeroSdk.hasInstalledAlipayClient(context)) {
-                AlipayZeroSdk.startAlipayClient(instance, "fkx12584ebfzfjbjeov8h93")
+                AlipayZeroSdk.startAlipayClient(requireActivity(), "fkx12584ebfzfjbjeov8h93")
             } else {
                 ToastUtil.makeText("Please install Alipay")
             }

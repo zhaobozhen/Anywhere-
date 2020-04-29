@@ -29,7 +29,7 @@ class SettingsActivity : BaseActivity() {
     private lateinit var mBinding: ActivitySettingsBinding
 
     init {
-        isPaddingToolbar = false
+        isPaddingToolbar = true
     }
 
     override fun setViewBinding() {

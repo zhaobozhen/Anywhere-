@@ -328,6 +328,7 @@
     <string name="settings_backup_webdav_host_title">WebDAV 域名</string>
     <string name="settings_backup_webdav_username_title">WebDAV 用户名</string>
     <string name="settings_backup_webdav_password_title">WebDAV 密码</string>
+    <string name="settings_backup_webdav_test_title">测试可用性</string>
     <string name="array_card_bg_blurry">毛玻璃</string>
     <string name="defrost_mode_dpm_addition"><![CDATA[<b>连接 PC 并输入 adb 指令:</b><br><i>adb shell dpm set-device-owner com.absinthe.anywhere_/.receiver.AdminReceiver</i>]]></string>
 </resources>

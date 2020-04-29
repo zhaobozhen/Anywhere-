@@ -32,6 +32,7 @@ class CardListDialogBuilder(context: Context) : ViewBuilder(context) {
             )
             layoutManager = LinearLayoutManager(context)
             adapter = mAdapter
+            overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         }
         addView(rvCardList)
 
