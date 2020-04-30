@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding
 import com.absinthe.anywhere_.model.AppListBean
 import com.absinthe.anywhere_.utils.AppUtils.getActivitiesClass
+import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.Dispatchers
@@ -62,13 +63,18 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun initRecyclerView() {
-        mBinding.rvAppList.layoutManager = WrapContentLinearLayoutManager(this)
-        mBinding.rvAppList.adapter = mAdapter
+        mBinding.rvAppList.apply {
+            layoutManager = WrapContentLinearLayoutManager(this@AppDetailActivity)
+            adapter = mAdapter
+            setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + StatusBarUtil.getNavBarHeight())
+        }
     }
 
     private fun initData(pkgName: String) {
-        mBinding.srlAppDetail.isEnabled = true
-        mBinding.srlAppDetail.isRefreshing = true
+        mBinding.srlAppDetail.apply {
+            isEnabled = true
+            isRefreshing = true
+        }
 
         GlobalScope.launch(Dispatchers.IO) {
             val list: MutableList<AppListBean> = ArrayList()
@@ -90,8 +96,11 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                     mAdapter.setList(list)
                     mBinding.vfContainer.displayedChild = 0
                 }
-                mBinding.srlAppDetail.isRefreshing = false
-                mBinding.srlAppDetail.isEnabled = false
+
+                mBinding.srlAppDetail.apply {
+                    isEnabled = false
+                    isRefreshing = false
+                }
             }
         }
     }

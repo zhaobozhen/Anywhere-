@@ -3,8 +3,11 @@ package com.absinthe.anywhere_.ui.list
 import android.animation.LayoutTransition
 import android.app.SearchManager
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import android.text.Html
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
@@ -16,6 +19,7 @@ import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
+import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -65,9 +69,11 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         searchBar.layoutTransition = LayoutTransition()
 
         // Bug of DayNight lib
-        if (showSystemApp != null) {
-            if (UiUtils.isDarkMode(this)) {
-                showSystemApp.title = Html.fromHtml("<font color='#FFFFFF'>" + showSystemApp.title + "</font>")
+        showSystemApp?.apply {
+            if (UiUtils.isDarkMode(this@AppListActivity)) {
+                title = SpannableStringBuilder(title).apply {
+                    setSpan(ForegroundColorSpan(Color.WHITE), 0, title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                }
             }
         }
         return true
@@ -77,14 +83,19 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         if (item.itemId == R.id.show_system_app) {
             if (item.title.toString() == getString(R.string.menu_show_system_app)) {
                 item.setTitle(R.string.menu_hide_system_app)
+
                 if (UiUtils.isDarkMode(this)) {
-                    item.title = Html.fromHtml("<font color='#FFFFFF'>" + item.title + "</font>")
+                    item.title = SpannableStringBuilder(item.title).apply {
+                        setSpan(ForegroundColorSpan(Color.WHITE), 0, item.title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                    }
                 }
                 isShowSystemApp = true
             } else {
                 item.setTitle(R.string.menu_show_system_app)
                 if (UiUtils.isDarkMode(this)) {
-                    item.title = Html.fromHtml("<font color='#FFFFFF'>" + item.title + "</font>")
+                    item.title = SpannableStringBuilder(item.title).apply {
+                        setSpan(ForegroundColorSpan(Color.WHITE), 0, item.title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                    }
                 }
                 isShowSystemApp = false
             }
@@ -99,15 +110,19 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun initRecyclerView() {
-        binding.rvAppList.layoutManager = WrapContentLinearLayoutManager(this)
         mAdapter = AppListAdapter(this, AppListAdapter.MODE_APP_LIST)
-        binding.rvAppList.adapter = mAdapter
-        binding.rvAppList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val topRowVerticalPosition = if (recyclerView.childCount == 0) 0 else recyclerView.getChildAt(0).top
-                binding.srlAppList.isEnabled = topRowVerticalPosition >= 0
-            }
-        })
+
+        binding.rvAppList.apply {
+            layoutManager = WrapContentLinearLayoutManager(this@AppListActivity)
+            adapter = mAdapter
+            setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + StatusBarUtil.getNavBarHeight())
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val topRowVerticalPosition = if (recyclerView.childCount == 0) 0 else recyclerView.getChildAt(0).top
+                    binding.srlAppList.isEnabled = topRowVerticalPosition >= 0
+                }
+            })
+        }
     }
 
     private fun initData(showSystem: Boolean = false) {
@@ -115,6 +130,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
         GlobalScope.launch(Dispatchers.IO) {
             val list = getAppList(packageManager, showSystem).toMutableList()
+
             withContext(Dispatchers.Main) {
                 mAdapter.setList(list)
                 binding.srlAppList.isRefreshing = false

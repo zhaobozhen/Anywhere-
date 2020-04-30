@@ -8,6 +8,7 @@ import com.absinthe.anywhere_.databinding.ActivityQrcodeCollectionBinding
 import com.absinthe.anywhere_.databinding.CardQrCollectionTipBinding
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.model.QRCollection
+import com.absinthe.anywhere_.utils.StatusBarUtil
 import jonathanfinerty.once.Once
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -39,14 +40,20 @@ class QRCodeCollectionActivity : BaseActivity() {
                     layoutInflater, binding.llContainer, false)
 
             binding.llContainer.addView(tipBinding.root, 0)
+
             tipBinding.btnOk.setOnClickListener {
                 binding.llContainer.removeView(tipBinding.root)
                 Once.markDone(OnceTag.QR_COLLECTION_TIP)
             }
         }
-        binding.recyclerView.adapter = mAdapter
-        binding.recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-        binding.srlQrCollection.isRefreshing = true
+        binding.apply {
+            recyclerView.apply {
+                adapter = mAdapter
+                layoutManager = WrapContentStaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+                setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + StatusBarUtil.getNavBarHeight())
+            }
+            srlQrCollection.isRefreshing = true
+        }
 
         GlobalScope.launch(Dispatchers.Main) {
             val collection = QRCollection.Singleton.INSTANCE.instance

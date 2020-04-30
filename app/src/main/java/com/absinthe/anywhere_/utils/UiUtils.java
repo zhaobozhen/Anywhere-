@@ -245,12 +245,17 @@ public class UiUtils {
      */
     public static void setActionBarTransparent(AppCompatActivity activity) {
         ActionBar actionBar = activity.getSupportActionBar();
-        Window window = activity.getWindow();
-        View view = window.getDecorView();
 
         if (actionBar != null && !GlobalValues.INSTANCE.isMd2Toolbar()) {
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
+
+        setSystemBarTransparent(activity);
+    }
+
+    public static void setSystemBarTransparent(AppCompatActivity activity) {
+        Window window = activity.getWindow();
+        View view = window.getDecorView();
 
         int flag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
@@ -310,8 +315,6 @@ public class UiUtils {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Bitmap actionBarBitmap = Bitmap.createBitmap(resource, 0, 0,
                                 resource.getWidth(), Math.min(finalActionBarHeight, resource.getHeight()));
-                        Timber.d("actionBarBitmap.getWidth() = %d", actionBarBitmap.getWidth());
-                        Timber.d("actionBarBitmap.getHeight() = %d", actionBarBitmap.getHeight());
 
                         Palette.from(actionBarBitmap).generate(p -> {
                             if (p != null) {

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.preference.DropDownPreference
 import androidx.preference.Preference
@@ -19,6 +20,7 @@ import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.ui.main.MainFragment
 import com.absinthe.anywhere_.utils.AppUtils
+import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.IzukoHelper
@@ -107,6 +109,11 @@ class SettingsActivity : BaseActivity() {
             excludePreference?.onPreferenceChangeListener = this
             showShellResultPreference?.onPreferenceChangeListener = this
 
+        }
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            listView.setPadding(0, 0, 0, StatusBarUtil.getNavBarHeight())
         }
 
         override fun onResume() {

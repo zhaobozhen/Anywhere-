@@ -3,19 +3,17 @@ package com.absinthe.anywhere_.ui.backup
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
+import android.view.View
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.utils.CipherUtils
-import com.absinthe.anywhere_.utils.StorageUtils
+import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.StorageUtils.createFile
 import com.absinthe.anywhere_.utils.StorageUtils.exportAnywhereEntityJsonString
 import com.absinthe.anywhere_.utils.StorageUtils.isExternalStorageWritable
-import com.absinthe.anywhere_.utils.TextUtils
-import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
 
@@ -103,6 +101,11 @@ class BackupFragment : PreferenceFragmentCompat(),
             }
         }
         return false
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        listView.setPadding(0, 0, 0, StatusBarUtil.getNavBarHeight())
     }
 
     override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {

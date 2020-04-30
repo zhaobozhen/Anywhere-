@@ -29,11 +29,11 @@
     <item
         android:id="@+id/custom_icon"
         android:title="@string/menu_custom_icon"
-        android:icon="@drawable/ic_custom_icon" />
+        android:icon="@drawable/ic_brush" />
 
     <item
         android:id="@+id/restore_icon"
         android:title="@string/menu_restore_icon"
-        android:icon="@drawable/ic_custom_icon" />
+        android:icon="@drawable/ic_reset" />
 
 </menu>

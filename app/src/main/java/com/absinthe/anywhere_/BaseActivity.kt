@@ -48,7 +48,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun initView() {
         if (GlobalValues.backgroundUri.isEmpty() || this !is MainActivity) {
             setDarkMode(this, UiUtils.isDarkMode(this))
-            UiUtils.setActionBarTransparent(this)
+            UiUtils.setSystemBarTransparent(this)
         }
         setToolbar()
         if (isPaddingToolbar) {

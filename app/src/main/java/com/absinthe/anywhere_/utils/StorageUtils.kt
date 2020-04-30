@@ -130,7 +130,8 @@ object StorageUtils {
             sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
 
             try {
-                val hostDir = GlobalValues.webdavHost + "Anywhere-/"
+                val hostDir = GlobalValues.webdavHost + "Anywhere-/Backup/"
+
                 if (!sardine.exists(hostDir)) {
                     sardine.createDirectory(hostDir)
                 }
@@ -141,6 +142,10 @@ object StorageUtils {
                     CipherUtils.encrypt(content)?.let { encrypted ->
                         if (!sardine.exists(hostDir + backupName)) {
                             sardine.put(hostDir + backupName, encrypted.toByteArray())
+
+                            withContext(Dispatchers.Main) {
+                                ToastUtil.makeText(R.string.toast_backup_success)
+                            }
                         }
                     }
                 }
