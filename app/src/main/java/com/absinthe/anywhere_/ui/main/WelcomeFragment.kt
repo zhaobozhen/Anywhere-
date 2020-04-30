@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.absinthe.anywhere_.databinding.FragmentWelcomeBinding
 import com.absinthe.anywhere_.utils.TimeRecorder
+import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 
 class WelcomeFragment : Fragment() {
 
@@ -15,7 +17,8 @@ class WelcomeFragment : Fragment() {
         val binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         binding.btnWelcomeStart.setOnClickListener {
-            (requireActivity() as MainActivity).viewModel.fragment.setValue(InitializeFragment.newInstance())
+            val viewModel = ViewModelProvider(requireActivity()).get(AnywhereViewModel::class.java)
+            viewModel.fragment.setValue(InitializeFragment.newInstance())
         }
 
         TimeRecorder.shouldRecord = false

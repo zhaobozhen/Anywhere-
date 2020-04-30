@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
-        android:layout_marginTop="@dimen/bsd_content_margin_top"
         android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_switch_shell_name_label"
         app:errorEnabled="true"

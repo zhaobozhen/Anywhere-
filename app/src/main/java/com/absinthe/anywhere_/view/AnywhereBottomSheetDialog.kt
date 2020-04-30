@@ -7,7 +7,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class AnywhereBottomSheetDialog(context: Context) : BottomSheetDialog(context, R.style.BottomSheetDialog) {
 
-    @JvmField
     var isPush = false
     private var isDismissParent = false
 

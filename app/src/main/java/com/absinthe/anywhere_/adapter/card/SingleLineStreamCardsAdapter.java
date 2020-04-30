@@ -49,7 +49,6 @@ public class SingleLineStreamCardsAdapter extends BaseAdapter<SingleLineStreamCa
         super.onBindViewHolder(viewHolder, position);
         AnywhereEntity item = mItems.get(position);
         viewHolder.bind(item);
-
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {

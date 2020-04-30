@@ -10,7 +10,6 @@
         android:id="@+id/iv_preview"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_marginTop="@dimen/bsd_content_margin_top"
         android:layout_marginBottom="@dimen/bsd_edit_text_margin_horizontal"
         android:paddingStart="@dimen/bsd_edit_text_margin_horizontal"
         android:paddingEnd="@dimen/bsd_edit_text_margin_horizontal"

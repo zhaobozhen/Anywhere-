@@ -35,6 +35,8 @@ import java.util.*
 class AnywhereViewModel(application: Application) : AndroidViewModel(application) {
 
     val allAnywhereEntities: LiveData<List<AnywhereEntity>>
+    var shouldShowFab: MutableLiveData<Boolean> = MutableLiveData()
+
     private val mRepository: AnywhereRepository = AnywhereApplication.sRepository
     private var mBackground: MutableLiveData<String> = MutableLiveData()
     private var mFragment: MutableLiveData<Fragment> = MutableLiveData()

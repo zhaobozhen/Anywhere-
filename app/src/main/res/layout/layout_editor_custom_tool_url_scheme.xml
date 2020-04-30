@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:clipToPadding="false"
+    android:orientation="horizontal"
+    android:paddingVertical="@dimen/bsd_content_margin_top">
 
     <Button
         android:id="@+id/btn_url_scheme_community"

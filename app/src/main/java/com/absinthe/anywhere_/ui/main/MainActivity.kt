@@ -76,10 +76,8 @@ import java.util.*
 
 class MainActivity : BaseActivity() {
 
-    lateinit var mBinding: ActivityMainBinding
-    lateinit var viewModel: AnywhereViewModel
-        private set
-
+    private lateinit var mBinding: ActivityMainBinding
+    private lateinit var viewModel: AnywhereViewModel
     private lateinit var mToggle: ActionBarDrawerToggle
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mObserver: Observer<List<PageEntity>?>
@@ -129,8 +127,6 @@ class MainActivity : BaseActivity() {
             val mainFragment = MainFragment.newInstance(GlobalValues.category)
             viewModel.fragment.value = mainFragment
 
-            initFab()
-            getAnywhereIntent(intent)
             backupIfNeeded()
         }
     }
@@ -360,7 +356,7 @@ class MainActivity : BaseActivity() {
         adapter.setNewInstance(list)
     }
 
-    fun initObserver() {
+    private fun initObserver() {
         mObserver = Observer<List<PageEntity>?> { pageEntities ->
             if (pageEntities == null) return@Observer
 
@@ -396,6 +392,7 @@ class MainActivity : BaseActivity() {
                     .replace(mBinding.fragmentContainerView.id, fragment!!)
                     .commitNow()
             if (fragment is MainFragment) {
+                initFab()
                 if (mBinding.fab.visibility == View.GONE) {
                     showAndHiddenAnimation(mBinding.fab, AnimationUtil.AnimationState.STATE_SHOW, 300)
                 }
@@ -405,9 +402,12 @@ class MainActivity : BaseActivity() {
                 }
             }
         })
+        viewModel.shouldShowFab.observe(this, Observer {
+            mBinding.fab.visibility = if (it) View.VISIBLE else View.GONE
+        })
     }
 
-    fun initFab() {
+    private fun initFab() {
         build(this, mBinding.fab)
         mBinding.fab.setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
             when (actionItem.id) {

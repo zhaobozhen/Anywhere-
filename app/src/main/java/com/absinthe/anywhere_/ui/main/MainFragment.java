@@ -21,6 +21,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -42,6 +43,7 @@ import com.absinthe.anywhere_.ui.settings.SettingsActivity;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
+import com.absinthe.anywhere_.viewmodel.AnywhereViewModel;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -62,6 +64,32 @@ public class MainFragment extends Fragment {
     private BaseAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private Observer<List<AnywhereEntity>> listObserver = new Observer<List<AnywhereEntity>>() {
+        @Override
+        public void onChanged(List<AnywhereEntity> anywhereEntities) {
+            if (!sRefreshLock) {
+                List<AnywhereEntity> filtered = new ArrayList<>();
+                for (AnywhereEntity ae : anywhereEntities) {
+                    if (ae.getCategory().equals(mCategory)) {
+                        filtered.add(ae);
+                    }
+                }
+
+                if (adapter.getItemCount() == 0) {
+                    adapter.setItems(filtered);
+                } else {
+                    adapter.updateItems(filtered);
+                }
+
+                if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
+                    AnywhereViewModel viewModel = new ViewModelProvider(requireActivity()).get(AnywhereViewModel.class);
+                    viewModel.getShouldShowFab().setValue(true);
+                }
+            }
+            AppUtils.updateWidget(requireContext());
+        }
+    };
 
     static MainFragment newInstance(String category) {
         MainFragment fragment = new MainFragment();
@@ -112,31 +140,6 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initObserver();
     }
-
-    private Observer<List<AnywhereEntity>> listObserver = new Observer<List<AnywhereEntity>>() {
-        @Override
-        public void onChanged(List<AnywhereEntity> anywhereEntities) {
-            if (!sRefreshLock) {
-                List<AnywhereEntity> filtered = new ArrayList<>();
-                for (AnywhereEntity ae : anywhereEntities) {
-                    if (ae.getCategory().equals(mCategory)) {
-                        filtered.add(ae);
-                    }
-                }
-
-                if (adapter.getItemCount() == 0) {
-                    adapter.setItems(filtered);
-                } else {
-                    adapter.updateItems(filtered);
-                }
-
-                if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
-                    ((MainActivity) requireActivity()).mBinding.fab.show();
-                }
-            }
-            AppUtils.updateWidget(requireContext());
-        }
-    };
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
         ArrayList<AnywhereEntity> anywhereEntityList = new ArrayList<>();
