@@ -2,9 +2,9 @@ package com.absinthe.anywhere_.model
 
 import android.content.Context.MODE_PRIVATE
 import androidx.appcompat.app.AppCompatDelegate
+import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.constants.Const.DEFAULT_ICON_PACK
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.utils.SPUtils
@@ -27,8 +27,8 @@ object Settings {
     lateinit var sDate: String
     lateinit var sToken: String
 
-    fun init() {
-        initMMKV()
+    fun init(application: AnywhereApplication) {
+        initMMKV(application)
         setLogger()
         setTheme(GlobalValues.darkMode)
         initIconPackManager()
@@ -76,11 +76,11 @@ object Settings {
         }
     }
 
-    private fun initMMKV() {
-        MMKV.initialize(Utils.getApp())
+    private fun initMMKV(application: AnywhereApplication) {
+        MMKV.initialize(application)
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.MMKV_MIGRATE)) {
-            val sp = Utils.getApp().getSharedPreferences(SPUtils.sPName, MODE_PRIVATE)
+            val sp = application.getSharedPreferences(SPUtils.sPName, MODE_PRIVATE)
             MMKV.mmkvWithID(SPUtils.sPName).importFromSharedPreferences(sp)
             Once.markDone(OnceTag.MMKV_MIGRATE)
         }

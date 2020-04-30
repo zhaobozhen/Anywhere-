@@ -149,8 +149,7 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
                             if (!appName.equals(mItem.getAppName()) || !url.equals(mItem.getParam1())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                        ShortcutsUtils.removeShortcut(mItem);
-                                        ShortcutsUtils.addShortcut(ae);
+                                        ShortcutsUtils.updateShortcut(mItem);
                                     }
                                 }
                             }

@@ -32,7 +32,7 @@ class AnywhereApplication : Application() {
         }
 
         Once.initialise(this)
-        Settings.init()
+        Settings.init(this)
         sRepository = AnywhereRepository(this)
     }
 

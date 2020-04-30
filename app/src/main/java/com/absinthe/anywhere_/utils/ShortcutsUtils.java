@@ -68,6 +68,31 @@ public class ShortcutsUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
+    public static void updateShortcut(AnywhereEntity ae) {
+        Intent intent = new Intent(Utils.getApp(), ShortcutsActivity.class);
+        if (ae.getAnywhereType() == AnywhereType.QR_CODE) {
+            intent.setAction(ShortcutsActivity.ACTION_START_QR_CODE);
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.QRCODE_PREFIX + ae.getParam2());
+        } else if (ae.getAnywhereType() == AnywhereType.IMAGE) {
+            intent.setAction(ShortcutsActivity.ACTION_START_IMAGE);
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
+        } else {
+            intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
+        }
+
+        List<ShortcutInfo> infos = new ArrayList<>();
+        ShortcutInfo info = new ShortcutInfo.Builder(Utils.getApp(), ae.getId())
+                .setShortLabel(ae.getAppName())
+                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae))))
+                .setIntent(intent)
+                .build();
+        infos.add(info);
+
+        Singleton.INSTANCE.getInstance().updateShortcuts(infos);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public static void removeShortcut(AnywhereEntity ae) {
         if (ae == null) {
             return;

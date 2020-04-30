@@ -131,7 +131,11 @@
         <activity
             android:name=".ui.settings.TileSettingsActivity"
             android:label="@string/settings_tiles"
-            android:parentActivityName=".ui.settings.SettingsActivity" />
+            android:parentActivityName=".ui.settings.SettingsActivity">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.qrcode.QRCodeCollectionActivity"
             android:label="@string/btn_qr_code_collection"

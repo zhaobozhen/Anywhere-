@@ -101,8 +101,7 @@ public class SwitchShellEditor extends Editor<SwitchShellEditor> {
                             if (!aName.equals(mItem.getAppName()) || !shellOn.equals(mItem.getParam1()) || !shellOff.equals(mItem.getParam2())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                        ShortcutsUtils.removeShortcut(mItem);
-                                        ShortcutsUtils.addShortcut(ae);
+                                        ShortcutsUtils.updateShortcut(mItem);
                                     }
                                 }
                             }

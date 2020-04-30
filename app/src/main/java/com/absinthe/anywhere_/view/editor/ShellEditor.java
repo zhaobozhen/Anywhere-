@@ -86,8 +86,7 @@ public class ShellEditor extends Editor<ShellEditor> {
                             if (!aName.equals(mItem.getAppName()) || !shell.equals(mItem.getParam1())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                        ShortcutsUtils.removeShortcut(mItem);
-                                        ShortcutsUtils.addShortcut(ae);
+                                        ShortcutsUtils.updateShortcut(mItem);
                                     }
                                 }
                             }
