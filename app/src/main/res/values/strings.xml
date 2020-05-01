@@ -126,6 +126,7 @@
 
     <!--  Settings  -->
     <string name="settings_category_advanced">Advanced</string>
+    <string name="settings_category_view">Views</string>
     <string name="settings_category_others">Others</string>
 
     <string name="settings_working_mode">Working Mode</string>

@@ -27,6 +27,24 @@
         </Preference>
 
         <Preference
+            app:key="backupAndRestore"
+            app:title="@string/settings_backup_and_restore"
+            app:summary="@string/settings_backup_summary"
+            android:icon="@drawable/ic_backup_and_restore">
+
+            <intent
+                android:targetPackage="com.absinthe.anywhere_"
+                android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"/>
+
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="viewCategory"
+        app:title="@string/settings_category_view">
+
+        <Preference
             app:key="changeBackground"
             app:title="@string/settings_change_background"
             app:summary="@string/settings_change_background_summary"
@@ -47,11 +65,6 @@
             app:entries="@array/list_dark_mode"
             app:entryValues="@array/list_dark_mode_value"
             android:defaultValue="off"/>
-
-<!--        <SwitchPreferenceCompat-->
-<!--            app:key="darkModeOLED"-->
-<!--            app:title="@string/settings_dark_mode_oled"-->
-<!--            android:summary="@string/settings_dark_mode_oled_summary"/>-->
 
         <SwitchPreferenceCompat
             app:key="streamCardMode"
@@ -81,6 +94,12 @@
             app:summary="@string/settings_md2_toolbar_summary"
             android:icon="@drawable/ic_material" />
 
+        <Preference
+            app:key="iconPack"
+            app:title="@string/settings_icon_pack"
+            app:summary="@string/settings_icon_pack_summary"
+            android:icon="@drawable/ic_icon_pack"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -88,28 +107,10 @@
         app:title="@string/settings_category_advanced">
 
         <Preference
-            app:key="backupAndRestore"
-            app:title="@string/settings_backup_and_restore"
-            app:summary="@string/settings_backup_summary"
-            android:icon="@drawable/ic_backup_and_restore">
-
-            <intent
-                android:targetPackage="com.absinthe.anywhere_"
-                android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"/>
-
-        </Preference>
-
-        <Preference
             app:key="clearShortcuts"
             app:title="@string/settings_clear_shortcuts"
             app:summary="@string/settings_clear_shortcuts_summary"
             android:icon="@drawable/ic_clear_shortcuts"/>
-
-        <Preference
-            app:key="iconPack"
-            app:title="@string/settings_icon_pack"
-            app:summary="@string/settings_icon_pack_summary"
-            android:icon="@drawable/ic_icon_pack"/>
 
         <Preference
             app:key="tiles"

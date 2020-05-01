@@ -332,4 +332,5 @@
     <string name="array_card_bg_blurry">毛玻璃</string>
     <string name="defrost_mode_dpm_addition"><![CDATA[<b>連接 PC 並輸入 adb 指令:</b><br><i>adb shell dpm set-device-owner com.absinthe.anywhere_/.receiver.AdminReceiver</i>]]></string>
     <string name="toast_works_on_root_or_shizuku">Collector 只在 root/Shizuku 模式下工作</string>
+    <string name="settings_category_view">視圖</string>
 </resources>
