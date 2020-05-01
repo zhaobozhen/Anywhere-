@@ -168,21 +168,18 @@ class AppListAdapter(private val mContext: Context, mode: Int) : RecyclerView.Ad
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
             //这里对 number 进行过滤后重新赋值
             results.values?.let {
-                mList = it as List<AppListBean>
-                //如果过滤后的返回的值的个数大于等于 0 的话,对 Adapter 的界面进行刷新
-                if (results.count > 0) {
-                    notifyDataSetChanged()
+                mList = if (results.count == 0) {
+                    ArrayList()
                 } else {
-                    //否则说明没有任何过滤的结果,直接提示用户"没有符合条件的结果"
-                    mList = ArrayList()
-                    notifyDataSetChanged()
+                    it as List<AppListBean>
                 }
+                notifyDataSetChanged()
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onClick(bean: AppListBean?, which: Int)
+        fun onClick(bean: AppListBean, which: Int)
     }
 
     companion object {

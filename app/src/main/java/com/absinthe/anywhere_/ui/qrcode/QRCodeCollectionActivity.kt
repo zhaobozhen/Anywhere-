@@ -59,8 +59,10 @@ class QRCodeCollectionActivity : BaseActivity() {
             val collection = QRCollection.Singleton.INSTANCE.instance
             mAdapter.setItems(collection.list)
 
-            binding.srlQrCollection.isRefreshing = false
-            binding.srlQrCollection.isEnabled = false
+            binding.srlQrCollection.apply {
+                isRefreshing = false
+                isEnabled = false
+            }
         }
     }
 }

@@ -27,7 +27,6 @@ import com.absinthe.anywhere_.utils.manager.URLManager
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
-import timber.log.Timber
 import java.io.File
 import java.util.*
 
@@ -149,34 +148,6 @@ object AppUtils {
         list.sortBy { it.appName }
 
         return list
-    }
-
-    /**
-     * get all activities of an app
-     *
-     * @param context     context
-     * @param packageName package name of the app
-     * @return activities list
-     */
-    fun getActivitiesClass(context: Context, packageName: String): List<String> {
-        val returnClassList: MutableList<String> = ArrayList()
-        try {
-            //Get all activity classes in the AndroidManifest.xml
-            val packageInfo = context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
-
-            packageInfo.activities?.let {
-                Timber.d("Found %d activity in the AndroidManifest.xml", it.size)
-                for (ai in it) {
-                    returnClassList.add(ai.name)
-                    Timber.d(ai.name, "...OK")
-                }
-            }
-        } catch (exception: PackageManager.NameNotFoundException) {
-            exception.printStackTrace()
-        } catch (exception: RuntimeException) {
-            exception.printStackTrace()
-        }
-        return returnClassList
     }
 
     /**

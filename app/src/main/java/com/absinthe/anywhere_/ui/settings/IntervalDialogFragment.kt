@@ -14,11 +14,11 @@ class IntervalDialogFragment : AnywhereDialogFragment() {
     private lateinit var mBuilder: IntervalDialogBuilder
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mBuilder = IntervalDialogBuilder(requireContext())
-        val builder = AnywhereDialogBuilder(requireContext())
+        mBuilder = IntervalDialogBuilder(requireContext()).apply {
+            slider.value = GlobalValues.dumpInterval / 1000f
+        }
 
-        mBuilder.slider.value = GlobalValues.dumpInterval / 1000f
-        return builder.setView(mBuilder.root)
+        return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root)
                 .setTitle(R.string.dialog_set_interval_title)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
                     GlobalValues.dumpInterval = mBuilder.slider.value.toInt() * 1000

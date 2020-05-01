@@ -19,10 +19,11 @@ class CardListDialogFragment : AnywhereDialogFragment() {
     private var mListener: AppListAdapter.OnItemClickListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mBuilder = CardListDialogBuilder(requireContext())
-        val builder = AnywhereDialogBuilder(requireContext())
+        mBuilder = CardListDialogBuilder(requireContext()).apply {
+            setOnItemClickListener(mListener)
+        }
 
-        mBuilder.setOnItemClickListener(mListener)
+        val builder = AnywhereDialogBuilder(requireContext())
         initView()
 
         return builder.setView(mBuilder.root).create()
@@ -33,10 +34,10 @@ class CardListDialogFragment : AnywhereDialogFragment() {
     }
 
     private fun setDisplayPlaceholder(flag: Boolean) {
-        if (flag) {
-            (mBuilder.root as ViewFlipper).displayedChild = CardListDialogBuilder.VF_EMPTY
+        (mBuilder.root as ViewFlipper).displayedChild = if (flag) {
+            CardListDialogBuilder.VF_EMPTY
         } else {
-            (mBuilder.root as ViewFlipper).displayedChild = CardListDialogBuilder.VF_LIST
+            CardListDialogBuilder.VF_LIST
         }
     }
 

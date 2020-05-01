@@ -4,6 +4,8 @@ import android.animation.LayoutTransition
 import android.app.SearchManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.widget.LinearLayout
@@ -15,7 +17,6 @@ import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding
 import com.absinthe.anywhere_.model.AppListBean
-import com.absinthe.anywhere_.utils.AppUtils.getActivitiesClass
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.blankj.utilcode.util.Utils
@@ -23,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.*
 
 class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
@@ -42,27 +44,27 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
     override fun setToolbar() {
         mToolbar = mBinding.toolbar
 
-        if (intent == null) {
-            finish()
-        } else {
-            mToolbar?.title = intent.getStringExtra(Const.INTENT_EXTRA_APP_NAME)
-        }
+        intent?.let {
+            mToolbar?.title = it.getStringExtra(Const.INTENT_EXTRA_APP_NAME)
+        } ?: finish()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (intent == null) {
-            finish()
-        } else {
+        intent?.let {
             initRecyclerView()
-            intent.getStringExtra(Const.INTENT_EXTRA_PKG_NAME)?.let {
-                initData(it)
+            it.getStringExtra(Const.INTENT_EXTRA_PKG_NAME)?.let { packageName ->
+                initData(packageName)
             }
-        }
+        } ?: finish()
     }
 
     private fun initRecyclerView() {
+        mBinding.srlAppDetail.apply {
+            setProgressBackgroundColorSchemeResource(R.color.colorPrimary)
+            setColorSchemeColors(Color.WHITE)
+        }
         mBinding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppDetailActivity)
             adapter = mAdapter
@@ -78,21 +80,41 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
         GlobalScope.launch(Dispatchers.IO) {
             val list: MutableList<AppListBean> = ArrayList()
-            val clazz = getActivitiesClass(this@AppDetailActivity, pkgName)
 
-            for (s in clazz) {
-                var appName = UiUtils.getActivityLabel(this@AppDetailActivity, ComponentName(pkgName, s))
-                if (UiUtils.isActivityExported(this@AppDetailActivity, ComponentName(pkgName, s))) {
-                    appName = "$appName (Exported)"
+            try {
+                //Get all activity classes in the AndroidManifest.xml
+                val packageInfo = packageManager.getPackageInfo(pkgName, PackageManager.GET_ACTIVITIES)
+
+                packageInfo.activities?.let { acivities ->
+                    Timber.d("Found %d activity in the AndroidManifest.xml", acivities.size)
+
+                    for (ai in acivities) {
+                        val bean = AppListBean().apply {
+                            appName = if (ai.exported) {
+                                "${ai.loadLabel(packageManager)} (Exported)"
+                            } else {
+                                ai.loadLabel(packageManager).toString()
+                            }
+                            packageName = pkgName
+                            className = ai.name
+                            type = -1
+                        }
+                        list.add(bean)
+                        Timber.d(ai.name, "...OK")
+                    }
+
+                    list.sortByDescending { UiUtils.isActivityExported(Utils.getApp(), ComponentName(it.packageName, it.className)) }
                 }
-                list.add(AppListBean(appName, pkgName, s, -1))
+            } catch (exception: PackageManager.NameNotFoundException) {
+                exception.printStackTrace()
+            } catch (exception: RuntimeException) {
+                exception.printStackTrace()
             }
 
             withContext(Dispatchers.Main) {
                 if (list.isEmpty()) {
                     mBinding.vfContainer.displayedChild = 1
                 } else {
-                    list.sortByDescending { UiUtils.isActivityExported(Utils.getApp(), ComponentName(it.packageName, it.className)) }
                     mAdapter.setList(list)
                     mBinding.vfContainer.displayedChild = 0
                 }

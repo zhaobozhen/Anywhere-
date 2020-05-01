@@ -1,32 +1,25 @@
 package com.absinthe.anywhere_.ui.settings
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.tile.TileCardAdapter
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityTileSettingsBinding
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.AppListBean
-import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.services.TileOneService
-import com.absinthe.anywhere_.services.TileThreeService
-import com.absinthe.anywhere_.services.TileTwoService
 import com.absinthe.anywhere_.utils.SPUtils.getString
 import com.absinthe.anywhere_.utils.SPUtils.putString
 import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
-import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
-import com.blankj.utilcode.util.ServiceUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -51,44 +44,38 @@ open class TileSettingsActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        mBinding.rvTiles.layoutManager = LinearLayoutManager(this)
-        mBinding.rvTiles.adapter = mAdapter
+        mBinding.apply {
+            rvTiles.apply {
+                layoutManager = LinearLayoutManager(this@TileSettingsActivity)
+                adapter = mAdapter
+            }
+        }
 
         mAdapter.setOnItemChildClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int ->
             if (view.id == R.id.btn_select) {
                 showCardListDialog(this).apply {
                     setOnItemClickListener(object : AppListAdapter.OnItemClickListener {
-                        override fun onClick(bean: AppListBean?, which: Int) {
+                        override fun onClick(bean: AppListBean, which: Int) {
                             mAdapter.setData(position, bean)
                             var tile = ""
                             var tileLabel = ""
                             var tileCmd = ""
+
                             when (position) {
                                 0 -> {
                                     tile = Const.PREF_TILE_ONE
                                     tileLabel = Const.PREF_TILE_ONE_LABEL
                                     tileCmd = Const.PREF_TILE_ONE_CMD
-                                    if (!ServiceUtils.isServiceRunning(TileOneService::class.java)) {
-                                        startService(Intent(this@TileSettingsActivity, TileOneService::class.java))
-                                    }
                                 }
                                 1 -> {
                                     tile = Const.PREF_TILE_TWO
                                     tileLabel = Const.PREF_TILE_TWO_LABEL
                                     tileCmd = Const.PREF_TILE_TWO_CMD
-                                    if (!ServiceUtils.isServiceRunning(TileTwoService::class.java)) {
-                                        startService(Intent(this@TileSettingsActivity, TileTwoService::class.java))
-                                    }
                                 }
                                 2 -> {
                                     tile = Const.PREF_TILE_THREE
                                     tileLabel = Const.PREF_TILE_THREE_LABEL
                                     tileCmd = Const.PREF_TILE_THREE_CMD
-                                    if (!ServiceUtils.isServiceRunning(TileThreeService::class.java)) {
-                                        startService(Intent(this@TileSettingsActivity, TileThreeService::class.java))
-                                    }
-                                }
-                                else -> {
                                 }
                             }
                             putString(this@TileSettingsActivity, tile, mList[which].id)
@@ -100,11 +87,9 @@ open class TileSettingsActivity : BaseActivity() {
                 }
             }
         }
-        ViewModelProvider(this).get(AnywhereViewModel::class.java).apply {
-            allAnywhereEntities.observe(this@TileSettingsActivity, Observer { anywhereEntities: List<AnywhereEntity>? ->
-                anywhereEntities?.let { mList = it }
-                load()
-            })
+        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
+            mList = it
+            load()
         }
     }
 
@@ -127,37 +112,18 @@ open class TileSettingsActivity : BaseActivity() {
     }
 
     private fun load() {
-        if (getString(this, Const.PREF_TILE_ONE).isEmpty()) {
+        loadImpl(Const.PREF_TILE_ONE)
+        loadImpl(Const.PREF_TILE_TWO)
+        loadImpl(Const.PREF_TILE_THREE)
+    }
+
+    private fun loadImpl(flag: String) {
+        if (getString(this, flag).isEmpty()) {
             mAdapter.addData(initCard())
         } else {
-            val id = getString(this, Const.PREF_TILE_ONE)
-            for (ae in mList) {
-                if (ae.id == id) {
-                    mAdapter.addData(initCard(ae))
-                    break
-                }
-            }
-        }
-        if (getString(this, Const.PREF_TILE_TWO).isEmpty()) {
-            mAdapter.addData(initCard())
-        } else {
-            val id = getString(this, Const.PREF_TILE_TWO)
-            for (ae in mList) {
-                if (ae.id == id) {
-                    mAdapter.addData(initCard(ae))
-                    break
-                }
-            }
-        }
-        if (getString(this, Const.PREF_TILE_THREE).isEmpty()) {
-            mAdapter.addData(initCard())
-        } else {
-            val id = getString(this, Const.PREF_TILE_THREE)
-            for (ae in mList) {
-                if (ae.id == id) {
-                    mAdapter.addData(initCard(ae))
-                    break
-                }
+            val id = getString(this, flag)
+            mList.find { it.id == id }?.let {
+                mAdapter.addData(initCard(it))
             }
         }
     }

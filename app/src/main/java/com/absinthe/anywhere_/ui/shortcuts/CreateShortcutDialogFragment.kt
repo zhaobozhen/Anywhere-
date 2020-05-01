@@ -10,8 +10,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -46,17 +46,22 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
     }
 
     private fun initView() {
-        mBuilder.ivIcon.setImageDrawable(mIcon)
-        mBuilder.etName.setText(mName)
-        mBuilder.ivIcon.setOnClickListener {
-            try {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "image/*"
-                startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
-            } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
-                ToastUtil.makeText(R.string.toast_no_document_app)
+        mBuilder.apply {
+            etName.setText(mName)
+            ivIcon.apply {
+                setImageDrawable(mIcon)
+                setOnClickListener {
+                    try {
+                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            type = "image/*"
+                        }
+                        startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
+                    } catch (e: ActivityNotFoundException) {
+                        e.printStackTrace()
+                        ToastUtil.makeText(R.string.toast_no_document_app)
+                    }
+                }
             }
         }
     }
@@ -64,14 +69,13 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Const.REQUEST_CODE_IMAGE_CAPTURE) {
             if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    val iconUri = data.data
-                    if (iconUri != null) {
-                        Glide.with(this)
-                                .load(iconUri)
+                data?.apply {
+                    this.data?.let {
+                        Glide.with(this@CreateShortcutDialogFragment)
+                                .load(it)
                                 .transition(DrawableTransitionOptions.withCrossFade())
                                 .into(mBuilder.ivIcon)
-                        AppUtils.takePersistableUriPermission(requireContext(), iconUri, data)
+                        AppUtils.takePersistableUriPermission(requireContext(), it, this)
                     }
                 }
             }
