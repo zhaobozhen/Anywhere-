@@ -47,6 +47,7 @@ object DialogManager {
                 .setMessage(R.string.dialog_reset_background_confirm_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
                     GlobalValues.backgroundUri = ""
+                    GlobalValues.actionBarType = Const.ACTION_BAR_TYPE_DARK
                     AppUtils.restart()
                 }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)

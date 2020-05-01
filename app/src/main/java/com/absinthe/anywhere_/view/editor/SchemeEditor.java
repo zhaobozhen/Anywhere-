@@ -15,7 +15,6 @@ import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.CommandUtils;
-import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -120,16 +119,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                             }
                             AnywhereApplication.sRepository.update(ae);
                         } else {
-                            if (EditUtils.hasSameAppName(uScheme)) {
-                                DialogManager.showHasSameCardDialog(mContext, (dialog, which) -> {
-                                    AnywhereApplication.sRepository.insert(ae);
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                        ShortcutsUtils.removeShortcut(EditUtils.hasSameAppNameEntity(mItem.getParam1()));
-                                    }
-                                });
-                            } else {
-                                AnywhereApplication.sRepository.insert(ae);
-                            }
+                            AnywhereApplication.sRepository.insert(ae);
                         }
                         dismiss();
                     }

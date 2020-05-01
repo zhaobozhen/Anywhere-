@@ -96,7 +96,7 @@ object GlobalValues {
         }
 
     var category
-        get() = mmkv.decodeString(Const.PREF_CURR_CATEGORY, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_CURR_CATEGORY, AnywhereType.DEFAULT_CATEGORY) ?: AnywhereType.DEFAULT_CATEGORY
         set(value) {
             mmkv.encode(Const.PREF_CURR_CATEGORY, value)
         }

@@ -8,11 +8,9 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.model.AnywhereEntity;
-import com.absinthe.anywhere_.utils.EditUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.handler.Opener;
-import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -106,16 +104,7 @@ public class AnywhereEditor extends Editor<AnywhereEditor> {
                             }
                             AnywhereApplication.sRepository.update(ae);
                         } else {
-                            if (EditUtils.INSTANCE.hasSameAppName(pName, cName)) {
-                                DialogManager.showHasSameCardDialog(mContext, (dialog, which) -> {
-                                    AnywhereApplication.sRepository.insert(ae);
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                                        ShortcutsUtils.removeShortcut(EditUtils.hasSameAppNameEntity(mItem.getParam1()));
-                                    }
-                                });
-                            } else {
-                                AnywhereApplication.sRepository.insert(ae);
-                            }
+                            AnywhereApplication.sRepository.insert(ae);
                         }
                         dismiss();
                     }
