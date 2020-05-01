@@ -72,7 +72,7 @@ class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
                         // 获取按下时的X，Y坐标
                         lastX = motionEvent.rawX
                         lastY = motionEvent.rawY
-                        Timber.d("MotionEvent.ACTION_DOWN last: %d %d", lastX, lastY)
+                        Timber.d("MotionEvent.ACTION_DOWN last: %f %f", lastX, lastY)
                         isClick = false
                         mStartTime = System.currentTimeMillis()
                         postDelayed(removeWindowTask, 1000)
@@ -83,12 +83,12 @@ class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
                         // 获取移动时的X，Y坐标
                         nowX = motionEvent.rawX
                         nowY = motionEvent.rawY
-                        Timber.d("MotionEvent.ACTION_MOVE now: %d %d", nowX, nowY)
+                        Timber.d("MotionEvent.ACTION_MOVE now: %f %f", nowX, nowY)
 
                         // 计算XY坐标偏移量
                         tranX = nowX - lastX
                         tranY = nowY - lastY
-                        Timber.d("MotionEvent.ACTION_MOVE tran: %d %d", tranX, tranY)
+                        Timber.d("MotionEvent.ACTION_MOVE tran: %f %f", tranX, tranY)
                         if (tranX * tranX + tranY * tranY > mTouchSlop * mTouchSlop) {
                             removeCallbacks(removeWindowTask)
                         }

@@ -127,6 +127,7 @@ class MainActivity : BaseActivity() {
             val mainFragment = MainFragment.newInstance(GlobalValues.category)
             viewModel.fragment.value = mainFragment
 
+            getAnywhereIntent(intent)
             backupIfNeeded()
         }
     }
