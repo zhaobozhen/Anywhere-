@@ -35,6 +35,7 @@ import com.absinthe.anywhere_.adapter.card.SingleLineStreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.card.StreamCardsAdapter;
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager;
+import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.databinding.FragmentMainBinding;
@@ -71,7 +72,8 @@ public class MainFragment extends Fragment {
             if (!sRefreshLock) {
                 List<AnywhereEntity> filtered = new ArrayList<>();
                 for (AnywhereEntity ae : anywhereEntities) {
-                    if (ae.getCategory().equals(mCategory)) {
+                    if (ae.getCategory().equals(mCategory) ||
+                            (ae.getCategory().isEmpty() && mCategory.equals(AnywhereType.DEFAULT_CATEGORY))) {
                         filtered.add(ae);
                     }
                 }
@@ -170,7 +172,8 @@ public class MainFragment extends Fragment {
         List<AnywhereEntity> anywhereEntities = AnywhereApplication.sRepository.getAllAnywhereEntities().getValue();
         if (anywhereEntities != null) {
             for (AnywhereEntity ae : anywhereEntities) {
-                if (ae.getCategory().equals(mCategory)) {
+                if (ae.getCategory().equals(mCategory) ||
+                        (ae.getCategory().isEmpty() && mCategory.equals(AnywhereType.DEFAULT_CATEGORY))) {
                     filtered.add(ae);
                 }
             }
