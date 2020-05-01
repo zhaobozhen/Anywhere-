@@ -10,6 +10,7 @@ import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import kotlinx.coroutines.Dispatchers
@@ -130,7 +131,7 @@ object StorageUtils {
             sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
 
             try {
-                val hostDir = GlobalValues.webdavHost + "Anywhere-/Backup/"
+                val hostDir = GlobalValues.webdavHost + URLManager.BACKUP_DIR
 
                 if (!sardine.exists(hostDir)) {
                     sardine.createDirectory(hostDir)

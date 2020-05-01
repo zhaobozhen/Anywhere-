@@ -2,42 +2,37 @@ package com.absinthe.anywhere_.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.view.*
 import android.widget.LinearLayout
 import com.absinthe.anywhere_.model.OverlayWindowManager
 import com.absinthe.anywhere_.services.OverlayService
 import com.absinthe.anywhere_.utils.CommandUtils
-import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder
+import com.blankj.utilcode.util.AppUtils
 import timber.log.Timber
 
-class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
+@SuppressLint("ViewConstructor")
+class OverlayView(context: Context, private val service: OverlayService) : LinearLayout(context) {
 
     var command: String = ""
-    var pkgName: String?
-        get() = mPkgName
-        set(mPkgName) {
-            this.mPkgName = mPkgName
-            mBuilder.ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, mPkgName))
+    var pkgName: String = ""
+        set(value) {
+            field = value
+            mBuilder.ivIcon.setImageDrawable(AppUtils.getAppIcon(field))
         }
 
-    private val mWindowManager: WindowManager = mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    private val mTouchSlop: Int = ViewConfiguration.get(mContext).scaledTouchSlop
+    private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private val mTouchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
     private val mLayoutParams = OverlayWindowManager.LAYOUT_PARAMS
 
     private lateinit var mBuilder: OverlayBuilder
-    private var mPkgName: String? = null
     private var isClick = false
     private var mStartTime: Long = 0
     private var mEndTime: Long = 0
 
     private val removeWindowTask = Runnable {
         mBuilder.ivIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-        mContext.startService(
-                Intent(mContext, OverlayService::class.java)
-                        .putExtra(OverlayService.COMMAND, OverlayService.COMMAND_CLOSE)
-        )
+        service.closeOverlay()
     }
 
     init {
@@ -46,7 +41,7 @@ class OverlayView(private val mContext: Context) : LinearLayout(mContext) {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initView() {
-        mBuilder = OverlayBuilder(mContext, this)
+        mBuilder = OverlayBuilder(context, this)
 
         mBuilder.ivIcon.setOnClickListener {
             Timber.d("Overlay window clicked!")

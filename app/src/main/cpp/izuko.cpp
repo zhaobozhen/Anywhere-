@@ -178,7 +178,7 @@ Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_getCipherKey(JNIEnv *env,
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_isHitagi(JNIEnv *env, jclass clazz,
+Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_isHitagi(JNIEnv *env, jobject clazz,
                                                                 jstring token) {
     jobject context = getApplication(env);
     // get Context object

@@ -6,36 +6,32 @@ import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
+import com.absinthe.anywhere_.services.OverlayService
 import com.absinthe.anywhere_.view.OverlayView
 import timber.log.Timber
 
-class OverlayWindowManager(private val mContext: Context, cmd: String, pkgName: String) {
+class OverlayWindowManager(context: Context, service: OverlayService, cmd: String, pkgName: String) {
 
-    private val mWindowManager: WindowManager = mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val mCommand: String = cmd
     private val mPkgName: String = pkgName
-    private var mOverlayView: OverlayView? = null
+    private var mOverlayView: OverlayView = OverlayView(context, service)
 
     fun addView() {
-        if (mOverlayView == null) {
-            mOverlayView = OverlayView(mContext).apply {
-                command = mCommand
-                pkgName = mPkgName
-                layoutParams = LAYOUT_PARAMS
-                measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-            }
-
-            mWindowManager.addView(mOverlayView, LAYOUT_PARAMS)
-            Timber.d("Overlay window addView.")
+        mOverlayView.apply {
+            command = mCommand
+            pkgName = mPkgName
+            layoutParams = LAYOUT_PARAMS
+            measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         }
+
+        mWindowManager.addView(mOverlayView, LAYOUT_PARAMS)
+        Timber.d("Overlay window addView.")
     }
 
     fun removeView() {
-        if (mOverlayView != null) {
-            mWindowManager.removeView(mOverlayView)
-            mOverlayView = null
-            Timber.d("Overlay window removeView.")
-        }
+        mWindowManager.removeView(mOverlayView)
+        Timber.d("Overlay window removeView.")
     }
 
     companion object {

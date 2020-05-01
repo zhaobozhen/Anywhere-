@@ -56,6 +56,7 @@ class BackupActivity : BaseActivity() {
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
+                    ToastUtil.makeText(getString(R.string.toast_runtime_error))
                 }
             }
         } else if (requestCode == Const.REQUEST_CODE_RESTORE_BACKUPS && resultCode == Activity.RESULT_OK) {
@@ -65,6 +66,7 @@ class BackupActivity : BaseActivity() {
                         val reader = BufferedReader(InputStreamReader(inputStream))
                         val stringBuilder = StringBuilder()
                         var line: String?
+
                         while (reader.readLine().also { line = it } != null) {
                             stringBuilder.append(line)
                         }
@@ -72,7 +74,7 @@ class BackupActivity : BaseActivity() {
                         Timber.d(content)
 
                         Gson().fromJson<List<AnywhereEntity>>(content,
-                                object : TypeToken<List<AnywhereEntity?>?>() {}.type)?.let { list ->
+                                object : TypeToken<List<AnywhereEntity>>() {}.type)?.let { list ->
                             INSERT_CORRECT = true
 
                             for (ae in list) {

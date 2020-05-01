@@ -17,6 +17,8 @@ open class ViewBuilder : IViewBuilder {
         protected set
     protected var mContext: Context
 
+    val Number.dp: Int get() = (toInt() * Resources.getSystem().displayMetrics.density).toInt()
+
     protected constructor(context: Context) {
         mContext = context
     }
@@ -25,8 +27,6 @@ open class ViewBuilder : IViewBuilder {
         mContext = context
         root = viewGroup
     }
-
-    val Number.dp: Int get() = (toInt() * Resources.getSystem().displayMetrics.density).toInt()
 
     override fun addView(view: View) {
         root.addView(view)

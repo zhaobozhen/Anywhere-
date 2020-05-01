@@ -27,4 +27,7 @@ object URLManager {
     const val GIFT_API = "Anywhere-Gift"
     const val GET_GIFT_PRICE_API = "GetGiftPrice"
     const val MARKET_URL_SCHEME = "market://details?id=" + "com.absinthe.anywhere_"
+
+    //WebDAV
+    const val BACKUP_DIR = "Anywhere-/Backup/"
 }

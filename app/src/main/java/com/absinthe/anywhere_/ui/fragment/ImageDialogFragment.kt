@@ -29,7 +29,6 @@ class ImageDialogFragment : AnywhereDialogFragment {
 
     constructor()
 
-    @JvmOverloads
     constructor(ae: AnywhereEntity, listener: OnDismissListener? = null) {
         mItem = ae
         mUri = ae.param1
@@ -73,16 +72,22 @@ class ImageDialogFragment : AnywhereDialogFragment {
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         if (mWidth != 0 && mHeight != 0) {
-                            mBuilder.root.layoutParams = FrameLayout.LayoutParams(mWidth, mHeight)
-                            mBuilder.image.layoutParams = LinearLayout.LayoutParams(mWidth, mHeight)
+                            mBuilder.apply {
+                                root.layoutParams = FrameLayout.LayoutParams(mWidth, mHeight)
+                                image.layoutParams = LinearLayout.LayoutParams(mWidth, mHeight)
+                            }
                         } else {
                             val width = mBuilder.root.width
                             val height = width * resource.height / resource.width
-                            mBuilder.root.layoutParams = FrameLayout.LayoutParams(width, height)
-                            mBuilder.image.layoutParams = LinearLayout.LayoutParams(width, height)
+                            mBuilder.apply {
+                                root.layoutParams = FrameLayout.LayoutParams(width, height)
+                                image.layoutParams = LinearLayout.LayoutParams(width, height)
+                            }
 
-                            mItem?.param2 = "$width,$height"
-                            mItem?.let { AnywhereApplication.sRepository.update(it) }
+                            mItem?.let {
+                                it.param2 = "$width,$height"
+                                AnywhereApplication.sRepository.update(it)
+                            }
                         }
                         mBuilder.image.setImageBitmap(resource)
                     }

@@ -194,7 +194,7 @@ public abstract class Editor<T extends Editor<?>> {
 
     private void startOverlay(String cmd) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            startCollectorImpl(cmd);
+            startOverlayImpl(cmd);
         } else {
             if (Build.VERSION.SDK_INT >= 30) {
                 ToastUtil.makeText(R.string.toast_overlay_choose_anywhere);
@@ -202,7 +202,7 @@ public abstract class Editor<T extends Editor<?>> {
             PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
                 @Override
                 public void onGranted() {
-                    startCollectorImpl(cmd);
+                    startOverlayImpl(cmd);
                 }
 
                 @Override
@@ -213,17 +213,10 @@ public abstract class Editor<T extends Editor<?>> {
         }
     }
 
-    private void startCollectorImpl(String cmd) {
+    private void startOverlayImpl(String cmd) {
         Intent intent = new Intent(mContext, OverlayService.class);
-        intent.putExtra(OverlayService.COMMAND, OverlayService.COMMAND_OPEN);
         intent.putExtra(OverlayService.COMMAND_STR, cmd);
-        String pkgName;
-        if (mEditorType == URL_SCHEME) {
-            pkgName = mItem.getParam2();
-        } else {
-            pkgName = mItem.getParam1();
-        }
-        intent.putExtra(OverlayService.PKG_NAME, pkgName);
+        intent.putExtra(OverlayService.PKG_NAME, mItem.getPackageName());
         mContext.startService(intent);
 
         mBottomSheetDialog.dismiss();

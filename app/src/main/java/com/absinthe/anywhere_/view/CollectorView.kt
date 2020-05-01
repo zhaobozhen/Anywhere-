@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.viewbuilder.entity.CollectorBuilder
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
+@SuppressLint("ViewConstructor")
 class CollectorView(context: Context, service: CollectorService) : LinearLayout(context) {
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager

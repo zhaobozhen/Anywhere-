@@ -67,7 +67,6 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
     fun showBackupShareDialog(context: Context, dig: String?, encrypted: String?) {
         AnywhereDialogBuilder(context)
                 .setTitle(R.string.settings_backup_share_title)
@@ -155,15 +154,6 @@ object DialogManager {
         AnywhereDialogBuilder(context)
                 .setTitle(R.string.dialog_delete_selected_title)
                 .setMessage(R.string.dialog_delete_selected_message)
-                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                .show()
-    }
-
-    @JvmStatic
-    fun showHasSameCardDialog(context: Context, listener: DialogInterface.OnClickListener?) {
-        AnywhereDialogBuilder(context)
-                .setMessage(R.string.dialog_message_same_app_name)
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show()

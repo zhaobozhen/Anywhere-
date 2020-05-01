@@ -2,17 +2,23 @@ package com.absinthe.anywhere_.services
 
 import android.app.Service
 import android.content.Intent
+import android.os.Binder
 import android.os.IBinder
 import com.absinthe.anywhere_.model.OverlayWindowManager
 import timber.log.Timber
 
 class OverlayService : Service() {
 
-    private var mWindowManager: OverlayWindowManager? = null
+    private lateinit var mWindowManager: OverlayWindowManager
+    private val binder: OverlayBinder = OverlayBinder()
 
     private fun initWindowManager(cmd: String, pkgName: String) {
-        if (mWindowManager == null)
-            mWindowManager = OverlayWindowManager(applicationContext, cmd, pkgName)
+        mWindowManager = OverlayWindowManager(applicationContext, this, cmd, pkgName)
+    }
+
+    fun closeOverlay() {
+        mWindowManager.removeView()
+        stopSelf()
     }
 
     override fun onCreate() {
@@ -26,35 +32,30 @@ class OverlayService : Service() {
 
         if (cmdStr != null && pkgName != null) {
             initWindowManager(cmdStr, pkgName)
+        } else {
+            stopSelf()
         }
+        mWindowManager.addView()
 
-        val command = intent.getStringExtra(COMMAND)
-        if (command != null) {
-            if (command == COMMAND_OPEN) {
-                mWindowManager?.addView()
-            } else if (command == COMMAND_CLOSE) {
-                Timber.d("Intent:COMMAND_CLOSE")
-                mWindowManager?.removeView()
-                stopSelf()
-            }
-        }
-        return super.onStartCommand(intent, flags, startId)
+        return START_NOT_STICKY
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        return null
+        return binder
     }
 
     override fun onDestroy() {
         Timber.d("OverlayService onDestroy.")
         super.onDestroy()
     }
-    
+
+    inner class OverlayBinder : Binder() {
+        val service: OverlayService
+            get() = this@OverlayService
+    }
+
     companion object {
-        const val COMMAND = "COMMAND"
         const val COMMAND_STR = "COMMAND_STR"
         const val PKG_NAME = "PKG_NAME"
-        const val COMMAND_OPEN = "COMMAND_OPEN"
-        const val COMMAND_CLOSE = "COMMAND_CLOSE"
     }
 }

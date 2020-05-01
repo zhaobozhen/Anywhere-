@@ -17,7 +17,7 @@ JNIEXPORT jstring JNICALL
 Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_getCipherKey(JNIEnv *env, jclass clazz);
 
 JNIEXPORT jboolean JNICALL
-Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_isHitagi(JNIEnv *env, jclass clazz, jstring token);
+Java_com_absinthe_anywhere_1_utils_manager_IzukoHelper_isHitagi(JNIEnv *env, jobject clazz, jstring token);
 
 #ifdef __cplusplus
 }

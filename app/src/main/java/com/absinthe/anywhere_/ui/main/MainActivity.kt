@@ -184,7 +184,6 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        val actionBar = supportActionBar
 
         if (GlobalValues.isMd2Toolbar) {
             val marginHorizontal = resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
@@ -197,11 +196,14 @@ class MainActivity : BaseActivity() {
                 bottomMargin = marginVertical
                 height = ConvertUtils.dp2px(55f)
             }
-            mBinding.toolbar.layoutParams = newLayoutParams
-            mBinding.toolbar.contentInsetStartWithNavigation = 0
-            UiUtils.drawMd2Toolbar(this, mBinding.toolbar, 3)
+            mBinding.toolbar.apply {
+                layoutParams = newLayoutParams
+                contentInsetStartWithNavigation = 0
+                UiUtils.drawMd2Toolbar(this@MainActivity, this, 3)
+            }
         }
-        if (actionBar != null) {
+
+        supportActionBar?.let {
             mToggle = ActionBarDrawerToggle(this, mBinding.drawer, mBinding.toolbar,
                     R.string.drawer_open, R.string.drawer_close)
 
@@ -211,14 +213,14 @@ class MainActivity : BaseActivity() {
                 } else {
                     mToggle.drawerArrowDrawable.color = resources.getColor(R.color.white)
                 }
-                actionBar.setDisplayHomeAsUpEnabled(true)
+                it.setDisplayHomeAsUpEnabled(true)
                 mBinding.drawer.addDrawerListener(mToggle)
                 mToggle.syncState()
                 AnywhereApplication.sRepository.allAnywhereEntities
                         .observe(this, Observer<List<AnywhereEntity?>?> { initDrawer(mBinding.drawer) })
             } else {
-                actionBar.setHomeButtonEnabled(false)
-                actionBar.setDisplayHomeAsUpEnabled(false)
+                it.setHomeButtonEnabled(false)
+                it.setDisplayHomeAsUpEnabled(false)
                 mBinding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
         }
@@ -524,16 +526,18 @@ class MainActivity : BaseActivity() {
                 }
             }
         } else if (uri.host == URLManager.CARD_SHARING_HOST) {
-            if (uri.path != null && uri.toString().isNotEmpty()) {
-                val encrypted = uri.path!!.substring(1)
-                val decrypted = decrypt(encrypted)
-                val ae = Gson().fromJson(decrypted, AnywhereEntity::class.java)
-                val editor: Editor<*> = AnywhereEditor(this)
-                        .item(ae)
-                        .isEditorMode(false)
-                        .isShortcut(false)
-                        .build()
-                editor.show()
+            uri.path?.let {
+                if (uri.toString().isNotEmpty()) {
+                    val encrypted = it.substring(1)
+                    val decrypted = decrypt(encrypted)
+                    val ae = Gson().fromJson(decrypted, AnywhereEntity::class.java)
+                    AnywhereEditor(this)
+                            .item(ae)
+                            .isEditorMode(false)
+                            .isShortcut(false)
+                            .build()
+                            .show()
+                }
             }
         }
     }
