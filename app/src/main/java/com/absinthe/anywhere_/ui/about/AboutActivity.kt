@@ -1,8 +1,6 @@
 package com.absinthe.anywhere_.ui.about
 
 import android.content.ActivityNotFoundException
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.view.Menu
@@ -13,6 +11,7 @@ import android.widget.TextView
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog
@@ -125,12 +124,8 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     }
 
     private fun initView() {
-        window.navigationBarColor = Color.TRANSPARENT
-        if (!UiUtils.isDarkMode(this)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            }
-        }
+        StatusBarUtil.setDarkMode(this, UiUtils.isDarkMode(this))
+        UiUtils.setSystemBarTransparent(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
