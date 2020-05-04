@@ -251,7 +251,7 @@
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.absinthe.anywhere_.action.CLICK" />
+                <action android:name="${applicationId}.action.CLICK" />
             </intent-filter>
         </receiver>
         <receiver

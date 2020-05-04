@@ -290,6 +290,7 @@ public abstract class Editor<T extends Editor<?>> {
                             ((BaseActivity) mContext).setDocumentResultListener(uri -> {
                                 mItem.setIconUri(uri.toString());
                                 AnywhereApplication.sRepository.update(mItem);
+                                dismiss();
                             });
 
                             try {
@@ -305,6 +306,7 @@ public abstract class Editor<T extends Editor<?>> {
                         case R.id.restore_icon:
                             mItem.setIconUri("");
                             AnywhereApplication.sRepository.update(mItem);
+                            dismiss();
                             break;
                         default:
                     }

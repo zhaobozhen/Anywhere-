@@ -13,6 +13,7 @@ import com.absinthe.anywhere_.model.LogModel
 import com.absinthe.anywhere_.utils.AppUtils.sendLogcat
 import com.absinthe.anywhere_.utils.AppUtils.startLogcat
 import com.absinthe.anywhere_.utils.NotifyUtils
+import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.NotificationUtils
@@ -71,22 +72,23 @@ class LogcatActivity : BaseActivity() {
         mBinding.rvLog.apply {
             layoutManager = WrapContentLinearLayoutManager(this@LogcatActivity)
             adapter = mAdapter
+            setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + StatusBarUtil.getNavBarHeight())
         }
 
         if (isStartCatching) {
-            mBinding.btnLogcat.text = getText(R.string.btn_stop_catch_log)
+            mBinding.tvStartLogcat.text = getText(R.string.btn_stop_catch_log)
         } else {
-            mBinding.btnLogcat.text = getText(R.string.btn_start_catch_log)
+            mBinding.tvStartLogcat.text = getText(R.string.btn_start_catch_log)
         }
         mBinding.btnLogcat.setOnClickListener {
             if (isStartCatching) {
-                mBinding.btnLogcat.text = getText(R.string.btn_start_catch_log)
+                mBinding.tvStartLogcat.text = getText(R.string.btn_start_catch_log)
                 isStartCatching = false
                 LogRecorder.getInstance().stop()
                 NotificationUtils.cancel(NotifyUtils.LOGCAT_NOTIFICATION_ID)
                 initData(true)
             } else {
-                mBinding.btnLogcat.text = getText(R.string.btn_stop_catch_log)
+                mBinding.tvStartLogcat.text = getText(R.string.btn_stop_catch_log)
                 isStartCatching = true
                 startLogcat(this@LogcatActivity)
             }

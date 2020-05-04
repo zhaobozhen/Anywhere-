@@ -11,22 +11,32 @@
         layout="@layout/toolbar"
         app:layout_constraintTop_toBottomOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/btn_logcat"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/btn_start_catch_log"
-        app:icon="@drawable/ic_cat"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:cardElevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <TextView
+            android:id="@+id/tv_start_logcat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/btn_start_catch_log"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="@android:color/primary_text_dark" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_log"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_logcat" />
 

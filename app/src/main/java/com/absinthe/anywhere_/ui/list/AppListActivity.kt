@@ -17,10 +17,13 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding
+import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.view.editor.AnywhereEditor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -100,6 +103,17 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 isShowSystemApp = false
             }
             initData(isShowSystemApp)
+        } else if (item.itemId == R.id.add_manually) {
+            val ae = AnywhereEntity.Builder().apply {
+                appName = "New Activity"
+                type = AnywhereType.ACTIVITY
+            }
+            AnywhereEditor(this)
+                    .item(ae)
+                    .isEditorMode(false)
+                    .isShortcut(false)
+                    .build()
+                    .show()
         }
         return super.onOptionsItemSelected(item)
     }

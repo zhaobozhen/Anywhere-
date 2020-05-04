@@ -12,7 +12,11 @@
 
     <item
         android:id="@+id/show_system_app"
-        android:icon="@drawable/ic_search"
         android:title="@string/menu_show_system_app"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/add_manually"
+        android:title="@string/menu_add_manually"
         app:showAsAction="never"/>
 </menu>

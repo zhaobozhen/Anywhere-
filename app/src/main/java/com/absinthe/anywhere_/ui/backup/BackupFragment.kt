@@ -40,10 +40,12 @@ class BackupFragment : PreferenceFragmentCompat(),
             onPreferenceChangeListener = this@BackupFragment
             summary = getPWString(GlobalValues.webdavPassword)
         }
-        findPreference<Preference>(Const.PREF_WEBDAV_TEST)?.apply {
+        findPreference<Preference>(Const.PREF_WEBDAV_BACKUP)?.apply {
             onPreferenceClickListener = this@BackupFragment
         }
-
+        findPreference<Preference>(Const.PREF_WEBDAV_AUTO_BACKUP)?.apply {
+            onPreferenceChangeListener = this@BackupFragment
+        }
         findPreference<Preference>(Const.PREF_BACKUP)?.apply {
             onPreferenceClickListener = this@BackupFragment
         }
@@ -94,9 +96,8 @@ class BackupFragment : PreferenceFragmentCompat(),
                 showRestoreApplyDialog(requireActivity() as BaseActivity)
                 return true
             }
-            Const.PREF_WEBDAV_TEST -> {
+            Const.PREF_WEBDAV_BACKUP -> {
                 StorageUtils.webdavBackup()
-
                 return true
             }
         }
@@ -121,6 +122,9 @@ class BackupFragment : PreferenceFragmentCompat(),
             Const.PREF_WEBDAV_PASSWORD -> {
                 GlobalValues.webdavPassword = newValue.toString()
                 preference.summary = getPWString(newValue.toString())
+            }
+            Const.PREF_WEBDAV_AUTO_BACKUP -> {
+                GlobalValues.isAutoBackup = newValue as Boolean
             }
         }
         return true

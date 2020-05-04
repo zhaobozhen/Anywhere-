@@ -22,7 +22,7 @@
             android:icon="@drawable/ic_snowflake">
 
             <intent
-                android:targetPackage="com.absinthe.anywhere_"
+                android:targetPackage="@string/application_id"
                 android:targetClass="com.absinthe.anywhere_.ui.settings.DefrostActivity"/>
         </Preference>
 
@@ -33,7 +33,7 @@
             android:icon="@drawable/ic_backup_and_restore">
 
             <intent
-                android:targetPackage="com.absinthe.anywhere_"
+                android:targetPackage="@string/application_id"
                 android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"/>
 
         </Preference>
@@ -119,7 +119,7 @@
             android:icon="@drawable/ic_android">
 
             <intent
-                android:targetPackage="com.absinthe.anywhere_"
+                android:targetPackage="@string/application_id"
                 android:targetClass="com.absinthe.anywhere_.ui.settings.TileSettingsActivity"/>
         </Preference>
 
@@ -151,7 +151,7 @@
             android:icon="@drawable/ic_lab">
 
             <intent
-                android:targetPackage="com.absinthe.anywhere_"
+                android:targetPackage="@string/application_id"
                 android:targetClass="com.absinthe.anywhere_.ui.settings.LabActivity"/>
         </Preference>
 
@@ -168,7 +168,7 @@
             android:icon="@drawable/ic_cat">
 
             <intent
-                android:targetPackage="com.absinthe.anywhere_"
+                android:targetPackage="@string/application_id"
                 android:targetClass="com.absinthe.anywhere_.ui.settings.LogcatActivity"/>
 
         </Preference>
@@ -192,8 +192,20 @@
             android:icon="@drawable/ic_logo_24dp">
 
             <intent
-                android:targetPackage="com.absinthe.anywhere_"
+                android:targetPackage="@string/application_id"
                 android:targetClass="com.absinthe.anywhere_.ui.about.AboutActivity"/>
+
+        </Preference>
+
+        <Preference
+            app:key="gift"
+            app:title="@string/settings_gift"
+            app:summary="@string/settings_gift_summary"
+            android:icon="@drawable/ic_gift">
+
+            <intent
+                android:targetPackage="@string/application_id"
+                android:targetClass="com.absinthe.anywhere_.ui.gift.GiftActivity"/>
 
         </Preference>
 

@@ -51,7 +51,8 @@ object Const {
     const val PREF_WEBDAV_HOST = "webdavHost"
     const val PREF_WEBDAV_USERNAME = "webdavUsername"
     const val PREF_WEBDAV_PASSWORD = "webdavPassword"
-    const val PREF_WEBDAV_TEST = "webdavTest"
+    const val PREF_WEBDAV_BACKUP = "webdavBackup"
+    const val PREF_WEBDAV_AUTO_BACKUP = "webdavAutoBackup"
     const val PREF_NEED_BACKUP = "needBackup"
 
     const val WORKING_MODE_URL_SCHEME = "url_scheme"

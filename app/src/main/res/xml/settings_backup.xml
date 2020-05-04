@@ -21,8 +21,14 @@
             app:title="@string/settings_backup_webdav_password_title" />
 
         <Preference
-            android:key="webdavTest"
-            android:title="@string/settings_backup_webdav_test_title"/>
+            android:key="webdavBackup"
+            android:title="@string/settings_backup_webdav_backup_title"/>
+
+        <SwitchPreference
+            android:key="webdavAutoBackup"
+            android:title="@string/settings_backup_webdav_auto_backup_title"
+            app:summary="@string/settings_backup_webdav_auto_backup_summary"
+            app:defaultValue="true" />
 
     </PreferenceCategory>
 

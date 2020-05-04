@@ -12,6 +12,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
@@ -99,16 +100,20 @@ class SettingsActivity : BaseActivity() {
 
             collectorPlusPreference?.onPreferenceChangeListener = this
 
-            giftPreference?.summary = if (IzukoHelper.isHitagi) {
-                getText(R.string.settings_gift_purchase_summary)
-            } else {
-                getText(R.string.settings_gift_summary)
+            giftPreference?.apply {
+                if (!BuildConfig.DEBUG) {
+                    isVisible = false
+                }
+                summary = if (IzukoHelper.isHitagi) {
+                    getText(R.string.settings_gift_purchase_summary)
+                } else {
+                    getText(R.string.settings_gift_summary)
+                }
             }
 
             md2Preference?.onPreferenceChangeListener = this
             excludePreference?.onPreferenceChangeListener = this
             showShellResultPreference?.onPreferenceChangeListener = this
-
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -251,7 +251,7 @@ public class AnywhereEntity implements Parcelable {
     }
 
     public String getIconUri() {
-        return mIconUri;
+        return mIconUri == null ? "" : mIconUri;
     }
 
     public void setIconUri(String mIconUri) {

@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="application_id" translatable="false">com.absinthe.anywhere_</string>
     <string name="app_name">Anywhere-</string>
     <string name="settings_title">Settings</string>
     <string name="about_title">About</string>
@@ -105,6 +106,7 @@
     <string name='menu_overlay'>Overlay Window</string>
     <string name='menu_show_system_app'>Show system apps</string>
     <string name='menu_hide_system_app'>Hide system apps</string>
+    <string name='menu_add_manually'>Add Activity manully</string>
     <string name="menu_rate">Rate</string>
     <string name="menu_gift">Gift</string>
 
@@ -190,7 +192,10 @@
     <string name="settings_backup_webdav_host_title">WebDAV Host</string>
     <string name="settings_backup_webdav_username_title">WebDAV Username</string>
     <string name="settings_backup_webdav_password_title">WebDAV Password</string>
-    <string name="settings_backup_webdav_test_title">Test usability</string>
+    <string name="settings_backup_webdav_backup_title">Backup now</string>
+    <string name="settings_backup_webdav_auto_backup_title">Auto backup</string>
+
+    <string name="settings_backup_webdav_auto_backup_summary">Automatically trigger backup if any card has changed</string>
 
     <string name="settings_md2_toolbar_title">Material Design 2 Toolbar</string>
     <string name="settings_pages_title">Pages</string>

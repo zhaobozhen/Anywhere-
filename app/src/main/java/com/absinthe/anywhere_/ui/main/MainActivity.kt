@@ -388,11 +388,11 @@ class MainActivity : BaseActivity() {
         })
         viewModel.background.value = GlobalValues.backgroundUri
 
-        viewModel.fragment.observe(this, Observer { fragment: Fragment? ->
+        viewModel.fragment.observe(this, Observer { fragment: Fragment ->
             supportFragmentManager
                     .beginTransaction()
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(mBinding.fragmentContainerView.id, fragment!!)
+                    .replace(mBinding.fragmentContainerView.id, fragment)
                     .commitNow()
             if (fragment is MainFragment) {
                 initFab()
@@ -563,7 +563,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun backupIfNeeded() {
-        if (GlobalValues.needBackup) {
+        if (GlobalValues.needBackup && GlobalValues.isAutoBackup) {
             StorageUtils.webdavBackup()
             GlobalValues.needBackup = false
         }

@@ -9,6 +9,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.RemoteViews
+import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -120,6 +121,6 @@ class HomeWidgetProvider : AppWidgetProvider() {
     }
 
     companion object {
-        const val CLICK_ACTION = "com.absinthe.anywhere_.action.CLICK" // 点击事件的广播ACTION
+        const val CLICK_ACTION = "${BuildConfig.APPLICATION_ID}.action.CLICK"
     }
 }

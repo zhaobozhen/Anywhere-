@@ -52,6 +52,12 @@ object GlobalValues {
             mmkv.encode(Const.PREF_SHOW_SHELL_RESULT, value)
         }
 
+    var isAutoBackup
+        get() = mmkv.decodeBool(Const.PREF_WEBDAV_AUTO_BACKUP, true)
+        set(value) {
+            mmkv.encode(Const.PREF_WEBDAV_AUTO_BACKUP, value)
+        }
+
     var workingMode
         get() = mmkv.decodeString(Const.PREF_WORKING_MODE, Const.WORKING_MODE_URL_SCHEME)
                 ?: Const.WORKING_MODE_URL_SCHEME
