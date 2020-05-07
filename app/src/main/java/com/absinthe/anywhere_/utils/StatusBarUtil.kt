@@ -25,7 +25,6 @@ object StatusBarUtil {
         }
     }
 
-    @JvmStatic
     fun setDarkMode(activity: Activity, isDarkMode: Boolean) {
         if (isDarkMode) {
             activity.window.decorView.systemUiVisibility = (
