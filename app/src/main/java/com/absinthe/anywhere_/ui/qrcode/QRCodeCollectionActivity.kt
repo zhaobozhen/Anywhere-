@@ -2,11 +2,12 @@ package com.absinthe.anywhere_.ui.qrcode
 
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.BaseActivity
-import com.absinthe.anywhere_.adapter.card.QRCollectionAdapter
+import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.adapter.card.BaseCardAdapter
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager
+import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.ActivityQrcodeCollectionBinding
 import com.absinthe.anywhere_.databinding.CardQrCollectionTipBinding
-import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.model.QRCollection
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import jonathanfinerty.once.Once
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 class QRCodeCollectionActivity : BaseActivity() {
 
     private lateinit var binding: ActivityQrcodeCollectionBinding
-    private var mAdapter: QRCollectionAdapter = QRCollectionAdapter(this)
+    private var mAdapter = BaseCardAdapter(R.layout.item_stream_card_view)
 
     init {
         isPaddingToolbar = true
@@ -57,7 +58,7 @@ class QRCodeCollectionActivity : BaseActivity() {
 
         GlobalScope.launch(Dispatchers.Main) {
             val collection = QRCollection.Singleton.INSTANCE.instance
-            mAdapter.setItems(collection.list)
+            mAdapter.setNewInstance(collection.list)
 
             binding.srlQrCollection.apply {
                 isRefreshing = false

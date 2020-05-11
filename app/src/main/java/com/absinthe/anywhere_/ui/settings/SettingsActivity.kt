@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.net.toUri
 import androidx.preference.DropDownPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -164,12 +165,12 @@ class SettingsActivity : BaseActivity() {
                 Const.PREF_HELP -> {
                     try {
                         CustomTabsIntent.Builder().build().apply {
-                            launchUrl(requireActivity(), Uri.parse(URLManager.OLD_DOCUMENT_PAGE))
+                            launchUrl(requireActivity(), URLManager.OLD_DOCUMENT_PAGE.toUri())
                         }
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
                         val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data = Uri.parse(URLManager.OLD_DOCUMENT_PAGE)
+                            data = URLManager.OLD_DOCUMENT_PAGE.toUri()
                         }
                         requireActivity().startActivity(intent)
                     }
@@ -178,12 +179,12 @@ class SettingsActivity : BaseActivity() {
                 Const.PREF_BETA -> {
                     try {
                         CustomTabsIntent.Builder().build().apply {
-                            launchUrl(requireActivity(), Uri.parse(URLManager.BETA_DISTRIBUTE_URL))
+                            launchUrl(requireActivity(), URLManager.BETA_DISTRIBUTE_URL.toUri())
                         }
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
                         val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data = Uri.parse(URLManager.BETA_DISTRIBUTE_URL)
+                            data = URLManager.BETA_DISTRIBUTE_URL.toUri()
                         }
                         requireActivity().startActivity(intent)
                     }

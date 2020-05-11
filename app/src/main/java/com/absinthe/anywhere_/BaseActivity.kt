@@ -33,8 +33,14 @@ abstract class BaseActivity : AppCompatActivity() {
     protected abstract fun setToolbar()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         Timber.i("onCreate")
+        if (GlobalValues.backgroundUri.isEmpty() || this !is MainActivity) {
+            setDarkMode(this, UiUtils.isDarkMode(this))
+            UiUtils.setSystemBarTransparent(this)
+        }
+
+        super.onCreate(savedInstanceState)
+
         reference = WeakReference(this)
         ActivityStackManager.addActivity(reference)
         setViewBinding()
@@ -47,10 +53,6 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected open fun initView() {
-        if (GlobalValues.backgroundUri.isEmpty() || this !is MainActivity) {
-            setDarkMode(this, UiUtils.isDarkMode(this))
-            UiUtils.setSystemBarTransparent(this)
-        }
         setToolbar()
         if (isPaddingToolbar) {
             mToolbar?.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0)

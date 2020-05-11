@@ -63,8 +63,9 @@ public class ShortcutsUtils {
             Singleton.INSTANCE.getInstance().addDynamicShortcuts(infos);
         }
 
-        ae.setType(ae.getExportedType() * 100 + 10 + ae.getAnywhereType());
-        AnywhereApplication.sRepository.update(ae);
+        AnywhereEntity item = new AnywhereEntity(ae);
+        item.setType(item.getExportedType() * 100 + 10 + item.getAnywhereType());
+        AnywhereApplication.sRepository.update(item);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
@@ -98,8 +99,9 @@ public class ShortcutsUtils {
             return;
         }
 
-        ae.setType(ae.getExportedType() * 100 + ae.getAnywhereType());
-        AnywhereApplication.sRepository.update(ae);
+        AnywhereEntity item = new AnywhereEntity(ae);
+        item.setType(item.getExportedType() * 100 + item.getAnywhereType());
+        AnywhereApplication.sRepository.update(item);
 
         List<String> shortcutsIds = new ArrayList<>();
         shortcutsIds.add(ae.getId());

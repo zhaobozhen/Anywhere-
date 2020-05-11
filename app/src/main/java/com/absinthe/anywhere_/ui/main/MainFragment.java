@@ -28,11 +28,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.adapter.BaseAdapter;
+import com.absinthe.anywhere_.adapter.card.DiffListCallback;
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack;
-import com.absinthe.anywhere_.adapter.card.SelectableCardsAdapter;
-import com.absinthe.anywhere_.adapter.card.SingleLineStreamCardsAdapter;
-import com.absinthe.anywhere_.adapter.card.StreamCardsAdapter;
+import com.absinthe.anywhere_.adapter.card.BaseCardAdapter;
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager;
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager;
 import com.absinthe.anywhere_.constants.AnywhereType;
@@ -50,7 +48,9 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
-import timber.log.Timber;
+import static com.absinthe.anywhere_.adapter.card.BaseCardAdapterKt.ADAPTER_MODE_NORMAL;
+import static com.absinthe.anywhere_.adapter.card.BaseCardAdapterKt.ADAPTER_MODE_SELECT;
+import static com.absinthe.anywhere_.adapter.card.BaseCardAdapterKt.ADAPTER_MODE_SORT;
 
 public class MainFragment extends Fragment {
     private static final String BUNDLE_CATEGORY = "CATEGORY";
@@ -62,7 +62,7 @@ public class MainFragment extends Fragment {
     private String mCategory;
 
     private RecyclerView mRecyclerView;
-    private BaseAdapter adapter;
+    private BaseCardAdapter adapter;
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -78,11 +78,7 @@ public class MainFragment extends Fragment {
                     }
                 }
 
-                if (adapter.getItemCount() == 0) {
-                    adapter.setItems(filtered);
-                } else {
-                    adapter.updateItems(filtered);
-                }
+                adapter.setDiffNewData(filtered);
 
                 if (!mRecyclerView.canScrollVertically(-1)) {   //Fix Fab cannot be shown after deleting an Anywhere-
                     AnywhereViewModel viewModel = new ViewModelProvider(requireActivity()).get(AnywhereViewModel.class);
@@ -148,14 +144,17 @@ public class MainFragment extends Fragment {
 
         if (GlobalValues.INSTANCE.isStreamCardMode()) {
             if (GlobalValues.INSTANCE.isStreamCardModeSingleLine()) {
-                adapter = new SingleLineStreamCardsAdapter(mContext);
+                adapter = new BaseCardAdapter(R.layout.item_stream_card_single_line);
             } else {
-                adapter = new StreamCardsAdapter(mContext);
+                adapter = new BaseCardAdapter(R.layout.item_stream_card_view);
             }
         } else {
-            adapter = new SelectableCardsAdapter(mContext);
+            adapter = new BaseCardAdapter(R.layout.item_card_view);
         }
-        adapter.setItems(anywhereEntityList);
+        adapter.setNewInstance(anywhereEntityList);
+        adapter.setDiffCallback(new DiffListCallback());
+        adapter.setOnItemClickListener((adapter, view, position) -> MainFragment.this.adapter.clickItem(view, position));
+        adapter.setOnItemLongClickListener((adapter, view, position) -> MainFragment.this.adapter.longClickItem(view, position));
         recyclerView.setAdapter(adapter);
 
         setRecyclerViewLayoutManager(mContext.getResources().getConfiguration());
@@ -177,12 +176,11 @@ public class MainFragment extends Fragment {
                     filtered.add(ae);
                 }
             }
-            adapter.updateItems(filtered);
+            adapter.setDiffNewData(filtered);
         }
     }
 
     private void resetSelectState() {
-        Timber.d("getSelectedIndex() = %s", adapter.getSelectedIndex());
         for (int iter = 0, len = adapter.getItemCount(); iter < len; iter++) {
             View view = mLayoutManager.findViewByPosition(iter);
             if (view != null) {
@@ -223,10 +221,10 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        menu.findItem(R.id.toolbar_settings).setVisible(adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
-        menu.findItem(R.id.toolbar_sort).setVisible(adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
-        menu.findItem(R.id.toolbar_done).setVisible(adapter.getMode() != SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
-        menu.findItem(R.id.toolbar_delete).setVisible(adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_SELECT);
+        menu.findItem(R.id.toolbar_settings).setVisible(adapter.getMode() == ADAPTER_MODE_NORMAL);
+        menu.findItem(R.id.toolbar_sort).setVisible(adapter.getMode() == ADAPTER_MODE_NORMAL);
+        menu.findItem(R.id.toolbar_done).setVisible(adapter.getMode() != ADAPTER_MODE_NORMAL);
+        menu.findItem(R.id.toolbar_delete).setVisible(adapter.getMode() == ADAPTER_MODE_SELECT);
 
         super.onPrepareOptionsMenu(menu);
     }
@@ -276,13 +274,13 @@ public class MainFragment extends Fragment {
                         GlobalValues.INSTANCE.setSortMode(Const.SORT_MODE_NAME_ASC);
                         break;
                     case R.id.sort:
-                        adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SORT);
+                        adapter.setMode(ADAPTER_MODE_SORT);
                         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
                         ((Activity) mContext).invalidateOptionsMenu();
                         mRecyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         break;
                     case R.id.multi_select:
-                        adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_SELECT);
+                        adapter.setMode(ADAPTER_MODE_SELECT);
                         ((Activity) mContext).invalidateOptionsMenu();
                         mRecyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         break;
@@ -301,16 +299,16 @@ public class MainFragment extends Fragment {
 
             popup.show();
         } else if (item.getItemId() == R.id.toolbar_done) {
-            if (adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_SORT) {
-                adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
+            if (adapter.getMode() == ADAPTER_MODE_SORT) {
+                adapter.setMode(ADAPTER_MODE_NORMAL);
                 mItemTouchHelper.attachToRecyclerView(null);
                 ((Activity) mContext).invalidateOptionsMenu();
                 adapter.updateSortedList();
                 GlobalValues.INSTANCE.setSortMode(Const.SORT_MODE_TIME_DESC);
-            } else if (adapter.getMode() == SelectableCardsAdapter.ADAPTER_MODE_SELECT) {
+            } else if (adapter.getMode() == ADAPTER_MODE_SELECT) {
                 resetSelectState();
                 adapter.clearSelect();
-                adapter.setMode(SelectableCardsAdapter.ADAPTER_MODE_NORMAL);
+                adapter.setMode(ADAPTER_MODE_NORMAL);
                 ((Activity) mContext).invalidateOptionsMenu();
             }
             mRecyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);

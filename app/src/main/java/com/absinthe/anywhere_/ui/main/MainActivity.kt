@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -138,7 +139,7 @@ class MainActivity : BaseActivity() {
         getClipBoardText(this, object : ClipboardUtil.Function {
             override fun invoke(text: String) {
                 if (text.contains(URLManager.ANYWHERE_SCHEME)) {
-                    processUri(Uri.parse(text))
+                    processUri(text.toUri())
                     clearClipboard(this@MainActivity)
                 }
             }

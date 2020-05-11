@@ -12,6 +12,7 @@ import android.os.Parcelable
 import android.os.Process
 import android.provider.Settings
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -47,7 +48,6 @@ object AppUtils {
         parse(url, context)
     }
 
-    @JvmStatic
     fun openNewURLScheme(context: Context) {
         val url = URLManager.ANYWHERE_SCHEME + URLManager.URL_HOST + "?param1=&param2=&param3="
         parse(url, context)
@@ -242,7 +242,7 @@ object AppUtils {
 
 
             //Filter Email Apps
-            val queryIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"))
+            val queryIntent = Intent(Intent.ACTION_SENDTO, "mailto:".toUri())
             val resolveInfos = context.packageManager.queryIntentActivities(queryIntent, PackageManager.MATCH_DEFAULT_ONLY
                     or PackageManager.GET_RESOLVED_FILTER)
             val targetIntents = ArrayList<Intent>()

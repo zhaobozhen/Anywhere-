@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
@@ -17,11 +16,11 @@ import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.blankj.utilcode.util.BarUtils
 import com.drakeet.about.*
 import com.drakeet.about.extension.RecommendationLoaderDelegate
 import com.drakeet.about.extension.provided.GsonJsonConverter
 import com.drakeet.about.provided.GlideImageLoader
+import com.google.android.material.appbar.AppBarLayout
 
 class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
 
@@ -129,8 +128,8 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
         StatusBarUtil.setDarkMode(this, UiUtils.isDarkMode(this))
         UiUtils.setSystemBarTransparent(this)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0)
+        val appbar = findViewById<AppBarLayout>(R.id.header_layout)
+        appbar.fitsSystemWindows = true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
