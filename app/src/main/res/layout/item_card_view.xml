@@ -12,6 +12,7 @@
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
+    android:transitionName="app_card_container"
     android:translationZ="@dimen/cardview_elevation"
     app:cardCornerRadius="@dimen/cardview_corner_radius"
     app:cardElevation="@dimen/cardview_elevation">

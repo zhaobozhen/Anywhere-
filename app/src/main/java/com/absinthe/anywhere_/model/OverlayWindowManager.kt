@@ -16,22 +16,29 @@ class OverlayWindowManager(context: Context, service: OverlayService, cmd: Strin
     private val mCommand: String = cmd
     private val mPkgName: String = pkgName
     private var mOverlayView: OverlayView = OverlayView(context, service)
+    private var hasAdded = false
 
     fun addView() {
-        mOverlayView.apply {
-            command = mCommand
-            pkgName = mPkgName
-            layoutParams = LAYOUT_PARAMS
-            measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        }
+        if (!hasAdded) {
+            mOverlayView.apply {
+                command = mCommand
+                pkgName = mPkgName
+                layoutParams = LAYOUT_PARAMS
+                measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            }
 
-        mWindowManager.addView(mOverlayView, LAYOUT_PARAMS)
-        Timber.d("Overlay window addView.")
+            mWindowManager.addView(mOverlayView, LAYOUT_PARAMS)
+            Timber.d("Overlay window addView.")
+        }
+        hasAdded = true
     }
 
     fun removeView() {
-        mWindowManager.removeView(mOverlayView)
-        Timber.d("Overlay window removeView.")
+        if (hasAdded) {
+            mWindowManager.removeView(mOverlayView)
+            Timber.d("Overlay window removeView.")
+        }
+        hasAdded = false
     }
 
     companion object {

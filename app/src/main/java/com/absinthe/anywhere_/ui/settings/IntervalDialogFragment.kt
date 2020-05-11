@@ -15,7 +15,17 @@ class IntervalDialogFragment : AnywhereDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = IntervalDialogBuilder(requireContext()).apply {
-            slider.value = GlobalValues.dumpInterval / 1000f
+            slider.value = when {
+                GlobalValues.dumpInterval / 1000f > slider.valueTo -> {
+                    slider.valueTo
+                }
+                GlobalValues.dumpInterval / 1000f < slider.valueFrom -> {
+                    slider.valueFrom
+                }
+                else -> {
+                    GlobalValues.dumpInterval / 1000f
+                }
+            }
         }
 
         return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root)

@@ -67,7 +67,11 @@ public class DefrostHandler {
         if (workMode == IceBox.WorkMode.MODE_NOT_AVAILABLE) return false;
 
         new Handler().post(() -> {
-            IceBox.setAppEnabledSettings(context, true, packageName);
+            try {
+                IceBox.setAppEnabledSettings(context, true, packageName);
+            } catch (IllegalArgumentException e) {
+                new Handler(Looper.getMainLooper()).post(() -> ToastUtil.makeText("IceBox SDK error"));
+            }
             new Handler(Looper.getMainLooper()).post(listener::onAppDefrost);
         });
 

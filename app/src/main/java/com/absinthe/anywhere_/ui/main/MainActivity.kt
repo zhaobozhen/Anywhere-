@@ -5,10 +5,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
-import android.view.HapticFeedbackConstants
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.ImageButton
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -65,6 +62,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.node.BaseNode
+import com.google.android.material.transition.MaterialContainerTransformSharedElementCallback
 import com.google.gson.Gson
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.microsoft.appcenter.analytics.Analytics
@@ -114,6 +112,12 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.apply {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+            sharedElementsUseOverlay = false
+        }
+        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(AnywhereViewModel::class.java)
 

@@ -26,7 +26,7 @@ import java.util.*
 class GiftActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivityGiftBinding
-    private lateinit var mViewModel: GiftViewModel
+    private val mViewModel by lazy { ViewModelProvider(this).get(GiftViewModel::class.java) }
     private var mAdapter: ChatAdapter = ChatAdapter()
 
     init {
@@ -57,7 +57,6 @@ class GiftActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        mViewModel = ViewModelProvider(this).get(GiftViewModel::class.java)
 
         mBinding.apply {
             rvChat.apply {

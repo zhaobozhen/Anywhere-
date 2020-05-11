@@ -31,8 +31,6 @@ class AnywhereApplication : Application() {
                     Analytics::class.java, Crashes::class.java)
         }
 
-        Once.initialise(this)
-        Settings.init(this)
         sRepository = AnywhereRepository(this)
     }
 
@@ -40,6 +38,8 @@ class AnywhereApplication : Application() {
         super.attachBaseContext(base)
 
         Reflection.unseal(base)
+        Once.initialise(this)
+        Settings.init(this)
         ShizukuHelper.bind(base)
     }
 

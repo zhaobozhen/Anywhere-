@@ -89,7 +89,9 @@ class CollectorService : Service() {
     }
 
     fun stopCollector() {
-        mHandler.removeCallbacks(getCurrentInfoTask)
+        if (isCollectorPlus) {
+            mHandler.removeCallbacks(getCurrentInfoTask)
+        }
         mCollectorWindowManager.removeView()
         stopSelf()
     }

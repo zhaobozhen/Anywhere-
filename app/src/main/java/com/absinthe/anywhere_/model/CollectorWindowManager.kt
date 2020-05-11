@@ -13,25 +13,32 @@ import timber.log.Timber
 class CollectorWindowManager(context: Context, service: CollectorService) {
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private var hasAdded = false
 
     var view: CollectorView = CollectorView(context, service)
         private set
 
     fun addView() {
-        view.apply {
-            layoutParams = LAYOUT_PARAMS
-            measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        }
+        if (!hasAdded) {
+            view.apply {
+                layoutParams = LAYOUT_PARAMS
+                measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            }
 
-        mWindowManager.addView(view, LAYOUT_PARAMS)
+            mWindowManager.addView(view, LAYOUT_PARAMS)
+        }
+        hasAdded = true
         Timber.d("Collector addView.")
     }
 
     fun removeView() {
-        view.let {
-            mWindowManager.removeView(view)
-            Timber.d("Collector removeView.")
+        if (hasAdded) {
+            view.let {
+                mWindowManager.removeView(view)
+                Timber.d("Collector removeView.")
+            }
         }
+        hasAdded = false
     }
 
     fun setInfo(pkgName: String, clsName: String) {
