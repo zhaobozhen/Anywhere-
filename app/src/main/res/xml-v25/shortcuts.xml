@@ -9,7 +9,7 @@
         android:shortcutDisabledMessage="@string/shortcut_add">
         <intent
             android:action="START_COLLECTOR"
-            android:targetPackage="@string/application_id"
+            android:targetPackage="com.absinthe.anywhere_"
             android:targetClass="com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity" />
         <categories android:name="android.shortcut.conversation"/>
     </shortcut>

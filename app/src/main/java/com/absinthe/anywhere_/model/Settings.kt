@@ -27,8 +27,7 @@ object Settings {
     lateinit var sDate: String
     lateinit var sToken: String
 
-    fun init(application: AnywhereApplication) {
-        initMMKV(application)
+    fun init() {
         setLogger()
         setTheme(GlobalValues.darkMode)
         initIconPackManager()
@@ -36,7 +35,7 @@ object Settings {
         initToken()
     }
 
-    fun setTheme(mode: String?) {
+    fun setTheme(mode: String) {
         when (mode) {
             Const.DARK_MODE_OFF, "" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             Const.DARK_MODE_ON -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -62,6 +61,16 @@ object Settings {
         }
     }
 
+    fun initMMKV(application: AnywhereApplication) {
+        MMKV.initialize(application)
+
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.MMKV_MIGRATE)) {
+            val sp = application.getSharedPreferences(SPUtils.sPName, MODE_PRIVATE)
+            MMKV.mmkvWithID(SPUtils.sPName).importFromSharedPreferences(sp)
+            Once.markDone(OnceTag.MMKV_MIGRATE)
+        }
+    }
+
     private fun setDate() {
         val date = Date()
         val dateFormat = SimpleDateFormat("MM-dd", Locale.getDefault())
@@ -73,16 +82,6 @@ object Settings {
             getTokenFromFile(Utils.getApp())
         } catch (e: IOException) {
             ""
-        }
-    }
-
-    private fun initMMKV(application: AnywhereApplication) {
-        MMKV.initialize(application)
-
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.MMKV_MIGRATE)) {
-            val sp = application.getSharedPreferences(SPUtils.sPName, MODE_PRIVATE)
-            MMKV.mmkvWithID(SPUtils.sPName).importFromSharedPreferences(sp)
-            Once.markDone(OnceTag.MMKV_MIGRATE)
         }
     }
 }

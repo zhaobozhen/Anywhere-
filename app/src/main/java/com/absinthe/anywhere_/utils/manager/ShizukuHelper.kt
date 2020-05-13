@@ -1,10 +1,12 @@
 package com.absinthe.anywhere_.utils.manager
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.absinthe.anywhere_.R
@@ -31,20 +33,18 @@ import timber.log.Timber
 object ShizukuHelper {
 
     private const val ACTION_SEND_BINDER = "moe.shizuku.client.intent.action.SEND_BINDER"
-    const val REQUEST_CODE_PERMISSION_V3 = 1001
-    const val REQUEST_CODE_AUTHORIZATION_V3 = 1002
 
     private var isShizukuV3Failed = false
     private var isShizukuV3TokenValid = false
 
-    @JvmStatic
+    @SuppressLint("LogNotTimber")
     fun bind(context: Context) {
         ShizukuClientHelper.setBinderReceivedListener {
-            Timber.d("onBinderReceived")
+            Log.d("ShizukuHelper", "onBinderReceived")
 
             if (ShizukuService.getBinder() == null) {
                 // ShizukuBinderReceiveProvider started without binder, should never happened
-                Timber.e("binder is null")
+                Log.e("ShizukuHelper", "binder is null")
                 isShizukuV3Failed = true
             } else {
                 try {
@@ -58,7 +58,7 @@ object ShizukuHelper {
                     LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(ACTION_SEND_BINDER))
                 } catch (tr: Throwable) {
                     // blocked by SELinux or server dead, should never happened
-                    Timber.e(tr, "can't contact with remote")
+                    Log.e("ShizukuHelper", "can't contact with remote", tr)
                     isShizukuV3Failed = true
                 }
             }
@@ -70,7 +70,6 @@ object ShizukuHelper {
      *
      * @param context to show a dialog
      */
-    @JvmStatic
     fun checkShizukuOnWorking(context: Context): Boolean {
         // Shizuku v3 service will send binder via Content Provider to this process when this activity comes foreground.
 

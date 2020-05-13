@@ -12,4 +12,7 @@ class QREntity internal constructor(var listener: OnQRLaunchedListener) {
         listener.onLaunched()
     }
 
+    override fun toString(): String {
+        return "QREntity: pkgName = $pkgName, clsName = $clsName, urlScheme = $urlScheme"
+    }
 }

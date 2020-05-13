@@ -1,10 +1,6 @@
 package com.absinthe.anywhere_.adapter.card
 
-import android.app.Activity
-import android.app.ActivityOptions
 import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -25,7 +21,6 @@ import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.QRCollection
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
-import com.absinthe.anywhere_.ui.main.EditorActivity
 import com.absinthe.anywhere_.ui.main.MainFragment
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
 import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
@@ -52,7 +47,6 @@ import kotlinx.coroutines.launch
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
 const val ADAPTER_MODE_SELECT = 2
-const val ADAPTER_MODE_QR_PAGE = 3
 
 const val LAYOUT_MODE_NORMAL = 0
 const val LAYOUT_MODE_STREAM = 1
@@ -165,49 +159,49 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
     }
 
     fun clickItem(v: View, position: Int) {
-        val item = getItem(position)
+        try {
+            val item = getItem(position)
 
-        if (mode == ADAPTER_MODE_NORMAL) {
-            if (isAppFrozen(context, item)) {
-                v.postDelayed({ notifyItemChanged(position) }, 500)
+            if (mode == ADAPTER_MODE_NORMAL) {
+                if (isAppFrozen(context, item)) {
+                    v.postDelayed({ notifyItemChanged(position) }, 500)
+                }
+                openAnywhereActivity(item)
+            } else if (mode == ADAPTER_MODE_SELECT) {
+                if (mSelectedIndex.contains(position)) {
+                    v.scaleX = 1.0f
+                    v.scaleY = 1.0f
+                    (v as MaterialCardView).isChecked = false
+                    mSelectedIndex.remove(position)
+                } else {
+                    v.scaleX = 0.9f
+                    v.scaleY = 0.9f
+                    (v as MaterialCardView).isChecked = true
+                    mSelectedIndex.add(position)
+                }
             }
-            openAnywhereActivity(item)
-        } else if (mode == ADAPTER_MODE_SELECT) {
-            if (mSelectedIndex.contains(position)) {
-                v.scaleX = 1.0f
-                v.scaleY = 1.0f
-                (v as MaterialCardView).isChecked = false
-                mSelectedIndex.remove(position)
-            } else {
-                v.scaleX = 0.9f
-                v.scaleY = 0.9f
-                (v as MaterialCardView).isChecked = true
-                mSelectedIndex.add(position)
-            }
-        } else if (mode == ADAPTER_MODE_QR_PAGE) {
-            QRCollection.Singleton.INSTANCE.instance.getQREntity(data[position].id).launch()
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
         }
     }
 
-    fun longClickItem(v: View, position: Int) : Boolean {
-        val item = getItem(position)
-        val type = item.anywhereType
+    fun longClickItem(v: View, position: Int): Boolean {
+        try {
+            val item = getItem(position)
+            val type = item.anywhereType
 
-        if (mode == ADAPTER_MODE_NORMAL) {
-            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            if (mode == ADAPTER_MODE_NORMAL) {
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
-            when (type) {
-                AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME)
-                AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE)
-                AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE)
-                AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE)
-                AnywhereType.SHELL -> openEditor(item, Editor.SHELL)
-                AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL)
+                when (type) {
+                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME)
+                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE)
+                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE)
+                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE)
+                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL)
+                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL)
+                }
             }
-        } else if (mode == ADAPTER_MODE_QR_PAGE) {
-            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-            openEditor(item, AnywhereType.QR_CODE)
-        }
 //        val options = ActivityOptions.makeSceneTransitionAnimation(
 //                context as Activity,
 //                v,
@@ -215,7 +209,11 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
 //        )
 //        context.startActivity(Intent(context, EditorActivity::class.java), options.toBundle())
 
-        return true
+            return true
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
+            return false
+        }
     }
 
     fun deleteSelect() {
@@ -255,7 +253,7 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
 
     private fun openAnywhereActivity(item: AnywhereEntity) {
         if (item.anywhereType == AnywhereType.QR_CODE) {
-            val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(item.param2)
+            val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(item.id)
             entity?.launch()
         } else if (item.anywhereType == AnywhereType.IMAGE) {
             showImageDialog((context as AppCompatActivity), item)
@@ -265,7 +263,7 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
                     override fun onFinish(text: String?) {
                         if (workingMode == Const.WORKING_MODE_URL_SCHEME) {
                             try {
-                                parse(item.param1 + text, context as Context)
+                                parse(item.param1 + text, context)
                             } catch (e: Exception) {
                                 e.printStackTrace()
                                 if (e is ActivityNotFoundException) {

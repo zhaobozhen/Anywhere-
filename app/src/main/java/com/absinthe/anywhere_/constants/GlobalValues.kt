@@ -2,11 +2,16 @@ package com.absinthe.anywhere_.constants
 
 import android.text.Html
 import com.absinthe.anywhere_.utils.SPUtils
+import com.blankj.utilcode.util.Utils
 import com.tencent.mmkv.MMKV
 
 object GlobalValues {
 
     private val mmkv: MMKV = MMKV.mmkvWithID(SPUtils.sPName)
+
+    init {
+        MMKV.initialize(Utils.getApp())
+    }
 
     var sIsDebugMode = false
 

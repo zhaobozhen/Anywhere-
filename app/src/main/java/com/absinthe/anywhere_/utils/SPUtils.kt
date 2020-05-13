@@ -5,19 +5,13 @@ import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.constants.Const
 
 object SPUtils {
-    var sPName: String? = null
-        get() {
-            if (field == null) {
-                field = if (BuildConfig.DEBUG) {
-                    Const.SP_NAME_DEBUG
-                } else {
-                    Const.SP_NAME
-                }
-            }
-            return field
-        }
 
-    @JvmStatic
+    var sPName = if (BuildConfig.DEBUG) {
+        Const.SP_NAME_DEBUG
+    } else {
+        Const.SP_NAME
+    }
+
     fun putString(context: Context, key: String?, value: String?) {
         context.getSharedPreferences(sPName, Context.MODE_PRIVATE).edit().apply {
             putString(key, value)
