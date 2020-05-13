@@ -179,6 +179,7 @@ object GlobalValues {
                     .append(getInfoLine("Dump Interval", dumpInterval.toString()))
                     .append(getInfoLine("Current Page", currentPage.toString()))
                     .append(getInfoLine("Defrost Mode", defrostMode))
+                    .append(getInfoLine("Current Category", category))
             return Html.fromHtml(sb.toString())
         }
 
