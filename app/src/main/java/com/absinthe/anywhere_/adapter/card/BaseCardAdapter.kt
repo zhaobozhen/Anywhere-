@@ -23,6 +23,7 @@ import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.QRCollection
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.main.MainFragment
+import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
 import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -195,12 +196,12 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
                 v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
                 when (type) {
-                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME)
-                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE)
-                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE)
-                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE)
-                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL)
-                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL)
+                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME, true)
+                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE, true)
+                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE, context !is QRCodeCollectionActivity)
+                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE, true)
+                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL, true)
+                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL, true)
                 }
             }
 //        val options = ActivityOptions.makeSceneTransitionAnimation(
@@ -254,7 +255,12 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
 
     private fun openAnywhereActivity(item: AnywhereEntity) {
         if (item.anywhereType == AnywhereType.QR_CODE) {
-            val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(item.id)
+            val qrId = if (context is QRCodeCollectionActivity) {
+                item.id
+            } else {
+                item.param2
+            }
+            val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)
             entity?.launch()
         } else if (item.anywhereType == AnywhereType.IMAGE) {
             showImageDialog((context as AppCompatActivity), item)
@@ -304,8 +310,9 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
         }
     }
 
-    private fun openEditor(item: AnywhereEntity, type: Int) {
+    private fun openEditor(item: AnywhereEntity, type: Int, isEditMode: Boolean) {
         val listener = OnEditorListener { deleteAnywhereActivity(item) }
+
         when (type) {
             Editor.ANYWHERE -> mEditor = AnywhereEditor(context)
             Editor.URL_SCHEME -> mEditor = SchemeEditor(context)
@@ -317,7 +324,7 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
 
         mEditor?.let {
             it.item(item)
-                    .isEditorMode(true)
+                    .isEditorMode(isEditMode)
                     .isShortcut(item.shortcutType == AnywhereType.SHORTCUTS)
                     .isExported(item.exportedType == AnywhereType.EXPORTED)
                     .setOnEditorListener(listener)
