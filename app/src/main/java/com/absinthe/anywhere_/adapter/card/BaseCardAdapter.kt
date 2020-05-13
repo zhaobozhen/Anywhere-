@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.adapter.card
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -263,7 +264,7 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
                     override fun onFinish(text: String?) {
                         if (workingMode == Const.WORKING_MODE_URL_SCHEME) {
                             try {
-                                parse(item.param1 + text, context)
+                                parse(item.param1 + text, context as Context)
                             } catch (e: Exception) {
                                 e.printStackTrace()
                                 if (e is ActivityNotFoundException) {
