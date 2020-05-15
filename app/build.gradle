@@ -10,9 +10,9 @@ android {
     signingConfigs {
         release {
             storeFile file('android-key.jks')
-            storePassword 'yinzhua'
-            keyAlias = 'absinthe-android'
-            keyPassword 'yinzhua'
+            storePassword System.getenv("KSTOREPWD")
+            keyAlias = System.getenv("KEYALIAS")
+            keyPassword System.getenv("KEYPWD")
         }
     }
 

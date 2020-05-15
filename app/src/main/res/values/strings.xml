@@ -241,7 +241,7 @@
     <string name="dialog_message_shizuku_not_running">Please check whether Shizuku service is running normally</string>
     <string name="dialog_reset_background_confirm_message">Are you sure to reset the background image?</string>
     <string name="dialog_url_scheme_community">Community</string>
-    <string name="dialog_message_perm_not_ever">There still has ungranted permissions, are you sure to enter?</string>
+    <string name="dialog_message_perm_not_ever">There still has permissions not granted, are you sure to enter?</string>
     <string name="dialog_message_same_app_name">It seems that there is a similar Anywhere- card, are you sure to add it?</string>
     <string name="dialog_reset_shortcuts_confirm_message">Are you sure to reset all Shortcuts?</string>
     <string name="dialog_message_ice_box_perm_not_support">MIUI ROM cannot grant the custom permissions, click to go to origin Package Manager and grant permission manually</string>
