@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.constants
 
 import android.text.Html
+import androidx.lifecycle.MutableLiveData
 import com.absinthe.anywhere_.utils.SPUtils
 import com.blankj.utilcode.util.Utils
 import com.tencent.mmkv.MMKV
@@ -14,6 +15,8 @@ object GlobalValues {
     }
 
     var sIsDebugMode = false
+
+    var cardModeLiveData = MutableLiveData<Any>()
 
     var isStreamCardMode
         get() = mmkv.decodeBool(Const.PREF_STREAM_CARD_MODE)

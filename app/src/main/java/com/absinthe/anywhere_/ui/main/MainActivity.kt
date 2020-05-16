@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.*
 import android.widget.ImageButton
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
@@ -14,7 +15,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,8 +39,8 @@ import com.absinthe.anywhere_.services.CollectorService
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
 import com.absinthe.anywhere_.ui.list.AppListActivity
-import com.absinthe.anywhere_.ui.main.WelcomeFragment.Companion.newInstance
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
+import com.absinthe.anywhere_.ui.setup.SetupActivity
 import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.AnimationUtil.showAndHiddenAnimation
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
@@ -79,8 +79,8 @@ import java.util.*
 
 class MainActivity : BaseActivity() {
 
+    private val viewModel by viewModels<AnywhereViewModel>()
     private lateinit var mBinding: ActivityMainBinding
-    private lateinit var viewModel: AnywhereViewModel
     private lateinit var mToggle: ActionBarDrawerToggle
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mObserver: Observer<List<PageEntity>?>
@@ -116,6 +116,12 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FIRST_GUIDE)) {
+            finish()
+            startActivity(Intent(this, SetupActivity::class.java))
+        }
+
         window.apply {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             sharedElementsUseOverlay = false
@@ -123,22 +129,11 @@ class MainActivity : BaseActivity() {
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
 
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AnywhereViewModel::class.java)
 
         initObserver()
-
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE)) {
-            mBinding.fab.visibility = View.GONE
-
-            val welcomeFragment = newInstance()
-            viewModel.fragment.value = welcomeFragment
-        } else {
-            val mainFragment = MainFragment.newInstance(GlobalValues.category)
-            viewModel.fragment.value = mainFragment
-
-            getAnywhereIntent(intent)
-            backupIfNeeded()
-        }
+        viewModel.fragment.value = CategoryCardFragment.newInstance(GlobalValues.category)
+        getAnywhereIntent(intent)
+        backupIfNeeded()
     }
 
     override fun onResume() {
@@ -151,7 +146,6 @@ class MainActivity : BaseActivity() {
                     clearClipboard(this@MainActivity)
                 }
             }
-
         })
     }
 
@@ -193,6 +187,8 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
+
+        initFab()
 
         if (GlobalValues.isMd2Toolbar) {
             val marginHorizontal = resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
@@ -250,7 +246,7 @@ class MainActivity : BaseActivity() {
 
                             withContext(Dispatchers.Main) {
                                 if (pe.type == AnywhereType.CARD_PAGE) {
-                                    viewModel.fragment.value = MainFragment.newInstance(pe.title)
+                                    viewModel.fragment.value = CategoryCardFragment.newInstance(pe.title)
                                     setsCategory(pe.title, position)
                                 } else if (pe.type == AnywhereType.WEB_PAGE) {
                                     viewModel.fragment.value = WebviewFragment.newInstance(pe.extra)
@@ -403,8 +399,7 @@ class MainActivity : BaseActivity() {
                     .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
                     .replace(mBinding.fragmentContainerView.id, fragment)
                     .commitNow()
-            if (fragment is MainFragment) {
-                initFab()
+            if (fragment is CategoryCardFragment) {
                 if (mBinding.fab.visibility == View.GONE) {
                     showAndHiddenAnimation(mBinding.fab, AnimationUtil.AnimationState.STATE_SHOW, 300)
                 }
@@ -473,7 +468,7 @@ class MainActivity : BaseActivity() {
             true
         }
 
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_GUIDE)) {
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_TIP)) {
             showFirstTip(mBinding.fab)
 
             viewModel.insert(AnywhereEntity.Builder().apply {
@@ -482,7 +477,7 @@ class MainActivity : BaseActivity() {
                 param1 = URLManager.OLD_DOCUMENT_PAGE
             })
 
-            Once.markDone(OnceTag.FAB_GUIDE)
+            Once.markDone(OnceTag.FAB_TIP)
         }
     }
 

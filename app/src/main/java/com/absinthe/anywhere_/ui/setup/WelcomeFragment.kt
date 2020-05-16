@@ -1,14 +1,13 @@
-package com.absinthe.anywhere_.ui.main
+package com.absinthe.anywhere_.ui.setup
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.databinding.FragmentWelcomeBinding
 import com.absinthe.anywhere_.utils.TimeRecorder
-import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 
 class WelcomeFragment : Fragment() {
 
@@ -16,9 +15,13 @@ class WelcomeFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
+
         binding.btnWelcomeStart.setOnClickListener {
-            val viewModel = ViewModelProvider(requireActivity()).get(AnywhereViewModel::class.java)
-            viewModel.fragment.setValue(InitializeFragment.newInstance())
+            requireActivity().supportFragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                    .replace(R.id.fragment_container_view, InitializeFragment.newInstance())
+                    .commitNow()
         }
 
         TimeRecorder.shouldRecord = false

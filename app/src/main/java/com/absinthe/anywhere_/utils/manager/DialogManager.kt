@@ -20,7 +20,7 @@ import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnCli
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment
-import com.absinthe.anywhere_.ui.main.RenameFragmentDialog
+import com.absinthe.anywhere_.ui.fragment.RenameFragmentDialog
 import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment
 import com.absinthe.anywhere_.ui.settings.IntervalDialogFragment
 import com.absinthe.anywhere_.ui.settings.TimePickerDialogFragment

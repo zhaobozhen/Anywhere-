@@ -4,7 +4,8 @@ import io.michaelrocks.paranoid.Obfuscate
 
 @Obfuscate
 object OnceTag {
-    const val FAB_GUIDE = "fabGuide"
+    const val FIRST_GUIDE = "fabGuide"
+    const val FAB_TIP = "fabTip"
     const val QR_COLLECTION_TIP = "qrCollectionTip"
     const val OVERLAY_TIP = "overlayTip"
     const val SHOULD_RECORD_TIME = "shouldRecordTime"

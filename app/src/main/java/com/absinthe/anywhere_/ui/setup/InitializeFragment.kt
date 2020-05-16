@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.ui.main
+package com.absinthe.anywhere_.ui.setup
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -10,20 +10,21 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.*
+import com.absinthe.anywhere_.ui.main.MainActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper
-import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.blankj.utilcode.util.PermissionUtils
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
+import jonathanfinerty.once.Once
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -72,6 +73,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         mBinding.selectWorkingMode.toggleGroup.addOnButtonCheckedListener(this)
 
         allPerm.value = 0
+
         if (!AppUtils.atLeastM()) {
             allPerm.value?.or(OVERLAY_PERM)
         }
@@ -126,20 +128,20 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             }
 
             if (flag) {
-                enterMainFragment()
+                enterHomePage()
             } else {
                 DialogManager.showHasNotGrantPermYetDialog(requireActivity(), DialogInterface.OnClickListener { _, _ ->
-                    enterMainFragment()
+                    enterHomePage()
                 })
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun enterMainFragment() {
-        val viewModel = ViewModelProvider(requireActivity()).get(AnywhereViewModel::class.java)
-        val fragment = MainFragment.newInstance(GlobalValues.category)
-        viewModel.fragment.value = fragment
+    private fun enterHomePage() {
+        Once.markDone(OnceTag.FIRST_GUIDE)
+        startActivity(Intent(requireContext(), MainActivity::class.java))
+        requireActivity().finish()
     }
 
     private fun initObserver() {
@@ -153,7 +155,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 allPerm.value?.or(ROOT_PERM)
                 Timber.d("allPerm = %s", allPerm.value)
             } else {
-                Timber.d("ROOT permission denied.")
+                Timber.d("Root permission denied.")
                 ToastUtil.makeText(R.string.toast_root_permission_denied)
             }
         })

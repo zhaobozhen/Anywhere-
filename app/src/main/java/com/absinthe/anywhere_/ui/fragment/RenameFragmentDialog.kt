@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.ui.main
+package com.absinthe.anywhere_.ui.fragment
 
 import android.app.Dialog
 import android.content.DialogInterface

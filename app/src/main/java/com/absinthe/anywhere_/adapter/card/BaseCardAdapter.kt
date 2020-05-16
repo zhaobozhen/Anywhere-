@@ -21,7 +21,7 @@ import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.QRCollection
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
-import com.absinthe.anywhere_.ui.main.MainFragment
+import com.absinthe.anywhere_.ui.main.CategoryCardFragment
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
@@ -237,18 +237,16 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
         GlobalScope.launch(Dispatchers.IO) {
             delay(1000)
 
-            MainFragment.setRefreshLock(true)
-            val startTime = System.currentTimeMillis()
-            var iter = 0
-            val len: Int = data.size
+            CategoryCardFragment.refreshLock = true
 
-            while (iter < len) {
-                val item = data[iter]
-                item.timeStamp = (startTime - iter * 100).toString()
+            val startTime = System.currentTimeMillis()
+            for (pos in 0 until data.size) {
+                val item = data[pos]
+                item.timeStamp = (startTime - pos * 100).toString()
                 AnywhereApplication.sRepository.update(item)
-                iter++
             }
-            MainFragment.setRefreshLock(false)
+
+            CategoryCardFragment.refreshLock = true
         }
     }
 

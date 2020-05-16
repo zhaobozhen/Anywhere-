@@ -19,7 +19,6 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivitySettingsBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.Settings
-import com.absinthe.anywhere_.ui.main.MainFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -214,7 +213,7 @@ class SettingsActivity : BaseActivity() {
                 }
                 Const.PREF_STREAM_CARD_MODE -> {
                     GlobalValues.isStreamCardMode = newValue as Boolean
-                    MainFragment.getCardMode().value = newValue.toString()
+                    GlobalValues.cardModeLiveData.value = newValue
 
                     findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_SINGLE_LINE)?.apply {
                         isEnabled = newValue
@@ -226,12 +225,12 @@ class SettingsActivity : BaseActivity() {
                 }
                 Const.PREF_STREAM_CARD_SINGLE_LINE -> {
                     GlobalValues.isStreamCardModeSingleLine = newValue as Boolean
-                    MainFragment.getCardMode().value = newValue.toString()
+                    GlobalValues.cardModeLiveData.value = newValue
                     return true
                 }
                 Const.PREF_CARD_BACKGROUND -> {
                     GlobalValues.sCardBackgroundMode = newValue.toString()
-                    MainFragment.getCardMode().value = newValue.toString()
+                    GlobalValues.cardModeLiveData.value = newValue
                     return true
                 }
                 Const.PREF_COLLECTOR_PLUS -> {
