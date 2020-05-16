@@ -69,7 +69,7 @@ public class DefrostHandler {
         new Handler().post(() -> {
             try {
                 IceBox.setAppEnabledSettings(context, true, packageName);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | SecurityException e) {
                 new Handler(Looper.getMainLooper()).post(() -> ToastUtil.makeText("IceBox SDK error"));
             }
             new Handler(Looper.getMainLooper()).post(listener::onAppDefrost);

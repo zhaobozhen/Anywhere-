@@ -15,8 +15,8 @@ import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 class CollectorBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(context, viewGroup) {
 
     var ibCollector: ImageButton
-    lateinit var tvPkgName: TextView
-    lateinit var tvClsName: TextView
+    var tvPkgName = TextView(context)
+    var tvClsName = TextView(context)
 
     init {
         val wrapWrap = LinearLayout.LayoutParams(

@@ -85,17 +85,12 @@ public class SwitchShellEditor extends Editor<SwitchShellEditor> {
                     if (!tietAppName.getText().toString().isEmpty()
                             && !tietSwitchOn.getText().toString().isEmpty()
                             && !tietSwitchOff.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = AnywhereEntity.Builder();
-                        ae.setId(mItem.getId());
+                        AnywhereEntity ae = new AnywhereEntity(mItem);
                         ae.setAppName(aName);
                         ae.setParam1(shellOn);
                         ae.setParam2(shellOff);
                         ae.setParam3(SWITCH_SHELL_OFF_STATUS);
                         ae.setDescription(desc);
-                        ae.setType(mItem.getType());
-                        ae.setCategory(mItem.getCategory());
-                        ae.setTimeStamp(mItem.getTimeStamp());
-                        ae.setColor(mItem.getColor());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !shellOn.equals(mItem.getParam1()) || !shellOff.equals(mItem.getParam2())) {

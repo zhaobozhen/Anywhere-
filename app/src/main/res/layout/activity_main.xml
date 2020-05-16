@@ -80,7 +80,7 @@
                     android:layout_height="match_parent"
                     android:fillViewport="true">
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <com.absinthe.anywhere_.view.DrawerRecyclerView
                         android:id="@+id/rv_pages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

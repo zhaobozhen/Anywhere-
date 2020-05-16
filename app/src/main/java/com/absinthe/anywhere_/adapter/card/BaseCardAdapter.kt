@@ -45,6 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -71,6 +72,9 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
     }
 
     override fun convert(holder: BaseViewHolder, item: AnywhereEntity) {
+
+        Timber.d("color=%d",item.color)
+        Timber.d("icon=%s",item.iconUri)
 
         val appName = try {
             if (IceBox.getAppEnabledSetting(context, item.packageName) != 0) {

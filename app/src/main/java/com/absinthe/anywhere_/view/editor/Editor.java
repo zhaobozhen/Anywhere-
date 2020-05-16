@@ -288,8 +288,9 @@ public abstract class Editor<T extends Editor<?>> {
                             break;
                         case R.id.custom_icon:
                             ((BaseActivity) mContext).setDocumentResultListener(uri -> {
-                                mItem.setIconUri(uri.toString());
-                                AnywhereApplication.sRepository.update(mItem);
+                                AnywhereEntity ae = new AnywhereEntity(mItem);
+                                ae.setIconUri(uri.toString());
+                                AnywhereApplication.sRepository.update(ae);
                                 dismiss();
                             });
 
@@ -304,8 +305,9 @@ public abstract class Editor<T extends Editor<?>> {
                             }
                             break;
                         case R.id.restore_icon:
-                            mItem.setIconUri("");
-                            AnywhereApplication.sRepository.update(mItem);
+                            AnywhereEntity ae = new AnywhereEntity(mItem);
+                            ae.setIconUri("");
+                            AnywhereApplication.sRepository.update(ae);
                             dismiss();
                             break;
                         default:

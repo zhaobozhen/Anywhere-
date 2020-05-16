@@ -71,15 +71,10 @@ public class ShellEditor extends Editor<ShellEditor> {
 
                     if (!tietAppName.getText().toString().isEmpty()
                             && !etShellContent.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = AnywhereEntity.Builder();
-                        ae.setId(mItem.getId());
+                        AnywhereEntity ae = new AnywhereEntity(mItem);
                         ae.setAppName(aName);
                         ae.setParam1(shell);
                         ae.setDescription(desc);
-                        ae.setType(mItem.getType());
-                        ae.setCategory(mItem.getCategory());
-                        ae.setTimeStamp(mItem.getTimeStamp());
-                        ae.setColor(mItem.getColor());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !shell.equals(mItem.getParam1())) {

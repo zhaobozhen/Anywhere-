@@ -15,6 +15,8 @@ class DiffListCallback : DiffUtil.ItemCallback<AnywhereEntity>() {
                 oldItem.param2 == newItem.param2 &&
                 oldItem.param3 == newItem.param3 &&
                 oldItem.description == newItem.description &&
-                oldItem.type == newItem.type
+                oldItem.type == newItem.type &&
+                oldItem.color == newItem.color &&
+                oldItem.iconUri == newItem.iconUri
     }
 }

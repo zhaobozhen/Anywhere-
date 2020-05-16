@@ -24,6 +24,7 @@ import com.absinthe.anywhere_.ui.main.MainFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.ToastUtil
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.IzukoHelper
 import com.absinthe.anywhere_.utils.manager.URLManager
@@ -183,10 +184,11 @@ class SettingsActivity : BaseActivity() {
                         }
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
-                        val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data = URLManager.BETA_DISTRIBUTE_URL.toUri()
+                        try {
+                            URLSchemeHandler.parse(URLManager.BETA_DISTRIBUTE_URL, requireActivity())
+                        } catch (e: ActivityNotFoundException) {
+                            ToastUtil.makeText(R.string.toast_no_react_url)
                         }
-                        requireActivity().startActivity(intent)
                     }
                     return true
                 }

@@ -449,8 +449,8 @@ public class QRCollection {
 
     private AnywhereEntity genQqScan() {
         String pkgName = "com.tencent.mobileqq";
-        String clsName = ".olympic.activity.ScanTorchActivity";
-        String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
+        String clsName = "com.tencent.biz.qrcode.activity.ScannerActivity";
+        String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, clsName);
 
         qqScan = new QREntity(() -> CommandUtils.execCmd(cmd));
 

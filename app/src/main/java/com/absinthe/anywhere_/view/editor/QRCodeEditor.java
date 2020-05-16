@@ -55,13 +55,9 @@ public class QRCodeEditor extends Editor<QRCodeEditor> {
                     }
 
                     if (!tietAppName.getText().toString().isEmpty()) {
-                        AnywhereEntity ae = AnywhereEntity.Builder();
+                        AnywhereEntity ae = new AnywhereEntity(mItem);
                         ae.setAppName(aName);
-                        ae.setParam1(mItem.getParam1());
-                        ae.setParam2(mItem.getId());
                         ae.setDescription(desc);
-                        ae.setType(mItem.getType());
-                        ae.setColor(mItem.getColor());
 
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName())) {
