@@ -24,6 +24,4 @@ jobs:
           KEYALIAS: ${{ secrets.KEYALIAS }}
           KEYPWD: ${{ secrets.KEYPWD }}
       run: ./gradlew clean build -Pbuild=release
-    - name: Create a Release
-      uses: actions/create-release@v1
 
