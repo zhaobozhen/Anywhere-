@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.os.Build
 import android.os.FileUriExposedException
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -24,6 +23,7 @@ import com.absinthe.anywhere_.model.QRCollection
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.main.MainFragment
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
+import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
 import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -45,7 +45,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -72,10 +71,6 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
     }
 
     override fun convert(holder: BaseViewHolder, item: AnywhereEntity) {
-
-        Timber.d("color=%d",item.color)
-        Timber.d("icon=%s",item.iconUri)
-
         val appName = try {
             if (IceBox.getAppEnabledSetting(context, item.packageName) != 0) {
                 "\u2744" + item.appName
@@ -279,7 +274,7 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
                                 e.printStackTrace()
                                 if (e is ActivityNotFoundException) {
                                     ToastUtil.makeText(R.string.toast_no_react_url)
-                                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                } else if (AppUtils.atLeastN()) {
                                     if (e is FileUriExposedException) {
                                         ToastUtil.makeText(R.string.toast_file_uri_exposed)
                                     }

@@ -17,7 +17,6 @@ import android.graphics.Shader;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Spannable;
@@ -46,12 +45,12 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.palette.graphics.Palette;
 
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener;
-import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.constants.AnywhereType;
-import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
+import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener;
+import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.AppListBean;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
@@ -426,7 +425,7 @@ public class UiUtils {
             GlobalValues.INSTANCE.setActionBarType(Const.ACTION_BAR_TYPE_DARK);
             activity.invalidateOptionsMenu();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (AppUtils.INSTANCE.atLeastM()) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(
                         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR |
                                 activity.getWindow().getDecorView().getSystemUiVisibility());

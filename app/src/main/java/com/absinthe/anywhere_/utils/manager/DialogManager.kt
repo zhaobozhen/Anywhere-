@@ -12,7 +12,8 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.*
+import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
 import com.absinthe.anywhere_.ui.fragment.*
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
@@ -59,7 +60,7 @@ object DialogManager {
                 .setTitle(R.string.dialog_reset_background_confirm_title)
                 .setMessage(R.string.dialog_reset_shortcuts_confirm_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    if (AppUtils.atLeastNMR1()) {
                         ShortcutsUtils.clearShortcuts()
                     }
                 }
@@ -106,7 +107,7 @@ object DialogManager {
                 .setMessage(Html.fromHtml(String.format(context.getString(R.string.dialog_delete_message), "<b>" + ae.appName + "</b>")))
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
                     AnywhereApplication.sRepository.delete(ae)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    if (AppUtils.atLeastNMR1()) {
                         ShortcutsUtils.removeShortcut(ae)
                         builder.setDismissParent(true)
                     }

@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -146,14 +145,14 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                     ToastUtil.makeText(R.string.toast_works_on_root_or_shizuku)
                 }
             }
-            Const.WORKING_MODE_SHIZUKU -> if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            Const.WORKING_MODE_SHIZUKU -> if (!AppUtils.atLeastM()) {
                 if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
                     listener.onStart()
                 } else {
                     requestShizukuPermission()
                 }
             } else {
-                if (Build.VERSION.SDK_INT >= 30) {
+                if (AppUtils.atLeastR()) {
                     ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
                 }
                 PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
@@ -168,7 +167,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                     override fun onDenied() {}
                 })
             }
-            Const.WORKING_MODE_ROOT -> if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            Const.WORKING_MODE_ROOT -> if (!AppUtils.atLeastM()) {
                 if (DeviceUtils.isDeviceRooted()) {
                     listener.onStart()
                 } else {
@@ -177,7 +176,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                     com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.packageCodePath)
                 }
             } else {
-                if (Build.VERSION.SDK_INT >= 30) {
+                if (AppUtils.atLeastR()) {
                     ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
                 }
                 PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {

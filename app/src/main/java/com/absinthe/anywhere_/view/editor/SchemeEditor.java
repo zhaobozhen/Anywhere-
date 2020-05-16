@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.view.editor;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.os.Build;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +13,7 @@ import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
@@ -112,7 +112,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName()) || !uScheme.equals(mItem.getParam1())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                    if (AppUtils.INSTANCE.atLeastNMR1()) {
                                         ShortcutsUtils.updateShortcut(mItem);
                                     }
                                 }

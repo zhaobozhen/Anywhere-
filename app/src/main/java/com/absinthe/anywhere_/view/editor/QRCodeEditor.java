@@ -1,13 +1,13 @@
 package com.absinthe.anywhere_.view.editor;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.View;
 
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.constants.AnywhereType;
+import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.google.android.material.textfield.TextInputEditText;
@@ -62,7 +62,7 @@ public class QRCodeEditor extends Editor<QRCodeEditor> {
                         if (isEditMode) {
                             if (!aName.equals(mItem.getAppName())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                    if (AppUtils.INSTANCE.atLeastNMR1()) {
                                         ShortcutsUtils.updateShortcut(mItem);
                                     }
                                 }

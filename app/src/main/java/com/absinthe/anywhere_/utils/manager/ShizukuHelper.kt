@@ -5,12 +5,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Build
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager.topActivity
@@ -51,7 +51,7 @@ object ShizukuHelper {
                     // test the binder first
                     ShizukuService.pingBinder()
 
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    if (!AppUtils.atLeastM()) {
                         val token = ShizukuClientHelperPre23.loadPre23Token(context)
                         isShizukuV3TokenValid = ShizukuService.setTokenPre23(token)
                     }
@@ -101,7 +101,7 @@ object ShizukuHelper {
             return
         }
         val activity = topActivity ?: return
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (AppUtils.atLeastM()) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (!isGrantShizukuPermission) {
                 if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {
@@ -126,7 +126,7 @@ object ShizukuHelper {
         if (isGrantShizukuPermission || fragment == null) {
             return
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (AppUtils.atLeastM()) {
             // on API 23+, Shizuku v3 uses runtime permission
             if (!isGrantShizukuPermission) {
                 if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
-import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import com.absinthe.anywhere_.R
@@ -13,6 +12,7 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues.dumpInterval
 import com.absinthe.anywhere_.constants.GlobalValues.isCollectorPlus
 import com.absinthe.anywhere_.model.CollectorWindowManager
+import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
 import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -63,12 +63,12 @@ class CollectorService : Service() {
     }
 
     fun startCollector() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (!AppUtils.atLeastM()) {
             startCollectorImpl()
         } else {
             if (!PermissionUtils.isGrantedDrawOverlays()) {
                 ToastUtil.makeText(
-                        if (Build.VERSION.SDK_INT >= 30) {
+                        if (AppUtils.atLeastR()) {
                             R.string.toast_overlay_choose_anywhere
                         } else {
                             R.string.toast_permission_overlap

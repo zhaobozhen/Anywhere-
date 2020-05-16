@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.ui.shortcuts
 
 import android.app.Activity
 import android.content.*
-import android.os.Build
 import android.os.Bundle
 import android.os.FileUriExposedException
 import android.os.IBinder
@@ -17,6 +16,7 @@ import com.absinthe.anywhere_.constants.EventTag
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.services.CollectorService
+import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -177,7 +177,7 @@ class ShortcutsActivity : BaseActivity() {
 
                                     if (e is ActivityNotFoundException) {
                                         ToastUtil.makeText(R.string.toast_no_react_url)
-                                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    } else if (AppUtils.atLeastN()) {
                                         if (e is FileUriExposedException) {
                                             ToastUtil.makeText(R.string.toast_file_uri_exposed)
                                         }

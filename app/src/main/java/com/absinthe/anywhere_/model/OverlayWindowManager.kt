@@ -2,11 +2,11 @@ package com.absinthe.anywhere_.model
 
 import android.content.Context
 import android.graphics.PixelFormat
-import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import com.absinthe.anywhere_.services.OverlayService
+import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.view.OverlayView
 import timber.log.Timber
 
@@ -51,7 +51,7 @@ class OverlayWindowManager(context: Context, service: OverlayService, cmd: Strin
             format = PixelFormat.RGBA_8888
             flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
 
-            type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            type = if (AppUtils.atLeastO()) {
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             } else {
                 WindowManager.LayoutParams.TYPE_PHONE

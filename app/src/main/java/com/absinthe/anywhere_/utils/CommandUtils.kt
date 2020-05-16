@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
-import android.os.Build
 import android.os.FileUriExposedException
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -20,7 +19,6 @@ import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.lang.RuntimeException
 
 object CommandUtils {
     /**
@@ -119,7 +117,7 @@ object CommandUtils {
                             ToastUtil.makeText(R.string.toast_no_react_url)
                         } else if (e is RuntimeException) {
                             ToastUtil.makeText(R.string.toast_runtime_error)
-                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        } else if (AppUtils.atLeastN()) {
                             if (e is FileUriExposedException) {
                                 ToastUtil.makeText(R.string.toast_file_uri_exposed)
                             }

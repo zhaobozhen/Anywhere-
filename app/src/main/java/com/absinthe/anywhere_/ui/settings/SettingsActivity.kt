@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.ui.settings
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
@@ -83,7 +82,7 @@ class SettingsActivity : BaseActivity() {
             betaPreference?.onPreferenceClickListener = this
             clearShortcutsPreference?.onPreferenceClickListener = this
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
+            if (!AppUtils.atLeastNMR1()) {
                 clearShortcutsPreference?.isVisible = false
             }
 
@@ -96,7 +95,7 @@ class SettingsActivity : BaseActivity() {
 
             iconPackPreference?.onPreferenceClickListener = this
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            if (!AppUtils.atLeastN()) {
                 tilesPreference?.isVisible = false
             }
 

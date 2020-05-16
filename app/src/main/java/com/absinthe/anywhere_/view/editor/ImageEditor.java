@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.view.editor;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -12,10 +11,11 @@ import android.widget.ImageView;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.BaseActivity;
 import com.absinthe.anywhere_.R;
-import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
+import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -148,7 +148,7 @@ public class ImageEditor extends Editor<ImageEditor> implements MaterialButtonTo
                         if (isEditMode) {
                             if (!appName.equals(mItem.getAppName()) || !url.equals(mItem.getParam1())) {
                                 if (mItem.getShortcutType() == AnywhereType.SHORTCUTS) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                    if (AppUtils.INSTANCE.atLeastNMR1()) {
                                         ShortcutsUtils.updateShortcut(mItem);
                                     }
                                 }

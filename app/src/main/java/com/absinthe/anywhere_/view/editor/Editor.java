@@ -22,6 +22,7 @@ import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.OnceTag;
 import com.absinthe.anywhere_.model.AnywhereEntity;
 import com.absinthe.anywhere_.services.OverlayService;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -193,10 +194,10 @@ public abstract class Editor<T extends Editor<?>> {
     }
 
     private void startOverlay(String cmd) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (!AppUtils.INSTANCE.atLeastM()) {
             startOverlayImpl(cmd);
         } else {
-            if (Build.VERSION.SDK_INT >= 30) {
+            if (AppUtils.INSTANCE.atLeastR()) {
                 ToastUtil.makeText(R.string.toast_overlay_choose_anywhere);
             }
             PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
@@ -244,7 +245,7 @@ public abstract class Editor<T extends Editor<?>> {
                     MenuBuilder menuBuilder = (MenuBuilder) popup.getMenu();
                     menuBuilder.setOptionalIconsVisible(true);
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                if (AppUtils.INSTANCE.atLeastNMR1()) {
                     if (isShortcut) {
                         UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.colorAccent);
                         popup.getMenu().findItem(R.id.add_shortcuts).setTitle(R.string.dialog_remove_shortcut_title);
@@ -261,7 +262,7 @@ public abstract class Editor<T extends Editor<?>> {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.add_shortcuts:
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                            if (AppUtils.INSTANCE.atLeastNMR1()) {
                                 if (!isShortcut) {
                                     addShortcut(mContext, mItem);
                                 } else {
@@ -270,7 +271,7 @@ public abstract class Editor<T extends Editor<?>> {
                             }
                             break;
                         case R.id.add_home_shortcuts:
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            if (AppUtils.INSTANCE.atLeastO()) {
                                 DialogManager.showCreatePinnedShortcutDialog((AppCompatActivity) mContext, mItem);
                             }
                             break;

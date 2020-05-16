@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.ui.main
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.*
@@ -16,6 +15,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.*
+import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper
@@ -72,7 +72,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         mBinding.selectWorkingMode.toggleGroup.addOnButtonCheckedListener(this)
 
         allPerm.value = 0
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (!AppUtils.atLeastM()) {
             allPerm.value?.or(OVERLAY_PERM)
         }
     }
@@ -241,13 +241,13 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             }
             CARD_OVERLAY -> {
                 overlayBinding.btnAcquireOverlayPermission.setOnClickListener {
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    if (!AppUtils.atLeastM()) {
                         isOverlay.setValue(true)
                     } else {
                         val isGrant = PermissionUtils.isGrantedDrawOverlays()
                         isOverlay.value = isGrant
                         if (!isGrant) {
-                            if (Build.VERSION.SDK_INT >= 30) {
+                            if (AppUtils.atLeastR()) {
                                 ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
                             }
                             PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
@@ -309,7 +309,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (AppUtils.atLeastM()) {
                 if (Settings.canDrawOverlays(context)) {
                     isOverlay.value = java.lang.Boolean.TRUE
                 }

@@ -6,7 +6,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import androidx.core.app.ActivityCompat
@@ -52,7 +51,7 @@ class DefrostActivity : BaseActivity() {
             setOnItemChildClickListener { _, view, position ->
                 if (view.id == R.id.button) {
                     if (mList[position].mode == Const.DEFROST_MODE_DSM) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        if (com.absinthe.anywhere_.utils.AppUtils.atLeastO()) {
                             try {
                                 DSMClient.requestScopes(this@DefrostActivity, Const.REQUEST_CODE_DSM, DevicePolicyManager.DELEGATION_PACKAGE_ACCESS)
                             } catch (e: ActivityNotFoundException) {
@@ -102,7 +101,7 @@ class DefrostActivity : BaseActivity() {
     }
 
     private fun initData() {
-        mList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        mList = if (com.absinthe.anywhere_.utils.AppUtils.atLeastO()) {
             listOf(
                     DefrostItem(Const.DEFROST_MODE_DSM, getString(R.string.defrost_mode_dsm), getString(R.string.defrost_mode_dsm_summary), getString(R.string.btn_acquire_permission), AppUtils.getAppName(DSMClient.getOwnerPackageName(this))),
                     DefrostItem(Const.DEFROST_MODE_ICEBOX_SDK, getString(R.string.defrost_mode_icebox_sdk), getString(R.string.defrost_mode_icebox_sdk_summary), getString(R.string.btn_acquire_permission), ""),

@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Parcelable
 import android.os.Process
 import android.provider.Settings
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.absinthe.anywhere_.BuildConfig
@@ -260,5 +261,30 @@ object AppUtils {
             }
             context.startActivity(chooser)
         }
+    }
+
+    @ChecksSdkIntAtLeast(api = 30)
+    fun atLeastR():Boolean {
+        return Build.VERSION.SDK_INT >= 30
+    }
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
+    fun atLeastO():Boolean {
+        return Build.VERSION.SDK_INT >= 26
+    }
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N_MR1)
+    fun atLeastNMR1():Boolean {
+        return Build.VERSION.SDK_INT >= 25
+    }
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
+    fun atLeastN():Boolean {
+        return Build.VERSION.SDK_INT >= 24
+    }
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.M)
+    fun atLeastM():Boolean {
+        return Build.VERSION.SDK_INT >= 23
     }
 }
