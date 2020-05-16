@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -25,7 +26,6 @@ import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.view.editor.AnywhereEditor
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -146,7 +146,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
     private fun initData(showSystem: Boolean = false) {
         binding.srlAppList.isRefreshing = true
 
-        GlobalScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             val list = getAppList(packageManager, showSystem).toMutableList()
 
             withContext(Dispatchers.Main) {

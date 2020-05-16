@@ -2,13 +2,14 @@ package com.absinthe.anywhere_.ui.settings
 
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.log.LogAdapter
 import com.absinthe.anywhere_.adapter.log.LogDiffCallback
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
-import com.absinthe.anywhere_.databinding.ActivityLogcatBinding
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.databinding.ActivityLogcatBinding
 import com.absinthe.anywhere_.model.LogModel
 import com.absinthe.anywhere_.utils.AppUtils.sendLogcat
 import com.absinthe.anywhere_.utils.AppUtils.startLogcat
@@ -19,7 +20,6 @@ import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.NotificationUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -111,7 +111,7 @@ class LogcatActivity : BaseActivity() {
             FileUtils.listFilesInDir(file) { o1: File, o2: File ->
                 - o1.lastModified().toString().compareTo(o2.lastModified().toString())
             }?.let {
-                GlobalScope.launch(Dispatchers.IO) {
+                lifecycleScope.launch(Dispatchers.IO) {
                     for (logFile in it) {
                         val date = Date(logFile.lastModified()).toLocaleString()
                         val logModel = LogModel().apply {

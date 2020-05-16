@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -69,7 +70,10 @@ import com.microsoft.appcenter.analytics.Analytics
 import it.sephiroth.android.library.xtooltip.ClosePolicy.Companion.TOUCH_ANYWHERE_CONSUME
 import it.sephiroth.android.library.xtooltip.Tooltip
 import jonathanfinerty.once.Once
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 
@@ -241,7 +245,7 @@ class MainActivity : BaseActivity() {
 
                 (adapter.getItem(position) as PageTitleNode?)?.let {
                     ListUtils.getPageEntityByTitle(it.title)?.let { pe ->
-                        GlobalScope.launch(Dispatchers.Default) {
+                        lifecycleScope.launch(Dispatchers.Default) {
                             delay(300)
 
                             withContext(Dispatchers.Main) {
@@ -569,7 +573,9 @@ class MainActivity : BaseActivity() {
 
     private fun backupIfNeeded() {
         if (GlobalValues.needBackup && GlobalValues.isAutoBackup) {
-            StorageUtils.webdavBackup()
+            lifecycleScope.launch {
+                StorageUtils.webdavBackup()
+            }
             GlobalValues.needBackup = false
         }
     }

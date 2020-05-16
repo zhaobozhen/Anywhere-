@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.absinthe.anywhere_.BaseActivity
@@ -16,6 +17,7 @@ import com.absinthe.anywhere_.utils.StorageUtils.exportAnywhereEntityJsonString
 import com.absinthe.anywhere_.utils.StorageUtils.isExternalStorageWritable
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
+import kotlinx.coroutines.launch
 
 class BackupFragment : PreferenceFragmentCompat(),
         Preference.OnPreferenceClickListener,
@@ -97,7 +99,9 @@ class BackupFragment : PreferenceFragmentCompat(),
                 return true
             }
             Const.PREF_WEBDAV_BACKUP -> {
-                StorageUtils.webdavBackup()
+                lifecycleScope.launch {
+                    StorageUtils.webdavBackup()
+                }
                 return true
             }
         }

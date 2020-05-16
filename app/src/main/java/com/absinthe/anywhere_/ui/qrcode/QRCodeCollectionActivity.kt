@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.ui.qrcode
 
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -14,7 +15,6 @@ import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.chad.library.adapter.base.BaseQuickAdapter
 import jonathanfinerty.once.Once
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class QRCodeCollectionActivity : BaseActivity() {
@@ -61,7 +61,7 @@ class QRCodeCollectionActivity : BaseActivity() {
         mAdapter.setOnItemClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int -> mAdapter.clickItem(view, position) }
         mAdapter.setOnItemLongClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int -> mAdapter.longClickItem(view, position) }
 
-        GlobalScope.launch(Dispatchers.Main) {
+        lifecycleScope.launch(Dispatchers.Main) {
             val collection = QRCollection.Singleton.INSTANCE.instance
             mAdapter.setNewInstance(collection.list)
 

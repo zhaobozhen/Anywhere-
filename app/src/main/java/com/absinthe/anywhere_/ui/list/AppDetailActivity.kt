@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
@@ -21,7 +22,6 @@ import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -78,7 +78,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
             isRefreshing = true
         }
 
-        GlobalScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             val list: MutableList<AppListBean> = ArrayList()
 
             try {

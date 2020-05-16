@@ -14,8 +14,6 @@ import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -119,14 +117,14 @@ object StorageUtils {
         return String(buffer)
     }
 
-    fun webdavBackup() {
+    suspend fun webdavBackup() {
         if (GlobalValues.webdavHost.isEmpty() ||
                 GlobalValues.webdavUsername.isEmpty() ||
                 GlobalValues.webdavPassword.isEmpty()) {
             return
         }
 
-        GlobalScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             val sardine = OkHttpSardine()
             sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
 
