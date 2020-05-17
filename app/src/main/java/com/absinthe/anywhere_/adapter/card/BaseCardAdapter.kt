@@ -10,6 +10,7 @@ import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
@@ -106,9 +107,9 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
                                                 holder.setTextColor(R.id.tv_description, if (UiUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                             }
                                         } else {
-                                            holder.setTextColor(R.id.tv_app_name, context.resources.getColor(R.color.textColorNormal))
+                                            holder.setTextColor(R.id.tv_app_name, ContextCompat.getColor(context, R.color.textColorNormal))
                                             if (layoutMode == LAYOUT_MODE_STREAM) {
-                                                holder.setTextColor(R.id.tv_description, context.resources.getColor(R.color.textColorNormal))
+                                                holder.setTextColor(R.id.tv_description, ContextCompat.getColor(context, R.color.textColorNormal))
                                             }
                                         }
                                     }
@@ -141,10 +142,10 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
         holder.getView<ImageView>(R.id.iv_badge).apply {
             if (item.shortcutType == AnywhereType.SHORTCUTS) {
                 setImageResource(R.drawable.ic_add_shortcut)
-                setColorFilter(context.resources.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN)
+                setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
             } else if (item.exportedType == AnywhereType.EXPORTED) {
                 setImageResource(R.drawable.ic_exported)
-                setColorFilter(context.resources.getColor(R.color.exported_tint), PorterDuff.Mode.SRC_IN)
+                setColorFilter(ContextCompat.getColor(context, R.color.exported_tint), PorterDuff.Mode.SRC_IN)
             }
         }
 

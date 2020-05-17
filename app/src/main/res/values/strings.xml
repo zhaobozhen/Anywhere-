@@ -2,6 +2,7 @@
     <string name="application_id" translatable="false">com.absinthe.anywhere_</string>
     <string name="app_name">Anywhere-</string>
     <string name="settings_title">Settings</string>
+    <string name="setup_title">Setup</string>
     <string name="about_title">About</string>
     <string name="shortcuts_title">Shortcuts</string>
     <string name="backup_title">Backup</string>

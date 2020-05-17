@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.adapter.applist
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -130,6 +132,12 @@ class AppListAdapter(private val mContext: Context, mode: Int) : RecyclerView.Ad
                 MODE_APP_DETAIL -> {
                     ivIcon.setImageDrawable(UiUtils.getActivityIcon(mContext, ComponentName(item.packageName, item.className)))
                     tvPkgName.text = item.className
+
+                    if (item.appName.endsWith(" (Exported)")) {
+                        itemView.rootView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.exported_background))
+                    } else {
+                        itemView.rootView.setBackgroundColor(Color.TRANSPARENT)
+                    }
                 }
                 MODE_CARD_LIST -> {
                     ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(mContext, item))

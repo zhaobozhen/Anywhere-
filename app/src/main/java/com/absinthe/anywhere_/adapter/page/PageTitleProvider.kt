@@ -158,7 +158,7 @@ class PageTitleProvider : BaseNodeProvider() {
                     AnywhereApplication.sRepository.deletePage(pe)
                     pe.title = newTitle
                     AnywhereApplication.sRepository.insertPage(pe)
-                    GlobalValues.setsCategory(newTitle)
+                    GlobalValues.category = newTitle
                 }
             }
         }

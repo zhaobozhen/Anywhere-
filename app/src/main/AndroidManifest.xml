@@ -75,7 +75,9 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-        <activity android:name=".ui.setup.SetupActivity" />
+        <activity android:name=".ui.setup.SetupActivity"
+            android:label="@string/setup_title">
+        </activity>
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"

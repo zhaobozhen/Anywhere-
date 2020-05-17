@@ -207,8 +207,4 @@ object GlobalValues {
         category = sCategory
         currentPage = page
     }
-
-    fun setsCategory(sCategory: String) {
-        category = sCategory
-    }
 }

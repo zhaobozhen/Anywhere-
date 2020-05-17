@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.main
 
 import android.content.*
 import android.content.res.Configuration
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -42,7 +45,6 @@ import com.absinthe.anywhere_.ui.list.AppListActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
 import com.absinthe.anywhere_.utils.*
-import com.absinthe.anywhere_.utils.AnimationUtil.showAndHiddenAnimation
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
 import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
@@ -81,12 +83,12 @@ class MainActivity : BaseActivity() {
 
     private val viewModel by viewModels<AnywhereViewModel>()
     private lateinit var mBinding: ActivityMainBinding
-    private lateinit var mToggle: ActionBarDrawerToggle
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mObserver: Observer<List<PageEntity>?>
 
     private var isBound = false
     private var collectorService: CollectorService? = null
+    private var mToggle: ActionBarDrawerToggle? = null
 
     private val conn = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -131,7 +133,6 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         initObserver()
-        viewModel.fragment.value = CategoryCardFragment.newInstance(GlobalValues.category)
         getAnywhereIntent(intent)
         backupIfNeeded()
     }
@@ -157,7 +158,7 @@ class MainActivity : BaseActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         loadBackground(GlobalValues.backgroundUri)
-        mToggle.onConfigurationChanged(newConfig)
+        mToggle?.onConfigurationChanged(newConfig)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -171,7 +172,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (mToggle.onOptionsItemSelected(item)) {
+        return if (mToggle?.onOptionsItemSelected(item) == true) {
             true
         } else super.onOptionsItemSelected(item)
     }
@@ -189,6 +190,28 @@ class MainActivity : BaseActivity() {
         super.initView()
 
         initFab()
+
+        AnywhereApplication.sRepository.allPageEntities.observe(this, Observer {
+            mBinding.viewPager.apply {
+                adapter = object : FragmentStateAdapter(this@MainActivity) {
+                    override fun getItemCount(): Int {
+                        return it.size
+                    }
+
+                    override fun createFragment(position: Int): Fragment {
+                        return CategoryCardFragment.newInstance(it[position].title)
+                    }
+                }
+
+                // 当ViewPager切换页面时，改变页码
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+                        setsCategory(it[position].title, position)
+                    }
+                })
+            }
+        })
 
         if (GlobalValues.isMd2Toolbar) {
             val marginHorizontal = resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
@@ -209,18 +232,19 @@ class MainActivity : BaseActivity() {
         }
 
         supportActionBar?.let {
-            mToggle = ActionBarDrawerToggle(this, mBinding.drawer, mBinding.toolbar,
-                    R.string.drawer_open, R.string.drawer_close)
-
             if (GlobalValues.isPages) {
+                mToggle = ActionBarDrawerToggle(this, mBinding.drawer, mBinding.toolbar,
+                        R.string.drawer_open, R.string.drawer_close)
+
                 if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_DARK) {
-                    mToggle.drawerArrowDrawable.color = resources.getColor(R.color.black)
+                    mToggle!!.drawerArrowDrawable.color = Color.BLACK
                 } else {
-                    mToggle.drawerArrowDrawable.color = resources.getColor(R.color.white)
+                    mToggle!!.drawerArrowDrawable.color = Color.WHITE
                 }
+
                 it.setDisplayHomeAsUpEnabled(true)
-                mBinding.drawer.addDrawerListener(mToggle)
-                mToggle.syncState()
+                mBinding.drawer.addDrawerListener(mToggle!!)
+                mToggle!!.syncState()
                 AnywhereApplication.sRepository.allAnywhereEntities
                         .observe(this, Observer<List<AnywhereEntity?>?> { initDrawer(mBinding.drawer) })
             } else {
@@ -392,23 +416,6 @@ class MainActivity : BaseActivity() {
             }
         })
         viewModel.background.value = GlobalValues.backgroundUri
-
-        viewModel.fragment.observe(this, Observer { fragment: Fragment ->
-            supportFragmentManager
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(mBinding.fragmentContainerView.id, fragment)
-                    .commitNow()
-            if (fragment is CategoryCardFragment) {
-                if (mBinding.fab.visibility == View.GONE) {
-                    showAndHiddenAnimation(mBinding.fab, AnimationUtil.AnimationState.STATE_SHOW, 300)
-                }
-            } else {
-                if (mBinding.fab.visibility == View.VISIBLE) {
-                    showAndHiddenAnimation(mBinding.fab, AnimationUtil.AnimationState.STATE_GONE, 300)
-                }
-            }
-        })
         viewModel.shouldShowFab.observe(this, Observer {
             mBinding.fab.visibility = if (it) View.VISIBLE else View.GONE
         })

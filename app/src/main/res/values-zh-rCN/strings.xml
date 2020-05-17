@@ -336,4 +336,7 @@
     <string name="menu_add_manually">手动添加活动</string>
     <string name="settings_backup_webdav_auto_backup_title">自动备份</string>
     <string name="settings_backup_webdav_auto_backup_summary">当卡片有改动时自动触发备份</string>
+    <string name="setup_title">设定</string>
+    <string name="settings_card_layout">卡片布局</string>
+    <string name="settings_card_layout_summary">自由定义卡片布局</string>
 </resources>

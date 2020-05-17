@@ -253,12 +253,23 @@ public abstract class Editor<T extends Editor<?>> {
                         UiUtils.tintMenuIcon(mContext, popup.getMenu().getItem(0), R.color.textColorNormal);
                     }
                 }
+
                 if (this instanceof ImageEditor) {
                     popup.getMenu().findItem(R.id.share_card).setVisible(false);
                 } else if (this instanceof SwitchShellEditor) {
                     popup.getMenu().findItem(R.id.add_shortcuts).setEnabled(false);
                     popup.getMenu().findItem(R.id.add_home_shortcuts).setEnabled(false);
                 }
+                if (mItem.getIconUri().isEmpty()) {
+                    popup.getMenu().findItem(R.id.restore_icon).setVisible(false);
+                }
+                if (!AppUtils.INSTANCE.atLeastNMR1()) {
+                    popup.getMenu().findItem(R.id.add_shortcuts).setVisible(false);
+                }
+                if (!AppUtils.INSTANCE.atLeastO()) {
+                    popup.getMenu().findItem(R.id.add_home_shortcuts).setVisible(false);
+                }
+
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.add_shortcuts:
