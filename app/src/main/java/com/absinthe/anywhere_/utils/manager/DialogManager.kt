@@ -100,7 +100,6 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
     fun showDeleteAnywhereDialog(context: Context, ae: AnywhereEntity) {
         val builder = AnywhereDialogBuilder(context)
         builder.setTitle(R.string.dialog_delete_title)
@@ -150,7 +149,6 @@ object DialogManager {
         builder.show()
     }
 
-    @JvmStatic
     fun showDeleteSelectCardDialog(context: Context, listener: DialogInterface.OnClickListener?) {
         AnywhereDialogBuilder(context)
                 .setTitle(R.string.dialog_delete_selected_title)
@@ -257,7 +255,6 @@ object DialogManager {
         builder.build().show()
     }
 
-    @JvmStatic
     fun showAddPageDialog(context: Context, listener: DialogInterface.OnClickListener) {
         val items = arrayOf("Add card page", "Add WebView")
         val builder = AnywhereDialogBuilder(context)
@@ -303,7 +300,6 @@ object DialogManager {
         fragment.show(activity.supportFragmentManager, fragment.tag)
     }
 
-    @JvmStatic
     fun showRestoreApplyDialog(activity: AppCompatActivity) {
         val dialog = RestoreApplyFragmentDialog()
         dialog.show(activity.supportFragmentManager, dialog.tag)
@@ -315,7 +311,6 @@ object DialogManager {
         fragment.show(activity.supportFragmentManager, fragment.tag)
     }
 
-    @JvmStatic
     fun showCardListDialog(activity: AppCompatActivity): CardListDialogFragment {
         val fragment = CardListDialogFragment()
         fragment.show(activity.supportFragmentManager, fragment.tag)
@@ -332,13 +327,11 @@ object DialogManager {
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 
-    @JvmStatic
-    fun showImageDialog(activity: AppCompatActivity, ae: AnywhereEntity?, listener: AnywhereDialogFragment.OnDismissListener?) {
-        val dialog = ImageDialogFragment(ae!!, listener)
+    fun showImageDialog(activity: AppCompatActivity, ae: AnywhereEntity, listener: AnywhereDialogFragment.OnDismissListener?) {
+        val dialog = ImageDialogFragment(ae, listener)
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 
-    @JvmStatic
     fun showGrantPrivilegedPermDialog(activity: AppCompatActivity) {
         val dialogFragment = IceBoxGrantDialogFragment()
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
@@ -367,5 +360,9 @@ object DialogManager {
         val dialogFragment = AdvancedCardSelectDialogFragment()
         dialogFragment.setListener(listener)
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
+    }
+
+    fun showCardLayoutDialog(activity: AppCompatActivity) {
+
     }
 }

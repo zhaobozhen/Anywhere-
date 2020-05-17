@@ -2,8 +2,6 @@ package com.absinthe.anywhere_.ui.fragment
 
 import android.app.Dialog
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.FrameLayout
@@ -67,7 +65,6 @@ class ImageDialogFragment : AnywhereDialogFragment {
         Glide.with(requireContext())
                 .asBitmap()
                 .load(mUri)
-                .placeholder(ColorDrawable(Color.TRANSPARENT))
                 .override(600, 600)
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {

@@ -101,10 +101,10 @@
             android:icon="@drawable/ic_icon_pack"/>
 
         <Preference
-            app:key="cardTextSize"
-            app:title="@string/settings_icon_pack"
-            app:summary="@string/settings_icon_pack_summary"
-            android:icon="@drawable/ic_icon_pack"/>
+            app:key="cardLayout"
+            app:title="@string/settings_card_layout"
+            app:summary="@string/settings_card_layout_summary"
+            android:icon="@drawable/ic_card_layout"/>
 
     </PreferenceCategory>
 

@@ -41,10 +41,6 @@ import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -234,20 +230,16 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
     }
 
     fun updateSortedList() {
-        GlobalScope.launch(Dispatchers.IO) {
-            delay(1000)
+        CategoryCardFragment.refreshLock = true
 
-            CategoryCardFragment.refreshLock = true
-
-            val startTime = System.currentTimeMillis()
-            for (pos in 0 until data.size) {
-                val item = data[pos]
-                item.timeStamp = (startTime - pos * 100).toString()
-                AnywhereApplication.sRepository.update(item)
-            }
-
-            CategoryCardFragment.refreshLock = true
+        val startTime = System.currentTimeMillis()
+        for (pos in 0 until data.size) {
+            val item = data[pos]
+            item.timeStamp = (startTime - pos * 100).toString()
+            AnywhereApplication.sRepository.update(item)
         }
+
+        CategoryCardFragment.refreshLock = false
     }
 
     private fun openAnywhereActivity(item: AnywhereEntity) {

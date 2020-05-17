@@ -16,6 +16,7 @@ object Const {
     const val PREF_STREAM_CARD_MODE = "streamCardMode"
     const val PREF_STREAM_CARD_SINGLE_LINE = "streamCardModeSingleLine"
     const val PREF_CARD_BACKGROUND = "cardBackgroundMode"
+    const val PREF_CARD_LAYOUT = "cardLayout"
     const val PREF_ACTION_BAR_TYPE = "actionBarType"
     const val PREF_HELP = "help"
     const val PREF_BETA = "beta"

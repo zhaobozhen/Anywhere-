@@ -198,6 +198,10 @@ class SettingsActivity : BaseActivity() {
                     DialogManager.showIconPackChoosingDialog(requireActivity() as BaseActivity)
                     return true
                 }
+                Const.PREF_CARD_LAYOUT -> {
+                    DialogManager.showCardLayoutDialog(requireActivity() as BaseActivity)
+                    return true
+                }
             }
             return false
         }
