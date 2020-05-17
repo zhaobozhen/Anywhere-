@@ -186,6 +186,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
     override fun initView() {
         super.initView()
 
@@ -210,6 +215,8 @@ class MainActivity : BaseActivity() {
                         setsCategory(it[position].title, position)
                     }
                 })
+
+                setCurrentItem(GlobalValues.currentPage, false)
             }
         })
 

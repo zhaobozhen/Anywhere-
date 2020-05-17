@@ -80,9 +80,9 @@ class CategoryCardFragment : Fragment() {
         setRecyclerViewLayoutManager(newConfig)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.main_menu, menu)
+//    }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.toolbar_settings).isVisible = adapter.mode == ADAPTER_MODE_NORMAL

@@ -136,7 +136,7 @@ class SettingsActivity : BaseActivity() {
                 Const.PREF_CHANGE_BACKGROUND -> {
                     try {
                         if (IzukoHelper.isHitagi) {
-                            requireActivity().startActivity(Intent(requireActivity(), BackgroundActivity::class.java))
+                            startActivity(Intent(requireActivity(), BackgroundActivity::class.java))
                         } else {
                             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                                 addCategory(Intent.CATEGORY_OPENABLE)
