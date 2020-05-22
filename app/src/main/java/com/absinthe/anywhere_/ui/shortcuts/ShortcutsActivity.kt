@@ -153,7 +153,7 @@ class ShortcutsActivity : BaseActivity() {
                         val ae = AnywhereEntity.Builder().apply {
                             param1 = uri
                         }
-                        showImageDialog(this, ae, object : AnywhereDialogFragment.OnDismissListener {
+                        showImageDialog(this, ae.param1, object : AnywhereDialogFragment.OnDismissListener {
                             override fun onDismiss() {
                                 finish()
                             }

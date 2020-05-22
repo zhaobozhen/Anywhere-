@@ -253,7 +253,7 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
             val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)
             entity?.launch()
         } else if (item.anywhereType == AnywhereType.IMAGE) {
-            showImageDialog((context as AppCompatActivity), item)
+            showImageDialog((context as AppCompatActivity), item.param1)
         } else if (item.anywhereType == AnywhereType.URL_SCHEME) {
             if (item.param3.isNotEmpty()) {
                 showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : OnParamsInputListener {

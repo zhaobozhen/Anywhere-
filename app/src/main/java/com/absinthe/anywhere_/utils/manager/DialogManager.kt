@@ -322,13 +322,13 @@ object DialogManager {
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 
-    fun showImageDialog(activity: AppCompatActivity, ae: AnywhereEntity) {
-        val dialog = ImageDialogFragment(ae)
+    fun showImageDialog(activity: AppCompatActivity, uri: String) {
+        val dialog = ImageDialogFragment(uri)
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 
-    fun showImageDialog(activity: AppCompatActivity, ae: AnywhereEntity, listener: AnywhereDialogFragment.OnDismissListener?) {
-        val dialog = ImageDialogFragment(ae, listener)
+    fun showImageDialog(activity: AppCompatActivity, uri: String, listener: AnywhereDialogFragment.OnDismissListener?) {
+        val dialog = ImageDialogFragment(uri, listener)
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 

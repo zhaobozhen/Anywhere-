@@ -47,7 +47,7 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
             when (ae.anywhereType) {
                 AnywhereType.IMAGE -> {
                     ActivityStackManager.topActivity?.let {
-                        showImageDialog(it, ae)
+                        showImageDialog(it, ae.param1)
                     }
                 }
                 AnywhereType.SHELL -> {

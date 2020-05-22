@@ -258,27 +258,29 @@ class MainActivity : BaseActivity() {
         initFab()
 
         AnywhereApplication.sRepository.allPageEntities.observe(this, Observer {
-            mBinding.viewPager.apply {
-                adapter = object : FragmentStateAdapter(this@MainActivity) {
-                    override fun getItemCount(): Int {
-                        return it.size
+            if (it.isNotEmpty()) {
+                mBinding.viewPager.apply {
+                    adapter = object : FragmentStateAdapter(this@MainActivity) {
+                        override fun getItemCount(): Int {
+                            return it.size.coerceAtLeast(1)
+                        }
+
+                        override fun createFragment(position: Int): Fragment {
+                            return CategoryCardFragment.newInstance(it[position].title)
+                        }
                     }
 
-                    override fun createFragment(position: Int): Fragment {
-                        return CategoryCardFragment.newInstance(it[position].title)
-                    }
+                    // 当ViewPager切换页面时，改变页码
+                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                        override fun onPageSelected(position: Int) {
+                            super.onPageSelected(position)
+                            setsCategory(it[position].title, position)
+                        }
+                    })
+
+                    setPageTransformer(CategoryCardTransformer())
+                    setCurrentItem(GlobalValues.currentPage, false)
                 }
-
-                // 当ViewPager切换页面时，改变页码
-                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageSelected(position: Int) {
-                        super.onPageSelected(position)
-                        setsCategory(it[position].title, position)
-                    }
-                })
-
-                setPageTransformer(CategoryCardTransformer())
-                setCurrentItem(GlobalValues.currentPage, false)
             }
         })
 
