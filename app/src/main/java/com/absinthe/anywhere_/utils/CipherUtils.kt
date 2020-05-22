@@ -55,6 +55,7 @@ object CipherUtils {
             val encrypted = Base64.decode(data.toByteArray(), Base64.DEFAULT)
             val cipher = Cipher.getInstance(CipherMode)
             cipher.init(Cipher.DECRYPT_MODE, generateKey(), IvParameterSpec(ByteArray(cipher.blockSize)))
+
             val original = cipher.doFinal(encrypted)
             String(original, StandardCharsets.UTF_8)
         } catch (e: Exception) {

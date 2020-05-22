@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.main
 
+import android.annotation.SuppressLint
 import android.content.*
 import android.content.res.Configuration
 import android.graphics.Color
@@ -10,6 +11,8 @@ import android.view.*
 import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
@@ -39,10 +42,12 @@ import com.absinthe.anywhere_.model.AnywhereEntity
 import com.absinthe.anywhere_.model.PageEntity
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.services.CollectorService
+import com.absinthe.anywhere_.transformer.CategoryCardTransformer
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
 import com.absinthe.anywhere_.ui.list.AppListActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
+import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
 import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
@@ -171,7 +176,63 @@ class MainActivity : BaseActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.toolbar_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
+            R.id.toolbar_sort -> {
+                val popup = PopupMenu(this, findViewById(R.id.toolbar_sort))
+                popup.menuInflater
+                        .inflate(R.menu.sort_menu, popup.menu)
+
+                if (popup.menu is MenuBuilder) {
+                    (popup.menu as MenuBuilder).setOptionalIconsVisible(true)
+                }
+
+                when (GlobalValues.sortMode) {
+                    Const.SORT_MODE_TIME_DESC -> popup.menu.getItem(0).isChecked = true
+                    Const.SORT_MODE_TIME_ASC -> popup.menu.getItem(1).isChecked = true
+                    Const.SORT_MODE_NAME_DESC -> popup.menu.getItem(2).isChecked = true
+                    Const.SORT_MODE_NAME_ASC -> popup.menu.getItem(3).isChecked = true
+                    else -> popup.menu.getItem(0).isChecked = true
+                }
+
+                popup.setOnMenuItemClickListener { popupItem: MenuItem ->
+                    when (popupItem.itemId) {
+                        R.id.sort_by_time_desc -> GlobalValues.sortMode = Const.SORT_MODE_TIME_DESC
+                        R.id.sort_by_time_asc -> GlobalValues.sortMode = Const.SORT_MODE_TIME_ASC
+                        R.id.sort_by_name_desc -> GlobalValues.sortMode = Const.SORT_MODE_NAME_DESC
+                        R.id.sort_by_name_asc -> GlobalValues.sortMode = Const.SORT_MODE_NAME_ASC
+                        R.id.sort -> {
+                            mBinding.viewPager.isUserInputEnabled = false
+                            CategoryCardFragment.currentReference?.get()?.sort()
+                        }
+                        R.id.multi_select -> {
+                            mBinding.viewPager.isUserInputEnabled = false
+                            CategoryCardFragment.currentReference?.get()?.multiSelect()
+                        }
+                    }
+                    if (popupItem.itemId == R.id.sort_by_time_desc ||
+                            popupItem.itemId == R.id.sort_by_time_asc ||
+                            popupItem.itemId == R.id.sort_by_name_desc ||
+                            popupItem.itemId == R.id.sort_by_name_asc) {
+                        CategoryCardFragment.currentReference?.get()?.refreshSortMode()
+                    }
+                    true
+                }
+                popup.show()
+            }
+            R.id.toolbar_done -> {
+                CategoryCardFragment.currentReference?.get()?.editDone()
+                mBinding.viewPager.isUserInputEnabled = true
+            }
+            R.id.toolbar_delete -> {
+                CategoryCardFragment.currentReference?.get()?.deleteSelected()
+            }
+        }
+
         return if (mToggle?.onOptionsItemSelected(item) == true) {
             true
         } else super.onOptionsItemSelected(item)
@@ -216,6 +277,7 @@ class MainActivity : BaseActivity() {
                     }
                 })
 
+                setPageTransformer(CategoryCardTransformer())
                 setCurrentItem(GlobalValues.currentPage, false)
             }
         })

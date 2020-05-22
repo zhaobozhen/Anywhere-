@@ -1,13 +1,9 @@
 package com.absinthe.anywhere_.ui.main
 
-import android.annotation.SuppressLint
 import android.content.DialogInterface
-import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -22,16 +18,15 @@ import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutMana
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.constants.GlobalValues.sortMode
 import com.absinthe.anywhere_.databinding.FragmentCategoryCardBinding
 import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.utils.AppUtils.updateWidget
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager.topActivity
-import com.absinthe.anywhere_.utils.manager.DialogManager.showDeleteSelectCardDialog
+import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.android.material.card.MaterialCardView
+import java.lang.ref.WeakReference
 
 const val BUNDLE_CATEGORY = "CATEGORY"
 
@@ -75,14 +70,15 @@ class CategoryCardFragment : Fragment() {
         AnywhereApplication.sRepository.allAnywhereEntities.observe(viewLifecycleOwner, listObserver)
     }
 
+    override fun onResume() {
+        super.onResume()
+        currentReference = WeakReference<CategoryCardFragment>(this)
+    }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         setRecyclerViewLayoutManager(newConfig)
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.main_menu, menu)
-//    }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.toolbar_settings).isVisible = adapter.mode == ADAPTER_MODE_NORMAL
@@ -92,83 +88,47 @@ class CategoryCardFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
     }
 
-    @SuppressLint("RestrictedApi")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.toolbar_settings -> {
-                startActivity(Intent(context, SettingsActivity::class.java))
-            }
-            R.id.toolbar_sort -> {
-                val popup = PopupMenu(requireContext(), requireActivity().findViewById(R.id.toolbar_sort))
-                popup.menuInflater
-                        .inflate(R.menu.sort_menu, popup.menu)
+    fun sort() {
+        adapter.mode = ADAPTER_MODE_SORT
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+        requireActivity().invalidateOptionsMenu()
+        binding.recyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+    }
 
-                if (popup.menu is MenuBuilder) {
-                    (popup.menu as MenuBuilder).setOptionalIconsVisible(true)
-                }
+    fun multiSelect() {
+        adapter.mode = ADAPTER_MODE_SELECT
+        requireActivity().invalidateOptionsMenu()
+        binding.recyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+    }
 
-                when (sortMode) {
-                    Const.SORT_MODE_TIME_DESC -> popup.menu.getItem(0).isChecked = true
-                    Const.SORT_MODE_TIME_ASC -> popup.menu.getItem(1).isChecked = true
-                    Const.SORT_MODE_NAME_DESC -> popup.menu.getItem(2).isChecked = true
-                    Const.SORT_MODE_NAME_ASC -> popup.menu.getItem(3).isChecked = true
-                    else -> popup.menu.getItem(0).isChecked = true
-                }
+    fun refreshSortMode() {
+        AnywhereApplication.sRepository.refresh()
+        AnywhereApplication.sRepository.allAnywhereEntities.observe(this, listObserver)
+    }
 
-                popup.setOnMenuItemClickListener { popupItem: MenuItem ->
-                    when (popupItem.itemId) {
-                        R.id.sort_by_time_desc -> sortMode = Const.SORT_MODE_TIME_DESC
-                        R.id.sort_by_time_asc -> sortMode = Const.SORT_MODE_TIME_ASC
-                        R.id.sort_by_name_desc -> sortMode = Const.SORT_MODE_NAME_DESC
-                        R.id.sort_by_name_asc -> sortMode = Const.SORT_MODE_NAME_ASC
-                        R.id.sort -> {
-                            adapter.mode = ADAPTER_MODE_SORT
-                            itemTouchHelper.attachToRecyclerView(binding.recyclerView)
-                            requireActivity().invalidateOptionsMenu()
-                            binding.recyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-                        }
-                        R.id.multi_select -> {
-                            adapter.mode = ADAPTER_MODE_SELECT
-                            requireActivity().invalidateOptionsMenu()
-                            binding.recyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-                        }
-                    }
-                    if (popupItem.itemId == R.id.sort_by_time_desc ||
-                            popupItem.itemId == R.id.sort_by_time_asc ||
-                            popupItem.itemId == R.id.sort_by_name_desc ||
-                            popupItem.itemId == R.id.sort_by_name_asc) {
-                        AnywhereApplication.sRepository.refresh()
-                        AnywhereApplication.sRepository.allAnywhereEntities.observe(this, listObserver)
-                    }
-                    true
-                }
-                popup.show()
-            }
-            R.id.toolbar_done -> {
-                if (adapter.mode == ADAPTER_MODE_SORT) {
-                    adapter.mode = ADAPTER_MODE_NORMAL
+    fun editDone() {
+        if (adapter.mode == ADAPTER_MODE_SORT) {
+            adapter.mode = ADAPTER_MODE_NORMAL
 
-                    itemTouchHelper.attachToRecyclerView(null)
-                    requireActivity().invalidateOptionsMenu()
+            itemTouchHelper.attachToRecyclerView(null)
+            requireActivity().invalidateOptionsMenu()
 
-                    adapter.updateSortedList()
-                    sortMode = Const.SORT_MODE_TIME_DESC
-                } else if (adapter.mode == ADAPTER_MODE_SELECT) {
-                    resetSelectState()
-                    adapter.clearSelect()
-                    adapter.mode = ADAPTER_MODE_NORMAL
-                    requireActivity().invalidateOptionsMenu()
-                }
-                binding.recyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-            }
-            R.id.toolbar_delete -> {
-                showDeleteSelectCardDialog(requireContext(), DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
-                    adapter.deleteSelect()
-                    resetSelectState()
-                })
-            }
+            adapter.updateSortedList()
+            GlobalValues.sortMode = Const.SORT_MODE_TIME_DESC
+        } else if (adapter.mode == ADAPTER_MODE_SELECT) {
+            resetSelectState()
+            adapter.clearSelect()
+            adapter.mode = ADAPTER_MODE_NORMAL
+            requireActivity().invalidateOptionsMenu()
         }
-        return super.onOptionsItemSelected(item)
+        binding.recyclerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+    }
+
+    fun deleteSelected() {
+        DialogManager.showDeleteSelectCardDialog(requireContext(), DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
+            adapter.deleteSelect()
+            resetSelectState()
+        })
     }
 
     private fun initView() {
@@ -258,5 +218,6 @@ class CategoryCardFragment : Fragment() {
         }
 
         var refreshLock = false
+        var currentReference: WeakReference<CategoryCardFragment>? = null
     }
 }
