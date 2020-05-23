@@ -2,8 +2,8 @@ package com.absinthe.anywhere_.ui.fragment
 
 import android.app.Dialog
 import android.os.Bundle
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder
-import com.absinthe.anywhere_.view.AnywhereDialogFragment
+import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.AdvancedCardSelectDialogBuilder
 
 class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {

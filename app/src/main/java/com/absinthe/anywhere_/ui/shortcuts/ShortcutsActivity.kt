@@ -14,8 +14,8 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.EventTag
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.services.CollectorService
+import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.TextUtils
@@ -25,8 +25,8 @@ import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder
-import com.absinthe.anywhere_.view.AnywhereDialogFragment
+import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.blankj.utilcode.util.Utils
 import com.microsoft.appcenter.analytics.Analytics
@@ -76,12 +76,19 @@ class ShortcutsActivity : BaseActivity() {
                 ACTION_START_COMMAND -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { cmd ->
                         Timber.d(cmd)
+
                         if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
                                 cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
                             Opener.with(this)
                                     .load(cmd)
                                     .setOpenedListener { finish() }
                                     .open()
+                        } else if (cmd.startsWith(AnywhereType.IMAGE_PREFIX)) {
+                            showImageDialog(this, cmd.removePrefix(AnywhereType.IMAGE_PREFIX), object : AnywhereDialogFragment.OnDismissListener {
+                                override fun onDismiss() {
+                                    finish()
+                                }
+                            })
                         } else {
                             Opener.with(this).load(cmd).open()
                             finish()
@@ -150,10 +157,7 @@ class ShortcutsActivity : BaseActivity() {
                 }
                 ACTION_START_IMAGE -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { uri ->
-                        val ae = AnywhereEntity.Builder().apply {
-                            param1 = uri
-                        }
-                        showImageDialog(this, ae.param1, object : AnywhereDialogFragment.OnDismissListener {
+                        showImageDialog(this, uri, object : AnywhereDialogFragment.OnDismissListener {
                             override fun onDismiss() {
                                 finish()
                             }

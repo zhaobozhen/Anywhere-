@@ -1,7 +1,7 @@
 package com.absinthe.anywhere_.adapter.log
 
 import androidx.recyclerview.widget.DiffUtil
-import com.absinthe.anywhere_.model.LogModel
+import com.absinthe.anywhere_.model.viewholder.LogModel
 
 class LogDiffCallback : DiffUtil.ItemCallback<LogModel>() {
 

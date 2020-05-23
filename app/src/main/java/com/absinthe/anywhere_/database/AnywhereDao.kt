@@ -2,8 +2,8 @@ package com.absinthe.anywhere_.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.PageEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.database.PageEntity
 
 @Dao
 interface AnywhereDao {

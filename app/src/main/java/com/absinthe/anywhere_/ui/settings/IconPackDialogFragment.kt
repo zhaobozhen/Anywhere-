@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.model.AppListBean
+import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.model.Settings
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder
-import com.absinthe.anywhere_.view.AnywhereDialogFragment
+import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.IconPackDialogBuilder
 import java.util.*
 

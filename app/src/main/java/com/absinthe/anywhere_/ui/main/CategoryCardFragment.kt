@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
+import com.absinthe.anywhere_.adapter.SpacesItemDecoration
 import com.absinthe.anywhere_.adapter.card.*
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager
@@ -19,7 +20,7 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.FragmentCategoryCardBinding
-import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils.updateWidget
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager.topActivity
 import com.absinthe.anywhere_.utils.manager.DialogManager
@@ -34,6 +35,8 @@ class CategoryCardFragment : Fragment() {
 
     private val category by lazy { arguments?.getString(BUNDLE_CATEGORY) ?: GlobalValues.category }
     private val viewModel by activityViewModels<AnywhereViewModel>()
+    private lateinit var decoration: SpacesItemDecoration
+
     private lateinit var binding: FragmentCategoryCardBinding
     private lateinit var adapter: BaseCardAdapter
     private lateinit var itemTouchHelper: ItemTouchHelper
@@ -137,14 +140,17 @@ class CategoryCardFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
+        decoration = SpacesItemDecoration(resources.getDimension(R.dimen.cardview_item_margin).toInt())
+
         adapter = if (GlobalValues.isStreamCardMode) {
             if (GlobalValues.isStreamCardModeSingleLine) {
-                BaseCardAdapter(R.layout.item_stream_card_single_line)
+                BaseCardAdapter(LAYOUT_MODE_STREAM_SINGLE_LINE)
             } else {
-                BaseCardAdapter(R.layout.item_stream_card_view)
+                BaseCardAdapter(LAYOUT_MODE_STREAM)
             }
         } else {
-            BaseCardAdapter(R.layout.item_card_view)
+            decoration = SpacesItemDecoration(resources.getDimension(R.dimen.cardview_margin_parent_horizontal).toInt() / 2)
+            BaseCardAdapter(LAYOUT_MODE_NORMAL)
         }
 
         adapter.apply {
@@ -158,6 +164,7 @@ class CategoryCardFragment : Fragment() {
         }
 
         binding.recyclerView.adapter = this.adapter
+        binding.recyclerView.addItemDecoration(decoration)
 
         setRecyclerViewLayoutManager(resources.configuration)
 
@@ -179,6 +186,7 @@ class CategoryCardFragment : Fragment() {
     }
 
     private fun refreshRecyclerView() {
+        binding.recyclerView.removeItemDecoration(decoration)
         setupRecyclerView()
 
         AnywhereApplication.sRepository.allAnywhereEntities.value?.let { list ->

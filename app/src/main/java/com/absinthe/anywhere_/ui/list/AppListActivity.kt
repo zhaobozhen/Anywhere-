@@ -20,7 +20,7 @@ import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding
-import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils

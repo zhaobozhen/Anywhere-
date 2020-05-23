@@ -11,10 +11,10 @@ import android.os.Bundle
 import android.widget.RemoteViews
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.services.AppRemoteViewsService
+import com.absinthe.anywhere_.services.widget.AppRemoteViewsService
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
 import com.absinthe.anywhere_.utils.TextUtils
 

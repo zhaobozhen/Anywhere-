@@ -1,7 +1,7 @@
 package com.absinthe.anywhere_.adapter.card
 
 import androidx.recyclerview.widget.DiffUtil
-import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 
 class DiffListCallback : DiffUtil.ItemCallback<AnywhereEntity>() {
 

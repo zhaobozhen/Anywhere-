@@ -10,7 +10,7 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
-import com.absinthe.anywhere_.model.QRCollection
+import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
 import com.blankj.utilcode.util.Utils

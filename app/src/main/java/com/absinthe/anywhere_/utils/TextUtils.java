@@ -7,7 +7,7 @@ import android.util.Patterns;
 import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
-import com.absinthe.anywhere_.model.AnywhereEntity;
+import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.URLManager;
 import com.absinthe.anywhere_.view.editor.SwitchShellEditor;
@@ -103,6 +103,9 @@ public class TextUtils {
             } else if (item.getParam3().equals(SwitchShellEditor.SWITCH_SHELL_ON_STATUS)) {
                 cmd.append(item.getParam2());
             }
+        } else if (type == AnywhereType.IMAGE) {
+            cmd.append(AnywhereType.IMAGE_PREFIX)
+                    .append(item.getParam1());
         } else {
             Timber.d("AnywhereType has problem.");
         }

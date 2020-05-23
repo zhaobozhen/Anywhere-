@@ -17,8 +17,8 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.database.AnywhereRepository
-import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.PageEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.checkShizukuOnWorking

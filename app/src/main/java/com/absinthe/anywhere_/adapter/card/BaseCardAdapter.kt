@@ -7,9 +7,10 @@ import android.graphics.PorterDuff
 import android.os.FileUriExposedException
 import android.view.HapticFeedbackConstants
 import android.view.View
-import android.widget.ImageView
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
@@ -18,8 +19,8 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener
-import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.QRCollection
+import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.main.CategoryCardFragment
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
@@ -34,6 +35,10 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showDeleteAnywhereDial
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDynamicParamsDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showShellResultDialog
+import com.absinthe.anywhere_.view.card.CardItemView
+import com.absinthe.anywhere_.view.card.NormalItemView
+import com.absinthe.anywhere_.view.card.StreamItemView
+import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
 import com.absinthe.anywhere_.view.editor.*
 import com.absinthe.anywhere_.view.editor.Editor.OnEditorListener
 import com.bumptech.glide.Glide
@@ -50,23 +55,26 @@ const val LAYOUT_MODE_NORMAL = 0
 const val LAYOUT_MODE_STREAM = 1
 const val LAYOUT_MODE_STREAM_SINGLE_LINE = 2
 
-class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(layoutResId), ItemTouchCallBack.OnItemTouchListener {
+class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(0), ItemTouchCallBack.OnItemTouchListener {
 
     var mode = ADAPTER_MODE_NORMAL
-    var layoutMode = LAYOUT_MODE_NORMAL
     private val mSelectedIndex = mutableListOf<Int>()
     private var mEditor: Editor<*>? = null
 
-    init {
-        layoutMode = when (layoutResId) {
-            R.layout.item_card_view -> LAYOUT_MODE_NORMAL
-            R.layout.item_stream_card_view -> LAYOUT_MODE_STREAM
-            R.layout.item_stream_card_single_line -> LAYOUT_MODE_STREAM_SINGLE_LINE
-            else -> LAYOUT_MODE_NORMAL
+    override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        return when (layoutMode) {
+            LAYOUT_MODE_NORMAL -> createBaseViewHolder(CardItemView(context, NormalItemView(context)))
+            LAYOUT_MODE_STREAM -> createBaseViewHolder(CardItemView(context, StreamItemView(context)))
+            LAYOUT_MODE_STREAM_SINGLE_LINE -> createBaseViewHolder(CardItemView(context, StreamSingleLineItemView(context)))
+            else -> createBaseViewHolder(CardItemView(context, NormalItemView(context)))
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun convert(holder: BaseViewHolder, item: AnywhereEntity) {
+
+        val itemView = holder.itemView as CardItemView<*>
+
         val appName = try {
             if (IceBox.getAppEnabledSetting(context, item.packageName) != 0) {
                 "\u2744" + item.appName
@@ -76,53 +84,60 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
         } catch (e: PackageManager.NameNotFoundException) {
             item.appName
         }
-        holder.setText(R.id.tv_app_name, appName)
+        itemView.appName.text = appName
 
         when (layoutMode) {
             LAYOUT_MODE_NORMAL -> {
-                holder.setGone(R.id.tv_description, item.description.isEmpty())
-                holder.setGone(R.id.tv_param_1, item.anywhereType == AnywhereType.QR_CODE)
-                holder.setGone(R.id.tv_param_2, item.anywhereType == AnywhereType.URL_SCHEME
-                        || item.anywhereType == AnywhereType.QR_CODE
-                        || item.anywhereType == AnywhereType.IMAGE)
+                val normalView = itemView as CardItemView<NormalItemView>
 
-                holder.setText(R.id.tv_param_1, item.param1)
-                holder.setText(R.id.tv_param_2, item.param2)
-                holder.setText(R.id.tv_description, item.description)
+                normalView.content.description.isGone = item.description.isEmpty()
+                normalView.content.param1.isGone = item.anywhereType == AnywhereType.QR_CODE
+                normalView.content.param2.isGone = item.anywhereType == AnywhereType.URL_SCHEME
+                        || item.anywhereType == AnywhereType.QR_CODE
+                        || item.anywhereType == AnywhereType.IMAGE
+                normalView.content.description.text = item.description
+                normalView.content.param1.text = item.param1
+                normalView.content.param2.text = item.param2
             }
             LAYOUT_MODE_STREAM, LAYOUT_MODE_STREAM_SINGLE_LINE -> {
+                val normalView: CardItemView<StreamItemView>? = if (layoutMode == LAYOUT_MODE_STREAM) {
+                    itemView as CardItemView<StreamItemView>
+                } else {
+                    null
+                }
+
                 if (layoutMode == LAYOUT_MODE_STREAM) {
-                    holder.setText(R.id.tv_description, item.description)
+                    normalView!!.content.description.text = item.description
                 }
 
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
-                        UiUtils.setCardUseIconColor(holder.getView(R.id.iv_card_bg),
+                        UiUtils.setCardUseIconColor(itemView.cardBackground,
                                 UiUtils.getAppIconByPackageName(context, item),
                                 object : OnPaletteFinishedListener {
                                     override fun onFinished(color: Int) {
                                         if (color != 0) {
-                                            holder.setTextColor(R.id.tv_app_name, if (UiUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                            itemView.appName.setTextColor(if (UiUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                             if (layoutMode == LAYOUT_MODE_STREAM) {
-                                                holder.setTextColor(R.id.tv_description, if (UiUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                                normalView!!.content.description.setTextColor(if (UiUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                             }
                                         } else {
-                                            holder.setTextColor(R.id.tv_app_name, ContextCompat.getColor(context, R.color.textColorNormal))
+                                            itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
                                             if (layoutMode == LAYOUT_MODE_STREAM) {
-                                                holder.setTextColor(R.id.tv_description, ContextCompat.getColor(context, R.color.textColorNormal))
+                                                normalView!!.content.description.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
                                             }
                                         }
                                     }
                                 })
                     } else {
-                        holder.setBackgroundColor(R.id.iv_card_bg, item.color)
-                        holder.setTextColor(R.id.tv_app_name, if (UiUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                        itemView.cardBackground.setBackgroundColor(item.color)
+                        itemView.appName.setTextColor(if (UiUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                     }
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
-                        UiUtils.setCardUseIconColor(holder.getView(R.id.iv_card_bg), UiUtils.getAppIconByPackageName(context, item))
+                        UiUtils.setCardUseIconColor(itemView.cardBackground, UiUtils.getAppIconByPackageName(context, item))
                     } else {
-                        UiUtils.createLinearGradientBitmap(holder.getView(R.id.iv_card_bg), item.color, Color.TRANSPARENT)
+                        UiUtils.createLinearGradientBitmap(itemView.cardBackground, item.color, Color.TRANSPARENT)
                     }
                 }
             }
@@ -131,15 +146,16 @@ class BaseCardAdapter(layoutResId: Int) : BaseQuickAdapter<AnywhereEntity, BaseV
         if (item.iconUri.isEmpty()) {
             Glide.with(context)
                     .load(UiUtils.getAppIconByPackageName(context, item))
-                    .into(holder.getView(R.id.iv_app_icon))
+                    .into(itemView.icon)
         } else {
             Glide.with(context)
                     .load(item.iconUri)
-                    .into(holder.getView(R.id.iv_app_icon))
+                    .into(itemView.icon)
         }
 
-        holder.setGone(R.id.iv_badge, item.shortcutType != AnywhereType.SHORTCUTS && item.exportedType != AnywhereType.EXPORTED)
-        holder.getView<ImageView>(R.id.iv_badge).apply {
+        itemView.badge.apply {
+            isGone = item.shortcutType != AnywhereType.SHORTCUTS && item.exportedType != AnywhereType.EXPORTED
+
             if (item.shortcutType == AnywhereType.SHORTCUTS) {
                 setImageResource(R.drawable.ic_add_shortcut)
                 setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)

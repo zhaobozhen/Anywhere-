@@ -13,8 +13,8 @@ import com.absinthe.anywhere_.cloud.GiftStatusCode
 import com.absinthe.anywhere_.cloud.interfaces.GiftRequest
 import com.absinthe.anywhere_.cloud.model.GiftModel
 import com.absinthe.anywhere_.cloud.model.GiftPriceModel
-import com.absinthe.anywhere_.model.ChatQueue
-import com.absinthe.anywhere_.model.ChatQueue.IChatQueueListener
+import com.absinthe.anywhere_.model.manager.ChatQueue
+import com.absinthe.anywhere_.model.manager.ChatQueue.IChatQueueListener
 import com.absinthe.anywhere_.constants.GiftChatString
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CipherUtils

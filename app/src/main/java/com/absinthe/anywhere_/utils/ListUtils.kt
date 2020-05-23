@@ -1,7 +1,7 @@
 package com.absinthe.anywhere_.utils
 
 import com.absinthe.anywhere_.AnywhereApplication
-import com.absinthe.anywhere_.model.PageEntity
+import com.absinthe.anywhere_.model.database.PageEntity
 
 /**
  * Sort the Anywhere- list

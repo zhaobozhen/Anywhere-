@@ -1,7 +1,7 @@
 package com.absinthe.anywhere_.adapter.tile
 
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.AppListBean
+import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 

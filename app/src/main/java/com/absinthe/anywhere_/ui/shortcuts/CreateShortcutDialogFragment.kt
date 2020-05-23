@@ -11,13 +11,13 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UiUtils
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder
-import com.absinthe.anywhere_.view.AnywhereDialogFragment
+import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.CreateShortcutDialogBuilder
 import com.blankj.utilcode.util.Utils
 import com.bumptech.glide.Glide

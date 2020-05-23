@@ -3,7 +3,7 @@ package com.absinthe.anywhere_.utils.manager
 import android.app.Dialog
 import androidx.fragment.app.DialogFragment
 import com.absinthe.anywhere_.BuildConfig
-import com.absinthe.anywhere_.view.AnywhereBottomSheetDialog
+import com.absinthe.anywhere_.view.app.AnywhereBottomSheetDialog
 import timber.log.Timber
 import java.util.*
 

@@ -11,8 +11,8 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.PageEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.ui.backup.BackupActivity
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson

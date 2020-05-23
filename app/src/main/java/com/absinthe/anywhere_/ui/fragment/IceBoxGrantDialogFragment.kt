@@ -6,8 +6,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder
-import com.absinthe.anywhere_.view.AnywhereDialogFragment
+import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 
 class IceBoxGrantDialogFragment : AnywhereDialogFragment() {
 

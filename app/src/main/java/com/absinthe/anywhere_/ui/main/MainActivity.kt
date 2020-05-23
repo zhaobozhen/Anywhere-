@@ -38,10 +38,10 @@ import com.absinthe.anywhere_.constants.GlobalValues.clearActionBarType
 import com.absinthe.anywhere_.constants.GlobalValues.setsCategory
 import com.absinthe.anywhere_.databinding.ActivityMainBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
-import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.PageEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.model.Settings
-import com.absinthe.anywhere_.services.CollectorService
+import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.transformer.CategoryCardTransformer
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
@@ -57,7 +57,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.anywhere_.view.FabBuilder.build
+import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.view.editor.AnywhereEditor
 import com.absinthe.anywhere_.view.editor.Editor
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel

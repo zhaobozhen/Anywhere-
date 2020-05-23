@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder
-import com.absinthe.anywhere_.view.AnywhereDialogFragment
+import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewmodel.GiftViewModel
 import com.google.android.material.button.MaterialButton
 import moe.feng.alipay.zerosdk.AlipayZeroSdk

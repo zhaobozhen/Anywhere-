@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tile_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,7 +22,8 @@
             android:layout_marginTop="@dimen/cardview_item_margin"
             android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Tile" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_app_icon"
@@ -36,35 +38,41 @@
 
         <TextView
             android:id="@+id/tv_app_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/cardview_item_margin"
-            android:text="AppName"
+            android:layout_marginEnd="@dimen/cardview_item_margin"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_app_icon"
-            app:layout_constraintTop_toTopOf="@+id/iv_app_icon" />
+            app:layout_constraintTop_toTopOf="@+id/iv_app_icon"
+            tools:text="AppName" />
 
         <TextView
             android:id="@+id/tv_param_1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Param1"
+            android:layout_marginEnd="@dimen/cardview_item_margin"
             android:textAppearance="?attr/textAppearanceListItemSecondary"
             android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_app_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_app_name"
+            tools:text="Param1" />
 
         <TextView
             android:id="@+id/tv_param_2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Param2"
+            android:layout_marginEnd="@dimen/cardview_item_margin"
             android:textAppearance="?attr/textAppearanceListItemSecondary"
             android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_param_1"
-            app:layout_constraintTop_toBottomOf="@+id/tv_param_1" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_param_1"
+            tools:text="Param2" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_select"

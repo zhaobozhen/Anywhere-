@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.utils.CommandUtils
 import com.absinthe.anywhere_.utils.TextUtils

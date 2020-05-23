@@ -19,8 +19,8 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.AnywhereEntity
-import com.absinthe.anywhere_.model.AppListBean
+import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider
 import com.absinthe.anywhere_.ui.settings.LogcatActivity
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse

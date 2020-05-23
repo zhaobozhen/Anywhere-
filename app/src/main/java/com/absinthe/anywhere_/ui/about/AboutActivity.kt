@@ -85,6 +85,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(License("OkHttp", "Square", License.APACHE_2, "https://github.com/square/okhttp"))
             add(License("Retrofit", "Square", License.APACHE_2, "https://github.com/square/retrofit"))
             add(License("LeakCanary", "Square", License.APACHE_2, "https://github.com/square/leakcanary"))
+            add(License("contour", "Square", License.APACHE_2, "https://github.com/cashapp/contour"))
             add(License("timber", "JakeWharton", License.APACHE_2, "https://github.com/JakeWharton/timber"))
             add(License("RxAndroid", "JakeWharton", License.APACHE_2, "https://github.com/ReactiveX/RxAndroid"))
             add(License("RxJava", "ReactiveX", License.APACHE_2, "https://github.com/ReactiveX/RxJava"))

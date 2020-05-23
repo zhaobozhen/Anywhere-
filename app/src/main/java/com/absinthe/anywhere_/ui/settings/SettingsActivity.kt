@@ -53,54 +53,74 @@ class SettingsActivity : BaseActivity() {
         override fun onActivityCreated(savedInstanceState: Bundle?) {
             super.onActivityCreated(savedInstanceState)
 
-            val workingModePreference = findPreference<DropDownPreference>(Const.PREF_WORKING_MODE)
-            val darkModePreference = findPreference<DropDownPreference>(Const.PREF_DARK_MODE)
-            val cardBackgroundPreference = findPreference<DropDownPreference>(Const.PREF_CARD_BACKGROUND)
-
-            val changeBgPreference = findPreference<Preference>(Const.PREF_CHANGE_BACKGROUND)
-            val resetBgPreference = findPreference<Preference>(Const.PREF_RESET_BACKGROUND)
-            val helpPreference = findPreference<Preference>(Const.PREF_HELP)
-            val betaPreference = findPreference<Preference>(Const.PREF_BETA)
-            val clearShortcutsPreference = findPreference<Preference>(Const.PREF_CLEAR_SHORTCUTS)
-            val iconPackPreference = findPreference<Preference>(Const.PREF_ICON_PACK)
-            val tilesPreference = findPreference<Preference>(Const.PREF_TILES)
-            val giftPreference = findPreference<Preference>(Const.PREF_GIFT)
-
-            val streamCardModePreference = findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_MODE)
-            val streamCardSingleLinePreference = findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_SINGLE_LINE)
-            val collectorPlusPreference = findPreference<SwitchPreferenceCompat>(Const.PREF_COLLECTOR_PLUS)
-            val md2Preference = findPreference<SwitchPreferenceCompat>(Const.PREF_MD2_TOOLBAR)
-            val excludePreference = findPreference<SwitchPreferenceCompat>(Const.PREF_EXCLUDE_FROM_RECENT)
-            val showShellResultPreference = findPreference<SwitchPreferenceCompat>(Const.PREF_SHOW_SHELL_RESULT)
-
-            workingModePreference?.onPreferenceChangeListener = this
-            changeBgPreference?.onPreferenceClickListener = this
-            resetBgPreference?.onPreferenceClickListener = this
-            darkModePreference?.onPreferenceChangeListener = this
-            helpPreference?.onPreferenceClickListener = this
-            betaPreference?.onPreferenceClickListener = this
-            clearShortcutsPreference?.onPreferenceClickListener = this
-
-            if (!AppUtils.atLeastNMR1()) {
-                clearShortcutsPreference?.isVisible = false
+            //Normal
+            findPreference<DropDownPreference>(Const.PREF_WORKING_MODE)?.apply {
+                onPreferenceChangeListener = this@SettingsFragment
             }
 
-            streamCardModePreference?.onPreferenceChangeListener = this
-
-            streamCardSingleLinePreference?.isEnabled = streamCardModePreference?.isChecked ?: false
-            streamCardSingleLinePreference?.onPreferenceChangeListener = this
-            cardBackgroundPreference?.isEnabled = streamCardModePreference?.isChecked ?: false
-            cardBackgroundPreference?.onPreferenceChangeListener = this
-
-            iconPackPreference?.onPreferenceClickListener = this
-
-            if (!AppUtils.atLeastN()) {
-                tilesPreference?.isVisible = false
+            //View
+            findPreference<Preference>(Const.PREF_CHANGE_BACKGROUND)?.apply {
+                onPreferenceClickListener = this@SettingsFragment
+            }
+            findPreference<Preference>(Const.PREF_RESET_BACKGROUND)?.apply {
+                onPreferenceClickListener = this@SettingsFragment
+            }
+            findPreference<DropDownPreference>(Const.PREF_DARK_MODE)?.apply {
+                onPreferenceChangeListener = this@SettingsFragment
+            }
+            val streamCardModePreference = findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_MODE)?.apply {
+                onPreferenceChangeListener = this@SettingsFragment
+            }
+            findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_SINGLE_LINE)?.apply {
+                isEnabled = streamCardModePreference?.isChecked ?: false
+                onPreferenceChangeListener = this@SettingsFragment
+            }
+            findPreference<DropDownPreference>(Const.PREF_CARD_BACKGROUND)?.apply {
+                isEnabled = findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_MODE)?.isChecked
+                        ?: false
+                onPreferenceChangeListener = this@SettingsFragment
+            }
+            findPreference<SwitchPreferenceCompat>(Const.PREF_MD2_TOOLBAR)?.apply {
+                onPreferenceChangeListener = this@SettingsFragment
+            }
+            findPreference<Preference>(Const.PREF_ICON_PACK)?.apply {
+                onPreferenceClickListener = this@SettingsFragment
+            }
+            findPreference<Preference>(Const.PREF_CARD_LAYOUT)?.apply {
+                onPreferenceClickListener = this@SettingsFragment
             }
 
-            collectorPlusPreference?.onPreferenceChangeListener = this
+            //Advanced
+            findPreference<Preference>(Const.PREF_CLEAR_SHORTCUTS)?.apply {
+                onPreferenceClickListener = this@SettingsFragment
 
-            giftPreference?.apply {
+                if (!AppUtils.atLeastNMR1()) {
+                    isVisible = false
+                }
+            }
+            findPreference<Preference>(Const.PREF_TILES)?.apply {
+                if (!AppUtils.atLeastN()) {
+                    isVisible = false
+                }
+            }
+            findPreference<SwitchPreferenceCompat>(Const.PREF_COLLECTOR_PLUS)?.apply {
+                onPreferenceChangeListener = this@SettingsFragment
+            }
+            findPreference<SwitchPreferenceCompat>(Const.PREF_EXCLUDE_FROM_RECENT)?.apply {
+                onPreferenceChangeListener = this@SettingsFragment
+            }
+            findPreference<SwitchPreferenceCompat>(Const.PREF_SHOW_SHELL_RESULT)?.apply {
+                onPreferenceChangeListener = this@SettingsFragment
+            }
+
+            //Others
+            findPreference<Preference>(Const.PREF_HELP)?.apply {
+                onPreferenceClickListener = this@SettingsFragment
+            }
+            findPreference<Preference>(Const.PREF_BETA)?.apply {
+                onPreferenceClickListener = this@SettingsFragment
+            }
+            findPreference<Preference>(Const.PREF_GIFT)?.apply {
                 if (!BuildConfig.DEBUG) {
                     isVisible = false
                 }
@@ -110,10 +130,6 @@ class SettingsActivity : BaseActivity() {
                     getText(R.string.settings_gift_summary)
                 }
             }
-
-            md2Preference?.onPreferenceChangeListener = this
-            excludePreference?.onPreferenceChangeListener = this
-            showShellResultPreference?.onPreferenceChangeListener = this
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -123,11 +139,13 @@ class SettingsActivity : BaseActivity() {
 
         override fun onResume() {
             super.onResume()
-            val giftPreference = findPreference<Preference>(Const.PREF_GIFT)
-            giftPreference?.summary = if (IzukoHelper.isHitagi) {
-                getText(R.string.settings_gift_purchase_summary)
-            } else {
-                getText(R.string.settings_gift_summary)
+
+            findPreference<Preference>(Const.PREF_GIFT)?.apply {
+                summary = if (IzukoHelper.isHitagi) {
+                    getText(R.string.settings_gift_purchase_summary)
+                } else {
+                    getText(R.string.settings_gift_summary)
+                }
             }
         }
 
@@ -199,7 +217,6 @@ class SettingsActivity : BaseActivity() {
                     return true
                 }
                 Const.PREF_CARD_LAYOUT -> {
-                    DialogManager.showCardLayoutDialog(requireActivity() as BaseActivity)
                     return true
                 }
             }

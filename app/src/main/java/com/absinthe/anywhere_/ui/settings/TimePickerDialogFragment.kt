@@ -11,10 +11,10 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.manager.DialogStack
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder
-import com.absinthe.anywhere_.view.AnywhereDialogFragment
-import com.absinthe.anywhere_.view.ObservableTimePickerDialog
-import com.absinthe.anywhere_.view.ObservableTimePickerDialog.OnCancelledListener
+import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
+import com.absinthe.anywhere_.view.settings.ObservableTimePickerDialog
+import com.absinthe.anywhere_.view.settings.ObservableTimePickerDialog.OnCancelledListener
 import com.absinthe.anywhere_.viewbuilder.entity.TimePickerBuilder
 import com.google.android.material.button.MaterialButton
 import java.text.ParseException

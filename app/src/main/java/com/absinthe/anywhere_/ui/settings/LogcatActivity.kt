@@ -10,7 +10,7 @@ import com.absinthe.anywhere_.adapter.log.LogDiffCallback
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityLogcatBinding
-import com.absinthe.anywhere_.model.LogModel
+import com.absinthe.anywhere_.model.viewholder.LogModel
 import com.absinthe.anywhere_.utils.AppUtils.sendLogcat
 import com.absinthe.anywhere_.utils.AppUtils.startLogcat
 import com.absinthe.anywhere_.utils.NotifyUtils

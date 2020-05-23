@@ -5,7 +5,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.PageEntity
+import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.UiUtils
 import com.bumptech.glide.Glide

@@ -17,7 +17,7 @@ import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding
-import com.absinthe.anywhere_.model.AppListBean
+import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.blankj.utilcode.util.Utils

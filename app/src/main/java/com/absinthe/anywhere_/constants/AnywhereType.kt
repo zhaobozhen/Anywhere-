@@ -22,6 +22,7 @@ object AnywhereType {
     const val CARD_PAGE = 0
     const val WEB_PAGE = 1
 
+    const val IMAGE_PREFIX = "[Image]"
     const val QRCODE_PREFIX = "[QR_Code]"
     const val DYNAMIC_PARAMS_PREFIX = "[DYNAMIC_PARAMS "
     const val DYNAMIC_PARAMS_PREFIX_FORMAT = "[DYNAMIC_PARAMS %s]"

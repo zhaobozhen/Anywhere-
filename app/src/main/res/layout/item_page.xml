@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.absinthe.anywhere_.view.PageRecyclerView
+    <com.absinthe.anywhere_.view.home.PageRecyclerView
         android:id="@+id/rv_chip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

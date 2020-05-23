@@ -81,7 +81,7 @@
                     android:layout_height="match_parent"
                     android:fillViewport="true">
 
-                    <com.absinthe.anywhere_.view.DrawerRecyclerView
+                    <com.absinthe.anywhere_.view.home.DrawerRecyclerView
                         android:id="@+id/rv_pages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

@@ -2,7 +2,7 @@ package com.absinthe.anywhere_.adapter.log
 
 import android.text.format.Formatter
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.LogModel
+import com.absinthe.anywhere_.model.viewholder.LogModel
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 

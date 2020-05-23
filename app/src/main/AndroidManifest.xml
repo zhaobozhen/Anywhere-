@@ -180,7 +180,7 @@
         </provider>
 
         <service
-            android:name=".services.CollectorTileService"
+            android:name=".services.tile.CollectorTileService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_logo"
@@ -191,11 +191,11 @@
             </intent-filter>
         </service>
         <service
-            android:name=".services.OverlayService"
+            android:name=".services.overlay.OverlayService"
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name=".services.TileOneService"
+            android:name=".services.tile.TileOneService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_android"
@@ -206,7 +206,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".services.TileTwoService"
+            android:name=".services.tile.TileTwoService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_android"
@@ -217,7 +217,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".services.TileThreeService"
+            android:name=".services.tile.TileThreeService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_android"
@@ -228,10 +228,10 @@
             </intent-filter>
         </service>
         <service
-            android:name=".services.CollectorService"
+            android:name=".services.overlay.CollectorService"
             android:enabled="true" />
         <service
-            android:name=".services.AppRemoteViewsService"
+            android:name=".services.widget.AppRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <service
             android:name=".services.IzukoService"

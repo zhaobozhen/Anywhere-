@@ -12,7 +12,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.AnywhereEntity
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
 import com.absinthe.anywhere_.ui.fragment.*
@@ -29,9 +29,9 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder
-import com.absinthe.anywhere_.view.AnywhereDialogFragment
-import com.absinthe.anywhere_.view.ColorPickerDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
+import com.absinthe.anywhere_.view.home.ColorPickerDialogBuilder
 import com.flask.colorpicker.ColorPickerView
 
 /**
@@ -355,14 +355,9 @@ object DialogManager {
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 
-    @JvmStatic
     fun showAdvancedCardSelectDialog(activity: AppCompatActivity, listener: OnClickItemListener?) {
         val dialogFragment = AdvancedCardSelectDialogFragment()
         dialogFragment.setListener(listener)
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
-    }
-
-    fun showCardLayoutDialog(activity: AppCompatActivity) {
-
     }
 }

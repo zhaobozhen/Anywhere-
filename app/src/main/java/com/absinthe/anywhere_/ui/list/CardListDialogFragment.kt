@@ -6,10 +6,10 @@ import android.widget.ViewFlipper
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.constants.AnywhereType
-import com.absinthe.anywhere_.model.AppListBean
+import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.UiUtils
-import com.absinthe.anywhere_.view.AnywhereDialogBuilder
-import com.absinthe.anywhere_.view.AnywhereDialogFragment
+import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.CardListDialogBuilder
 import java.util.*
 
