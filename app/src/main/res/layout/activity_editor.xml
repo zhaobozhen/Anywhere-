@@ -4,7 +4,12 @@
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:transitionName="@string/trans_item_container">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bar"
@@ -19,6 +24,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:transitionName="@string/trans_background"
         app:layout_anchor="@id/bar"
         app:srcCompat="@drawable/ic_done_solid" />
 

@@ -1,6 +1,9 @@
 package com.absinthe.anywhere_.adapter.card
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -23,6 +26,8 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.main.CategoryCardFragment
+import com.absinthe.anywhere_.ui.main.EXTRA_COLOR
+import com.absinthe.anywhere_.ui.main.EditorActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
@@ -121,6 +126,8 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                             if (layoutMode == LAYOUT_MODE_STREAM) {
                                                 normalView!!.content.description.setTextColor(if (UiUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                             }
+                                            item.color = color
+                                            AnywhereApplication.sRepository.update(item)
                                         } else {
                                             itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
                                             if (layoutMode == LAYOUT_MODE_STREAM) {
@@ -135,7 +142,14 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                     }
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
-                        UiUtils.setCardUseIconColor(itemView.cardBackground, UiUtils.getAppIconByPackageName(context, item))
+                        UiUtils.setCardUseIconColor(itemView.cardBackground,
+                                UiUtils.getAppIconByPackageName(context, item),
+                                object : OnPaletteFinishedListener {
+                                    override fun onFinished(color: Int) {
+                                        item.color = color
+                                        AnywhereApplication.sRepository.update(item)
+                                    }
+                                })
                     } else {
                         UiUtils.createLinearGradientBitmap(itemView.cardBackground, item.color, Color.TRANSPARENT)
                     }
@@ -207,21 +221,23 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             if (mode == ADAPTER_MODE_NORMAL) {
                 v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
-                when (type) {
-                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME, true)
-                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE, true)
-                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE, context !is QRCodeCollectionActivity)
-                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE, true)
-                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL, true)
-                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL, true)
-                }
+//                when (type) {
+//                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME, true)
+//                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE, true)
+//                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE, context !is QRCodeCollectionActivity)
+//                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE, true)
+//                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL, true)
+//                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL, true)
+//                }
+                val options = ActivityOptions.makeSceneTransitionAnimation(
+                        context as Activity,
+                        v,
+                        context.getString(R.string.trans_item_container)
+                )
+                context.startActivity(Intent(context, EditorActivity::class.java).apply {
+                    putExtra(EXTRA_COLOR, if (item.color != 0) item.color else ContextCompat.getColor(context, R.color.colorPrimary))
+                }, options.toBundle())
             }
-//        val options = ActivityOptions.makeSceneTransitionAnimation(
-//                context as Activity,
-//                v,
-//                "app_card_container"
-//        )
-//        context.startActivity(Intent(context, EditorActivity::class.java), options.toBundle())
 
             return true
         } catch (e: IndexOutOfBoundsException) {
@@ -234,10 +250,17 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         if (mSelectedIndex.size == 0) {
             return
         }
+        val deleteList = mutableListOf<AnywhereEntity>()
+
         for (index in mSelectedIndex) {
+
             if (index < data.size) {
-                AnywhereApplication.sRepository.delete(data.removeAt(index))
+                deleteList.add(data[index])
             }
+        }
+
+        for (item in deleteList) {
+            AnywhereApplication.sRepository.delete(item)
         }
         clearSelect()
     }

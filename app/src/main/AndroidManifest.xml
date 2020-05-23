@@ -34,7 +34,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
-
             <intent-filter> <!-- Start from URL Scheme -->
                 <!-- Required -->
                 <action android:name="android.intent.action.VIEW" />
@@ -71,13 +70,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-        <activity android:name=".ui.setup.SetupActivity"
-            android:label="@string/setup_title">
-        </activity>
+        <activity
+            android:name=".ui.setup.SetupActivity"
+            android:label="@string/setup_title" />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
@@ -245,6 +245,9 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
+        <service
+            android:name=".services.BackupIntentService"
+            android:exported="false" />
 
         <receiver android:name=".receiver.HomeWidgetProvider">
             <meta-data

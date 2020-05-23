@@ -41,6 +41,7 @@ import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.model.Settings
+import com.absinthe.anywhere_.services.BackupIntentService
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.transformer.CategoryCardTransformer
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment
@@ -646,9 +647,7 @@ class MainActivity : BaseActivity() {
 
     private fun backupIfNeeded() {
         if (GlobalValues.needBackup && GlobalValues.isAutoBackup) {
-            lifecycleScope.launch {
-                StorageUtils.webdavBackup()
-            }
+            startService(Intent(this, BackupIntentService::class.java))
             GlobalValues.needBackup = false
         }
     }

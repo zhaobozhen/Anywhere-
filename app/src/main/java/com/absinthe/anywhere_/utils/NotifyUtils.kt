@@ -15,7 +15,10 @@ import com.blankj.utilcode.util.NotificationUtils.ChannelConfig
 object NotifyUtils {
 
     const val LOGCAT_CHANNEL_ID = "logcat_channel"
+    const val BACKUP_CHANNEL_ID = "backup_channel"
+
     const val LOGCAT_NOTIFICATION_ID = 1002
+    const val BACKUP_NOTIFICATION_ID = 1003
 
     fun createLogcatNotification(context: Context) {
         val channelConfig = ChannelConfig(
@@ -37,5 +40,23 @@ object NotifyUtils {
                     .build()
         }
         LogRecorder.getInstance().start()
+    }
+
+    fun createBackupNotification(context: Context) {
+        val channelConfig = ChannelConfig(
+                BACKUP_CHANNEL_ID,
+                context.getText(R.string.notification_channel_backup),
+                NotificationUtils.IMPORTANCE_DEFAULT)
+        NotificationUtils.notify(BACKUP_NOTIFICATION_ID, channelConfig) { param: NotificationCompat.Builder ->
+            param.setContentTitle(context.getString(R.string.notification_backup_title))
+                    .setContentText(context.getString(R.string.notification_backup_content))
+                    .setSmallIcon(R.drawable.ic_logo)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setPriority(NotificationCompat.PRIORITY_LOW)
+                    .setOngoing(true)
+                    .setAutoCancel(false)
+                    .build()
+        }
     }
 }

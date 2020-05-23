@@ -15,6 +15,9 @@
         <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
         <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
         <item name="android:windowActivityTransitions">true</item>
+        <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
+        <item name="android:contextPopupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.ContextMenu</item>
+        <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
     </style>
 
 </resources>
