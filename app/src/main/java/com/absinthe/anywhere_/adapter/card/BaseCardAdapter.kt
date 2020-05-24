@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.adapter.card
 
-import android.app.Activity
 import android.app.ActivityOptions
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -15,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -230,7 +230,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
 //                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL, true)
 //                }
                 val options = ActivityOptions.makeSceneTransitionAnimation(
-                        context as Activity,
+                        context as BaseActivity,
                         v,
                         context.getString(R.string.trans_item_container)
                 )

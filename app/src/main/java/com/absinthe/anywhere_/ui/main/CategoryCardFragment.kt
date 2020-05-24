@@ -25,7 +25,6 @@ import com.absinthe.anywhere_.utils.AppUtils.updateWidget
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager.topActivity
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.android.material.card.MaterialCardView
 import java.lang.ref.WeakReference
 
@@ -155,10 +154,10 @@ class CategoryCardFragment : Fragment() {
 
         adapter.apply {
             setDiffCallback(DiffListCallback())
-            setOnItemClickListener { _: BaseQuickAdapter<*, *>, view: View, i: Int ->
+            setOnItemClickListener { _, view, i ->
                 clickItem(view, i)
             }
-            setOnItemLongClickListener { _: BaseQuickAdapter<*, *>, view: View, i: Int ->
+            setOnItemLongClickListener { _, view, i ->
                 longClickItem(view, i)
             }
         }

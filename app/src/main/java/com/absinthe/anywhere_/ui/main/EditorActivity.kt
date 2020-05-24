@@ -55,7 +55,7 @@ class EditorActivity : BaseActivity() {
                 duration = 300L
             }
         }
-//        findViewById<View>(android.R.id.content).transitionName = getString(R.string.trans_item_container)
+        findViewById<View>(android.R.id.content).transitionName = getString(R.string.trans_item_container)
         setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
     }
 

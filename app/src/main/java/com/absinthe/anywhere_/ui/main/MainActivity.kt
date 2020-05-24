@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
+import android.transition.TransitionManager
 import android.view.*
 import android.widget.ImageButton
 import androidx.activity.viewModels
@@ -14,8 +15,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,9 +39,9 @@ import com.absinthe.anywhere_.constants.GlobalValues.clearActionBarType
 import com.absinthe.anywhere_.constants.GlobalValues.setsCategory
 import com.absinthe.anywhere_.databinding.ActivityMainBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
+import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
-import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.services.BackupIntentService
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.transformer.CategoryCardTransformer
@@ -50,17 +51,18 @@ import com.absinthe.anywhere_.ui.list.AppListActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
-import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
-import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
-import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
+import com.absinthe.anywhere_.utils.ListUtils
+import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.ToastUtil
+import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.view.editor.AnywhereEditor
 import com.absinthe.anywhere_.view.editor.Editor
+import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
@@ -72,6 +74,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.google.android.material.transition.MaterialContainerTransformSharedElementCallback
+import com.google.android.material.transition.MaterialFade
 import com.google.gson.Gson
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.microsoft.appcenter.analytics.Analytics
@@ -146,14 +149,14 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         Settings.setTheme(GlobalValues.darkMode)
-        getClipBoardText(this, object : ClipboardUtil.Function {
-            override fun invoke(text: String) {
-                if (text.contains(URLManager.ANYWHERE_SCHEME)) {
-                    processUri(text.toUri())
-                    clearClipboard(this@MainActivity)
-                }
-            }
-        })
+//        getClipBoardText(this, object : ClipboardUtil.Function {
+//            override fun invoke(text: String) {
+//                if (text.contains(URLManager.ANYWHERE_SCHEME)) {
+//                    processUri(text.toUri())
+//                    clearClipboard(this@MainActivity)
+//                }
+//            }
+//        })
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -489,7 +492,9 @@ class MainActivity : BaseActivity() {
         })
         viewModel.background.value = GlobalValues.backgroundUri
         viewModel.shouldShowFab.observe(this, Observer {
-            mBinding.fab.visibility = if (it) View.VISIBLE else View.GONE
+            val materialFade = MaterialFade.create(it)
+            TransitionManager.beginDelayedTransition(mBinding.fab, materialFade)
+            mBinding.fab.isVisible = it
         })
     }
 
