@@ -26,9 +26,6 @@
 -keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
 
 -keep class * extends androidx.fragment.app.Fragment{}
--keep public class com.google.vending.licensing.ILicensingService
--keep public class com.android.vending.licensing.ILicensingService
--keep public class com.google.android.vending.licensing.ILicensingService
 -dontnote com.android.vending.licensing.ILicensingService
 -dontnote com.google.vending.licensing.ILicensingService
 -dontnote com.google.android.vending.licensing.ILicensingService
@@ -77,23 +74,9 @@
 -dontwarn javax.annotation.**
 
 # Understand the @Keep support annotation.
--keep class android.support.annotation.Keep
 -keep class androidx.annotation.Keep
 
--keep @android.support.annotation.Keep class * {*;}
 -keep @androidx.annotation.Keep class * {*;}
-
--keepclasseswithmembers class * {
-    @android.support.annotation.Keep <methods>;
-}
-
--keepclasseswithmembers class * {
-    @android.support.annotation.Keep <fields>;
-}
-
--keepclasseswithmembers class * {
-    @android.support.annotation.Keep <init>(...);
-}
 
 -keepclasseswithmembers class * {
     @androidx.annotation.Keep <methods>;

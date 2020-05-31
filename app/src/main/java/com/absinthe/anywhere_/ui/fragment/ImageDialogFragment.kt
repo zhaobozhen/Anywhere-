@@ -33,7 +33,6 @@ class ImageDialogFragment : AnywhereDialogFragment {
     private fun initView() {
         Glide.with(requireContext())
                 .load(mUri)
-                .override(600, 600)
                 .into(mBuilder.image)
     }
 }

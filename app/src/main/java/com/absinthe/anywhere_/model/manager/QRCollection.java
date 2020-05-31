@@ -170,7 +170,7 @@ public class QRCollection {
 
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setId(wechatPayId);
-        ae.setAppName("微信支付");
+        ae.setAppName("微信付款码");
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
@@ -200,9 +200,13 @@ public class QRCollection {
                 IzukoService.getInstance().setClassName(clsName);
                 IzukoService.getInstance().isClicked(false);
                 Observable<FlowNode> source = Observable.create(emitter -> {
-                    emitter.onNext(new FlowNode("com.tencent.mm:id/c7", FlowNode.TYPE_ACCESSIBILITY_VIEW_ID));
+                    emitter.onNext(new FlowNode("我", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    emitter.onNext(new FlowNode("Me", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     Thread.sleep(200);
+                    emitter.onNext(new FlowNode("支付", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    emitter.onNext(new FlowNode("WeChat Pay", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     emitter.onNext(new FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    emitter.onNext(new FlowNode("Money", FlowNode.TYPE_ACCESSIBILITY_TEXT));
 
                     emitter.onComplete();
                 });
@@ -215,7 +219,7 @@ public class QRCollection {
                         mContext.startActivity(intent);
                     }
                 } catch (Exception e) {
-                    Timber.d("WORKING_MODE_URL_SCHEME:Exception: %s", e.getMessage());
+                    Timber.e(e);
                 }
             }
         });
@@ -225,7 +229,7 @@ public class QRCollection {
 
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setId(wechatPayAcsId);
-        ae.setAppName("微信支付");
+        ae.setAppName("微信付款码");
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
@@ -252,7 +256,7 @@ public class QRCollection {
 
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setId(wechatCollectId);
-        ae.setAppName("微信收款");
+        ae.setAppName("微信收款码");
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
@@ -282,12 +286,17 @@ public class QRCollection {
                 IzukoService.getInstance().setClassName(clsName);
                 IzukoService.getInstance().isClicked(false);
                 Observable<FlowNode> source = Observable.create(emitter -> {
-                    emitter.onNext(new FlowNode("com.tencent.mm:id/c7", FlowNode.TYPE_ACCESSIBILITY_VIEW_ID));
+                    emitter.onNext(new FlowNode("我", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    emitter.onNext(new FlowNode("Me", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     Thread.sleep(200);
+                    emitter.onNext(new FlowNode("支付", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    emitter.onNext(new FlowNode("WeChat Pay", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     emitter.onNext(new FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    emitter.onNext(new FlowNode("Money", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     Thread.sleep(800);
                     IzukoService.getInstance().setClassName("com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI");
                     emitter.onNext(new FlowNode("二维码收款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    emitter.onNext(new FlowNode("Receive Money", FlowNode.TYPE_ACCESSIBILITY_TEXT));
 
                     emitter.onComplete();
                 });
@@ -300,7 +309,7 @@ public class QRCollection {
                         mContext.startActivity(intent);
                     }
                 } catch (Exception e) {
-                    Timber.d("WORKING_MODE_URL_SCHEME:Exception: %s", e.getMessage());
+                    Timber.e(e);
                 }
             }
         });
@@ -310,7 +319,7 @@ public class QRCollection {
 
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setId(wechatCollectAcsId);
-        ae.setAppName("微信收款");
+        ae.setAppName("微信收款码");
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
@@ -372,7 +381,7 @@ public class QRCollection {
 
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setId(alipayPayId);
-        ae.setAppName("支付宝付款");
+        ae.setAppName("支付宝付款码");
         ae.setParam1(pkgName);
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
@@ -434,7 +443,7 @@ public class QRCollection {
 
         AnywhereEntity ae = AnywhereEntity.Builder();
         ae.setId(alipayCollectId);
-        ae.setAppName("支付宝收款");
+        ae.setAppName("支付宝收款码");
         ae.setParam1(pkgName);
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));

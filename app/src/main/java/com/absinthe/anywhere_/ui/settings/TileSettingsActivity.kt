@@ -124,6 +124,8 @@ open class TileSettingsActivity : BaseActivity() {
             val id = getString(this, flag)
             mList.find { it.id == id }?.let {
                 mAdapter.addData(initCard(it))
+            } ?: let {
+                mAdapter.addData(initCard())
             }
         }
     }

@@ -144,7 +144,6 @@ class PageTitleProvider : BaseNodeProvider() {
             return null
         }
 
-        @JvmStatic
         fun renameTitle(oldTitle: String, newTitle: String) {
             val pe = getPageEntity(oldTitle)
             AnywhereApplication.sRepository.allAnywhereEntities.value?.let { list ->
@@ -155,9 +154,8 @@ class PageTitleProvider : BaseNodeProvider() {
                             AnywhereApplication.sRepository.update(ae)
                         }
                     }
-                    AnywhereApplication.sRepository.deletePage(pe)
                     pe.title = newTitle
-                    AnywhereApplication.sRepository.insertPage(pe)
+                    AnywhereApplication.sRepository.updatePage(pe)
                     GlobalValues.category = newTitle
                 }
             }

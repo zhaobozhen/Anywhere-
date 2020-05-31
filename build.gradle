@@ -11,11 +11,11 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.iwhys.sdkeditor:plugin:1.1.4'
         classpath 'com.github.heruoxin:Robfuscate:master'   // R obfuscate
-        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.17' // Resource obfuscate
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.18' // Resource obfuscate
         classpath 'io.michaelrocks:paranoid-gradle-plugin:0.3.2'
     }
 }

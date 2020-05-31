@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
-import android.transition.TransitionManager
 import android.view.*
 import android.widget.ImageButton
 import androidx.activity.viewModels
@@ -35,7 +34,6 @@ import com.absinthe.anywhere_.adapter.page.PageListAdapter
 import com.absinthe.anywhere_.adapter.page.PageTitleNode
 import com.absinthe.anywhere_.adapter.page.PageTitleProvider
 import com.absinthe.anywhere_.constants.*
-import com.absinthe.anywhere_.constants.GlobalValues.clearActionBarType
 import com.absinthe.anywhere_.constants.GlobalValues.setsCategory
 import com.absinthe.anywhere_.databinding.ActivityMainBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
@@ -73,8 +71,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.node.BaseNode
-import com.google.android.material.transition.MaterialContainerTransformSharedElementCallback
-import com.google.android.material.transition.MaterialFade
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.gson.Gson
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.microsoft.appcenter.analytics.Analytics
@@ -333,6 +330,13 @@ class MainActivity : BaseActivity() {
     private fun initDrawer(drawer: DrawerLayout) {
         val recyclerView: RecyclerView = drawer.findViewById(R.id.rv_pages)
         val adapter = PageListAdapter()
+        val touchCallBack = ItemTouchCallBack().apply {
+            setOnItemTouchListener(adapter)
+        }
+        mItemTouchHelper = ItemTouchHelper(touchCallBack).apply {
+            attachToRecyclerView(null)
+        }
+
         adapter.setOnItemChildClickListener { _: BaseQuickAdapter<*, *>, view: View, position: Int ->
 
             if (view.id == R.id.iv_entry) {
@@ -344,19 +348,8 @@ class MainActivity : BaseActivity() {
                             delay(300)
 
                             withContext(Dispatchers.Main) {
-                                if (pe.type == AnywhereType.CARD_PAGE) {
-                                    viewModel.fragment.value = CategoryCardFragment.newInstance(pe.title)
-                                    setsCategory(pe.title, position)
-                                } else if (pe.type == AnywhereType.WEB_PAGE) {
-                                    viewModel.fragment.value = WebviewFragment.newInstance(pe.extra)
-                                }
-
-                                pe.backgroundUri?.let { uri ->
-                                    if (uri.isNotEmpty()) {
-                                        clearActionBarType()
-                                        viewModel.background.value = uri
-                                    }
-                                }
+                                mBinding.viewPager.setCurrentItem(position, true)
+                                setsCategory(pe.title, position)
                             }
                         }
                     }
@@ -414,12 +407,7 @@ class MainActivity : BaseActivity() {
                 }
             }
             PageTitleProvider.isEditMode = true
-            val touchCallBack = ItemTouchCallBack().apply {
-                setOnItemTouchListener(adapter)
-            }
-            mItemTouchHelper = ItemTouchHelper(touchCallBack).apply {
-                attachToRecyclerView(recyclerView)
-            }
+            mItemTouchHelper.attachToRecyclerView(recyclerView)
 
             ibAdd.visibility = View.GONE
             ibPageSort.visibility = View.GONE
@@ -492,8 +480,6 @@ class MainActivity : BaseActivity() {
         })
         viewModel.background.value = GlobalValues.backgroundUri
         viewModel.shouldShowFab.observe(this, Observer {
-            val materialFade = MaterialFade.create(it)
-            TransitionManager.beginDelayedTransition(mBinding.fab, materialFade)
             mBinding.fab.isVisible = it
         })
     }
@@ -634,7 +620,7 @@ class MainActivity : BaseActivity() {
         Glide.with(this)
                 .load(url)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(mBinding.ivBack)
     }
 

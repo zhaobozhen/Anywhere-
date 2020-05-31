@@ -5,7 +5,6 @@ import android.content.Context
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.checkSignature
-import com.absinthe.anywhere_.utils.manager.ShizukuHelper
 import com.absinthe.anywhere_.utils.timber.ReleaseTree
 import com.absinthe.anywhere_.utils.timber.ThreadAwareDebugTree
 import com.microsoft.appcenter.AppCenter
@@ -41,7 +40,6 @@ class AnywhereApplication : Application() {
         Reflection.unseal(base)
         Once.initialise(this)
         Settings.initMMKV(this)
-        ShizukuHelper.bind(base)
     }
 
     companion object {
