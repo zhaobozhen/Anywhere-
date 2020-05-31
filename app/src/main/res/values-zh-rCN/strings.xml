@@ -319,7 +319,7 @@
     <string name="bsd_text_input_layout_switch_off_label">关指令</string>
     <string name="bsd_text_input_layout_switch_on_helper_text">在开状态时执行以上 Shell</string>
     <string name="bsd_text_input_layout_switch_off_helper_text">在关状态时执行以上 Shell</string>
-    <string name="lc_intro">这是一款查看设备中 App 使用的 lib 架构的 App。</string>
+    <string name="lc_intro">这是一款查看设备中 App 使用的 lib 架构的 App</string>
     <string name="toast_dsm_not_support">您的设备可能不支持使用此方式</string>
     <string name="defrost_mode_dpm_desc">激活 Anywhere- 为设备管理员以获得解冻 App 的能力</string>
     <string name="toast_runtime_error">运行时错误</string>

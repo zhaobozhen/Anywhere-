@@ -83,7 +83,8 @@
                     <com.absinthe.anywhere_.view.home.DrawerRecyclerView
                         android:id="@+id/rv_pages"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 </ScrollView>
 

@@ -130,15 +130,14 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                             AnywhereApplication.sRepository.update(item)
                                         } else {
                                             itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
-                                            if (layoutMode == LAYOUT_MODE_STREAM) {
-                                                normalView!!.content.description.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
-                                            }
+                                            normalView?.content?.description?.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
                                         }
                                     }
                                 })
                     } else {
                         itemView.cardBackground.setBackgroundColor(item.color)
                         itemView.appName.setTextColor(if (UiUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                        normalView?.content?.description?.setTextColor(if (UiUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                     }
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {

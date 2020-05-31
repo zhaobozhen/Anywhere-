@@ -21,8 +21,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -60,6 +58,7 @@ import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.editor.AnywhereEditor
 import com.absinthe.anywhere_.view.editor.Editor
+import com.absinthe.anywhere_.view.home.DrawerRecyclerView
 import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.blankj.utilcode.util.ActivityUtils
@@ -89,6 +88,7 @@ class MainActivity : BaseActivity() {
 
     private val viewModel by viewModels<AnywhereViewModel>()
     private lateinit var mBinding: ActivityMainBinding
+    private lateinit var mDrawerRecyclerView: DrawerRecyclerView
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mObserver: Observer<List<PageEntity>?>
 
@@ -328,7 +328,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initDrawer(drawer: DrawerLayout) {
-        val recyclerView: RecyclerView = drawer.findViewById(R.id.rv_pages)
+        mDrawerRecyclerView = drawer.findViewById(R.id.rv_pages)
         val adapter = PageListAdapter()
         val touchCallBack = ItemTouchCallBack().apply {
             setOnItemTouchListener(adapter)
@@ -348,7 +348,7 @@ class MainActivity : BaseActivity() {
                             delay(300)
 
                             withContext(Dispatchers.Main) {
-                                mBinding.viewPager.setCurrentItem(position, true)
+                                mBinding.viewPager.setCurrentItem(AnywhereApplication.sRepository.allPageEntities.value!!.indexOf(pe), true)
                                 setsCategory(pe.title, position)
                             }
                         }
@@ -361,8 +361,7 @@ class MainActivity : BaseActivity() {
             pageEntities?.let { setupDrawerData(adapter, it) }
         })
 
-        recyclerView.apply {
-            this.layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
+        mDrawerRecyclerView.apply {
             this.adapter = adapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
@@ -400,14 +399,14 @@ class MainActivity : BaseActivity() {
         ibPageSort.setOnClickListener {
             ibPageSort.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
-            for (i in (adapter.data.indices)) {
-                try {
-                    adapter.collapse(i)
-                } catch (ignore: IndexOutOfBoundsException) {
-                }
+            var i= 0
+            while (i < adapter.data.size) {
+                adapter.collapse(i)
+                i++
             }
+
             PageTitleProvider.isEditMode = true
-            mItemTouchHelper.attachToRecyclerView(recyclerView)
+            mItemTouchHelper.attachToRecyclerView(mDrawerRecyclerView)
 
             ibAdd.visibility = View.GONE
             ibPageSort.visibility = View.GONE
@@ -443,12 +442,14 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun setupDrawerData(adapter: PageListAdapter, pageEntities: List<PageEntity>) {
+    private fun setupDrawerData(adapter: PageListAdapter, pageEntities: List<PageEntity>) = lifecycleScope.launch(Dispatchers.IO) {
         val list: MutableList<BaseNode> = ArrayList()
         for (pe in pageEntities) {
             list.add(viewModel.getEntity(pe.title))
         }
-        adapter.setNewInstance(list)
+        withContext(Dispatchers.Main) {
+            adapter.setNewInstance(list)
+        }
     }
 
     private fun initObserver() {
