@@ -10,6 +10,8 @@ import kotlin.math.pow
 
 class DrawerRecyclerView : RecyclerView {
 
+    var isEditMode = false
+
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
@@ -19,6 +21,8 @@ class DrawerRecyclerView : RecyclerView {
     private var lastY = 0f
 
     override fun onInterceptTouchEvent(e: MotionEvent): Boolean {
+        if (isEditMode) return super.onInterceptTouchEvent(e)
+
         var intercepted = false
 
         when (e.action) {

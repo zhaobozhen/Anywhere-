@@ -406,6 +406,7 @@ class MainActivity : BaseActivity() {
             }
 
             PageTitleProvider.isEditMode = true
+            mDrawerRecyclerView.isEditMode = true
             mItemTouchHelper.attachToRecyclerView(mDrawerRecyclerView)
 
             ibAdd.visibility = View.GONE
@@ -415,6 +416,7 @@ class MainActivity : BaseActivity() {
         ibDone.setOnClickListener {
             ibDone.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             PageTitleProvider.isEditMode = false
+            mDrawerRecyclerView.isEditMode = false
             mItemTouchHelper.attachToRecyclerView(null)
 
             ibAdd.visibility = View.VISIBLE
