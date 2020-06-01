@@ -130,7 +130,6 @@ class PageTitleProvider : BaseNodeProvider() {
     }
 
     companion object {
-        @JvmField
         var isEditMode = false
 
         private fun getPageEntity(title: String): PageEntity? {

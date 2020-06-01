@@ -57,6 +57,7 @@ public class QRCodeEditor extends Editor<QRCodeEditor> {
                     if (!tietAppName.getText().toString().isEmpty()) {
                         AnywhereEntity ae = new AnywhereEntity(mItem);
                         ae.setAppName(aName);
+                        ae.setParam2(mItem.getId());
                         ae.setDescription(desc);
 
                         if (isEditMode) {
