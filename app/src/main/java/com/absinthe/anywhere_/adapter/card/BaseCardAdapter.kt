@@ -220,22 +220,22 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             if (mode == ADAPTER_MODE_NORMAL) {
                 v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
-//                when (type) {
-//                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME, true)
-//                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE, true)
-//                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE, context !is QRCodeCollectionActivity)
-//                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE, true)
-//                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL, true)
-//                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL, true)
-//                }
-                val options = ActivityOptions.makeSceneTransitionAnimation(
-                        context as BaseActivity,
-                        v,
-                        context.getString(R.string.trans_item_container)
-                )
-                context.startActivity(Intent(context, EditorActivity::class.java).apply {
-                    putExtra(EXTRA_COLOR, if (item.color != 0) item.color else ContextCompat.getColor(context, R.color.colorPrimary))
-                }, options.toBundle())
+                when (type) {
+                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME, true)
+                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE, true)
+                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE, context !is QRCodeCollectionActivity)
+                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE, true)
+                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL, true)
+                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL, true)
+                }
+//                val options = ActivityOptions.makeSceneTransitionAnimation(
+//                        context as BaseActivity,
+//                        v,
+//                        context.getString(R.string.trans_item_container)
+//                )
+//                context.startActivity(Intent(context, EditorActivity::class.java).apply {
+//                    putExtra(EXTRA_COLOR, if (item.color != 0) item.color else ContextCompat.getColor(context, R.color.colorPrimary))
+//                }, options.toBundle())
             }
 
             return true

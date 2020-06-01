@@ -27,7 +27,7 @@ object ShizukuHelper {
 
     private var isShizukuV3Failed = false
     private var isShizukuV3TokenValid = false
-
+    
     /**
      * check whether shizuku service is on working
      *
