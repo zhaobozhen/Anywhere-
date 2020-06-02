@@ -10,15 +10,13 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
+import com.absinthe.anywhere_.model.Process
+import com.absinthe.anywhere_.model.ShizukuProcess
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
 import com.blankj.utilcode.util.Utils
-import moe.shizuku.api.ShizukuService
 import timber.log.Timber
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 
 object CommandUtils {
     /**
@@ -155,38 +153,16 @@ object CommandUtils {
      * @param cmd command
      */
     private fun execRootCmd(cmd: String): String {
+        Timber.i(cmd)
         val result = StringBuilder()
-        var os: OutputStream? = null
-        var `is`: InputStream? = null
 
         try {
-            val p = Runtime.getRuntime().exec("su") // Rooted device has su command
-            os = p.outputStream
-            `is` = p.inputStream
-
-            Timber.i(cmd)
-            os.apply {
-                write("$cmd\n".toByteArray())
-                flush()
-                write("exit\n".toByteArray())
-                flush()
-            }
-            var c: Int
-            while (`is`.read().also { c = it } != -1) {
-                result.append(c.toChar())
-            }
-            p.waitFor()
+            result.append(Process.exec(cmd))
         } catch (e: Exception) {
             e.printStackTrace()
             result.append(CommandResult.RESULT_ROOT_PERM_ERROR)
-        } finally {
-            try {
-                os?.close()
-                `is`?.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
         }
+
         if (result.toString().isEmpty()) {
             result.append(CommandResult.RESULT_EMPTY)
         }
@@ -203,24 +179,7 @@ object CommandUtils {
         val sb = StringBuilder()
 
         try {
-            val remoteProcess = ShizukuService.newProcess(arrayOf("sh"), null, null)
-            val `is` = remoteProcess.inputStream
-            val os = remoteProcess.outputStream
-
-            os.apply {
-                write("$cmd\n".toByteArray())
-                write("exit\n".toByteArray())
-                close()
-            }
-            var c: Int
-            while (`is`.read().also { c = it } != -1) {
-                sb.append(c.toChar())
-            }
-            `is`.close()
-
-            Timber.d("newProcess: %s", remoteProcess)
-            Timber.d("waitFor: %s", remoteProcess.waitFor())
-            Timber.d("output: %s", sb)
+            sb.append(ShizukuProcess.exec(cmd))
         } catch (tr: Throwable) {
             Timber.e(tr, "newProcess")
             sb.append(CommandResult.RESULT_SHIZUKU_PERM_ERROR)
