@@ -21,7 +21,6 @@
     <color name="textColorNormal">#FF000000</color>
     <color name="toolbarColorNormal">#FF000000</color>
     <color name="navigationColorNormal">#FFFFFFFF</color>
-    <color name="lollipopStatusBarColor">#FFDDDDDD</color>
     <color name="bottomSheetColorNormal">#FFFFFFFF</color>
     <color name="divider">#15000000</color>
     <color name="widgetPrimaryColor">#FFFFFFFF</color>

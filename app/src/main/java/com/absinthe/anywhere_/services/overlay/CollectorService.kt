@@ -63,28 +63,24 @@ class CollectorService : Service() {
     }
 
     fun startCollector() {
-        if (!AppUtils.atLeastM()) {
-            startCollectorImpl()
-        } else {
-            if (!PermissionUtils.isGrantedDrawOverlays()) {
-                ToastUtil.makeText(
-                        if (AppUtils.atLeastR()) {
-                            R.string.toast_overlay_choose_anywhere
-                        } else {
-                            R.string.toast_permission_overlap
-                        }
-                )
-
-                PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
-                    override fun onGranted() {
-                        startCollectorImpl()
+        if (!PermissionUtils.isGrantedDrawOverlays()) {
+            ToastUtil.makeText(
+                    if (AppUtils.atLeastR()) {
+                        R.string.toast_overlay_choose_anywhere
+                    } else {
+                        R.string.toast_permission_overlap
                     }
+            )
 
-                    override fun onDenied() {}
-                })
-            } else {
-                startCollectorImpl()
-            }
+            PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
+                override fun onGranted() {
+                    startCollectorImpl()
+                }
+
+                override fun onDenied() {}
+            })
+        } else {
+            startCollectorImpl()
         }
     }
 

@@ -145,13 +145,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                     ToastUtil.makeText(R.string.toast_works_on_root_or_shizuku)
                 }
             }
-            Const.WORKING_MODE_SHIZUKU -> if (!AppUtils.atLeastM()) {
-                if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
-                    listener.onStart()
-                } else {
-                    requestShizukuPermission()
-                }
-            } else {
+            Const.WORKING_MODE_SHIZUKU -> {
                 if (AppUtils.atLeastR()) {
                     ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
                 }
@@ -167,15 +161,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                     override fun onDenied() {}
                 })
             }
-            Const.WORKING_MODE_ROOT -> if (!AppUtils.atLeastM()) {
-                if (DeviceUtils.isDeviceRooted()) {
-                    listener.onStart()
-                } else {
-                    Timber.d("ROOT permission denied.")
-                    ToastUtil.makeText(R.string.toast_root_permission_denied)
-                    com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.packageCodePath)
-                }
-            } else {
+            Const.WORKING_MODE_ROOT -> {
                 if (AppUtils.atLeastR()) {
                     ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
                 }

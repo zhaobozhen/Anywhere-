@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.DialogInterface
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager.topActivity
@@ -63,12 +62,11 @@ object ShizukuHelper {
         if (isGrantShizukuPermission) {
             return
         }
-        val activity = topActivity ?: return
-        if (AppUtils.atLeastM()) {
-            if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {
-                showPermissionDialog(activity)
-            } else {
-                activity.requestPermissions(arrayOf(ShizukuApiConstants.PERMISSION), Const.REQUEST_CODE_SHIZUKU_PERMISSION)
+        topActivity?.let {
+            try {
+                it.requestPermissions(arrayOf(ShizukuApiConstants.PERMISSION), Const.REQUEST_CODE_SHIZUKU_PERMISSION)
+            } catch (e:Exception) {
+                showPermissionDialog(it)
             }
         }
     }

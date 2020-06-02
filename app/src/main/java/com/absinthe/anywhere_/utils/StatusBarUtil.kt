@@ -17,9 +17,7 @@ object StatusBarUtil {
      */
     @JvmStatic
     fun clearLightStatusBarAndNavigationBar(view: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            view.systemUiVisibility.and(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv())
-        }
+        view.systemUiVisibility.and(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             view.systemUiVisibility.and(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv())
         }
@@ -36,13 +34,9 @@ object StatusBarUtil {
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                             or WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.window.decorView.systemUiVisibility = (
-                        activity.window.decorView.systemUiVisibility
-                                or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
-            }
             if (getNavBarHeight() > ConvertUtils.dp2px(20f)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     activity.window.decorView.systemUiVisibility = (

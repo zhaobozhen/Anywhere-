@@ -72,12 +72,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     private fun initView() {
         setHasOptionsMenu(true)
         mBinding.selectWorkingMode.toggleGroup.addOnButtonCheckedListener(this)
-
         allPerm.value = 0
-
-        if (!AppUtils.atLeastM()) {
-            allPerm.value?.or(OVERLAY_PERM)
-        }
     }
 
     override fun onButtonChecked(group: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
@@ -245,25 +240,21 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             }
             CARD_OVERLAY -> {
                 overlayBinding.btnAcquireOverlayPermission.setOnClickListener {
-                    if (!AppUtils.atLeastM()) {
-                        isOverlay.setValue(true)
-                    } else {
-                        val isGrant = PermissionUtils.isGrantedDrawOverlays()
-                        isOverlay.value = isGrant
-                        if (!isGrant) {
-                            if (AppUtils.atLeastR()) {
-                                ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
-                            }
-                            PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
-                                override fun onGranted() {
-                                    isOverlay.value = true
-                                }
-
-                                override fun onDenied() {
-                                    isOverlay.value = false
-                                }
-                            })
+                    val isGrant = PermissionUtils.isGrantedDrawOverlays()
+                    isOverlay.value = isGrant
+                    if (!isGrant) {
+                        if (AppUtils.atLeastR()) {
+                            ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
                         }
+                        PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
+                            override fun onGranted() {
+                                isOverlay.value = true
+                            }
+
+                            override fun onDenied() {
+                                isOverlay.value = false
+                            }
+                        })
                     }
                 }
                 if (isAdd) {
@@ -313,10 +304,8 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
-            if (AppUtils.atLeastM()) {
-                if (Settings.canDrawOverlays(context)) {
-                    isOverlay.value = java.lang.Boolean.TRUE
-                }
+            if (Settings.canDrawOverlays(context)) {
+                isOverlay.value = java.lang.Boolean.TRUE
             }
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
             lifecycleScope.launch(Dispatchers.Main) {

@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.utils.ktx.ViewExtension.setTextAppearanceCompat
 import com.squareup.contour.ContourLayout
 
 class NormalItemView(context: Context) : ContourLayout(context) {
@@ -35,7 +34,7 @@ class NormalItemView(context: Context) : ContourLayout(context) {
     }
 
     val appName: TextView = TextView(context).apply {
-        setTextAppearanceCompat(R.style.TextAppearance_MaterialComponents_Headline6)
+        setTextAppearance(R.style.TextAppearance_MaterialComponents_Headline6)
         setTypeface(null, Typeface.BOLD)
         applyLayout(
                 x = leftTo { parent.left() + 10.xdip }.rightTo { icon.left() - 10.xdip },
@@ -44,7 +43,7 @@ class NormalItemView(context: Context) : ContourLayout(context) {
     }
 
     val param1: TextView = TextView(context).apply {
-        setTextAppearanceCompat(R.style.TextAppearance_MaterialComponents_Body2)
+        setTextAppearance(R.style.TextAppearance_MaterialComponents_Body2)
         setTypeface(null, Typeface.ITALIC)
         applyLayout(
                 x = leftTo { appName.left() }.rightTo { appName.right() },
@@ -53,7 +52,7 @@ class NormalItemView(context: Context) : ContourLayout(context) {
     }
 
     val param2: TextView = TextView(context).apply {
-        setTextAppearanceCompat(R.style.TextAppearance_MaterialComponents_Body2)
+        setTextAppearance(R.style.TextAppearance_MaterialComponents_Body2)
         setTypeface(null, Typeface.ITALIC)
         applyLayout(
                 x = leftTo { appName.left() }.rightTo { appName.right() },
@@ -62,7 +61,7 @@ class NormalItemView(context: Context) : ContourLayout(context) {
     }
 
     val description: TextView = TextView(context).apply {
-        setTextAppearanceCompat(R.style.TextAppearance_MaterialComponents_Subtitle2)
+        setTextAppearance(R.style.TextAppearance_MaterialComponents_Subtitle2)
         applyLayout(
                 x = leftTo { appName.left() }.rightTo { appName.right() },
                 y = topTo { param2.bottom() + context.resources.getDimension(R.dimen.cardview_line_spacing).toInt() }

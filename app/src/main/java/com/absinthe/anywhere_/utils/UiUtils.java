@@ -425,11 +425,9 @@ public class UiUtils {
             GlobalValues.INSTANCE.setActionBarType(Const.ACTION_BAR_TYPE_DARK);
             activity.invalidateOptionsMenu();
 
-            if (AppUtils.INSTANCE.atLeastM()) {
-                activity.getWindow().getDecorView().setSystemUiVisibility(
-                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR |
-                                activity.getWindow().getDecorView().getSystemUiVisibility());
-            }
+            activity.getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR |
+                            activity.getWindow().getDecorView().getSystemUiVisibility());
 
             if (!GlobalValues.INSTANCE.getBackgroundUri().isEmpty() || GlobalValues.INSTANCE.isPages()) {
                 setActionBarTransparent(activity);

@@ -282,9 +282,4 @@ object AppUtils {
     fun atLeastN():Boolean {
         return Build.VERSION.SDK_INT >= 24
     }
-
-    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.M)
-    fun atLeastM():Boolean {
-        return Build.VERSION.SDK_INT >= 23
-    }
 }

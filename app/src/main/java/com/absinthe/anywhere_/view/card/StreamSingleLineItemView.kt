@@ -9,7 +9,6 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.utils.ktx.ViewExtension.setTextAppearanceCompat
 import com.absinthe.anywhere_.view.app.AlwaysMarqueeTextView
 import com.squareup.contour.ContourLayout
 
@@ -37,7 +36,7 @@ class StreamSingleLineItemView(context: Context) : ContourLayout(context) {
     }
 
     val appName: AlwaysMarqueeTextView = AlwaysMarqueeTextView(context).apply {
-        setTextAppearanceCompat(R.style.TextAppearance_MaterialComponents_Headline6)
+        setTextAppearance(R.style.TextAppearance_MaterialComponents_Headline6)
         setTypeface(null, Typeface.BOLD)
         setHorizontallyScrolling(true)
         gravity = Gravity.CENTER_VERTICAL

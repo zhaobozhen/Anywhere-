@@ -194,24 +194,20 @@ public abstract class Editor<T extends Editor<?>> {
     }
 
     private void startOverlay(String cmd) {
-        if (!AppUtils.INSTANCE.atLeastM()) {
-            startOverlayImpl(cmd);
-        } else {
-            if (AppUtils.INSTANCE.atLeastR()) {
-                ToastUtil.makeText(R.string.toast_overlay_choose_anywhere);
-            }
-            PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
-                @Override
-                public void onGranted() {
-                    startOverlayImpl(cmd);
-                }
-
-                @Override
-                public void onDenied() {
-
-                }
-            });
+        if (AppUtils.INSTANCE.atLeastR()) {
+            ToastUtil.makeText(R.string.toast_overlay_choose_anywhere);
         }
+        PermissionUtils.requestDrawOverlays(new PermissionUtils.SimpleCallback() {
+            @Override
+            public void onGranted() {
+                startOverlayImpl(cmd);
+            }
+
+            @Override
+            public void onDenied() {
+
+            }
+        });
     }
 
     private void startOverlayImpl(String cmd) {
