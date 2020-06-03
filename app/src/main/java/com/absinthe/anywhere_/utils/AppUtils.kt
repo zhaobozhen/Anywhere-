@@ -19,6 +19,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.model.SuProcess
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider
@@ -263,23 +264,27 @@ object AppUtils {
         }
     }
 
+    fun acquireRootPerm(context: Context): Boolean {
+        return SuProcess.acquireRootPerm(context)
+    }
+
     @ChecksSdkIntAtLeast(api = 30)
-    fun atLeastR():Boolean {
+    fun atLeastR(): Boolean {
         return Build.VERSION.SDK_INT >= 30
     }
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
-    fun atLeastO():Boolean {
+    fun atLeastO(): Boolean {
         return Build.VERSION.SDK_INT >= 26
     }
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N_MR1)
-    fun atLeastNMR1():Boolean {
+    fun atLeastNMR1(): Boolean {
         return Build.VERSION.SDK_INT >= 25
     }
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
-    fun atLeastN():Boolean {
+    fun atLeastN(): Boolean {
         return Build.VERSION.SDK_INT >= 24
     }
 }

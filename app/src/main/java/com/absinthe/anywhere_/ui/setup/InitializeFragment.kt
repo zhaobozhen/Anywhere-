@@ -203,8 +203,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         when (card) {
             CARD_ROOT -> {
                 rootBinding.btnAcquireRootPermission.setOnClickListener {
-                    val result = com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(requireContext().packageCodePath)
-                    isRoot.setValue(result)
+                    isRoot.setValue(AppUtils.acquireRootPerm(requireContext()))
                 }
                 if (isAdd) {
                     if (!bRoot) {

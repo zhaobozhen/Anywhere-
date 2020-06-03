@@ -172,7 +172,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                         } else {
                             Timber.d("ROOT permission denied.")
                             ToastUtil.makeText(R.string.toast_root_permission_denied)
-                            com.absinthe.anywhere_.utils.PermissionUtils.upgradeRootPermission(activity.packageCodePath)
+                            AppUtils.acquireRootPerm(activity)
                         }
                     }
 

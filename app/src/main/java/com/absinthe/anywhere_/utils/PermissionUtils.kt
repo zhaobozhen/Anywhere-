@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import timber.log.Timber
-import java.io.DataOutputStream
 
 object PermissionUtils {
     /**
@@ -43,42 +41,5 @@ object PermissionUtils {
             e.printStackTrace()
             ToastUtil.makeText("打开失败，请自行前往 MIUI 权限界面")
         }
-    }
-
-    /**
-     * acquire su permission
-     *
-     * @param pkgCodePath to get su permission of the package
-     */
-    fun upgradeRootPermission(pkgCodePath: String): Boolean {
-        var process: Process? = null
-        var os: DataOutputStream? = null
-        try {
-            val cmd = "chmod 777 $pkgCodePath"
-            process = Runtime.getRuntime().exec("su") //change to super user
-            os = DataOutputStream(process.outputStream).apply {
-                writeBytes("$cmd\n")
-                writeBytes("exit\n")
-                flush()
-            }
-            process.waitFor()
-        } catch (e: Exception) {
-            Timber.d("upgradeRootPermission: %s", e.toString())
-            return false
-        } finally {
-            try {
-                os?.close()
-                process?.destroy()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
-        try {
-            return process?.waitFor() == 0
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-        return false
     }
 }
