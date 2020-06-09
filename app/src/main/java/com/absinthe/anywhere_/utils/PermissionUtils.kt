@@ -31,6 +31,7 @@ object PermissionUtils {
         try {
             val intent = Intent().apply {
                 action = "miui.intent.action.APP_PERM_EDITOR"
+                addCategory(Intent.CATEGORY_DEFAULT)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 setClassName("com.miui.securitycenter",
                         "com.miui.permcenter.permissions.PermissionsEditorActivity")

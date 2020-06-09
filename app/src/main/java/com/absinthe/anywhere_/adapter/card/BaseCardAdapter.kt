@@ -1,8 +1,6 @@
 package com.absinthe.anywhere_.adapter.card
 
-import android.app.ActivityOptions
 import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -13,8 +11,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import coil.api.load
 import com.absinthe.anywhere_.AnywhereApplication
-import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -26,8 +24,6 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.main.CategoryCardFragment
-import com.absinthe.anywhere_.ui.main.EXTRA_COLOR
-import com.absinthe.anywhere_.ui.main.EditorActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
@@ -46,7 +42,6 @@ import com.absinthe.anywhere_.view.card.StreamItemView
 import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
 import com.absinthe.anywhere_.view.editor.*
 import com.absinthe.anywhere_.view.editor.Editor.OnEditorListener
-import com.bumptech.glide.Glide
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -157,13 +152,9 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
 
         if (item.iconUri.isEmpty()) {
-            Glide.with(context)
-                    .load(UiUtils.getAppIconByPackageName(context, item))
-                    .into(itemView.icon)
+            itemView.icon.load(UiUtils.getAppIconByPackageName(context, item))
         } else {
-            Glide.with(context)
-                    .load(item.iconUri)
-                    .into(itemView.icon)
+            itemView.icon.load(item.iconUri)
         }
 
         itemView.badge.apply {

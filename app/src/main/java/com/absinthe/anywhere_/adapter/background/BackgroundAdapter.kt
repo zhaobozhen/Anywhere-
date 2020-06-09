@@ -3,12 +3,12 @@ package com.absinthe.anywhere_.adapter.background
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import coil.api.load
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.UiUtils
-import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
@@ -48,10 +48,8 @@ class BackgroundAdapter : BaseQuickAdapter<PageEntity?, BaseViewHolder>(R.layout
             if (TextUtils.isEmpty(uri)) {
                 uri = GlobalValues.backgroundUri
             }
-            Glide.with(context)
-                    .load(uri)
-                    .centerCrop()
-                    .into(ivBack)
+
+            ivBack.load(uri)
         }
     }
 }

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import coil.api.load
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -65,9 +66,6 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
@@ -256,6 +254,11 @@ class MainActivity : BaseActivity() {
     override fun initView() {
         super.initView()
 
+        GlobalValues.backgroundUri.apply {
+            if (isNotEmpty()) {
+                loadBackground(this)
+            }
+        }
         initFab()
 
         AnywhereApplication.sRepository.allPageEntities.observe(this, Observer {
@@ -399,7 +402,7 @@ class MainActivity : BaseActivity() {
         ibPageSort.setOnClickListener {
             ibPageSort.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
-            var i= 0
+            var i = 0
             while (i < adapter.data.size) {
                 adapter.collapse(i)
                 i++
@@ -481,7 +484,6 @@ class MainActivity : BaseActivity() {
                 UiUtils.setActionBarTransparent(this)
             }
         })
-        viewModel.background.value = GlobalValues.backgroundUri
         viewModel.shouldShowFab.observe(this, Observer {
             mBinding.fab.isVisible = it
         })
@@ -620,22 +622,20 @@ class MainActivity : BaseActivity() {
     }
 
     private fun loadBackground(url: String) {
-        Glide.with(this)
-                .load(url)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .into(mBinding.ivBack)
+        mBinding.ivBack.load(url) {
+            crossfade(true)
+        }
     }
 
     private fun showFirstTip(target: View) {
         target.post {
-            val tooltip = Tooltip.Builder(this@MainActivity)
+            Tooltip.Builder(this@MainActivity)
                     .anchor(target, 0, 0, false)
                     .text(getText(R.string.first_launch_guide_title))
                     .closePolicy(TOUCH_ANYWHERE_CONSUME)
                     .maxWidth(ConvertUtils.dp2px(150f))
                     .create()
-            tooltip.show(target, Tooltip.Gravity.LEFT, true)
+                    .show(target, Tooltip.Gravity.LEFT, true)
         }
     }
 

@@ -180,8 +180,9 @@ object CommandUtils {
 
         try {
             sb.append(ShizukuProcess.exec(cmd))
-        } catch (tr: Throwable) {
-            Timber.e(tr, "newProcess")
+            Timber.e(sb.toString())
+        } catch (e:Exception) {
+            Timber.e(e)
             sb.append(CommandResult.RESULT_SHIZUKU_PERM_ERROR)
         }
 

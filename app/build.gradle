@@ -135,7 +135,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha03'
 
     //Google
-    implementation 'com.google.android.material:material:1.2.0-beta01'
+    implementation 'com.google.android.material:material:1.3.0-alpha01'
 
     //Function
     implementation 'moe.feng:AlipayZeroSdk:1.1'
@@ -147,12 +147,13 @@ dependencies {
     implementation 'com.catchingnow.icebox:SDK:1.0.5'
     implementation 'com.jonathanfinerty.once:once:1.3.0'
     implementation 'com.google.zxing:core:3.4.0'
-    implementation 'com.blankj:utilcodex:1.28.5'
+    implementation 'com.blankj:utilcodex:1.29.0'
     implementation 'com.tencent:mmkv-static:1.1.2'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation 'com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT'
     implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.6'
     implementation 'app.cash.contour:contour:0.1.7'
+    implementation 'io.coil-kt:coil:0.11.0'
 
     //UX
     implementation 'com.drakeet.about:about:2.4.1'

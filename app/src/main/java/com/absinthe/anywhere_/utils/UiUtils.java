@@ -49,22 +49,24 @@ import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener;
+import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.model.viewholder.AppListBean;
-import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
 import com.absinthe.anywhere_.view.editor.SwitchShellEditor;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Calendar;
 import java.util.List;
 
+import coil.Coil;
+import coil.ImageLoader;
+import coil.request.LoadRequest;
 import timber.log.Timber;
 
 public class UiUtils {
@@ -167,24 +169,6 @@ public class UiUtils {
             drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
         }
         return drawable;
-    }
-
-    /**
-     * Get activity label name
-     *
-     * @param context context
-     * @param cn      componentName
-     * @return activity label name
-     */
-    public static String getActivityLabel(Context context, ComponentName cn) {
-        PackageManager packageManager = context.getPackageManager();
-        try {
-            ActivityInfo info = packageManager.getActivityInfo(cn, 0);
-            return info.loadLabel(packageManager).toString();
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return "";
-        }
     }
 
     /**
@@ -318,7 +302,7 @@ public class UiUtils {
                         Palette.from(actionBarBitmap).generate(p -> {
                             if (p != null) {
                                 //主导颜色,如果分析不出来，则返回默认颜色
-                                int dominantColor = p.getDominantColor(activity.getResources().getColor(R.color.colorPrimary));
+                                int dominantColor = p.getDominantColor(ContextCompat.getColor(activity, R.color.colorPrimary));
 
                                 if (isLightColor(dominantColor)) {
                                     // 深色字体
@@ -364,33 +348,6 @@ public class UiUtils {
 
                 view.setBackgroundColor(color);
                 listener.onFinished(color);
-            }
-        });
-    }
-
-    /**
-     * Make the card use icon's color
-     *
-     * @param view     card view
-     * @param drawable icon drawable
-     */
-    public static void setCardUseIconColor(View view, Drawable drawable) {
-        if (drawable == null) {
-            return;
-        }
-
-        Bitmap bitmap = ConvertUtils.drawable2Bitmap(drawable);
-        if (bitmap == null) {
-            return;
-        }
-
-        Palette.from(bitmap).generate(p -> {
-            if (p != null) {
-                if (p.getVibrantColor(Color.TRANSPARENT) != Color.TRANSPARENT) {
-                    createLinearGradientBitmap((ImageView) view, p.getVibrantColor(Color.TRANSPARENT), Color.TRANSPARENT);
-                } else {
-                    createLinearGradientBitmap((ImageView) view, p.getDominantColor(Color.TRANSPARENT), Color.TRANSPARENT);
-                }
             }
         });
     }
@@ -541,20 +498,25 @@ public class UiUtils {
         }
 
         Bitmap bgBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas();
-        Paint paint = new Paint();
 
+        Canvas canvas = new Canvas();
         canvas.setBitmap(bgBitmap);
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
         LinearGradient gradient = new LinearGradient(0, 0, 0, bgBitmap.getHeight(), bgColors[0], bgColors[1], Shader.TileMode.CLAMP);
+
+        Paint paint = new Paint();
         paint.setShader(gradient);
         RectF rectF = new RectF(0, 0, bgBitmap.getWidth(), bgBitmap.getHeight());
         canvas.drawRect(rectF, paint);
-        Glide.with(Utils.getApp())
-                .load(bgBitmap)
-//                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(view);
+
+        ImageLoader imageLoader = Coil.imageLoader(Utils.getApp());
+        LoadRequest request = LoadRequest.builder(Utils.getApp())
+                .data(bgBitmap)
+                .crossfade(true)
+                .target(view)
+                .build();
+        imageLoader.execute(request);
     }
 
     /**
@@ -587,24 +549,7 @@ public class UiUtils {
 
         Drawable normalDrawable = item.getIcon();
         Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-        DrawableCompat.setTint(wrapDrawable, context.getResources().getColor(color));
-
-        item.setIcon(wrapDrawable);
-    }
-
-    /**
-     * Tint the menu icon with alpha
-     *
-     * @param context context
-     * @param item    a menu item
-     * @param color   color
-     * @param alpha   alpha
-     */
-    public static void tintMenuIconWithAlpha(Context context, MenuItem item, @ColorRes int color, int alpha) {
-        Drawable normalDrawable = item.getIcon();
-        Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-        DrawableCompat.setTint(wrapDrawable, context.getResources().getColor(color));
-        wrapDrawable.setAlpha(alpha);
+        DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(context, color));
 
         item.setIcon(wrapDrawable);
     }
@@ -625,9 +570,9 @@ public class UiUtils {
 
         if (mToggle != null) {
             if (type.equals(Const.ACTION_BAR_TYPE_DARK)) {
-                mToggle.getDrawerArrowDrawable().setColor(context.getResources().getColor(R.color.black));
+                mToggle.getDrawerArrowDrawable().setColor(Color.BLACK);
             } else {
-                mToggle.getDrawerArrowDrawable().setColor(context.getResources().getColor(R.color.white));
+                mToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
             }
         }
     }
