@@ -17,8 +17,7 @@ android {
     }
 
     compileSdkVersion 29
-    //noinspection GradleDependency
-    buildToolsVersion "29.0.2"
+    buildToolsVersion '29.0.3'
     ndkVersion "21.2.6472646"
 
     defaultConfig {

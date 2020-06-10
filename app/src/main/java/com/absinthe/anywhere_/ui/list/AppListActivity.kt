@@ -69,17 +69,14 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
         val showSystemApp = menu.findItem(R.id.show_system_app)
-        val searchBareId = searchView.context.resources
-                .getIdentifier("android:id/search_bar", null, null)
-        val searchBar = searchView.findViewById<LinearLayout>(searchBareId)
+        searchView.findViewById<LinearLayout>(R.id.search_bar)?.layoutTransition = LayoutTransition()
 
         searchView.apply {
             isQueryRefinementEnabled = true
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setIconifiedByDefault(false)
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setOnQueryTextListener(this@AppListActivity)
         }
-        searchBar.layoutTransition = LayoutTransition()
 
         // Bug of DayNight lib
         showSystemApp?.apply {

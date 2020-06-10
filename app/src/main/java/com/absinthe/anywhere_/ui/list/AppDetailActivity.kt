@@ -158,19 +158,16 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
-        val searchBareId = searchView.context.resources
-                .getIdentifier("android:id/search_bar", null, null)
-        val searchBar = searchView.findViewById<LinearLayout>(searchBareId)
+        searchView.findViewById<LinearLayout>(R.id.search_bar)?.layoutTransition = LayoutTransition()
 
         searchView.apply {
             isSubmitButtonEnabled = true // Display "Start search" button
             isQueryRefinementEnabled = true
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setIconifiedByDefault(false)
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setOnQueryTextListener(this@AppDetailActivity)
         }
 
-        searchBar.layoutTransition = LayoutTransition()
         return true
     }
 
