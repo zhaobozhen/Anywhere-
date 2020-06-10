@@ -69,7 +69,9 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
         val showSystemApp = menu.findItem(R.id.show_system_app)
-        val searchBar = searchView.findViewById<LinearLayout>(R.id.search_bar)
+        val searchBareId = searchView.context.resources
+                .getIdentifier("android:id/search_bar", null, null)
+        val searchBar = searchView.findViewById<LinearLayout>(searchBareId)
 
         searchView.apply {
             isQueryRefinementEnabled = true
