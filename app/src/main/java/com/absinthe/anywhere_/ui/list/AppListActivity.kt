@@ -39,7 +39,7 @@ import kotlinx.coroutines.withContext
 class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     private val mAdapter: AppListAdapter = AppListAdapter(MODE_APP_LIST)
-    private lateinit var mItems: List<AppListBean>
+    private var mItems = mutableListOf<AppListBean>()
     private lateinit var binding: ActivityAppListBinding
     private var isShowSystemApp = false
 
@@ -182,10 +182,10 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         binding.srlAppList.isRefreshing = true
 
         lifecycleScope.launch(Dispatchers.IO) {
-            mItems = getAppList(packageManager, showSystem)
+            mItems = getAppList(packageManager, showSystem).toMutableList()
 
             withContext(Dispatchers.Main) {
-                mAdapter.setDiffNewData(mItems.toMutableList())
+                mAdapter.setDiffNewData(mItems)
                 binding.srlAppList.isRefreshing = false
             }
         }

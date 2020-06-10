@@ -12,15 +12,14 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.Settings
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
 import com.absinthe.anywhere_.ui.fragment.*
 import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment
-import com.absinthe.anywhere_.ui.fragment.RenameFragmentDialog
 import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment
 import com.absinthe.anywhere_.ui.settings.IntervalDialogFragment
 import com.absinthe.anywhere_.ui.settings.TimePickerDialogFragment
@@ -106,10 +105,7 @@ object DialogManager {
                 .setMessage(Html.fromHtml(String.format(context.getString(R.string.dialog_delete_message), "<b>" + ae.appName + "</b>")))
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
                     AnywhereApplication.sRepository.delete(ae)
-                    if (AppUtils.atLeastNMR1()) {
-                        ShortcutsUtils.removeShortcut(ae)
-                        builder.setDismissParent(true)
-                    }
+                    builder.setDismissParent(true)
                 }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show()

@@ -6,6 +6,8 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
+import com.absinthe.anywhere_.utils.AppUtils
+import com.absinthe.anywhere_.utils.ShortcutsUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -53,6 +55,9 @@ class AnywhereRepository(application: Application) {
     fun delete(ae: AnywhereEntity) {
         GlobalScope.launch(Dispatchers.IO) {
             mAnywhereDao.delete(ae)
+            if (AppUtils.atLeastNMR1()) {
+                ShortcutsUtils.removeShortcut(ae)
+            }
         }
         GlobalValues.needBackup = true
     }

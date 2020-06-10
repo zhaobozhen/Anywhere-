@@ -137,13 +137,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
     fun startCollector(activity: Activity, listener: OnStartCollectorListener) {
         when (GlobalValues.workingMode) {
             Const.WORKING_MODE_URL_SCHEME -> {
-                if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
-                    listener.onStart()
-                } else if (DeviceUtils.isDeviceRooted()) {
-                    listener.onStart()
-                } else {
-                    ToastUtil.makeText(R.string.toast_works_on_root_or_shizuku)
-                }
+                ToastUtil.makeText(R.string.toast_works_on_root_or_shizuku)
             }
             Const.WORKING_MODE_SHIZUKU -> {
                 if (AppUtils.atLeastR()) {

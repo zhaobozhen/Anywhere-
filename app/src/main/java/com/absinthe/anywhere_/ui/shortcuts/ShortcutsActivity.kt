@@ -22,7 +22,7 @@ import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.Opener
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
@@ -166,36 +166,46 @@ class ShortcutsActivity : BaseActivity() {
                 }
                 Intent.ACTION_VIEW -> {
                     intent.data?.let { uri ->
-                        val host = uri.host
-
-                        if (android.text.TextUtils.equals(host, URLManager.OPEN_HOST)) {
+                        if (uri.host == URLManager.OPEN_HOST) {
                             val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1) ?: ""
                             val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2) ?: ""
                             val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3) ?: ""
+                            val type = uri.getQueryParameter(Const.INTENT_EXTRA_TYPE) ?: ""
 
-                            if (param2.isEmpty() && param3.isEmpty()) {
-                                try {
-                                    parse(param1, this)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
+                            when (type.toInt()) {
+                                AnywhereType.URL_SCHEME -> {
+                                    try {
+                                        URLSchemeHandler.parse(param1, this)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
 
-                                    if (e is ActivityNotFoundException) {
-                                        ToastUtil.makeText(R.string.toast_no_react_url)
-                                    } else if (AppUtils.atLeastN()) {
-                                        if (e is FileUriExposedException) {
-                                            ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                                        if (e is ActivityNotFoundException) {
+                                            ToastUtil.makeText(R.string.toast_no_react_url)
+                                        } else if (AppUtils.atLeastN()) {
+                                            if (e is FileUriExposedException) {
+                                                ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                                            }
                                         }
                                     }
                                 }
-                            } else {
-                                val ae = AnywhereEntity.Builder().apply {
-                                    this.param1 = param1
-                                    this.param2 = param2
-                                    this.param3 = param3
-                                    this.type = AnywhereType.ACTIVITY
-                                }
+                                AnywhereType.ACTIVITY -> {
+                                    val ae = AnywhereEntity.Builder().apply {
+                                        this.param1 = param1
+                                        this.param2 = param2
+                                        this.param3 = param3
+                                        this.type = AnywhereType.ACTIVITY
+                                    }
 
-                                Opener.with(this).load(ae).open()
+                                    Opener.with(this).load(ae).open()
+                                }
+                                AnywhereType.SHELL -> {
+                                    val ae = AnywhereEntity.Builder().apply {
+                                        this.param1 = param1
+                                        this.type = AnywhereType.SHELL
+                                    }
+
+                                    Opener.with(this).load(ae).open()
+                                }
                             }
                         }
                     }

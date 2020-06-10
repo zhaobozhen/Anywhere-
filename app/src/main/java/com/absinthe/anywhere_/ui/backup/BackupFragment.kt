@@ -19,6 +19,8 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
 import kotlinx.coroutines.launch
 
+const val BACKUP_TIP_VERSION = "2.0.0"
+
 class BackupFragment : PreferenceFragmentCompat(),
         Preference.OnPreferenceClickListener,
         Preference.OnPreferenceChangeListener {
@@ -61,7 +63,7 @@ class BackupFragment : PreferenceFragmentCompat(),
             onPreferenceClickListener = this@BackupFragment
         }
         findPreference<Preference>("backupTip")?.apply {
-            summary = getBackupTip("1.9.0")
+            summary = getBackupTip()
         }
 
     }
@@ -134,8 +136,8 @@ class BackupFragment : PreferenceFragmentCompat(),
         return true
     }
 
-    private fun getBackupTip(versionName: String): CharSequence {
-        return Html.fromHtml(String.format(getString(R.string.settings_backup_tip), versionName, versionName))
+    private fun getBackupTip(): CharSequence {
+        return Html.fromHtml(String.format(getString(R.string.settings_backup_tip), BACKUP_TIP_VERSION, BACKUP_TIP_VERSION))
     }
 
     private fun getPWString(text: String): String {

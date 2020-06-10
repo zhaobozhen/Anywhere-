@@ -56,8 +56,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.anywhere_.view.editor.AnywhereEditor
-import com.absinthe.anywhere_.view.editor.Editor
+import com.absinthe.anywhere_.view.editor.*
 import com.absinthe.anywhere_.view.home.DrawerRecyclerView
 import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
@@ -614,8 +613,15 @@ class MainActivity : BaseActivity() {
                     val encrypted = it.substring(1)
                     val decrypted = decrypt(encrypted)
                     val ae = Gson().fromJson(decrypted, AnywhereEntity::class.java)
-                    AnywhereEditor(this)
-                            .item(ae)
+                    val editor: Editor<*> = when (ae.anywhereType) {
+                        AnywhereType.URL_SCHEME -> SchemeEditor(this)
+                        AnywhereType.ACTIVITY -> AnywhereEditor(this)
+                        AnywhereType.QR_CODE -> QRCodeEditor(this)
+                        AnywhereType.SHELL -> ShellEditor(this)
+                        AnywhereType.SWITCH_SHELL -> SwitchShellEditor(this)
+                        else -> AnywhereEditor(this)
+                    }
+                    editor.item(ae)
                             .isEditorMode(false)
                             .isShortcut(false)
                             .build()

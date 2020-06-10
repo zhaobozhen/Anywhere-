@@ -8,16 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.model.database.PageEntity
+import com.absinthe.anywhere_.model.BackupBean
 import com.absinthe.anywhere_.ui.backup.BackupActivity
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -73,50 +70,46 @@ object StorageUtils {
      * @return json string
      */
     fun exportAnywhereEntityJsonString(): String? {
-        AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
-            for (ae in it) {
+        val anywhereList = AnywhereApplication.sRepository.allAnywhereEntities.value
+        val pageList = AnywhereApplication.sRepository.allPageEntities.value
+
+        return if (anywhereList == null || pageList == null) {
+            null
+        } else {
+            for (ae in anywhereList) {
                 ae.type = ae.anywhereType + ae.exportedType * 100
                 ae.iconUri = ""
             }
-            val s = Gson().toJson(it)
-            Timber.d(s)
-            return s
+            val backupBean = BackupBean(anywhereList, pageList)
+            Gson().toJson(backupBean)
         }
-
-        return null
     }
 
     fun restoreFromJson(context: Context, jsonString: String) {
-        val pageSet = mutableSetOf<String>()
         val content = CipherUtils.decrypt(jsonString)
         Timber.d(content)
 
         try {
-            Gson().fromJson<List<AnywhereEntity>>(content,
-                    object : TypeToken<List<AnywhereEntity?>?>() {}.type)?.let { list ->
+            val backupBean = Gson().fromJson(content, BackupBean::class.java)
+            if (backupBean == null) {
+                ToastUtil.makeText(R.string.toast_backup_file_error)
+            } else {
                 BackupActivity.INSERT_CORRECT = true
 
-                for (ae in list) {
+                for (ae in backupBean.anywhereList) {
                     if (!BackupActivity.INSERT_CORRECT) {
                         ToastUtil.makeText(R.string.toast_backup_file_error)
                         break
                     }
-
-                    AnywhereApplication.sRepository.allPageEntities.value?.let { entities ->
-                        if (!entities.any { it.title == ae.category }) {
-                            pageSet.add(ae.category)
-                        }
-                    }
                     AnywhereApplication.sRepository.insert(ae)
                 }
 
-                val pageCount = AnywhereApplication.sRepository.allPageEntities.value?.size ?: 0
-                for (page in pageSet) {
-                    AnywhereApplication.sRepository.insertPage(PageEntity.Builder().apply {
-                        title = page
-                        priority = pageCount + 1
-                        type = AnywhereType.CARD_PAGE
-                    })
+                for (pe in backupBean.pageList) {
+                    if (!BackupActivity.INSERT_CORRECT) {
+                        ToastUtil.makeText(R.string.toast_backup_file_error)
+                        break
+                    }
+                    AnywhereApplication.sRepository.insertPage(pe)
                 }
 
                 if (BackupActivity.INSERT_CORRECT) {
