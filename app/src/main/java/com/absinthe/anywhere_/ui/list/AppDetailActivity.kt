@@ -14,23 +14,28 @@ import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
+import com.absinthe.anywhere_.adapter.applist.AppListDiffCallback
+import com.absinthe.anywhere_.adapter.applist.MODE_APP_DETAIL
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
+import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.StatusBarUtil
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.view.editor.AnywhereEditor
 import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.*
 
 class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var mBinding: ActivityAppDetailBinding
-    private var mAdapter: AppListAdapter = AppListAdapter(this, AppListAdapter.MODE_APP_DETAIL)
+    private var mAdapter: AppListAdapter = AppListAdapter(MODE_APP_DETAIL)
+    private val mItems = mutableListOf<AppListBean>()
 
     init {
         isPaddingToolbar = true
@@ -42,7 +47,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun setToolbar() {
-        mToolbar = mBinding.toolbar
+        mToolbar = mBinding.toolbar.toolbar
 
         intent?.let {
             mToolbar?.title = it.getStringExtra(Const.INTENT_EXTRA_APP_NAME)
@@ -61,6 +66,29 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun initRecyclerView() {
+        mAdapter.setDiffCallback(AppListDiffCallback())
+        mAdapter.setOnItemClickListener { _, _, position ->
+            val item = mAdapter.getItem(position)
+            var exported = 0
+
+            if (AppUtils.isActivityExported(this, ComponentName(item.packageName,
+                            item.className))) {
+                exported = 100
+            }
+            val ae = AnywhereEntity.Builder().apply {
+                appName = item.appName
+                param1 = item.packageName
+                param2 = item.className.removePrefix(item.packageName)
+                type = AnywhereType.ACTIVITY + exported
+            }
+
+            val editor = AnywhereEditor(this)
+                    .item(ae)
+                    .isEditorMode(false)
+                    .isShortcut(false)
+                    .build()
+            editor.show()
+        }
         mBinding.srlAppDetail.apply {
             setProgressBackgroundColorSchemeResource(R.color.colorPrimary)
             setColorSchemeColors(Color.WHITE)
@@ -79,8 +107,6 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val list: MutableList<AppListBean> = ArrayList()
-
             try {
                 //Get all activity classes in the AndroidManifest.xml
                 val packageInfo = packageManager.getPackageInfo(pkgName, PackageManager.GET_ACTIVITIES)
@@ -99,11 +125,11 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                             className = ai.name
                             type = -1
                         }
-                        list.add(bean)
+                        mItems.add(bean)
                         Timber.d(ai.name, "...OK")
                     }
 
-                    list.sortByDescending { UiUtils.isActivityExported(Utils.getApp(), ComponentName(it.packageName, it.className)) }
+                    mItems.sortByDescending { AppUtils.isActivityExported(Utils.getApp(), ComponentName(it.packageName, it.className)) }
                 }
             } catch (exception: PackageManager.NameNotFoundException) {
                 exception.printStackTrace()
@@ -112,10 +138,10 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
             }
 
             withContext(Dispatchers.Main) {
-                if (list.isEmpty()) {
+                if (mItems.isEmpty()) {
                     mBinding.vfContainer.displayedChild = 1
                 } else {
-                    mAdapter.setList(list)
+                    mAdapter.setDiffNewData(mItems)
                     mBinding.vfContainer.displayedChild = 0
                 }
 
@@ -151,7 +177,10 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
-        mAdapter.filter.filter(newText)
+        val filter = mItems.filter {
+            it.appName.contains(newText) || it.packageName.contains(newText)
+        }
+        mAdapter.setDiffNewData(filter.toMutableList())
         return false
     }
 }

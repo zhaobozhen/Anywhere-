@@ -54,7 +54,7 @@ open class TileSettingsActivity : BaseActivity() {
         mAdapter.setOnItemChildClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int ->
             if (view.id == R.id.btn_select) {
                 showCardListDialog(this).apply {
-                    setOnItemClickListener(object : AppListAdapter.OnItemClickListener {
+                    setOnItemClickListener(object : AppListAdapter.OnAppItemClickListener {
                         override fun onClick(bean: AppListBean, which: Int) {
                             mAdapter.setData(position, bean)
                             var tile = ""

@@ -110,7 +110,7 @@
     <string name='menu_overlay'>Overlay Window</string>
     <string name='menu_show_system_app'>Show system apps</string>
     <string name='menu_hide_system_app'>Hide system apps</string>
-    <string name='menu_add_manually'>Add Activity manully</string>
+    <string name='menu_add_manually'>Add Activity</string>
     <string name="menu_rate">Rate</string>
     <string name="menu_gift">Gift</string>
 

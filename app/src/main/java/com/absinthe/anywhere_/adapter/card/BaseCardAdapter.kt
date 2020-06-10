@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
-import coil.api.load
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
@@ -42,6 +41,7 @@ import com.absinthe.anywhere_.view.card.StreamItemView
 import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
 import com.absinthe.anywhere_.view.editor.*
 import com.absinthe.anywhere_.view.editor.Editor.OnEditorListener
+import com.bumptech.glide.Glide
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -152,9 +152,13 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
 
         if (item.iconUri.isEmpty()) {
-            itemView.icon.load(UiUtils.getAppIconByPackageName(context, item))
+            Glide.with(context)
+                    .load(UiUtils.getAppIconByPackageName(context, item))
+                    .into(itemView.icon)
         } else {
-            itemView.icon.load(item.iconUri)
+            Glide.with(context)
+                    .load(item.iconUri)
+                    .into(itemView.icon)
         }
 
         itemView.badge.apply {

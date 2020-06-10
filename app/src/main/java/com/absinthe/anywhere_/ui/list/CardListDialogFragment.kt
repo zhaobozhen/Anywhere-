@@ -16,7 +16,7 @@ import java.util.*
 class CardListDialogFragment : AnywhereDialogFragment() {
 
     private lateinit var mBuilder: CardListDialogBuilder
-    private var mListener: AppListAdapter.OnItemClickListener? = null
+    private var mListener: AppListAdapter.OnAppItemClickListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = CardListDialogBuilder(requireContext()).apply {
@@ -29,7 +29,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
         return builder.setView(mBuilder.root).create()
     }
 
-    fun setOnItemClickListener(listener: AppListAdapter.OnItemClickListener?) {
+    fun setOnItemClickListener(listener: AppListAdapter.OnAppItemClickListener?) {
         mListener = listener
     }
 
@@ -59,7 +59,12 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                                 ae.anywhereType, UiUtils.getAppIconByPackageName(context, ae.param1)))
                     }
                 }
-                mBuilder.mAdapter.setList(listBeans)
+                mBuilder.mAdapter.apply {
+                    setOnItemClickListener { _, _, position ->
+                        mListener?.onClick(getItem(position), position)
+                    }
+                    setNewInstance(listBeans)
+                }
             }
         }
     }

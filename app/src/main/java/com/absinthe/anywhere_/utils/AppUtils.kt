@@ -24,6 +24,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider
 import com.absinthe.anywhere_.ui.settings.LogcatActivity
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.handleIntent
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
 import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.absinthe.anywhere_.utils.manager.URLManager
@@ -89,7 +90,7 @@ object AppUtils {
 
         if (type == AnywhereType.URL_SCHEME) {
             apkTempPackageName = if (android.text.TextUtils.isEmpty(item.param2)) {
-                UiUtils.getPkgNameByUrl(context, item.param1)
+                getPackageNameByScheme(context, item.param1)
             } else {
                 item.param2
             }
@@ -273,6 +274,11 @@ object AppUtils {
         return Build.VERSION.SDK_INT >= 30
     }
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
+    fun atLeastP(): Boolean {
+        return Build.VERSION.SDK_INT >= 28
+    }
+
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
     fun atLeastO(): Boolean {
         return Build.VERSION.SDK_INT >= 26
@@ -286,5 +292,38 @@ object AppUtils {
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
     fun atLeastN(): Boolean {
         return Build.VERSION.SDK_INT >= 24
+    }
+
+    /**
+     * Get package name by url scheme
+     *
+     * @param context for get manager
+     * @param url     for get package name
+     */
+    fun getPackageNameByScheme(context: Context, url: String): String {
+        val resolveInfo = context.packageManager
+                .queryIntentActivities(handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
+        if (resolveInfo.isNotEmpty()) {
+            return resolveInfo[0].activityInfo.packageName
+        }
+        return ""
+    }
+
+    /**
+     * Judge that whether an activity is exported
+     *
+     * @param context context
+     * @param cn      componentName
+     * @return true if the activity is exported
+     */
+    fun isActivityExported(context: Context, cn: ComponentName): Boolean {
+        val packageManager = context.packageManager
+        return try {
+            val info = packageManager.getActivityInfo(cn, 0)
+            info.exported
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            false
+        }
     }
 }

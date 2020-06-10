@@ -18,7 +18,6 @@ import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
-import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.absinthe.anywhere_.utils.manager.URLManager;
@@ -105,7 +104,7 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                         AnywhereEntity ae = new AnywhereEntity(mItem);
                         ae.setAppName(aName);
                         ae.setParam1(uScheme);
-                        ae.setParam2(UiUtils.getPkgNameByUrl(mContext, uScheme));
+                        ae.setParam2(AppUtils.INSTANCE.getPackageNameByScheme(mContext, uScheme));
                         ae.setParam3(dynamic);
                         ae.setDescription(desc);
 

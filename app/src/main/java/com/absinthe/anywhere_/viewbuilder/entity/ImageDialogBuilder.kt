@@ -30,6 +30,7 @@ class ImageDialogBuilder(context: Context) : ViewBuilder(context) {
                     LinearLayout.LayoutParams.MATCH_PARENT)
             overScrollMode = ScrollView.OVER_SCROLL_NEVER
             isVerticalScrollBarEnabled = false
+            setBackgroundColor(Color.TRANSPARENT)
         }
         addView(scrollView)
 

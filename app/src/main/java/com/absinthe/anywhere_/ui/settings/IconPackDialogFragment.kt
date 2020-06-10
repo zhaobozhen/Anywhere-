@@ -5,9 +5,12 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
+import com.absinthe.anywhere_.adapter.applist.MODE_ICON_PACK
 import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.model.viewholder.AppListBean
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.Settings
+import com.absinthe.anywhere_.model.viewholder.AppListBean
+import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.IconPackDialogBuilder
@@ -27,7 +30,7 @@ class IconPackDialogFragment : AnywhereDialogFragment() {
     }
 
     private fun initView() {
-        val adapter = AppListAdapter(requireContext(), AppListAdapter.MODE_ICON_PACK)
+        val adapter = AppListAdapter(MODE_ICON_PACK)
         val hashMap = Settings.sIconPackManager.getAvailableIconPacks(true)
         val listBeans: MutableList<AppListBean> = ArrayList()
 
@@ -35,7 +38,15 @@ class IconPackDialogFragment : AnywhereDialogFragment() {
         for ((_, iconPack) in hashMap) {
             listBeans.add(AppListBean(iconPack.name, iconPack.packageName, "", -1))
         }
-        adapter.setList(listBeans)
+        adapter.apply {
+            setOnItemClickListener { _, _, position ->
+                val item = getItem(position)
+                GlobalValues.iconPack = item.packageName
+                    Settings.initIconPackManager()
+                    AppUtils.restart()
+            }
+            setNewInstance(listBeans)
+        }
 
         mBuilder.rvIconPack.apply {
             this.layoutManager = LinearLayoutManager(context)

@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.ui.list
 import android.animation.LayoutTransition
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
@@ -12,27 +13,34 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
+import com.absinthe.anywhere_.adapter.applist.AppListDiffCallback
+import com.absinthe.anywhere_.adapter.applist.MODE_APP_LIST
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.view.editor.AnywhereEditor
+import com.blankj.utilcode.util.ConvertUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
+    private val mAdapter: AppListAdapter = AppListAdapter(MODE_APP_LIST)
+    private lateinit var mItems: List<AppListBean>
     private lateinit var binding: ActivityAppListBinding
-    private var mAdapter: AppListAdapter = AppListAdapter(this, AppListAdapter.MODE_APP_LIST)
     private var isShowSystemApp = false
 
     init {
@@ -103,17 +111,6 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 isShowSystemApp = false
             }
             initData(isShowSystemApp)
-        } else if (item.itemId == R.id.add_manually) {
-            val ae = AnywhereEntity.Builder().apply {
-                appName = "New Activity"
-                type = AnywhereType.ACTIVITY
-            }
-            AnywhereEditor(this)
-                    .item(ae)
-                    .isEditorMode(false)
-                    .isShortcut(false)
-                    .build()
-                    .show()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -125,10 +122,40 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             setColorSchemeColors(Color.WHITE)
             setOnRefreshListener { initData(isShowSystemApp) }
         }
+        binding.extendedFab.apply {
+            (layoutParams as CoordinatorLayout.LayoutParams)
+                    .setMargins(
+                            0,
+                            0,
+                            ConvertUtils.dp2px(16f),
+                            ConvertUtils.dp2px(16f) + StatusBarUtil.getNavBarHeight()
+                    )
+
+            setOnClickListener {
+                val ae = AnywhereEntity.Builder().apply {
+                    appName = "New Activity"
+                    type = AnywhereType.ACTIVITY
+                }
+                AnywhereEditor(this@AppListActivity)
+                        .item(ae)
+                        .isEditorMode(false)
+                        .isShortcut(false)
+                        .build()
+                        .show()
+            }
+        }
     }
 
     private fun initRecyclerView() {
-        mAdapter = AppListAdapter(this, AppListAdapter.MODE_APP_LIST)
+        mAdapter.setDiffCallback(AppListDiffCallback())
+        mAdapter.setOnItemClickListener { _, _, position ->
+            val item = mAdapter.getItem(position)
+            val intent = Intent(this, AppDetailActivity::class.java).apply {
+                putExtra(Const.INTENT_EXTRA_APP_NAME, item.appName)
+                putExtra(Const.INTENT_EXTRA_PKG_NAME, item.packageName)
+            }
+            startActivity(intent)
+        }
 
         binding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppListActivity)
@@ -138,6 +165,14 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     val topRowVerticalPosition = if (recyclerView.childCount == 0) 0 else recyclerView.getChildAt(0).top
                     binding.srlAppList.isEnabled = topRowVerticalPosition >= 0
+                    if (dy > 0 || dy < 0 && binding.extendedFab.isShown)
+                        binding.extendedFab.hide()
+                }
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                        binding.extendedFab.show()
+                    super.onScrollStateChanged(recyclerView, newState)
                 }
             })
         }
@@ -147,10 +182,10 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         binding.srlAppList.isRefreshing = true
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val list = getAppList(packageManager, showSystem).toMutableList()
+            mItems = getAppList(packageManager, showSystem)
 
             withContext(Dispatchers.Main) {
-                mAdapter.setList(list)
+                mAdapter.setDiffNewData(mItems.toMutableList())
                 binding.srlAppList.isRefreshing = false
             }
         }
@@ -161,7 +196,10 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
-        mAdapter.filter.filter(newText)
+        val filter = mItems.filter {
+            it.appName.contains(newText) || it.packageName.contains(newText)
+        }
+        mAdapter.setDiffNewData(filter.toMutableList())
         return false
     }
 }

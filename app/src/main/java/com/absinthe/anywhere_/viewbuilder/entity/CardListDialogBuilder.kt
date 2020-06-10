@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
+import com.absinthe.anywhere_.adapter.applist.MODE_CARD_LIST
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class CardListDialogBuilder(context: Context) : ViewBuilder(context) {
 
-    var mAdapter: AppListAdapter = AppListAdapter(mContext, AppListAdapter.MODE_CARD_LIST)
+    var mAdapter: AppListAdapter = AppListAdapter(MODE_CARD_LIST)
 
     init {
         root = ViewFlipper(context).apply {
@@ -50,8 +51,8 @@ class CardListDialogBuilder(context: Context) : ViewBuilder(context) {
         addView(tvEmpty)
     }
 
-    fun setOnItemClickListener(listener: AppListAdapter.OnItemClickListener?) {
-        mAdapter.setOnItemClickListener(listener)
+    fun setOnItemClickListener(listener: AppListAdapter.OnAppItemClickListener?) {
+        mAdapter.setOnAppItemClickListener(listener)
     }
 
     companion object {

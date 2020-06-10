@@ -1,10 +1,7 @@
 package com.absinthe.anywhere_.utils;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -52,40 +49,20 @@ import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.model.viewholder.AppListBean;
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
 import com.absinthe.anywhere_.view.editor.SwitchShellEditor;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Calendar;
-import java.util.List;
 
-import coil.Coil;
-import coil.ImageLoader;
-import coil.request.LoadRequest;
 import timber.log.Timber;
 
 public class UiUtils {
-    /**
-     * Get package name by url scheme
-     *
-     * @param context for get manager
-     * @param url     for get package name
-     */
-    public static String getPkgNameByUrl(Context context, String url) {
-        String apkTempPackageName = "";
-        List<ResolveInfo> resolveInfo =
-                context.getPackageManager()
-                        .queryIntentActivities(URLSchemeHandler.handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY);
-        if (resolveInfo.size() != 0) {
-            apkTempPackageName = resolveInfo.get(0).activityInfo.packageName;
-        }
-        return apkTempPackageName;
-    }
 
     /**
      * Get app icon by package name
@@ -100,7 +77,7 @@ public class UiUtils {
         switch (type) {
             case AnywhereType.URL_SCHEME:
                 if (TextUtils.isEmpty(item.getParam2())) {
-                    apkTempPackageName = getPkgNameByUrl(context, item.getParam1());
+                    apkTempPackageName = AppUtils.INSTANCE.getPackageNameByScheme(context, item.getParam1());
                 } else {
                     apkTempPackageName = item.getParam2();
                 }
@@ -151,42 +128,6 @@ public class UiUtils {
             drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
         }
         return drawable;
-    }
-
-    /**
-     * Get activity icon
-     *
-     * @param context context
-     * @param cn      componentName
-     * @return activity icon
-     */
-    public static Drawable getActivityIcon(Context context, ComponentName cn) {
-        Drawable drawable;
-        try {
-            drawable = context.getPackageManager().getActivityIcon(cn);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            drawable = ContextCompat.getDrawable(context, R.drawable.ic_logo);
-        }
-        return drawable;
-    }
-
-    /**
-     * Judge that whether an activity is exported
-     *
-     * @param context context
-     * @param cn      componentName
-     * @return true if the activity is exported
-     */
-    public static boolean isActivityExported(Context context, ComponentName cn) {
-        PackageManager packageManager = context.getPackageManager();
-        try {
-            ActivityInfo info = packageManager.getActivityInfo(cn, 0);
-            return info.exported;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     /**
@@ -271,10 +212,12 @@ public class UiUtils {
      *
      * @param activity Activity for use Glide
      */
-    public static void setAdaptiveActionBarTitleColor(AppCompatActivity activity, ActionBar actionBar, String title) {
+    public static void setAdaptiveActionBarTitleColor(AppCompatActivity activity, ActionBar actionBar) {
         if (GlobalValues.INSTANCE.getBackgroundUri().isEmpty()) {
             return;
         }
+
+        final String title = getActionBarTitle();
 
         if (!GlobalValues.INSTANCE.getActionBarType().isEmpty()) {
             setTopWidgetColor(activity, actionBar, GlobalValues.INSTANCE.getActionBarType(), title);
@@ -286,7 +229,6 @@ public class UiUtils {
 
         if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
-            Timber.d("actionBarHeight = %d", actionBarHeight);
         }
 
         final int finalActionBarHeight = actionBarHeight;
@@ -485,7 +427,7 @@ public class UiUtils {
      * @param color     secondary color
      */
     public static void createLinearGradientBitmap(ImageView view, int darkColor, int color) {
-        Timber.d("dark color = %d",darkColor);
+        Timber.d("dark color = %d", darkColor);
         int[] bgColors = new int[2];
         bgColors[0] = darkColor;
         bgColors[1] = color;
@@ -510,13 +452,10 @@ public class UiUtils {
         RectF rectF = new RectF(0, 0, bgBitmap.getWidth(), bgBitmap.getHeight());
         canvas.drawRect(rectF, paint);
 
-        ImageLoader imageLoader = Coil.imageLoader(Utils.getApp());
-        LoadRequest request = LoadRequest.builder(Utils.getApp())
-                .data(bgBitmap)
-                .crossfade(true)
-                .target(view)
-                .build();
-        imageLoader.execute(request);
+        Glide.with(Utils.getApp())
+                .load(bgBitmap)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(view);
     }
 
     /**

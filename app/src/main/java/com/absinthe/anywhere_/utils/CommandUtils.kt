@@ -10,8 +10,8 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
-import com.absinthe.anywhere_.model.SuProcess
 import com.absinthe.anywhere_.model.ShizukuProcess
+import com.absinthe.anywhere_.model.SuProcess
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
@@ -70,7 +70,7 @@ object CommandUtils {
             val pkg = pkgClsString.split("/")[0]
             val cls = pkgClsString.split("/")[1]
 
-            if (UiUtils.isActivityExported(Utils.getApp(), ComponentName(pkg, cls))) {
+            if (AppUtils.isActivityExported(Utils.getApp(), ComponentName(pkg, cls))) {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW).apply {
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

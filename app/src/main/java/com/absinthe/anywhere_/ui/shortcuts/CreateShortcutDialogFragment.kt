@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
-import coil.api.load
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -21,6 +20,8 @@ import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.CreateShortcutDialogBuilder
 import com.blankj.utilcode.util.Utils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : AnywhereDialogFragment() {
     private lateinit var mBuilder: CreateShortcutDialogBuilder
@@ -69,9 +70,10 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
         if (requestCode == Const.REQUEST_CODE_IMAGE_CAPTURE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 data.data?.let {
-                    mBuilder.ivIcon.load(it) {
-                        crossfade(true)
-                    }
+                    Glide.with(this@CreateShortcutDialogFragment)
+                            .load(it)
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .into(mBuilder.ivIcon)
                     AppUtils.takePersistableUriPermission(requireContext(), it, data)
                 }
             }

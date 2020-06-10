@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import coil.api.load
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -66,6 +65,9 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
@@ -257,6 +259,8 @@ class MainActivity : BaseActivity() {
         GlobalValues.backgroundUri.apply {
             if (isNotEmpty()) {
                 loadBackground(this)
+                UiUtils.setAdaptiveActionBarTitleColor(this@MainActivity, supportActionBar)
+                UiUtils.setActionBarTransparent(this@MainActivity)
             }
         }
         initFab()
@@ -480,7 +484,7 @@ class MainActivity : BaseActivity() {
 
             if (s.isNotEmpty()) {
                 loadBackground(GlobalValues.backgroundUri)
-                UiUtils.setAdaptiveActionBarTitleColor(this, supportActionBar, UiUtils.getActionBarTitle())
+                UiUtils.setAdaptiveActionBarTitleColor(this, supportActionBar)
                 UiUtils.setActionBarTransparent(this)
             }
         })
@@ -585,7 +589,7 @@ class MainActivity : BaseActivity() {
                     val appName: String = AppUtils.getAppName(param1)
                     var exported = 0
 
-                    if (UiUtils.isActivityExported(this, ComponentName(param1,
+                    if (com.absinthe.anywhere_.utils.AppUtils.isActivityExported(this, ComponentName(param1,
                                     if (param2[0] == '.') param1 + param2 else param2))) {
                         exported = 100
                     }
@@ -622,9 +626,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun loadBackground(url: String) {
-        mBinding.ivBack.load(url) {
-            crossfade(true)
-        }
+        Glide.with(this)
+                .load(url)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .into(mBinding.ivBack)
     }
 
     private fun showFirstTip(target: View) {

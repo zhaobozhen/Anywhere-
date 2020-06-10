@@ -333,7 +333,7 @@
     <string name="defrost_mode_dpm_addition"><![CDATA[<b>连接 PC 并输入 adb 指令:</b><br><i>adb shell dpm set-device-owner com.absinthe.anywhere_/.receiver.AdminReceiver</i>]]></string>
     <string name="toast_works_on_root_or_shizuku">Collector 只在 root/Shizuku 模式下工作</string>
     <string name="settings_category_view">视图</string>
-    <string name="menu_add_manually">手动添加活动</string>
+    <string name="menu_add_manually">添加活动</string>
     <string name="settings_backup_webdav_auto_backup_title">自动备份</string>
     <string name="settings_backup_webdav_auto_backup_summary">当卡片有改动时自动触发备份</string>
     <string name="setup_title">设定</string>
