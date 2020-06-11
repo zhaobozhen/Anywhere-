@@ -172,7 +172,7 @@ object DialogManager {
                     } else {
                         ToastUtil.makeText(R.string.toast_not_install_shizuku)
                         try {
-                            URLSchemeHandler.parse(URLManager.SHIZUKU_COOLAPK_DOWNLOAD_PAGE, context)
+                            URLSchemeHandler.parse(URLManager.SHIZUKU_MARKET_URL, context)
                         } catch (e: ActivityNotFoundException) {
                             e.printStackTrace()
                             ToastUtil.makeText(R.string.toast_no_react_url)
@@ -217,7 +217,7 @@ object DialogManager {
             }
 
             AnywhereDialogBuilder(context).apply {
-                setItems(items.toTypedArray()) { _: DialogInterface?, which: Int ->
+                setItems(items.toTypedArray()) { _, which ->
                     ae.category = it[which].title
                     AnywhereApplication.sRepository.update(ae)
                     setDismissParent(true)

@@ -1,6 +1,8 @@
 package com.absinthe.anywhere_.adapter.card
 
+import android.app.ActivityOptions
 import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -23,6 +26,9 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.main.CategoryCardFragment
+import com.absinthe.anywhere_.ui.main.EXTRA_COLOR
+import com.absinthe.anywhere_.ui.main.EXTRA_ENTITY
+import com.absinthe.anywhere_.ui.main.EditorActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
@@ -215,22 +221,23 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             if (mode == ADAPTER_MODE_NORMAL) {
                 v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
-                when (type) {
-                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME, true)
-                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE, true)
-                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE, context !is QRCodeCollectionActivity)
-                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE, true)
-                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL, true)
-                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL, true)
-                }
-//                val options = ActivityOptions.makeSceneTransitionAnimation(
-//                        context as BaseActivity,
-//                        v,
-//                        context.getString(R.string.trans_item_container)
-//                )
-//                context.startActivity(Intent(context, EditorActivity::class.java).apply {
-//                    putExtra(EXTRA_COLOR, if (item.color != 0) item.color else ContextCompat.getColor(context, R.color.colorPrimary))
-//                }, options.toBundle())
+//                when (type) {
+//                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME, true)
+//                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE, true)
+//                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE, context !is QRCodeCollectionActivity)
+//                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE, true)
+//                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL, true)
+//                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL, true)
+//                }
+                val options = ActivityOptions.makeSceneTransitionAnimation(
+                        context as BaseActivity,
+                        v,
+                        context.getString(R.string.trans_item_container)
+                )
+                context.startActivity(Intent(context, EditorActivity::class.java).apply {
+                    putExtra(EXTRA_ENTITY, item)
+                    putExtra(EXTRA_COLOR, if (item.color != 0) item.color else ContextCompat.getColor(context, R.color.colorPrimary))
+                }, options.toBundle())
             }
 
             return true

@@ -91,23 +91,18 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.show_system_app) {
-            if (item.title.toString() == getString(R.string.menu_show_system_app)) {
+            isShowSystemApp = if (item.title.toString() == getString(R.string.menu_show_system_app)) {
                 item.setTitle(R.string.menu_hide_system_app)
-
-                if (UiUtils.isDarkMode(this)) {
-                    item.title = SpannableStringBuilder(item.title).apply {
-                        setSpan(ForegroundColorSpan(Color.WHITE), 0, item.title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                    }
-                }
-                isShowSystemApp = true
+                true
             } else {
                 item.setTitle(R.string.menu_show_system_app)
-                if (UiUtils.isDarkMode(this)) {
-                    item.title = SpannableStringBuilder(item.title).apply {
-                        setSpan(ForegroundColorSpan(Color.WHITE), 0, item.title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                    }
+                false
+            }
+
+            if (UiUtils.isDarkMode(this)) {
+                item.title = SpannableStringBuilder(item.title).apply {
+                    setSpan(ForegroundColorSpan(Color.WHITE), 0, item.title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 }
-                isShowSystemApp = false
             }
             initData(isShowSystemApp)
         }
@@ -165,12 +160,12 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                     val topRowVerticalPosition = if (recyclerView.childCount == 0) 0 else recyclerView.getChildAt(0).top
                     binding.srlAppList.isEnabled = topRowVerticalPosition >= 0
                     if (dy > 0 || dy < 0 && binding.extendedFab.isShown)
-                        binding.extendedFab.hide()
+                        binding.extendedFab.shrink()
                 }
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                        binding.extendedFab.show()
+                        binding.extendedFab.extend()
                     super.onScrollStateChanged(recyclerView, newState)
                 }
             })

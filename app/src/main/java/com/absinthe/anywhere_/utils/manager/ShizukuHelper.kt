@@ -80,7 +80,7 @@ object ShizukuHelper {
                 activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
             } else {
                 ToastUtil.makeText(R.string.toast_not_install_shizuku)
-                URLSchemeHandler.parse(URLManager.SHIZUKU_COOLAPK_DOWNLOAD_PAGE, activity)
+                URLSchemeHandler.parse(URLManager.SHIZUKU_MARKET_URL, activity)
             }
         })
     }

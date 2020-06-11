@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
+import com.blankj.utilcode.util.AppUtils
 import com.drakeet.about.*
 import com.drakeet.about.extension.RecommendationLoaderDelegate
 import com.drakeet.about.extension.provided.GsonJsonConverter
@@ -44,20 +45,28 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     }
 
     override fun onItemsCreated(items: MutableList<Any>) {
+
+        val hasInstallCoolApk = AppUtils.isAppInstalled("com.coolapk.market")
+
         items.apply {
             add(Category(getString(R.string.whats_this)))
             add(Card(getString(R.string.about_text)))
 
             add(Category(getString(R.string.developer)))
-            add(Contributor(R.mipmap.pic_rabbit, "Absinthe", getString(R.string.developer_info), "https://www.coolapk.com/u/482045"))
+            val developerUrl = if (hasInstallCoolApk) {
+                URLManager.COOLAPK_PAGE
+            } else {
+                URLManager.GITHUB_PAGE
+            }
+            add(Contributor(R.mipmap.pic_rabbit, "Absinthe", getString(R.string.developer_info), developerUrl))
 
             add(Category(getString(R.string.certification)))
             add(Contributor(R.mipmap.pic_android_links, getString(R.string.android_links_title), "https://androidlinks.org/", "https://androidlinks.org/"))
             add(Contributor(R.drawable.ic_green_android, getString(R.string.green_android_title), "https://green-android.org/", "https://green-android.org/"))
 
             add(Category(getString(R.string.other_works)))
-            add(Contributor(R.mipmap.kage_icon, "Kage(Beta)", getString(R.string.kage_intro), "https://www.coolapk.com/apk/com.absinthe.kage"))
-            add(Contributor(R.mipmap.libchecker_icon, "LibChecker", getString(R.string.lc_intro), "https://www.coolapk.com/apk/com.absinthe.libchecker"))
+            add(Contributor(R.mipmap.kage_icon, "Kage(Beta)", getString(R.string.kage_intro), URLManager.MARKET_DETAIL_SCHEME + "com.absinthe.kage"))
+            add(Contributor(R.mipmap.libchecker_icon, "LibChecker", getString(R.string.lc_intro), URLManager.MARKET_DETAIL_SCHEME + "com.absinthe.libchecker"))
 
             add(Category(getString(R.string.communication)))
             add(Card(Html.fromHtml("Telegram: <a href=\"t.me/anywhereee\">t.me/anywhereee</a><br>E-mail: zhaobozhen2025@gmail.com")))
@@ -141,7 +150,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
         if (menuItem.itemId == R.id.toolbar_rate) {
             try {
-                URLSchemeHandler.parse(URLManager.MARKET_URL_SCHEME, this)
+                URLSchemeHandler.parse(URLManager.ANYWHERE_MARKET_URL, this)
             } catch (e: ActivityNotFoundException) {
                 e.printStackTrace()
             }

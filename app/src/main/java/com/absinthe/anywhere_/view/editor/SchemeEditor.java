@@ -9,12 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.AnywhereType;
-import com.absinthe.anywhere_.constants.Const;
-import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.AppUtils;
-import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
@@ -146,20 +143,16 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                             DialogManager.showDynamicParamsDialog((AppCompatActivity) mContext, dynamic, new DynamicParamsDialogFragment.OnParamsInputListener() {
                                 @Override
                                 public void onFinish(String text) {
-                                    if (GlobalValues.INSTANCE.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
-                                        try {
-                                            URLSchemeHandler.INSTANCE.parse(mItem.getParam1() + text, mContext);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                    try {
+                                        URLSchemeHandler.INSTANCE.parse(mItem.getParam1() + text, mContext);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
 
-                                            if (e instanceof ActivityNotFoundException) {
-                                                ToastUtil.makeText(R.string.toast_no_react_url);
-                                            } else if (e instanceof RuntimeException) {
-                                                ToastUtil.makeText(R.string.toast_runtime_error);
-                                            }
+                                        if (e instanceof ActivityNotFoundException) {
+                                            ToastUtil.makeText(R.string.toast_no_react_url);
+                                        } else if (e instanceof RuntimeException) {
+                                            ToastUtil.makeText(R.string.toast_runtime_error);
                                         }
-                                    } else {
-                                        CommandUtils.execCmd(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, mItem.getParam1()) + text);
                                     }
                                 }
 
@@ -169,20 +162,16 @@ public class SchemeEditor extends Editor<SchemeEditor> {
                                 }
                             });
                         } else {
-                            if (GlobalValues.INSTANCE.getWorkingMode().equals(Const.WORKING_MODE_URL_SCHEME)) {
-                                try {
-                                    URLSchemeHandler.INSTANCE.parse(mItem.getParam1(), mContext);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                            try {
+                                URLSchemeHandler.INSTANCE.parse(mItem.getParam1(), mContext);
+                            } catch (Exception e) {
+                                e.printStackTrace();
 
-                                    if (e instanceof ActivityNotFoundException) {
-                                        ToastUtil.makeText(R.string.toast_no_react_url);
-                                    } else if (e instanceof RuntimeException) {
-                                        ToastUtil.makeText(R.string.toast_runtime_error);
-                                    }
+                                if (e instanceof ActivityNotFoundException) {
+                                    ToastUtil.makeText(R.string.toast_no_react_url);
+                                } else if (e instanceof RuntimeException) {
+                                    ToastUtil.makeText(R.string.toast_runtime_error);
                                 }
-                            } else {
-                                CommandUtils.execCmd(TextUtils.getItemCommand(ae));
                             }
                         }
                     }
