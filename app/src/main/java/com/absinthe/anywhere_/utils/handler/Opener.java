@@ -10,7 +10,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
-import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment;
+import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.TextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;

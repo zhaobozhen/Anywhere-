@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
@@ -63,6 +64,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun setDocumentResultListener(listener: OnDocumentResultListener?) {
         mListener = listener
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

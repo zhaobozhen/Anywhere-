@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.ui.main
+package com.absinthe.anywhere_.ui.editor
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -10,6 +10,7 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.databinding.ActivityEditorBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.ui.editor.impl.SchemeEditorFragment
 import com.absinthe.anywhere_.utils.UiUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.platform.MaterialContainerTransform
@@ -39,6 +40,11 @@ class EditorActivity : BaseActivity() {
         initTransition()
         super.onCreate(savedInstanceState)
         setUpBottomDrawer()
+
+        supportFragmentManager
+                .beginTransaction()
+                .replace(binding.fragmentContainerView.id, SchemeEditorFragment.newInstance(entity!!))
+                .commitNow()
     }
 
     override fun onBackPressed() {

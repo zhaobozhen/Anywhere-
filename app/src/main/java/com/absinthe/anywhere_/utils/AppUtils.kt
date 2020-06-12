@@ -269,7 +269,7 @@ object AppUtils {
         return SuProcess.acquireRootPerm(context)
     }
 
-    @ChecksSdkIntAtLeast(api = 30)
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
     fun atLeastR(): Boolean {
         return Build.VERSION.SDK_INT >= 30
     }

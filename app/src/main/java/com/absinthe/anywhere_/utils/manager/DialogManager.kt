@@ -15,9 +15,9 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
-import com.absinthe.anywhere_.ui.fragment.*
-import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
-import com.absinthe.anywhere_.ui.fragment.DynamicParamsDialogFragment.OnParamsInputListener
+import com.absinthe.anywhere_.ui.dialog.*
+import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment.OnClickItemListener
+import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment
 import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment
@@ -314,7 +314,7 @@ object DialogManager {
     }
 
     fun showRenameDialog(activity: AppCompatActivity, title: String) {
-        val dialog = RenameFragmentDialog(title)
+        val dialog = RenameDialogFragment(title)
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 

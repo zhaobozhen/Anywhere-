@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.ui.fragment
+package com.absinthe.anywhere_.ui.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -9,7 +9,7 @@ import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.RenameDialogBuilder
 
-class RenameFragmentDialog(private val mTitle: String) : AnywhereDialogFragment() {
+class RenameDialogFragment(private val mTitle: String) : AnywhereDialogFragment() {
 
     private lateinit var mBuilder: RenameDialogBuilder
 

@@ -41,8 +41,8 @@ import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.services.BackupIntentService
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.transformer.CategoryCardTransformer
-import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment
-import com.absinthe.anywhere_.ui.fragment.AdvancedCardSelectDialogFragment.OnClickItemListener
+import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment
+import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment.OnClickItemListener
 import com.absinthe.anywhere_.ui.list.AppListActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.SettingsActivity
