@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 
-abstract class BaseEditorFragment : Fragment() {
-
-    val item by lazy { arguments?.getParcelable(EXTRA_ENTITY) as AnywhereEntity? }
-    val isEditMode by lazy { arguments?.getBoolean(EXTRA_EDIT_MODE) ?: false }
+abstract class BaseEditorFragment(val item: AnywhereEntity, val isEditMode: Boolean) : Fragment() {
 
     protected abstract fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View
     protected abstract fun initView()

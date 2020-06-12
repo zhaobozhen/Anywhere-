@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/ripple_view_group"
@@ -23,6 +24,7 @@
         android:orientation="vertical"
         android:paddingStart="24dp"
         android:paddingTop="15dp"
+        android:paddingEnd="0dp"
         app:layout_constraintEnd_toStartOf="@id/radio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,27 +33,27 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Title text"
             android:textAppearance="?attr/textAppearanceBody1"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Title text" />
 
         <TextView
             android:id="@+id/tv_summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Summary text"
             android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="#FF757575" />
+            android:textColor="#FF757575"
+            tools:text="Summary text" />
 
         <TextView
             android:id="@+id/tv_addition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Addition text"
             android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="#FF808080" />
+            android:textColor="#FF808080"
+            tools:text="Addition text" />
 
     </LinearLayout>
 
@@ -61,8 +63,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_container" />
+        app:layout_constraintTop_toBottomOf="@id/ll_container"
+        tools:text="Button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

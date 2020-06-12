@@ -76,19 +76,19 @@ class LogcatActivity : BaseActivity() {
         }
 
         if (isStartCatching) {
-            mBinding.tvStartLogcat.text = getText(R.string.btn_stop_catch_log)
+            mBinding.btnCollect.text = getText(R.string.btn_stop_catch_log)
         } else {
-            mBinding.tvStartLogcat.text = getText(R.string.btn_start_catch_log)
+            mBinding.btnCollect.text = getText(R.string.btn_start_catch_log)
         }
-        mBinding.btnLogcat.setOnClickListener {
+        mBinding.btnCollect.setOnClickListener {
             if (isStartCatching) {
-                mBinding.tvStartLogcat.text = getText(R.string.btn_start_catch_log)
+                mBinding.btnCollect.text = getText(R.string.btn_start_catch_log)
                 isStartCatching = false
                 LogRecorder.getInstance().stop()
                 NotificationUtils.cancel(NotifyUtils.LOGCAT_NOTIFICATION_ID)
                 initData(true)
             } else {
-                mBinding.tvStartLogcat.text = getText(R.string.btn_stop_catch_log)
+                mBinding.btnCollect.text = getText(R.string.btn_stop_catch_log)
                 isStartCatching = true
                 startLogcat(this@LogcatActivity)
             }

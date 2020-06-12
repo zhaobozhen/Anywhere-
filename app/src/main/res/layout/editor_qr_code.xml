@@ -4,6 +4,8 @@
     style="@style/Widget.Design.BottomSheet.Modal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/bsd_edit_text_margin_horizontal"
+    android:layout_marginVertical="@dimen/bsd_margin_vertical"
     android:background="@color/transparent">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -11,8 +13,6 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
-        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_app_name_label"
         app:errorEnabled="true"
         app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
@@ -34,9 +34,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_description_label"
         app:helperText="@string/bsd_text_input_layout_description_helper_text"
         app:helperTextEnabled="true"

@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.ui.editor.impl
 
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,10 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.OnceTag
-import com.absinthe.anywhere_.databinding.BottomSheetDialogUrlSchemeBinding
+import com.absinthe.anywhere_.databinding.EditorUrlSchemeBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
-import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
-import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -26,12 +23,12 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showDynamicParamsDialo
 import com.absinthe.anywhere_.utils.manager.URLManager
 import jonathanfinerty.once.Once
 
-class SchemeEditorFragment : BaseEditorFragment() {
+class SchemeEditorFragment(item: AnywhereEntity, isEditMode: Boolean) : BaseEditorFragment(item, isEditMode) {
 
-    private lateinit var binding: BottomSheetDialogUrlSchemeBinding
+    private lateinit var binding: EditorUrlSchemeBinding
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
-        binding = BottomSheetDialogUrlSchemeBinding.inflate(inflater, container, false)
+        binding = EditorUrlSchemeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,7 +43,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
                 openShortcutCommunity()
             }
         }
-        item?.let {
+        item.let {
             binding.tietAppName.setText(it.appName)
             binding.tietUrlScheme.setText(it.param1)
             binding.tietDescription.setText(it.description)
@@ -116,7 +113,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
         }
 
         if (isEditMode) {
-            if (ae.appName != item!!.appName || ae.param1 != item!!.param1) {
+            if (ae.appName != item.appName || ae.param1 != item.param1) {
                 if (ae.shortcutType == AnywhereType.SHORTCUTS) {
                     if (AppUtils.atLeastNMR1()) {
                         ShortcutsUtils.updateShortcut(ae)
@@ -140,17 +137,6 @@ class SchemeEditorFragment : BaseEditorFragment() {
                 ToastUtil.makeText(R.string.toast_no_react_url)
             } else if (e is RuntimeException) {
                 ToastUtil.makeText(R.string.toast_runtime_error)
-            }
-        }
-    }
-
-    companion object {
-        fun newInstance(entity: AnywhereEntity, isEditMode: Boolean): SchemeEditorFragment {
-            return SchemeEditorFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(EXTRA_ENTITY, entity)
-                    putBoolean(EXTRA_EDIT_MODE, isEditMode)
-                }
             }
         }
     }

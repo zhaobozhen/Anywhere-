@@ -132,9 +132,6 @@ public abstract class Editor<T extends Editor<?>> {
     protected abstract void setRunButton();
 
     protected void initView() {
-        ibOverlay = container.findViewById(R.id.ib_overlay);
-        ibRun = container.findViewById(R.id.ib_trying_run);
-        ibMore = container.findViewById(R.id.ib_editor_menu);
         btnDone = container.findViewById(R.id.btn_edit_anywhere_done);
     }
 
@@ -174,11 +171,6 @@ public abstract class Editor<T extends Editor<?>> {
 
     void setBottomSheetDialogImpl(Context context, @LayoutRes int layout) {
         int frameRes = R.layout.layout_editor_frame;
-        if (mEditorType == URL_SCHEME) {
-            frameRes = R.layout.layout_url_scheme_editor_frame;
-        } else if (mEditorType == IMAGE) {
-            frameRes = R.layout.layout_image_editor_frame;
-        }
 
         container = (ViewGroup) View.inflate(context, frameRes, null);
 
@@ -250,9 +242,7 @@ public abstract class Editor<T extends Editor<?>> {
                     }
                 }
 
-                if (this instanceof ImageEditor) {
-//                    popup.getMenu().findItem(R.id.share_card).setVisible(false);
-                } else if (this instanceof SwitchShellEditor) {
+                if (this instanceof SwitchShellEditor) {
                     popup.getMenu().findItem(R.id.add_shortcuts).setEnabled(false);
                     popup.getMenu().findItem(R.id.add_home_shortcuts).setEnabled(false);
                 }

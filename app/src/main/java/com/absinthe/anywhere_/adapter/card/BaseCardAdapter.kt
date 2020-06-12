@@ -45,7 +45,7 @@ import com.absinthe.anywhere_.view.card.CardItemView
 import com.absinthe.anywhere_.view.card.NormalItemView
 import com.absinthe.anywhere_.view.card.StreamItemView
 import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
-import com.absinthe.anywhere_.view.editor.*
+import com.absinthe.anywhere_.view.editor.SwitchShellEditor
 import com.bumptech.glide.Glide
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -64,7 +64,6 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
 
     var mode = ADAPTER_MODE_NORMAL
     private val mSelectedIndex = mutableListOf<Int>()
-    private var mEditor: Editor<*>? = null
 
     override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (layoutMode) {
@@ -215,19 +214,8 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
     fun longClickItem(v: View, position: Int): Boolean {
         try {
             val item = getItem(position)
-            val type = item.anywhereType
 
             if (mode == ADAPTER_MODE_NORMAL) {
-                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-
-//                when (type) {
-//                    AnywhereType.URL_SCHEME -> openEditor(item, Editor.URL_SCHEME, true)
-//                    AnywhereType.ACTIVITY -> openEditor(item, Editor.ANYWHERE, true)
-//                    AnywhereType.QR_CODE -> openEditor(item, Editor.QR_CODE, context !is QRCodeCollectionActivity)
-//                    AnywhereType.IMAGE -> openEditor(item, Editor.IMAGE, true)
-//                    AnywhereType.SHELL -> openEditor(item, Editor.SHELL, true)
-//                    AnywhereType.SWITCH_SHELL -> openEditor(item, Editor.SWITCH_SHELL, true)
-//                }
                 val options = ActivityOptions.makeSceneTransitionAnimation(
                         context as BaseActivity,
                         v,
@@ -238,6 +226,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                     putExtra(EXTRA_EDIT_MODE, true)
                     putExtra(EXTRA_COLOR, if (item.color != 0) item.color else ContextCompat.getColor(context, R.color.colorPrimary))
                 }, options.toBundle())
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             }
 
             return true
@@ -337,26 +326,6 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             }
         } else if (item.anywhereType == AnywhereType.ACTIVITY) {
             Opener.with(context).load(item).open()
-        }
-    }
-
-    private fun openEditor(item: AnywhereEntity, type: Int, isEditMode: Boolean) {
-        when (type) {
-            Editor.ANYWHERE -> mEditor = AnywhereEditor(context)
-            Editor.URL_SCHEME -> mEditor = SchemeEditor(context)
-            Editor.QR_CODE -> mEditor = QRCodeEditor(context)
-            Editor.IMAGE -> mEditor = ImageEditor(context)
-            Editor.SHELL -> mEditor = ShellEditor(context)
-            Editor.SWITCH_SHELL -> mEditor = SwitchShellEditor(context)
-        }
-
-        mEditor?.let {
-            it.item(item)
-                    .isEditorMode(isEditMode)
-                    .isShortcut(item.shortcutType == AnywhereType.SHORTCUTS)
-                    .isExported(item.exportedType == AnywhereType.EXPORTED)
-                    .build()
-            it.show()
         }
     }
 

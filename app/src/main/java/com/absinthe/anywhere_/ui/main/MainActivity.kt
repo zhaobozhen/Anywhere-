@@ -14,6 +14,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -43,6 +44,10 @@ import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.transformer.CategoryCardTransformer
 import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment
 import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment.OnClickItemListener
+import com.absinthe.anywhere_.ui.editor.EXTRA_COLOR
+import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
+import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
+import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.ui.list.AppListActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.SettingsActivity
@@ -56,7 +61,6 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.anywhere_.view.editor.*
 import com.absinthe.anywhere_.view.home.DrawerRecyclerView
 import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
@@ -498,7 +502,7 @@ class MainActivity : BaseActivity() {
         mBinding.fab.setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
             when (actionItem.id) {
                 R.id.fab_url_scheme -> {
-                    viewModel.setUpUrlScheme(this, mBinding.fab)
+                    viewModel.setUpUrlScheme(this, mBinding.fab.mainFab)
                     Analytics.trackEvent(EventTag.FAB_URL_SCHEME_CLICK)
                 }
                 R.id.fab_activity_list -> {
@@ -523,18 +527,18 @@ class MainActivity : BaseActivity() {
                     Analytics.trackEvent(EventTag.FAB_QR_CODE_COLLECTION_CLICK)
                 }
                 R.id.fab_advanced -> showAdvancedCardSelectDialog(this, object : OnClickItemListener {
-                    override fun onClick(item: Int) {
+                    override fun onClick(view: View, item: Int) {
                         when (item) {
                             AdvancedCardSelectDialogFragment.ITEM_ADD_IMAGE -> {
-                                viewModel.openImageEditor(this@MainActivity, true)
+                                viewModel.openImageEditor(this@MainActivity, view)
                                 Analytics.trackEvent(EventTag.FAB_IMAGE_CLICK)
                             }
                             AdvancedCardSelectDialogFragment.ITEM_ADD_SHELL -> {
-                                viewModel.openShellEditor(this@MainActivity, true)
+                                viewModel.openShellEditor(this@MainActivity, view)
                                 Analytics.trackEvent(EventTag.FAB_SHELL_CLICK)
                             }
                             AdvancedCardSelectDialogFragment.ITEM_ADD_SWITCH_SHELL -> {
-                                viewModel.openSwitchShellEditor(this@MainActivity, true)
+                                viewModel.openSwitchShellEditor(this@MainActivity, view)
                                 Analytics.trackEvent(EventTag.FAB_SWITCH_SHELL_CLICK)
                             }
                         }
@@ -572,7 +576,7 @@ class MainActivity : BaseActivity() {
             }
         } else if (action == Intent.ACTION_SEND) {
             val sharing = intent.getStringExtra(Intent.EXTRA_TEXT)
-            viewModel.setUpUrlScheme(this, mBinding.fab, TextUtils.parseUrlFromSharingText(sharing))
+            viewModel.setUpUrlScheme(this, mBinding.fab.mainFab, TextUtils.parseUrlFromSharingText(sharing))
         }
     }
 
@@ -584,7 +588,7 @@ class MainActivity : BaseActivity() {
 
             if (param1 != null && param2 != null && param3 != null) {
                 if (param2.isEmpty() && param3.isEmpty()) {
-                    viewModel.setUpUrlScheme(this, mBinding.fab, param1)
+                    viewModel.setUpUrlScheme(this, mBinding.fab.mainFab, param1)
                 } else {
                     val appName: String = AppUtils.getAppName(param1)
                     var exported = 0
@@ -600,12 +604,11 @@ class MainActivity : BaseActivity() {
                         this.param3 = param3
                         this.type = AnywhereType.ACTIVITY + exported
                     }
-                    val editor: Editor<*> = AnywhereEditor(this)
-                            .item(ae)
-                            .isEditorMode(false)
-                            .isShortcut(false)
-                            .build()
-                    editor.show()
+                    startActivity(Intent(this, EditorActivity::class.java).apply {
+                        putExtra(EXTRA_ENTITY, ae)
+                        putExtra(EXTRA_EDIT_MODE, false)
+                        putExtra(EXTRA_COLOR, ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
+                    })
                 }
             }
         } else if (uri.host == URLManager.CARD_SHARING_HOST) {
@@ -613,20 +616,12 @@ class MainActivity : BaseActivity() {
                 if (uri.toString().isNotEmpty()) {
                     val encrypted = it.substring(1)
                     val decrypted = decrypt(encrypted)
-                    val ae = Gson().fromJson(decrypted, AnywhereEntity::class.java)
-                    val editor: Editor<*> = when (ae.anywhereType) {
-                        AnywhereType.URL_SCHEME -> SchemeEditor(this)
-                        AnywhereType.ACTIVITY -> AnywhereEditor(this)
-                        AnywhereType.QR_CODE -> QRCodeEditor(this)
-                        AnywhereType.SHELL -> ShellEditor(this)
-                        AnywhereType.SWITCH_SHELL -> SwitchShellEditor(this)
-                        else -> AnywhereEditor(this)
-                    }
-                    editor.item(ae)
-                            .isEditorMode(false)
-                            .isShortcut(false)
-                            .build()
-                            .show()
+
+                    startActivity(Intent(this, EditorActivity::class.java).apply {
+                        putExtra(EXTRA_ENTITY, Gson().fromJson(decrypted, AnywhereEntity::class.java))
+                        putExtra(EXTRA_EDIT_MODE, false)
+                        putExtra(EXTRA_COLOR, ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
+                    })
                 }
             }
         }

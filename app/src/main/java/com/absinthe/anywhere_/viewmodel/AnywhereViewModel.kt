@@ -32,7 +32,6 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.checkShizukuOnWorking
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.isGrantShizukuPermission
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
-import com.absinthe.anywhere_.view.editor.*
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.chad.library.adapter.base.entity.node.BaseNode
@@ -104,46 +103,57 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         }, options.toBundle())
     }
 
-    fun openImageEditor(context: Context, isDismissParent: Boolean) {
+    fun openImageEditor(context: Context, view: View) {
         val ae = AnywhereEntity.Builder().apply {
             appName = "New Image"
             type = AnywhereType.IMAGE
         }
-        val editor: Editor<*> = ImageEditor(context)
-                .item(ae)
-                .isEditorMode(false)
-                .isShortcut(false)
-                .setDismissParent(isDismissParent)
-                .build()
-        editor.show()
+
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+                context as BaseActivity,
+                view,
+                context.getString(R.string.trans_item_container)
+        )
+        context.startActivity(Intent(context, EditorActivity::class.java).apply {
+            putExtra(EXTRA_ENTITY, ae)
+            putExtra(EXTRA_EDIT_MODE, false)
+            putExtra(EXTRA_COLOR, ContextCompat.getColor(context, R.color.colorPrimary))
+        }, options.toBundle())
     }
 
-    fun openShellEditor(context: Context, isDismissParent: Boolean) {
+    fun openShellEditor(context: Context, view: View) {
         val ae = AnywhereEntity.Builder().apply {
             appName = "New Shell"
             type = AnywhereType.SHELL
         }
-        val editor: Editor<*> = ShellEditor(context)
-                .item(ae)
-                .isEditorMode(false)
-                .isShortcut(false)
-                .setDismissParent(isDismissParent)
-                .build()
-        editor.show()
+
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+                context as BaseActivity,
+                view,
+                context.getString(R.string.trans_item_container)
+        )
+        context.startActivity(Intent(context, EditorActivity::class.java).apply {
+            putExtra(EXTRA_ENTITY, ae)
+            putExtra(EXTRA_EDIT_MODE, false)
+            putExtra(EXTRA_COLOR, ContextCompat.getColor(context, R.color.colorPrimary))
+        }, options.toBundle())
     }
 
-    fun openSwitchShellEditor(context: Context, isDismissParent: Boolean) {
+    fun openSwitchShellEditor(context: Context, view: View) {
         val ae = AnywhereEntity.Builder().apply {
             appName = "New Switch Shell"
             type = AnywhereType.SWITCH_SHELL
         }
-        val editor: Editor<*> = SwitchShellEditor(context)
-                .item(ae)
-                .isEditorMode(false)
-                .isShortcut(false)
-                .setDismissParent(isDismissParent)
-                .build()
-        editor.show()
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+                context as BaseActivity,
+                view,
+                context.getString(R.string.trans_item_container)
+        )
+        context.startActivity(Intent(context, EditorActivity::class.java).apply {
+            putExtra(EXTRA_ENTITY, ae)
+            putExtra(EXTRA_EDIT_MODE, false)
+            putExtra(EXTRA_COLOR, ContextCompat.getColor(context, R.color.colorPrimary))
+        }, options.toBundle())
     }
 
     fun startCollector(activity: Activity, listener: OnStartCollectorListener) {

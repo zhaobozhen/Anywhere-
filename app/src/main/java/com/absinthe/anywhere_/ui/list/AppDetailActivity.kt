@@ -4,12 +4,14 @@ import android.animation.LayoutTransition
 import android.app.SearchManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -22,9 +24,12 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
+import com.absinthe.anywhere_.ui.editor.EXTRA_COLOR
+import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
+import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
+import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.StatusBarUtil
-import com.absinthe.anywhere_.view.editor.AnywhereEditor
 import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -81,13 +86,11 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 param2 = item.className.removePrefix(item.packageName)
                 type = AnywhereType.ACTIVITY + exported
             }
-
-            val editor = AnywhereEditor(this)
-                    .item(ae)
-                    .isEditorMode(false)
-                    .isShortcut(false)
-                    .build()
-            editor.show()
+            startActivity(Intent(this, EditorActivity::class.java).apply {
+                putExtra(EXTRA_ENTITY, ae)
+                putExtra(EXTRA_EDIT_MODE, false)
+                putExtra(EXTRA_COLOR, ContextCompat.getColor(this@AppDetailActivity, R.color.colorPrimary))
+            })
         }
         mBinding.srlAppDetail.apply {
             setProgressBackgroundColorSchemeResource(R.color.colorPrimary)

@@ -25,8 +25,7 @@ import com.absinthe.anywhere_.databinding.ActivityEditorBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.OverlayService
-import com.absinthe.anywhere_.ui.editor.impl.AnywhereEditorFragment
-import com.absinthe.anywhere_.ui.editor.impl.SchemeEditorFragment
+import com.absinthe.anywhere_.ui.editor.impl.*
 import com.absinthe.anywhere_.utils.AppUtils.atLeastNMR1
 import com.absinthe.anywhere_.utils.AppUtils.atLeastO
 import com.absinthe.anywhere_.utils.AppUtils.atLeastR
@@ -79,8 +78,12 @@ class EditorActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         fragment = when (entity!!.anywhereType) {
-            AnywhereType.URL_SCHEME -> SchemeEditorFragment.newInstance(entity!!, isEditMode)
-            else -> AnywhereEditorFragment.newInstance(entity!!, isEditMode)
+            AnywhereType.URL_SCHEME -> SchemeEditorFragment(entity!!, isEditMode)
+            AnywhereType.ACTIVITY -> AnywhereEditorFragment(entity!!, isEditMode)
+            AnywhereType.QR_CODE -> QRCodeEditorFragment(entity!!, isEditMode)
+            AnywhereType.IMAGE -> ImageEditorFragment(entity!!, isEditMode)
+            AnywhereType.SHELL -> ShellEditorFragment(entity!!, isEditMode)
+            else -> AnywhereEditorFragment(entity!!, isEditMode)
         }
         supportFragmentManager
                 .beginTransaction()
@@ -193,6 +196,7 @@ class EditorActivity : BaseActivity() {
                                     iconUri = uri.toString()
                                 }
                                 AnywhereApplication.sRepository.update(ae)
+                                onBackPressed()
                             }
 
                         })
@@ -213,6 +217,7 @@ class EditorActivity : BaseActivity() {
                             iconUri = ""
                         }
                         AnywhereApplication.sRepository.update(ae)
+                        onBackPressed()
                     }
                 }
                 bottomDrawerBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -234,6 +239,7 @@ class EditorActivity : BaseActivity() {
 
             menu.findItem(R.id.add_home_shortcuts)?.isVisible = atLeastO()
             menu.findItem(R.id.restore_icon)?.isVisible = entity!!.iconUri.isNotEmpty()
+            menu.findItem(R.id.share_card)?.isVisible = entity!!.anywhereType != AnywhereType.IMAGE
 
             invalidate()
         }

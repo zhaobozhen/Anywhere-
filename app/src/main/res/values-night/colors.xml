@@ -14,6 +14,7 @@
     <color name="widgetSecondaryColor">#FF343434</color>
     <color name="widgetThirdlyColor">#FF565656</color>
     <color name="aboutHeader">#FF121212</color>
+    <color name="cardBorder">#FF888888</color>
 
     <!--  Shell  -->
     <color name="shellBackground">#FFECECEC</color>

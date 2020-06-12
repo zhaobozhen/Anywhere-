@@ -27,6 +27,7 @@
     <color name="widgetSecondaryColor">#FFDDDDDD</color>
     <color name="widgetThirdlyColor">#FFBBBBBB</color>
     <color name="aboutHeader">#FF8BC34A</color>
+    <color name="cardBorder">#FFDDDDDD</color>
 
     <!--  Fab  -->
     <color name="fabBackgroundColor">#FF03A9F4</color>

@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.AdvancedCardSelectDialogBuilder
@@ -26,18 +27,18 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private fun initView() {
         mBuilder.tvAddImage.setOnClickListener {
-            mListener?.onClick(ITEM_ADD_IMAGE)
+            mListener?.onClick(it, ITEM_ADD_IMAGE)
         }
         mBuilder.tvAddShell.setOnClickListener {
-            mListener?.onClick(ITEM_ADD_SHELL)
+            mListener?.onClick(it, ITEM_ADD_SHELL)
         }
         mBuilder.tvAddSwitchShell.setOnClickListener {
-            mListener?.onClick(ITEM_ADD_SWITCH_SHELL)
+            mListener?.onClick(it, ITEM_ADD_SWITCH_SHELL)
         }
     }
 
     interface OnClickItemListener {
-        fun onClick(item: Int)
+        fun onClick(view: View, item: Int)
     }
 
     companion object {
