@@ -154,6 +154,8 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             } catch (e: ActivityNotFoundException) {
                 e.printStackTrace()
             }
+        } else if (menuItem.itemId == android.R.id.home) {
+            finish()
         }
         return super.onOptionsItemSelected(menuItem)
     }

@@ -243,7 +243,7 @@ class MainActivity : BaseActivity() {
             mBinding.drawer.closeDrawer(GravityCompat.START)
         } else {
             backupIfNeeded()
-            super.onBackPressed()
+            finish()
         }
     }
 

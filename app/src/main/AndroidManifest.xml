@@ -82,12 +82,10 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
-            android:launchMode="singleTask"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_title"
-            android:parentActivityName=".ui.settings.SettingsActivity"
             android:theme="@style/AppTheme.About" />
         <activity
             android:name=".ui.shortcuts.ShortcutsActivity"
@@ -112,13 +110,11 @@
         </activity>
         <activity
             android:name=".ui.backup.BackupActivity"
-            android:label="@string/settings_backup"
-            android:parentActivityName=".ui.settings.SettingsActivity" />
+            android:label="@string/settings_backup" />
         <activity
             android:name=".ui.list.AppListActivity"
             android:label="@string/app_list_title"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -128,36 +124,29 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".ui.list.AppDetailActivity"
-            android:parentActivityName=".ui.list.AppListActivity" />
+            android:name=".ui.list.AppDetailActivity" />
         <activity
             android:name=".ui.settings.TileSettingsActivity"
-            android:label="@string/settings_tiles"
-            android:parentActivityName=".ui.settings.SettingsActivity">
+            android:label="@string/settings_tiles">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.qrcode.QRCodeCollectionActivity"
-            android:label="@string/btn_qr_code_collection"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:label="@string/btn_qr_code_collection" />
         <activity
             android:name=".ui.settings.LabActivity"
-            android:label="@string/settings_lab"
-            android:parentActivityName=".ui.settings.SettingsActivity" />
+            android:label="@string/settings_lab" />
         <activity
             android:name=".ui.settings.DefrostActivity"
-            android:label="@string/title_activity_defrost"
-            android:parentActivityName=".ui.settings.SettingsActivity" />
+            android:label="@string/title_activity_defrost" />
         <activity
             android:name=".ui.gift.GiftActivity"
-            android:label="@string/settings_gift"
-            android:parentActivityName=".ui.settings.SettingsActivity" />
+            android:label="@string/settings_gift" />
         <activity
             android:name=".ui.settings.BackgroundActivity"
-            android:label="@string/settings_change_background"
-            android:parentActivityName=".ui.settings.SettingsActivity" />
+            android:label="@string/settings_change_background" />
         <activity
             android:name=".ui.settings.LogcatActivity"
             android:label="@string/logcat" />
