@@ -19,7 +19,6 @@
         android:layout_gravity="bottom"
         android:fitsSystemWindows="true"
         app:fabAlignmentMode="end"
-        app:fabAnimationMode="scale"
         app:navigationIcon="@drawable/ic_menu" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

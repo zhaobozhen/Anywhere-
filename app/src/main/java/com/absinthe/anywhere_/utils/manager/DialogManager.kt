@@ -99,13 +99,13 @@ object DialogManager {
                 .show()
     }
 
-    fun showDeleteAnywhereDialog(context: Context, ae: AnywhereEntity) {
-        val builder = AnywhereDialogBuilder(context)
+    fun showDeleteAnywhereDialog(activity: AppCompatActivity, ae: AnywhereEntity) {
+        val builder = AnywhereDialogBuilder(activity)
         builder.setTitle(R.string.dialog_delete_title)
-                .setMessage(Html.fromHtml(String.format(context.getString(R.string.dialog_delete_message), "<b>" + ae.appName + "</b>")))
+                .setMessage(Html.fromHtml(String.format(activity.getString(R.string.dialog_delete_message), "<b>" + ae.appName + "</b>")))
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
                     AnywhereApplication.sRepository.delete(ae)
-                    builder.setDismissParent(true)
+                    activity.onBackPressed()
                 }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show()
@@ -133,14 +133,11 @@ object DialogManager {
 
     @JvmStatic
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-    fun showRemoveShortcutDialog(context: Context, ae: AnywhereEntity) {
+    fun showRemoveShortcutDialog(context: Context, ae: AnywhereEntity, listener: DialogInterface.OnClickListener? = null ) {
         val builder = AnywhereDialogBuilder(context)
         builder.setTitle(R.string.dialog_remove_shortcut_title)
                 .setMessage(Html.fromHtml(String.format(context.getString(R.string.dialog_remove_shortcut_message), "<b>" + ae.appName + "</b>")))
-                .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
-                    ShortcutsUtils.removeShortcut(ae)
-                    builder.setDismissParent(true)
-                }
+                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
         builder.show()
     }
@@ -159,6 +156,13 @@ object DialogManager {
                 .setMessage(R.string.dialog_message_perm_not_ever)
                 .setPositiveButton(R.string.dialog_delete_positive_button, listener)
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .show()
+    }
+
+    fun showShortcutCommunityTipsDialog(activity: Activity, listener: DialogInterface.OnClickListener) {
+        AnywhereDialogBuilder(activity)
+                .setMessage("Todo") //Todo
+                .setPositiveButton(android.R.string.ok, listener)
                 .show()
     }
 
@@ -209,18 +213,16 @@ object DialogManager {
 
     @JvmStatic
     fun showPageListDialog(context: Context, ae: AnywhereEntity) {
-        val items: MutableList<String> = ArrayList()
+        val items = mutableListOf<String>()
 
-        AnywhereApplication.sRepository.allPageEntities.value?.let {
-            for (pe in it) {
-                items.add(pe.title)
-            }
+        AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
+            list.iterator().forEach { items.add(it.title) }
 
             AnywhereDialogBuilder(context).apply {
+                setTitle(R.string.menu_move_to_page)
                 setItems(items.toTypedArray()) { _, which ->
-                    ae.category = it[which].title
+                    ae.category = list[which].title
                     AnywhereApplication.sRepository.update(ae)
-                    setDismissParent(true)
                 }
                 show()
             }

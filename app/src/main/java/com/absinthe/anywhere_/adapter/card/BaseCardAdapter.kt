@@ -25,10 +25,11 @@ import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
-import com.absinthe.anywhere_.ui.main.CategoryCardFragment
 import com.absinthe.anywhere_.ui.editor.EXTRA_COLOR
+import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
+import com.absinthe.anywhere_.ui.main.CategoryCardFragment
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
@@ -37,7 +38,6 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
-import com.absinthe.anywhere_.utils.manager.DialogManager.showDeleteAnywhereDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDynamicParamsDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showShellResultDialog
@@ -46,7 +46,6 @@ import com.absinthe.anywhere_.view.card.NormalItemView
 import com.absinthe.anywhere_.view.card.StreamItemView
 import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
 import com.absinthe.anywhere_.view.editor.*
-import com.absinthe.anywhere_.view.editor.Editor.OnEditorListener
 import com.bumptech.glide.Glide
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -236,6 +235,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                 )
                 context.startActivity(Intent(context, EditorActivity::class.java).apply {
                     putExtra(EXTRA_ENTITY, item)
+                    putExtra(EXTRA_EDIT_MODE, true)
                     putExtra(EXTRA_COLOR, if (item.color != 0) item.color else ContextCompat.getColor(context, R.color.colorPrimary))
                 }, options.toBundle())
             }
@@ -341,8 +341,6 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
     }
 
     private fun openEditor(item: AnywhereEntity, type: Int, isEditMode: Boolean) {
-        val listener = OnEditorListener { deleteAnywhereActivity(item) }
-
         when (type) {
             Editor.ANYWHERE -> mEditor = AnywhereEditor(context)
             Editor.URL_SCHEME -> mEditor = SchemeEditor(context)
@@ -357,14 +355,9 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                     .isEditorMode(isEditMode)
                     .isShortcut(item.shortcutType == AnywhereType.SHORTCUTS)
                     .isExported(item.exportedType == AnywhereType.EXPORTED)
-                    .setOnEditorListener(listener)
                     .build()
             it.show()
         }
-    }
-
-    private fun deleteAnywhereActivity(ae: AnywhereEntity) {
-        showDeleteAnywhereDialog(context, ae)
     }
 
     override fun onMove(fromPosition: Int, toPosition: Int) {

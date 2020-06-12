@@ -494,10 +494,11 @@ class MainActivity : BaseActivity() {
 
     private fun initFab() {
         build(this, mBinding.fab)
+        mBinding.fab.mainFab.transitionName = "item_container"
         mBinding.fab.setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
             when (actionItem.id) {
                 R.id.fab_url_scheme -> {
-                    viewModel.setUpUrlScheme(this)
+                    viewModel.setUpUrlScheme(this, mBinding.fab)
                     Analytics.trackEvent(EventTag.FAB_URL_SCHEME_CLICK)
                 }
                 R.id.fab_activity_list -> {
@@ -571,7 +572,7 @@ class MainActivity : BaseActivity() {
             }
         } else if (action == Intent.ACTION_SEND) {
             val sharing = intent.getStringExtra(Intent.EXTRA_TEXT)
-            viewModel.setUpUrlScheme(this, TextUtils.parseUrlFromSharingText(sharing))
+            viewModel.setUpUrlScheme(this, mBinding.fab, TextUtils.parseUrlFromSharingText(sharing))
         }
     }
 
@@ -583,7 +584,7 @@ class MainActivity : BaseActivity() {
 
             if (param1 != null && param2 != null && param3 != null) {
                 if (param2.isEmpty() && param3.isEmpty()) {
-                    viewModel.setUpUrlScheme(this, param1)
+                    viewModel.setUpUrlScheme(this, mBinding.fab, param1)
                 } else {
                     val appName: String = AppUtils.getAppName(param1)
                     var exported = 0

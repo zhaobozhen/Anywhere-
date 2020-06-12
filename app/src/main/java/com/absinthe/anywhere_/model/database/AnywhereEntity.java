@@ -287,6 +287,7 @@ public class AnywhereEntity implements Parcelable {
         dest.writeString(mCategory);
         dest.writeString(mTimeStamp);
         dest.writeInt(mColor);
+        dest.writeString(mIconUri);
     }
 
     public static final Parcelable.Creator<AnywhereEntity> CREATOR = new Parcelable.Creator<AnywhereEntity>() {

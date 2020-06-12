@@ -3,8 +3,8 @@
 
     <item
         android:id="@+id/add_shortcuts"
-        android:title="@string/dialog_add_shortcut_title"
-        android:icon="@drawable/ic_add_shortcut" />
+        android:title="@string/dialog_remove_shortcut_title"
+        android:icon="@drawable/ic_add_shortcut_tint" />
 
     <item
         android:id="@+id/add_home_shortcuts"

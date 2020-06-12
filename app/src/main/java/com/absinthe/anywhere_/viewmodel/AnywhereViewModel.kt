@@ -1,15 +1,19 @@
 package com.absinthe.anywhere_.viewmodel
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.page.PageNode
 import com.absinthe.anywhere_.adapter.page.PageTitleNode
@@ -19,6 +23,10 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
+import com.absinthe.anywhere_.ui.editor.EXTRA_COLOR
+import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
+import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
+import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.checkShizukuOnWorking
@@ -78,18 +86,22 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun setUpUrlScheme(context: Context?, url: String = "") {
+    fun setUpUrlScheme(context: Context, view: View, url: String = "") {
         val ae = AnywhereEntity.Builder().apply {
             appName = getApplication<Application>().getString(R.string.bsd_new_url_scheme_name)
             param1 = url
             type = AnywhereType.URL_SCHEME
         }
-        val editor: Editor<*> = SchemeEditor(context)
-                .item(ae)
-                .isEditorMode(false)
-                .isShortcut(false)
-                .build()
-        editor.show()
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+                context as BaseActivity,
+                view,
+                context.getString(R.string.trans_item_container)
+        )
+        context.startActivity(Intent(context, EditorActivity::class.java).apply {
+            putExtra(EXTRA_ENTITY, ae)
+            putExtra(EXTRA_EDIT_MODE, false)
+            putExtra(EXTRA_COLOR, ContextCompat.getColor(context, R.color.colorPrimary))
+        }, options.toBundle())
     }
 
     fun openImageEditor(context: Context, isDismissParent: Boolean) {
@@ -140,38 +152,56 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                 ToastUtil.makeText(R.string.toast_works_on_root_or_shizuku)
             }
             Const.WORKING_MODE_SHIZUKU -> {
-                if (AppUtils.atLeastR()) {
-                    ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
-                }
-                PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
-                    override fun onGranted() {
-                        if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
-                            listener.onStart()
-                        } else {
-                            requestShizukuPermission()
-                        }
+                if (PermissionUtils.isGrantedDrawOverlays()) {
+                    if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
+                        listener.onStart()
+                    } else {
+                        requestShizukuPermission()
                     }
+                } else {
+                    if (AppUtils.atLeastR()) {
+                        ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
+                    }
+                    PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
+                        override fun onGranted() {
+                            if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
+                                listener.onStart()
+                            } else {
+                                requestShizukuPermission()
+                            }
+                        }
 
-                    override fun onDenied() {}
-                })
+                        override fun onDenied() {}
+                    })
+                }
             }
             Const.WORKING_MODE_ROOT -> {
-                if (AppUtils.atLeastR()) {
-                    ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
-                }
-                PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
-                    override fun onGranted() {
-                        if (DeviceUtils.isDeviceRooted()) {
-                            listener.onStart()
-                        } else {
-                            Timber.d("ROOT permission denied.")
-                            ToastUtil.makeText(R.string.toast_root_permission_denied)
-                            AppUtils.acquireRootPerm(activity)
-                        }
+                if (PermissionUtils.isGrantedDrawOverlays()) {
+                    if (DeviceUtils.isDeviceRooted()) {
+                        listener.onStart()
+                    } else {
+                        Timber.d("ROOT permission denied.")
+                        ToastUtil.makeText(R.string.toast_root_permission_denied)
+                        AppUtils.acquireRootPerm(activity)
                     }
+                } else {
+                    if (AppUtils.atLeastR()) {
+                        ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
+                    }
+                    PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
+                        override fun onGranted() {
+                            if (DeviceUtils.isDeviceRooted()) {
+                                listener.onStart()
+                            } else {
+                                Timber.d("ROOT permission denied.")
+                                ToastUtil.makeText(R.string.toast_root_permission_denied)
+                                AppUtils.acquireRootPerm(activity)
+                            }
+                        }
 
-                    override fun onDenied() {}
-                })
+                        override fun onDenied() {}
+                    })
+                }
             }
         }
     }

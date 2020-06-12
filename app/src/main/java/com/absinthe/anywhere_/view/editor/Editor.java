@@ -169,7 +169,7 @@ public abstract class Editor<T extends Editor<?>> {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private void removeShortcut(Context context, AnywhereEntity ae) {
-        DialogManager.showRemoveShortcutDialog(context, ae);
+        DialogManager.showRemoveShortcutDialog(context, ae, null);
     }
 
     void setBottomSheetDialogImpl(Context context, @LayoutRes int layout) {
@@ -251,7 +251,7 @@ public abstract class Editor<T extends Editor<?>> {
                 }
 
                 if (this instanceof ImageEditor) {
-                    popup.getMenu().findItem(R.id.share_card).setVisible(false);
+//                    popup.getMenu().findItem(R.id.share_card).setVisible(false);
                 } else if (this instanceof SwitchShellEditor) {
                     popup.getMenu().findItem(R.id.add_shortcuts).setEnabled(false);
                     popup.getMenu().findItem(R.id.add_home_shortcuts).setEnabled(false);
@@ -288,12 +288,12 @@ public abstract class Editor<T extends Editor<?>> {
                         case R.id.move_to_page:
                             DialogManager.showPageListDialog(mContext, mItem);
                             break;
-                        case R.id.custom_color:
-                            DialogManager.showColorPickerDialog(mContext, mItem);
-                            break;
-                        case R.id.share_card:
-                            DialogManager.showCardSharingDialog((AppCompatActivity) mContext, TextUtils.genCardSharingUrl(mItem));
-                            break;
+//                        case R.id.custom_color:
+//                            DialogManager.showColorPickerDialog(mContext, mItem);
+//                            break;
+//                        case R.id.share_card:
+//                            DialogManager.showCardSharingDialog((AppCompatActivity) mContext, TextUtils.genCardSharingUrl(mItem));
+//                            break;
                         case R.id.custom_icon:
                             ((BaseActivity) mContext).setDocumentResultListener(uri -> {
                                 AnywhereEntity ae = new AnywhereEntity(mItem);
