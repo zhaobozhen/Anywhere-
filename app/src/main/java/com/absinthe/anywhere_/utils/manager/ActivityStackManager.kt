@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.utils.manager
 
 import android.app.Activity
-import android.content.Context
 import android.os.Process
 import com.absinthe.anywhere_.BaseActivity
 import timber.log.Timber
@@ -66,7 +65,7 @@ object ActivityStackManager {
      * @return Activity
      */
     fun getActivity(cls: Class<*>): BaseActivity? {
-        var returnActivity: BaseActivity? = null
+        var returnActivity: BaseActivity?
         for (activity in stack) {
             activity.get()?.let {
                 if (it.javaClass == cls) {
@@ -162,7 +161,7 @@ object ActivityStackManager {
     /**
      * Exit application
      */
-    fun appExit(context: Context?) {
+    fun appExit() {
         killAllActivity()
         Process.killProcess(Process.myPid())
     }

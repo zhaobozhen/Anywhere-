@@ -132,7 +132,6 @@ public abstract class Editor<T extends Editor<?>> {
     protected abstract void setRunButton();
 
     protected void initView() {
-        btnDone = container.findViewById(R.id.btn_edit_anywhere_done);
     }
 
     @SuppressWarnings("unchecked")
@@ -170,7 +169,7 @@ public abstract class Editor<T extends Editor<?>> {
     }
 
     void setBottomSheetDialogImpl(Context context, @LayoutRes int layout) {
-        int frameRes = R.layout.layout_editor_frame;
+        int frameRes = 0;
 
         container = (ViewGroup) View.inflate(context, frameRes, null);
 

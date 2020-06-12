@@ -116,10 +116,10 @@ class GiftActivity : BaseActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
-        if (menuItem.itemId == R.id.toolbar_gift) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.toolbar_gift) {
             DialogManager.showGiftPriceDialog(this)
         }
-        return super.onOptionsItemSelected(menuItem)
+        return super.onOptionsItemSelected(item)
     }
 }
