@@ -81,6 +81,7 @@ object StorageUtils {
                 ae.iconUri = ""
             }
             val backupBean = BackupBean(anywhereList, pageList)
+            Timber.d(Gson().toJson(backupBean))
             Gson().toJson(backupBean)
         }
     }
@@ -136,11 +137,11 @@ object StorageUtils {
         }
     }
 
-    @JvmStatic
     @Throws(IOException::class)
     fun getTokenFromFile(context: Context): String {
         val fileName = "Token"
         val file = File(context.filesDir, fileName)
+
         if (!file.exists()) {
             return ""
         }

@@ -16,9 +16,8 @@ object IzukoHelper {
     val isHitagi: Boolean
         get() = isHitagi(Settings.sToken)
 
-    @JvmStatic
     external fun checkSignature()
 
-    external fun isHitagi(token: String?): Boolean
+    external fun isHitagi(token: String): Boolean
 
 }

@@ -27,7 +27,7 @@ object CipherUtils {
      * @param data Source string
      * @return Encrypted string
      */
-    @JvmStatic
+    @JvmStatic //For JNI
     fun encrypt(data: String): String? {
         return if (TextUtils.isEmpty(data)) {
             null
@@ -49,7 +49,7 @@ object CipherUtils {
      * @param data Encrypted string
      * @return Decrypted string
      */
-    @JvmStatic
+    @JvmStatic //For JNI
     fun decrypt(data: String): String? {
         return try {
             val encrypted = Base64.decode(data.toByteArray(), Base64.DEFAULT)
@@ -57,6 +57,7 @@ object CipherUtils {
             cipher.init(Cipher.DECRYPT_MODE, generateKey(), IvParameterSpec(ByteArray(cipher.blockSize)))
 
             val original = cipher.doFinal(encrypted)
+            Timber.d(original.toString())
             String(original, StandardCharsets.UTF_8)
         } catch (e: Exception) {
             e.printStackTrace()

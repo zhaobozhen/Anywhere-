@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -125,7 +124,7 @@ class EditorActivity : BaseActivity() {
 
         binding.bar.apply {
             if (!isEditMode) {
-                navigationIcon = ColorDrawable(Color.TRANSPARENT)
+                navigationIcon?.alpha = 64
                 setNavigationOnClickListener(null)
             } else {
                 setNavigationOnClickListener { bottomDrawerBehavior.setState(BottomSheetBehavior.STATE_EXPANDED) }

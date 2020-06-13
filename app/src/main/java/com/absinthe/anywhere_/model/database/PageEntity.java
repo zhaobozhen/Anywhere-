@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.absinthe.anywhere_.constants.AnywhereType;
+import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "page_table")
 public class PageEntity {
@@ -13,28 +14,35 @@ public class PageEntity {
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
+    @SerializedName("id")
     private String mId;
 
     @NonNull
     @ColumnInfo(name = "title")
+    @SerializedName("title")
     private String mTitle;
 
     @NonNull
     @ColumnInfo(name = "priority")
+    @SerializedName("priority")
     private Integer mPriority;
 
     @NonNull
     @ColumnInfo(name = "type")
+    @SerializedName("type")
     private Integer mType;
 
     @NonNull
     @ColumnInfo(name = "time_stamp")
+    @SerializedName("time_stamp")
     private String mTimeStamp;
 
     @ColumnInfo(name = "extra")
+    @SerializedName("extra")
     private String mExtra;
 
     @ColumnInfo(name = "backgroundUri")
+    @SerializedName("backgroundUri")
     private String mBackgroundUri;
 
     public static PageEntity Builder() {
