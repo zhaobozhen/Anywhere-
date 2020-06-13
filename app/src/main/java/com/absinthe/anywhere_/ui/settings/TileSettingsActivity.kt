@@ -17,7 +17,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.SPUtils.getString
 import com.absinthe.anywhere_.utils.SPUtils.putString
-import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -80,7 +80,7 @@ open class TileSettingsActivity : BaseActivity() {
                             }
                             putString(this@TileSettingsActivity, tile, mList[which].id)
                             putString(this@TileSettingsActivity, tileLabel, mList[which].appName)
-                            putString(this@TileSettingsActivity, tileCmd, TextUtils.getItemCommand(mList[which]))
+                            putString(this@TileSettingsActivity, tileCmd, AppTextUtils.getItemCommand(mList[which]))
                             dismiss()
                         }
                     })

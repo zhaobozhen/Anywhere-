@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.adapter.gift.LeftChatNode
 import com.absinthe.anywhere_.adapter.manager.SmoothScrollLayoutManager
 import com.absinthe.anywhere_.constants.GiftChatString
 import com.absinthe.anywhere_.databinding.ActivityGiftBinding
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.viewmodel.GiftViewModel
@@ -69,7 +70,7 @@ class GiftActivity : BaseActivity() {
                 setOnClickListener {
                     val content = mBinding.etChat.text.toString()
                     if (!TextUtils.isEmpty(content)) {
-                        if (com.absinthe.anywhere_.utils.TextUtils.isGiftCode(content)) {
+                        if (AppTextUtils.isGiftCode(content)) {
                             mViewModel.getCode(content)
                         } else {
                             mViewModel.responseChat()

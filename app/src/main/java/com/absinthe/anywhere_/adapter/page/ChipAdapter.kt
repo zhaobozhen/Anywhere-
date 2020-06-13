@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.CommandUtils
-import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
@@ -25,7 +25,7 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
     init {
         AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
             for (item in it) {
-                if (TextUtils.isEmpty(item.category) && category == AnywhereType.DEFAULT_CATEGORY
+                if (item.category.isNullOrEmpty() && category == AnywhereType.DEFAULT_CATEGORY
                         || item.category == category) {
                     mList.add(item)
                 }
@@ -57,7 +57,7 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
                     }
                 }
                 else -> {
-                    CommandUtils.execCmd(TextUtils.getItemCommand(ae))
+                    CommandUtils.execCmd(AppTextUtils.getItemCommand(ae))
                 }
             }
         }

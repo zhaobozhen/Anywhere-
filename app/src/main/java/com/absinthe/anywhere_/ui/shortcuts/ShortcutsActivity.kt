@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.ui.shortcuts
 import android.app.Activity
 import android.content.*
 import android.os.Bundle
-import android.os.FileUriExposedException
 import android.os.IBinder
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
@@ -16,15 +15,11 @@ import com.absinthe.anywhere_.constants.EventTag
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.CollectorService
-import com.absinthe.anywhere_.utils.AppUtils
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
-import com.absinthe.anywhere_.utils.TextUtils
-import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.Opener
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
-import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
@@ -125,34 +120,34 @@ class ShortcutsActivity : BaseActivity() {
                             for (ae in entities) {
                                 arrayAdapter.add(ae.appName)
                             }
-                        }
 
-                        AnywhereDialogBuilder(this)
-                                .setAdapter(arrayAdapter) { _: DialogInterface?, i: Int ->
-                                    val shortcutIntent = Intent(this@ShortcutsActivity, ShortcutsActivity::class.java).apply {
-                                        val cmd = TextUtils.getItemCommand(anywhereEntities?.get(i))
+                            AnywhereDialogBuilder(this)
+                                    .setAdapter(arrayAdapter) { _: DialogInterface?, i: Int ->
+                                        val shortcutIntent = Intent(this@ShortcutsActivity, ShortcutsActivity::class.java).apply {
+                                            val cmd = AppTextUtils.getItemCommand(entities[i])
 
-                                        action = if (cmd.startsWith(AnywhereType.QRCODE_PREFIX)) {
-                                            ACTION_START_QR_CODE
-                                        } else {
-                                            ACTION_START_COMMAND
+                                            action = if (cmd.startsWith(AnywhereType.QRCODE_PREFIX)) {
+                                                ACTION_START_QR_CODE
+                                            } else {
+                                                ACTION_START_COMMAND
+                                            }
+
+                                            putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, cmd)
                                         }
 
-                                        putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, cmd)
+                                        val intent = Intent().apply {
+                                            putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+                                            putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_open))
+                                            putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                                    Intent.ShortcutIconResource.fromContext(
+                                                            this@ShortcutsActivity, R.drawable.ic_shortcut_start_collector))
+                                        }
+                                        setResult(Activity.RESULT_OK, intent)
+                                        finish()
                                     }
-
-                                    val intent = Intent().apply {
-                                        putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-                                        putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_open))
-                                        putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                Intent.ShortcutIconResource.fromContext(
-                                                        this@ShortcutsActivity, R.drawable.ic_shortcut_start_collector))
-                                    }
-                                    setResult(Activity.RESULT_OK, intent)
-                                    finish()
-                                }
-                                .setOnCancelListener { finish() }
-                                .show()
+                                    .setOnCancelListener { finish() }
+                                    .show()
+                        }
                     })
                 }
                 ACTION_START_IMAGE -> {
@@ -166,48 +161,7 @@ class ShortcutsActivity : BaseActivity() {
                 }
                 Intent.ACTION_VIEW -> {
                     intent.data?.let { uri ->
-                        if (uri.host == URLManager.OPEN_HOST) {
-                            val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1) ?: ""
-                            val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2) ?: ""
-                            val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3) ?: ""
-                            val type = uri.getQueryParameter(Const.INTENT_EXTRA_TYPE) ?: ""
-
-                            when (type.toInt()) {
-                                AnywhereType.URL_SCHEME -> {
-                                    try {
-                                        URLSchemeHandler.parse(param1, this)
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-
-                                        if (e is ActivityNotFoundException) {
-                                            ToastUtil.makeText(R.string.toast_no_react_url)
-                                        } else if (AppUtils.atLeastN()) {
-                                            if (e is FileUriExposedException) {
-                                                ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                                            }
-                                        }
-                                    }
-                                }
-                                AnywhereType.ACTIVITY -> {
-                                    val ae = AnywhereEntity.Builder().apply {
-                                        this.param1 = param1
-                                        this.param2 = param2
-                                        this.param3 = param3
-                                        this.type = AnywhereType.ACTIVITY
-                                    }
-
-                                    Opener.with(this).load(ae).open()
-                                }
-                                AnywhereType.SHELL -> {
-                                    val ae = AnywhereEntity.Builder().apply {
-                                        this.param1 = param1
-                                        this.type = AnywhereType.SHELL
-                                    }
-
-                                    Opener.with(this).load(ae).open()
-                                }
-                            }
-                        }
+                        AppTextUtils.processUri(this, uri)
                     }
                     finish()
                 }

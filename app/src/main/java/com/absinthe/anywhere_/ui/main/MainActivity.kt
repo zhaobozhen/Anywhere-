@@ -14,7 +14,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -44,7 +43,6 @@ import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.transformer.CategoryCardTransformer
 import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment
 import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment.OnClickItemListener
-import com.absinthe.anywhere_.ui.editor.EXTRA_COLOR
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
@@ -54,7 +52,7 @@ import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ListUtils
-import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
@@ -576,21 +574,23 @@ class MainActivity : BaseActivity() {
             }
         } else if (action == Intent.ACTION_SEND) {
             val sharing = intent.getStringExtra(Intent.EXTRA_TEXT)
-            viewModel.setUpUrlScheme(this, mBinding.fab.mainFab, TextUtils.parseUrlFromSharingText(sharing))
+            viewModel.setUpUrlScheme(this, mBinding.fab.mainFab, AppTextUtils.parseUrlFromSharingText(sharing))
         }
     }
 
     private fun processUri(uri: Uri) {
         if (uri.host == URLManager.URL_HOST) {
-            val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1)
-            val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2)
-            val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3)
+            val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1) ?: ""
+            val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2) ?: ""
+            val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3) ?: ""
+            val type = uri.getQueryParameter(Const.INTENT_EXTRA_TYPE) ?: return
 
-            if (param1 != null && param2 != null && param3 != null) {
-                if (param2.isEmpty() && param3.isEmpty()) {
+            when (type.toInt()) {
+                AnywhereType.URL_SCHEME -> {
                     viewModel.setUpUrlScheme(this, mBinding.fab.mainFab, param1)
-                } else {
-                    val appName: String = AppUtils.getAppName(param1)
+                }
+                AnywhereType.ACTIVITY -> {
+                    val appName = AppUtils.getAppName(param1) ?: ""
                     var exported = 0
 
                     if (com.absinthe.anywhere_.utils.AppUtils.isActivityExported(this, ComponentName(param1,
@@ -607,7 +607,19 @@ class MainActivity : BaseActivity() {
                     startActivity(Intent(this, EditorActivity::class.java).apply {
                         putExtra(EXTRA_ENTITY, ae)
                         putExtra(EXTRA_EDIT_MODE, false)
-                        putExtra(EXTRA_COLOR, ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
+                    })
+                }
+                AnywhereType.SHELL -> {
+                    val ae = AnywhereEntity.Builder().apply {
+                        this.appName = "New Shell"
+                        this.param1 = param1
+                        this.param2 = param2
+                        this.param3 = param3
+                        this.type = AnywhereType.SHELL
+                    }
+                    startActivity(Intent(this, EditorActivity::class.java).apply {
+                        putExtra(EXTRA_ENTITY, ae)
+                        putExtra(EXTRA_EDIT_MODE, false)
                     })
                 }
             }
@@ -620,7 +632,6 @@ class MainActivity : BaseActivity() {
                     startActivity(Intent(this, EditorActivity::class.java).apply {
                         putExtra(EXTRA_ENTITY, Gson().fromJson(decrypted, AnywhereEntity::class.java))
                         putExtra(EXTRA_EDIT_MODE, false)
-                        putExtra(EXTRA_COLOR, ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
                     })
                 }
             }

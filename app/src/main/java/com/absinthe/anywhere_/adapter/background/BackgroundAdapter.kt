@@ -6,7 +6,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.PageEntity
-import com.absinthe.anywhere_.utils.TextUtils
 import com.absinthe.anywhere_.utils.UiUtils
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -45,7 +44,7 @@ class BackgroundAdapter : BaseQuickAdapter<PageEntity?, BaseViewHolder>(R.layout
             val ivBack: ImageView = holder.getView(R.id.iv_background)
             var uri = it.backgroundUri
 
-            if (TextUtils.isEmpty(uri)) {
+            if (uri.isNullOrEmpty()) {
                 uri = GlobalValues.backgroundUri
             }
 

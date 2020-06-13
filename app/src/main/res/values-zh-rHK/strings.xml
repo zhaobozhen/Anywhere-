@@ -339,4 +339,7 @@
     <string name="setup_title">設定</string>
     <string name="settings_card_layout">卡片佈局</string>
     <string name="settings_card_layout_summary">自由定義卡片佈局</string>
+    <string name="notification_backup_title">正在備份卡片</string>
+    <string name="notification_backup_content">這可能需要一些時間</string>
+    <string name="dialog_shortcut_community_tips">捷徑社區是一項第三方 URL Scheme 提供服務，與 Anywhere- 沒有任何的關係。</string>
 </resources>

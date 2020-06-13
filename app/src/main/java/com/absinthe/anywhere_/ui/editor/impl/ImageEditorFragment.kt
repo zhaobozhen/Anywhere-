@@ -21,7 +21,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
-import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButtonToggleGroup
@@ -76,7 +76,7 @@ class ImageEditorFragment(item: AnywhereEntity, isEditMode: Boolean) :BaseEditor
             }
             addTextChangedListener(object :TextWatcher{
                 override fun afterTextChanged(s: Editable) {
-                    if (TextUtils.isImageUrl(s.toString())) {
+                    if (AppTextUtils.isImageUrl(s.toString())) {
                         loadImage(s.toString())
                     }
                 }
@@ -105,6 +105,8 @@ class ImageEditorFragment(item: AnywhereEntity, isEditMode: Boolean) :BaseEditor
             param1 = binding.tietUrl.text.toString()
             description = binding.tietDescription.text.toString()
         }
+
+        if (ae == item) return true
 
         if (isEditMode) {
             if (ae.appName != item.appName || ae.param1 != item.param1) {

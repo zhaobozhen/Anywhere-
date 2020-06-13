@@ -24,7 +24,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.services.overlay.OverlayService;
 import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.ShortcutsUtils;
-import com.absinthe.anywhere_.utils.TextUtils;
+import com.absinthe.anywhere_.utils.AppTextUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
@@ -142,7 +142,7 @@ public abstract class Editor<T extends Editor<?>> {
     protected void setOverlayButton() {
         if (ibOverlay != null) {
             UiUtils.setVisibility(ibOverlay, isEditMode);
-            ibOverlay.setOnClickListener(v -> startOverlay(TextUtils.getItemCommand(mItem)));
+            ibOverlay.setOnClickListener(v -> startOverlay(AppTextUtils.getItemCommand(mItem)));
         }
     }
 

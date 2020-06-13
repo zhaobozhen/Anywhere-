@@ -58,6 +58,8 @@ class ShellEditorFragment(item: AnywhereEntity, isEditMode: Boolean) :BaseEditor
             param1 = binding.etShellContent.text.toString()
             description = binding.tietDescription.text.toString()
         }
+        
+        if (ae == item) return true
 
         if (isEditMode) {
             if (ae.appName != item.appName || ae.param1 != item.param1) {

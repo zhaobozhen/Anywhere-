@@ -16,7 +16,7 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.services.widget.AppRemoteViewsService
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
-import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.AppTextUtils
 
 class HomeWidgetProvider : AppWidgetProvider() {
     /**
@@ -77,7 +77,7 @@ class HomeWidgetProvider : AppWidgetProvider() {
                     newIntent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
                 } else {
                     newIntent.action = ShortcutsActivity.ACTION_START_FROM_WIDGET
-                    val cmd = TextUtils.getItemCommand(ae)
+                    val cmd = AppTextUtils.getItemCommand(ae)
                     newIntent.putExtra(Const.INTENT_EXTRA_WIDGET_COMMAND, cmd)
                 }
                 context.startActivity(newIntent)

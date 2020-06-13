@@ -15,6 +15,7 @@ import android.view.View
 import android.view.Window
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -30,7 +31,7 @@ import com.absinthe.anywhere_.utils.AppUtils.atLeastNMR1
 import com.absinthe.anywhere_.utils.AppUtils.atLeastO
 import com.absinthe.anywhere_.utils.AppUtils.atLeastR
 import com.absinthe.anywhere_.utils.ShortcutsUtils
-import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager
@@ -45,7 +46,6 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import jonathanfinerty.once.Once
 
-const val EXTRA_COLOR = "EXTRA_COLOR"
 const val EXTRA_ENTITY = "EXTRA_ENTITY"
 const val EXTRA_EDIT_MODE = "EXTRA_EDIT_MODE"
 
@@ -55,7 +55,6 @@ class EditorActivity : BaseActivity() {
     private lateinit var bottomDrawerBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var fragment: BaseEditorFragment
 
-    private val color by lazy { intent.getIntExtra(EXTRA_COLOR, 0) }
     private val entity by lazy { intent.getParcelableExtra(EXTRA_ENTITY) as AnywhereEntity? }
     private val isEditMode by lazy { intent.getBooleanExtra(EXTRA_EDIT_MODE, false) }
 
@@ -145,6 +144,11 @@ class EditorActivity : BaseActivity() {
         }
 
         binding.fab.apply {
+            val color = if (entity!!.color == 0) {
+                ContextCompat.getColor(context, R.color.colorPrimary)
+            } else {
+                entity!!.color
+            }
             backgroundTintList = ColorStateList.valueOf(color)
 
             imageTintList = if (UiUtils.isLightColor(color)) {
@@ -187,7 +191,7 @@ class EditorActivity : BaseActivity() {
                         DialogManager.showColorPickerDialog(this@EditorActivity, entity!!)
                     }
                     R.id.share_card -> {
-                        DialogManager.showCardSharingDialog(this@EditorActivity, TextUtils.genCardSharingUrl(entity!!))
+                        DialogManager.showCardSharingDialog(this@EditorActivity, AppTextUtils.genCardSharingUrl(entity!!))
                     }
                     R.id.custom_icon -> {
                         setDocumentResultListener(object : OnDocumentResultListener {
@@ -265,7 +269,7 @@ class EditorActivity : BaseActivity() {
 
     private fun startOverlayImpl() {
         startService(Intent(this, OverlayService::class.java).apply {
-            putExtra(OverlayService.COMMAND_STR, TextUtils.getItemCommand(entity!!))
+            putExtra(OverlayService.COMMAND_STR, AppTextUtils.getItemCommand(entity!!))
             putExtra(OverlayService.PKG_NAME, entity!!.packageName)
         })
         finish()

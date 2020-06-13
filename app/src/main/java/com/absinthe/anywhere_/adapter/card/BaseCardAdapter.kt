@@ -25,7 +25,6 @@ import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
-import com.absinthe.anywhere_.ui.editor.EXTRA_COLOR
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
@@ -224,7 +223,6 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                 context.startActivity(Intent(context, EditorActivity::class.java).apply {
                     putExtra(EXTRA_ENTITY, item)
                     putExtra(EXTRA_EDIT_MODE, true)
-                    putExtra(EXTRA_COLOR, if (item.color != 0) item.color else ContextCompat.getColor(context, R.color.colorPrimary))
                 }, options.toBundle())
                 v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             }

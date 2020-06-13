@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.text.TextUtils;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;

@@ -50,7 +50,7 @@ object ClipboardUtil {
                     return@label
                 }
                 val clipText = item.text
-                if (TextUtils.isEmpty(clipText)) f.invoke("") else f.invoke(clipText.toString())
+                if (clipText.isNullOrEmpty()) f.invoke("") else f.invoke(clipText.toString())
             } catch (e: SecurityException) {
                 e.printStackTrace()
             }
@@ -80,7 +80,7 @@ object ClipboardUtil {
         }
         val item = clipData.getItemAt(0) ?: return ""
         val clipText = item.text
-        return if (TextUtils.isEmpty(clipText)) "" else clipText.toString()
+        return clipText.toString()
     }
 
     interface Function {

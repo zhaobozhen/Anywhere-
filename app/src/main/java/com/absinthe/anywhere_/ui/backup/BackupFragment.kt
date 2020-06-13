@@ -2,8 +2,8 @@ package com.absinthe.anywhere_.ui.backup
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Html
 import android.view.View
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -73,7 +73,7 @@ class BackupFragment : PreferenceFragmentCompat(),
             Const.PREF_BACKUP -> {
                 if (isExternalStorageWritable) {
                     createFile(requireActivity() as BaseActivity, "*/*",
-                            "Anywhere-Backups-" + TextUtils.getCurrFormatDate() + ".awbackups")
+                            "Anywhere-Backups-" + AppTextUtils.currentFormatDate + ".awbackups")
                 } else {
                     ToastUtil.makeText(R.string.toast_check_device_storage_state)
                 }
@@ -137,7 +137,7 @@ class BackupFragment : PreferenceFragmentCompat(),
     }
 
     private fun getBackupTip(): CharSequence {
-        return Html.fromHtml(String.format(getString(R.string.settings_backup_tip), BACKUP_TIP_VERSION, BACKUP_TIP_VERSION))
+        return HtmlCompat.fromHtml(String.format(getString(R.string.settings_backup_tip), BACKUP_TIP_VERSION, BACKUP_TIP_VERSION), HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     private fun getPWString(text: String): String {

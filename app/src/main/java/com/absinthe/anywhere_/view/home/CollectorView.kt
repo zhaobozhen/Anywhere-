@@ -14,7 +14,7 @@ import com.absinthe.anywhere_.model.manager.CollectorWindowManager
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CommandUtils
-import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.viewbuilder.entity.CollectorBuilder
 import timber.log.Timber
@@ -121,7 +121,7 @@ class CollectorView(context: Context, service: CollectorService) : LinearLayout(
                 || result == CommandResult.RESULT_ERROR) {
             ToastUtil.makeText(R.string.toast_check_perm)
         } else {
-            val processed = TextUtils.processResultString(result)
+            val processed = AppTextUtils.processResultString(result)
             if (processed != null) {
                 mPackageName = processed[0]
                 mClassName = processed[1]

@@ -7,9 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.text.Html
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -105,14 +105,14 @@ class DefrostActivity : BaseActivity() {
             listOf(
                     DefrostItem(Const.DEFROST_MODE_DSM, getString(R.string.defrost_mode_dsm), getString(R.string.defrost_mode_dsm_summary), getString(R.string.btn_acquire_permission), AppUtils.getAppName(DSMClient.getOwnerPackageName(this))),
                     DefrostItem(Const.DEFROST_MODE_ICEBOX_SDK, getString(R.string.defrost_mode_icebox_sdk), getString(R.string.defrost_mode_icebox_sdk_summary), getString(R.string.btn_acquire_permission), ""),
-                    DefrostItem(Const.DEFROST_MODE_DPM, getString(R.string.defrost_mode_dpm), getString(R.string.defrost_mode_dpm_summary), getString(R.string.btn_acquire_permission), Html.fromHtml(getString(R.string.defrost_mode_dpm_addition))),
+                    DefrostItem(Const.DEFROST_MODE_DPM, getString(R.string.defrost_mode_dpm), getString(R.string.defrost_mode_dpm_summary), getString(R.string.btn_acquire_permission), HtmlCompat.fromHtml(getString(R.string.defrost_mode_dpm_addition), HtmlCompat.FROM_HTML_MODE_LEGACY)),
                     DefrostItem(Const.DEFROST_MODE_ROOT, getString(R.string.defrost_mode_root), getString(R.string.defrost_mode_root_summary), "", ""),
                     DefrostItem(Const.DEFROST_MODE_SHIZUKU, getString(R.string.defrost_mode_shizuku), getString(R.string.defrost_mode_shizuku_summary), "", "")
             )
         } else {
             listOf(
                     DefrostItem(Const.DEFROST_MODE_ICEBOX_SDK, getString(R.string.defrost_mode_icebox_sdk), getString(R.string.defrost_mode_icebox_sdk_summary), getString(R.string.btn_acquire_permission), ""),
-                    DefrostItem(Const.DEFROST_MODE_DPM, getString(R.string.defrost_mode_dpm), getString(R.string.defrost_mode_dpm_summary), getString(R.string.btn_acquire_permission), Html.fromHtml(getString(R.string.defrost_mode_dpm_addition))),
+                    DefrostItem(Const.DEFROST_MODE_DPM, getString(R.string.defrost_mode_dpm), getString(R.string.defrost_mode_dpm_summary), getString(R.string.btn_acquire_permission), HtmlCompat.fromHtml(getString(R.string.defrost_mode_dpm_addition), HtmlCompat.FROM_HTML_MODE_LEGACY)),
                     DefrostItem(Const.DEFROST_MODE_ROOT, getString(R.string.defrost_mode_root), getString(R.string.defrost_mode_root_summary), "", ""),
                     DefrostItem(Const.DEFROST_MODE_SHIZUKU, getString(R.string.defrost_mode_shizuku), getString(R.string.defrost_mode_shizuku_summary), "", "")
             )

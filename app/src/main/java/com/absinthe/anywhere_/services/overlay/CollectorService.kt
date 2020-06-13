@@ -14,7 +14,7 @@ import com.absinthe.anywhere_.constants.GlobalValues.isCollectorPlus
 import com.absinthe.anywhere_.model.manager.CollectorWindowManager
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
-import com.absinthe.anywhere_.utils.TextUtils
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.blankj.utilcode.util.PermissionUtils
 import timber.log.Timber
@@ -35,7 +35,7 @@ class CollectorService : Service() {
                     result == CommandResult.RESULT_SHIZUKU_PERM_ERROR) {
                 Thread.currentThread().interrupt()
             } else {
-                TextUtils.processResultString(result)?.let {
+                AppTextUtils.processResultString(result)?.let {
                     mCollectorWindowManager.setInfo(it[0], it[1])
                 }
             }

@@ -49,7 +49,7 @@ public class ShortcutsUtils {
             intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
         } else {
             intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
-            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AppTextUtils.getItemCommand(ae));
         }
 
         List<ShortcutInfo> infos = new ArrayList<>();
@@ -79,7 +79,7 @@ public class ShortcutsUtils {
             intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
         } else {
             intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
-            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AppTextUtils.getItemCommand(ae));
         }
 
         List<ShortcutInfo> infos = new ArrayList<>();
@@ -119,7 +119,7 @@ public class ShortcutsUtils {
                 intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
             } else {
                 intent.setAction(ShortcutsActivity.ACTION_START_COMMAND);
-                intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, TextUtils.getItemCommand(ae));
+                intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AppTextUtils.getItemCommand(ae));
             }
 
             ShortcutInfo pinShortcutInfo =

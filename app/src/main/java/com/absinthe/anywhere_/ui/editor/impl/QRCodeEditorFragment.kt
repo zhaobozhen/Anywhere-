@@ -43,6 +43,8 @@ class QRCodeEditorFragment(item: AnywhereEntity, isEditMode: Boolean) :BaseEdito
             description = binding.tietDescription.text.toString()
         }
 
+        if (ae == item) return true
+
         if (isEditMode) {
             if (ae.appName != item.appName) {
                 if (ae.shortcutType == AnywhereType.SHORTCUTS) {

@@ -1,6 +1,6 @@
 package com.absinthe.anywhere_.constants
 
-import android.text.Html
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.MutableLiveData
 import com.absinthe.anywhere_.utils.SPUtils
 import com.blankj.utilcode.util.Utils
@@ -183,7 +183,7 @@ object GlobalValues {
                     .append(getInfoLine("Current Page", currentPage.toString()))
                     .append(getInfoLine("Defrost Mode", defrostMode))
                     .append(getInfoLine("Current Category", category))
-            return Html.fromHtml(sb.toString())
+            return HtmlCompat.fromHtml(sb.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
 
     val collectorMode: String

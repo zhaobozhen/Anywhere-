@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -24,7 +23,6 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
-import com.absinthe.anywhere_.ui.editor.EXTRA_COLOR
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
@@ -89,7 +87,6 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
             startActivity(Intent(this, EditorActivity::class.java).apply {
                 putExtra(EXTRA_ENTITY, ae)
                 putExtra(EXTRA_EDIT_MODE, false)
-                putExtra(EXTRA_COLOR, ContextCompat.getColor(this@AppDetailActivity, R.color.colorPrimary))
             })
         }
         mBinding.srlAppDetail.apply {

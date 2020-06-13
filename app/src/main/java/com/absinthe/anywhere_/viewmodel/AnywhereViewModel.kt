@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -23,7 +22,6 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
-import com.absinthe.anywhere_.ui.editor.EXTRA_COLOR
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
@@ -99,7 +97,6 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         context.startActivity(Intent(context, EditorActivity::class.java).apply {
             putExtra(EXTRA_ENTITY, ae)
             putExtra(EXTRA_EDIT_MODE, false)
-            putExtra(EXTRA_COLOR, ContextCompat.getColor(context, R.color.colorPrimary))
         }, options.toBundle())
     }
 
@@ -117,7 +114,6 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         context.startActivity(Intent(context, EditorActivity::class.java).apply {
             putExtra(EXTRA_ENTITY, ae)
             putExtra(EXTRA_EDIT_MODE, false)
-            putExtra(EXTRA_COLOR, ContextCompat.getColor(context, R.color.colorPrimary))
         }, options.toBundle())
     }
 
@@ -135,7 +131,6 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         context.startActivity(Intent(context, EditorActivity::class.java).apply {
             putExtra(EXTRA_ENTITY, ae)
             putExtra(EXTRA_EDIT_MODE, false)
-            putExtra(EXTRA_COLOR, ContextCompat.getColor(context, R.color.colorPrimary))
         }, options.toBundle())
     }
 
@@ -152,7 +147,6 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         context.startActivity(Intent(context, EditorActivity::class.java).apply {
             putExtra(EXTRA_ENTITY, ae)
             putExtra(EXTRA_EDIT_MODE, false)
-            putExtra(EXTRA_COLOR, ContextCompat.getColor(context, R.color.colorPrimary))
         }, options.toBundle())
     }
 

@@ -175,7 +175,7 @@ object StorageUtils {
                     sardine.createDirectory(hostDir)
                 }
 
-                val backupName = "Anywhere-Backups-${TextUtils.getWebDavFormatDate()}-${BuildConfig.VERSION_NAME}.awbackups"
+                val backupName = "Anywhere-Backups-${AppTextUtils.webDavFormatDate}-${BuildConfig.VERSION_NAME}.awbackups"
 
                 exportAnywhereEntityJsonString()?.let { content ->
                     CipherUtils.encrypt(content)?.let { encrypted ->

@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.ui.qrcode
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.view.Window
 import androidx.lifecycle.lifecycleScope
@@ -41,13 +40,18 @@ class QRCodeCollectionActivity : BaseActivity() {
         mToolbar = binding.toolbar.toolbar
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         window.apply {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             sharedElementsUseOverlay = false
         }
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
-        super.onCreate(savedInstanceState, persistentState)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     override fun initView() {

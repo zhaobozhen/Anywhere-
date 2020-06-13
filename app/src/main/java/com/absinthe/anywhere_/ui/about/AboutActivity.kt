@@ -2,12 +2,12 @@ package com.absinthe.anywhere_.ui.about
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
-import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
@@ -69,7 +69,9 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(Contributor(R.mipmap.libchecker_icon, "LibChecker", getString(R.string.lc_intro), URLManager.MARKET_DETAIL_SCHEME + "com.absinthe.libchecker"))
 
             add(Category(getString(R.string.communication)))
-            add(Card(Html.fromHtml("Telegram: <a href=\"t.me/anywhereee\">t.me/anywhereee</a><br>E-mail: zhaobozhen2025@gmail.com")))
+            add(Card(
+                    HtmlCompat.fromHtml("Telegram: <a href=\"t.me/anywhereee\">t.me/anywhereee</a><br>E-mail: zhaobozhen2025@gmail.com", HtmlCompat.FROM_HTML_MODE_LEGACY)
+            ))
 
             add(Category(getString(R.string.open_source_licenses)))
             add(License("Kotlin", "JetBrains", License.APACHE_2, "https://github.com/JetBrains/kotlin"))
