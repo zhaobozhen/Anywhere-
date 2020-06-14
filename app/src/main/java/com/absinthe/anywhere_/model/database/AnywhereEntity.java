@@ -78,7 +78,7 @@ public class AnywhereEntity implements Parcelable {
                 "",
                 "",
                 "",
-                AnywhereType.ACTIVITY,
+                AnywhereType.Card.ACTIVITY,
                 GlobalValues.INSTANCE.getCategory(),
                 time,
                 0,
@@ -184,17 +184,17 @@ public class AnywhereEntity implements Parcelable {
 
     @NonNull
     public Integer getAnywhereType() {
-        return mType % 10;
+        return new AnywhereType.Builder(mType).getCardType();
     }
 
     @NonNull
     public Integer getShortcutType() {
-        return (mType / 10) % 10;
+        return new AnywhereType.Builder(mType).getShortcutsType();
     }
 
     @NonNull
     public Integer getExportedType() {
-        return mType / 100;
+        return new AnywhereType.Builder(mType).getExportedType();
     }
 
     @NonNull
@@ -261,10 +261,10 @@ public class AnywhereEntity implements Parcelable {
 
     public String getPackageName() {
         switch (getAnywhereType()) {
-            case AnywhereType.URL_SCHEME:
+            case AnywhereType.Card.URL_SCHEME:
                 return mParam2;
-            case AnywhereType.ACTIVITY:
-            case AnywhereType.QR_CODE:
+            case AnywhereType.Card.ACTIVITY:
+            case AnywhereType.Card.QR_CODE:
                 return mParam1;
             default:
                 return "";

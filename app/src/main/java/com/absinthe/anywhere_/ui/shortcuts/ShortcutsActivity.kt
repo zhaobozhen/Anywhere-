@@ -72,14 +72,14 @@ class ShortcutsActivity : BaseActivity() {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { cmd ->
                         Timber.d(cmd)
 
-                        if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
-                                cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
+                        if (cmd.startsWith(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX) ||
+                                cmd.startsWith(AnywhereType.Card.SHELL_PREFIX)) {
                             Opener.with(this)
                                     .load(cmd)
                                     .setOpenedListener { finish() }
                                     .open()
-                        } else if (cmd.startsWith(AnywhereType.IMAGE_PREFIX)) {
-                            showImageDialog(this, cmd.removePrefix(AnywhereType.IMAGE_PREFIX), object : AnywhereDialogFragment.OnDismissListener {
+                        } else if (cmd.startsWith(AnywhereType.Card.IMAGE_PREFIX)) {
+                            showImageDialog(this, cmd.removePrefix(AnywhereType.Card.IMAGE_PREFIX), object : AnywhereDialogFragment.OnDismissListener {
                                 override fun onDismiss() {
                                     finish()
                                 }
@@ -92,8 +92,8 @@ class ShortcutsActivity : BaseActivity() {
                 }
                 ACTION_START_FROM_WIDGET -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_WIDGET_COMMAND)?.let { cmd ->
-                        if (cmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX) ||
-                                cmd.startsWith(AnywhereType.SHELL_PREFIX)) {
+                        if (cmd.startsWith(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX) ||
+                                cmd.startsWith(AnywhereType.Card.SHELL_PREFIX)) {
                             Opener.with(this)
                                     .load(cmd)
                                     .setOpenedListener { finish() }
@@ -126,7 +126,7 @@ class ShortcutsActivity : BaseActivity() {
                                         val shortcutIntent = Intent(this@ShortcutsActivity, ShortcutsActivity::class.java).apply {
                                             val cmd = AppTextUtils.getItemCommand(entities[i])
 
-                                            action = if (cmd.startsWith(AnywhereType.QRCODE_PREFIX)) {
+                                            action = if (cmd.startsWith(AnywhereType.Prefix.QRCODE_PREFIX)) {
                                                 ACTION_START_QR_CODE
                                             } else {
                                                 ACTION_START_COMMAND

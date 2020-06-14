@@ -50,7 +50,7 @@ object AppTextUtils {
         val cmd = StringBuilder()
 
         when (item.anywhereType) {
-            AnywhereType.ACTIVITY -> {
+            AnywhereType.Card.ACTIVITY -> {
                 val packageName = item.param1
                 var className = item.param2
                 val extras = item.param3
@@ -68,12 +68,12 @@ object AppTextUtils {
                     }
                 }
             }
-            AnywhereType.URL_SCHEME -> {
+            AnywhereType.Card.URL_SCHEME -> {
                 val urlScheme = item.param1
                 Timber.d("urlScheme = %s", urlScheme)
 
                 if (item.param3.isNotBlank()) {
-                    cmd.append(String.format(AnywhereType.DYNAMIC_PARAMS_PREFIX_FORMAT, item.param3))
+                    cmd.append(String.format(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX_FORMAT, item.param3))
                 }
                 if (workingMode == Const.WORKING_MODE_URL_SCHEME) {
                     cmd.append(urlScheme)
@@ -81,14 +81,14 @@ object AppTextUtils {
                     cmd.append(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, urlScheme))
                 }
             }
-            AnywhereType.QR_CODE -> {
-                cmd.append(AnywhereType.QRCODE_PREFIX).append(item.param2)
+            AnywhereType.Card.QR_CODE -> {
+                cmd.append(AnywhereType.Prefix.QRCODE_PREFIX).append(item.param2)
             }
-            AnywhereType.SHELL -> {
-                cmd.append(AnywhereType.SHELL_PREFIX).append(item.param1)
+            AnywhereType.Card.SHELL -> {
+                cmd.append(AnywhereType.Prefix.SHELL_PREFIX).append(item.param1)
             }
-            AnywhereType.SWITCH_SHELL -> {
-                cmd.append(AnywhereType.SHELL_PREFIX)
+            AnywhereType.Card.SWITCH_SHELL -> {
+                cmd.append(AnywhereType.Prefix.SHELL_PREFIX)
 
                 if (item.param3 == SwitchShellEditor.SWITCH_SHELL_OFF_STATUS) {
                     cmd.append(item.param1)
@@ -96,8 +96,8 @@ object AppTextUtils {
                     cmd.append(item.param2)
                 }
             }
-            AnywhereType.IMAGE -> {
-                cmd.append(AnywhereType.IMAGE_PREFIX)
+            AnywhereType.Card.IMAGE -> {
+                cmd.append(AnywhereType.Prefix.IMAGE_PREFIX)
                         .append(item.param1)
             }
         }
@@ -235,7 +235,7 @@ object AppTextUtils {
             val type = uri.getQueryParameter(Const.INTENT_EXTRA_TYPE) ?: return
 
             when (type.toInt()) {
-                AnywhereType.URL_SCHEME -> {
+                AnywhereType.Card.URL_SCHEME -> {
                     try {
                         URLSchemeHandler.parse(param1, context)
                     } catch (e: Exception) {
@@ -250,20 +250,20 @@ object AppTextUtils {
                         }
                     }
                 }
-                AnywhereType.ACTIVITY -> {
+                AnywhereType.Card.ACTIVITY -> {
                     val ae = AnywhereEntity.Builder().apply {
                         this.param1 = param1
                         this.param2 = param2
                         this.param3 = param3
-                        this.type = AnywhereType.ACTIVITY
+                        this.type = AnywhereType.Card.ACTIVITY
                     }
 
                     Opener.with(context).load(ae).open()
                 }
-                AnywhereType.SHELL -> {
+                AnywhereType.Card.SHELL -> {
                     val ae = AnywhereEntity.Builder().apply {
                         this.param1 = param1
-                        this.type = AnywhereType.SHELL
+                        this.type = AnywhereType.Card.SHELL
                     }
 
                     Opener.with(context).load(ae).open()

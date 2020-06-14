@@ -79,11 +79,11 @@ class EditorActivity : BaseActivity() {
 
         if (!hasInit) {
             fragment = when (entity!!.anywhereType) {
-                AnywhereType.URL_SCHEME -> SchemeEditorFragment()
-                AnywhereType.ACTIVITY -> AnywhereEditorFragment()
-                AnywhereType.QR_CODE -> QRCodeEditorFragment()
-                AnywhereType.IMAGE -> ImageEditorFragment()
-                AnywhereType.SHELL -> ShellEditorFragment()
+                AnywhereType.Card.URL_SCHEME -> SchemeEditorFragment()
+                AnywhereType.Card.ACTIVITY -> AnywhereEditorFragment()
+                AnywhereType.Card.QR_CODE -> QRCodeEditorFragment()
+                AnywhereType.Card.IMAGE -> ImageEditorFragment()
+                AnywhereType.Card.SHELL -> ShellEditorFragment()
                 else -> AnywhereEditorFragment()
             }
             fragment.apply {
@@ -109,7 +109,7 @@ class EditorActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (entity!!.anywhereType != AnywhereType.IMAGE) {
+        if (entity!!.anywhereType != AnywhereType.Card.IMAGE) {
             menuInflater.inflate(R.menu.editor_bottom_bar_menu, menu)
         }
         return true
@@ -182,7 +182,7 @@ class EditorActivity : BaseActivity() {
                 when (it.itemId) {
                     R.id.add_shortcuts -> {
                         if (atLeastNMR1()) {
-                            if (entity!!.shortcutType != AnywhereType.SHORTCUTS) {
+                            if (entity!!.shortcutType != AnywhereType.Property.SHORTCUTS) {
                                 addShortcut(this@EditorActivity, entity!!)
                             } else {
                                 removeShortcut(this@EditorActivity, entity!!)
@@ -243,7 +243,7 @@ class EditorActivity : BaseActivity() {
 
             menu.findItem(R.id.add_shortcuts)?.let {
                 if (atLeastNMR1()) {
-                    if (entity!!.shortcutType == AnywhereType.SHORTCUTS) {
+                    if (entity!!.shortcutType == AnywhereType.Property.SHORTCUTS) {
                         binding.navigationView.apply {
                             menu.clear()
                             inflateMenu(R.menu.editor_added_shortcut_menu)
@@ -256,7 +256,7 @@ class EditorActivity : BaseActivity() {
 
             menu.findItem(R.id.add_home_shortcuts)?.isVisible = atLeastO()
             menu.findItem(R.id.restore_icon)?.isVisible = entity!!.iconUri.isNotEmpty()
-            menu.findItem(R.id.share_card)?.isVisible = entity!!.anywhereType != AnywhereType.IMAGE
+            menu.findItem(R.id.share_card)?.isVisible = entity!!.anywhereType != AnywhereType.Card.IMAGE
 
             invalidate()
         }

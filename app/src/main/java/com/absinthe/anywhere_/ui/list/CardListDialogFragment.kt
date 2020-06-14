@@ -49,9 +49,9 @@ class CardListDialogFragment : AnywhereDialogFragment() {
             } else {
                 setDisplayPlaceholder(false)
                 for (ae in it) {
-                    if (ae.anywhereType == AnywhereType.URL_SCHEME
-                            || ae.anywhereType == AnywhereType.IMAGE
-                            || ae.anywhereType == AnywhereType.SHELL) {
+                    if (ae.anywhereType == AnywhereType.Card.URL_SCHEME
+                            || ae.anywhereType == AnywhereType.Card.IMAGE
+                            || ae.anywhereType == AnywhereType.Card.SHELL) {
                         listBeans.add(AppListBean(ae.appName, ae.param2, ae.param1,
                                 ae.anywhereType, UiUtils.getAppIconByPackageName(context, ae.param2)))
                     } else {

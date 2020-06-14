@@ -25,7 +25,7 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
     init {
         AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
             for (item in it) {
-                if (item.category.isNullOrEmpty() && category == AnywhereType.DEFAULT_CATEGORY
+                if (item.category.isNullOrEmpty() && category == AnywhereType.Category.DEFAULT_CATEGORY
                         || item.category == category) {
                     mList.add(item)
                 }
@@ -45,12 +45,12 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
             val ae = mList[position]
 
             when (ae.anywhereType) {
-                AnywhereType.IMAGE -> {
+                AnywhereType.Card.IMAGE -> {
                     ActivityStackManager.topActivity?.let {
                         showImageDialog(it, ae.param1)
                     }
                 }
-                AnywhereType.SHELL -> {
+                AnywhereType.Card.SHELL -> {
                     val result = CommandUtils.execAdbCmd(ae.param1)
                     ActivityStackManager.topActivity?.let {
                         showShellResultDialog(it, result, null, null)

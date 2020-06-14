@@ -554,7 +554,7 @@ class MainActivity : BaseActivity() {
 
             viewModel.insert(AnywhereEntity.Builder().apply {
                 appName = getString(R.string.help_card_title)
-                type = AnywhereType.URL_SCHEME
+                type = AnywhereType.Card.URL_SCHEME
                 param1 = URLManager.OLD_DOCUMENT_PAGE
             })
 
@@ -586,36 +586,34 @@ class MainActivity : BaseActivity() {
             val type = uri.getQueryParameter(Const.INTENT_EXTRA_TYPE) ?: return
 
             when (type.toInt()) {
-                AnywhereType.URL_SCHEME -> {
+                AnywhereType.Card.URL_SCHEME -> {
                     viewModel.setUpUrlScheme(this, param1)
                 }
-                AnywhereType.ACTIVITY -> {
+                AnywhereType.Card.ACTIVITY -> {
                     val appName = AppUtils.getAppName(param1) ?: ""
-                    var exported = 0
-
-                    if (com.absinthe.anywhere_.utils.AppUtils.isActivityExported(this, ComponentName(param1,
-                                    if (param2[0] == '.') param1 + param2 else param2))) {
-                        exported = 100
-                    }
                     val ae = AnywhereEntity.Builder().apply {
                         this.appName = appName
                         this.param1 = param1
                         this.param2 = param2
                         this.param3 = param3
-                        this.type = AnywhereType.ACTIVITY + exported
+                        this.type = AnywhereType.Builder()
+                                .cardType(AnywhereType.Card.ACTIVITY)
+                                .isExported(com.absinthe.anywhere_.utils.AppUtils.isActivityExported(this@MainActivity, ComponentName(param1,
+                                        if (param2[0] == '.') param1 + param2 else param2)))
+                                .build()
                     }
                     startActivity(Intent(this, EditorActivity::class.java).apply {
                         putExtra(EXTRA_ENTITY, ae)
                         putExtra(EXTRA_EDIT_MODE, false)
                     })
                 }
-                AnywhereType.SHELL -> {
+                AnywhereType.Card.SHELL -> {
                     val ae = AnywhereEntity.Builder().apply {
                         this.appName = "New Shell"
                         this.param1 = param1
                         this.param2 = param2
                         this.param3 = param3
-                        this.type = AnywhereType.SHELL
+                        this.type = AnywhereType.Card.SHELL
                     }
                     startActivity(Intent(this, EditorActivity::class.java).apply {
                         putExtra(EXTRA_ENTITY, ae)

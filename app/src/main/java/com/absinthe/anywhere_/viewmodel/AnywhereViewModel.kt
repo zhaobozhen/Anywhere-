@@ -87,7 +87,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         val ae = AnywhereEntity.Builder().apply {
             appName = getApplication<Application>().getString(R.string.bsd_new_url_scheme_name)
             param1 = url
-            type = AnywhereType.URL_SCHEME
+            type = AnywhereType.Card.URL_SCHEME
         }
         context.startActivity(Intent(context, EditorActivity::class.java).apply {
             putExtra(EXTRA_ENTITY, ae)
@@ -98,7 +98,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
     fun openImageEditor(context: Context, view: View) {
         val ae = AnywhereEntity.Builder().apply {
             appName = "New Image"
-            type = AnywhereType.IMAGE
+            type = AnywhereType.Card.IMAGE
         }
 
         val options = ActivityOptions.makeSceneTransitionAnimation(
@@ -115,7 +115,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
     fun openShellEditor(context: Context, view: View) {
         val ae = AnywhereEntity.Builder().apply {
             appName = "New Shell"
-            type = AnywhereType.SHELL
+            type = AnywhereType.Card.SHELL
         }
 
         val options = ActivityOptions.makeSceneTransitionAnimation(
@@ -212,10 +212,10 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                     title = "Page " + (it.size + 1)
                     priority = it.size + 1
                 } else {
-                    title = AnywhereType.DEFAULT_CATEGORY
+                    title = AnywhereType.Category.DEFAULT_CATEGORY
                     priority = 1
                 }
-                type = AnywhereType.CARD_PAGE
+                type = AnywhereType.Page.CARD_PAGE
             }
             mRepository.insertPage(pe)
         }
@@ -226,7 +226,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
             val pe = PageEntity.Builder().apply {
                 title = "Web Page " + (it.size + 1)
                 priority = it.size + 1
-                type = AnywhereType.WEB_PAGE
+                type = AnywhereType.Page.WEB_PAGE
                 extra = uri.toString()
             }
             mRepository.insertPage(pe)

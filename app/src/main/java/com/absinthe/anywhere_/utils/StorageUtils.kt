@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.BackupBean
@@ -77,7 +78,7 @@ object StorageUtils {
             null
         } else {
             for (ae in anywhereList) {
-                ae.type = ae.anywhereType + ae.exportedType * 100
+                ae.type = AnywhereType.Builder(ae.type).isShortcut(false).build()
                 ae.iconUri = ""
             }
             val backupBean = BackupBean(anywhereList, pageList)

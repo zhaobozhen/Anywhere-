@@ -47,7 +47,7 @@ class QRCodeEditorFragment : BaseEditorFragment() {
 
         if (isEditMode) {
             if (ae.appName != item.appName) {
-                if (ae.shortcutType == AnywhereType.SHORTCUTS) {
+                if (ae.shortcutType == AnywhereType.Property.SHORTCUTS) {
                     if (AppUtils.atLeastNMR1()) {
                         ShortcutsUtils.updateShortcut(ae)
                     }

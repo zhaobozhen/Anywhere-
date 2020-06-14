@@ -81,9 +81,9 @@ public class Opener {
     }
 
     private void openFromCommand() {
-        if (mCmd.startsWith(AnywhereType.DYNAMIC_PARAMS_PREFIX)) {
+        if (mCmd.startsWith(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX)) {
             openDynamicParamCommand(mCmd);
-        } else if (mCmd.startsWith(AnywhereType.SHELL_PREFIX)) {
+        } else if (mCmd.startsWith(AnywhereType.Card.SHELL_PREFIX)) {
             openShellCommand(mCmd);
         } else {
             openCmd(mCmd);
@@ -91,7 +91,7 @@ public class Opener {
     }
 
     private void openDynamicParamCommand(@NonNull String command) {
-        String newCommand = command.replace(AnywhereType.DYNAMIC_PARAMS_PREFIX, "");
+        String newCommand = command.replace(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX, "");
 
         int splitIndex = newCommand.indexOf(']');
         String param = newCommand.substring(0, splitIndex);
@@ -117,7 +117,7 @@ public class Opener {
     }
 
     private void openShellCommand(@NonNull String command) {
-        String newCommand = command.replace(AnywhereType.SHELL_PREFIX, "");
+        String newCommand = command.replace(AnywhereType.Card.SHELL_PREFIX, "");
         String result = CommandUtils.execAdbCmd(newCommand);
 
         if (GlobalValues.INSTANCE.isShowShellResult()) {

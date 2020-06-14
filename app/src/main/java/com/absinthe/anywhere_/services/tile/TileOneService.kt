@@ -28,7 +28,7 @@ class TileOneService : TileService() {
     override fun onClick() {
         val cmd = SPUtils.getString(this, Const.PREF_TILE_ONE_CMD)
         val intent = Intent(this, ShortcutsActivity::class.java).apply {
-            action = if (cmd.startsWith(AnywhereType.QRCODE_PREFIX)) {
+            action = if (cmd.startsWith(AnywhereType.Prefix.QRCODE_PREFIX)) {
                 ShortcutsActivity.ACTION_START_QR_CODE
             } else {
                 ShortcutsActivity.ACTION_START_COMMAND

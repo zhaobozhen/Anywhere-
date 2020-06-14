@@ -88,7 +88,7 @@ object AppUtils {
         val type = item.anywhereType
         val apkTempPackageName: String
 
-        if (type == AnywhereType.URL_SCHEME) {
+        if (type == AnywhereType.Card.URL_SCHEME) {
             apkTempPackageName = if (android.text.TextUtils.isEmpty(item.param2)) {
                 getPackageNameByScheme(context, item.param1)
             } else {
@@ -100,7 +100,7 @@ object AppUtils {
                 e.printStackTrace()
                 false
             }
-        } else if (type == AnywhereType.ACTIVITY) {
+        } else if (type == AnywhereType.Card.ACTIVITY) {
             return try {
                 IceBox.getAppEnabledSetting(context, item.param1) != 0 //0 为未冻结状态
             } catch (e: PackageManager.NameNotFoundException) {

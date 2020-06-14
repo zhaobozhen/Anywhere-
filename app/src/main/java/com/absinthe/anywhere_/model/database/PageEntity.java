@@ -47,7 +47,7 @@ public class PageEntity {
 
     public static PageEntity Builder() {
         String time = System.currentTimeMillis() + "";
-        return new PageEntity(time, "", 0, AnywhereType.CARD_PAGE, time, "", "");
+        return new PageEntity(time, "", 0, AnywhereType.Page.CARD_PAGE, time, "", "");
     }
 
     public PageEntity(@NonNull String id, @NonNull String title,

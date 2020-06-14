@@ -93,15 +93,15 @@ object CommandUtils {
             }
         } else {
             when {
-                newCmd.startsWith(AnywhereType.QRCODE_PREFIX) -> {
-                    newCmd = newCmd.replace(AnywhereType.QRCODE_PREFIX, "")
+                newCmd.startsWith(AnywhereType.Prefix.QRCODE_PREFIX) -> {
+                    newCmd = newCmd.replace(AnywhereType.Prefix.QRCODE_PREFIX, "")
                     QRCollection.Singleton.INSTANCE.instance.getQREntity(newCmd)?.apply {
                         launch()
                     }
                     result = CommandResult.RESULT_SUCCESS
                 }
-                newCmd.startsWith(AnywhereType.SHELL_PREFIX) -> {
-                    newCmd = newCmd.replace(AnywhereType.SHELL_PREFIX, "")
+                newCmd.startsWith(AnywhereType.Card.SHELL_PREFIX) -> {
+                    newCmd = newCmd.replace(AnywhereType.Card.SHELL_PREFIX, "")
                     execAdbCmd(newCmd)
                     result = CommandResult.RESULT_SUCCESS
                 }

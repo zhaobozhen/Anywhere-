@@ -41,10 +41,10 @@ public class ShortcutsUtils {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public static void addShortcut(AnywhereEntity ae) {
         Intent intent = new Intent(Utils.getApp(), ShortcutsActivity.class);
-        if (ae.getAnywhereType() == AnywhereType.QR_CODE) {
+        if (ae.getAnywhereType() == AnywhereType.Card.QR_CODE) {
             intent.setAction(ShortcutsActivity.ACTION_START_QR_CODE);
-            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.QRCODE_PREFIX + ae.getParam2());
-        } else if (ae.getAnywhereType() == AnywhereType.IMAGE) {
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.Prefix.QRCODE_PREFIX + ae.getParam2());
+        } else if (ae.getAnywhereType() == AnywhereType.Card.IMAGE) {
             intent.setAction(ShortcutsActivity.ACTION_START_IMAGE);
             intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
         } else {
@@ -64,17 +64,20 @@ public class ShortcutsUtils {
         }
 
         AnywhereEntity item = new AnywhereEntity(ae);
-        item.setType(item.getExportedType() * 100 + 10 + item.getAnywhereType());
+        int type = new AnywhereType.Builder(item.getType())
+                .isShortcut(true)
+                .build();
+        item.setType(type);
         AnywhereApplication.sRepository.update(item);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     public static void updateShortcut(AnywhereEntity ae) {
         Intent intent = new Intent(Utils.getApp(), ShortcutsActivity.class);
-        if (ae.getAnywhereType() == AnywhereType.QR_CODE) {
+        if (ae.getAnywhereType() == AnywhereType.Card.QR_CODE) {
             intent.setAction(ShortcutsActivity.ACTION_START_QR_CODE);
-            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.QRCODE_PREFIX + ae.getParam2());
-        } else if (ae.getAnywhereType() == AnywhereType.IMAGE) {
+            intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.Prefix.QRCODE_PREFIX + ae.getParam2());
+        } else if (ae.getAnywhereType() == AnywhereType.Card.IMAGE) {
             intent.setAction(ShortcutsActivity.ACTION_START_IMAGE);
             intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
         } else {
@@ -100,7 +103,10 @@ public class ShortcutsUtils {
         }
 
         AnywhereEntity item = new AnywhereEntity(ae);
-        item.setType(item.getExportedType() * 100 + item.getAnywhereType());
+        int type = new AnywhereType.Builder(item.getType())
+                .isShortcut(false)
+                .build();
+        item.setType(type);
         AnywhereApplication.sRepository.update(item);
 
         List<String> shortcutsIds = new ArrayList<>();
@@ -114,7 +120,7 @@ public class ShortcutsUtils {
             // Assumes there's already a shortcut with the ID "my-shortcut".
             // The shortcut must be enabled.
             Intent intent = new Intent(Utils.getApp(), ShortcutsActivity.class);
-            if (ae.getAnywhereType() == AnywhereType.IMAGE) {
+            if (ae.getAnywhereType() == AnywhereType.Card.IMAGE) {
                 intent.setAction(ShortcutsActivity.ACTION_START_IMAGE);
                 intent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.getParam1());
             } else {

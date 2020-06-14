@@ -75,22 +75,22 @@ public class UiUtils {
         String apkTempPackageName;
 
         switch (type) {
-            case AnywhereType.URL_SCHEME:
+            case AnywhereType.Card.URL_SCHEME:
                 if (TextUtils.isEmpty(item.getParam2())) {
                     apkTempPackageName = AppUtils.INSTANCE.getPackageNameByScheme(context, item.getParam1());
                 } else {
                     apkTempPackageName = item.getParam2();
                 }
                 return getAppIconByPackageName(context, apkTempPackageName);
-            case AnywhereType.ACTIVITY:
-            case AnywhereType.QR_CODE:
+            case AnywhereType.Card.ACTIVITY:
+            case AnywhereType.Card.QR_CODE:
                 apkTempPackageName = item.getParam1();
                 return getAppIconByPackageName(context, apkTempPackageName);
-            case AnywhereType.IMAGE:
+            case AnywhereType.Card.IMAGE:
                 return context.getDrawable(R.drawable.ic_photo);
-            case AnywhereType.SHELL:
+            case AnywhereType.Card.SHELL:
                 return context.getDrawable(R.drawable.ic_code);
-            case AnywhereType.SWITCH_SHELL:
+            case AnywhereType.Card.SWITCH_SHELL:
                 if (item.getParam3().equals(SwitchShellEditor.SWITCH_SHELL_OFF_STATUS))
                     return context.getDrawable(R.drawable.ic_switch_off);
                 else
@@ -102,9 +102,9 @@ public class UiUtils {
 
     public static Drawable getAppIconByPackageName(Context context, AppListBean item) {
         AnywhereEntity ae = AnywhereEntity.Builder();
-        if (item.getType() == AnywhereType.URL_SCHEME
-                || item.getType() == AnywhereType.IMAGE
-                || item.getType() == AnywhereType.SHELL) {
+        if (item.getType() == AnywhereType.Card.URL_SCHEME
+                || item.getType() == AnywhereType.Card.IMAGE
+                || item.getType() == AnywhereType.Card.SHELL) {
             ae.setParam1(item.getClassName());
             ae.setParam2(item.getPackageName());
         } else {
@@ -140,15 +140,15 @@ public class UiUtils {
 
         switch (GlobalValues.INSTANCE.getWorkingMode()) {
             case "":
-                title.append(AnywhereType.NOWHERE);
+                title.append(AnywhereType.WhereMode.NOWHERE);
                 break;
             case Const.WORKING_MODE_URL_SCHEME:
-                title.append(AnywhereType.SOMEWHERE);
+                title.append(AnywhereType.WhereMode.SOMEWHERE);
                 break;
             case Const.WORKING_MODE_ROOT:
             case Const.WORKING_MODE_SHIZUKU:
             default:
-                title.append(AnywhereType.ANYWHERE);
+                title.append(AnywhereType.WhereMode.ANYWHERE);
                 break;
         }
 

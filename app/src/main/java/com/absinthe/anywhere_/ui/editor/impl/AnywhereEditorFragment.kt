@@ -76,7 +76,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
 
         if (isEditMode) {
             if (ae.appName != item.appName || ae.param1 != item.param1) {
-                if (ae.shortcutType == AnywhereType.SHORTCUTS) {
+                if (ae.shortcutType == AnywhereType.Property.SHORTCUTS) {
                     if (AppUtils.atLeastNMR1()) {
                         ShortcutsUtils.updateShortcut(ae)
                     }

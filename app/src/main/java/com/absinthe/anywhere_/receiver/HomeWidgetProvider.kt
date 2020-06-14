@@ -72,7 +72,7 @@ class HomeWidgetProvider : AppWidgetProvider() {
             val ae: AnywhereEntity? = intent.getParcelableExtra(Const.INTENT_EXTRA_WIDGET_ENTITY)
 
             if (ae != null) {
-                if (ae.anywhereType == AnywhereType.IMAGE) {
+                if (ae.anywhereType == AnywhereType.Card.IMAGE) {
                     newIntent.action = ShortcutsActivity.ACTION_START_IMAGE
                     newIntent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
                 } else {

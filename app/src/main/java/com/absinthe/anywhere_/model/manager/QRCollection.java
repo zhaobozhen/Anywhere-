@@ -147,7 +147,7 @@ public class QRCollection {
         ae.setAppName("微信扫码");
         ae.setParam1(pkgName);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -174,7 +174,7 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -233,7 +233,7 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -260,7 +260,7 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -323,7 +323,7 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -354,7 +354,7 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -385,7 +385,7 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -416,7 +416,7 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -447,7 +447,7 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -474,7 +474,7 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
@@ -542,7 +542,7 @@ public class QRCollection {
         ae.setAppName("云闪付" + text.split("&")[0]);
         ae.setParam1(pkgName);
         ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
-        ae.setType(AnywhereType.QR_CODE);
+        ae.setType(AnywhereType.Card.QR_CODE);
         ae.setTimeStamp(priority);
         return ae;
     }

@@ -94,10 +94,10 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                 val normalView = itemView as CardItemView<NormalItemView>
 
                 normalView.content.description.isGone = item.description.isEmpty()
-                normalView.content.param1.isGone = item.anywhereType == AnywhereType.QR_CODE
-                normalView.content.param2.isGone = item.anywhereType == AnywhereType.URL_SCHEME
-                        || item.anywhereType == AnywhereType.QR_CODE
-                        || item.anywhereType == AnywhereType.IMAGE
+                normalView.content.param1.isGone = item.anywhereType == AnywhereType.Card.QR_CODE
+                normalView.content.param2.isGone = item.anywhereType == AnywhereType.Card.URL_SCHEME
+                        || item.anywhereType == AnywhereType.Card.QR_CODE
+                        || item.anywhereType == AnywhereType.Card.IMAGE
                 normalView.content.description.text = item.description
                 normalView.content.param1.text = item.param1
                 normalView.content.param2.text = item.param2
@@ -170,12 +170,12 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
 
         itemView.badge.apply {
-            isGone = item.shortcutType != AnywhereType.SHORTCUTS && item.exportedType != AnywhereType.EXPORTED
+            isGone = item.shortcutType != AnywhereType.Property.SHORTCUTS && item.exportedType != AnywhereType.Property.EXPORTED
 
-            if (item.shortcutType == AnywhereType.SHORTCUTS) {
+            if (item.shortcutType == AnywhereType.Property.SHORTCUTS) {
                 setImageResource(R.drawable.ic_add_shortcut)
                 setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
-            } else if (item.exportedType == AnywhereType.EXPORTED) {
+            } else if (item.exportedType == AnywhereType.Property.EXPORTED) {
                 setImageResource(R.drawable.ic_exported)
                 setColorFilter(ContextCompat.getColor(context, R.color.exported_tint), PorterDuff.Mode.SRC_IN)
             }
@@ -282,7 +282,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
     }
 
     private fun openAnywhereActivity(item: AnywhereEntity) {
-        if (item.anywhereType == AnywhereType.QR_CODE) {
+        if (item.anywhereType == AnywhereType.Card.QR_CODE) {
             val qrId = if (context is QRCodeCollectionActivity) {
                 item.id
             } else {
@@ -290,9 +290,9 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             }
             val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)
             entity?.launch()
-        } else if (item.anywhereType == AnywhereType.IMAGE) {
+        } else if (item.anywhereType == AnywhereType.Card.IMAGE) {
             showImageDialog((context as AppCompatActivity), item.param1)
-        } else if (item.anywhereType == AnywhereType.URL_SCHEME) {
+        } else if (item.anywhereType == AnywhereType.Card.URL_SCHEME) {
             if (item.param3.isNotEmpty()) {
                 showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : OnParamsInputListener {
                     override fun onFinish(text: String?) {
@@ -321,10 +321,10 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             } else {
                 Opener.with(context).load(item).open()
             }
-        } else if (item.anywhereType == AnywhereType.SHELL) {
+        } else if (item.anywhereType == AnywhereType.Card.SHELL) {
             val result = execAdbCmd(item.param1)
             showShellResultDialog(context, result, null, null)
-        } else if (item.anywhereType == AnywhereType.SWITCH_SHELL) {
+        } else if (item.anywhereType == AnywhereType.Card.SWITCH_SHELL) {
             Opener.with(context).load(item).open()
             if (item.param3 == SwitchShellEditor.SWITCH_SHELL_OFF_STATUS) {
                 item.param3 = SwitchShellEditor.SWITCH_SHELL_ON_STATUS
@@ -333,7 +333,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                 item.param3 = SwitchShellEditor.SWITCH_SHELL_OFF_STATUS
                 AnywhereApplication.sRepository.update(item)
             }
-        } else if (item.anywhereType == AnywhereType.ACTIVITY) {
+        } else if (item.anywhereType == AnywhereType.Card.ACTIVITY) {
             Opener.with(context).load(item).open()
         }
     }

@@ -72,17 +72,14 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
         mAdapter.setDiffCallback(AppListDiffCallback())
         mAdapter.setOnItemClickListener { _, _, position ->
             val item = mAdapter.getItem(position)
-            var exported = 0
-
-            if (AppUtils.isActivityExported(this, ComponentName(item.packageName,
-                            item.className))) {
-                exported = 100
-            }
             val ae = AnywhereEntity.Builder().apply {
                 appName = item.appName
                 param1 = item.packageName
                 param2 = item.className.removePrefix(item.packageName)
-                type = AnywhereType.ACTIVITY + exported
+                type = AnywhereType.Builder()
+                        .cardType(AnywhereType.Card.ACTIVITY)
+                        .isExported(AppUtils.isActivityExported(this@AppDetailActivity, ComponentName(item.packageName, item.className)))
+                        .build()
             }
             startActivity(Intent(this, EditorActivity::class.java).apply {
                 putExtra(EXTRA_ENTITY, ae)

@@ -18,7 +18,7 @@ class AppListBean {
         packageName = ""
         className = ""
         icon = ColorDrawable(Color.TRANSPARENT)
-        type = AnywhereType.URL_SCHEME
+        type = AnywhereType.Card.URL_SCHEME
     }
 
     constructor(appName: String, packageName: String, className: String, type: Int) {
