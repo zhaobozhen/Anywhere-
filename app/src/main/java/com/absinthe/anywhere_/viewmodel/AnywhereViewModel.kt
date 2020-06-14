@@ -1,18 +1,15 @@
 package com.absinthe.anywhere_.viewmodel
 
 import android.app.Activity
-import android.app.ActivityOptions
 import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.absinthe.anywhere_.AnywhereApplication
-import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.page.PageNode
 import com.absinthe.anywhere_.adapter.page.PageTitleNode
@@ -93,56 +90,6 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
             putExtra(EXTRA_ENTITY, ae)
             putExtra(EXTRA_EDIT_MODE, false)
         })
-    }
-
-    fun openImageEditor(context: Context, view: View) {
-        val ae = AnywhereEntity.Builder().apply {
-            appName = "New Image"
-            type = AnywhereType.Card.IMAGE
-        }
-
-        val options = ActivityOptions.makeSceneTransitionAnimation(
-                context as BaseActivity,
-                view,
-                context.getString(R.string.trans_item_container)
-        )
-        context.startActivity(Intent(context, EditorActivity::class.java).apply {
-            putExtra(EXTRA_ENTITY, ae)
-            putExtra(EXTRA_EDIT_MODE, false)
-        }, options.toBundle())
-    }
-
-    fun openShellEditor(context: Context, view: View) {
-        val ae = AnywhereEntity.Builder().apply {
-            appName = "New Shell"
-            type = AnywhereType.Card.SHELL
-        }
-
-        val options = ActivityOptions.makeSceneTransitionAnimation(
-                context as BaseActivity,
-                view,
-                context.getString(R.string.trans_item_container)
-        )
-        context.startActivity(Intent(context, EditorActivity::class.java).apply {
-            putExtra(EXTRA_ENTITY, ae)
-            putExtra(EXTRA_EDIT_MODE, false)
-        }, options.toBundle())
-    }
-
-    fun openSwitchShellEditor(context: Context, view: View) {
-        val ae = AnywhereEntity.Builder().apply {
-            appName = "New Switch Shell"
-            type = AnywhereType.Card.SWITCH_SHELL
-        }
-        val options = ActivityOptions.makeSceneTransitionAnimation(
-                context as BaseActivity,
-                view,
-                context.getString(R.string.trans_item_container)
-        )
-        context.startActivity(Intent(context, EditorActivity::class.java).apply {
-            putExtra(EXTRA_ENTITY, ae)
-            putExtra(EXTRA_EDIT_MODE, false)
-        }, options.toBundle())
     }
 
     fun startCollector(activity: Activity, listener: OnStartCollectorListener) {

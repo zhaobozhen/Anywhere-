@@ -342,4 +342,6 @@
     <string name="notification_backup_title">正在备份卡片</string>
     <string name="notification_backup_content">这可能需要一些时间</string>
     <string name="dialog_shortcut_community_tips">捷径社区是一项第三方 URL Scheme 提供服务，与 Anywhere- 没有任何的关系。</string>
+    <string name="btn_add_file">文件</string>
+    <string name="btn_add_broadcast">广播</string>
 </resources>

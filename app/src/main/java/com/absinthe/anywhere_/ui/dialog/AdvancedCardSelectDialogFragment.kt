@@ -37,7 +37,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                 AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, getOpeningEditorListener(AnywhereType.Card.FILE)),
                 AdvancedCardItem(R.string.btn_add_intent, R.drawable.ic_card_intent, getOpeningEditorListener(AnywhereType.Card.INTENT)),
                 AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, getOpeningEditorListener(AnywhereType.Card.BROADCAST))
-                )
+        )
         mBuilder.adapter.setNewInstance(cardList.toMutableList())
     }
 
@@ -48,6 +48,8 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                 appName = when (type) {
                     AnywhereType.Card.IMAGE -> "New Image"
                     AnywhereType.Card.SHELL -> "New Shell"
+                    AnywhereType.Card.FILE -> "New File"
+                    AnywhereType.Card.BROADCAST -> "New Broadcast"
                     else -> "New Card"
                 }
             }
