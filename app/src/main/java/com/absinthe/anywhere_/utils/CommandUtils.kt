@@ -100,8 +100,8 @@ object CommandUtils {
                     }
                     result = CommandResult.RESULT_SUCCESS
                 }
-                newCmd.startsWith(AnywhereType.Card.SHELL_PREFIX) -> {
-                    newCmd = newCmd.replace(AnywhereType.Card.SHELL_PREFIX, "")
+                newCmd.startsWith(AnywhereType.Prefix.SHELL_PREFIX) -> {
+                    newCmd = newCmd.removePrefix(AnywhereType.Prefix.SHELL_PREFIX)
                     execAdbCmd(newCmd)
                     result = CommandResult.RESULT_SUCCESS
                 }

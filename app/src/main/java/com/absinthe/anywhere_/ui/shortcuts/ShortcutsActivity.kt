@@ -73,13 +73,13 @@ class ShortcutsActivity : BaseActivity() {
                         Timber.d(cmd)
 
                         if (cmd.startsWith(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX) ||
-                                cmd.startsWith(AnywhereType.Card.SHELL_PREFIX)) {
+                                cmd.startsWith(AnywhereType.Prefix.SHELL_PREFIX)) {
                             Opener.with(this)
                                     .load(cmd)
                                     .setOpenedListener { finish() }
                                     .open()
-                        } else if (cmd.startsWith(AnywhereType.Card.IMAGE_PREFIX)) {
-                            showImageDialog(this, cmd.removePrefix(AnywhereType.Card.IMAGE_PREFIX), object : AnywhereDialogFragment.OnDismissListener {
+                        } else if (cmd.startsWith(AnywhereType.Prefix.IMAGE_PREFIX)) {
+                            showImageDialog(this, cmd.removePrefix(AnywhereType.Prefix.IMAGE_PREFIX), object : AnywhereDialogFragment.OnDismissListener {
                                 override fun onDismiss() {
                                     finish()
                                 }
@@ -93,7 +93,7 @@ class ShortcutsActivity : BaseActivity() {
                 ACTION_START_FROM_WIDGET -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_WIDGET_COMMAND)?.let { cmd ->
                         if (cmd.startsWith(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX) ||
-                                cmd.startsWith(AnywhereType.Card.SHELL_PREFIX)) {
+                                cmd.startsWith(AnywhereType.Prefix.SHELL_PREFIX)) {
                             Opener.with(this)
                                     .load(cmd)
                                     .setOpenedListener { finish() }

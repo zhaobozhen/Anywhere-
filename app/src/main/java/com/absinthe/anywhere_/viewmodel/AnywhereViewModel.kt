@@ -132,7 +132,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
     fun openSwitchShellEditor(context: Context, view: View) {
         val ae = AnywhereEntity.Builder().apply {
             appName = "New Switch Shell"
-            type = AnywhereType.SWITCH_SHELL
+            type = AnywhereType.Card.SWITCH_SHELL
         }
         val options = ActivityOptions.makeSceneTransitionAnimation(
                 context as BaseActivity,

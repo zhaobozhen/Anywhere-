@@ -83,7 +83,7 @@ public class Opener {
     private void openFromCommand() {
         if (mCmd.startsWith(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX)) {
             openDynamicParamCommand(mCmd);
-        } else if (mCmd.startsWith(AnywhereType.Card.SHELL_PREFIX)) {
+        } else if (mCmd.startsWith(AnywhereType.Prefix.SHELL_PREFIX)) {
             openShellCommand(mCmd);
         } else {
             openCmd(mCmd);
@@ -117,7 +117,7 @@ public class Opener {
     }
 
     private void openShellCommand(@NonNull String command) {
-        String newCommand = command.replace(AnywhereType.Card.SHELL_PREFIX, "");
+        String newCommand = command.replace(AnywhereType.Prefix.SHELL_PREFIX, "");
         String result = CommandUtils.execAdbCmd(newCommand);
 
         if (GlobalValues.INSTANCE.isShowShellResult()) {
