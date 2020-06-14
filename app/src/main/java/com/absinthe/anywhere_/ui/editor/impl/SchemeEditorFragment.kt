@@ -23,7 +23,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showDynamicParamsDialo
 import com.absinthe.anywhere_.utils.manager.URLManager
 import jonathanfinerty.once.Once
 
-class SchemeEditorFragment(item: AnywhereEntity, isEditMode: Boolean) : BaseEditorFragment(item, isEditMode) {
+class SchemeEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorUrlSchemeBinding
 

@@ -37,9 +37,10 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_preview"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_margin_vertical"
         android:adjustViewBounds="true"
+        android:maxHeight="250dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_image_placeholder"
         app:layout_constraintTop_toBottomOf="@id/toggle_group" />

@@ -13,7 +13,7 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 
-class AnywhereEditorFragment(item: AnywhereEntity, isEditMode: Boolean) : BaseEditorFragment(item, isEditMode) {
+class AnywhereEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorAnywhereBinding
 

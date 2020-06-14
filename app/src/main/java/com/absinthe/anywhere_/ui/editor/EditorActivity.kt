@@ -53,6 +53,7 @@ class EditorActivity : BaseActivity() {
     private lateinit var binding: ActivityEditorBinding
     private lateinit var bottomDrawerBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var fragment: BaseEditorFragment
+    private var hasInit = false
 
     private val entity by lazy { intent.getParcelableExtra(EXTRA_ENTITY) as AnywhereEntity? }
     private val isEditMode by lazy { intent.getBooleanExtra(EXTRA_EDIT_MODE, false) }
@@ -75,18 +76,28 @@ class EditorActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        fragment = when (entity!!.anywhereType) {
-            AnywhereType.URL_SCHEME -> SchemeEditorFragment(entity!!, isEditMode)
-            AnywhereType.ACTIVITY -> AnywhereEditorFragment(entity!!, isEditMode)
-            AnywhereType.QR_CODE -> QRCodeEditorFragment(entity!!, isEditMode)
-            AnywhereType.IMAGE -> ImageEditorFragment(entity!!, isEditMode)
-            AnywhereType.SHELL -> ShellEditorFragment(entity!!, isEditMode)
-            else -> AnywhereEditorFragment(entity!!, isEditMode)
+
+        if (!hasInit) {
+            fragment = when (entity!!.anywhereType) {
+                AnywhereType.URL_SCHEME -> SchemeEditorFragment()
+                AnywhereType.ACTIVITY -> AnywhereEditorFragment()
+                AnywhereType.QR_CODE -> QRCodeEditorFragment()
+                AnywhereType.IMAGE -> ImageEditorFragment()
+                AnywhereType.SHELL -> ShellEditorFragment()
+                else -> AnywhereEditorFragment()
+            }
+            fragment.apply {
+                arguments = Bundle().apply {
+                    putParcelable(EXTRA_ENTITY, entity!!)
+                    putBoolean(EXTRA_EDIT_MODE, isEditMode)
+                }
+            }
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(binding.fragmentContainerView.id, fragment)
+                    .commitNow()
+            hasInit = true
         }
-        supportFragmentManager
-                .beginTransaction()
-                .replace(binding.fragmentContainerView.id, fragment)
-                .commitNow()
     }
 
     override fun onBackPressed() {
@@ -98,7 +109,9 @@ class EditorActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.editor_bottom_bar_menu, menu)
+        if (entity!!.anywhereType != AnywhereType.IMAGE) {
+            menuInflater.inflate(R.menu.editor_bottom_bar_menu, menu)
+        }
         return true
     }
 
@@ -129,17 +142,17 @@ class EditorActivity : BaseActivity() {
             } else {
                 navigationIcon?.alpha = 255
                 setNavigationOnClickListener { bottomDrawerBehavior.setState(BottomSheetBehavior.STATE_EXPANDED) }
-                setOnMenuItemClickListener {
-                    when (it.itemId) {
-                        R.id.trying_run -> {
-                            fragment.tryingRun()
-                        }
-                        R.id.overlay -> {
-                            startOverlay()
-                        }
+            }
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.trying_run -> {
+                        fragment.tryingRun()
                     }
-                    true
+                    R.id.overlay -> {
+                        startOverlay()
+                    }
                 }
+                true
             }
         }
 

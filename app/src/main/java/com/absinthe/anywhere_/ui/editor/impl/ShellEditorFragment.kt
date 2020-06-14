@@ -14,7 +14,7 @@ import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showShellResultDialog
 
-class ShellEditorFragment(item: AnywhereEntity, isEditMode: Boolean) :BaseEditorFragment(item, isEditMode) {
+class ShellEditorFragment :BaseEditorFragment() {
 
     private lateinit var binding: EditorShellBinding
 

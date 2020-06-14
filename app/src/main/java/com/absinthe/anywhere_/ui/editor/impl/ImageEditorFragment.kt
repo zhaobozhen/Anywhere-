@@ -19,16 +19,16 @@ import com.absinthe.anywhere_.databinding.EditorImageBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
-import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
 import com.google.android.material.shape.CornerFamily
 
-class ImageEditorFragment(item: AnywhereEntity, isEditMode: Boolean) :BaseEditorFragment(item, isEditMode), OnButtonCheckedListener {
+class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
 
     private lateinit var binding: EditorImageBinding
 
@@ -53,7 +53,7 @@ class ImageEditorFragment(item: AnywhereEntity, isEditMode: Boolean) :BaseEditor
                         addCategory(Intent.CATEGORY_OPENABLE)
                         type = "image/*"
                     }
-                    (requireActivity() as BaseActivity).startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
+                    (requireActivity()).startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
                 } catch (e: ActivityNotFoundException) {
                     e.printStackTrace()
                     ToastUtil.makeText(R.string.toast_no_document_app)
@@ -61,31 +61,31 @@ class ImageEditorFragment(item: AnywhereEntity, isEditMode: Boolean) :BaseEditor
             }
         }
 
-        (requireActivity() as BaseActivity).setDocumentResultListener(object :OnDocumentResultListener{
-            override fun onResult(uri: Uri) {
-                loadImage(uri.toString())
-                binding.tietUrl.setText(uri.toString())
-            }
-
-        })
-
         binding.tietUrl.apply {
             if (isEditMode) {
                 setText(item.param1)
                 loadImage(item.param1)
             }
-            addTextChangedListener(object :TextWatcher{
+            addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable) {
                     if (AppTextUtils.isImageUrl(s.toString())) {
                         loadImage(s.toString())
                     }
                 }
+
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             })
         }
 
         requireActivity().invalidateOptionsMenu()
+
+        (requireActivity() as BaseActivity).setDocumentResultListener(object : OnDocumentResultListener {
+            override fun onResult(uri: Uri) {
+                loadImage(uri.toString())
+                binding.tietUrl.setText(uri.toString())
+            }
+        })
     }
 
     override fun tryingRun() {}

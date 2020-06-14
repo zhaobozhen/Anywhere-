@@ -35,7 +35,8 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter> <!-- Start from URL Scheme -->
+            <intent-filter>
+                <!-- Start from URL Scheme -->
                 <!-- Required -->
                 <action android:name="android.intent.action.VIEW" />
                 <!-- Start from a browser -->
@@ -123,8 +124,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity
-            android:name=".ui.list.AppDetailActivity" />
+        <activity android:name=".ui.list.AppDetailActivity" />
         <activity
             android:name=".ui.settings.TileSettingsActivity"
             android:label="@string/settings_tiles">
