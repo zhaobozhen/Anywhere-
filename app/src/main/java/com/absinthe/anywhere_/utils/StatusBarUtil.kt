@@ -38,7 +38,7 @@ object StatusBarUtil {
                             or WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
             if (getNavBarHeight() > ConvertUtils.dp2px(20f)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (AppUtils.atLeastO()) {
                     activity.window.decorView.systemUiVisibility = (
                             activity.window.decorView.systemUiVisibility
                                     or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)

@@ -28,7 +28,6 @@ import com.absinthe.anywhere_.services.overlay.OverlayService
 import com.absinthe.anywhere_.ui.editor.impl.*
 import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils.atLeastNMR1
-import com.absinthe.anywhere_.utils.AppUtils.atLeastO
 import com.absinthe.anywhere_.utils.AppUtils.atLeastR
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -190,9 +189,7 @@ class EditorActivity : BaseActivity() {
                         }
                     }
                     R.id.add_home_shortcuts -> {
-                        if (atLeastO()) {
-                            showCreatePinnedShortcutDialog(this@EditorActivity, entity!!)
-                        }
+                        showCreatePinnedShortcutDialog(this@EditorActivity, entity!!)
                     }
                     R.id.delete -> {
                         DialogManager.showDeleteAnywhereDialog(this@EditorActivity, entity!!)
@@ -250,11 +247,10 @@ class EditorActivity : BaseActivity() {
                         }
                     }
                 } else {
-                    setVisible(false)
+                    it.isVisible = false
                 }
             }
 
-            menu.findItem(R.id.add_home_shortcuts)?.isVisible = atLeastO()
             menu.findItem(R.id.restore_icon)?.isVisible = entity!!.iconUri.isNotEmpty()
             menu.findItem(R.id.share_card)?.isVisible = entity!!.anywhereType != AnywhereType.Card.IMAGE
 
@@ -300,7 +296,7 @@ class EditorActivity : BaseActivity() {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private fun addShortcut(context: Context, ae: AnywhereEntity) {
-        if (ShortcutsUtils.Singleton.INSTANCE.instance.dynamicShortcuts.size < 3) {
+        if (ShortcutsUtils.SHORTCUT_MANAGER!!.dynamicShortcuts.size < 3) {
             val builder = AnywhereDialogBuilder(context)
             showAddShortcutDialog(context, builder, ae, DialogInterface.OnClickListener { _, _ ->
                 ShortcutsUtils.addShortcut(ae)

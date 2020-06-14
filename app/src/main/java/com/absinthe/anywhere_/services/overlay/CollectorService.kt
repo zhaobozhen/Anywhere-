@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
@@ -25,7 +26,7 @@ class CollectorService : Service() {
     private val binder = CollectorBinder()
 
     @SuppressLint("HandlerLeak")
-    private val mHandler = Handler()
+    private val mHandler = Handler(Looper.myLooper()!!)
     private val getCurrentInfoTask: Runnable = object : Runnable {
         override fun run() {
             val result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY)

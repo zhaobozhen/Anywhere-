@@ -6,9 +6,7 @@ import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -28,7 +26,6 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
     private val mIcon: Drawable = UiUtils.getAppIconByPackageName(Utils.getApp(), mEntity)
     private val mName: String = mEntity.appName
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = CreateShortcutDialogBuilder(requireContext())
         val builder = AnywhereDialogBuilder(requireContext())
@@ -37,9 +34,13 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
         return builder.setView(mBuilder.root)
                 .setTitle(R.string.dialog_set_icon_and_name_title)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
-                    ShortcutsUtils.addPinnedShortcut(mEntity,
-                            mBuilder.ivIcon.drawable, mBuilder.etName.text.toString())
-                    setDismissParent(true)
+                    if (AppUtils.atLeastO()) {
+                        ShortcutsUtils.addPinnedShortcut(mEntity,
+                                mBuilder.ivIcon.drawable, mBuilder.etName.text.toString())
+                    } else {
+                        ShortcutsUtils.addHomeShortcutPreO(mEntity,
+                                mBuilder.ivIcon.drawable, mBuilder.etName.text.toString())
+                    }
                 }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .create()

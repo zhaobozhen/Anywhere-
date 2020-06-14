@@ -83,7 +83,11 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_title"
@@ -150,7 +154,8 @@
         <activity
             android:name=".ui.settings.LogcatActivity"
             android:label="@string/logcat" />
-        <activity android:name=".ui.editor.EditorActivity" />
+        <activity android:name=".ui.editor.EditorActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="moe.shizuku.api.ShizukuProvider"

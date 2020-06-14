@@ -170,14 +170,18 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
 
         itemView.badge.apply {
-            isGone = item.shortcutType != AnywhereType.Property.SHORTCUTS && item.exportedType != AnywhereType.Property.EXPORTED
-
-            if (item.shortcutType == AnywhereType.Property.SHORTCUTS) {
-                setImageResource(R.drawable.ic_add_shortcut)
-                setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
-            } else if (item.exportedType == AnywhereType.Property.EXPORTED) {
-                setImageResource(R.drawable.ic_exported)
-                setColorFilter(ContextCompat.getColor(context, R.color.exported_tint), PorterDuff.Mode.SRC_IN)
+            when {
+                item.shortcutType == AnywhereType.Property.SHORTCUTS -> {
+                    setImageResource(R.drawable.ic_add_shortcut)
+                    setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
+                }
+                item.exportedType == AnywhereType.Property.EXPORTED -> {
+                    setImageResource(R.drawable.ic_exported)
+                    setColorFilter(ContextCompat.getColor(context, R.color.exported_tint), PorterDuff.Mode.SRC_IN)
+                }
+                else -> {
+                    isGone = true
+                }
             }
         }
 

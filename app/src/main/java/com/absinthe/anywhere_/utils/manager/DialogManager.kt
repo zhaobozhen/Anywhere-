@@ -60,7 +60,7 @@ object DialogManager {
                 .setMessage(R.string.dialog_reset_shortcuts_confirm_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
                     if (AppUtils.atLeastNMR1()) {
-                        ShortcutsUtils.clearShortcuts()
+                        ShortcutsUtils.clearAllShortcuts()
                     }
                 }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
@@ -304,8 +304,8 @@ object DialogManager {
     }
 
     @JvmStatic
-    fun showCreatePinnedShortcutDialog(activity: AppCompatActivity, ae: AnywhereEntity?) {
-        val fragment = CreateShortcutDialogFragment(ae!!)
+    fun showCreatePinnedShortcutDialog(activity: AppCompatActivity, ae: AnywhereEntity) {
+        val fragment = CreateShortcutDialogFragment(ae)
         fragment.show(activity.supportFragmentManager, fragment.tag)
     }
 

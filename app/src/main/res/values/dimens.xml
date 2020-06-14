@@ -21,6 +21,7 @@
     <dimen name="bsd_tool_size">36dp</dimen>
     <dimen name="bsd_item_margin_vertical">5dp</dimen>
     <dimen name="bsd_margin_vertical">20dp</dimen>
+    <dimen name="editor_padding_bottom">100dp</dimen>
 
     <!--  MD2 Toolbar  -->
     <dimen name="toolbar_radius_corner">8dp</dimen>
