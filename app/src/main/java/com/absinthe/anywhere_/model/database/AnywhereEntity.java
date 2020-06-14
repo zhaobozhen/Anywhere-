@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -316,5 +317,23 @@ public class AnywhereEntity implements Parcelable {
                 "category=" + mCategory + ", " +
                 "timeStamp=" + mTimeStamp + ", " +
                 "color=" + mCategory;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof AnywhereEntity) {
+            return mId.equals(((AnywhereEntity) obj).mId) &&
+                    mAppName.equals(((AnywhereEntity) obj).mAppName) &&
+                    mParam1.equals(((AnywhereEntity) obj).mParam1) &&
+                    mParam2.equals(((AnywhereEntity) obj).mParam2) &&
+                    mParam3.equals(((AnywhereEntity) obj).mParam3) &&
+                    mDescription.equals(((AnywhereEntity) obj).mDescription) &&
+                    mType.equals(((AnywhereEntity) obj).mType) &&
+                    mCategory.equals(((AnywhereEntity) obj).mCategory) &&
+                    mTimeStamp.equals(((AnywhereEntity) obj).mTimeStamp) &&
+                    mColor.equals(((AnywhereEntity) obj).mColor);
+        } else {
+            return false;
+        }
     }
 }

@@ -26,11 +26,7 @@ class ShellEditorFragment(item: AnywhereEntity, isEditMode: Boolean) :BaseEditor
     override fun initView() {
         binding.tietAppName.setText(item.appName)
         binding.tietDescription.setText(item.description)
-        binding.etShellContent.apply {
-            setText(item.param1)
-            requestFocus()
-        }
-
+        binding.etShellContent.setText(item.param1)
     }
 
     override fun tryingRun() {

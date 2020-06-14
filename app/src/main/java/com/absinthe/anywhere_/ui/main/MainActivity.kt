@@ -14,6 +14,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -50,11 +51,10 @@ import com.absinthe.anywhere_.ui.list.AppListActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
+import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
-import com.absinthe.anywhere_.utils.ListUtils
-import com.absinthe.anywhere_.utils.AppTextUtils
-import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
+import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
@@ -147,14 +147,14 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         Settings.setTheme(GlobalValues.darkMode)
-//        getClipBoardText(this, object : ClipboardUtil.Function {
-//            override fun invoke(text: String) {
-//                if (text.contains(URLManager.ANYWHERE_SCHEME)) {
-//                    processUri(text.toUri())
-//                    clearClipboard(this@MainActivity)
-//                }
-//            }
-//        })
+        getClipBoardText(this, object : ClipboardUtil.Function {
+            override fun invoke(text: String) {
+                if (text.contains(URLManager.ANYWHERE_SCHEME)) {
+                    processUri(text.toUri())
+                    clearClipboard(this@MainActivity)
+                }
+            }
+        })
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -500,7 +500,7 @@ class MainActivity : BaseActivity() {
         mBinding.fab.setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
             when (actionItem.id) {
                 R.id.fab_url_scheme -> {
-                    viewModel.setUpUrlScheme(this, mBinding.fab.mainFab)
+                    viewModel.setUpUrlScheme(this)
                     Analytics.trackEvent(EventTag.FAB_URL_SCHEME_CLICK)
                 }
                 R.id.fab_activity_list -> {
@@ -574,7 +574,7 @@ class MainActivity : BaseActivity() {
             }
         } else if (action == Intent.ACTION_SEND) {
             val sharing = intent.getStringExtra(Intent.EXTRA_TEXT)
-            viewModel.setUpUrlScheme(this, mBinding.fab.mainFab, AppTextUtils.parseUrlFromSharingText(sharing))
+            viewModel.setUpUrlScheme(this, AppTextUtils.parseUrlFromSharingText(sharing))
         }
     }
 
@@ -587,7 +587,7 @@ class MainActivity : BaseActivity() {
 
             when (type.toInt()) {
                 AnywhereType.URL_SCHEME -> {
-                    viewModel.setUpUrlScheme(this, mBinding.fab.mainFab, param1)
+                    viewModel.setUpUrlScheme(this, param1)
                 }
                 AnywhereType.ACTIVITY -> {
                     val appName = AppUtils.getAppName(param1) ?: ""

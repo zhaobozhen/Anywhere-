@@ -83,21 +83,16 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun setUpUrlScheme(context: Context, view: View, url: String = "") {
+    fun setUpUrlScheme(context: Context, url: String = "") {
         val ae = AnywhereEntity.Builder().apply {
             appName = getApplication<Application>().getString(R.string.bsd_new_url_scheme_name)
             param1 = url
             type = AnywhereType.URL_SCHEME
         }
-        val options = ActivityOptions.makeSceneTransitionAnimation(
-                context as BaseActivity,
-                view,
-                context.getString(R.string.trans_item_container)
-        )
         context.startActivity(Intent(context, EditorActivity::class.java).apply {
             putExtra(EXTRA_ENTITY, ae)
             putExtra(EXTRA_EDIT_MODE, false)
-        }, options.toBundle())
+        })
     }
 
     fun openImageEditor(context: Context, view: View) {

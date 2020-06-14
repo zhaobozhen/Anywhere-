@@ -125,7 +125,10 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                                 normalView!!.content.description.setTextColor(if (UiUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                             }
                                             item.color = color
-                                            AnywhereApplication.sRepository.update(item)
+
+                                            if (context !is QRCodeCollectionActivity) {
+                                                AnywhereApplication.sRepository.update(item)
+                                            }
                                         } else {
                                             itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
                                             normalView?.content?.description?.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
@@ -144,7 +147,9 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                 object : OnPaletteFinishedListener {
                                     override fun onFinished(color: Int) {
                                         item.color = color
-                                        AnywhereApplication.sRepository.update(item)
+                                        if (context !is QRCodeCollectionActivity) {
+                                            AnywhereApplication.sRepository.update(item)
+                                        }
                                     }
                                 })
                     } else {
@@ -177,9 +182,11 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
 
         if (!mSelectedIndex.contains(holder.layoutPosition)) {
-            holder.itemView.scaleX = 1.0f
-            holder.itemView.scaleY = 1.0f
-            (holder.itemView as MaterialCardView).isChecked = false
+            (holder.itemView as MaterialCardView).apply {
+                scaleX = 1.0f
+                scaleY = 1.0f
+                isChecked = false
+            }
         }
     }
 
@@ -194,14 +201,18 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                 openAnywhereActivity(item)
             } else if (mode == ADAPTER_MODE_SELECT) {
                 if (mSelectedIndex.contains(position)) {
-                    v.scaleX = 1.0f
-                    v.scaleY = 1.0f
-                    (v as MaterialCardView).isChecked = false
+                    (v as MaterialCardView).apply {
+                        scaleX = 1.0f
+                        scaleY = 1.0f
+                        isChecked = false
+                    }
                     mSelectedIndex.remove(position)
                 } else {
-                    v.scaleX = 0.9f
-                    v.scaleY = 0.9f
-                    (v as MaterialCardView).isChecked = true
+                    (v as MaterialCardView).apply {
+                        scaleX = 0.9f
+                        scaleY = 0.9f
+                        isChecked = true
+                    }
                     mSelectedIndex.add(position)
                 }
             }
