@@ -42,8 +42,6 @@ import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.services.BackupIntentService
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.transformer.CategoryCardTransformer
-import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment
-import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment.OnClickItemListener
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
@@ -524,25 +522,7 @@ class MainActivity : BaseActivity() {
                     startActivity(Intent(this, QRCodeCollectionActivity::class.java))
                     Analytics.trackEvent(EventTag.FAB_QR_CODE_COLLECTION_CLICK)
                 }
-                R.id.fab_advanced -> showAdvancedCardSelectDialog(this, object : OnClickItemListener {
-                    override fun onClick(view: View, item: Int) {
-                        when (item) {
-                            AdvancedCardSelectDialogFragment.ITEM_ADD_IMAGE -> {
-                                viewModel.openImageEditor(this@MainActivity, view)
-                                Analytics.trackEvent(EventTag.FAB_IMAGE_CLICK)
-                            }
-                            AdvancedCardSelectDialogFragment.ITEM_ADD_SHELL -> {
-                                viewModel.openShellEditor(this@MainActivity, view)
-                                Analytics.trackEvent(EventTag.FAB_SHELL_CLICK)
-                            }
-                            AdvancedCardSelectDialogFragment.ITEM_ADD_SWITCH_SHELL -> {
-                                viewModel.openSwitchShellEditor(this@MainActivity, view)
-                                Analytics.trackEvent(EventTag.FAB_SWITCH_SHELL_CLICK)
-                            }
-                        }
-                    }
-
-                })
+                R.id.fab_advanced -> showAdvancedCardSelectDialog(this)
                 else -> return@setOnActionSelectedListener false
             }
             mBinding.fab.close()

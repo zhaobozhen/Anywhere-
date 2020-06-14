@@ -87,7 +87,8 @@ public class IconPackManager {
                         if (eventType == XmlPullParser.START_TAG) {
                             switch (xpp.getName()) {
                                 case "iconback":
-                                    for (int i = 0; i < xpp.getAttributeCount(); i++) {
+                                    int count = xpp.getAttributeCount();
+                                    for (int i = 0; i < count; i++) {
                                         if (xpp.getAttributeName(i).startsWith("img")) {
                                             String drawableName = xpp.getAttributeValue(i);
                                             Bitmap iconback = loadBitmap(drawableName);
@@ -112,14 +113,15 @@ public class IconPackManager {
                                 case "scale":
                                     // mFactor
                                     if (xpp.getAttributeCount() > 0 && xpp.getAttributeName(0).equals("factor")) {
-                                        mFactor = Float.valueOf(xpp.getAttributeValue(0));
+                                        mFactor = Float.parseFloat(xpp.getAttributeValue(0));
                                     }
                                     break;
                                 case "item":
                                     String componentName = null;
                                     String drawableName = null;
+                                    count = xpp.getAttributeCount();
 
-                                    for (int i = 0; i < xpp.getAttributeCount(); i++) {
+                                    for (int i = 0; i < count; i++) {
                                         if (xpp.getAttributeName(i).equals("component")) {
                                             componentName = xpp.getAttributeValue(i);
                                         } else if (xpp.getAttributeName(i).equals("drawable")) {

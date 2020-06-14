@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
+            android:importantForAutofill="no"
             android:nextFocusForward="@id/tiet_description"
             android:singleLine="true" />
 
@@ -47,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
+            android:importantForAutofill="no"
             android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>

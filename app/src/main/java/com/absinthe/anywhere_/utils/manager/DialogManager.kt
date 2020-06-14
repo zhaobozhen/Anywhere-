@@ -16,7 +16,6 @@ import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
 import com.absinthe.anywhere_.ui.dialog.*
-import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment.OnClickItemListener
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment
@@ -353,9 +352,8 @@ object DialogManager {
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 
-    fun showAdvancedCardSelectDialog(activity: AppCompatActivity, listener: OnClickItemListener?) {
+    fun showAdvancedCardSelectDialog(activity: AppCompatActivity) {
         val dialogFragment = AdvancedCardSelectDialogFragment()
-        dialogFragment.setListener(listener)
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 }

@@ -136,7 +136,9 @@ public class LogRecorder {
         if (!mFilterTags.isEmpty()) {
             stringBuilder.append(SPACE);
             stringBuilder.append("-s");
-            for (int i = 0; i < mFilterTags.size(); i++) {
+            int size = mFilterTags.size();
+
+            for (int i = 0; i < size; i++) {
                 String tag = mFilterTags.get(i) + ":" + levelStr;
                 stringBuilder.append(SPACE);
                 stringBuilder.append(tag);

@@ -16,8 +16,10 @@ import com.absinthe.anywhere_.ui.backup.BackupActivity
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.thegrizzlylabs.sardineandroid.DavResource
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -173,8 +175,9 @@ object StorageUtils {
             try {
                 val hostDir = GlobalValues.webdavHost + URLManager.BACKUP_DIR
 
-                if (!sardine.exists(hostDir)) {
+                while (!sardine.exists(hostDir)) {
                     sardine.createDirectory(hostDir)
+                    delay(300)
                 }
 
                 val backupName = "Anywhere-Backups-${AppTextUtils.webDavFormatDate}-${BuildConfig.VERSION_NAME}.awbackups"
@@ -197,5 +200,22 @@ object StorageUtils {
                 }
             }
         }
+    }
+
+    @Throws(IOException::class)
+    suspend fun getAllWebdavBackups(): List<DavResource>? {
+        if (GlobalValues.webdavHost.isEmpty() ||
+                GlobalValues.webdavUsername.isEmpty() ||
+                GlobalValues.webdavPassword.isEmpty()) {
+            return null
+        }
+        var resource: List<DavResource>? = null
+
+        withContext(Dispatchers.IO) {
+            val sardine = OkHttpSardine()
+            sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
+            resource = sardine.list(GlobalValues.webdavHost + URLManager.BACKUP_DIR)
+        }
+        return resource
     }
 }

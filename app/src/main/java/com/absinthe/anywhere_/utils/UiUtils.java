@@ -87,9 +87,9 @@ public class UiUtils {
                 apkTempPackageName = item.getParam1();
                 return getAppIconByPackageName(context, apkTempPackageName);
             case AnywhereType.Card.IMAGE:
-                return context.getDrawable(R.drawable.ic_photo);
+                return context.getDrawable(R.drawable.ic_card_image);
             case AnywhereType.Card.SHELL:
-                return context.getDrawable(R.drawable.ic_code);
+                return context.getDrawable(R.drawable.ic_card_shell);
             case AnywhereType.Card.SWITCH_SHELL:
                 if (item.getParam3().equals(SwitchShellEditor.SWITCH_SHELL_OFF_STATUS))
                     return context.getDrawable(R.drawable.ic_switch_off);
@@ -232,6 +232,7 @@ public class UiUtils {
         }
 
         final int finalActionBarHeight = actionBarHeight;
+
         Glide.with(activity)
                 .asBitmap()
                 .load(Uri.parse(GlobalValues.INSTANCE.getBackgroundUri()))
