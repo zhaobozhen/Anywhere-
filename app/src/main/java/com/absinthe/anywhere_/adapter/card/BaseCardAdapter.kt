@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -28,6 +29,8 @@ import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInpu
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
 import com.absinthe.anywhere_.ui.main.CategoryCardFragment
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils
@@ -44,7 +47,6 @@ import com.absinthe.anywhere_.view.card.CardItemView
 import com.absinthe.anywhere_.view.card.NormalItemView
 import com.absinthe.anywhere_.view.card.StreamItemView
 import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
-import com.absinthe.anywhere_.view.editor.SwitchShellEditor
 import com.bumptech.glide.Glide
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -182,6 +184,18 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                 else -> {
                     isGone = true
                 }
+            }
+        }
+        itemView.indicator.apply {
+            if (item.anywhereType == AnywhereType.Card.SWITCH_SHELL) {
+                isVisible = true
+                if (item.param3 == SWITCH_OFF) {
+                    setImageResource(R.drawable.ic_red_dot)
+                } else if (item.param3 == SWITCH_ON) {
+                    setImageResource(R.drawable.ic_green_dot)
+                }
+            } else {
+                isGone = true
             }
         }
 
@@ -330,13 +344,10 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             showShellResultDialog(context, result, null, null)
         } else if (item.anywhereType == AnywhereType.Card.SWITCH_SHELL) {
             Opener.with(context).load(item).open()
-            if (item.param3 == SwitchShellEditor.SWITCH_SHELL_OFF_STATUS) {
-                item.param3 = SwitchShellEditor.SWITCH_SHELL_ON_STATUS
-                AnywhereApplication.sRepository.update(item)
-            } else {
-                item.param3 = SwitchShellEditor.SWITCH_SHELL_OFF_STATUS
-                AnywhereApplication.sRepository.update(item)
+            val ae = AnywhereEntity(item).apply {
+                param3 = if (param3 == SWITCH_OFF) SWITCH_ON else SWITCH_OFF
             }
+            AnywhereApplication.sRepository.update(ae)
         } else if (item.anywhereType == AnywhereType.Card.ACTIVITY) {
             Opener.with(context).load(item).open()
         }

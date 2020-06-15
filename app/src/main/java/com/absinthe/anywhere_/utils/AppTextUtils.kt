@@ -11,12 +11,13 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
 import com.absinthe.anywhere_.utils.CipherUtils.encrypt
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.handleIntent
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.anywhere_.view.editor.SwitchShellEditor
 import com.blankj.utilcode.util.Utils
 import com.google.gson.Gson
 import timber.log.Timber
@@ -90,9 +91,9 @@ object AppTextUtils {
             AnywhereType.Card.SWITCH_SHELL -> {
                 cmd.append(AnywhereType.Prefix.SHELL_PREFIX)
 
-                if (item.param3 == SwitchShellEditor.SWITCH_SHELL_OFF_STATUS) {
+                if (item.param3 == SWITCH_OFF) {
                     cmd.append(item.param1)
-                } else if (item.param3 == SwitchShellEditor.SWITCH_SHELL_ON_STATUS) {
+                } else if (item.param3 == SWITCH_ON) {
                     cmd.append(item.param2)
                 }
             }

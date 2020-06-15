@@ -38,8 +38,13 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
     }
 
     override fun initView() {
+        if (item.param1.startsWith("http://") || item.param1.startsWith("https://")) {
+            binding.toggleGroup.check(R.id.btn_web)
+        } else {
+            binding.tilUrl.isEnabled = false
+        }
+
         binding.toggleGroup.addOnButtonCheckedListener(this)
-        binding.tilUrl.isEnabled = false
         binding.tietAppName.setText(item.appName)
         binding.tietDescription.setText(item.description)
 

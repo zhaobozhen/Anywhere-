@@ -4,6 +4,8 @@
     style="@style/Widget.Design.BottomSheet.Modal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/bsd_edit_text_margin_horizontal"
+    android:layout_marginVertical="@dimen/bsd_margin_vertical"
     android:background="@color/transparent">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -11,8 +13,6 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
-        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_switch_shell_name_label"
         app:errorEnabled="true"
         app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
+            android:importantForAutofill="no"
             android:nextFocusForward="@id/tiet_switch_on"
             android:singleLine="true" />
 
@@ -34,9 +35,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_switch_on_label"
         app:errorEnabled="true"
         app:helperText="@string/bsd_text_input_layout_switch_on_helper_text"
@@ -46,7 +45,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_switch_on"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,9 +55,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
         android:hint="@string/bsd_text_input_layout_switch_off_label"
         app:errorEnabled="true"
         app:helperText="@string/bsd_text_input_layout_switch_off_helper_text"
@@ -67,7 +65,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_switch_off"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,12 +75,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-        android:layout_marginEnd="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginBottom="@dimen/editor_padding_bottom"
         android:hint="@string/bsd_text_input_layout_description_label"
         app:helperText="@string/bsd_text_input_layout_description_helper_text"
         app:helperTextEnabled="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_switch_off">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -89,6 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
+            android:importantForAutofill="no"
             android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>

@@ -23,6 +23,7 @@ class AdvancedCardSelectDialogBuilder(context: Context) : ViewBuilder(context) {
         rvList = RecyclerView(context).apply {
             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+            overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             adapter = this@AdvancedCardSelectDialogBuilder.adapter
             addItemDecoration(SpacesItemDecoration(5))
         }

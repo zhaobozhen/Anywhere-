@@ -34,6 +34,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
         val cardList = listOf(
                 AdvancedCardItem(R.string.btn_add_image, R.drawable.ic_card_image, getOpeningEditorListener(AnywhereType.Card.IMAGE)),
                 AdvancedCardItem(R.string.btn_add_shell, R.drawable.ic_card_shell, getOpeningEditorListener(AnywhereType.Card.SHELL)),
+                AdvancedCardItem(R.string.btn_add_switch_shell, R.drawable.ic_card_switch, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),
                 AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, getOpeningEditorListener(AnywhereType.Card.FILE)),
                 AdvancedCardItem(R.string.btn_add_intent, R.drawable.ic_card_intent, getOpeningEditorListener(AnywhereType.Card.INTENT)),
                 AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, getOpeningEditorListener(AnywhereType.Card.BROADCAST))
@@ -48,7 +49,9 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                 appName = when (type) {
                     AnywhereType.Card.IMAGE -> "New Image"
                     AnywhereType.Card.SHELL -> "New Shell"
+                    AnywhereType.Card.SWITCH_SHELL -> "New Switch"
                     AnywhereType.Card.FILE -> "New File"
+                    AnywhereType.Card.INTENT -> "New Intent"
                     AnywhereType.Card.BROADCAST -> "New Broadcast"
                     else -> "New Card"
                 }

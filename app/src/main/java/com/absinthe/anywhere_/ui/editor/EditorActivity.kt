@@ -83,6 +83,7 @@ class EditorActivity : BaseActivity() {
                 AnywhereType.Card.QR_CODE -> QRCodeEditorFragment()
                 AnywhereType.Card.IMAGE -> ImageEditorFragment()
                 AnywhereType.Card.SHELL -> ShellEditorFragment()
+                AnywhereType.Card.SWITCH_SHELL -> SwitchShellEditorFragment()
                 else -> AnywhereEditorFragment()
             }
             fragment.apply {
@@ -108,7 +109,7 @@ class EditorActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (entity!!.anywhereType != AnywhereType.Card.IMAGE) {
+        if (shouldShowMenu()) {
             menuInflater.inflate(R.menu.editor_bottom_bar_menu, menu)
         }
         return true
@@ -316,5 +317,10 @@ class EditorActivity : BaseActivity() {
             ShortcutsUtils.removeShortcut(ae)
             onBackPressed()
         })
+    }
+
+    private fun shouldShowMenu(): Boolean {
+        return entity!!.anywhereType != AnywhereType.Card.IMAGE &&
+                entity!!.anywhereType != AnywhereType.Card.SWITCH_SHELL
     }
 }

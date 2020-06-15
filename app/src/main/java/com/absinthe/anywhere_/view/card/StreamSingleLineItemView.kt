@@ -30,8 +30,15 @@ class StreamSingleLineItemView(context: Context) : ContourLayout(context) {
     val badge: ImageView = ImageView(context).apply {
         contentDescription = context.getString(R.string.icon_badge_todo)
         applyLayout(
-                x = rightTo { icon.right() + 7.xdip }.widthOf { 15.xdip },
-                y = topTo { icon.top() - 7.ydip }.heightOf { 15.ydip }
+                x = rightTo { icon.right() }.widthOf { 10.xdip },
+                y = topTo { icon.top() }.heightOf { 10.ydip }
+        )
+    }
+
+    val indicator: ImageView = ImageView(context).apply {
+        applyLayout(
+                x = rightTo { icon.right() }.widthOf { 10.xdip },
+                y = bottomTo { icon.bottom() }.heightOf { 10.ydip }
         )
     }
 
