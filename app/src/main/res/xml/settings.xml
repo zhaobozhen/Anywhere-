@@ -54,7 +54,7 @@
             app:key="resetBackground"
             app:title="@string/settings_reset_background"
             app:summary="@string/settings_reset_background_summary"
-            android:icon="@drawable/ic_reset_bg"/>
+            android:icon="@drawable/ic_reset"/>
 
         <DropDownPreference
             app:key="darkMode"
