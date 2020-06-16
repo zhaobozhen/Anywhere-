@@ -15,8 +15,7 @@ object AnywhereType {
         const val SHELL = 5
         const val SWITCH_SHELL = 6
         const val FILE = 7
-        const val INTENT = 8
-        const val BROADCAST = 9
+        const val BROADCAST = 8
     }
 
     object Property {

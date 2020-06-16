@@ -255,7 +255,7 @@ class EditorActivity : BaseActivity() {
             }
 
             menu.findItem(R.id.restore_icon)?.isVisible = entity!!.iconUri.isNotEmpty()
-            menu.findItem(R.id.share_card)?.isVisible = entity!!.type != AnywhereType.Card.IMAGE
+            menu.findItem(R.id.share_card)?.isVisible = entity!!.type != AnywhereType.Card.IMAGE && entity!!.type != AnywhereType.Card.FILE
 
             invalidate()
         }

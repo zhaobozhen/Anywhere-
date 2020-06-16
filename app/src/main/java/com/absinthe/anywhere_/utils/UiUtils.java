@@ -93,8 +93,6 @@ public class UiUtils {
                 return context.getDrawable(R.drawable.ic_card_switch);
             case AnywhereType.Card.FILE:
                 return context.getDrawable(R.drawable.ic_card_file);
-            case AnywhereType.Card.INTENT:
-                return context.getDrawable(R.drawable.ic_card_intent);
             case AnywhereType.Card.BROADCAST:
                 return context.getDrawable(R.drawable.ic_card_broadcast);
         }

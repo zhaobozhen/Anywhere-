@@ -36,7 +36,6 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                 AdvancedCardItem(R.string.btn_add_shell, R.drawable.ic_card_shell, getOpeningEditorListener(AnywhereType.Card.SHELL)),
                 AdvancedCardItem(R.string.btn_add_switch_shell, R.drawable.ic_card_switch, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),
                 AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, getOpeningEditorListener(AnywhereType.Card.FILE)),
-                AdvancedCardItem(R.string.btn_add_intent, R.drawable.ic_card_intent, getOpeningEditorListener(AnywhereType.Card.INTENT)),
                 AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, getOpeningEditorListener(AnywhereType.Card.BROADCAST))
         )
         mBuilder.adapter.setNewInstance(cardList.toMutableList())
@@ -44,8 +43,6 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private fun getOpeningEditorListener(type: Int): View.OnClickListener {
         return View.OnClickListener {
-            if (type == AnywhereType.Card.INTENT || type == AnywhereType.Card.BROADCAST) return@OnClickListener
-
             val ae = AnywhereEntity.Builder().apply {
                 this.type = type
                 appName = when (type) {
@@ -53,7 +50,6 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                     AnywhereType.Card.SHELL -> "New Shell"
                     AnywhereType.Card.SWITCH_SHELL -> "New Switch"
                     AnywhereType.Card.FILE -> "New File"
-                    AnywhereType.Card.INTENT -> "New Intent"
                     AnywhereType.Card.BROADCAST -> "New Broadcast"
                     else -> "New Card"
                 }
