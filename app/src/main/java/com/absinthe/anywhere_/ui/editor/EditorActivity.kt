@@ -85,6 +85,7 @@ class EditorActivity : BaseActivity() {
                 AnywhereType.Card.IMAGE -> ImageEditorFragment()
                 AnywhereType.Card.SHELL -> ShellEditorFragment()
                 AnywhereType.Card.SWITCH_SHELL -> SwitchShellEditorFragment()
+                AnywhereType.Card.FILE -> FileEditorFragment()
                 else -> AnywhereEditorFragment()
             }
             fragment.apply {
@@ -322,6 +323,7 @@ class EditorActivity : BaseActivity() {
 
     private fun shouldShowMenu(): Boolean {
         return entity!!.type != AnywhereType.Card.IMAGE &&
-                entity!!.type != AnywhereType.Card.SWITCH_SHELL
+                entity!!.type != AnywhereType.Card.SWITCH_SHELL &&
+                entity!!.type != AnywhereType.Card.FILE
     }
 }

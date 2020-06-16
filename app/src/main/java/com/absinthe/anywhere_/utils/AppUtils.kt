@@ -343,56 +343,81 @@ object AppUtils {
     }
 
     fun openAnywhereEntity(context: Context, item: AnywhereEntity) {
-        if (item.type == AnywhereType.Card.QR_CODE) {
-            val qrId = if (context is QRCodeCollectionActivity) {
-                item.id
-            } else {
-                item.param2
+        when (item.type) {
+            AnywhereType.Card.QR_CODE -> {
+                val qrId = if (context is QRCodeCollectionActivity) {
+                    item.id
+                } else {
+                    item.param2
+                }
+                val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)
+                entity?.launch()
             }
-            val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)
-            entity?.launch()
-        } else if (item.type == AnywhereType.Card.IMAGE) {
-            DialogManager.showImageDialog((context as AppCompatActivity), item.param1)
-        } else if (item.type == AnywhereType.Card.URL_SCHEME) {
-            if (item.param3.isNotEmpty()) {
-                DialogManager.showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : DynamicParamsDialogFragment.OnParamsInputListener {
-                    override fun onFinish(text: String?) {
-                        if (GlobalValues.workingMode == Const.WORKING_MODE_URL_SCHEME) {
-                            try {
-                                parse(item.param1 + text, context)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                if (e is ActivityNotFoundException) {
-                                    ToastUtil.makeText(R.string.toast_no_react_url)
-                                } else if (atLeastN()) {
-                                    if (e is FileUriExposedException) {
-                                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                                    }
-                                }
-                            }
-                        } else {
-                            Opener.with(context)
-                                    .load(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.param1) + text)
-                                    .open()
-                        }
-                    }
-
-                    override fun onCancel() {}
-                })
-            } else {
+            AnywhereType.Card.IMAGE -> {
+                DialogManager.showImageDialog((context as AppCompatActivity), item.param1)
+            }
+            AnywhereType.Card.ACTIVITY -> {
                 Opener.with(context).load(item).open()
             }
-        } else if (item.type == AnywhereType.Card.SHELL) {
-            val result = CommandUtils.execAdbCmd(item.param1)
-            DialogManager.showShellResultDialog(context, result, null, null)
-        } else if (item.type == AnywhereType.Card.SWITCH_SHELL) {
-            Opener.with(context).load(item).open()
-            val ae = AnywhereEntity(item).apply {
-                param3 = if (param3 == SWITCH_OFF) SWITCH_ON else SWITCH_OFF
+            AnywhereType.Card.URL_SCHEME -> {
+                if (item.param3.isNotEmpty()) {
+                    DialogManager.showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : DynamicParamsDialogFragment.OnParamsInputListener {
+                        override fun onFinish(text: String?) {
+                            if (GlobalValues.workingMode == Const.WORKING_MODE_URL_SCHEME) {
+                                try {
+                                    parse(item.param1 + text, context)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    if (e is ActivityNotFoundException) {
+                                        ToastUtil.makeText(R.string.toast_no_react_url)
+                                    } else if (atLeastN()) {
+                                        if (e is FileUriExposedException) {
+                                            ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                                        }
+                                    }
+                                }
+                            } else {
+                                Opener.with(context)
+                                        .load(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.param1) + text)
+                                        .open()
+                            }
+                        }
+
+                        override fun onCancel() {}
+                    })
+                } else {
+                    Opener.with(context).load(item).open()
+                }
             }
-            AnywhereApplication.sRepository.update(ae)
-        } else if (item.type == AnywhereType.Card.ACTIVITY) {
-            Opener.with(context).load(item).open()
+            AnywhereType.Card.SHELL -> {
+                val result = CommandUtils.execAdbCmd(item.param1)
+                DialogManager.showShellResultDialog(context, result, null, null)
+            }
+            AnywhereType.Card.SWITCH_SHELL -> {
+                Opener.with(context).load(item).open()
+                val ae = AnywhereEntity(item).apply {
+                    param3 = if (param3 == SWITCH_OFF) SWITCH_ON else SWITCH_OFF
+                }
+                AnywhereApplication.sRepository.update(ae)
+
+                if (atLeastNMR1()) {
+                    ShortcutsUtils.updateShortcut(ae)
+                }
+            }
+            AnywhereType.Card.FILE -> {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    data = item.param1.toUri()
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+
+                try {
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    ToastUtil.makeText(R.string.toast_no_react_url)
+                }
+            }
         }
     }
 }

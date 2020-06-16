@@ -44,6 +44,8 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private fun getOpeningEditorListener(type: Int): View.OnClickListener {
         return View.OnClickListener {
+            if (type == AnywhereType.Card.INTENT || type == AnywhereType.Card.BROADCAST) return@OnClickListener
+
             val ae = AnywhereEntity.Builder().apply {
                 this.type = type
                 appName = when (type) {

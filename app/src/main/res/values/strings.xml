@@ -85,6 +85,7 @@
     <string name="bsd_text_input_layout_switch_shell_name_label">Switch Shell Name</string>
     <string name="bsd_text_input_layout_switch_on_label">Switch On</string>
     <string name="bsd_text_input_layout_switch_off_label">Switch Off</string>
+    <string name="bsd_text_input_layout_file_uri_hint">File URI</string>
 
     <string name="bsd_text_input_layout_app_name_helper_text">Give your Anywhere- card a name</string>
     <string name="bsd_text_input_layout_package_name_helper_text">App \'s package name, usually default</string>
@@ -96,9 +97,14 @@
     <string name="bsd_text_input_layout_dynamic_params_helper_text">Enter parameters while each opening\nExample: param1&amp;param2</string>
     <string name="bsd_text_input_layout_switch_on_helper_text">Execute the shell above when the switch is on</string>
     <string name="bsd_text_input_layout_switch_off_helper_text">Execute the shell above when the switch is off</string>
+    <string name="bsd_text_input_layout_file_helper_text">Secure file path obtained by Content Provider</string>
 
     <string name="bsd_new_url_scheme_name">New URL Scheme</string>
     <string name="bsd_default">Default</string>
+    <string name="bsd_switch_shell_status_on">Status ON</string>
+    <string name="bsd_switch_shell_status_off">Status OFF</string>
+
+    <string name="bsd_button_select_file">Select File</string>
 
     <!--  AppBarMenu  -->
     <string name="menu_sort">Sort</string>

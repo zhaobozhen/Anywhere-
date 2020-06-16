@@ -76,10 +76,10 @@ class ShortcutsActivity : BaseActivity() {
                                 findItem.id == id
                             }?.apply {
                                 AppUtils.openAnywhereEntity(this@ShortcutsActivity, this)
+                                finish()
                             }
                         })
                     }
-                    finish()
                 }
                 ACTION_START_COMMAND -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { cmd ->
@@ -117,12 +117,6 @@ class ShortcutsActivity : BaseActivity() {
                         }
                     } ?: finish()
                 }
-                ACTION_START_QR_CODE -> {
-                    intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { cmd ->
-                        Opener.with(this).load(cmd).open()
-                    }
-                    finish()
-                }
                 Intent.ACTION_CREATE_SHORTCUT -> {
                     viewModel.allAnywhereEntities.observe(this, Observer { anywhereEntities: List<AnywhereEntity>? ->
                         val arrayAdapter = ArrayAdapter<String>(Utils.getApp(), android.R.layout.select_dialog_singlechoice)
@@ -136,16 +130,15 @@ class ShortcutsActivity : BaseActivity() {
 
                             AnywhereDialogBuilder(this)
                                     .setAdapter(arrayAdapter) { _: DialogInterface?, i: Int ->
+                                        val entity = entities[i]
                                         val shortcutIntent = Intent(this@ShortcutsActivity, ShortcutsActivity::class.java).apply {
-                                            val cmd = AppTextUtils.getItemCommand(entities[i])
-
-                                            action = if (cmd.startsWith(AnywhereType.Prefix.QRCODE_PREFIX)) {
-                                                ACTION_START_QR_CODE
-                                            } else {
-                                                ACTION_START_COMMAND
+                                            if (entities[i].type == AnywhereType.Card.IMAGE) {
+                                                action = ACTION_START_IMAGE
+                                                putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, entity.param1)
+                                            } else{
+                                                action = ACTION_START_ENTITY
+                                                putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, entity.id)
                                             }
-
-                                            putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, cmd)
                                         }
 
                                         val intent = Intent().apply {
@@ -196,7 +189,6 @@ class ShortcutsActivity : BaseActivity() {
         const val ACTION_START_ENTITY = "START_ENTITY"
         const val ACTION_START_COMMAND = "START_COMMAND" //Old Scheme
         const val ACTION_START_FROM_WIDGET = "START_FROM_WIDGET"
-        const val ACTION_START_QR_CODE = "START_QR_CODE" //Old Scheme
         const val ACTION_START_IMAGE = "START_IMAGE" //Old Scheme
     }
 }

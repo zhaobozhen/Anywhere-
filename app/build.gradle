@@ -24,8 +24,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 20003
-        versionName "2.0-beta4"
+        versionCode 20004
+        versionName "2.0-beta5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
@@ -104,7 +104,7 @@ dependencies {
     def core_version = "1.5.0-alpha01"
     def lifecycle_version = '2.3.0-alpha04'
     def room_version = '2.2.5'
-    def activity_version = '1.2.0-alpha05'
+    def activity_version = '1.2.0-alpha06'
     def fragment_version = '1.2.5'
     def collection_version = "1.1.0"
 

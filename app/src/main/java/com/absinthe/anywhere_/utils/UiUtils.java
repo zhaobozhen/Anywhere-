@@ -49,6 +49,7 @@ import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener;
 import com.absinthe.anywhere_.model.Settings;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.model.viewholder.AppListBean;
+import com.absinthe.anywhere_.ui.editor.impl.SwitchShellEditorFragmentKt;
 import com.absinthe.anywhere_.utils.manager.ShadowHelper;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.Utils;
@@ -90,7 +91,11 @@ public class UiUtils {
             case AnywhereType.Card.SHELL:
                 return context.getDrawable(R.drawable.ic_card_shell);
             case AnywhereType.Card.SWITCH_SHELL:
-                return context.getDrawable(R.drawable.ic_card_switch);
+                if (item.getParam3().equals(SwitchShellEditorFragmentKt.SWITCH_OFF)) {
+                    return context.getDrawable(R.drawable.ic_red_dot);
+                } else {
+                    return context.getDrawable(R.drawable.ic_green_dot);
+                }
         }
 
         return context.getDrawable(R.drawable.ic_logo);

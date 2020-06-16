@@ -344,4 +344,9 @@
     <string name="dialog_shortcut_community_tips">捷径社区是一项第三方 URL Scheme 提供服务，与 Anywhere- 没有任何的关系。</string>
     <string name="btn_add_file">文件</string>
     <string name="btn_add_broadcast">广播</string>
+    <string name="bsd_switch_shell_status_on">状态开</string>
+    <string name="bsd_switch_shell_status_off">状态关</string>
+    <string name="bsd_text_input_layout_file_helper_text">由 Content Provider 获取的安全的文件路径</string>
+    <string name="bsd_button_select_file">选择文件</string>
+    <string name="bsd_text_input_layout_file_uri_hint">文件 URI</string>
 </resources>

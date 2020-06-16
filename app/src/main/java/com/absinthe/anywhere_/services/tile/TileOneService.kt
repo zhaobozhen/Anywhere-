@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
-import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
 import com.absinthe.anywhere_.utils.SPUtils
@@ -26,18 +25,14 @@ class TileOneService : TileService() {
     }
 
     override fun onClick() {
-        val cmd = SPUtils.getString(this, Const.PREF_TILE_ONE_CMD)
+        val id = SPUtils.getString(this, Const.PREF_TILE_ONE)
         val intent = Intent(this, ShortcutsActivity::class.java).apply {
-            action = if (cmd.startsWith(AnywhereType.Prefix.QRCODE_PREFIX)) {
-                ShortcutsActivity.ACTION_START_QR_CODE
-            } else {
-                ShortcutsActivity.ACTION_START_COMMAND
-            }
+            action = ShortcutsActivity.ACTION_START_ENTITY
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, cmd)
+            putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, id)
         }
 
-        if (cmd.isNotEmpty()) {
+        if (id.isNotEmpty()) {
             startActivity(intent)
         }
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))

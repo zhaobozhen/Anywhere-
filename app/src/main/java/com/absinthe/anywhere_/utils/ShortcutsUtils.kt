@@ -11,6 +11,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -29,8 +30,16 @@ object ShortcutsUtils {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun addShortcut(ae: AnywhereEntity) {
         val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-            action = ShortcutsActivity.ACTION_START_ENTITY
-            putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
+            when (ae.type) {
+                AnywhereType.Card.IMAGE -> {
+                    action = ShortcutsActivity.ACTION_START_IMAGE
+                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
+                }
+                else -> {
+                    action = ShortcutsActivity.ACTION_START_ENTITY
+                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
+                }
+            }
         }
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
@@ -50,8 +59,16 @@ object ShortcutsUtils {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun updateShortcut(ae: AnywhereEntity) {
         val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-            action = ShortcutsActivity.ACTION_START_ENTITY
-            putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
+            when (ae.type) {
+                AnywhereType.Card.IMAGE -> {
+                    action = ShortcutsActivity.ACTION_START_IMAGE
+                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
+                }
+                else -> {
+                    action = ShortcutsActivity.ACTION_START_ENTITY
+                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
+                }
+            }
         }
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)

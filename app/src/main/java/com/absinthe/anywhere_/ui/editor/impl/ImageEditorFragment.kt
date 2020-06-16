@@ -10,7 +10,6 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -28,10 +27,6 @@ import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
 import com.google.android.material.shape.CornerFamily
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
 
@@ -40,18 +35,6 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorImageBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (isEditMode) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                delay(300)
-                withContext(Dispatchers.Main) {
-                    loadImage(item.param1)
-                }
-            }
-        }
     }
 
     override fun initView() {
@@ -131,7 +114,7 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
         if (ae == item) return true
 
         if (isEditMode) {
-            if (ae.appName != item.appName) {
+            if (ae.appName != item.appName || ae.param1 != item.param1) {
                 if (GlobalValues.shortcutsList.contains(ae.id)) {
                     if (AppUtils.atLeastNMR1()) {
                         ShortcutsUtils.updateShortcut(ae)
@@ -172,5 +155,6 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
         Glide.with(requireContext())
                 .load(url)
                 .into(binding.ivPreview)
+        binding.ivPreview.requestFocus()
     }
 }

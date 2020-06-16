@@ -17,7 +17,6 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.SPUtils.getString
 import com.absinthe.anywhere_.utils.SPUtils.putString
-import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -59,28 +58,23 @@ open class TileSettingsActivity : BaseActivity() {
                             mAdapter.setData(position, bean)
                             var tile = ""
                             var tileLabel = ""
-                            var tileCmd = ""
 
                             when (position) {
                                 0 -> {
                                     tile = Const.PREF_TILE_ONE
                                     tileLabel = Const.PREF_TILE_ONE_LABEL
-                                    tileCmd = Const.PREF_TILE_ONE_CMD
                                 }
                                 1 -> {
                                     tile = Const.PREF_TILE_TWO
                                     tileLabel = Const.PREF_TILE_TWO_LABEL
-                                    tileCmd = Const.PREF_TILE_TWO_CMD
                                 }
                                 2 -> {
                                     tile = Const.PREF_TILE_THREE
                                     tileLabel = Const.PREF_TILE_THREE_LABEL
-                                    tileCmd = Const.PREF_TILE_THREE_CMD
                                 }
                             }
                             putString(this@TileSettingsActivity, tile, mList[which].id)
                             putString(this@TileSettingsActivity, tileLabel, mList[which].appName)
-                            putString(this@TileSettingsActivity, tileCmd, AppTextUtils.getItemCommand(mList[which]))
                             dismiss()
                         }
                     })
