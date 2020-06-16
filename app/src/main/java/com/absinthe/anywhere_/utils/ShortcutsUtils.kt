@@ -29,13 +29,13 @@ object ShortcutsUtils {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun addShortcut(ae: AnywhereEntity) {
         val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-            action = ShortcutsActivity.ACTION_START_COMMAND
+            action = ShortcutsActivity.ACTION_START_ENTITY
             putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
         }
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)
-                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(AppUtils.getEntityIcon(Utils.getApp(), ae))))
+                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae))))
                 .setIntent(intent)
                 .build()
         if (SHORTCUT_MANAGER!!.dynamicShortcuts.size <= 3) {
@@ -50,13 +50,13 @@ object ShortcutsUtils {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun updateShortcut(ae: AnywhereEntity) {
         val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-            action = ShortcutsActivity.ACTION_START_COMMAND
+            action = ShortcutsActivity.ACTION_START_ENTITY
             putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
         }
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)
-                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(AppUtils.getEntityIcon(Utils.getApp(), ae))))
+                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae))))
                 .setIntent(intent)
                 .build()
         SHORTCUT_MANAGER!!.updateShortcuts(listOf(info))

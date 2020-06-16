@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.FileUriExposedException
@@ -41,8 +40,6 @@ import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.ImageUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
 import java.io.File
@@ -396,14 +393,6 @@ object AppUtils {
             AnywhereApplication.sRepository.update(ae)
         } else if (item.type == AnywhereType.Card.ACTIVITY) {
             Opener.with(context).load(item).open()
-        }
-    }
-
-    fun getEntityIcon(context: Context, item: AnywhereEntity): Drawable {
-        return if (item.iconUri.isEmpty()) {
-            UiUtils.getAppIconByPackageName(context, item)
-        } else {
-            ConvertUtils.bitmap2Drawable(ImageUtils.getBitmap(item.iconUri))
         }
     }
 }

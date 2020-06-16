@@ -77,7 +77,7 @@ public class Opener {
 
     private void openFromEntity(AnywhereEntity item) {
         String cmd = AppTextUtils.getItemCommand(item);
-        openCmd(cmd);
+        openCmd(cmd, item.getPackageName());
     }
 
     private void openFromCommand() {
@@ -86,7 +86,7 @@ public class Opener {
         } else if (mCmd.startsWith(AnywhereType.Prefix.SHELL_PREFIX)) {
             openShellCommand(mCmd);
         } else {
-            openCmd(mCmd);
+            openCmd(mCmd, AppTextUtils.getPkgNameByCommand(mCmd));
         }
     }
 
@@ -101,7 +101,7 @@ public class Opener {
         DialogManager.showDynamicParamsDialog((AppCompatActivity) sContext.get(), param, new DynamicParamsDialogFragment.OnParamsInputListener() {
             @Override
             public void onFinish(String text) {
-                openCmd(finalNewCommand + text);
+                openCmd(finalNewCommand + text, AppTextUtils.getPkgNameByCommand(finalNewCommand));
                 if (mListener != null) {
                     mListener.onOpened();
                 }
@@ -135,12 +135,10 @@ public class Opener {
         }
     }
 
-    private void openCmd(String cmd) {
+    private void openCmd(String cmd, String packageName) {
         if (cmd.isEmpty()) {
             return;
         }
-
-        String packageName = AppTextUtils.getPkgNameByCommand(cmd);
 
         if (packageName == null || packageName.isEmpty()) {
             CommandUtils.execCmd(cmd);

@@ -148,9 +148,15 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             }
         }
 
-        Glide.with(context)
-                .load(AppUtils.getEntityIcon(context, item))
-                .into(itemView.icon)
+        if (item.iconUri.isEmpty()) {
+            Glide.with(context)
+                    .load(UiUtils.getAppIconByPackageName(context, item))
+                    .into(itemView.icon)
+        } else {
+            Glide.with(context)
+                    .load(item.iconUri)
+                    .into(itemView.icon)
+        }
 
         itemView.badge.apply {
             if (GlobalValues.shortcutsList.contains(item.id)) {

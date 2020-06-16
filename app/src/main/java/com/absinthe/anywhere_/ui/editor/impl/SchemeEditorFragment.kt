@@ -115,7 +115,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
         if (ae == item) return true
 
         if (isEditMode) {
-            if (ae.appName != item.appName || ae.iconUri != item.iconUri) {
+            if (ae.appName != item.appName) {
                 if (GlobalValues.shortcutsList.contains(ae.id)) {
                     if (AppUtils.atLeastNMR1()) {
                         ShortcutsUtils.updateShortcut(ae)
