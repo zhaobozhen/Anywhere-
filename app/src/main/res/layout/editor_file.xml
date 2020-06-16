@@ -34,8 +34,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
-            android:nextFocusForward="@id/tiet_app_name"
-            android:singleLine="true" />
+            android:nextFocusForward="@id/tiet_app_name" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
