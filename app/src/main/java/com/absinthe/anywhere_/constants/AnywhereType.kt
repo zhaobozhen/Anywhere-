@@ -1,9 +1,5 @@
 package com.absinthe.anywhere_.constants
 
-const val WEIGHT_CARD = 1
-const val WEIGHT_SHORTCUTS = 10
-const val WEIGHT_EXPORTED = 100
-
 object AnywhereType {
 
     object Card {
@@ -45,33 +41,5 @@ object AnywhereType {
         const val DYNAMIC_PARAMS_PREFIX = "[DYNAMIC_PARAMS "
         const val DYNAMIC_PARAMS_PREFIX_FORMAT = "[DYNAMIC_PARAMS %s]"
         const val SHELL_PREFIX = "[ANYWHERE_SHELL]"
-    }
-
-    class Builder(type: Int = 0) {
-
-        var cardType = type % WEIGHT_SHORTCUTS
-        var shortcutsType = type % WEIGHT_EXPORTED / WEIGHT_SHORTCUTS
-        var exportedType = type / WEIGHT_EXPORTED
-
-        fun cardType(cardType: Int): Builder {
-            this.cardType = cardType
-            return this
-        }
-
-        fun isShortcut(flag: Boolean): Builder {
-            this.shortcutsType = if (flag) Property.SHORTCUTS else Property.NONE
-            return this
-        }
-
-        fun isExported(flag: Boolean): Builder {
-            this.exportedType = if (flag) Property.EXPORTED else Property.NONE
-            return this
-        }
-
-        fun build(): Int {
-            return cardType * WEIGHT_CARD +
-                    shortcutsType * WEIGHT_SHORTCUTS +
-                    exportedType * WEIGHT_EXPORTED
-        }
     }
 }

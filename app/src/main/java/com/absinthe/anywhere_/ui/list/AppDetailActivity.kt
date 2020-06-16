@@ -76,10 +76,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 appName = item.appName
                 param1 = item.packageName
                 param2 = item.className.removePrefix(item.packageName)
-                type = AnywhereType.Builder()
-                        .cardType(AnywhereType.Card.ACTIVITY)
-                        .isExported(AppUtils.isActivityExported(this@AppDetailActivity, ComponentName(item.packageName, item.className)))
-                        .build()
+                type = AnywhereType.Card.ACTIVITY
             }
             startActivity(Intent(this, EditorActivity::class.java).apply {
                 putExtra(EXTRA_ENTITY, ae)

@@ -585,11 +585,7 @@ class MainActivity : BaseActivity() {
                         this.param1 = param1
                         this.param2 = param2
                         this.param3 = param3
-                        this.type = AnywhereType.Builder()
-                                .cardType(AnywhereType.Card.ACTIVITY)
-                                .isExported(com.absinthe.anywhere_.utils.AppUtils.isActivityExported(this@MainActivity, ComponentName(param1,
-                                        if (param2[0] == '.') param1 + param2 else param2)))
-                                .build()
+                        this.type = AnywhereType.Card.ACTIVITY
                     }
                     startActivity(Intent(this, EditorActivity::class.java).apply {
                         putExtra(EXTRA_ENTITY, ae)
