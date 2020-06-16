@@ -281,8 +281,7 @@ class EditorActivity : BaseActivity() {
 
     private fun startOverlayImpl() {
         startService(Intent(this, OverlayService::class.java).apply {
-            putExtra(OverlayService.COMMAND_STR, AppTextUtils.getItemCommand(entity!!))
-            putExtra(OverlayService.PKG_NAME, entity!!.packageName)
+            putExtra(OverlayService.ENTITY, entity!!)
         })
         finish()
 

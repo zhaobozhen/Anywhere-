@@ -132,7 +132,7 @@ object DialogManager {
 
     @JvmStatic
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-    fun showRemoveShortcutDialog(context: Context, ae: AnywhereEntity, listener: DialogInterface.OnClickListener? = null ) {
+    fun showRemoveShortcutDialog(context: Context, ae: AnywhereEntity, listener: DialogInterface.OnClickListener? = null) {
         val builder = AnywhereDialogBuilder(context)
         builder.setTitle(R.string.dialog_remove_shortcut_title)
                 .setMessage(HtmlCompat.fromHtml(String.format(context.getString(R.string.dialog_remove_shortcut_message), "<b>" + ae.appName + "</b>"), HtmlCompat.FROM_HTML_MODE_LEGACY))
@@ -275,7 +275,8 @@ object DialogManager {
             result
         }
 
-        AnywhereDialogBuilder(context).setTitle(R.string.dialog_shell_result_title)
+        AnywhereDialogBuilder(context)
+                .setTitle(R.string.dialog_shell_result_title)
                 .setMessage(parsedResult)
                 .setPositiveButton(R.string.dialog_close_button, posListener)
                 .setOnCancelListener(cancelListener)

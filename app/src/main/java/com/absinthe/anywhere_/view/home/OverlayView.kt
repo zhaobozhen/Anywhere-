@@ -4,21 +4,22 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.*
 import android.widget.LinearLayout
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.OverlayWindowManager
 import com.absinthe.anywhere_.services.overlay.OverlayService
-import com.absinthe.anywhere_.utils.CommandUtils
+import com.absinthe.anywhere_.utils.AppUtils
+import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder
-import com.blankj.utilcode.util.AppUtils
 import timber.log.Timber
 
 @SuppressLint("ViewConstructor")
 class OverlayView(context: Context, private val service: OverlayService) : LinearLayout(context) {
 
-    var command: String = ""
-    var pkgName: String = ""
+    var entity: AnywhereEntity = AnywhereEntity.Builder()
         set(value) {
             field = value
-            mBuilder.ivIcon.setImageDrawable(AppUtils.getAppIcon(field))
+            mBuilder.ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(context, value))
         }
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -44,8 +45,10 @@ class OverlayView(context: Context, private val service: OverlayService) : Linea
         mBuilder = OverlayBuilder(context, this)
 
         mBuilder.ivIcon.setOnClickListener {
-            Timber.d("Overlay window clicked!")
-            CommandUtils.execCmd(command)
+            //Fix crash: The style on this component requires your app theme to be Theme.AppCompat
+            ActivityStackManager.topActivity?.let {
+                AppUtils.openAnywhereEntity(it, entity)
+            }
         }
         mBuilder.ivIcon.setOnTouchListener(object : OnTouchListener {
             //Last x, y position = 0f
