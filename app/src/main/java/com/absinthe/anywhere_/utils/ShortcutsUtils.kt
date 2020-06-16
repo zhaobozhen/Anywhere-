@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.Utils
@@ -44,7 +45,7 @@ object ShortcutsUtils {
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)
-                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae))))
+                .setIcon(Icon.createWithBitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae).toBitmap()))
                 .setIntent(intent)
                 .build()
         if (SHORTCUT_MANAGER!!.dynamicShortcuts.size <= 3) {
@@ -71,9 +72,18 @@ object ShortcutsUtils {
             }
         }
 
+        val icon = if (ae.type == AnywhereType.Card.SWITCH_SHELL) {
+            if (ae.param3 == SWITCH_OFF) {
+                Utils.getApp().getDrawable(R.drawable.ic_red_dot)!!.toBitmap()
+            } else {
+                Utils.getApp().getDrawable(R.drawable.ic_green_dot)!!.toBitmap()
+            }
+        } else {
+            UiUtils.getAppIconByPackageName(Utils.getApp(), ae).toBitmap()
+        }
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)
-                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae))))
+                .setIcon(Icon.createWithBitmap(icon))
                 .setIntent(intent)
                 .build()
         SHORTCUT_MANAGER!!.updateShortcuts(listOf(info))
