@@ -11,8 +11,8 @@ import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment;
-import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.AppTextUtils;
+import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
 import com.catchingnow.icebox.sdk_client.IceBox;
@@ -142,7 +142,7 @@ public class Opener {
 
         String packageName = AppTextUtils.getPkgNameByCommand(cmd);
 
-        if (packageName.isEmpty()) {
+        if (packageName == null || packageName.isEmpty()) {
             CommandUtils.execCmd(cmd);
         } else {
             try {

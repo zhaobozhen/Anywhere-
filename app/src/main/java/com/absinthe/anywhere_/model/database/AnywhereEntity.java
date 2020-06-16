@@ -183,21 +183,6 @@ public class AnywhereEntity implements Parcelable {
     }
 
     @NonNull
-    public Integer getAnywhereType() {
-        return new AnywhereType.Builder(mType).getCardType();
-    }
-
-    @NonNull
-    public Integer getShortcutType() {
-        return new AnywhereType.Builder(mType).getShortcutsType();
-    }
-
-    @NonNull
-    public Integer getExportedType() {
-        return new AnywhereType.Builder(mType).getExportedType();
-    }
-
-    @NonNull
     public String getTimeStamp() {
         return mTimeStamp;
     }
@@ -260,7 +245,7 @@ public class AnywhereEntity implements Parcelable {
     }
 
     public String getPackageName() {
-        switch (getAnywhereType()) {
+        switch (mType) {
             case AnywhereType.Card.URL_SCHEME:
                 return mParam2;
             case AnywhereType.Card.ACTIVITY:

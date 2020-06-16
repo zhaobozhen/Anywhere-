@@ -10,18 +10,15 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
-import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
 import com.absinthe.anywhere_.utils.AppTextUtils.getItemCommand
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.Utils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 object ShortcutsUtils {
 
@@ -34,7 +31,7 @@ object ShortcutsUtils {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun addShortcut(ae: AnywhereEntity) {
         val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-            when (ae.anywhereType) {
+            when (ae.type) {
                 AnywhereType.Card.QR_CODE -> {
                     action = ShortcutsActivity.ACTION_START_QR_CODE
                     putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.Prefix.QRCODE_PREFIX + ae.param2)
@@ -59,19 +56,15 @@ object ShortcutsUtils {
             SHORTCUT_MANAGER.addDynamicShortcuts(listOf(info))
         }
 
-        val item = AnywhereEntity(ae).apply {
-            type = AnywhereType.Builder(type)
-                    .isShortcut(true)
-                    .build()
-        }
-        AnywhereApplication.sRepository.update(item)
+        val list = GlobalValues.shortcutsList.toMutableList()
+        list.add(ae.id)
+        GlobalValues.shortcutsList = list
     }
 
-    @JvmStatic
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun updateShortcut(ae: AnywhereEntity) {
         val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-            when (ae.anywhereType) {
+            when (ae.type) {
                 AnywhereType.Card.QR_CODE -> {
                     action = ShortcutsActivity.ACTION_START_QR_CODE
                     putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.Prefix.QRCODE_PREFIX + ae.param2)
@@ -97,27 +90,16 @@ object ShortcutsUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun removeShortcut(ae: AnywhereEntity) {
-        val item = AnywhereEntity(ae).apply {
-            type = AnywhereType.Builder(type)
-                    .isShortcut(false)
-                    .build()
-        }
-        AnywhereApplication.sRepository.update(item)
+        val list = GlobalValues.shortcutsList.toMutableList()
+        list.remove(ae.id)
+        GlobalValues.shortcutsList = list
         SHORTCUT_MANAGER!!.removeDynamicShortcuts(listOf(ae.id))
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun clearAllShortcuts() {
         SHORTCUT_MANAGER!!.removeAllDynamicShortcuts()
-
-        GlobalScope.launch(Dispatchers.IO) {
-            AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
-                for (item in it) {
-                    item.type = AnywhereType.Builder(item.type).isShortcut(false).build()
-                    AnywhereApplication.sRepository.update(item)
-                }
-            }
-        }
+        GlobalValues.shortcutsList = listOf()
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -126,7 +108,7 @@ object ShortcutsUtils {
             // Assumes there's already a shortcut with the ID "my-shortcut".
             // The shortcut must be enabled.
             val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-                if (ae.anywhereType == AnywhereType.Card.IMAGE) {
+                if (ae.type == AnywhereType.Card.IMAGE) {
                     action = ShortcutsActivity.ACTION_START_IMAGE
                     putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
                 } else {
@@ -162,7 +144,7 @@ object ShortcutsUtils {
         val shortcutIntent = Intent().apply {
             component = ComponentName(Utils.getApp(), ShortcutsActivity::class.java)
             flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NEW_TASK
-            if (ae.anywhereType == AnywhereType.Card.IMAGE) {
+            if (ae.type == AnywhereType.Card.IMAGE) {
                 action = ShortcutsActivity.ACTION_START_IMAGE
                 putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
             } else {

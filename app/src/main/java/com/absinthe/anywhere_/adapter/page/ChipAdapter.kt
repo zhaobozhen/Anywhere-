@@ -44,7 +44,7 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
         holder.chip.setOnClickListener {
             val ae = mList[position]
 
-            when (ae.anywhereType) {
+            when (ae.type) {
                 AnywhereType.Card.IMAGE -> {
                     ActivityStackManager.topActivity?.let {
                         showImageDialog(it, ae.param1)

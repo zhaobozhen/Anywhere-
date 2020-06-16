@@ -50,7 +50,7 @@ object AppTextUtils {
     fun getItemCommand(item: AnywhereEntity): String {
         val cmd = StringBuilder()
 
-        when (item.anywhereType) {
+        when (item.type) {
             AnywhereType.Card.ACTIVITY -> {
                 val packageName = item.param1
                 var className = item.param2
@@ -133,7 +133,7 @@ object AppTextUtils {
      * @return package name
      */
     @JvmStatic
-    fun getPkgNameByCommand(cmd: String): String {
+    fun getPkgNameByCommand(cmd: String): String? {
         return if (cmd.startsWith("am start -n ")) {
             cmd.removePrefix("am start -n ")
 
@@ -143,7 +143,7 @@ object AppTextUtils {
             cmd.removePrefix(Const.CMD_OPEN_URL_SCHEME)
             getPkgNameByUrlScheme(cmd)
         } else {
-            ""
+            null
         }
     }
 
@@ -153,13 +153,13 @@ object AppTextUtils {
      * @param url URL Scheme
      * @return package name
      */
-    fun getPkgNameByUrlScheme(url: String): String {
+    fun getPkgNameByUrlScheme(url: String): String? {
         val resolveInfo = Utils.getApp().packageManager
                 .queryIntentActivities(handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
         return if (resolveInfo.size != 0) {
             resolveInfo[0].activityInfo.packageName
         } else {
-            ""
+            null
         }
     }
 

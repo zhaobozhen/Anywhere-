@@ -49,10 +49,13 @@ import com.absinthe.anywhere_.ui.list.AppListActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
-import com.absinthe.anywhere_.utils.*
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
+import com.absinthe.anywhere_.utils.ClipboardUtil
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
 import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
+import com.absinthe.anywhere_.utils.ToastUtil
+import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
@@ -348,8 +351,8 @@ class MainActivity : BaseActivity() {
             if (view.id == R.id.iv_entry) {
                 drawer.closeDrawer(GravityCompat.START)
 
-                (adapter.getItem(position) as PageTitleNode?)?.let {
-                    ListUtils.getPageEntityByTitle(it.title)?.let { pe ->
+                (adapter.getItem(position) as PageTitleNode?)?.let { titleNode ->
+                    AnywhereApplication.sRepository.allPageEntities.value?.find { it.title == titleNode.title }?.let { pe ->
                         lifecycleScope.launch(Dispatchers.Default) {
                             delay(300)
 
@@ -477,6 +480,12 @@ class MainActivity : BaseActivity() {
         }
 
         AnywhereApplication.sRepository.allPageEntities.observe(this, mObserver)
+        AnywhereApplication.sRepository.allAnywhereEntities.observe(this, Observer {
+            if (Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FIRST_GUIDE) && !Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.CONVERT_TYPE_TO_V2)) {
+                viewModel.convertAnywhereTypeV2()
+                Once.markDone(OnceTag.CONVERT_TYPE_TO_V2)
+            }
+        })
 
         viewModel.background.observe(this, Observer { s: String ->
             GlobalValues.backgroundUri = s

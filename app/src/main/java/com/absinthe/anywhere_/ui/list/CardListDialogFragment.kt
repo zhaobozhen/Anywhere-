@@ -49,14 +49,14 @@ class CardListDialogFragment : AnywhereDialogFragment() {
             } else {
                 setDisplayPlaceholder(false)
                 for (ae in it) {
-                    if (ae.anywhereType == AnywhereType.Card.URL_SCHEME
-                            || ae.anywhereType == AnywhereType.Card.IMAGE
-                            || ae.anywhereType == AnywhereType.Card.SHELL) {
+                    if (ae.type == AnywhereType.Card.URL_SCHEME
+                            || ae.type == AnywhereType.Card.IMAGE
+                            || ae.type == AnywhereType.Card.SHELL) {
                         listBeans.add(AppListBean(ae.appName, ae.param2, ae.param1,
-                                ae.anywhereType, UiUtils.getAppIconByPackageName(context, ae.param2)))
+                                ae.type, UiUtils.getAppIconByPackageName(context, ae.param2)))
                     } else {
                         listBeans.add(AppListBean(ae.appName, ae.param1, ae.param2,
-                                ae.anywhereType, UiUtils.getAppIconByPackageName(context, ae.param1)))
+                                ae.type, UiUtils.getAppIconByPackageName(context, ae.param1)))
                     }
                 }
                 mBuilder.mAdapter.apply {

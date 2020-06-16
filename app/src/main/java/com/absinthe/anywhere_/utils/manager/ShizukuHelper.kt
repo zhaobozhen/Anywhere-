@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.utils.manager
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
-import android.os.IServiceManager
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.utils.ToastUtil

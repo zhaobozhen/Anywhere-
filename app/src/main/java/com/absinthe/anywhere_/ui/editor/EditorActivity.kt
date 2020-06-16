@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.ActivityEditorBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
@@ -77,7 +78,7 @@ class EditorActivity : BaseActivity() {
         super.onStart()
 
         if (!hasInit) {
-            fragment = when (entity!!.anywhereType) {
+            fragment = when (entity!!.type) {
                 AnywhereType.Card.URL_SCHEME -> SchemeEditorFragment()
                 AnywhereType.Card.ACTIVITY -> AnywhereEditorFragment()
                 AnywhereType.Card.QR_CODE -> QRCodeEditorFragment()
@@ -182,7 +183,7 @@ class EditorActivity : BaseActivity() {
                 when (it.itemId) {
                     R.id.add_shortcuts -> {
                         if (atLeastNMR1()) {
-                            if (entity!!.shortcutType != AnywhereType.Property.SHORTCUTS) {
+                            if (GlobalValues.shortcutsList.contains(entity!!.id)) {
                                 addShortcut(this@EditorActivity, entity!!)
                             } else {
                                 removeShortcut(this@EditorActivity, entity!!)
@@ -241,7 +242,7 @@ class EditorActivity : BaseActivity() {
 
             menu.findItem(R.id.add_shortcuts)?.let {
                 if (atLeastNMR1()) {
-                    if (entity!!.shortcutType == AnywhereType.Property.SHORTCUTS) {
+                    if (GlobalValues.shortcutsList.contains(entity!!.id)) {
                         binding.navigationView.apply {
                             menu.clear()
                             inflateMenu(R.menu.editor_added_shortcut_menu)
@@ -253,7 +254,7 @@ class EditorActivity : BaseActivity() {
             }
 
             menu.findItem(R.id.restore_icon)?.isVisible = entity!!.iconUri.isNotEmpty()
-            menu.findItem(R.id.share_card)?.isVisible = entity!!.anywhereType != AnywhereType.Card.IMAGE
+            menu.findItem(R.id.share_card)?.isVisible = entity!!.type != AnywhereType.Card.IMAGE
 
             invalidate()
         }
@@ -320,7 +321,7 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun shouldShowMenu(): Boolean {
-        return entity!!.anywhereType != AnywhereType.Card.IMAGE &&
-                entity!!.anywhereType != AnywhereType.Card.SWITCH_SHELL
+        return entity!!.type != AnywhereType.Card.IMAGE &&
+                entity!!.type != AnywhereType.Card.SWITCH_SHELL
     }
 }

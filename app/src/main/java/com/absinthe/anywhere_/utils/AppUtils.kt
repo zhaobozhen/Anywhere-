@@ -62,7 +62,6 @@ object AppUtils {
      *
      * @param context context
      */
-    @JvmStatic
     fun updateWidget(context: Context) {
         val intent = Intent(context, HomeWidgetProvider::class.java).apply {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
@@ -86,7 +85,7 @@ object AppUtils {
      */
     @JvmStatic
     fun isAppFrozen(context: Context, item: AnywhereEntity): Boolean {
-        val type = item.anywhereType
+        val type = item.type
         val apkTempPackageName: String
 
         if (type == AnywhereType.Card.URL_SCHEME) {
@@ -96,14 +95,14 @@ object AppUtils {
                 item.param2
             }
             return try {
-                IceBox.getAppEnabledSetting(context, apkTempPackageName) != 0 //0 为未冻结状态
+                IceBox.getAppEnabledSetting(context, apkTempPackageName) != 0 //0 means available
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
                 false
             }
         } else if (type == AnywhereType.Card.ACTIVITY) {
             return try {
-                IceBox.getAppEnabledSetting(context, item.param1) != 0 //0 为未冻结状态
+                IceBox.getAppEnabledSetting(context, item.param1) != 0 //0 means available
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
                 false
@@ -266,6 +265,11 @@ object AppUtils {
         }
     }
 
+    /**
+     * Acquire su permission to app
+     *
+     * @param context context
+     */
     fun acquireRootPerm(context: Context): Boolean {
         return SuProcess.acquireRootPerm(context)
     }
@@ -320,8 +324,7 @@ object AppUtils {
     fun isActivityExported(context: Context, cn: ComponentName): Boolean {
         val packageManager = context.packageManager
         return try {
-            val info = packageManager.getActivityInfo(cn, 0)
-            info.exported
+            packageManager.getActivityInfo(cn, 0).exported
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             false

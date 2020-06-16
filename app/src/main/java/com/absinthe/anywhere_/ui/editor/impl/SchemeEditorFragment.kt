@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.EditorUrlSchemeBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -116,7 +116,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
 
         if (isEditMode) {
             if (ae.appName != item.appName || ae.param1 != item.param1) {
-                if (ae.shortcutType == AnywhereType.Property.SHORTCUTS) {
+                if (GlobalValues.shortcutsList.contains(ae.id)) {
                     if (AppUtils.atLeastNMR1()) {
                         ShortcutsUtils.updateShortcut(ae)
                     }

@@ -4,6 +4,8 @@ import androidx.core.text.HtmlCompat
 import androidx.lifecycle.MutableLiveData
 import com.absinthe.anywhere_.utils.SPUtils
 import com.blankj.utilcode.util.Utils
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
 
 object GlobalValues {
@@ -17,6 +19,13 @@ object GlobalValues {
     var sIsDebugMode = false
 
     var cardModeLiveData = MutableLiveData<Any>()
+
+    var shortcutsList= listOf<String>()
+    get() = Gson().fromJson<List<String>>(mmkv.decodeString(Const.SHORTCUTS_LIST), object : TypeToken<List<String>>() {}.type)
+    set(value) {
+        field = value
+        mmkv.encode(Const.SHORTCUTS_LIST, Gson().toJson(value))
+    }
 
     var isStreamCardMode
         get() = mmkv.decodeBool(Const.PREF_STREAM_CARD_MODE)

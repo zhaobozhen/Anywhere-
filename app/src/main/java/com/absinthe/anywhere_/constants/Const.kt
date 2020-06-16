@@ -8,6 +8,7 @@ object Const {
     const val SP_NAME = "com.absinthe.anywhere__preferences"
     const val SP_NAME_DEBUG = "com.absinthe.anywhere_.debug_preferences"
     const val TOKEN_SP_NAME = "AnywhereToken"
+    const val SHORTCUTS_LIST = "shortcutsList"
     const val PREF_TOKEN = "token"
     const val PREF_WORKING_MODE = "workingMode"
     const val PREF_DARK_MODE = "darkMode"

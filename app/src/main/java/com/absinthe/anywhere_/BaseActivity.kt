@@ -25,7 +25,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected var isPaddingToolbar: Boolean = false
 
-    @JvmField
     protected var mToolbar: Toolbar? = null
     private var mListener: OnDocumentResultListener? = null
     private lateinit var reference: WeakReference<BaseActivity>

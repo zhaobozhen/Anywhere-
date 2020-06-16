@@ -144,20 +144,20 @@ object StorageUtils {
     fun getTokenFromFile(context: Context): String {
         val fileName = "Token"
         val file = File(context.filesDir, fileName)
+        val fis = context.openFileInput(fileName)
 
         if (!file.exists()) {
             return ""
         }
 
-        val fis = context.openFileInput(fileName)
         if (fis.available() == 0) {
             return ""
         }
 
         val buffer = ByteArray(fis.available())
-        while (fis.read(buffer) != -1) {
-        }
+        while (fis.read(buffer) != -1) { }
         fis.close()
+
         return String(buffer)
     }
 

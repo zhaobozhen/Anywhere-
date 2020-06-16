@@ -70,7 +70,7 @@ public class UiUtils {
      * @param item    for get package name
      */
     public static Drawable getAppIconByPackageName(Context context, AnywhereEntity item) {
-        int type = item.getAnywhereType();
+        int type = item.getType();
         String apkTempPackageName;
 
         switch (type) {

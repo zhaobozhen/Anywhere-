@@ -37,24 +37,16 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
 
     val allAnywhereEntities: LiveData<List<AnywhereEntity>>
     var shouldShowFab: MutableLiveData<Boolean> = MutableLiveData()
+    var background: MutableLiveData<String> = MutableLiveData()
+        private set
+    var fragment: MutableLiveData<Fragment> = MutableLiveData()
+        private set
 
     private val mRepository: AnywhereRepository = AnywhereApplication.sRepository
-    private var mBackground: MutableLiveData<String> = MutableLiveData()
-    private var mFragment: MutableLiveData<Fragment> = MutableLiveData()
 
     init {
         allAnywhereEntities = mRepository.allAnywhereEntities
     }
-
-    val background: MutableLiveData<String>
-        get() {
-            return mBackground
-        }
-
-    val fragment: MutableLiveData<Fragment>
-        get() {
-            return mFragment
-        }
 
     fun insert(ae: AnywhereEntity) {
         mRepository.insert(ae)
@@ -178,6 +170,20 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
             }
             mRepository.insertPage(pe)
             AppUtils.takePersistableUriPermission(getApplication(), uri, intent)
+        }
+    }
+
+    fun convertAnywhereTypeV2() {
+        allAnywhereEntities.value?.let {
+            val shortcutsList = mutableListOf<String>()
+            for (entity in it) {
+                if (entity.type % 100 / 10 == 1) {
+                    shortcutsList.add(entity.id)
+                }
+                entity.type = entity.type % 10
+                AnywhereApplication.sRepository.update(entity)
+            }
+            GlobalValues.shortcutsList = shortcutsList
         }
     }
 
