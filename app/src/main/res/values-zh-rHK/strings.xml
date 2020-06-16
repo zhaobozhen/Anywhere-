@@ -48,7 +48,7 @@
 
     <string name="bsd_text_input_layout_app_name_helper_text">給 Anywhere- 卡片取個名字吧</string>
     <string name="bsd_text_input_layout_package_name_helper_text">App 包名，通常默認即可</string>
-    <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme,可在捷徑社區尋找</string>
+    <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme。支持標準的 URL Scheme 協議和 #Intent;字符串</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App 類名，通常默認即可</string>
     <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 卡片吧</string>
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">啟動 Intent 時傳遞參數，格式：\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\ncmd 指令可前往幫助查看</string>

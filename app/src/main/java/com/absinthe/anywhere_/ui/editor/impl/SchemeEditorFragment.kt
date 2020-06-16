@@ -6,20 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.absinthe.anywhere_.AnywhereApplication
-import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.EditorUrlSchemeBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
-import com.absinthe.anywhere_.utils.manager.DialogManager.showDynamicParamsDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
 import jonathanfinerty.once.Once
 
@@ -61,37 +58,11 @@ class SchemeEditorFragment : BaseEditorFragment() {
             return
         }
 
-        val dynamicParam = binding.tietDynamicParams.text.toString()
-
-        if (dynamicParam.isNotBlank()) {
-            showDynamicParamsDialog(requireActivity() as BaseActivity, dynamicParam, object : OnParamsInputListener {
-                override fun onFinish(text: String?) {
-                    try {
-                        URLSchemeHandler.parse(urlScheme + text, requireContext())
-                    } catch (e: java.lang.Exception) {
-                        e.printStackTrace()
-                        if (e is ActivityNotFoundException) {
-                            ToastUtil.makeText(R.string.toast_no_react_url)
-                        } else if (e is java.lang.RuntimeException) {
-                            ToastUtil.makeText(R.string.toast_runtime_error)
-                        }
-                    }
-                }
-
-                override fun onCancel() {}
-            })
-        } else {
-            try {
-                URLSchemeHandler.parse(urlScheme, requireContext())
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                if (e is ActivityNotFoundException) {
-                    ToastUtil.makeText(R.string.toast_no_react_url)
-                } else if (e is java.lang.RuntimeException) {
-                    ToastUtil.makeText(R.string.toast_runtime_error)
-                }
-            }
+        val ae = AnywhereEntity(item).apply {
+            param1 = binding.tietUrlScheme.text.toString()
+            param3 = binding.tietDynamicParams.text.toString()
         }
+        AppUtils.openAnywhereEntity(requireContext(), ae)
     }
 
     override fun doneEdit(): Boolean {
@@ -112,7 +83,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
             description = binding.tietDescription.text.toString()
         }
 
-        if (ae == item) return true
+        if (isEditMode && ae == item) return true
 
         if (isEditMode) {
             if (ae.appName != item.appName) {

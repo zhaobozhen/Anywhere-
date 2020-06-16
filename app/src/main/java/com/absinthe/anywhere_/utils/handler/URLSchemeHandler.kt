@@ -33,6 +33,8 @@ object URLSchemeHandler {
     }
 
     fun handleIntent(url: String): Intent {
-        return Intent.parseUri(url, Intent.URI_INTENT_SCHEME or Intent.URI_ANDROID_APP_SCHEME)
+        return Intent.parseUri(url, 0).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
     }
 }

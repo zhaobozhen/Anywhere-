@@ -10,9 +10,7 @@ import com.absinthe.anywhere_.databinding.EditorShellBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
-import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
 import com.absinthe.anywhere_.utils.ShortcutsUtils
-import com.absinthe.anywhere_.utils.manager.DialogManager.showShellResultDialog
 
 class ShellEditorFragment :BaseEditorFragment() {
 
@@ -35,8 +33,10 @@ class ShellEditorFragment :BaseEditorFragment() {
             return
         }
 
-        val result = execAdbCmd(binding.etShellContent.text.toString())
-        showShellResultDialog(requireContext(), result, null, null)
+        val ae = AnywhereEntity(item).apply {
+            param1 = binding.etShellContent.text.toString()
+        }
+        AppUtils.openAnywhereEntity(requireContext(), ae)
     }
 
     override fun doneEdit(): Boolean {
@@ -54,8 +54,8 @@ class ShellEditorFragment :BaseEditorFragment() {
             param1 = binding.etShellContent.text.toString()
             description = binding.tietDescription.text.toString()
         }
-        
-        if (ae == item) return true
+
+        if (isEditMode && ae == item) return true
 
         if (isEditMode) {
             if (ae.appName != item.appName) {

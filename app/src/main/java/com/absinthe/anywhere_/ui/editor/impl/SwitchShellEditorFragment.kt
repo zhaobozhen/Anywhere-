@@ -55,7 +55,7 @@ class SwitchShellEditorFragment  : BaseEditorFragment() {
             description = binding.tietDescription.text.toString()
         }
 
-        if (ae == item) return true
+        if (isEditMode && ae == item) return true
 
         if (isEditMode) {
             if (ae.appName != item.appName) {

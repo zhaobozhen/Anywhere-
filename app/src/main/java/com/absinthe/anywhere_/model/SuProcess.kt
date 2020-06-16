@@ -37,7 +37,7 @@ object SuProcess {
         return sb.toString()
     }
 
-    fun acquireRootPerm(context: Context):Boolean {
+    fun acquireRootPerm(context: Context): Boolean {
         val process = Runtime.getRuntime().exec("su")
         val outputStream = DataOutputStream(process.outputStream)
         val inputStream = BufferedReader(InputStreamReader(process.inputStream))
@@ -51,7 +51,7 @@ object SuProcess {
                 process.waitFor()
             }
 
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             return false
         } finally {
             outputStream.close()

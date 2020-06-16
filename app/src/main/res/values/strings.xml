@@ -89,7 +89,7 @@
 
     <string name="bsd_text_input_layout_app_name_helper_text">Give your Anywhere- card a name</string>
     <string name="bsd_text_input_layout_package_name_helper_text">App \'s package name, usually default</string>
-    <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme, you can have a look in Shortcuts Community</string>
+    <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme. Support standard URL Scheme protocol and #Intent; string</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App\'s class name, usually default</string>
     <string name="bsd_text_input_layout_description_helper_text">Describe your Anywhere- card</string>
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from the HELP page</string>

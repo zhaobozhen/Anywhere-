@@ -11,7 +11,6 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
-import com.absinthe.anywhere_.utils.handler.Opener
 
 class AnywhereEditorFragment : BaseEditorFragment() {
 
@@ -47,7 +46,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
             param2 = binding.tietClassName.text.toString()
             param3 = binding.tietIntentExtra.text.toString()
         }
-        Opener.with(requireContext()).load(ae).open()
+        AppUtils.openAnywhereEntity(requireContext(), ae)
     }
 
     override fun doneEdit(): Boolean {
@@ -72,7 +71,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
             description = binding.tietDescription.text.toString()
         }
 
-        if (ae == item) return true
+        if (isEditMode && ae == item) return true
 
         if (isEditMode) {
             if (ae.appName != item.appName) {

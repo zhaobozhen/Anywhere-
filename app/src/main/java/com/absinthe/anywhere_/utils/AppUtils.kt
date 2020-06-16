@@ -34,8 +34,7 @@ import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.LogcatActivity
 import com.absinthe.anywhere_.utils.handler.Opener
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.handleIntent
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.absinthe.anywhere_.utils.manager.URLManager
@@ -60,12 +59,12 @@ object AppUtils {
                 + "&param2=" + param2
                 + "&param3=" + param3
                 + "&type=" + AnywhereType.Card.ACTIVITY)
-        parse(url, context)
+                URLSchemeHandler.parse(url, context)
     }
 
     fun openNewURLScheme(context: Context) {
         val url = URLManager.ANYWHERE_SCHEME + URLManager.URL_HOST + "?param1=&type=${AnywhereType.Card.URL_SCHEME}"
-        parse(url, context)
+        URLSchemeHandler.parse(url, context)
     }
 
     /**
@@ -318,7 +317,7 @@ object AppUtils {
      */
     fun getPackageNameByScheme(context: Context, url: String): String {
         val resolveInfo = context.packageManager
-                .queryIntentActivities(handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
+                .queryIntentActivities(URLSchemeHandler.handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
         if (resolveInfo.isNotEmpty()) {
             return resolveInfo[0].activityInfo.packageName
         }
@@ -357,36 +356,54 @@ object AppUtils {
                 DialogManager.showImageDialog((context as AppCompatActivity), item.param1)
             }
             AnywhereType.Card.ACTIVITY -> {
-                Opener.with(context).load(item).open()
+                when {
+                    SuProcess.acquireRootPerm(context) -> {
+                        Opener.with(context).load(item).open()
+                    }
+                    isActivityExported(context, ComponentName(item.param1, item.param2)) -> {
+                        context.startActivity(Intent(Intent.ACTION_VIEW).apply {
+                            component = ComponentName(item.param1, item.param2)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        })
+                    }
+                    else -> {
+                        ToastUtil.makeText(R.string.toast_change_work_mode)
+                    }
+                }
             }
             AnywhereType.Card.URL_SCHEME -> {
                 if (item.param3.isNotEmpty()) {
                     DialogManager.showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : DynamicParamsDialogFragment.OnParamsInputListener {
                         override fun onFinish(text: String?) {
-                            if (GlobalValues.workingMode == Const.WORKING_MODE_URL_SCHEME) {
-                                try {
-                                    parse(item.param1 + text, context)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                    if (e is ActivityNotFoundException) {
-                                        ToastUtil.makeText(R.string.toast_no_react_url)
-                                    } else if (atLeastN()) {
-                                        if (e is FileUriExposedException) {
-                                            ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                                        }
+                            try {
+                                URLSchemeHandler.parse(item.param1 + text, context)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                if (e is ActivityNotFoundException) {
+                                    ToastUtil.makeText(R.string.toast_no_react_url)
+                                } else if (atLeastN()) {
+                                    if (e is FileUriExposedException) {
+                                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
                                     }
                                 }
-                            } else {
-                                Opener.with(context)
-                                        .load(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.param1) + text)
-                                        .open()
                             }
                         }
 
                         override fun onCancel() {}
                     })
                 } else {
-                    Opener.with(context).load(item).open()
+                    try {
+                        URLSchemeHandler.parse(item.param1, context)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        if (e is ActivityNotFoundException) {
+                            ToastUtil.makeText(R.string.toast_no_react_url)
+                        } else if (atLeastN()) {
+                            if (e is FileUriExposedException) {
+                                ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                            }
+                        }
+                    }
                 }
             }
             AnywhereType.Card.SHELL -> {
