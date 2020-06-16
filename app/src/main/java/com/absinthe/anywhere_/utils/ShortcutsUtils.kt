@@ -11,12 +11,10 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
-import com.absinthe.anywhere_.utils.AppTextUtils.getItemCommand
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.Utils
 
@@ -31,25 +29,13 @@ object ShortcutsUtils {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun addShortcut(ae: AnywhereEntity) {
         val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-            when (ae.type) {
-                AnywhereType.Card.QR_CODE -> {
-                    action = ShortcutsActivity.ACTION_START_QR_CODE
-                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.Prefix.QRCODE_PREFIX + ae.param2)
-                }
-                AnywhereType.Card.IMAGE -> {
-                    action = ShortcutsActivity.ACTION_START_IMAGE
-                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
-                }
-                else -> {
-                    action = ShortcutsActivity.ACTION_START_COMMAND
-                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, getItemCommand(ae))
-                }
-            }
+            action = ShortcutsActivity.ACTION_START_COMMAND
+            putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
         }
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)
-                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae))))
+                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(AppUtils.getEntityIcon(Utils.getApp(), ae))))
                 .setIntent(intent)
                 .build()
         if (SHORTCUT_MANAGER!!.dynamicShortcuts.size <= 3) {
@@ -64,25 +50,13 @@ object ShortcutsUtils {
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun updateShortcut(ae: AnywhereEntity) {
         val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-            when (ae.type) {
-                AnywhereType.Card.QR_CODE -> {
-                    action = ShortcutsActivity.ACTION_START_QR_CODE
-                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, AnywhereType.Prefix.QRCODE_PREFIX + ae.param2)
-                }
-                AnywhereType.Card.IMAGE -> {
-                    action = ShortcutsActivity.ACTION_START_IMAGE
-                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
-                }
-                else -> {
-                    action = ShortcutsActivity.ACTION_START_COMMAND
-                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, getItemCommand(ae))
-                }
-            }
+            action = ShortcutsActivity.ACTION_START_COMMAND
+            putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
         }
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)
-                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae))))
+                .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(AppUtils.getEntityIcon(Utils.getApp(), ae))))
                 .setIntent(intent)
                 .build()
         SHORTCUT_MANAGER!!.updateShortcuts(listOf(info))
@@ -108,13 +82,8 @@ object ShortcutsUtils {
             // Assumes there's already a shortcut with the ID "my-shortcut".
             // The shortcut must be enabled.
             val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-                if (ae.type == AnywhereType.Card.IMAGE) {
-                    action = ShortcutsActivity.ACTION_START_IMAGE
-                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
-                } else {
-                    action = ShortcutsActivity.ACTION_START_COMMAND
-                    putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, getItemCommand(ae))
-                }
+                action = ShortcutsActivity.ACTION_START_COMMAND
+                putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
             }
 
             val pinShortcutInfo = ShortcutInfo.Builder(Utils.getApp(), ae.id)
@@ -144,13 +113,8 @@ object ShortcutsUtils {
         val shortcutIntent = Intent().apply {
             component = ComponentName(Utils.getApp(), ShortcutsActivity::class.java)
             flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NEW_TASK
-            if (ae.type == AnywhereType.Card.IMAGE) {
-                action = ShortcutsActivity.ACTION_START_IMAGE
-                putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
-            } else {
-                action = ShortcutsActivity.ACTION_START_COMMAND
-                putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, getItemCommand(ae))
-            }
+            action = ShortcutsActivity.ACTION_START_COMMAND
+            putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
         }
         val resultIntent = Intent().apply {
             putExtra(Intent.EXTRA_SHORTCUT_ICON, icon.toBitmap())

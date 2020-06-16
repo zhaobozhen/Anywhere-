@@ -183,7 +183,7 @@ class EditorActivity : BaseActivity() {
                 when (it.itemId) {
                     R.id.add_shortcuts -> {
                         if (atLeastNMR1()) {
-                            if (GlobalValues.shortcutsList.contains(entity!!.id)) {
+                            if (!GlobalValues.shortcutsList.contains(entity!!.id)) {
                                 addShortcut(this@EditorActivity, entity!!)
                             } else {
                                 removeShortcut(this@EditorActivity, entity!!)

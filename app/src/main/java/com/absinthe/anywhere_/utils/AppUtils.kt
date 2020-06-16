@@ -1,19 +1,24 @@
 package com.absinthe.anywhere_.utils
 
 import android.appwidget.AppWidgetManager
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.os.FileUriExposedException
 import android.os.Parcelable
 import android.os.Process
 import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -21,14 +26,23 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.SuProcess
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider
+import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
+import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.LogcatActivity
+import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.handleIntent
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
+import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.ImageUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
 import java.io.File
@@ -328,6 +342,68 @@ object AppUtils {
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             false
+        }
+    }
+
+    fun openAnywhereEntity(context: Context, item: AnywhereEntity) {
+        if (item.type == AnywhereType.Card.QR_CODE) {
+            val qrId = if (context is QRCodeCollectionActivity) {
+                item.id
+            } else {
+                item.param2
+            }
+            val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)
+            entity?.launch()
+        } else if (item.type == AnywhereType.Card.IMAGE) {
+            DialogManager.showImageDialog((context as AppCompatActivity), item.param1)
+        } else if (item.type == AnywhereType.Card.URL_SCHEME) {
+            if (item.param3.isNotEmpty()) {
+                DialogManager.showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : DynamicParamsDialogFragment.OnParamsInputListener {
+                    override fun onFinish(text: String?) {
+                        if (GlobalValues.workingMode == Const.WORKING_MODE_URL_SCHEME) {
+                            try {
+                                parse(item.param1 + text, context)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                if (e is ActivityNotFoundException) {
+                                    ToastUtil.makeText(R.string.toast_no_react_url)
+                                } else if (atLeastN()) {
+                                    if (e is FileUriExposedException) {
+                                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                                    }
+                                }
+                            }
+                        } else {
+                            Opener.with(context)
+                                    .load(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.param1) + text)
+                                    .open()
+                        }
+                    }
+
+                    override fun onCancel() {}
+                })
+            } else {
+                Opener.with(context).load(item).open()
+            }
+        } else if (item.type == AnywhereType.Card.SHELL) {
+            val result = CommandUtils.execAdbCmd(item.param1)
+            DialogManager.showShellResultDialog(context, result, null, null)
+        } else if (item.type == AnywhereType.Card.SWITCH_SHELL) {
+            Opener.with(context).load(item).open()
+            val ae = AnywhereEntity(item).apply {
+                param3 = if (param3 == SWITCH_OFF) SWITCH_ON else SWITCH_OFF
+            }
+            AnywhereApplication.sRepository.update(ae)
+        } else if (item.type == AnywhereType.Card.ACTIVITY) {
+            Opener.with(context).load(item).open()
+        }
+    }
+
+    fun getEntityIcon(context: Context, item: AnywhereEntity): Drawable {
+        return if (item.iconUri.isEmpty()) {
+            UiUtils.getAppIconByPackageName(context, item)
+        } else {
+            ConvertUtils.bitmap2Drawable(ImageUtils.getBitmap(item.iconUri))
         }
     }
 }

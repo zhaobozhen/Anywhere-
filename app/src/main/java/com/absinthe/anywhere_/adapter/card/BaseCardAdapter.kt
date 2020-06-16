@@ -1,16 +1,13 @@
 package com.absinthe.anywhere_.adapter.card
 
 import android.app.ActivityOptions
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.os.FileUriExposedException
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -21,11 +18,8 @@ import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.model.manager.QRCollection
-import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
@@ -35,14 +29,7 @@ import com.absinthe.anywhere_.ui.main.CategoryCardFragment
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
-import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
-import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UiUtils
-import com.absinthe.anywhere_.utils.handler.Opener
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
-import com.absinthe.anywhere_.utils.manager.DialogManager.showDynamicParamsDialog
-import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
-import com.absinthe.anywhere_.utils.manager.DialogManager.showShellResultDialog
 import com.absinthe.anywhere_.view.card.CardItemView
 import com.absinthe.anywhere_.view.card.NormalItemView
 import com.absinthe.anywhere_.view.card.StreamItemView
@@ -161,22 +148,17 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             }
         }
 
-        if (item.iconUri.isEmpty()) {
-            Glide.with(context)
-                    .load(UiUtils.getAppIconByPackageName(context, item))
-                    .into(itemView.icon)
-        } else {
-            Glide.with(context)
-                    .load(item.iconUri)
-                    .into(itemView.icon)
-        }
+        Glide.with(context)
+                .load(AppUtils.getEntityIcon(context, item))
+                .into(itemView.icon)
 
         itemView.badge.apply {
             if (GlobalValues.shortcutsList.contains(item.id)) {
+                isVisible = true
                 setImageResource(R.drawable.ic_add_shortcut)
                 setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
             } else {
-                isGone = true
+                isVisible = false
             }
         }
         itemView.indicator.apply {
@@ -209,7 +191,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                 if (isAppFrozen(context, item)) {
                     v.postDelayed({ notifyItemChanged(position) }, 500)
                 }
-                openAnywhereActivity(item)
+                AppUtils.openAnywhereEntity(context, item)
             } else if (mode == ADAPTER_MODE_SELECT) {
                 if (mSelectedIndex.contains(position)) {
                     (v as MaterialCardView).apply {
@@ -290,60 +272,6 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
 
         CategoryCardFragment.refreshLock = false
-    }
-
-    private fun openAnywhereActivity(item: AnywhereEntity) {
-        if (item.type == AnywhereType.Card.QR_CODE) {
-            val qrId = if (context is QRCodeCollectionActivity) {
-                item.id
-            } else {
-                item.param2
-            }
-            val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)
-            entity?.launch()
-        } else if (item.type == AnywhereType.Card.IMAGE) {
-            showImageDialog((context as AppCompatActivity), item.param1)
-        } else if (item.type == AnywhereType.Card.URL_SCHEME) {
-            if (item.param3.isNotEmpty()) {
-                showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : OnParamsInputListener {
-                    override fun onFinish(text: String?) {
-                        if (workingMode == Const.WORKING_MODE_URL_SCHEME) {
-                            try {
-                                parse(item.param1 + text, context as AppCompatActivity)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                if (e is ActivityNotFoundException) {
-                                    ToastUtil.makeText(R.string.toast_no_react_url)
-                                } else if (AppUtils.atLeastN()) {
-                                    if (e is FileUriExposedException) {
-                                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                                    }
-                                }
-                            }
-                        } else {
-                            Opener.with(context)
-                                    .load(String.format(Const.CMD_OPEN_URL_SCHEME_FORMAT, item.param1) + text)
-                                    .open()
-                        }
-                    }
-
-                    override fun onCancel() {}
-                })
-            } else {
-                Opener.with(context).load(item).open()
-            }
-        } else if (item.type == AnywhereType.Card.SHELL) {
-            val result = execAdbCmd(item.param1)
-            showShellResultDialog(context, result, null, null)
-        } else if (item.type == AnywhereType.Card.SWITCH_SHELL) {
-            Opener.with(context).load(item).open()
-            val ae = AnywhereEntity(item).apply {
-                param3 = if (param3 == SWITCH_OFF) SWITCH_ON else SWITCH_OFF
-            }
-            AnywhereApplication.sRepository.update(ae)
-        } else if (item.type == AnywhereType.Card.ACTIVITY) {
-            Opener.with(context).load(item).open()
-        }
     }
 
     override fun onMove(fromPosition: Int, toPosition: Int) {

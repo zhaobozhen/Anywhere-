@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +22,7 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils
+import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.checkShizukuOnWorking
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.isGrantShizukuPermission
@@ -38,8 +38,6 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
     val allAnywhereEntities: LiveData<List<AnywhereEntity>>
     var shouldShowFab: MutableLiveData<Boolean> = MutableLiveData()
     var background: MutableLiveData<String> = MutableLiveData()
-        private set
-    var fragment: MutableLiveData<Fragment> = MutableLiveData()
         private set
 
     private val mRepository: AnywhereRepository = AnywhereApplication.sRepository
@@ -175,15 +173,18 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
 
     fun convertAnywhereTypeV2() {
         allAnywhereEntities.value?.let {
-            val shortcutsList = mutableListOf<String>()
-            for (entity in it) {
-                if (entity.type % 100 / 10 == 1) {
-                    shortcutsList.add(entity.id)
+            if (AppUtils.atLeastNMR1()) {
+                val shortcutsList = mutableListOf<String>()
+                for (entity in it) {
+                    if (entity.type % 100 / 10 == 1) {
+                        shortcutsList.add(entity.id)
+                    }
+                    entity.type = entity.type % 10
+                    AnywhereApplication.sRepository.update(entity)
+                    ShortcutsUtils.updateShortcut(entity)
                 }
-                entity.type = entity.type % 10
-                AnywhereApplication.sRepository.update(entity)
+                GlobalValues.shortcutsList = shortcutsList
             }
-            GlobalValues.shortcutsList = shortcutsList
         }
     }
 

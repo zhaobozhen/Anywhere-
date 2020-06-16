@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.utils.AppTextUtils
+import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.Opener
@@ -65,6 +66,18 @@ class ShortcutsActivity : BaseActivity() {
                         } else {
                             bindService(Intent(this, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
                         }
+                    }
+                    finish()
+                }
+                ACTION_START_ENTITY -> {
+                    intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_ID)?.let { id ->
+                        viewModel.allAnywhereEntities.observe(this, Observer { list ->
+                            list.find { findItem ->
+                                findItem.id == id
+                            }?.apply {
+                                AppUtils.openAnywhereEntity(this@ShortcutsActivity, this)
+                            }
+                        })
                     }
                     finish()
                 }
@@ -180,9 +193,10 @@ class ShortcutsActivity : BaseActivity() {
 
     companion object {
         const val ACTION_START_COLLECTOR = "START_COLLECTOR"
-        const val ACTION_START_COMMAND = "START_COMMAND"
+        const val ACTION_START_ENTITY = "START_ENTITY"
+        const val ACTION_START_COMMAND = "START_COMMAND" //Old Scheme
         const val ACTION_START_FROM_WIDGET = "START_FROM_WIDGET"
-        const val ACTION_START_QR_CODE = "START_QR_CODE"
-        const val ACTION_START_IMAGE = "START_IMAGE"
+        const val ACTION_START_QR_CODE = "START_QR_CODE" //Old Scheme
+        const val ACTION_START_IMAGE = "START_IMAGE" //Old Scheme
     }
 }

@@ -25,7 +25,9 @@ object GlobalValues {
     set(value) {
         field = value
         mmkv.encode(Const.SHORTCUTS_LIST, Gson().toJson(value))
+        shortcutListChanged = true
     }
+    var shortcutListChanged = false
 
     var isStreamCardMode
         get() = mmkv.decodeBool(Const.PREF_STREAM_CARD_MODE)

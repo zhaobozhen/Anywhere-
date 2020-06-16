@@ -75,6 +75,11 @@ class CategoryCardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         currentReference = WeakReference<CategoryCardFragment>(this)
+
+        if (GlobalValues.shortcutListChanged) {
+            adapter.notifyDataSetChanged()
+            GlobalValues.shortcutListChanged = false
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
