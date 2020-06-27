@@ -27,24 +27,29 @@ object StatusBarUtil {
         }
     }
 
-    fun setDarkMode(activity: Activity) {
+    fun setDarkMode(activity: Activity, needLightStatusBar: Boolean = true) {
+        val decorView = activity.window.decorView
         if (isDarkMode(activity)) {
-            activity.window.decorView.systemUiVisibility = (
+            decorView.systemUiVisibility = (
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
         } else {
-            activity.window.decorView.systemUiVisibility = (
+            decorView.systemUiVisibility = (
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                             or WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+            if (needLightStatusBar) {
+                decorView.systemUiVisibility =
+                        decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
 
             if (getNavBarHeight() > ConvertUtils.dp2px(20f)) {
                 if (AppUtils.atLeastO()) {
-                    activity.window.decorView.systemUiVisibility = (
-                            activity.window.decorView.systemUiVisibility
+                    decorView.systemUiVisibility = (
+                            decorView.systemUiVisibility
                                     or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
                 }
             }

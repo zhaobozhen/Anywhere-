@@ -14,6 +14,8 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.Nullable;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -171,6 +173,7 @@ public class IconPackManager {
             return null;
         }
 
+        @Nullable
         public Drawable getDrawableIconForPackage(String appPackageName, Drawable defaultDrawable) {
             if (!mLoaded) {
                 load();

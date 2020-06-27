@@ -105,6 +105,7 @@ object UxUtils {
                 context.packageManager.getApplicationIcon(packageName)
             } else {
                 Settings.sIconPack.getDrawableIconForPackage(packageName, context.packageManager.getApplicationIcon(packageName))
+                        ?: context.getDrawable(R.drawable.ic_logo)!!
             }
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
@@ -218,13 +219,15 @@ object UxUtils {
         }
         if (newType == Const.ACTION_BAR_TYPE_DARK || newType.isEmpty()) {
             Timber.d("Dark-")
-            val spanString = SpannableString(title)
-            var span = ForegroundColorSpan(Color.BLACK)
-            if (StatusBarUtil.isDarkMode(activity) && backgroundUri.isEmpty()) {
-                span = ForegroundColorSpan(Color.WHITE)
+            val span = if (StatusBarUtil.isDarkMode(activity) && backgroundUri.isEmpty()) {
+                ForegroundColorSpan(Color.WHITE)
+            } else {
+                ForegroundColorSpan(Color.BLACK)
             }
-            spanString.setSpan(span, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            toolbar.title = spanString
+            toolbar.title = SpannableString(title).apply {
+                setSpan(span, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            toolbar.setTitleTextColor(Color.BLACK)
 
             actionBarType = Const.ACTION_BAR_TYPE_DARK
             activity.invalidateOptionsMenu()
@@ -236,11 +239,12 @@ object UxUtils {
             }
         } else if (newType == Const.ACTION_BAR_TYPE_LIGHT) {
             Timber.d("Light-")
-            val spanString = SpannableString(title)
             val span = ForegroundColorSpan(Color.WHITE)
-            spanString.setSpan(span, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            toolbar.title = SpannableString(title).apply {
+                setSpan(span, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            toolbar.setTitleTextColor(Color.WHITE)
 
-            toolbar.title = spanString
             actionBarType = Const.ACTION_BAR_TYPE_LIGHT
 
             activity.invalidateOptionsMenu()

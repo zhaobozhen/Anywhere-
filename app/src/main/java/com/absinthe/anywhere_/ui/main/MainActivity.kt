@@ -50,6 +50,7 @@ import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
 import com.absinthe.anywhere_.utils.*
+import com.absinthe.anywhere_.utils.AppUtils.atLeastO
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
 import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
@@ -642,7 +643,12 @@ class MainActivity : BaseActivity() {
 
     private fun backupIfNeeded() {
         if (GlobalValues.needBackup && GlobalValues.isAutoBackup) {
-            startService(Intent(this, BackupIntentService::class.java))
+
+            if (atLeastO()) {
+                startForegroundService(Intent(this, BackupIntentService::class.java))
+            } else {
+                startService(Intent(this, BackupIntentService::class.java))
+            }
             GlobalValues.needBackup = false
         }
     }

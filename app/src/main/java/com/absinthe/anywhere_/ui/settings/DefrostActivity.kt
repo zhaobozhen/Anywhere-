@@ -89,7 +89,7 @@ class DefrostActivity : BaseActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.isEmpty()) return
 
         if (requestCode == Const.REQUEST_CODE_ICEBOX && grantResults[0] == Activity.RESULT_OK) {
             mAdapter.notifyDataSetChanged()
@@ -98,6 +98,7 @@ class DefrostActivity : BaseActivity() {
         } else if (requestCode == Const.REQUEST_CODE_DPM && grantResults[0] == Activity.RESULT_OK) {
             mAdapter.notifyDataSetChanged()
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun initData() {

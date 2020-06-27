@@ -59,7 +59,7 @@ object AppUtils {
                 + "&param2=" + param2
                 + "&param3=" + param3
                 + "&type=" + AnywhereType.Card.ACTIVITY)
-                URLSchemeHandler.parse(url, context)
+        URLSchemeHandler.parse(url, context)
     }
 
     fun openNewURLScheme(context: Context) {
@@ -151,6 +151,7 @@ object AppUtils {
                         packageInfo.applicationInfo.loadIcon(packageManager)
                     } else {
                         com.absinthe.anywhere_.model.Settings.sIconPack.getDrawableIconForPackage(packageInfo.packageName, packageInfo.applicationInfo.loadIcon(packageManager))
+                                ?: Utils.getApp().getDrawable(R.drawable.ic_logo)!!
                     }
                 }
                 list.add(bean)

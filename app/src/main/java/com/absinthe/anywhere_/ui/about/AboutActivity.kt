@@ -131,7 +131,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     }
 
     private fun initView() {
-        StatusBarUtil.setDarkMode(this)
+        StatusBarUtil.setDarkMode(this, false)
         StatusBarUtil.setSystemBarTransparent(this)
 
         val appbar = findViewById<AppBarLayout>(R.id.header_layout)

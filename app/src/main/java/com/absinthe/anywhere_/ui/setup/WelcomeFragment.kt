@@ -1,21 +1,16 @@
 package com.absinthe.anywhere_.ui.setup
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.absinthe.anywhere_.BaseFragment
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.databinding.FragmentWelcomeBinding
-import com.absinthe.anywhere_.utils.TimeRecorder
 
-class WelcomeFragment : Fragment() {
+class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(R.layout.fragment_welcome) {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+    override fun initBinding(view: View): FragmentWelcomeBinding = FragmentWelcomeBinding.bind(view)
+
+    override fun init() {
         setHasOptionsMenu(true)
-
         binding.btnWelcomeStart.setOnClickListener {
             requireActivity().supportFragmentManager
                     .beginTransaction()
@@ -23,14 +18,9 @@ class WelcomeFragment : Fragment() {
                     .replace(R.id.fragment_container_view, InitializeFragment.newInstance())
                     .commitNow()
         }
-
-        TimeRecorder.shouldRecord = false
-
-        return binding.root
     }
 
     companion object {
-        @JvmStatic
         fun newInstance(): WelcomeFragment {
             return WelcomeFragment()
         }

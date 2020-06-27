@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.*
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.absinthe.anywhere_.BaseFragment
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
@@ -32,9 +32,8 @@ import kotlinx.coroutines.launch
 import moe.shizuku.api.ShizukuApiConstants
 import timber.log.Timber
 
-class InitializeFragment : Fragment(), OnButtonCheckedListener {
+class InitializeFragment : BaseFragment<FragmentInitializeBinding>(R.layout.fragment_initialize), OnButtonCheckedListener {
 
-    private lateinit var mBinding: FragmentInitializeBinding
     private lateinit var rootBinding: CardAcquireRootPermissionBinding
     private lateinit var shizukuBinding: CardAcquireShizukuPermissionBinding
     private lateinit var overlayBinding: CardAcquireOverlayPermissionBinding
@@ -53,26 +52,26 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     private var bPopup = false
     private var mWorkingMode: String = Const.WORKING_MODE_URL_SCHEME
 
+    override fun initBinding(view: View): FragmentInitializeBinding = FragmentInitializeBinding.bind(view)
+
+    override fun init() {
+        setHasOptionsMenu(true)
+        binding.selectWorkingMode.toggleGroup.addOnButtonCheckedListener(this)
+        allPerm.value = 0
+    }
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = FragmentInitializeBinding.inflate(inflater, container, false)
         rootBinding = CardAcquireRootPermissionBinding.inflate(inflater, container, false)
         shizukuBinding = CardAcquireShizukuPermissionBinding.inflate(inflater, container, false)
         overlayBinding = CardAcquireOverlayPermissionBinding.inflate(inflater, container, false)
         popupBinding = CardAcquirePopupPermissionBinding.inflate(inflater, container, false)
-        initView()
 
-        return mBinding.root
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initObserver()
-    }
-
-    private fun initView() {
-        setHasOptionsMenu(true)
-        mBinding.selectWorkingMode.toggleGroup.addOnButtonCheckedListener(this)
-        allPerm.value = 0
     }
 
     override fun onButtonChecked(group: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
@@ -207,11 +206,11 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
                 if (isAdd) {
                     if (!bRoot) {
-                        mBinding.container.addView(rootBinding.root, 1)
+                        binding.container.addView(rootBinding.root, 1)
                         bRoot = true
                     }
                 } else {
-                    mBinding.container.removeView(rootBinding.root)
+                    binding.container.removeView(rootBinding.root)
                     bRoot = false
                 }
             }
@@ -229,11 +228,11 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
                 if (isAdd) {
                     if (!bShizuku) {
-                        mBinding.container.addView(shizukuBinding.root, 1)
+                        binding.container.addView(shizukuBinding.root, 1)
                         bShizuku = true
                     }
                 } else {
-                    mBinding.container.removeView(shizukuBinding.root)
+                    binding.container.removeView(shizukuBinding.root)
                     bShizuku = false
                 }
             }
@@ -258,11 +257,11 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
                 if (isAdd) {
                     if (!bOverlay) {
-                        mBinding.container.addView(overlayBinding.root, -1)
+                        binding.container.addView(overlayBinding.root, -1)
                         bOverlay = true
                     }
                 } else {
-                    mBinding.container.removeView(overlayBinding.root)
+                    binding.container.removeView(overlayBinding.root)
                     bOverlay = false
                 }
             }
@@ -274,11 +273,11 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
                 if (isAdd) {
                     if (!bPopup) {
-                        mBinding.container.addView(popupBinding.root, -1)
+                        binding.container.addView(popupBinding.root, -1)
                         bPopup = true
                     }
                 } else {
-                    mBinding.container.removeView(popupBinding.root)
+                    binding.container.removeView(popupBinding.root)
                     bPopup = false
                 }
             }
@@ -290,11 +289,11 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
                 if (isAdd) {
                     if (!bPopup) {
-                        mBinding.container.addView(popupBinding.root, -1)
+                        binding.container.addView(popupBinding.root, -1)
                         bPopup = true
                     }
                 } else {
-                    mBinding.container.removeView(popupBinding.root)
+                    binding.container.removeView(popupBinding.root)
                     bPopup = false
                 }
             }
@@ -339,7 +338,6 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         const val OVERLAY_PERM = 8
         const val SHIZUKU_GROUP_PERM = 6
 
-        @JvmStatic
         fun newInstance(): InitializeFragment {
             return InitializeFragment()
         }
