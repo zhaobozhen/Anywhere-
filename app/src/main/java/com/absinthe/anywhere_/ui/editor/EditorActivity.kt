@@ -32,7 +32,7 @@ import com.absinthe.anywhere_.utils.AppUtils.atLeastNMR1
 import com.absinthe.anywhere_.utils.AppUtils.atLeastR
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAddShortcutDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCannotAddShortcutDialog
@@ -166,7 +166,7 @@ class EditorActivity : BaseActivity() {
             }
             backgroundTintList = ColorStateList.valueOf(color)
 
-            imageTintList = if (UiUtils.isLightColor(color)) {
+            imageTintList = if (UxUtils.isLightColor(color)) {
                 ColorStateList.valueOf(Color.BLACK)
             } else {
                 ColorStateList.valueOf(Color.WHITE)

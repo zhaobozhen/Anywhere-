@@ -12,9 +12,9 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.ui.main.MainActivity
 import com.absinthe.anywhere_.utils.AppUtils
+import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.StatusBarUtil.setDarkMode
 import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.blankj.utilcode.util.BarUtils
 import timber.log.Timber
@@ -35,8 +35,8 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate")
         if (GlobalValues.backgroundUri.isEmpty() || this !is MainActivity) {
-            setDarkMode(this, UiUtils.isDarkMode(this))
-            UiUtils.setSystemBarTransparent(this)
+            setDarkMode(this)
+            StatusBarUtil.setSystemBarTransparent(this)
         }
 
         super.onCreate(savedInstanceState)

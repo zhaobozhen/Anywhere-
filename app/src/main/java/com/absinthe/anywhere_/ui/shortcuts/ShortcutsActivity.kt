@@ -18,7 +18,7 @@ import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
@@ -48,7 +48,7 @@ class ShortcutsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        UiUtils.setActionBarTransparent(this)
+        UxUtils.setActionBarTransparent(this)
 
         val viewModel = ViewModelProvider(this).get(AnywhereViewModel::class.java)
         Analytics.trackEvent(EventTag.SHORTCUT_OPEN)

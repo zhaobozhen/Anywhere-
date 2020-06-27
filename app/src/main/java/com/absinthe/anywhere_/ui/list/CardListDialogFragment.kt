@@ -7,7 +7,7 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.viewholder.AppListBean
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.CardListDialogBuilder
@@ -53,10 +53,10 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                             || ae.type == AnywhereType.Card.IMAGE
                             || ae.type == AnywhereType.Card.SHELL) {
                         listBeans.add(AppListBean(ae.appName, ae.param2, ae.param1,
-                                ae.type, UiUtils.getAppIconByPackageName(context, ae.param2)))
+                                ae.type, UxUtils.getAppIcon(requireContext(), ae.param2)))
                     } else {
                         listBeans.add(AppListBean(ae.appName, ae.param1, ae.param2,
-                                ae.type, UiUtils.getAppIconByPackageName(context, ae.param1)))
+                                ae.type, UxUtils.getAppIcon(requireContext(), ae.param1)))
                     }
                 }
                 mBuilder.mAdapter.apply {

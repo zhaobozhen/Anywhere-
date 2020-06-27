@@ -9,7 +9,7 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.utils.SPUtils
 import com.absinthe.anywhere_.utils.StorageUtils.getTokenFromFile
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.IconPackManager
 import com.absinthe.anywhere_.utils.manager.IconPackManager.IconPack
 import com.blankj.utilcode.util.Utils
@@ -41,7 +41,7 @@ object Settings {
             Const.DARK_MODE_ON -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             Const.DARK_MODE_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             Const.DARK_MODE_BATTERY -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-            Const.DARK_MODE_AUTO -> AppCompatDelegate.setDefaultNightMode(UiUtils.getAutoDarkMode())
+            Const.DARK_MODE_AUTO -> AppCompatDelegate.setDefaultNightMode(UxUtils.getAutoDarkMode())
         }
     }
 

@@ -49,13 +49,10 @@ import com.absinthe.anywhere_.ui.list.AppListActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
-import com.absinthe.anywhere_.utils.AppTextUtils
+import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
-import com.absinthe.anywhere_.utils.ClipboardUtil
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
 import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
-import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
@@ -170,11 +167,13 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_LIGHT
-                || UiUtils.isDarkMode(this) && GlobalValues.backgroundUri.isEmpty()) {
-            UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_LIGHT)
-        } else {
-            UiUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_DARK)
+        mToggle?.let {
+            if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_LIGHT
+                    || StatusBarUtil.isDarkMode(this) && GlobalValues.backgroundUri.isEmpty()) {
+                UxUtils.tintToolbarIcon(this, menu, it, Const.ACTION_BAR_TYPE_LIGHT)
+            } else {
+                UxUtils.tintToolbarIcon(this, menu, it, Const.ACTION_BAR_TYPE_DARK)
+            }
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -261,8 +260,8 @@ class MainActivity : BaseActivity() {
         GlobalValues.backgroundUri.apply {
             if (isNotEmpty()) {
                 loadBackground(this)
-                UiUtils.setAdaptiveActionBarTitleColor(this@MainActivity, supportActionBar)
-                UiUtils.setActionBarTransparent(this@MainActivity)
+                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, mBinding.toolbar)
+                UxUtils.setActionBarTransparent(this@MainActivity)
             }
         }
         initFab()
@@ -308,7 +307,7 @@ class MainActivity : BaseActivity() {
             mBinding.toolbar.apply {
                 layoutParams = newLayoutParams
                 contentInsetStartWithNavigation = 0
-                UiUtils.drawMd2Toolbar(this@MainActivity, this, 3)
+                UxUtils.drawMd2Toolbar(this, 3)
             }
         }
 
@@ -464,7 +463,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initObserver() {
-        mObserver = Observer<List<PageEntity>?> { pageEntities ->
+        mObserver = Observer { pageEntities ->
             if (pageEntities == null) return@Observer
 
             AnywhereApplication.sRepository.allPageEntities.removeObserver(mObserver)
@@ -492,8 +491,8 @@ class MainActivity : BaseActivity() {
 
             if (s.isNotEmpty()) {
                 loadBackground(GlobalValues.backgroundUri)
-                UiUtils.setAdaptiveActionBarTitleColor(this, supportActionBar)
-                UiUtils.setActionBarTransparent(this)
+                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, mBinding.toolbar)
+                UxUtils.setActionBarTransparent(this)
             }
         })
         viewModel.shouldShowFab.observe(this, Observer {

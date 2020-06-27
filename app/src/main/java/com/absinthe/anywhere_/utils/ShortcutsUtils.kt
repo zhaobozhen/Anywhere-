@@ -45,7 +45,7 @@ object ShortcutsUtils {
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)
-                .setIcon(Icon.createWithBitmap(UiUtils.getAppIconByPackageName(Utils.getApp(), ae).toBitmap()))
+                .setIcon(Icon.createWithBitmap(UxUtils.getAppIcon(Utils.getApp(), ae).toBitmap()))
                 .setIntent(intent)
                 .build()
         if (SHORTCUT_MANAGER!!.dynamicShortcuts.size <= 3) {
@@ -79,7 +79,7 @@ object ShortcutsUtils {
                 Utils.getApp().getDrawable(R.drawable.ic_green_dot)!!.toBitmap()
             }
         } else {
-            UiUtils.getAppIconByPackageName(Utils.getApp(), ae).toBitmap()
+            UxUtils.getAppIcon(Utils.getApp(), ae).toBitmap()
         }
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)

@@ -12,8 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.absinthe.anywhere_.utils.UiUtils;
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder;
+import com.blankj.utilcode.util.ConvertUtils;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -252,7 +252,7 @@ public class ColorPickerDialogBuilder {
             colorEdit.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
             colorEdit.setSingleLine();
             colorEdit.setBackground(builder.getContext().getDrawable(com.absinthe.anywhere_.R.drawable.bg_color_dashboard));
-            int padding = UiUtils.d2p(builder.getContext(), 8);
+            int padding = ConvertUtils.dp2px(8);
             colorEdit.setPadding(padding, padding, padding, padding);
 
             colorEdit.setVisibility(View.GONE);

@@ -6,7 +6,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.PageEntity
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.UxUtils
+import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -32,13 +33,13 @@ class BackgroundAdapter : BaseQuickAdapter<PageEntity?, BaseViewHolder>(R.layout
                     leftMargin = newLayoutParams.rightMargin
                     bottomMargin = marginVertical
                     topMargin = newLayoutParams.bottomMargin
-                    height = UiUtils.d2p(context, 55f)
+                    height = ConvertUtils.dp2px(55f)
                 }
                 toolbar.apply {
                     layoutParams = newLayoutParams
                     contentInsetStartWithNavigation = 0
                 }
-                UiUtils.drawMd2Toolbar(context, toolbar, 3)
+                UxUtils.drawMd2Toolbar(toolbar, 3)
             }
 
             val ivBack: ImageView = holder.getView(R.id.iv_background)

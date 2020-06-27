@@ -12,7 +12,6 @@ import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.utils.StatusBarUtil
-import com.absinthe.anywhere_.utils.UiUtils
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
@@ -37,9 +36,8 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     }
 
     override fun onCreateHeader(icon: ImageView, slogan: TextView, version: TextView) {
-        val listener = createDebugListener()
         icon.setImageResource(R.drawable.pic_splash)
-        icon.setOnClickListener(listener)
+        icon.setOnClickListener(createDebugListener())
         slogan.text = getString(R.string.slogan)
         version.text = String.format("Version: %s", BuildConfig.VERSION_NAME)
     }
@@ -53,11 +51,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(Card(getString(R.string.about_text)))
 
             add(Category(getString(R.string.developer)))
-            val developerUrl = if (hasInstallCoolApk) {
-                URLManager.COOLAPK_PAGE
-            } else {
-                URLManager.GITHUB_PAGE
-            }
+            val developerUrl = if (hasInstallCoolApk) { URLManager.COOLAPK_PAGE } else { URLManager.GITHUB_PAGE }
             add(Contributor(R.mipmap.pic_rabbit, "Absinthe", getString(R.string.developer_info), developerUrl))
 
             add(Category(getString(R.string.certification)))
@@ -137,8 +131,8 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     }
 
     private fun initView() {
-        StatusBarUtil.setDarkMode(this, UiUtils.isDarkMode(this))
-        UiUtils.setSystemBarTransparent(this)
+        StatusBarUtil.setDarkMode(this)
+        StatusBarUtil.setSystemBarTransparent(this)
 
         val appbar = findViewById<AppBarLayout>(R.id.header_layout)
         appbar.fitsSystemWindows = true

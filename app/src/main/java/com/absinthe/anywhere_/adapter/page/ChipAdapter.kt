@@ -8,9 +8,9 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.utils.CommandUtils
 import com.absinthe.anywhere_.utils.AppTextUtils
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.CommandUtils
+import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showShellResultDialog
@@ -74,7 +74,7 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
         fun bind(item: AnywhereEntity) {
             chip.apply {
                 text = item.appName
-                chipIcon = UiUtils.getAppIconByPackageName(Utils.getApp(), item)
+                chipIcon = UxUtils.getAppIcon(Utils.getApp(), item)
             }
         }
 

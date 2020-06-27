@@ -16,7 +16,7 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
-import com.absinthe.anywhere_.utils.UiUtils;
+import com.absinthe.anywhere_.utils.UxUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
@@ -133,13 +133,13 @@ public class AppRemoteViewsService extends RemoteViewsService {
             AnywhereEntity ae = sList.get(position);
 
             if (ae.getIconUri().isEmpty()) {
-                icon = UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, ae);
+                icon = UxUtils.INSTANCE.getAppIcon(AppRemoteViewsService.this, ae);
             } else {
                 try {
                     icon = Drawable.createFromStream(getContentResolver().openInputStream(Uri.parse(ae.getIconUri())), null);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    icon = UiUtils.getAppIconByPackageName(AppRemoteViewsService.this, ae);
+                    icon = UxUtils.INSTANCE.getAppIcon(AppRemoteViewsService.this, ae);
                 }
             }
 

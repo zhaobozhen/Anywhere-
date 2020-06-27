@@ -5,7 +5,7 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.viewholder.AppListBean
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.UxUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -42,11 +42,11 @@ class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(
                 }
             }
             MODE_CARD_LIST -> {
-                holder.setImageDrawable(R.id.iv_app_icon, UiUtils.getAppIconByPackageName(context, item))
+                holder.setImageDrawable(R.id.iv_app_icon, UxUtils.getAppIcon(context, item))
                 holder.setText(R.id.tv_pkg_name, item.className)
             }
             MODE_ICON_PACK -> {
-                holder.setImageDrawable(R.id.iv_app_icon, UiUtils.getAppIconByPackageName(context, item.packageName))
+                holder.setImageDrawable(R.id.iv_app_icon, UxUtils.getAppIcon(context, item.packageName))
                 holder.setText(R.id.tv_pkg_name, item.packageName)
             }
         }

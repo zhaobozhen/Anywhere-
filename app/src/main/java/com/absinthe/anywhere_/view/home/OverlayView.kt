@@ -8,7 +8,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.OverlayWindowManager
 import com.absinthe.anywhere_.services.overlay.OverlayService
 import com.absinthe.anywhere_.utils.AppUtils
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder
 import timber.log.Timber
@@ -19,7 +19,7 @@ class OverlayView(context: Context, private val service: OverlayService) : Linea
     var entity: AnywhereEntity = AnywhereEntity.Builder()
         set(value) {
             field = value
-            mBuilder.ivIcon.setImageDrawable(UiUtils.getAppIconByPackageName(context, value))
+            mBuilder.ivIcon.setImageDrawable(UxUtils.getAppIcon(context, value))
         }
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager

@@ -32,7 +32,6 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
 import com.absinthe.anywhere_.utils.StatusBarUtil
-import com.absinthe.anywhere_.utils.UiUtils
 import com.blankj.utilcode.util.ConvertUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -82,7 +81,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
         // Bug of DayNight lib
         showSystemApp?.apply {
-            if (UiUtils.isDarkMode(this@AppListActivity)) {
+            if (StatusBarUtil.isDarkMode(this@AppListActivity)) {
                 title = SpannableStringBuilder(title).apply {
                     setSpan(ForegroundColorSpan(Color.WHITE), 0, title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 }
@@ -101,7 +100,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 false
             }
 
-            if (UiUtils.isDarkMode(this)) {
+            if (StatusBarUtil.isDarkMode(this)) {
                 item.title = SpannableStringBuilder(item.title).apply {
                     setSpan(ForegroundColorSpan(Color.WHITE), 0, item.title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 }

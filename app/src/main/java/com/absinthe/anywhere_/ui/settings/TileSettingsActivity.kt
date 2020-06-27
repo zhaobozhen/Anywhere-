@@ -17,7 +17,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.SPUtils.getString
 import com.absinthe.anywhere_.utils.SPUtils.putString
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
 import com.chad.library.adapter.base.BaseQuickAdapter
 
@@ -101,7 +101,7 @@ open class TileSettingsActivity : BaseActivity() {
             appName = item.appName
             packageName = item.param1
             className = item.param2
-            icon = UiUtils.getAppIconByPackageName(this@TileSettingsActivity, item)
+            icon = UxUtils.getAppIcon(this@TileSettingsActivity, item)
         }
     }
 

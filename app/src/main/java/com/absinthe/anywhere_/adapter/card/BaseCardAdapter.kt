@@ -29,7 +29,7 @@ import com.absinthe.anywhere_.ui.main.CategoryCardFragment
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
-import com.absinthe.anywhere_.utils.UiUtils
+import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.view.card.CardItemView
 import com.absinthe.anywhere_.view.card.NormalItemView
 import com.absinthe.anywhere_.view.card.StreamItemView
@@ -104,14 +104,14 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
 
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
-                        UiUtils.setCardUseIconColor(itemView.cardBackground,
-                                UiUtils.getAppIconByPackageName(context, item),
+                        UxUtils.setCardUseIconColor(itemView.cardBackground,
+                                UxUtils.getAppIcon(context, item),
                                 object : OnPaletteFinishedListener {
                                     override fun onFinished(color: Int) {
                                         if (color != 0) {
-                                            itemView.appName.setTextColor(if (UiUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                            itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                             if (layoutMode == LAYOUT_MODE_STREAM) {
-                                                normalView!!.content.description.setTextColor(if (UiUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                                normalView!!.content.description.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                             }
                                             item.color = color
 
@@ -126,13 +126,13 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                 })
                     } else {
                         itemView.cardBackground.setBackgroundColor(item.color)
-                        itemView.appName.setTextColor(if (UiUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
-                        normalView?.content?.description?.setTextColor(if (UiUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                        itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                        normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                     }
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
-                        UiUtils.setCardUseIconColor(itemView.cardBackground,
-                                UiUtils.getAppIconByPackageName(context, item),
+                        UxUtils.setCardUseIconColor(itemView.cardBackground,
+                                UxUtils.getAppIcon(context, item),
                                 object : OnPaletteFinishedListener {
                                     override fun onFinished(color: Int) {
                                         item.color = color
@@ -142,7 +142,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                     }
                                 })
                     } else {
-                        UiUtils.createLinearGradientBitmap(itemView.cardBackground, item.color, Color.TRANSPARENT)
+                        UxUtils.createLinearGradientBitmap(context as BaseActivity, itemView.cardBackground, item.color, Color.TRANSPARENT)
                     }
                 }
             }
@@ -150,7 +150,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
 
         if (item.iconUri.isEmpty()) {
             Glide.with(context)
-                    .load(UiUtils.getAppIconByPackageName(context, item))
+                    .load(UxUtils.getAppIcon(context, item))
                     .into(itemView.icon)
         } else {
             Glide.with(context)
