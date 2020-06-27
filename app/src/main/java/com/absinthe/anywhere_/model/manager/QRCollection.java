@@ -13,8 +13,8 @@ import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.model.QREntity;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.services.IzukoService;
-import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
+import com.absinthe.anywhere_.utils.handler.Opener;
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler;
 import com.absinthe.anywhere_.workflow.FlowNode;
 import com.absinthe.anywhere_.workflow.WorkFlow;
@@ -163,7 +163,7 @@ public class QRCollection {
         String clsName = ".plugin.offline.ui.WalletOfflineCoinPurseUI";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatPay = new QREntity(() -> CommandUtils.execCmd(cmd));
+        wechatPay = new QREntity(() -> Opener.with(mContext).load(cmd).open());
 
         wechatPay.setPkgName(pkgName);
         wechatPay.setClsName(clsName);
@@ -249,7 +249,7 @@ public class QRCollection {
         String clsName = ".plugin.collect.ui.CollectMainUI";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatCollect = new QREntity(() -> CommandUtils.execCmd(cmd));
+        wechatCollect = new QREntity(() -> Opener.with(mContext).load(cmd).open());
 
         wechatCollect.setPkgName(pkgName);
         wechatCollect.setClsName(clsName);
@@ -463,7 +463,7 @@ public class QRCollection {
         String clsName = "com.tencent.biz.qrcode.activity.ScannerActivity";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, clsName);
 
-        qqScan = new QREntity(() -> CommandUtils.execCmd(cmd));
+        qqScan = new QREntity(() -> Opener.with(mContext).load(cmd).open());
 
         qqScan.setPkgName(pkgName);
         qqScan.setClsName(clsName);

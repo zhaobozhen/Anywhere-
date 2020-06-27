@@ -364,7 +364,7 @@ object AppUtils {
                     isActivityExported(context, ComponentName(item.param1, item.param2)) -> {
                         context.startActivity(Intent(Intent.ACTION_VIEW).apply {
                             component = ComponentName(item.param1, item.param2)
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)//Todo
                         })
                     }
                     else -> {

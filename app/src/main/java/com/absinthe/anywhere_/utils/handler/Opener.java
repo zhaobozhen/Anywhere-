@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils.handler;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
@@ -12,6 +13,7 @@ import com.absinthe.anywhere_.constants.GlobalValues;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment;
 import com.absinthe.anywhere_.utils.AppTextUtils;
+import com.absinthe.anywhere_.utils.AppUtils;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;
 import com.absinthe.anywhere_.utils.manager.DialogManager;
@@ -76,8 +78,14 @@ public class Opener {
     }
 
     private void openFromEntity(AnywhereEntity item) {
-        String cmd = AppTextUtils.getItemCommand(item);
-        openCmd(cmd, item.getPackageName());
+        if (item.getType() == AnywhereType.Card.URL_SCHEME ||
+                (item.getType() == AnywhereType.Card.ACTIVITY &&
+                        AppUtils.INSTANCE.isActivityExported(sContext.get(),
+                                new ComponentName(item.getParam1(), item.getParam2())))) {
+            AppUtils.INSTANCE.openAnywhereEntity(sContext.get(), item);
+        } else {
+            openByCmd(AppTextUtils.getItemCommand(item), item.getPackageName());
+        }
     }
 
     private void openFromCommand() {
@@ -86,7 +94,7 @@ public class Opener {
         } else if (mCmd.startsWith(AnywhereType.Prefix.SHELL_PREFIX)) {
             openShellCommand(mCmd);
         } else {
-            openCmd(mCmd, AppTextUtils.getPkgNameByCommand(mCmd));
+            openByCmd(mCmd, AppTextUtils.getPkgNameByCommand(mCmd));
         }
     }
 
@@ -101,7 +109,7 @@ public class Opener {
         DialogManager.showDynamicParamsDialog((AppCompatActivity) sContext.get(), param, new DynamicParamsDialogFragment.OnParamsInputListener() {
             @Override
             public void onFinish(String text) {
-                openCmd(finalNewCommand + text, AppTextUtils.getPkgNameByCommand(finalNewCommand));
+                openByCmd(finalNewCommand + text, AppTextUtils.getPkgNameByCommand(finalNewCommand));
                 if (mListener != null) {
                     mListener.onOpened();
                 }
@@ -135,7 +143,7 @@ public class Opener {
         }
     }
 
-    private void openCmd(String cmd, String packageName) {
+    private void openByCmd(String cmd, String packageName) {
         if (cmd.isEmpty()) {
             return;
         }

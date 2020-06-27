@@ -85,7 +85,7 @@ object Const {
     const val INTENT_EXTRA_SHORTCUTS_ID = "shortcutsId"
 
     const val INTENT_EXTRA_WIDGET_ENTITY = "entity"
-    const val INTENT_EXTRA_WIDGET_COMMAND = "command"
+    const val INTENT_EXTRA_WIDGET_ITEM_ID = "item_id"
 
     const val INTENT_EXTRA_APP_NAME = "appName"
     const val INTENT_EXTRA_PKG_NAME = "pkgName"

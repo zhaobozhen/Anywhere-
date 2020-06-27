@@ -157,6 +157,7 @@ class CategoryCardFragment : BaseFragment<FragmentCategoryCardBinding>(R.layout.
             setOnItemLongClickListener { _, view, i ->
                 longClickItem(view, i)
             }
+            setHasStableIds(true)
         }
 
         binding.recyclerView.adapter = this.adapter

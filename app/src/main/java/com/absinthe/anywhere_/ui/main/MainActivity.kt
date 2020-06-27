@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -290,6 +291,7 @@ class MainActivity : BaseActivity() {
 
                     setPageTransformer(CategoryCardTransformer())
                     setCurrentItem(GlobalValues.currentPage, false)
+                    getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
                 }
             }
         })

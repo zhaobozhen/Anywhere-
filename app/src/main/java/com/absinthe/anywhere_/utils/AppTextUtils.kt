@@ -10,6 +10,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
+import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
@@ -20,6 +21,7 @@ import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.handleIntent
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.blankj.utilcode.util.Utils
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,24 +56,23 @@ object AppTextUtils {
             AnywhereType.Card.ACTIVITY -> {
                 val packageName = item.param1
                 var className = item.param2
-                val extras = item.param3
-                Timber.d("packageName = %s, className = %s, extras = %s", packageName, className, extras)
+                val extras: ExtraBean? = try {
+                    Gson().fromJson(item.param3, ExtraBean::class.java)
+                } catch (e: JsonSyntaxException) {
+                    null
+                }
 
                 if (className.startsWith(".")) {
                     className = packageName + className
                 }
                 cmd.append(String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, packageName, className))
 
-                if (extras.isNotBlank()) {
-                    val extrasList = extras.split("\n")
-                    for (eachLine in extrasList) {
-                        cmd.append(" ").append(eachLine)
-                    }
+                extras?.let {
+                    cmd.append(" ").append(it.toString())
                 }
             }
             AnywhereType.Card.URL_SCHEME -> {
                 val urlScheme = item.param1
-                Timber.d("urlScheme = %s", urlScheme)
 
                 if (item.param3.isNotBlank()) {
                     cmd.append(String.format(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX_FORMAT, item.param3))

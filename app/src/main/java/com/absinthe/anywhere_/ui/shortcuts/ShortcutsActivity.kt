@@ -104,17 +104,15 @@ class ShortcutsActivity : BaseActivity() {
                     } ?: finish()
                 }
                 ACTION_START_FROM_WIDGET -> {
-                    intent.getStringExtra(Const.INTENT_EXTRA_WIDGET_COMMAND)?.let { cmd ->
-                        if (cmd.startsWith(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX) ||
-                                cmd.startsWith(AnywhereType.Prefix.SHELL_PREFIX)) {
-                            Opener.with(this)
-                                    .load(cmd)
-                                    .setOpenedListener { finish() }
-                                    .open()
-                        } else {
-                            Opener.with(this).load(cmd).open()
-                            finish()
-                        }
+                    intent.getStringExtra(Const.INTENT_EXTRA_WIDGET_ITEM_ID)?.let { id ->
+                        viewModel.allAnywhereEntities.observe(this, Observer { list ->
+                            list.find { findItem ->
+                                findItem.id == id
+                            }?.apply {
+                                AppUtils.openAnywhereEntity(this@ShortcutsActivity, this)
+                                finish()
+                            }
+                        })
                     } ?: finish()
                 }
                 Intent.ACTION_CREATE_SHORTCUT -> {

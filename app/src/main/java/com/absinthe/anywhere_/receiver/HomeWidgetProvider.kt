@@ -77,8 +77,7 @@ class HomeWidgetProvider : AppWidgetProvider() {
                     newIntent.putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, ae.param1)
                 } else {
                     newIntent.action = ShortcutsActivity.ACTION_START_FROM_WIDGET
-                    val cmd = AppTextUtils.getItemCommand(ae)
-                    newIntent.putExtra(Const.INTENT_EXTRA_WIDGET_COMMAND, cmd)
+                    newIntent.putExtra(Const.INTENT_EXTRA_WIDGET_ITEM_ID, ae.id)
                 }
                 context.startActivity(newIntent)
             }

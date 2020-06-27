@@ -220,6 +220,16 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
     }
 
+    override fun onMove(fromPosition: Int, toPosition: Int) {
+        data.add(toPosition, data.removeAt(fromPosition))
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onSwiped(position: Int) {
+    }
+
+    override fun getItemId(position: Int): Long = data[position].id.toLong()
+
     fun longClickItem(v: View, position: Int): Boolean {
         try {
             val item = getItem(position)
@@ -278,13 +288,5 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
 
         CategoryCardFragment.refreshLock = false
-    }
-
-    override fun onMove(fromPosition: Int, toPosition: Int) {
-        data.add(toPosition, data.removeAt(fromPosition))
-        notifyItemMoved(fromPosition, toPosition)
-    }
-
-    override fun onSwiped(position: Int) {
     }
 }
