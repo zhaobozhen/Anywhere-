@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="45dp"
     android:clipToPadding="false"
+    android:clipChildren="false"
     android:orientation="horizontal">
 
     <Spinner

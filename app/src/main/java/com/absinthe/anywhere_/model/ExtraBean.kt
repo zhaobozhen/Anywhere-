@@ -27,9 +27,9 @@ data class ExtraBean(
     }
 
     data class ExtraItem(
-            @SerializedName("type") val type: String,
-            @SerializedName("key") val key: String,
-            @SerializedName("value") val value: String
+            @SerializedName("type") var type: String,
+            @SerializedName("key") var key: String,
+            @SerializedName("value") var value: String
     ) {
         override fun toString(): String {
             return "$type \"$key\" \"$value\""

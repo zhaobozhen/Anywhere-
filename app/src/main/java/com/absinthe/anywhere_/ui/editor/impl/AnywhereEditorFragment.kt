@@ -36,32 +36,34 @@ class AnywhereEditorFragment : BaseEditorFragment() {
                 null
             }
 
-            binding.apply {
-                tietAppName.setText(it.appName)
-                tietPackageName.setText(it.param1)
-                tietClassName.setText(it.param2)
-                tietDescription.setText(it.description)
-                extraBean?.apply {
-                    tietIntentAction.setText(action)
-                    tietIntentData.setText(data)
-                }
-                rvExtras.apply {
-                    adapter = this@AnywhereEditorFragment.adapter
-                }
-            }
-
             adapter.apply {
-                setHasStableIds(true)
+                animationEnable = true
                 val headerBinding = LayoutHeaderExtrasBinding.inflate(layoutInflater)
                 addHeaderView(headerBinding.root)
 
                 headerBinding.ibAdd.setOnClickListener {
-                    addData(0, ExtraBean.ExtraItem(TYPE_STRING, "", ""))
+                    val item = ExtraBean.ExtraItem(TYPE_STRING, "", "")
+                    addData(0, item)
                 }
                 setOnItemChildClickListener { _, view, position ->
                     if (view.id == R.id.ib_delete) {
                         removeAt(position)
                     }
+                }
+            }
+
+            binding.apply {
+                tietAppName.setText(it.appName)
+                tietPackageName.setText(it.param1)
+                tietClassName.setText(it.param2)
+                tietDescription.setText(it.description)
+                rvExtras.apply {
+                    adapter = this@AnywhereEditorFragment.adapter
+                }
+                extraBean?.apply {
+                    tietIntentAction.setText(action)
+                    tietIntentData.setText(data)
+                    adapter.setList(extras)
                 }
             }
         }
@@ -83,7 +85,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
             val extraBean = ExtraBean(
                     action = binding.tietIntentAction.text.toString(),
                     data = binding.tietIntentData.text.toString(),
-                    extras = listOf()
+                    extras = adapter.data
             )
             param3 = Gson().toJson(extraBean)
         }
@@ -113,7 +115,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
             val extraBean = ExtraBean(
                     action = binding.tietIntentAction.text.toString(),
                     data = binding.tietIntentData.text.toString(),
-                    extras = listOf()
+                    extras = adapter.data
             )
             param3 = Gson().toJson(extraBean)
         }

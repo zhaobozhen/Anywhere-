@@ -40,7 +40,7 @@
         <item>String</item>
         <item>Int</item>
         <item>Long</item>
-        <item>Boolean</item>
+        <item>Bool</item>
         <item>Float</item>
         <item>Uri</item>
     </string-array>

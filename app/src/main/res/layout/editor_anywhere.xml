@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/bsd_edit_text_margin_horizontal"
     android:layout_marginVertical="@dimen/bsd_margin_vertical"
-    android:background="@color/transparent">
+    android:background="@color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_app_name"
@@ -140,6 +142,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:layout_marginBottom="@dimen/editor_padding_bottom"
+        android:clipChildren="false"
         android:clipToPadding="false"
         android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
