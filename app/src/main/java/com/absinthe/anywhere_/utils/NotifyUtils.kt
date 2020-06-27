@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.utils
 
 import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -42,7 +43,7 @@ object NotifyUtils {
         LogRecorder.getInstance().start()
     }
 
-    fun createBackupNotification(context: Context) {
+    fun createBackupNotification(context: Service) {
         val channelConfig = ChannelConfig(
                 BACKUP_CHANNEL_ID,
                 context.getText(R.string.notification_channel_backup),
@@ -56,7 +57,7 @@ object NotifyUtils {
                     .setPriority(NotificationCompat.PRIORITY_LOW)
                     .setOngoing(true)
                     .setAutoCancel(false)
-                    .build()
+            context.startForeground(BACKUP_NOTIFICATION_ID, param.build())
         }
     }
 }

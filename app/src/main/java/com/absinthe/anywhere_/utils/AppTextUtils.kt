@@ -105,6 +105,7 @@ object AppTextUtils {
         }
 
         Timber.d(cmd.toString())
+        ToastUtil.makeText(cmd.toString())
         return cmd.toString()
     }
 

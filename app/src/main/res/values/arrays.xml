@@ -28,14 +28,20 @@
         <item>@string/array_card_bg_off</item>
         <item>@string/array_card_bg_pure</item>
         <item>@string/array_card_bg_gradient</item>
-<!--        <item>@string/array_card_bg_blurry</item>-->
     </string-array>
 
     <string-array name="list_card_bg_value" tools:ignore="InconsistentArrays">
         <item>off</item>
         <item>pure</item>
         <item>gradient</item>
-<!--        <item>blurry</item>-->
     </string-array>
 
+    <string-array name="list_extra_types">
+        <item>String</item>
+        <item>Int</item>
+        <item>Long</item>
+        <item>Boolean</item>
+        <item>Float</item>
+        <item>Uri</item>
+    </string-array>
 </resources>

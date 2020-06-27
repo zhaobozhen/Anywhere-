@@ -9,12 +9,11 @@ const val TYPE_INT = "--ei"
 const val TYPE_LONG = "--el"
 const val TYPE_FLOAT = "--ef"
 const val TYPE_URI = "--eu"
-const val TYPE_COMPONENT_NAME = "--ecn"
 
 data class ExtraBean(
         @SerializedName("data") val data: String,
         @SerializedName("action") val action: String,
-        @SerializedName("category") val category: String,
+        @SerializedName("category") val category: String = "",
         @SerializedName("extras") val extras: List<ExtraItem>
 ) {
     override fun toString(): String {

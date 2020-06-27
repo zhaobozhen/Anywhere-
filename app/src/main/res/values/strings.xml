@@ -26,6 +26,7 @@
     <string name="notification_backup_title">Backing up cards</string>
     <string name="notification_backup_content">This may take some time</string>
     <string name="help_card_title">Help Docs</string>
+    <string name="add">Add</string>
 
     <!--  About page  -->
     <string name="slogan">Anywhere- To Where You Want to</string>
@@ -78,6 +79,8 @@
     <string name="bsd_text_input_layout_app_name_label">App Name</string>
     <string name="bsd_text_input_layout_url_scheme_label">URL Scheme</string>
     <string name="bsd_text_input_layout_description_label">Description(Optional)</string>
+    <string name="bsd_text_input_layout_intent_action_label">Intent Action(Optional)</string>
+    <string name="bsd_text_input_layout_intent_data_label">Intent Data(Optional)</string>
     <string name="bsd_text_input_layout_intent_extra_label">Add Intent Extras(Optional)</string>
     <string name="bsd_text_input_layout_image_uri_hint">Image URI</string>
     <string name="bsd_text_input_layout_dynamic_params_label">Dynamic Params(Optional)</string>
@@ -92,6 +95,8 @@
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme. Support standard URL Scheme protocol and #Intent; string</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App\'s class name, usually default</string>
     <string name="bsd_text_input_layout_description_helper_text">Describe your Anywhere- card</string>
+    <string name="bsd_text_input_layout_action_helper_text">Describe your Anywhere- card</string>
+    <string name="bsd_text_input_layout_data_helper_text">Describe your Anywhere- card</string>
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from the HELP page</string>
     <string name="bsd_text_input_layout_image_uri_helper_text">Tap IMAGE above to select local picture or fill in web picture URI</string>
     <string name="bsd_text_input_layout_dynamic_params_helper_text">Enter parameters while each opening\nExample: param1&amp;param2</string>

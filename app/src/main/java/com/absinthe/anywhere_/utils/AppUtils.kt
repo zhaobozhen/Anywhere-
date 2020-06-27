@@ -23,7 +23,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.SuProcess
+import com.absinthe.anywhere_.model.*
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.model.viewholder.AppListBean
@@ -41,6 +41,7 @@ import com.absinthe.anywhere_.utils.manager.URLManager
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
+import com.google.gson.Gson
 import java.io.File
 import java.util.*
 
@@ -362,10 +363,32 @@ object AppUtils {
                         Opener.with(context).load(item).open()
                     }
                     isActivityExported(context, ComponentName(item.param1, item.param2)) -> {
-                        context.startActivity(Intent(Intent.ACTION_VIEW).apply {
+                        val extraBean: ExtraBean = Gson().fromJson(item.param3, ExtraBean::class.java)
+                        val action = if (extraBean.action.isEmpty()) {
+                            Intent.ACTION_VIEW
+                        } else {
+                            extraBean.action
+                        }
+                        val intent = Intent(action).apply {
                             component = ComponentName(item.param1, item.param2)
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)//Todo
-                        })
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        if (extraBean.data.isNotEmpty()) {
+                            intent.data = extraBean.data.toUri()
+                        }
+
+                        for (extra in extraBean.extras) {
+                            when (extra.type) {
+                                TYPE_STRING -> intent.putExtra(extra.key, extra.value)
+                                TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
+                                TYPE_INT -> intent.putExtra(extra.key, extra.value.toInt())
+                                TYPE_LONG -> intent.putExtra(extra.key, extra.value.toLong())
+                                TYPE_FLOAT -> intent.putExtra(extra.key, extra.value.toFloat())
+                                TYPE_URI -> intent.putExtra(extra.key, extra.value.toUri())
+                            }
+                        }
+
+                        context.startActivity(intent)
                     }
                     else -> {
                         ToastUtil.makeText(R.string.toast_change_work_mode)

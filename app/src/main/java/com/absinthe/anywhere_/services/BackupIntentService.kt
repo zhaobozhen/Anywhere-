@@ -52,7 +52,9 @@ class BackupIntentService : IntentService("BackupIntentService") {
         } catch (e: Exception) {
             e.printStackTrace()
             ToastUtil.makeText("Backup failed: $e")
-            NotificationUtils.cancel(NotifyUtils.BACKUP_NOTIFICATION_ID)
+            stopForeground(true)
+        } finally {
+            stopForeground(true)
         }
     }
 }

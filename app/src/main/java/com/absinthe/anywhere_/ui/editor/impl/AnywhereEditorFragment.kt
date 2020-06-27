@@ -5,16 +5,23 @@ import android.view.View
 import android.view.ViewGroup
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.adapter.card.ExtrasAdapter
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorAnywhereBinding
+import com.absinthe.anywhere_.databinding.LayoutHeaderExtrasBinding
+import com.absinthe.anywhere_.model.ExtraBean
+import com.absinthe.anywhere_.model.TYPE_STRING
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 
 class AnywhereEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorAnywhereBinding
+    private val adapter = ExtrasAdapter()
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorAnywhereBinding.inflate(inflater, container, false)
@@ -23,11 +30,40 @@ class AnywhereEditorFragment : BaseEditorFragment() {
 
     override fun initView() {
         item.let {
-            binding.tietAppName.setText(it.appName)
-            binding.tietPackageName.setText(it.param1)
-            binding.tietClassName.setText(it.param2)
-            binding.tietIntentExtra.setText(it.param3)
-            binding.tietDescription.setText(it.description)
+            val extraBean: ExtraBean? = try {
+                Gson().fromJson<ExtraBean>(it.param3, ExtraBean::class.java)
+            } catch (e: JsonSyntaxException) {
+                null
+            }
+
+            binding.apply {
+                tietAppName.setText(it.appName)
+                tietPackageName.setText(it.param1)
+                tietClassName.setText(it.param2)
+                tietDescription.setText(it.description)
+                extraBean?.apply {
+                    tietIntentAction.setText(action)
+                    tietIntentData.setText(data)
+                }
+                rvExtras.apply {
+                    adapter = this@AnywhereEditorFragment.adapter
+                }
+            }
+
+            adapter.apply {
+                setHasStableIds(true)
+                val headerBinding = LayoutHeaderExtrasBinding.inflate(layoutInflater)
+                addHeaderView(headerBinding.root)
+
+                headerBinding.ibAdd.setOnClickListener {
+                    addData(0, ExtraBean.ExtraItem(TYPE_STRING, "", ""))
+                }
+                setOnItemChildClickListener { _, view, position ->
+                    if (view.id == R.id.ib_delete) {
+                        removeAt(position)
+                    }
+                }
+            }
         }
     }
 
@@ -44,7 +80,12 @@ class AnywhereEditorFragment : BaseEditorFragment() {
         val ae = AnywhereEntity(item).apply {
             param1 = binding.tietPackageName.text.toString()
             param2 = binding.tietClassName.text.toString()
-            param3 = binding.tietIntentExtra.text.toString()
+            val extraBean = ExtraBean(
+                    action = binding.tietIntentAction.text.toString(),
+                    data = binding.tietIntentData.text.toString(),
+                    extras = listOf()
+            )
+            param3 = Gson().toJson(extraBean)
         }
         AppUtils.openAnywhereEntity(requireContext(), ae)
     }
@@ -67,8 +108,14 @@ class AnywhereEditorFragment : BaseEditorFragment() {
             appName = binding.tietAppName.text.toString()
             param1 = binding.tietPackageName.text.toString()
             param2 = binding.tietClassName.text.toString()
-            param3 = binding.tietIntentExtra.text.toString()
             description = binding.tietDescription.text.toString()
+
+            val extraBean = ExtraBean(
+                    action = binding.tietIntentAction.text.toString(),
+                    data = binding.tietIntentData.text.toString(),
+                    extras = listOf()
+            )
+            param3 = Gson().toJson(extraBean)
         }
 
         if (isEditMode && ae == item) return true

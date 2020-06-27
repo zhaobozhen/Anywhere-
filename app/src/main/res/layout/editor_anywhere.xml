@@ -91,30 +91,59 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
-            android:nextFocusForward="@id/tiet_intent_extra"
+            android:nextFocusForward="@id/tiet_intent_action"
             android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_intent_extra"
+        android:id="@+id/til_intent_action"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-        android:layout_marginBottom="@dimen/editor_padding_bottom"
-        android:hint="@string/bsd_text_input_layout_intent_extra_label"
-        app:helperText="@string/bsd_text_input_layout_intent_extra_helper_text"
+        android:hint="@string/bsd_text_input_layout_intent_action_label"
+        app:helperText="@string/bsd_text_input_layout_action_helper_text"
         app:helperTextEnabled="true"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_description">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiet_intent_extra"
+            android:id="@+id/tiet_intent_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:importantForAutofill="no" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_intent_data"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+        android:hint="@string/bsd_text_input_layout_intent_data_label"
+        app:helperText="@string/bsd_text_input_layout_data_helper_text"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/til_intent_action">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_intent_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_extras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+        android:layout_marginBottom="@dimen/editor_padding_bottom"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_intent_data" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
