@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 
+import androidx.annotation.Nullable;
+
 import com.absinthe.anywhere_.workflow.WorkFlow;
 
 public class IzukoService extends BaseAccessibilityService {
@@ -47,6 +49,7 @@ public class IzukoService extends BaseAccessibilityService {
 
     }
 
+    @Nullable
     public static IzukoService getInstance() {
         return sInstance;
     }

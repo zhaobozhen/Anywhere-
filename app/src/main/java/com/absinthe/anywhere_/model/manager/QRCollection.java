@@ -190,6 +190,7 @@ public class QRCollection {
         String clsName = "com.tencent.mm.ui.LauncherUI";
 
         wechatPayAcs = new QREntity(() -> {
+            if (IzukoService.getInstance() == null) return;
             if (!checkAccessibilityEnabled()) {
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -276,6 +277,7 @@ public class QRCollection {
         String clsName = "com.tencent.mm.ui.LauncherUI";
 
         wechatCollectAcs = new QREntity(() -> {
+            if (IzukoService.getInstance() == null) return;
             if (!checkAccessibilityEnabled()) {
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -300,6 +302,7 @@ public class QRCollection {
 
                     emitter.onComplete();
                 });
+                if (IzukoService.getInstance() == null) return;
                 IzukoService.getInstance().setWorkFlow(new WorkFlow().observe(source));
 
                 try {
@@ -484,6 +487,7 @@ public class QRCollection {
         String clsName = "com.unionpay.activity.UPActivityMain";
 
         QREntity qrEntity = new QREntity(() -> {
+            if (IzukoService.getInstance() == null) return;
             if (!checkAccessibilityEnabled()) {
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

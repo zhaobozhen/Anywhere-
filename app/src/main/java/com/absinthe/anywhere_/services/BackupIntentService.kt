@@ -10,14 +10,20 @@ import com.blankj.utilcode.util.NotificationUtils
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 
 class BackupIntentService : IntentService("BackupIntentService") {
+    override fun onStart(intent: Intent?, startId: Int) {
+        super.onStart(intent, startId)
+        NotifyUtils.createBackupNotification(this)
+    }
 
     override fun onHandleIntent(intent: Intent?) {
+        NotifyUtils.createBackupNotification(this)
+
         if (GlobalValues.webdavHost.isEmpty() ||
                 GlobalValues.webdavUsername.isEmpty() ||
                 GlobalValues.webdavPassword.isEmpty()) {
+            stopForeground(true)
             return
         }
-        NotifyUtils.createBackupNotification(this)
 
         val sardine = OkHttpSardine()
         sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)

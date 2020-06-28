@@ -43,11 +43,15 @@ object SuProcess {
     }
 
     fun acquireRootPerm(context: Context): Boolean {
-        val process = Runtime.getRuntime().exec("su")
-        val outputStream = DataOutputStream(process.outputStream)
-        val inputStream = BufferedReader(InputStreamReader(process.inputStream))
+        var process: Process? = null
+        var outputStream: DataOutputStream? = null
+        var inputStream: BufferedReader? = null
 
         try {
+            process = Runtime.getRuntime().exec("su")
+            outputStream = DataOutputStream(process.outputStream)
+            inputStream = BufferedReader(InputStreamReader(process.inputStream))
+
             outputStream.apply {
                 writeBytes("chmod 777 ${context.packageCodePath}\n")
                 flush()
@@ -59,9 +63,9 @@ object SuProcess {
         } catch (e: Exception) {
             return false
         } finally {
-            outputStream.close()
-            inputStream.close()
-            process.destroy()
+            outputStream?.close()
+            inputStream?.close()
+            process?.destroy()
         }
         return true
     }

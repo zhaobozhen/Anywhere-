@@ -10,14 +10,14 @@ class FlowNode(private val content: String, private val type: Int) {
 
         when (type) {
             TYPE_ACCESSIBILITY_TEXT -> {
-                IzukoService.getInstance().apply {
+                IzukoService.getInstance()?.apply {
                     isClicked(false)
                     clickTextViewByText(content)
                     isClicked(true)
                 }
             }
             TYPE_ACCESSIBILITY_VIEW_ID -> {
-                IzukoService.getInstance().apply {
+                IzukoService.getInstance()?.apply {
                     isClicked(false)
                     clickTextViewByID(content)
                     isClicked(true)
