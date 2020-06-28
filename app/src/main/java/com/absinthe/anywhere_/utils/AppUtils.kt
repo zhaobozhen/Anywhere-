@@ -363,9 +363,6 @@ object AppUtils {
             }
             AnywhereType.Card.ACTIVITY -> {
                 when {
-                    SuProcess.acquireRootPerm(context) -> {
-                        Opener.with(context).load(item).open()
-                    }
                     isActivityExported(context, ComponentName(item.param1, item.param2)) -> {
                         val extraBean: ExtraBean = Gson().fromJson(item.param3, ExtraBean::class.java)
                         val action = if (extraBean.action.isEmpty()) {
@@ -395,7 +392,7 @@ object AppUtils {
                         context.startActivity(intent)
                     }
                     else -> {
-                        ToastUtil.makeText(R.string.toast_change_work_mode)
+                        Opener.with(context).load(item).open()
                     }
                 }
                 listener?.onOpened()

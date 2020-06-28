@@ -3,15 +3,13 @@ package com.absinthe.anywhere_.ui.main
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
-import android.view.Menu
-import android.view.View
+import android.view.*
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.absinthe.anywhere_.AnywhereApplication
-import com.absinthe.anywhere_.BaseFragment
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.adapter.SpacesItemDecoration
@@ -32,12 +30,13 @@ import java.lang.ref.WeakReference
 
 const val BUNDLE_CATEGORY = "CATEGORY"
 
-class CategoryCardFragment : BaseFragment<FragmentCategoryCardBinding>(R.layout.fragment_category_card) {
+class CategoryCardFragment : Fragment() {
 
     private val category by lazy { arguments?.getString(BUNDLE_CATEGORY) ?: GlobalValues.category }
     private val viewModel by activityViewModels<AnywhereViewModel>()
     private lateinit var decoration: SpacesItemDecoration
 
+    private lateinit var binding: FragmentCategoryCardBinding
     private lateinit var adapter: BaseCardAdapter
     private lateinit var itemTouchHelper: ItemTouchHelper
 
@@ -58,11 +57,15 @@ class CategoryCardFragment : BaseFragment<FragmentCategoryCardBinding>(R.layout.
         updateWidget(requireContext())
     }
 
-    override fun initBinding(view: View): FragmentCategoryCardBinding = FragmentCategoryCardBinding.bind(view)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentCategoryCardBinding.inflate(inflater, container, false)
+        initView()
+        return binding.root
+    }
 
-    override fun init() {
-        setHasOptionsMenu(true)
-        setupRecyclerView()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
         GlobalValues.cardModeLiveData.observe(viewLifecycleOwner, Observer {
             refreshRecyclerView()
         })
@@ -133,6 +136,11 @@ class CategoryCardFragment : BaseFragment<FragmentCategoryCardBinding>(R.layout.
             adapter.deleteSelect()
             resetSelectState()
         })
+    }
+
+    private fun initView() {
+        setHasOptionsMenu(true)
+        setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
