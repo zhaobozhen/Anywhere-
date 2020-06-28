@@ -1,5 +1,8 @@
 package com.absinthe.anywhere_.constants
 
+import io.michaelrocks.paranoid.Obfuscate
+
+@Obfuscate
 object CommandResult {
     const val RESULT_ERROR = "-1"
     const val RESULT_NULL = "1000"

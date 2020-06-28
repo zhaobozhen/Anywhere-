@@ -15,6 +15,7 @@ import android.view.Window
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -78,6 +79,10 @@ class EditorActivity : BaseActivity() {
         super.onStart()
 
         if (!hasInit) {
+            binding.tvOpenUrl.text = HtmlCompat.fromHtml(
+                    String.format(getString(R.string.bsd_open_url),
+                            entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY)
             fragment = when (entity!!.type) {
                 AnywhereType.Card.URL_SCHEME -> SchemeEditorFragment()
                 AnywhereType.Card.ACTIVITY -> AnywhereEditorFragment()
@@ -86,6 +91,7 @@ class EditorActivity : BaseActivity() {
                 AnywhereType.Card.SHELL -> ShellEditorFragment()
                 AnywhereType.Card.SWITCH_SHELL -> SwitchShellEditorFragment()
                 AnywhereType.Card.FILE -> FileEditorFragment()
+                AnywhereType.Card.BROADCAST -> BroadcastEditorFragment()
                 else -> AnywhereEditorFragment()
             }
             fragment.apply {

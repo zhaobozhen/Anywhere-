@@ -95,8 +95,9 @@
     <string name="bsd_text_input_layout_url_scheme_helper_text">URL Scheme. Support standard URL Scheme protocol and #Intent; string</string>
     <string name="bsd_text_input_layout_class_name_helper_text">App\'s class name, usually default</string>
     <string name="bsd_text_input_layout_description_helper_text">Describe your Anywhere- card</string>
-    <string name="bsd_text_input_layout_action_helper_text">Describe your Anywhere- card</string>
-    <string name="bsd_text_input_layout_data_helper_text">Describe your Anywhere- card</string>
+    <string name="bsd_text_input_layout_action_helper_text">android.intent.action.VIEW as default value</string>
+    <string name="bsd_text_input_layout_br_action_helper_text">com.absinthe.anywhere_.BROADCAST as default value</string>
+    <string name="bsd_text_input_layout_data_helper_text">You can attach a URI data</string>
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">Add extras while launching an Intent, Format:\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\nYou can get help from the HELP page</string>
     <string name="bsd_text_input_layout_image_uri_helper_text">Tap IMAGE above to select local picture or fill in web picture URI</string>
     <string name="bsd_text_input_layout_dynamic_params_helper_text">Enter parameters while each opening\nExample: param1&amp;param2</string>
@@ -110,6 +111,7 @@
     <string name="bsd_switch_shell_status_off">Status OFF</string>
 
     <string name="bsd_button_select_file">Select File</string>
+    <string name="bsd_open_url"><![CDATA[Use the following URL:<br>anywhere://open?sid=<b>%s</b><br>to open the card quickly]]></string>
 
     <!--  AppBarMenu  -->
     <string name="menu_sort">Sort</string>
@@ -249,6 +251,7 @@
     <string name="toast_dsm_not_support">Your device may not support this mode</string>
     <string name="toast_this_app_not_dpm">Not set as a Device Policy Manager</string>
     <string name="toast_works_on_root_or_shizuku">Collector only works on root/Shizuku mode</string>
+    <string name="toast_json_error">JSON data error</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>

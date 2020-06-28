@@ -349,4 +349,12 @@
     <string name="bsd_text_input_layout_file_helper_text">由 Content Provider 獲取的安全的文件路徑</string>
     <string name="bsd_button_select_file">選擇文件</string>
     <string name="bsd_text_input_layout_file_uri_hint">文件 URI</string>
+    <string name="add">添加</string>
+    <string name="bsd_text_input_layout_intent_action_label">Intent Action（選填）</string>
+    <string name="bsd_text_input_layout_intent_data_label">Intent Data（選填）</string>
+    <string name="bsd_text_input_layout_action_helper_text">默認值為 android.intent.action.VIEW</string>
+    <string name="bsd_text_input_layout_data_helper_text">你可以附加一個 URI 數據</string>
+    <string name="bsd_text_input_layout_br_action_helper_text">默認值為 com.absinthe.anywhere_.BROADCAST</string>
+    <string name="bsd_open_url"><![CDATA[使用以下 URL:<br>anywhere://open?sid=<b>%s</b><br>來快速開啟卡片]]></string>
+    <string name="toast_json_error">JSON 數據錯誤</string>
 </resources>

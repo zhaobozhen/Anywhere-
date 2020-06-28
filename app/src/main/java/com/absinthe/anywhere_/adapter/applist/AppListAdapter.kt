@@ -9,12 +9,14 @@ import com.absinthe.anywhere_.utils.UxUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import io.michaelrocks.paranoid.Obfuscate
 
 const val MODE_APP_LIST = 0
 const val MODE_APP_DETAIL = 1
 const val MODE_ICON_PACK = 2
 const val MODE_CARD_LIST = 3
 
+@Obfuscate
 class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(R.layout.item_app_list) {
 
     private var mListener: OnAppItemClickListener? = null

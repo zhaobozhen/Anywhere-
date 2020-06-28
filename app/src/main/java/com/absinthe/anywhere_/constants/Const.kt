@@ -83,6 +83,7 @@ object Const {
     const val INTENT_EXTRA_TYPE = "type"
     const val INTENT_EXTRA_SHORTCUTS_CMD = "shortcutsCmd" // Old scheme
     const val INTENT_EXTRA_SHORTCUTS_ID = "shortcutsId"
+    const val INTENT_EXTRA_OPEN_SHORT_ID = "sid"
 
     const val INTENT_EXTRA_WIDGET_ENTITY = "entity"
     const val INTENT_EXTRA_WIDGET_ITEM_ID = "item_id"
@@ -111,4 +112,5 @@ object Const {
     const val DEFROST_MODE_SHIZUKU = "shizuku"
 
     const val DEFAULT_ICON_PACK = "default.icon.pack"
+    const val DEFAULT_BR_ACTION = "com.absinthe.anywhere_.BROADCAST"
 }

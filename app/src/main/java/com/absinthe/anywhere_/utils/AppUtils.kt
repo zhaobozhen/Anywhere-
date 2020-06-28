@@ -42,6 +42,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import java.io.File
 import java.util.*
 
@@ -457,6 +458,41 @@ object AppUtils {
                 } catch (e: Exception) {
                     e.printStackTrace()
                     ToastUtil.makeText(R.string.toast_no_react_url)
+                }
+            }
+            AnywhereType.Card.BROADCAST -> {
+                val extraBean: ExtraBean? = try {
+                    Gson().fromJson(item.param1, ExtraBean::class.java)
+                } catch (e: JsonSyntaxException) {
+                    null
+                }
+                extraBean?.let {
+                    val action = if (it.action.isNotEmpty()) {
+                        it.action
+                    } else {
+                        Const.DEFAULT_BR_ACTION
+                    }
+                    val intent = Intent(action).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    if (extraBean.data.isNotEmpty()) {
+                        intent.data = extraBean.data.toUri()
+                    }
+
+                    for (extra in extraBean.extras) {
+                        when (extra.type) {
+                            TYPE_STRING -> intent.putExtra(extra.key, extra.value)
+                            TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
+                            TYPE_INT -> intent.putExtra(extra.key, extra.value.toInt())
+                            TYPE_LONG -> intent.putExtra(extra.key, extra.value.toLong())
+                            TYPE_FLOAT -> intent.putExtra(extra.key, extra.value.toFloat())
+                            TYPE_URI -> intent.putExtra(extra.key, extra.value.toUri())
+                        }
+                    }
+
+                    context.sendBroadcast(intent)
+                } ?:let {
+                    ToastUtil.makeText(R.string.toast_json_error)
                 }
             }
         }

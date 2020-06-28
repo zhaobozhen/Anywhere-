@@ -15,7 +15,6 @@ import com.absinthe.anywhere_.constants.EventTag
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.CollectorService
-import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.UxUtils
@@ -133,7 +132,7 @@ class ShortcutsActivity : BaseActivity() {
                                             if (entities[i].type == AnywhereType.Card.IMAGE) {
                                                 action = ACTION_START_IMAGE
                                                 putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, entity.param1)
-                                            } else{
+                                            } else {
                                                 action = ACTION_START_ENTITY
                                                 putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, entity.id)
                                             }
@@ -165,9 +164,17 @@ class ShortcutsActivity : BaseActivity() {
                 }
                 Intent.ACTION_VIEW -> {
                     intent.data?.let { uri ->
-                        AppTextUtils.processUri(this, uri)
+                        uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1)?.let { sid ->
+                            viewModel.allAnywhereEntities.observe(this, Observer { list ->
+                                list.find { findItem ->
+                                    findItem.id.endsWith(sid)
+                                }?.apply {
+                                    AppUtils.openAnywhereEntity(this@ShortcutsActivity, this)
+                                    finish()
+                                }
+                            })
+                        } ?: finish()
                     }
-                    finish()
                 }
                 else -> finish()
             }

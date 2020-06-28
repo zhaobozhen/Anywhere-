@@ -7,7 +7,7 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.card.ExtrasAdapter
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.databinding.EditorAnywhereBinding
+import com.absinthe.anywhere_.databinding.EditorBroadcastBinding
 import com.absinthe.anywhere_.databinding.LayoutHeaderExtrasBinding
 import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.TYPE_STRING
@@ -18,20 +18,20 @@ import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 
-class AnywhereEditorFragment : BaseEditorFragment() {
+class BroadcastEditorFragment : BaseEditorFragment() {
 
-    private lateinit var binding: EditorAnywhereBinding
+    private lateinit var binding: EditorBroadcastBinding
     private val adapter = ExtrasAdapter()
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
-        binding = EditorAnywhereBinding.inflate(inflater, container, false)
+        binding = EditorBroadcastBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun initView() {
         item.let {
             val extraBean: ExtraBean? = try {
-                Gson().fromJson<ExtraBean>(it.param3, ExtraBean::class.java)
+                Gson().fromJson<ExtraBean>(it.param1, ExtraBean::class.java)
             } catch (e: JsonSyntaxException) {
                 null
             }
@@ -54,11 +54,9 @@ class AnywhereEditorFragment : BaseEditorFragment() {
 
             binding.apply {
                 tietAppName.setText(it.appName)
-                tietPackageName.setText(it.param1)
-                tietClassName.setText(it.param2)
                 tietDescription.setText(it.description)
                 rvExtras.apply {
-                    adapter = this@AnywhereEditorFragment.adapter
+                    adapter = this@BroadcastEditorFragment.adapter
                 }
                 extraBean?.apply {
                     tietIntentAction.setText(action)
@@ -70,25 +68,14 @@ class AnywhereEditorFragment : BaseEditorFragment() {
     }
 
     override fun tryingRun() {
-        if (binding.tietPackageName.text.isNullOrBlank()) {
-            binding.tilPackageName.error = getString(R.string.bsd_error_should_not_empty)
-            return
-        }
-        if (binding.tietClassName.text.isNullOrBlank()) {
-            binding.tilClassName.error = getString(R.string.bsd_error_should_not_empty)
-            return
-        }
-
         val ae = AnywhereEntity(item).apply {
-            param1 = binding.tietPackageName.text.toString()
-            param2 = binding.tietClassName.text.toString()
             val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
             val extraBean = ExtraBean(
                     action = binding.tietIntentAction.text.toString(),
                     data = binding.tietIntentData.text.toString(),
                     extras = extras
             )
-            param3 = Gson().toJson(extraBean)
+            param1 = Gson().toJson(extraBean)
         }
         AppUtils.openAnywhereEntity(requireContext(), ae)
     }
@@ -98,19 +85,9 @@ class AnywhereEditorFragment : BaseEditorFragment() {
             binding.tilAppName.error = getString(R.string.bsd_error_should_not_empty)
             return false
         }
-        if (binding.tietPackageName.text.isNullOrBlank()) {
-            binding.tilPackageName.error = getString(R.string.bsd_error_should_not_empty)
-            return false
-        }
-        if (binding.tietClassName.text.isNullOrBlank()) {
-            binding.tilClassName.error = getString(R.string.bsd_error_should_not_empty)
-            return false
-        }
 
         val ae = AnywhereEntity(item).apply {
             appName = binding.tietAppName.text.toString()
-            param1 = binding.tietPackageName.text.toString()
-            param2 = binding.tietClassName.text.toString()
             description = binding.tietDescription.text.toString()
 
             val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
@@ -119,7 +96,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
                     data = binding.tietIntentData.text.toString(),
                     extras = extras
             )
-            param3 = Gson().toJson(extraBean)
+            param1 = Gson().toJson(extraBean)
         }
 
         if (isEditMode && ae == item) return true

@@ -73,6 +73,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.microsoft.appcenter.analytics.Analytics
 import it.sephiroth.android.library.xtooltip.ClosePolicy.Companion.TOUCH_ANYWHERE_CONSUME
@@ -614,10 +615,14 @@ class MainActivity : BaseActivity() {
                     val encrypted = it.substring(1)
                     val decrypted = decrypt(encrypted)
 
-                    startActivity(Intent(this, EditorActivity::class.java).apply {
-                        putExtra(EXTRA_ENTITY, Gson().fromJson(decrypted, AnywhereEntity::class.java))
-                        putExtra(EXTRA_EDIT_MODE, false)
-                    })
+                    try {
+                        startActivity(Intent(this, EditorActivity::class.java).apply {
+                            putExtra(EXTRA_ENTITY, Gson().fromJson(decrypted, AnywhereEntity::class.java))
+                            putExtra(EXTRA_EDIT_MODE, false)
+                        })
+                    } catch (e: JsonSyntaxException) {
+                        ToastUtil.makeText(R.string.toast_json_error)
+                    }
                 }
             }
         }

@@ -16,7 +16,10 @@ import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.AdvancedCardSelectDialogBuilder
+import com.microsoft.appcenter.analytics.Analytics
+import io.michaelrocks.paranoid.Obfuscate
 
+@Obfuscate
 class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private lateinit var mBuilder: AdvancedCardSelectDialogBuilder
@@ -43,8 +46,6 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private fun getOpeningEditorListener(type: Int): View.OnClickListener {
         return View.OnClickListener {
-            if (type == AnywhereType.Card.BROADCAST) return@OnClickListener
-
             val ae = AnywhereEntity.Builder().apply {
                 this.type = type
                 appName = when (type) {
@@ -66,6 +67,8 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                 putExtra(EXTRA_ENTITY, ae)
                 putExtra(EXTRA_EDIT_MODE, false)
             }, options.toBundle())
+
+            Analytics.trackEvent("Fab ${ae.appName} clicked")
         }
     }
 }

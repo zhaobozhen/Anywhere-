@@ -1,12 +1,7 @@
 package com.absinthe.anywhere_.utils
 
-import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.FileUriExposedException
 import android.util.Patterns
-import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
@@ -15,8 +10,6 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
 import com.absinthe.anywhere_.utils.CipherUtils.encrypt
-import com.absinthe.anywhere_.utils.handler.Opener
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.handleIntent
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.blankj.utilcode.util.Utils
@@ -227,50 +220,5 @@ object AppTextUtils {
             encrypted = encrypted.replace("\n".toRegex(), "")
         }
         return URLManager.ANYWHERE_SCHEME + URLManager.CARD_SHARING_HOST + "/" + encrypted
-    }
-
-    fun processUri(context: Context, uri: Uri) {
-        if (uri.host == URLManager.OPEN_HOST) {
-            val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1) ?: ""
-            val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2) ?: ""
-            val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3) ?: ""
-            val type = uri.getQueryParameter(Const.INTENT_EXTRA_TYPE) ?: return
-
-            when (type.toInt()) {
-                AnywhereType.Card.URL_SCHEME -> {
-                    try {
-                        URLSchemeHandler.parse(param1, context)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-
-                        if (e is ActivityNotFoundException) {
-                            ToastUtil.makeText(R.string.toast_no_react_url)
-                        } else if (AppUtils.atLeastN()) {
-                            if (e is FileUriExposedException) {
-                                ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                            }
-                        }
-                    }
-                }
-                AnywhereType.Card.ACTIVITY -> {
-                    val ae = AnywhereEntity.Builder().apply {
-                        this.param1 = param1
-                        this.param2 = param2
-                        this.param3 = param3
-                        this.type = AnywhereType.Card.ACTIVITY
-                    }
-
-                    Opener.with(context).load(ae).open()
-                }
-                AnywhereType.Card.SHELL -> {
-                    val ae = AnywhereEntity.Builder().apply {
-                        this.param1 = param1
-                        this.type = AnywhereType.Card.SHELL
-                    }
-
-                    Opener.with(context).load(ae).open()
-                }
-            }
-        }
     }
 }
