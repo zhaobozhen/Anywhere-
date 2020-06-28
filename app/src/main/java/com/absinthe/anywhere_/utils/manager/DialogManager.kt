@@ -263,7 +263,7 @@ object DialogManager {
     }
 
     @JvmStatic
-    fun showShellResultDialog(context: Context, result: String?, posListener: DialogInterface.OnClickListener?, cancelListener: DialogInterface.OnCancelListener?) {
+    fun showShellResultDialog(context: Context, result: String?, posListener: DialogInterface.OnClickListener? = null, cancelListener: DialogInterface.OnCancelListener? = null) {
         if (!GlobalValues.isShowShellResult) {
             ToastUtil.makeText(R.string.toast_execute_shell_successful)
             return
@@ -320,12 +320,7 @@ object DialogManager {
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 
-    fun showImageDialog(activity: AppCompatActivity, uri: String) {
-        val dialog = ImageDialogFragment(uri)
-        dialog.show(activity.supportFragmentManager, dialog.tag)
-    }
-
-    fun showImageDialog(activity: AppCompatActivity, uri: String, listener: AnywhereDialogFragment.OnDismissListener?) {
+    fun showImageDialog(activity: AppCompatActivity, uri: String, listener: AnywhereDialogFragment.OnDismissListener? = null) {
         val dialog = ImageDialogFragment(uri, listener)
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }

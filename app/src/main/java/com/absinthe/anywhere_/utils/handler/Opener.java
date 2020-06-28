@@ -82,7 +82,7 @@ public class Opener {
                 (item.getType() == AnywhereType.Card.ACTIVITY &&
                         AppUtils.INSTANCE.isActivityExported(sContext.get(),
                                 new ComponentName(item.getParam1(), item.getParam2())))) {
-            AppUtils.INSTANCE.openAnywhereEntity(sContext.get(), item);
+            AppUtils.INSTANCE.openAnywhereEntity(sContext.get(), item, null);
         } else {
             openByCmd(AppTextUtils.getItemCommand(item), item.getPackageName());
         }

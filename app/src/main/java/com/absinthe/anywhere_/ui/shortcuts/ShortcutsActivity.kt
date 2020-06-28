@@ -74,8 +74,7 @@ class ShortcutsActivity : BaseActivity() {
                             list.find { findItem ->
                                 findItem.id == id
                             }?.apply {
-                                AppUtils.openAnywhereEntity(this@ShortcutsActivity, this)
-                                finish()
+                                AppUtils.openAnywhereEntity(this@ShortcutsActivity, this, Opener.OnOpenListener { finish() })
                             }
                         })
                     }
@@ -108,8 +107,7 @@ class ShortcutsActivity : BaseActivity() {
                             list.find { findItem ->
                                 findItem.id == id
                             }?.apply {
-                                AppUtils.openAnywhereEntity(this@ShortcutsActivity, this)
-                                finish()
+                                AppUtils.openAnywhereEntity(this@ShortcutsActivity, this, Opener.OnOpenListener { finish() })
                             }
                         })
                     } ?: finish()
@@ -164,13 +162,12 @@ class ShortcutsActivity : BaseActivity() {
                 }
                 Intent.ACTION_VIEW -> {
                     intent.data?.let { uri ->
-                        uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1)?.let { sid ->
+                        uri.getQueryParameter(Const.INTENT_EXTRA_OPEN_SHORT_ID)?.let { sid ->
                             viewModel.allAnywhereEntities.observe(this, Observer { list ->
                                 list.find { findItem ->
                                     findItem.id.endsWith(sid)
                                 }?.apply {
-                                    AppUtils.openAnywhereEntity(this@ShortcutsActivity, this)
-                                    finish()
+                                    AppUtils.openAnywhereEntity(this@ShortcutsActivity, this, Opener.OnOpenListener { finish() })
                                 }
                             })
                         } ?: finish()

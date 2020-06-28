@@ -1,10 +1,7 @@
 package com.absinthe.anywhere_.utils
 
 import android.appwidget.AppWidgetManager
-import android.content.ActivityNotFoundException
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -38,6 +35,7 @@ import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.absinthe.anywhere_.utils.manager.URLManager
+import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
@@ -344,7 +342,7 @@ object AppUtils {
         }
     }
 
-    fun openAnywhereEntity(context: Context, item: AnywhereEntity) {
+    fun openAnywhereEntity(context: Context, item: AnywhereEntity, listener: Opener.OnOpenListener? = null) {
         when (item.type) {
             AnywhereType.Card.QR_CODE -> {
                 val qrId = if (context is QRCodeCollectionActivity) {
@@ -354,9 +352,14 @@ object AppUtils {
                 }
                 val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)
                 entity?.launch()
+                listener?.onOpened()
             }
             AnywhereType.Card.IMAGE -> {
-                DialogManager.showImageDialog((context as AppCompatActivity), item.param1)
+                DialogManager.showImageDialog((context as AppCompatActivity), item.param1, object : AnywhereDialogFragment.OnDismissListener {
+                    override fun onDismiss() {
+                        listener?.onOpened()
+                    }
+                })
             }
             AnywhereType.Card.ACTIVITY -> {
                 when {
@@ -395,6 +398,7 @@ object AppUtils {
                         ToastUtil.makeText(R.string.toast_change_work_mode)
                     }
                 }
+                listener?.onOpened()
             }
             AnywhereType.Card.URL_SCHEME -> {
                 if (item.param3.isNotEmpty()) {
@@ -412,9 +416,12 @@ object AppUtils {
                                     }
                                 }
                             }
+                            listener?.onOpened()
                         }
 
-                        override fun onCancel() {}
+                        override fun onCancel() {
+                            listener?.onOpened()
+                        }
                     })
                 } else {
                     try {
@@ -429,11 +436,14 @@ object AppUtils {
                             }
                         }
                     }
+                    listener?.onOpened()
                 }
             }
             AnywhereType.Card.SHELL -> {
                 val result = CommandUtils.execAdbCmd(item.param1)
-                DialogManager.showShellResultDialog(context, result, null, null)
+                DialogManager.showShellResultDialog(context, result,
+                        DialogInterface.OnClickListener { _, _ -> listener?.onOpened() },
+                        DialogInterface.OnCancelListener { listener?.onOpened() })
             }
             AnywhereType.Card.SWITCH_SHELL -> {
                 Opener.with(context).load(item).open()
@@ -445,6 +455,7 @@ object AppUtils {
                 if (atLeastNMR1()) {
                     ShortcutsUtils.updateShortcut(ae)
                 }
+                listener?.onOpened()
             }
             AnywhereType.Card.FILE -> {
                 val intent = Intent().apply {
@@ -459,6 +470,7 @@ object AppUtils {
                     e.printStackTrace()
                     ToastUtil.makeText(R.string.toast_no_react_url)
                 }
+                listener?.onOpened()
             }
             AnywhereType.Card.BROADCAST -> {
                 val extraBean: ExtraBean? = try {
@@ -491,9 +503,10 @@ object AppUtils {
                     }
 
                     context.sendBroadcast(intent)
-                } ?:let {
+                } ?: let {
                     ToastUtil.makeText(R.string.toast_json_error)
                 }
+                listener?.onOpened()
             }
         }
     }

@@ -53,7 +53,7 @@ class ChipAdapter internal constructor(category: String) : RecyclerView.Adapter<
                 AnywhereType.Card.SHELL -> {
                     val result = CommandUtils.execAdbCmd(ae.param1)
                     ActivityStackManager.topActivity?.let {
-                        showShellResultDialog(it, result, null, null)
+                        showShellResultDialog(it, result)
                     }
                 }
                 else -> {
