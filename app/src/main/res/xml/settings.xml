@@ -100,17 +100,23 @@
             app:summary="@string/settings_icon_pack_summary"
             android:icon="@drawable/ic_icon_pack"/>
 
-        <Preference
-            app:key="cardLayout"
-            app:title="@string/settings_card_layout"
-            app:summary="@string/settings_card_layout_summary"
-            android:icon="@drawable/ic_card_layout"/>
+<!--        <Preference-->
+<!--            app:key="cardLayout"-->
+<!--            app:title="@string/settings_card_layout"-->
+<!--            app:summary="@string/settings_card_layout_summary"-->
+<!--            android:icon="@drawable/ic_card_layout"/>-->
 
     </PreferenceCategory>
 
     <PreferenceCategory
         app:key="advancedCategory"
         app:title="@string/settings_category_advanced">
+
+        <SwitchPreference
+            android:key="pages"
+            android:title="@string/settings_pages_title"
+            app:summary="@string/settings_pages_summary"
+            android:icon="@drawable/ic_pages" />
 
         <Preference
             app:key="clearShortcuts"

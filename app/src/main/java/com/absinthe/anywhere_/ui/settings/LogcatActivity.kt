@@ -126,7 +126,7 @@ class LogcatActivity : BaseActivity() {
                         if (isRefresh) {
                             mAdapter.setDiffNewData(list)
                         } else {
-                            mAdapter.setNewInstance(list)
+                            mAdapter.setList(list)
                         }
                     }
                 }

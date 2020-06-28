@@ -357,4 +357,5 @@
     <string name="bsd_text_input_layout_br_action_helper_text">默認值為 com.absinthe.anywhere_.BROADCAST</string>
     <string name="bsd_open_url"><![CDATA[使用以下 URL:<br>anywhere://open?sid=<b>%s</b><br>來快速開啟卡片]]></string>
     <string name="toast_json_error">JSON 數據錯誤</string>
+    <string name="settings_backup_webdav_restore_title">恢復備份文件</string>
 </resources>

@@ -10,4 +10,10 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
+    <item
+        android:id="@+id/overlay"
+        android:icon="@drawable/ic_float"
+        android:title="@string/menu_overlay"
+        app:showAsAction="always" />
+
 </menu>

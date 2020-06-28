@@ -28,12 +28,9 @@ import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.OverlayService
 import com.absinthe.anywhere_.ui.editor.impl.*
-import com.absinthe.anywhere_.utils.AppTextUtils
+import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.AppUtils.atLeastNMR1
 import com.absinthe.anywhere_.utils.AppUtils.atLeastR
-import com.absinthe.anywhere_.utils.ShortcutsUtils
-import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAddShortcutDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCannotAddShortcutDialog
@@ -44,11 +41,13 @@ import com.blankj.utilcode.util.PermissionUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
+import io.michaelrocks.paranoid.Obfuscate
 import jonathanfinerty.once.Once
 
 const val EXTRA_ENTITY = "EXTRA_ENTITY"
 const val EXTRA_EDIT_MODE = "EXTRA_EDIT_MODE"
 
+@Obfuscate
 class EditorActivity : BaseActivity() {
 
     private lateinit var binding: ActivityEditorBinding
@@ -79,10 +78,17 @@ class EditorActivity : BaseActivity() {
         super.onStart()
 
         if (!hasInit) {
-            binding.tvOpenUrl.text = HtmlCompat.fromHtml(
-                    String.format(getString(R.string.bsd_open_url),
-                            entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)),
-                    HtmlCompat.FROM_HTML_MODE_LEGACY)
+            binding.tvOpenUrl.apply {
+                text = HtmlCompat.fromHtml(
+                        String.format(getString(R.string.bsd_open_url),
+                                entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)),
+                        HtmlCompat.FROM_HTML_MODE_LEGACY)
+                setOnLongClickListener {
+                    ClipboardUtil.put(this@EditorActivity, "anywhere://open?sid=${entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)}")
+                    ToastUtil.makeText(R.string.toast_copied)
+                    true
+                }
+            }
             fragment = when (entity!!.type) {
                 AnywhereType.Card.URL_SCHEME -> SchemeEditorFragment()
                 AnywhereType.Card.ACTIVITY -> AnywhereEditorFragment()
@@ -118,7 +124,11 @@ class EditorActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (shouldShowMenu()) {
-            menuInflater.inflate(R.menu.editor_bottom_bar_menu, menu)
+            if (isEditMode) {
+                menuInflater.inflate(R.menu.editor_bottom_bar_edit_mode_menu, menu)
+            } else {
+                menuInflater.inflate(R.menu.editor_bottom_bar_menu, menu)
+            }
         }
         return true
     }

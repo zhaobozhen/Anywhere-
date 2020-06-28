@@ -462,7 +462,7 @@ class MainActivity : BaseActivity() {
             list.add(viewModel.getEntity(pe.title))
         }
         withContext(Dispatchers.Main) {
-            adapter.setNewInstance(list)
+            adapter.setList(list)
         }
     }
 

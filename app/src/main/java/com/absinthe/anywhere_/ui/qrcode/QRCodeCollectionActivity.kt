@@ -83,7 +83,7 @@ class QRCodeCollectionActivity : BaseActivity() {
 
         lifecycleScope.launch(Dispatchers.Main) {
             val collection = QRCollection.Singleton.INSTANCE.instance
-            mAdapter.setNewInstance(collection.list)
+            mAdapter.setList(collection.list)
 
             binding.srlQrCollection.apply {
                 isRefreshing = false

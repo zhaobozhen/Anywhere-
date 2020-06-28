@@ -212,7 +212,8 @@
     <string name="settings_backup_webdav_username_title">WebDAV Username</string>
     <string name="settings_backup_webdav_password_title">WebDAV Password</string>
     <string name="settings_backup_webdav_backup_title">Backup now</string>
-    <string name="settings_backup_webdav_auto_backup_title">Auto backup</string>
+    <string name="settings_backup_webdav_auto_backup_title">Auto Backup</string>
+    <string name="settings_backup_webdav_restore_title">Restore Backup Files</string>
 
     <string name="settings_backup_webdav_auto_backup_summary">Automatically trigger backup if any card has changed</string>
 

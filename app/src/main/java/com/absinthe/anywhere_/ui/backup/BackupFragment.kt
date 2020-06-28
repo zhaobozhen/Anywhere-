@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.StorageUtils.createFile
 import com.absinthe.anywhere_.utils.StorageUtils.exportAnywhereEntityJsonString
 import com.absinthe.anywhere_.utils.StorageUtils.isExternalStorageWritable
+import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
 import kotlinx.coroutines.launch
@@ -49,6 +50,9 @@ class BackupFragment : PreferenceFragmentCompat(),
         }
         findPreference<Preference>(Const.PREF_WEBDAV_AUTO_BACKUP)?.apply {
             onPreferenceChangeListener = this@BackupFragment
+        }
+        findPreference<Preference>(Const.PREF_WEBDAV_RESTORE)?.apply {
+            onPreferenceClickListener = this@BackupFragment
         }
         findPreference<Preference>(Const.PREF_BACKUP)?.apply {
             onPreferenceClickListener = this@BackupFragment
@@ -104,6 +108,10 @@ class BackupFragment : PreferenceFragmentCompat(),
                 lifecycleScope.launch {
                     StorageUtils.webdavBackup()
                 }
+                return true
+            }
+            Const.PREF_WEBDAV_RESTORE -> {
+                DialogManager.showWebdavRestoreDialog(requireActivity() as BaseActivity)
                 return true
             }
         }

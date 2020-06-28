@@ -30,6 +30,10 @@
             app:summary="@string/settings_backup_webdav_auto_backup_summary"
             app:defaultValue="true" />
 
+        <Preference
+            android:key="webdavRestore"
+            android:title="@string/settings_backup_webdav_restore_title"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

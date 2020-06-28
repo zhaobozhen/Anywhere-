@@ -91,6 +91,9 @@ class SettingsActivity : BaseActivity() {
             }
 
             //Advanced
+            findPreference<Preference>(Const.PREF_PAGES)?.apply {
+                onPreferenceChangeListener = this@SettingsFragment
+            }
             findPreference<Preference>(Const.PREF_CLEAR_SHORTCUTS)?.apply {
                 onPreferenceClickListener = this@SettingsFragment
 
@@ -272,6 +275,11 @@ class SettingsActivity : BaseActivity() {
                 }
                 Const.PREF_SHOW_SHELL_RESULT -> {
                     GlobalValues.isShowShellResult = newValue as Boolean
+                    return true
+                }
+                Const.PREF_PAGES -> {
+                    GlobalValues.isPages = newValue as Boolean
+                    AppUtils.restart()
                     return true
                 }
             }

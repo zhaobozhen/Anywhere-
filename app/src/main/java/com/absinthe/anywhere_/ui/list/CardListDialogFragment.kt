@@ -63,7 +63,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                     setOnItemClickListener { _, _, position ->
                         mListener?.onClick(getItem(position), position)
                     }
-                    setNewInstance(listBeans)
+                    setList(listBeans)
                 }
             }
         }

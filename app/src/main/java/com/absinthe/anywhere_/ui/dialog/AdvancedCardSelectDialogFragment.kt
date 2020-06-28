@@ -41,7 +41,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                 AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, getOpeningEditorListener(AnywhereType.Card.FILE)),
                 AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, getOpeningEditorListener(AnywhereType.Card.BROADCAST))
         )
-        mBuilder.adapter.setNewInstance(cardList.toMutableList())
+        mBuilder.adapter.setList(cardList.toMutableList())
     }
 
     private fun getOpeningEditorListener(type: Int): View.OnClickListener {

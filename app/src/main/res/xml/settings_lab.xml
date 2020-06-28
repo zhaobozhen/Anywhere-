@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="normalCategory"
         android:title="@string/settings_category_normal">
 
-        <SwitchPreference
-            android:key="pages"
-            android:title="@string/settings_pages_title"
-            app:summary="@string/settings_pages_summary"
-            android:icon="@drawable/ic_pages" />
+        <Preference
+            android:key="no"
+            android:title="@string/dialog_empty_list"
+            android:icon="@drawable/ic_alert" />
 
     </PreferenceCategory>
 

@@ -11,7 +11,20 @@ import android.os.Bundle
 
 object ClipboardUtil {
 
-    @JvmStatic
+    fun put(context: Context, str: CharSequence): Boolean {
+        return put(context, ClipData.newPlainText("label", str))
+    }
+
+    private fun put(context: Context, clipData: ClipData): Boolean {
+        return try {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.setPrimaryClip(clipData)
+            true
+        } catch (ignored: Exception) {
+            false
+        }
+    }
+
     fun getClipBoardText(activity: Activity, f: Function) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             getTextFroClipFromAndroidQ(activity, f)
@@ -20,7 +33,6 @@ object ClipboardUtil {
         }
     }
 
-    @JvmStatic
     fun clearClipboard(context: Context) {
         val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val mClipData = ClipData.newPlainText("Label", "")

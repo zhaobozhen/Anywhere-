@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
+import com.absinthe.anywhere_.ui.backup.WebdavFilesListDialogFragment
 import com.absinthe.anywhere_.ui.dialog.*
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment
@@ -351,5 +352,10 @@ object DialogManager {
     fun showAdvancedCardSelectDialog(activity: AppCompatActivity) {
         val dialogFragment = AdvancedCardSelectDialogFragment()
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
+    }
+
+    fun showWebdavRestoreDialog(activity: AppCompatActivity) {
+        val dialog = WebdavFilesListDialogFragment()
+        dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 }

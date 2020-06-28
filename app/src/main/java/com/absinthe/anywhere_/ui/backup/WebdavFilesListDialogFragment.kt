@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.ui.settings
+package com.absinthe.anywhere_.ui.backup
 
 import android.app.Dialog
 import android.os.Bundle
@@ -6,22 +6,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.applist.MODE_ICON_PACK
-import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.viewholder.AppListBean
-import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
-import com.absinthe.anywhere_.viewbuilder.entity.IconPackDialogBuilder
+import com.absinthe.anywhere_.viewbuilder.entity.WebdavFilesListBuilder
 import java.util.*
 
-class IconPackDialogFragment : AnywhereDialogFragment() {
+class WebdavFilesListDialogFragment :AnywhereDialogFragment() {
 
-    private lateinit var mBuilder: IconPackDialogBuilder
+    private lateinit var mBuilder: WebdavFilesListBuilder
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mBuilder = IconPackDialogBuilder(requireContext())
+        mBuilder = WebdavFilesListBuilder(requireContext())
         initView()
 
         return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root)
@@ -34,16 +31,12 @@ class IconPackDialogFragment : AnywhereDialogFragment() {
         val hashMap = Settings.sIconPackManager.getAvailableIconPacks(true)
         val listBeans: MutableList<AppListBean> = ArrayList()
 
-        listBeans.add(AppListBean(requireContext().getString(R.string.bsd_default), Const.DEFAULT_ICON_PACK, "", -1))
         for ((_, iconPack) in hashMap) {
             listBeans.add(AppListBean(iconPack.name, iconPack.packageName, "", -1))
         }
         adapter.apply {
             setOnItemClickListener { _, _, position ->
-                val item = getItem(position)
-                GlobalValues.iconPack = item.packageName
-                    Settings.initIconPackManager()
-                    AppUtils.restart()
+
             }
             setList(listBeans)
         }
@@ -53,4 +46,5 @@ class IconPackDialogFragment : AnywhereDialogFragment() {
             this.adapter = adapter
         }
     }
+
 }

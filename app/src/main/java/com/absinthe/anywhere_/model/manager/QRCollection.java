@@ -190,8 +190,7 @@ public class QRCollection {
         String clsName = "com.tencent.mm.ui.LauncherUI";
 
         wechatPayAcs = new QREntity(() -> {
-            if (IzukoService.getInstance() == null) return;
-            if (!checkAccessibilityEnabled()) {
+            if (!checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
@@ -206,6 +205,7 @@ public class QRCollection {
                     Thread.sleep(200);
                     emitter.onNext(new FlowNode("支付", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     emitter.onNext(new FlowNode("WeChat Pay", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    Thread.sleep(200);
                     emitter.onNext(new FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     emitter.onNext(new FlowNode("Money", FlowNode.TYPE_ACCESSIBILITY_TEXT));
 
@@ -277,8 +277,7 @@ public class QRCollection {
         String clsName = "com.tencent.mm.ui.LauncherUI";
 
         wechatCollectAcs = new QREntity(() -> {
-            if (IzukoService.getInstance() == null) return;
-            if (!checkAccessibilityEnabled()) {
+            if (!checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
@@ -293,6 +292,7 @@ public class QRCollection {
                     Thread.sleep(200);
                     emitter.onNext(new FlowNode("支付", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     emitter.onNext(new FlowNode("WeChat Pay", FlowNode.TYPE_ACCESSIBILITY_TEXT));
+                    Thread.sleep(200);
                     emitter.onNext(new FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     emitter.onNext(new FlowNode("Money", FlowNode.TYPE_ACCESSIBILITY_TEXT));
                     Thread.sleep(800);
@@ -487,8 +487,7 @@ public class QRCollection {
         String clsName = "com.unionpay.activity.UPActivityMain";
 
         QREntity qrEntity = new QREntity(() -> {
-            if (IzukoService.getInstance() == null) return;
-            if (!checkAccessibilityEnabled()) {
+            if (!checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);

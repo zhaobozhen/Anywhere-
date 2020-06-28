@@ -6,9 +6,6 @@ import androidx.preference.PreferenceFragmentCompat
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.databinding.ActivityLabBinding
-import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.utils.AppUtils
 
 class LabActivity : BaseActivity() {
 
@@ -35,9 +32,6 @@ class LabActivity : BaseActivity() {
 
         override fun onActivityCreated(savedInstanceState: Bundle?) {
             super.onActivityCreated(savedInstanceState)
-            findPreference<Preference>(Const.PREF_PAGES)?.apply {
-                onPreferenceChangeListener = this@LabFragment
-            }
         }
 
         override fun onPreferenceClick(preference: Preference): Boolean {
@@ -45,13 +39,6 @@ class LabActivity : BaseActivity() {
         }
 
         override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
-            when (preference.key) {
-                Const.PREF_PAGES -> {
-                    GlobalValues.isPages = newValue as Boolean
-                    AppUtils.restart()
-                    return true
-                }
-            }
             return false
         }
     }
