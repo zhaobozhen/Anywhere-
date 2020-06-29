@@ -69,7 +69,9 @@ class BackupFragment : PreferenceFragmentCompat(),
         findPreference<Preference>("backupTip")?.apply {
             summary = getBackupTip()
         }
-
+        findPreference<Preference>("backupTip2")?.apply {
+            summary = HtmlCompat.fromHtml(getString(R.string.settings_backup_tip2), HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
     }
 
     override fun onPreferenceClick(preference: Preference): Boolean {

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.BackupBean
@@ -19,7 +20,6 @@ import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.io.File
 import java.io.IOException
 
@@ -78,10 +78,12 @@ object StorageUtils {
             null
         } else {
             for (ae in anywhereList) {
+                if (ae.type == AnywhereType.Card.IMAGE || ae.type == AnywhereType.Card.FILE) {
+                    continue
+                }
                 ae.iconUri = ""
             }
             val backupBean = BackupBean(anywhereList, pageList)
-            Timber.d(Gson().toJson(backupBean))
             Gson().toJson(backupBean)
         }
     }

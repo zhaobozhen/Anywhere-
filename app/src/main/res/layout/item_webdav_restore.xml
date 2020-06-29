@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem"
+            android:textSize="14sp"
             tools:text="Anywhere-Backups--" />
 
         <TextView
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:textAppearance="?attr/textAppearanceListItemSecondary"
+            android:textSize="12sp"
             tools:text="2020-6-28" />
 
         <TextView
@@ -35,6 +37,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:textAppearance="?attr/textAppearanceListItemSecondary"
+            android:textSize="12sp"
             tools:text="70KB" />
 
     </LinearLayout>

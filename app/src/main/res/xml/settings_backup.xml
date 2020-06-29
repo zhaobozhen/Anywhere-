@@ -54,7 +54,10 @@
 
         <Preference
             android:key="backupTip"
-            app:summary="@string/settings_backup_tip"
+            app:icon="@drawable/ic_alert"/>
+
+        <Preference
+            android:key="backupTip2"
             app:icon="@drawable/ic_alert"/>
 
     </PreferenceCategory>

@@ -359,4 +359,5 @@
     <string name="toast_json_error">JSON 数据错误</string>
     <string name="settings_backup_webdav_restore_title">恢复备份文件</string>
     <string name="dialog_webdav_restore_title">选择备份文件</string>
+    <string name="settings_backup_tip2"><![CDATA[<b>图片卡片</b> 和 <b>文件卡片</b> 不会被备份。]]></string>
 </resources>
