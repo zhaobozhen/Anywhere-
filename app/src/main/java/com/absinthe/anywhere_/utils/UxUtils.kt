@@ -334,10 +334,8 @@ object UxUtils {
      * @param color     secondary color
      */
     suspend fun createLinearGradientBitmap(activity: BaseActivity, view: ImageView, darkColor: Int) {
-        if (view.width <= 0 || view.height <= 0) {
+        while (view.width <= 0 || view.height <= 0) {
             delay(100)
-            createLinearGradientBitmap(activity, view, darkColor)
-            return
         }
 
         val bgBitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
@@ -356,6 +354,7 @@ object UxUtils {
         withContext(Dispatchers.Main) {
             Glide.with(activity)
                     .load(bgBitmap)
+                    .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(view)
         }

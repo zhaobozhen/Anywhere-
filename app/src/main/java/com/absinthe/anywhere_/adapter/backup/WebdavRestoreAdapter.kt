@@ -12,7 +12,13 @@ class WebdavRestoreAdapter : BaseQuickAdapter<DavResource, BaseViewHolder>(R.lay
 
     override fun convert(holder: BaseViewHolder, item: DavResource) {
         holder.setText(R.id.tv_title, item.displayName)
-        holder.setText(R.id.tv_timestamp, SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(item.creation))
         holder.setText(R.id.tv_size, Formatter.formatFileSize(context, item.contentLength))
+
+        if (item.creation != null) {
+            holder.setVisible(R.id.tv_timestamp, true)
+            holder.setText(R.id.tv_timestamp, SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(item.creation))
+        } else {
+            holder.setGone(R.id.tv_timestamp, true)
+        }
     }
 }
