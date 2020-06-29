@@ -23,6 +23,7 @@ class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
     private lateinit var binding: LayoutWebdavRestoreBinding
     private val adapter = WebdavRestoreAdapter()
     private val sardine = OkHttpSardine()
+    private val hostDir = GlobalValues.webdavHost + URLManager.BACKUP_DIR
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = LayoutWebdavRestoreBinding.inflate(layoutInflater)
@@ -37,7 +38,8 @@ class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
     private fun initView() {
         adapter.apply {
             setOnItemClickListener { _, _, position ->
-                applyBackupFile(data[position].path)
+                applyBackupFile(hostDir + data[position].displayName)
+                dismiss()
             }
         }
 
@@ -48,15 +50,13 @@ class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
 
     private fun initData() = lifecycleScope.launch(Dispatchers.IO) {
         try {
-            val hostDir = GlobalValues.webdavHost + URLManager.BACKUP_DIR
-
             if (!sardine.exists(hostDir)) {
                 return@launch
             }
 
             val list = sardine.list(hostDir)
             withContext(Dispatchers.Main) {
-                adapter.setList(list.filter { !it.isDirectory })
+                adapter.setList(list.filter { !it.isDirectory }.sortedByDescending { it.displayName })
                 binding.root.displayedChild = 1
             }
         } catch (e: Exception) {
