@@ -84,6 +84,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.lang.Exception
 import java.util.*
 
 class MainActivity : BaseActivity() {
@@ -356,12 +357,16 @@ class MainActivity : BaseActivity() {
 
                 (adapter.getItem(position) as PageTitleNode?)?.let { titleNode ->
                     AnywhereApplication.sRepository.allPageEntities.value?.find { it.title == titleNode.title }?.let { pe ->
-                        lifecycleScope.launch(Dispatchers.Default) {
+                        lifecycleScope.launch(Dispatchers.IO) {
                             delay(300)
 
                             withContext(Dispatchers.Main) {
-                                mBinding.viewPager.setCurrentItem(AnywhereApplication.sRepository.allPageEntities.value!!.indexOf(pe), true)
-                                setsCategory(pe.title, position)
+                                try {
+                                    mBinding.viewPager.setCurrentItem(AnywhereApplication.sRepository.allPageEntities.value!!.indexOf(pe), true)
+                                    setsCategory(pe.title, position)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             }
                         }
                     }

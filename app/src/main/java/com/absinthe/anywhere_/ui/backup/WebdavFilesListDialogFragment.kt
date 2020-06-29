@@ -13,11 +13,15 @@ import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.Utils
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
+import io.michaelrocks.paranoid.Obfuscate
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@Obfuscate
 class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
 
     private lateinit var binding: LayoutWebdavRestoreBinding
@@ -28,7 +32,6 @@ class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = LayoutWebdavRestoreBinding.inflate(layoutInflater)
         initView()
-        sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
 
         return AnywhereDialogBuilder(requireContext()).setView(binding.root)
                 .setTitle(R.string.dialog_webdav_restore_title)
@@ -49,6 +52,8 @@ class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
     }
 
     private fun initData() = lifecycleScope.launch(Dispatchers.IO) {
+        sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
+
         try {
             if (!sardine.exists(hostDir)) {
                 return@launch
@@ -63,18 +68,24 @@ class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
             e.printStackTrace()
             withContext(Dispatchers.Main) {
                 ToastUtil.makeText("Failed getting files: $e")
+                dismiss()
             }
         }
     }
 
-    private fun applyBackupFile(url: String) = lifecycleScope.launch(Dispatchers.IO) {
+    private fun applyBackupFile(url: String) = GlobalScope.launch(Dispatchers.IO) {
+        sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
         sardine.get(url)?.let {
             val result = ConvertUtils.inputStream2String(it, "UTF-8")
             result?.apply {
                 withContext(Dispatchers.Main) {
-                    StorageUtils.restoreFromJson(requireContext(), this@apply)
+                    StorageUtils.restoreFromJson(Utils.getApp(), this@apply)
                 }
+            } ?: withContext(Dispatchers.Main) {
+                ToastUtil.makeText("JSON content error")
             }
+        } ?: withContext(Dispatchers.Main) {
+            ToastUtil.makeText("Input Stream error")
         }
     }
 }
