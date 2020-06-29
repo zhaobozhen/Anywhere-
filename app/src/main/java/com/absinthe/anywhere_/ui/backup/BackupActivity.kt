@@ -74,8 +74,4 @@ class BackupActivity : BaseActivity() {
             }
         }
     }
-
-    companion object {
-        var INSERT_CORRECT = true
-    }
 }

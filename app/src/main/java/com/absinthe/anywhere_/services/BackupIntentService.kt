@@ -42,12 +42,11 @@ class BackupIntentService : IntentService("BackupIntentService") {
                     if (!sardine.exists(hostDir + backupName)) {
                         sardine.put(hostDir + backupName, encrypted.toByteArray())
 
-                        val list = sardine.list(hostDir)
+                        val list = sardine.list(hostDir).filter { !it.isDirectory }.toMutableList()
                         if (list.size > 25) {
-                            list.sortByDescending { it.creation }
-                            val oldList = list.subList(25, list.size - 1)
-                            for (res in oldList) {
-                                sardine.delete(res.path)
+                            list.sortBy { it.displayName }
+                            while (list.size > 25) {
+                                sardine.delete(hostDir + list.removeAt(0).displayName)
                             }
                         }
 

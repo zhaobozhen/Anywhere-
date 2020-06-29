@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.adapter.card
 
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -42,7 +43,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 const val ADAPTER_MODE_NORMAL = 0
@@ -120,7 +120,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                             }
                                             item.color = color
 
-                                            if (context !is QRCodeCollectionActivity) {
+                                            if (shouldUpdateColorInfo(context, item)) {
                                                 AnywhereApplication.sRepository.update(item)
                                             }
                                         } else {
@@ -141,7 +141,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                 object : OnPaletteFinishedListener {
                                     override fun onFinished(color: Int) {
                                         item.color = color
-                                        if (context !is QRCodeCollectionActivity) {
+                                        if (shouldUpdateColorInfo(context, item)) {
                                             AnywhereApplication.sRepository.update(item)
                                         }
                                     }
@@ -196,6 +196,16 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
     }
 
+    override fun onMove(fromPosition: Int, toPosition: Int) {
+        data.add(toPosition, data.removeAt(fromPosition))
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onSwiped(position: Int) {
+    }
+
+    override fun getItemId(position: Int): Long = data[position].id.toLong()
+
     fun clickItem(v: View, position: Int) {
         try {
             val item = getItem(position)
@@ -226,16 +236,6 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             e.printStackTrace()
         }
     }
-
-    override fun onMove(fromPosition: Int, toPosition: Int) {
-        data.add(toPosition, data.removeAt(fromPosition))
-        notifyItemMoved(fromPosition, toPosition)
-    }
-
-    override fun onSwiped(position: Int) {
-    }
-
-    override fun getItemId(position: Int): Long = data[position].id.toLong()
 
     fun longClickItem(v: View, position: Int): Boolean {
         try {
@@ -295,5 +295,9 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
 
         CategoryCardFragment.refreshLock = false
+    }
+
+    private fun shouldUpdateColorInfo(context: Context, item: AnywhereEntity): Boolean {
+        return context !is QRCodeCollectionActivity && (item.type == AnywhereType.Card.ACTIVITY || item.type == AnywhereType.Card.URL_SCHEME || item.type == AnywhereType.Card.QR_CODE)
     }
 }

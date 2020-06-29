@@ -11,7 +11,6 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.BackupBean
-import com.absinthe.anywhere_.ui.backup.BackupActivity
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -96,27 +95,16 @@ object StorageUtils {
             if (backupBean == null) {
                 ToastUtil.makeText(R.string.toast_backup_file_error)
             } else {
-                BackupActivity.INSERT_CORRECT = true
+                AnywhereApplication.sRepository.deleteAll()
 
                 for (ae in backupBean.anywhereList) {
-                    if (!BackupActivity.INSERT_CORRECT) {
-                        ToastUtil.makeText(R.string.toast_backup_file_error)
-                        break
-                    }
                     AnywhereApplication.sRepository.insert(ae)
                 }
 
                 for (pe in backupBean.pageList) {
-                    if (!BackupActivity.INSERT_CORRECT) {
-                        ToastUtil.makeText(R.string.toast_backup_file_error)
-                        break
-                    }
                     AnywhereApplication.sRepository.insertPage(pe)
                 }
-
-                if (BackupActivity.INSERT_CORRECT) {
-                    ToastUtil.makeText(context.getString(R.string.toast_restore_success))
-                }
+                ToastUtil.makeText(context.getString(R.string.toast_restore_success))
             }
         } catch (e: JsonSyntaxException) {
             e.printStackTrace()

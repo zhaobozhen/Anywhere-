@@ -350,8 +350,9 @@ object AppUtils {
                 } else {
                     item.param2
                 }
-                val entity = QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)
-                entity?.launch()
+                if (qrId != null) {
+                    QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)?.launch()
+                }
                 listener?.onOpened()
             }
             AnywhereType.Card.IMAGE -> {

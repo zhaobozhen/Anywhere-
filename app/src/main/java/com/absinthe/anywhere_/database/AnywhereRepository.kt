@@ -38,48 +38,40 @@ class AnywhereRepository(application: Application) {
         allAnywhereEntities = sortedEntities
     }
 
-    fun insert(ae: AnywhereEntity) {
-        GlobalScope.launch(Dispatchers.IO) {
-            mAnywhereDao.insert(ae)
+    fun insert(ae: AnywhereEntity) = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.insert(ae)
+        GlobalValues.needBackup = true
+    }
+
+    fun update(ae: AnywhereEntity) = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.update(ae)
+        GlobalValues.needBackup = true
+    }
+
+    fun delete(ae: AnywhereEntity) = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.delete(ae)
+        if (AppUtils.atLeastNMR1()) {
+            ShortcutsUtils.removeShortcut(ae)
         }
         GlobalValues.needBackup = true
     }
 
-    fun update(ae: AnywhereEntity) {
-        GlobalScope.launch(Dispatchers.IO) {
-            mAnywhereDao.update(ae)
-        }
+    fun deleteAll() = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.deleteAll()
+    }
+
+    fun insertPage(pe: PageEntity) = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.insertPage(pe)
         GlobalValues.needBackup = true
     }
 
-    fun delete(ae: AnywhereEntity) {
-        GlobalScope.launch(Dispatchers.IO) {
-            mAnywhereDao.delete(ae)
-            if (AppUtils.atLeastNMR1()) {
-                ShortcutsUtils.removeShortcut(ae)
-            }
-        }
+    fun updatePage(pe: PageEntity) = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.updatePage(pe)
         GlobalValues.needBackup = true
     }
 
-    fun insertPage(pe: PageEntity) {
-        GlobalScope.launch(Dispatchers.IO) {
-            mAnywhereDao.insertPage(pe)
-        }
-        GlobalValues.needBackup = true
-    }
-
-    fun updatePage(pe: PageEntity) {
-        GlobalScope.launch(Dispatchers.IO) {
-            mAnywhereDao.updatePage(pe)
-        }
-        GlobalValues.needBackup = true
-    }
-
-    fun deletePage(pe: PageEntity) {
-        GlobalScope.launch(Dispatchers.IO) {
-            mAnywhereDao.deletePage(pe)
-        }
+    fun deletePage(pe: PageEntity) = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.deletePage(pe)
         GlobalValues.needBackup = true
     }
 }
