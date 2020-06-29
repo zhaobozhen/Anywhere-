@@ -111,6 +111,11 @@ class BackupFragment : PreferenceFragmentCompat(),
                 return true
             }
             Const.PREF_WEBDAV_RESTORE -> {
+                if (GlobalValues.webdavHost.isEmpty() ||
+                        GlobalValues.webdavUsername.isEmpty() ||
+                        GlobalValues.webdavPassword.isEmpty()) {
+                    return true
+                }
                 DialogManager.showWebdavRestoreDialog(requireActivity() as BaseActivity)
                 return true
             }

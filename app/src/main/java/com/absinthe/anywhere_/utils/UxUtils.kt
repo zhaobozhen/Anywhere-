@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.palette.graphics.Palette
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -49,7 +48,6 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
@@ -335,14 +333,10 @@ object UxUtils {
      * @param darkColor primary color
      * @param color     secondary color
      */
-    fun createLinearGradientBitmap(activity: BaseActivity, view: ImageView, darkColor: Int, color: Int) {
+    suspend fun createLinearGradientBitmap(activity: BaseActivity, view: ImageView, darkColor: Int) {
         if (view.width <= 0 || view.height <= 0) {
-            activity.lifecycleScope.launch(Dispatchers.IO) {
-                delay(100)
-                withContext(Dispatchers.Main) {
-                    createLinearGradientBitmap(activity, view, darkColor, color)
-                }
-            }
+            delay(100)
+            createLinearGradientBitmap(activity, view, darkColor)
             return
         }
 
@@ -351,17 +345,20 @@ object UxUtils {
             setBitmap(bgBitmap)
             drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
         }
-        val gradient = LinearGradient(0f, 0f, 0f, bgBitmap.height.toFloat(), darkColor, color, Shader.TileMode.CLAMP)
+        val lightColor = darkColor and 0x00ffffff or (128 shl 24)
+        val gradient = LinearGradient(0f, 0f, 0f, bgBitmap.height.toFloat(), darkColor, lightColor, Shader.TileMode.CLAMP)
         val paint = Paint().apply {
             shader = gradient
         }
         val rectF = RectF(0f, 0f, bgBitmap.width.toFloat(), bgBitmap.height.toFloat())
 
         canvas.drawRect(rectF, paint)
-        Glide.with(activity)
-                .load(bgBitmap)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(view)
+        withContext(Dispatchers.Main) {
+            Glide.with(activity)
+                    .load(bgBitmap)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(view)
+        }
     }
 
     /**

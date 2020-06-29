@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.adapter.card
 import android.app.ActivityOptions
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.view.HapticFeedbackConstants
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -39,6 +41,8 @@ import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -125,7 +129,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                     }
                                 })
                     } else {
-                        itemView.cardBackground.setBackgroundColor(item.color)
+                        itemView.rootView.backgroundTintList = ColorStateList.valueOf(item.color)
                         itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                         normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                     }
@@ -142,7 +146,9 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                     }
                                 })
                     } else {
-                        UxUtils.createLinearGradientBitmap(context as BaseActivity, itemView.cardBackground, item.color, Color.TRANSPARENT)
+                        (context as BaseActivity).lifecycleScope.launch(Dispatchers.IO) {
+                            UxUtils.createLinearGradientBitmap(context as BaseActivity, itemView.cardBackground, item.color)
+                        }
                     }
                 }
             }
