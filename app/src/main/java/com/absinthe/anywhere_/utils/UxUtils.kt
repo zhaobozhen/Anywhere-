@@ -102,7 +102,7 @@ object UxUtils {
             if (iconPack == Const.DEFAULT_ICON_PACK || iconPack.isEmpty()) {
                 context.packageManager.getApplicationIcon(packageName)
             } else {
-                Settings.sIconPack.getDrawableIconForPackage(packageName, context.packageManager.getApplicationIcon(packageName))
+                Settings.sIconPack?.getDrawableIconForPackage(packageName, context.packageManager.getApplicationIcon(packageName))
                         ?: context.getDrawable(R.drawable.ic_logo)!!
             }
         } catch (e: PackageManager.NameNotFoundException) {

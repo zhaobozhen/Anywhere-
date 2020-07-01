@@ -22,8 +22,8 @@ import java.util.*
 object Settings {
 
     var sIconPackManager: IconPackManager = IconPackManager()
+    var sIconPack: IconPack? = null
 
-    lateinit var sIconPack: IconPack
     lateinit var sDate: String
     lateinit var sToken: String
 

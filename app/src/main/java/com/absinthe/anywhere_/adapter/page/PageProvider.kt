@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.adapter.page
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.chad.library.adapter.base.provider.BaseNodeProvider
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -22,13 +23,13 @@ class PageProvider : BaseNodeProvider() {
 
         when {
             adapter.itemCount == 0 -> {
-                recyclerView.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
+                recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
             }
             adapter.itemCount <= 3 -> {
-                recyclerView.layoutManager = StaggeredGridLayoutManager(adapter.itemCount, StaggeredGridLayoutManager.HORIZONTAL)
+                recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(adapter.itemCount, StaggeredGridLayoutManager.HORIZONTAL)
             }
             else -> {
-                recyclerView.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
+                recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
             }
         }
         recyclerView.adapter = adapter

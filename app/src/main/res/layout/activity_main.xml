@@ -83,7 +83,7 @@
                         android:id="@+id/rv_pages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        app:layoutManager=".adapter.manager.WrapContentLinearLayoutManager" />
 
                 </ScrollView>
 

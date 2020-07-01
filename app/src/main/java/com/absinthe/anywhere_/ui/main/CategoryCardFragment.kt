@@ -49,10 +49,6 @@ class CategoryCardFragment : Fragment() {
                         list.filter { it.category == this.category }.toMutableList()
                     }
             )
-            if (!binding.recyclerView.canScrollVertically(-1)) {
-                //Fix Fab cannot be shown after deleting an Anywhere-
-                viewModel.shouldShowFab.value = true
-            }
         }
         updateWidget(requireContext())
     }
