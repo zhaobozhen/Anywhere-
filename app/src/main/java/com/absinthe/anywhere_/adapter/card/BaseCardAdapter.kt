@@ -59,6 +59,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
 
     var mode = ADAPTER_MODE_NORMAL
     private val mSelectedIndex = mutableListOf<Int>()
+    private val deleteItemSet = mutableSetOf<AnywhereEntity>()
 
     override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (layoutMode) {
@@ -214,8 +215,20 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
     override fun getItemId(position: Int): Long = try {
         data[position].id.toLong()
     } catch (e: NumberFormatException) {
-        AnywhereApplication.sRepository.delete(data[position])
-        0
+        val item = data[position]
+        val timestamp = System.currentTimeMillis()
+
+        if (!deleteItemSet.contains(item)) {
+            val ae = AnywhereEntity(item).apply {
+                id = timestamp.toString()
+                timeStamp = timestamp.toString()
+            }
+            AnywhereApplication.sRepository.delete(item)
+            AnywhereApplication.sRepository.insert(ae)
+        }
+
+        deleteItemSet.add(item)
+        timestamp
     }
 
     fun clickItem(v: View, position: Int) {

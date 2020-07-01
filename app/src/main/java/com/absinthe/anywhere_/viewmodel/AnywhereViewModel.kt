@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,7 +33,6 @@ import com.blankj.utilcode.util.PermissionUtils
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.google.gson.Gson
 import timber.log.Timber
-import java.lang.NumberFormatException
 import java.util.*
 
 class AnywhereViewModel(application: Application) : AndroidViewModel(application) {
@@ -196,12 +194,6 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                             }
                         }
                         entity.param3 = Gson().toJson(ExtraBean("", "", "", extraList), ExtraBean::class.java)
-                    }
-                } else if (entity.type == AnywhereType.Card.QR_CODE) {
-                    try {
-                        entity.id.toLong()
-                    } catch (e: NumberFormatException) {
-                        entity.id = System.currentTimeMillis().toString()
                     }
                 }
 

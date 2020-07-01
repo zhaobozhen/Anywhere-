@@ -109,7 +109,7 @@ object ShortcutsUtils {
             // Assumes there's already a shortcut with the ID "my-shortcut".
             // The shortcut must be enabled.
             val intent = Intent(Utils.getApp(), ShortcutsActivity::class.java).apply {
-                action = ShortcutsActivity.ACTION_START_COMMAND
+                action = ShortcutsActivity.ACTION_START_ENTITY
                 putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
             }
 
@@ -140,7 +140,7 @@ object ShortcutsUtils {
         val shortcutIntent = Intent().apply {
             component = ComponentName(Utils.getApp(), ShortcutsActivity::class.java)
             flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or Intent.FLAG_ACTIVITY_NEW_TASK
-            action = ShortcutsActivity.ACTION_START_COMMAND
+            action = ShortcutsActivity.ACTION_START_ENTITY
             putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
         }
         val resultIntent = Intent().apply {

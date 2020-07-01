@@ -79,28 +79,6 @@ class ShortcutsActivity : BaseActivity() {
                         })
                     }
                 }
-                ACTION_START_COMMAND -> {
-                    intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { cmd ->
-                        Timber.d(cmd)
-
-                        if (cmd.startsWith(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX) ||
-                                cmd.startsWith(AnywhereType.Prefix.SHELL_PREFIX)) {
-                            Opener.with(this)
-                                    .load(cmd)
-                                    .setOpenedListener { finish() }
-                                    .open()
-                        } else if (cmd.startsWith(AnywhereType.Prefix.IMAGE_PREFIX)) {
-                            showImageDialog(this, cmd.removePrefix(AnywhereType.Prefix.IMAGE_PREFIX), object : AnywhereDialogFragment.OnDismissListener {
-                                override fun onDismiss() {
-                                    finish()
-                                }
-                            })
-                        } else {
-                            Opener.with(this).load(cmd).open()
-                            finish()
-                        }
-                    } ?: finish()
-                }
                 ACTION_START_FROM_WIDGET -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_WIDGET_ITEM_ID)?.let { id ->
                         viewModel.allAnywhereEntities.observe(this, Observer { list ->
@@ -189,7 +167,6 @@ class ShortcutsActivity : BaseActivity() {
     companion object {
         const val ACTION_START_COLLECTOR = "START_COLLECTOR"
         const val ACTION_START_ENTITY = "START_ENTITY"
-        const val ACTION_START_COMMAND = "START_COMMAND" //Old Scheme
         const val ACTION_START_FROM_WIDGET = "START_FROM_WIDGET"
         const val ACTION_START_IMAGE = "START_IMAGE" //Old Scheme
     }
