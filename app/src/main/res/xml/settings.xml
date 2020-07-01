@@ -112,7 +112,7 @@
         app:key="advancedCategory"
         app:title="@string/settings_category_advanced">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="pages"
             android:title="@string/settings_pages_title"
             app:summary="@string/settings_pages_summary"

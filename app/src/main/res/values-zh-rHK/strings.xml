@@ -360,4 +360,6 @@
     <string name="settings_backup_webdav_restore_title">恢復備份文件</string>
     <string name="dialog_webdav_restore_title">選擇備份文件</string>
     <string name="settings_backup_tip2"><![CDATA[<b>圖片卡片</b> 和 <b>文件卡片</b> 不會被備份。 ]]></string>
+    <string name="settings_transparent_icon_summary">用於在某些系統上防止創建桌面快捷方式時生成應用角標</string>
+    <string name="settings_transparent_icon_title">透明圖標</string>
 </resources>

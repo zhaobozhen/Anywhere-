@@ -24,7 +24,7 @@
             android:key="webdavBackup"
             android:title="@string/settings_backup_webdav_backup_title"/>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="webdavAutoBackup"
             android:title="@string/settings_backup_webdav_auto_backup_title"
             app:summary="@string/settings_backup_webdav_auto_backup_summary"

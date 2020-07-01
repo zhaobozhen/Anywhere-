@@ -23,9 +23,9 @@
         android:hardwareAccelerated="true"
         android:hasFragileUserData="true"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="${appName}"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
@@ -33,6 +33,53 @@
 
         <activity
             android:name=".ui.main.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <!-- Start from URL Scheme -->
+                <!-- Required -->
+                <action android:name="android.intent.action.VIEW" />
+                <!-- Start from a browser -->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Implicit intent -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Protocol -->
+                <data
+                    android:host="url"
+                    android:scheme="anywhere" />
+            </intent-filter>
+            <intent-filter> <!-- Start from URL Scheme -->
+                <!-- Required -->
+                <action android:name="android.intent.action.VIEW" />
+                <!-- Start from a browser -->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Implicit intent -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Protocol -->
+                <data
+                    android:host="share"
+                    android:scheme="anywhere" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+        <activity-alias
+            android:name="MainAliasActivity"
+            android:enabled="true"
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:targetActivity=".ui.main.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
@@ -77,7 +124,59 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
-        </activity>
+        </activity-alias>
+        <activity-alias
+            android:name="TransIconActivity"
+            android:enabled="false"
+            android:label="@string/app_name"
+            android:icon="@drawable/transparent"
+            android:roundIcon="@drawable/transparent"
+            android:targetActivity=".ui.main.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <!-- Start from URL Scheme -->
+                <!-- Required -->
+                <action android:name="android.intent.action.VIEW" />
+                <!-- Start from a browser -->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Implicit intent -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Protocol -->
+                <data
+                    android:host="url"
+                    android:scheme="anywhere" />
+            </intent-filter>
+            <intent-filter> <!-- Start from URL Scheme -->
+                <!-- Required -->
+                <action android:name="android.intent.action.VIEW" />
+                <!-- Start from a browser -->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Implicit intent -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Protocol -->
+                <data
+                    android:host="share"
+                    android:scheme="anywhere" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity-alias>
         <activity
             android:name=".ui.setup.SetupActivity"
             android:label="@string/setup_title" />

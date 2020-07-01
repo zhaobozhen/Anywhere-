@@ -86,6 +86,9 @@ public class Opener {
         } else {
             openByCmd(AppTextUtils.getItemCommand(item), item.getPackageName());
         }
+        if (mListener != null) {
+            mListener.onOpened();
+        }
     }
 
     private void openFromCommand() {
@@ -164,6 +167,9 @@ public class Opener {
                 e.printStackTrace();
                 ToastUtil.makeText(R.string.toast_wrong_cmd);
             }
+        }
+        if (mListener != null) {
+            mListener.onOpened();
         }
     }
 

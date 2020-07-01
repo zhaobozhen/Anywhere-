@@ -391,12 +391,15 @@ object AppUtils {
                         }
 
                         context.startActivity(intent)
+                        listener?.onOpened()
                     }
                     else -> {
-                        Opener.with(context).load(item).open()
+                        Opener.with(context)
+                                .setOpenedListener { listener?.onOpened() }
+                                .load(item)
+                                .open()
                     }
                 }
-                listener?.onOpened()
             }
             AnywhereType.Card.URL_SCHEME -> {
                 if (item.param3.isNotEmpty()) {
@@ -444,7 +447,10 @@ object AppUtils {
                         DialogInterface.OnCancelListener { listener?.onOpened() })
             }
             AnywhereType.Card.SWITCH_SHELL -> {
-                Opener.with(context).load(item).open()
+                Opener.with(context)
+                        .load(item)
+                        .setOpenedListener { listener?.onOpened() }
+                        .open()
                 val ae = AnywhereEntity(item).apply {
                     param3 = if (param3 == SWITCH_OFF) SWITCH_ON else SWITCH_OFF
                 }
@@ -453,7 +459,6 @@ object AppUtils {
                 if (atLeastNMR1()) {
                     ShortcutsUtils.updateShortcut(ae)
                 }
-                listener?.onOpened()
             }
             AnywhereType.Card.FILE -> {
                 val intent = Intent().apply {
@@ -507,5 +512,22 @@ object AppUtils {
                 listener?.onOpened()
             }
         }
+    }
+
+    fun setTransparentLauncherIcon(context: Context, flag: Boolean) {
+        val packageManager = context.packageManager
+
+        if (flag) {
+            packageManager.setComponentEnabledSetting(ComponentName(context, context.packageName + ".MainAliasActivity"),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+            packageManager.setComponentEnabledSetting(ComponentName(context, context.packageName + ".TransIconActivity"),
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0)
+        } else {
+            packageManager.setComponentEnabledSetting(ComponentName(context, context.packageName + ".TransIconActivity"),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+            packageManager.setComponentEnabledSetting(ComponentName(context, context.packageName + ".MainAliasActivity"),
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0)
+        }
+
     }
 }

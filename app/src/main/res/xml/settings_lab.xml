@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:key="normalCategory"
         android:title="@string/settings_category_normal">
 
-        <Preference
-            android:key="no"
-            android:title="@string/dialog_empty_list"
-            android:icon="@drawable/ic_alert" />
+        <SwitchPreferenceCompat
+            android:key="transparentIcon"
+            android:title="@string/settings_transparent_icon_title"
+            app:summary="@string/settings_transparent_icon_summary"
+            app:icon="@drawable/ic_transparent_icon"
+            app:defaultValue="false" />
 
     </PreferenceCategory>
 
