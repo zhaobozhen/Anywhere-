@@ -28,7 +28,7 @@
             android:key="webdavAutoBackup"
             android:title="@string/settings_backup_webdav_auto_backup_title"
             app:summary="@string/settings_backup_webdav_auto_backup_summary"
-            app:defaultValue="true" />
+            app:defaultValue="false" />
 
         <Preference
             android:key="webdavRestore"

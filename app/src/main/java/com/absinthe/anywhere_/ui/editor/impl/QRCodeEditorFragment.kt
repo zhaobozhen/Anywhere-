@@ -37,8 +37,9 @@ class QRCodeEditorFragment : BaseEditorFragment() {
             return false
         }
 
-        val ae = AnywhereEntity(item).apply {
+        val ae = AnywhereEntity.Builder().apply {
             appName = binding.tietAppName.text.toString()
+            param1 = item.param1
             param2 = item.id
             description = binding.tietDescription.text.toString()
         }

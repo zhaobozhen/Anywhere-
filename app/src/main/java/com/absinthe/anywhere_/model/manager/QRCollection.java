@@ -46,7 +46,6 @@ public class QRCollection {
     private AccessibilityManager mAccessibilityManager;
     private ArrayList<AnywhereEntity> mList;
     private HashMap<String, QREntity> mMap;
-    private int mPriority = 0;
 
     private QRCollection() {
         mContext = Utils.getApp();
@@ -148,7 +147,6 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
@@ -175,7 +173,6 @@ public class QRCollection {
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
@@ -235,7 +232,6 @@ public class QRCollection {
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
@@ -262,7 +258,6 @@ public class QRCollection {
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
@@ -327,7 +322,6 @@ public class QRCollection {
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
@@ -358,7 +352,6 @@ public class QRCollection {
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
@@ -389,7 +382,6 @@ public class QRCollection {
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
@@ -420,7 +412,6 @@ public class QRCollection {
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
@@ -451,7 +442,6 @@ public class QRCollection {
         ae.setParam3(urlScheme);
         ae.setDescription(mContext.getString(R.string.desc_work_at_any_mode));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
@@ -478,11 +468,10 @@ public class QRCollection {
         ae.setParam2(clsName);
         ae.setDescription(mContext.getString(R.string.desc_need_root));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(String.valueOf(mPriority++));
         return ae;
     }
 
-    private AnywhereEntity genUnionPay(String id, String text, String priority) {
+    private AnywhereEntity genUnionPay(String id, String text) {
         String pkgName = "com.unionpay";
         String clsName = "com.unionpay.activity.UPActivityMain";
 
@@ -546,7 +535,6 @@ public class QRCollection {
         ae.setParam1(pkgName);
         ae.setDescription(mContext.getString(R.string.desc_need_accessibility));
         ae.setType(AnywhereType.Card.QR_CODE);
-        ae.setTimeStamp(priority);
         return ae;
     }
 
@@ -557,7 +545,7 @@ public class QRCollection {
     private QREntity unionpayPay;
 
     private AnywhereEntity genUnionpayPay() {
-        return genUnionPay(unionpayPayId, "付款码", String.valueOf(mPriority++));
+        return genUnionPay(unionpayPayId, "付款码");
     }
 
     /**
@@ -567,7 +555,7 @@ public class QRCollection {
     private QREntity unionpayCollect;
 
     private AnywhereEntity genUnionpayCollect() {
-        return genUnionPay(unionpayCollectId, "收款码", String.valueOf(mPriority++));
+        return genUnionPay(unionpayCollectId, "收款码");
     }
 
     /**
@@ -577,7 +565,7 @@ public class QRCollection {
     private QREntity unionpayScan;
 
     private AnywhereEntity genUnionpayScan() {
-        return genUnionPay(unionpayScanId, "扫一扫", String.valueOf(mPriority++));
+        return genUnionPay(unionpayScanId, "扫一扫");
     }
 
     /**
@@ -588,6 +576,6 @@ public class QRCollection {
     private QREntity unionpayBus;
 
     private AnywhereEntity genUnionpayBus() {
-        return genUnionPay(unionpayBusId, unionPayBusConstants, String.valueOf(mPriority++));
+        return genUnionPay(unionpayBusId, unionPayBusConstants);
     }
 }

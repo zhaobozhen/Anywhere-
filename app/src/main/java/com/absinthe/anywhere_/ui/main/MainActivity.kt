@@ -656,6 +656,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun backupIfNeeded() {
+        if (GlobalValues.webdavHost.isEmpty() ||
+                GlobalValues.webdavUsername.isEmpty() ||
+                GlobalValues.webdavPassword.isEmpty()) {
+            return
+        }
         if (GlobalValues.needBackup && GlobalValues.isAutoBackup) {
 
             if (atLeastO()) {

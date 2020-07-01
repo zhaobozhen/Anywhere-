@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +17,7 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.database.AnywhereRepository
+import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
@@ -30,7 +32,9 @@ import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermissi
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.chad.library.adapter.base.entity.node.BaseNode
+import com.google.gson.Gson
 import timber.log.Timber
+import java.lang.NumberFormatException
 import java.util.*
 
 class AnywhereViewModel(application: Application) : AndroidViewModel(application) {
@@ -173,18 +177,40 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
 
     fun convertAnywhereTypeV2() {
         allAnywhereEntities.value?.let {
-            if (AppUtils.atLeastNMR1()) {
-                val shortcutsList = mutableListOf<String>()
-                for (entity in it) {
-                    if (entity.type % 100 / 10 == 1) {
-                        shortcutsList.add(entity.id)
+            val shortcutsList = mutableListOf<String>()
+            for (entity in it) {
+                //Remove shortcut and exported type from entity's type
+                if (entity.type % 100 / 10 == 1) {
+                    shortcutsList.add(entity.id)
+                }
+                entity.type = entity.type % 10
+
+                //Transform extras to new structure
+                if (entity.type == AnywhereType.Card.ACTIVITY) {
+                    if (entity.param3.isNotEmpty()) {
+                        val extraList = mutableListOf<ExtraBean.ExtraItem>()
+                        for (eachLine in entity.param3.split("\n")) {
+                            val splits = eachLine.split(" ")
+                            if (splits.size == 3) {
+                                extraList.add(ExtraBean.ExtraItem(splits[0], splits[1], splits[2]))
+                            }
+                        }
+                        entity.param3 = Gson().toJson(ExtraBean("", "", "", extraList), ExtraBean::class.java)
                     }
-                    entity.type = entity.type % 10
-                    AnywhereApplication.sRepository.update(entity)
+                } else if (entity.type == AnywhereType.Card.QR_CODE) {
+                    try {
+                        entity.id.toLong()
+                    } catch (e: NumberFormatException) {
+                        entity.id = System.currentTimeMillis().toString()
+                    }
+                }
+
+                AnywhereApplication.sRepository.update(entity)
+                if (AppUtils.atLeastNMR1()) {
                     ShortcutsUtils.updateShortcut(entity)
                 }
-                GlobalValues.shortcutsList = shortcutsList
             }
+            GlobalValues.shortcutsList = shortcutsList
         }
     }
 

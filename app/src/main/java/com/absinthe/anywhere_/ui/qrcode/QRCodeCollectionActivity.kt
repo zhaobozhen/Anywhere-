@@ -79,7 +79,7 @@ class QRCodeCollectionActivity : BaseActivity() {
         }
 
         mAdapter.setOnItemClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int -> mAdapter.clickItem(view, position) }
-        mAdapter.setOnItemLongClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int -> mAdapter.longClickItem(view, position) }
+        mAdapter.setOnItemLongClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int -> mAdapter.longClickItem(view, position, isEditMode = false) }
 
         lifecycleScope.launch(Dispatchers.Main) {
             val collection = QRCollection.Singleton.INSTANCE.instance

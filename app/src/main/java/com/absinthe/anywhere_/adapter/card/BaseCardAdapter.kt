@@ -45,6 +45,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -147,11 +148,14 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                                         }
                                     }
                                 })
+                        itemView.cardBackground.setImageDrawable(null)
                     } else {
                         (context as BaseActivity).lifecycleScope.launch(Dispatchers.IO) {
                             UxUtils.createLinearGradientBitmap(context as BaseActivity, itemView.cardBackground, item.color)
                         }
                     }
+                } else {
+                    itemView.cardBackground.setImageDrawable(null)
                 }
             }
         }
@@ -207,7 +211,12 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
     override fun onSwiped(position: Int) {
     }
 
-    override fun getItemId(position: Int): Long = data[position].id.toLong()
+    override fun getItemId(position: Int): Long = try {
+        data[position].id.toLong()
+    } catch (e: NumberFormatException) {
+        AnywhereApplication.sRepository.delete(data[position])
+        0
+    }
 
     fun clickItem(v: View, position: Int) {
         try {
@@ -240,7 +249,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         }
     }
 
-    fun longClickItem(v: View, position: Int): Boolean {
+    fun longClickItem(v: View, position: Int, isEditMode: Boolean = true): Boolean {
         try {
             val item = getItem(position)
 
@@ -252,7 +261,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                 )
                 context.startActivity(Intent(context, EditorActivity::class.java).apply {
                     putExtra(EXTRA_ENTITY, item)
-                    putExtra(EXTRA_EDIT_MODE, true)
+                    putExtra(EXTRA_EDIT_MODE, isEditMode)
                 }, options.toBundle())
                 v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             }

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.absinthe.anywhere_.adapter.SpacesItemDecoration
 import com.absinthe.anywhere_.adapter.card.AdvancedCardListAdapter
+import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class AdvancedCardSelectDialogBuilder(context: Context) : ViewBuilder(context) {
@@ -22,7 +23,7 @@ class AdvancedCardSelectDialogBuilder(context: Context) : ViewBuilder(context) {
         }
         rvList = RecyclerView(context).apply {
             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = WrapContentStaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
             overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             adapter = this@AdvancedCardSelectDialogBuilder.adapter
             addItemDecoration(SpacesItemDecoration(5))

@@ -329,13 +329,23 @@ object UxUtils {
     /**
      * Create a linear gradient bitmap picture
      *
+     * @param activity activity
      * @param view      target to set background
      * @param darkColor primary color
-     * @param color     secondary color
      */
     suspend fun createLinearGradientBitmap(activity: BaseActivity, view: ImageView, darkColor: Int) {
-        while (view.width <= 0 || view.height <= 0) {
-            delay(100)
+        var w = view.width
+        var h = view.height
+
+        var count = 0
+        while (true) {
+            delay(50)
+            if (view.width > 0 && view.height > 0 && w == view.width && h == view.height) {
+                break
+            } else {
+                w = view.width
+                h = view.height
+            }
         }
 
         val bgBitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
@@ -354,7 +364,6 @@ object UxUtils {
         withContext(Dispatchers.Main) {
             Glide.with(activity)
                     .load(bgBitmap)
-                    .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(view)
         }
