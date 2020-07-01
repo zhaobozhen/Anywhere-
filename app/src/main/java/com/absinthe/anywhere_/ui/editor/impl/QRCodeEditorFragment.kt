@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorQrCodeBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -42,6 +43,7 @@ class QRCodeEditorFragment : BaseEditorFragment() {
             param1 = item.param1
             param2 = item.id
             description = binding.tietDescription.text.toString()
+            type = AnywhereType.Card.QR_CODE
         }
 
         if (isEditMode && ae == item) return true

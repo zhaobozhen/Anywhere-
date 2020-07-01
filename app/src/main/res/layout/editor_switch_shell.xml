@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_red_dot"
+        android:drawablePadding="3dp"
         android:gravity="center"
         android:text="@string/bsd_switch_shell_status_on"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +21,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
         android:drawableStart="@drawable/ic_green_dot"
+        android:drawablePadding="3dp"
         android:gravity="center"
         android:text="@string/bsd_switch_shell_status_off"
         app:layout_constraintStart_toEndOf="@id/tv_indicator_red"
-        android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout

@@ -16,6 +16,8 @@ import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -78,17 +80,23 @@ class EditorActivity : BaseActivity() {
         super.onStart()
 
         if (!hasInit) {
-            binding.tvOpenUrl.apply {
-                text = HtmlCompat.fromHtml(
-                        String.format(getString(R.string.bsd_open_url),
-                                entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)),
-                        HtmlCompat.FROM_HTML_MODE_LEGACY)
-                setOnLongClickListener {
-                    ClipboardUtil.put(this@EditorActivity, "anywhere://open?sid=${entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)}")
-                    ToastUtil.makeText(R.string.toast_copied)
-                    true
+            if (isEditMode) {
+                binding.tvOpenUrl.apply {
+                    isVisible = true
+                    text = HtmlCompat.fromHtml(
+                            String.format(getString(R.string.bsd_open_url),
+                                    entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)),
+                            HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    setOnLongClickListener {
+                        ClipboardUtil.put(this@EditorActivity, "anywhere://open?sid=${entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)}")
+                        ToastUtil.makeText(R.string.toast_copied)
+                        true
+                    }
                 }
+            } else {
+                binding.tvOpenUrl.isGone = true
             }
+
             fragment = when (entity!!.type) {
                 AnywhereType.Card.URL_SCHEME -> SchemeEditorFragment()
                 AnywhereType.Card.ACTIVITY -> AnywhereEditorFragment()
