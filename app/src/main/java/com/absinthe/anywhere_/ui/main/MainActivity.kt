@@ -30,6 +30,7 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
+import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.adapter.page.PageListAdapter
 import com.absinthe.anywhere_.adapter.page.PageTitleNode
 import com.absinthe.anywhere_.adapter.page.PageTitleProvider
@@ -380,6 +381,7 @@ class MainActivity : BaseActivity() {
 
         mDrawerRecyclerView.apply {
             this.adapter = adapter
+            layoutManager = WrapContentLinearLayoutManager(this@MainActivity)
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
         val ibAdd: ImageButton = drawer.findViewById(R.id.ib_add)

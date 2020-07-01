@@ -38,6 +38,7 @@ import com.absinthe.anywhere_.view.card.NormalItemView
 import com.absinthe.anywhere_.view.card.StreamItemView
 import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -158,10 +159,12 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
         if (item.iconUri.isEmpty()) {
             Glide.with(context)
                     .load(UxUtils.getAppIcon(context, item))
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(itemView.icon)
         } else {
             Glide.with(context)
                     .load(item.iconUri)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(itemView.icon)
         }
 

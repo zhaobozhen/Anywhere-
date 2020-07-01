@@ -24,7 +24,7 @@ class TileThreeService : TileService() {
     }
 
     override fun onClick() {
-        val id = SPUtils.getString(this, Const.PREF_TILE_ONE)
+        val id = SPUtils.getString(this, Const.PREF_TILE_THREE)
         val intent = Intent(this, ShortcutsActivity::class.java).apply {
             action = ShortcutsActivity.ACTION_START_ENTITY
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

@@ -26,8 +26,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
-            android:nextFocusForward="@id/tiet_package_name"
-            android:singleLine="true" />
+            android:nextFocusForward="@id/tiet_package_name" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,8 +47,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
-            android:nextFocusForward="@id/tiet_class_name"
-            android:singleLine="true" />
+            android:nextFocusForward="@id/tiet_class_name" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,8 +68,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
-            android:nextFocusForward="@id/tiet_description"
-            android:singleLine="true" />
+            android:nextFocusForward="@id/tiet_description" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,8 +89,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
-            android:nextFocusForward="@id/tiet_intent_action"
-            android:singleLine="true" />
+            android:nextFocusForward="@id/tiet_intent_action" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

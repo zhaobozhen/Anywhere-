@@ -45,8 +45,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
-            android:nextFocusForward="@id/tiet_switch_on"
-            android:singleLine="true" />
+            android:nextFocusForward="@id/tiet_switch_on" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,8 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:singleLine="true" />
+            android:importantForAutofill="no" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
