@@ -1,10 +1,11 @@
 package com.absinthe.anywhere_.ui.qrcode
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.SpacesItemDecoration
@@ -49,6 +50,11 @@ class QRCodeCollectionActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        setRecyclerViewLayoutManager(newConfig)
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
@@ -71,7 +77,7 @@ class QRCodeCollectionActivity : BaseActivity() {
         binding.apply {
             recyclerView.apply {
                 adapter = mAdapter
-                layoutManager = WrapContentStaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+                setRecyclerViewLayoutManager(resources.configuration)
                 addItemDecoration(SpacesItemDecoration(resources.getDimension(R.dimen.cardview_item_margin).toInt()))
                 setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + StatusBarUtil.getNavBarHeight())
             }
@@ -89,6 +95,14 @@ class QRCodeCollectionActivity : BaseActivity() {
                 isRefreshing = false
                 isEnabled = false
             }
+        }
+    }
+
+    private fun setRecyclerViewLayoutManager(configuration: Configuration) {
+        binding.recyclerView.layoutManager = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            WrapContentStaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
+        } else {
+            WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
     }
 }

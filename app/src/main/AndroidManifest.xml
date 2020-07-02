@@ -36,38 +36,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <!-- Start from URL Scheme -->
-                <!-- Required -->
-                <action android:name="android.intent.action.VIEW" />
-                <!-- Start from a browser -->
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Implicit intent -->
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- Protocol -->
-                <data
-                    android:host="url"
-                    android:scheme="anywhere" />
-            </intent-filter>
-            <intent-filter> <!-- Start from URL Scheme -->
-                <!-- Required -->
-                <action android:name="android.intent.action.VIEW" />
-                <!-- Start from a browser -->
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Implicit intent -->
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- Protocol -->
-                <data
-                    android:host="share"
-                    android:scheme="anywhere" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"
@@ -238,6 +206,7 @@
         </activity>
         <activity
             android:name=".ui.qrcode.QRCodeCollectionActivity"
+            android:configChanges="orientation"
             android:label="@string/btn_qr_code_collection" />
         <activity
             android:name=".ui.settings.LabActivity"
@@ -370,7 +339,7 @@
 
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.2" />
+            android:value="2.4" />
     </application>
 
 </manifest>
