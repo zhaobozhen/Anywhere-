@@ -350,9 +350,7 @@ object AppUtils {
                 } else {
                     item.param2
                 }
-                if (qrId != null) {
-                    QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)?.launch()
-                }
+                QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)?.launch()
                 listener?.onOpened()
             }
             AnywhereType.Card.IMAGE -> {

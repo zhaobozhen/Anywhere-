@@ -79,7 +79,11 @@ abstract class BaseActivity : AppCompatActivity() {
                 if (it.toString().contains("file://")) {
                     ToastUtil.makeText(R.string.toast_file_uri_exposed)
                 } else {
-                    AppUtils.takePersistableUriPermission(this, it, data)
+                    try {
+                        AppUtils.takePersistableUriPermission(this, it, data)
+                    } catch (e: RuntimeException) {
+                        ToastUtil.makeText(R.string.toast_runtime_error)
+                    }
                 }
             }
         }

@@ -18,6 +18,7 @@ import com.absinthe.anywhere_.utils.StorageUtils.isExternalStorageWritable
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 const val BACKUP_TIP_VERSION = "2.0.0"
@@ -107,8 +108,14 @@ class BackupFragment : PreferenceFragmentCompat(),
                 return true
             }
             Const.PREF_WEBDAV_BACKUP -> {
-                lifecycleScope.launch {
-                    StorageUtils.webdavBackup()
+                if (GlobalValues.webdavHost.isEmpty() ||
+                        GlobalValues.webdavUsername.isEmpty() ||
+                        GlobalValues.webdavPassword.isEmpty()) {
+                    Snackbar.make(listView, R.string.toast_check_webdav_configuration, Snackbar.LENGTH_LONG).show()
+                } else {
+                    lifecycleScope.launch {
+                        StorageUtils.webdavBackup()
+                    }
                 }
                 return true
             }
@@ -116,9 +123,10 @@ class BackupFragment : PreferenceFragmentCompat(),
                 if (GlobalValues.webdavHost.isEmpty() ||
                         GlobalValues.webdavUsername.isEmpty() ||
                         GlobalValues.webdavPassword.isEmpty()) {
-                    return true
+                    Snackbar.make(listView, R.string.toast_check_webdav_configuration, Snackbar.LENGTH_LONG).show()
+                } else {
+                    DialogManager.showWebdavRestoreDialog(requireActivity() as BaseActivity)
                 }
-                DialogManager.showWebdavRestoreDialog(requireActivity() as BaseActivity)
                 return true
             }
         }

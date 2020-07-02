@@ -257,6 +257,7 @@
     <string name="toast_this_app_not_dpm">Not set as a Device Policy Manager</string>
     <string name="toast_works_on_root_or_shizuku">Collector only works on root/Shizuku mode</string>
     <string name="toast_json_error">JSON data error</string>
+    <string name="toast_check_webdav_configuration">Please Check your WebDAV configuration</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>

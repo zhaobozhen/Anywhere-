@@ -147,12 +147,6 @@ object StorageUtils {
     }
 
     suspend fun webdavBackup() {
-        if (GlobalValues.webdavHost.isEmpty() ||
-                GlobalValues.webdavUsername.isEmpty() ||
-                GlobalValues.webdavPassword.isEmpty()) {
-            return
-        }
-
         withContext(Dispatchers.IO) {
             val sardine = OkHttpSardine()
             sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)

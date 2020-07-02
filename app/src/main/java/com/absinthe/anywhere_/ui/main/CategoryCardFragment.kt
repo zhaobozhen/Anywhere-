@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -24,7 +23,6 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils.updateWidget
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager.topActivity
 import com.absinthe.anywhere_.utils.manager.DialogManager
-import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.google.android.material.card.MaterialCardView
 import java.lang.ref.WeakReference
 
@@ -33,7 +31,6 @@ const val BUNDLE_CATEGORY = "CATEGORY"
 class CategoryCardFragment : Fragment() {
 
     private val category by lazy { arguments?.getString(BUNDLE_CATEGORY) ?: GlobalValues.category }
-    private val viewModel by activityViewModels<AnywhereViewModel>()
     private lateinit var decoration: SpacesItemDecoration
 
     private lateinit var binding: FragmentCategoryCardBinding

@@ -165,16 +165,19 @@ public class AnywhereEntity implements Parcelable {
         return mParam1;
     }
 
+    @NonNull
     public String getParam2() {
-        return mParam2;
+        return mParam2 != null ? mParam2 : "";
     }
 
+    @NonNull
     public String getParam3() {
-        return mParam3;
+        return mParam3 != null ? mParam3 : "";
     }
 
+    @NonNull
     public String getDescription() {
-        return mDescription;
+        return mDescription != null ? mDescription : "";
     }
 
     @NonNull
@@ -236,6 +239,7 @@ public class AnywhereEntity implements Parcelable {
         this.mColor = mColor;
     }
 
+    @NonNull
     public String getIconUri() {
         return mIconUri == null ? "" : mIconUri;
     }

@@ -362,4 +362,5 @@
     <string name="settings_backup_tip2"><![CDATA[<b>图片卡片</b> 和 <b>文件卡片</b> 不会被备份。]]></string>
     <string name="settings_transparent_icon_summary">用于在某些系统上防止创建桌面快捷方式时生成应用角标</string>
     <string name="settings_transparent_icon_title">透明图标</string>
+    <string name="toast_check_webdav_configuration">请检查你的 WebDAV 配置项</string>
 </resources>
