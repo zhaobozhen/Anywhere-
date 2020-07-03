@@ -2,11 +2,11 @@ package com.absinthe.anywhere_.ui.list
 
 import android.animation.LayoutTransition
 import android.app.SearchManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.widget.LinearLayout
@@ -26,13 +26,11 @@ import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
-import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.StatusBarUtil
-import com.blankj.utilcode.util.Utils
+import com.catchingnow.icebox.sdk_client.IceBox
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
@@ -105,26 +103,58 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 //Get all activity classes in the AndroidManifest.xml
                 val packageInfo = packageManager.getPackageInfo(pkgName, PackageManager.GET_ACTIVITIES)
 
-                packageInfo.activities?.let { acivities ->
-                    Timber.d("Found %d activity in the AndroidManifest.xml", acivities.size)
+                val isFrozen = try {
+                    IceBox.getAppEnabledSetting(this@AppDetailActivity, pkgName) != 0 //0 means available
+                } catch (e: PackageManager.NameNotFoundException) {
+                    false
+                }
 
-                    for (ai in acivities) {
-                        val bean = AppListBean().apply {
-                            appName = if (ai.exported) {
-                                "${ai.loadLabel(packageManager)} (Exported)"
-                            } else {
-                                ai.loadLabel(packageManager).toString()
+                if (!isFrozen) {
+                    packageInfo.activities?.let { activities ->
+                        for (ai in activities) {
+                            val bean = AppListBean().apply {
+                                appName = if (ai.exported) {
+                                    isExported = true
+                                    "${ai.loadLabel(packageManager)} (Exported)"
+                                } else {
+                                    isExported = false
+                                    ai.loadLabel(packageManager).toString()
+                                }
+                                packageName = pkgName
+                                className = ai.name
+                                type = -1
                             }
-                            packageName = pkgName
-                            className = ai.name
-                            type = -1
+                            mItems.add(bean)
                         }
-                        mItems.add(bean)
-                        Timber.d(ai.name, "...OK")
+                    }
+                } else {
+                    val pmFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        PackageManager.MATCH_DISABLED_COMPONENTS
+                    } else {
+                        PackageManager.GET_DISABLED_COMPONENTS
                     }
 
-                    mItems.sortByDescending { AppUtils.isActivityExported(Utils.getApp(), ComponentName(it.packageName, it.className)) }
+                    val archivePackageInfo = packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES or pmFlag)
+
+                    archivePackageInfo?.activities?.let { activities ->
+                        for (ai in activities) {
+                            val bean = AppListBean().apply {
+                                appName = if (ai.exported) {
+                                    isExported = true
+                                    "${ai.loadLabel(packageManager)} (Exported)"
+                                } else {
+                                    isExported = false
+                                    ai.loadLabel(packageManager).toString()
+                                }
+                                packageName = pkgName
+                                className = ai.name
+                                type = -1
+                            }
+                            mItems.add(bean)
+                        }
+                    }
                 }
+                mItems.sortByDescending { it.isExported }
             } catch (exception: PackageManager.NameNotFoundException) {
                 exception.printStackTrace()
             } catch (exception: RuntimeException) {
@@ -176,4 +206,5 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
         mAdapter.setDiffNewData(filter.toMutableList())
         return false
     }
+
 }

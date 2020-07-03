@@ -53,10 +53,10 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                             || ae.type == AnywhereType.Card.IMAGE
                             || ae.type == AnywhereType.Card.SHELL) {
                         listBeans.add(AppListBean(ae.appName, ae.param2, ae.param1,
-                                ae.type, UxUtils.getAppIcon(requireContext(), ae.param2)))
+                                UxUtils.getAppIcon(requireContext(), ae.param2), ae.type))
                     } else {
                         listBeans.add(AppListBean(ae.appName, ae.param1, ae.param2,
-                                ae.type, UxUtils.getAppIcon(requireContext(), ae.param1)))
+                                UxUtils.getAppIcon(requireContext(), ae.param1), ae.type))
                     }
                 }
                 mBuilder.mAdapter.apply {

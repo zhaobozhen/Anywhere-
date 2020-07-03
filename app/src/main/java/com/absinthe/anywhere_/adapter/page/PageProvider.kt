@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager
+import com.absinthe.anywhere_.utils.AppUtils
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.chad.library.adapter.base.provider.BaseNodeProvider
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -31,6 +32,9 @@ class PageProvider : BaseNodeProvider() {
             else -> {
                 recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
             }
+        }
+        adapter.setOnItemClickListener { _, _, position ->
+            AppUtils.openAnywhereEntity(context, adapter.getItem(position))
         }
         recyclerView.adapter = adapter
     }

@@ -43,6 +43,7 @@ import com.absinthe.anywhere_.utils.manager.ShadowHelper
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -337,7 +338,6 @@ object UxUtils {
         var w = view.width
         var h = view.height
 
-        var count = 0
         while (true) {
             delay(50)
             if (view.width > 0 && view.height > 0 && w == view.width && h == view.height) {
@@ -364,6 +364,7 @@ object UxUtils {
         withContext(Dispatchers.Main) {
             Glide.with(activity)
                     .load(bgBitmap)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(view)
         }
