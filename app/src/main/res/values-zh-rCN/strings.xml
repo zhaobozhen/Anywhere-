@@ -146,7 +146,7 @@
     <string name="dialog_title_choose_icon_pack">选择图标包</string>
     <string name="dialog_delete_selected_message">确定删除所选项吗?</string>
 
-    <string name="about_text">Anywhere- 是一个 App 页面的集合 App。</string>
+    <string name="about_text">Anywhere- 是一个快捷卡片的集合应用。</string>
 
     <!--  Initialize  -->
     <string name="title_select_working_mode">选择工作模式</string>
@@ -286,7 +286,7 @@
     <string name="toast_execute_shell_successful">Shell 执行成功</string>
     <string name="other_works">其他作品</string>
     <string name="communication">交流</string>
-    <string name="kage_intro">一款向其它 Android 设备投射多媒体文件的 App</string>
+    <string name="kage_intro">一款向其它 Android 设备投射多媒体文件的應用</string>
     <string name="notification_logcat_title">Logcat 已开始记录</string>
     <string name="notification_logcat_content">点按停止记录</string>
     <string name="btn_send">发送</string>
@@ -319,7 +319,7 @@
     <string name="bsd_text_input_layout_switch_off_label">关指令</string>
     <string name="bsd_text_input_layout_switch_on_helper_text">在开状态时执行以上 Shell</string>
     <string name="bsd_text_input_layout_switch_off_helper_text">在关状态时执行以上 Shell</string>
-    <string name="lc_intro">这是一款查看设备中 App 使用的 lib 架构的 App</string>
+    <string name="lc_intro">一款查看设备中 App 使用的 lib 架构的应用</string>
     <string name="toast_dsm_not_support">您的设备可能不支持使用此方式</string>
     <string name="defrost_mode_dpm_desc">激活 Anywhere- 为设备管理员以获得解冻 App 的能力</string>
     <string name="toast_runtime_error">运行时错误</string>

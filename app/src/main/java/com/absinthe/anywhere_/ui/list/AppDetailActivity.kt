@@ -182,7 +182,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
-        searchView.findViewById<LinearLayout>(R.id.search_bar)?.layoutTransition = LayoutTransition()
+        searchView.findViewById<LinearLayout>(androidx.appcompat.R.id.search_bar)?.layoutTransition = LayoutTransition()
 
         searchView.apply {
             isSubmitButtonEnabled = true // Display "Start search" button

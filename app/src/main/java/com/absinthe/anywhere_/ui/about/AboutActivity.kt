@@ -1,12 +1,16 @@
 package com.absinthe.anywhere_.ui.about
 
 import android.content.ActivityNotFoundException
+import android.graphics.BitmapFactory
+import android.graphics.drawable.ColorDrawable
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
@@ -21,7 +25,9 @@ import com.drakeet.about.extension.RecommendationLoaderDelegate
 import com.drakeet.about.extension.provided.GsonJsonConverter
 import com.drakeet.about.provided.GlideImageLoader
 import com.google.android.material.appbar.AppBarLayout
+import io.michaelrocks.paranoid.Obfuscate
 
+@Obfuscate
 class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
 
     private var mClickCount = 0
@@ -36,8 +42,11 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     }
 
     override fun onCreateHeader(icon: ImageView, slogan: TextView, version: TextView) {
-        icon.setImageResource(R.drawable.pic_splash)
-        icon.setOnClickListener(createDebugListener())
+        icon.apply {
+            setImageResource(R.drawable.pic_splash)
+            setOnClickListener(createDebugListener())
+        }
+
         slogan.text = getString(R.string.slogan)
         version.text = String.format("Version: %s", BuildConfig.VERSION_NAME)
     }
@@ -59,8 +68,8 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(Contributor(R.drawable.ic_green_android, getString(R.string.green_android_title), "https://green-android.org/", "https://green-android.org/"))
 
             add(Category(getString(R.string.other_works)))
-            add(Contributor(R.mipmap.kage_icon, "Kage(Beta)", getString(R.string.kage_intro), URLManager.MARKET_DETAIL_SCHEME + "com.absinthe.kage"))
             add(Contributor(R.mipmap.libchecker_icon, "LibChecker", getString(R.string.lc_intro), URLManager.MARKET_DETAIL_SCHEME + "com.absinthe.libchecker"))
+            add(Contributor(R.mipmap.kage_icon, "Kage(Beta)", getString(R.string.kage_intro), URLManager.MARKET_DETAIL_SCHEME + "com.absinthe.kage"))
 
             add(Category(getString(R.string.communication)))
             add(Card(
@@ -120,8 +129,26 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             mStartTime = mEndTime
 
             if (mClickCount == 9) {
-                GlobalValues.sIsDebugMode = true
-                showDebugDialog(this)
+                if (GlobalValues.sIsDebugMode) {
+                    try {
+                        val inputStream = assets.open("renge.webp")
+                        findViewById<ImageView>(com.drakeet.about.R.id.icon).setImageBitmap(BitmapFactory.decodeStream(inputStream))
+                        findViewById<TextView>(com.drakeet.about.R.id.slogan).text = "えい、私もよ。"
+                        setHeaderBackground(ColorDrawable(ContextCompat.getColor(this, R.color.renge)))
+                        setHeaderContentScrim(ColorDrawable(ContextCompat.getColor(this, R.color.renge)))
+                        window.statusBarColor = ContextCompat.getColor(this, R.color.renge)
+
+                        val fd = assets.openFd("renge_no_koe.aac")
+                        MediaPlayer().apply {
+                            setDataSource(fd.fileDescriptor, fd.startOffset, fd.length)
+                            prepare()
+                            start()
+                        }
+                    } catch (e: Exception) { }
+                } else {
+                    GlobalValues.sIsDebugMode = true
+                    showDebugDialog(this)
+                }
             }
         }
     }
@@ -134,7 +161,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
         StatusBarUtil.setDarkMode(this, false)
         StatusBarUtil.setSystemBarTransparent(this)
 
-        val appbar = findViewById<AppBarLayout>(R.id.header_layout)
+        val appbar = findViewById<AppBarLayout>(com.drakeet.about.R.id.header_layout)
         appbar.fitsSystemWindows = true
     }
 

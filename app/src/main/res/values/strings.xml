@@ -283,7 +283,7 @@
     <string name="dialog_shortcut_community_tips">Shortcut Community is a third-party URL Scheme service, and it has no relationship with Anywhere-.</string>
     <string name="dialog_webdav_restore_title">Choose a Backup File</string>
 
-    <string name="about_text">Anywhere- is a collection of apps.</string>
+    <string name="about_text">Anywhere- is a collection of apps pages.</string>
 
     <!--  Initialize  -->
     <string name="title_select_working_mode">Select working mode</string>
