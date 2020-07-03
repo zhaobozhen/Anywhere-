@@ -363,8 +363,12 @@ object AppUtils {
             AnywhereType.Card.ACTIVITY -> {
                 when {
                     isActivityExported(context, ComponentName(item.param1, item.param2)) -> {
-                        val extraBean: ExtraBean = Gson().fromJson(item.param3, ExtraBean::class.java)
-                        val action = if (extraBean.action.isEmpty()) {
+                        val extraBean: ExtraBean? = try {
+                            Gson().fromJson(item.param3, ExtraBean::class.java)
+                        } catch (e: JsonSyntaxException) {
+                            null
+                        }
+                        val action = if (extraBean == null || extraBean.action.isEmpty()) {
                             Intent.ACTION_VIEW
                         } else {
                             extraBean.action
@@ -373,18 +377,20 @@ object AppUtils {
                             component = ComponentName(item.param1, item.param2)
                             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         }
-                        if (extraBean.data.isNotEmpty()) {
-                            intent.data = extraBean.data.toUri()
-                        }
+                        extraBean?.let {
+                            if (it.data.isNotEmpty()) {
+                                intent.data = it.data.toUri()
+                            }
 
-                        for (extra in extraBean.extras) {
-                            when (extra.type) {
-                                TYPE_STRING -> intent.putExtra(extra.key, extra.value)
-                                TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
-                                TYPE_INT -> intent.putExtra(extra.key, extra.value.toInt())
-                                TYPE_LONG -> intent.putExtra(extra.key, extra.value.toLong())
-                                TYPE_FLOAT -> intent.putExtra(extra.key, extra.value.toFloat())
-                                TYPE_URI -> intent.putExtra(extra.key, extra.value.toUri())
+                            for (extra in it.extras) {
+                                when (extra.type) {
+                                    TYPE_STRING -> intent.putExtra(extra.key, extra.value)
+                                    TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
+                                    TYPE_INT -> intent.putExtra(extra.key, extra.value.toInt())
+                                    TYPE_LONG -> intent.putExtra(extra.key, extra.value.toLong())
+                                    TYPE_FLOAT -> intent.putExtra(extra.key, extra.value.toFloat())
+                                    TYPE_URI -> intent.putExtra(extra.key, extra.value.toUri())
+                                }
                             }
                         }
 
