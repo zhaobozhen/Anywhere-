@@ -1,46 +1,36 @@
 package com.absinthe.anywhere_.utils
 
 import android.appwidget.AppWidgetManager
-import android.content.*
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.UriPermission
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import android.os.FileUriExposedException
 import android.os.Parcelable
 import android.os.Process
 import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.model.*
+import com.absinthe.anywhere_.model.SuProcess
 import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider
-import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment
-import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
-import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
-import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.LogcatActivity
-import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
-import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
 import java.io.File
 import java.util.*
 
@@ -339,182 +329,6 @@ object AppUtils {
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             false
-        }
-    }
-
-    fun openAnywhereEntity(context: Context, item: AnywhereEntity, listener: Opener.OnOpenListener? = null) {
-        when (item.type) {
-            AnywhereType.Card.QR_CODE -> {
-                val qrId = if (context is QRCodeCollectionActivity) {
-                    item.id
-                } else {
-                    item.param2
-                }
-                QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)?.launch()
-                listener?.onOpened()
-            }
-            AnywhereType.Card.IMAGE -> {
-                DialogManager.showImageDialog((context as AppCompatActivity), item.param1, object : AnywhereDialogFragment.OnDismissListener {
-                    override fun onDismiss() {
-                        listener?.onOpened()
-                    }
-                })
-            }
-            AnywhereType.Card.ACTIVITY -> {
-                when {
-                    isActivityExported(context, ComponentName(item.param1, item.param2)) -> {
-                        val extraBean: ExtraBean? = try {
-                            Gson().fromJson(item.param3, ExtraBean::class.java)
-                        } catch (e: JsonSyntaxException) {
-                            null
-                        }
-                        val action = if (extraBean == null || extraBean.action.isEmpty()) {
-                            Intent.ACTION_VIEW
-                        } else {
-                            extraBean.action
-                        }
-                        val intent = Intent(action).apply {
-                            component = ComponentName(item.param1, item.param2)
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        }
-                        extraBean?.let {
-                            if (it.data.isNotEmpty()) {
-                                intent.data = it.data.toUri()
-                            }
-
-                            for (extra in it.extras) {
-                                when (extra.type) {
-                                    TYPE_STRING -> intent.putExtra(extra.key, extra.value)
-                                    TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
-                                    TYPE_INT -> intent.putExtra(extra.key, extra.value.toInt())
-                                    TYPE_LONG -> intent.putExtra(extra.key, extra.value.toLong())
-                                    TYPE_FLOAT -> intent.putExtra(extra.key, extra.value.toFloat())
-                                    TYPE_URI -> intent.putExtra(extra.key, extra.value.toUri())
-                                }
-                            }
-                        }
-
-                        context.startActivity(intent)
-                        listener?.onOpened()
-                    }
-                    else -> {
-                        Opener.with(context)
-                                .setOpenedListener { listener?.onOpened() }
-                                .load(item)
-                                .open()
-                    }
-                }
-            }
-            AnywhereType.Card.URL_SCHEME -> {
-                if (item.param3.isNotEmpty()) {
-                    DialogManager.showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : DynamicParamsDialogFragment.OnParamsInputListener {
-                        override fun onFinish(text: String?) {
-                            try {
-                                URLSchemeHandler.parse(item.param1 + text, context)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                if (e is ActivityNotFoundException) {
-                                    ToastUtil.makeText(R.string.toast_no_react_url)
-                                } else if (atLeastN()) {
-                                    if (e is FileUriExposedException) {
-                                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                                    }
-                                }
-                            }
-                            listener?.onOpened()
-                        }
-
-                        override fun onCancel() {
-                            listener?.onOpened()
-                        }
-                    })
-                } else {
-                    try {
-                        URLSchemeHandler.parse(item.param1, context)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        if (e is ActivityNotFoundException) {
-                            ToastUtil.makeText(R.string.toast_no_react_url)
-                        } else if (atLeastN()) {
-                            if (e is FileUriExposedException) {
-                                ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                            }
-                        }
-                    }
-                    listener?.onOpened()
-                }
-            }
-            AnywhereType.Card.SHELL -> {
-                val result = CommandUtils.execAdbCmd(item.param1)
-                DialogManager.showShellResultDialog(context, result,
-                        DialogInterface.OnClickListener { _, _ -> listener?.onOpened() },
-                        DialogInterface.OnCancelListener { listener?.onOpened() })
-            }
-            AnywhereType.Card.SWITCH_SHELL -> {
-                Opener.with(context)
-                        .load(item)
-                        .setOpenedListener { listener?.onOpened() }
-                        .open()
-                val ae = AnywhereEntity(item).apply {
-                    param3 = if (param3 == SWITCH_OFF) SWITCH_ON else SWITCH_OFF
-                }
-                AnywhereApplication.sRepository.update(ae)
-
-                if (atLeastNMR1()) {
-                    ShortcutsUtils.updateShortcut(ae)
-                }
-            }
-            AnywhereType.Card.FILE -> {
-                val intent = Intent().apply {
-                    action = Intent.ACTION_VIEW
-                    data = item.param1.toUri()
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-
-                try {
-                    context.startActivity(intent)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    ToastUtil.makeText(R.string.toast_no_react_url)
-                }
-                listener?.onOpened()
-            }
-            AnywhereType.Card.BROADCAST -> {
-                val extraBean: ExtraBean? = try {
-                    Gson().fromJson(item.param1, ExtraBean::class.java)
-                } catch (e: JsonSyntaxException) {
-                    null
-                }
-                extraBean?.let {
-                    val action = if (it.action.isNotEmpty()) {
-                        it.action
-                    } else {
-                        Const.DEFAULT_BR_ACTION
-                    }
-                    val intent = Intent(action).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }
-                    if (extraBean.data.isNotEmpty()) {
-                        intent.data = extraBean.data.toUri()
-                    }
-
-                    for (extra in extraBean.extras) {
-                        when (extra.type) {
-                            TYPE_STRING -> intent.putExtra(extra.key, extra.value)
-                            TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
-                            TYPE_INT -> intent.putExtra(extra.key, extra.value.toInt())
-                            TYPE_LONG -> intent.putExtra(extra.key, extra.value.toLong())
-                            TYPE_FLOAT -> intent.putExtra(extra.key, extra.value.toFloat())
-                            TYPE_URI -> intent.putExtra(extra.key, extra.value.toUri())
-                        }
-                    }
-
-                    context.sendBroadcast(intent)
-                } ?: let {
-                    ToastUtil.makeText(R.string.toast_json_error)
-                }
-                listener?.onOpened()
-            }
         }
     }
 

@@ -7,8 +7,8 @@ import android.widget.LinearLayout
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.OverlayWindowManager
 import com.absinthe.anywhere_.services.overlay.OverlayService
-import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.UxUtils
+import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder
 import timber.log.Timber
@@ -47,7 +47,7 @@ class OverlayView(context: Context, private val service: OverlayService) : Linea
         mBuilder.ivIcon.setOnClickListener {
             //Fix crash: The style on this component requires your app theme to be Theme.AppCompat
             ActivityStackManager.topActivity?.let {
-                AppUtils.openAnywhereEntity(it, entity)
+                Opener.with(it).load(entity).open()
             }
         }
         mBuilder.ivIcon.setOnTouchListener(object : OnTouchListener {

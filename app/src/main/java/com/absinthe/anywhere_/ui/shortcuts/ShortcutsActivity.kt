@@ -15,7 +15,6 @@ import com.absinthe.anywhere_.constants.EventTag
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.CollectorService
-import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
@@ -74,7 +73,14 @@ class ShortcutsActivity : BaseActivity() {
                             list.find { findItem ->
                                 findItem.id == id
                             }?.apply {
-                                AppUtils.openAnywhereEntity(this@ShortcutsActivity, this, Opener.OnOpenListener { finish() })
+                                Opener.with(this@ShortcutsActivity)
+                                        .load(this)
+                                        .setOpenedListener(object : Opener.OnOpenListener {
+                                            override fun onOpened() {
+                                                finish()
+                                            }
+                                        })
+                                        .open()
                             }
                         })
                     }
@@ -85,7 +91,14 @@ class ShortcutsActivity : BaseActivity() {
                             list.find { findItem ->
                                 findItem.id == id
                             }?.apply {
-                                AppUtils.openAnywhereEntity(this@ShortcutsActivity, this, Opener.OnOpenListener { finish() })
+                                Opener.with(this@ShortcutsActivity)
+                                        .load(this)
+                                        .setOpenedListener(object : Opener.OnOpenListener {
+                                            override fun onOpened() {
+                                                finish()
+                                            }
+                                        })
+                                        .open()
                             }
                         })
                     } ?: finish()
@@ -145,7 +158,14 @@ class ShortcutsActivity : BaseActivity() {
                                 list.find { findItem ->
                                     findItem.id.endsWith(sid)
                                 }?.apply {
-                                    AppUtils.openAnywhereEntity(this@ShortcutsActivity, this, Opener.OnOpenListener { finish() })
+                                    Opener.with(this@ShortcutsActivity)
+                                            .load(this)
+                                            .setOpenedListener(object : Opener.OnOpenListener {
+                                                override fun onOpened() {
+                                                    finish()
+                                                }
+                                            })
+                                            .open()
                                 }
                             })
                         } ?: finish()

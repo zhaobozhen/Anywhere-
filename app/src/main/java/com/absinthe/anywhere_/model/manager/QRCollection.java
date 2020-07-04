@@ -161,7 +161,7 @@ public class QRCollection {
         String clsName = ".plugin.offline.ui.WalletOfflineCoinPurseUI";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatPay = new QREntity(() -> Opener.with(mContext).load(cmd).open());
+        wechatPay = new QREntity(() -> Opener.INSTANCE.with(mContext).load(cmd).open());
 
         wechatPay.setPkgName(pkgName);
         wechatPay.setClsName(clsName);
@@ -246,7 +246,7 @@ public class QRCollection {
         String clsName = ".plugin.collect.ui.CollectMainUI";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName);
 
-        wechatCollect = new QREntity(() -> Opener.with(mContext).load(cmd).open());
+        wechatCollect = new QREntity(() -> Opener.INSTANCE.with(mContext).load(cmd).open());
 
         wechatCollect.setPkgName(pkgName);
         wechatCollect.setClsName(clsName);
@@ -456,7 +456,7 @@ public class QRCollection {
         String clsName = "com.tencent.biz.qrcode.activity.ScannerActivity";
         String cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, clsName);
 
-        qqScan = new QREntity(() -> Opener.with(mContext).load(cmd).open());
+        qqScan = new QREntity(() -> Opener.INSTANCE.with(mContext).load(cmd).open());
 
         qqScan.setPkgName(pkgName);
         qqScan.setClsName(clsName);

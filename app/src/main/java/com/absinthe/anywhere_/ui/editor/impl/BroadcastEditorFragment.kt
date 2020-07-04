@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
+import com.absinthe.anywhere_.utils.handler.Opener
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 
@@ -77,7 +78,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
             )
             param1 = Gson().toJson(extraBean)
         }
-        AppUtils.openAnywhereEntity(requireContext(), ae)
+        Opener.with(requireContext()).load(ae).open()
     }
 
     override fun doneEdit(): Boolean {

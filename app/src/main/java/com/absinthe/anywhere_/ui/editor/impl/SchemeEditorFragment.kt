@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
+import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
@@ -62,7 +63,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
             param1 = binding.tietUrlScheme.text.toString()
             param3 = binding.tietDynamicParams.text.toString()
         }
-        AppUtils.openAnywhereEntity(requireContext(), ae)
+        Opener.with(requireContext()).load(ae).open()
     }
 
     override fun doneEdit(): Boolean {

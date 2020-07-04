@@ -201,7 +201,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String): Boolean {
         val filter = mItems.filter {
-            it.appName.contains(newText, ignoreCase = false) || it.className.contains(newText, ignoreCase = false)
+            it.appName.contains(newText, ignoreCase = true) || it.className.contains(newText, ignoreCase = true)
         }
         mAdapter.setDiffNewData(filter.toMutableList())
         return false

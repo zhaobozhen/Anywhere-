@@ -11,6 +11,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
+import com.absinthe.anywhere_.utils.handler.Opener
 
 class ShellEditorFragment :BaseEditorFragment() {
 
@@ -36,7 +37,7 @@ class ShellEditorFragment :BaseEditorFragment() {
         val ae = AnywhereEntity(item).apply {
             param1 = binding.etShellContent.text.toString()
         }
-        AppUtils.openAnywhereEntity(requireContext(), ae)
+        Opener.with(requireContext()).load(ae).open()
     }
 
     override fun doneEdit(): Boolean {

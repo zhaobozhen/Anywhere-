@@ -30,9 +30,9 @@ import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
 import com.absinthe.anywhere_.ui.main.CategoryCardFragment
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
-import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
 import com.absinthe.anywhere_.utils.UxUtils
+import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.view.card.CardItemView
 import com.absinthe.anywhere_.view.card.NormalItemView
 import com.absinthe.anywhere_.view.card.StreamItemView
@@ -45,7 +45,6 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.NumberFormatException
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -239,7 +238,7 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                 if (isAppFrozen(context, item)) {
                     v.postDelayed({ notifyItemChanged(position) }, 500)
                 }
-                AppUtils.openAnywhereEntity(context, item)
+                Opener.with(context).load(item).open()
             } else if (mode == ADAPTER_MODE_SELECT) {
                 if (mSelectedIndex.contains(position)) {
                     (v as MaterialCardView).apply {
