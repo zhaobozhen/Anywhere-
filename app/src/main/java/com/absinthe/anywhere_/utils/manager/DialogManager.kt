@@ -267,6 +267,7 @@ object DialogManager {
     fun showShellResultDialog(context: Context, result: String?, posListener: DialogInterface.OnClickListener? = null, cancelListener: DialogInterface.OnCancelListener? = null) {
         if (!GlobalValues.isShowShellResult) {
             ToastUtil.makeText(R.string.toast_execute_shell_successful)
+            posListener?.onClick(null, 0)
             return
         }
 

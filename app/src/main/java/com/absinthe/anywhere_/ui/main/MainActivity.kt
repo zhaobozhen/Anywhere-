@@ -288,7 +288,8 @@ class MainActivity : BaseActivity() {
                     registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                         override fun onPageSelected(position: Int) {
                             super.onPageSelected(position)
-                            setsCategory(it[position].title, position)
+                            val pos = if (position >= it.size) it.size - 1 else position
+                            setsCategory(it[pos].title, pos)
                         }
                     })
 

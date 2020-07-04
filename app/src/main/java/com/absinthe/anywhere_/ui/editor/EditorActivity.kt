@@ -55,7 +55,6 @@ class EditorActivity : BaseActivity() {
     private lateinit var binding: ActivityEditorBinding
     private lateinit var bottomDrawerBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var fragment: BaseEditorFragment
-    private var hasInit = false
 
     private val entity by lazy { intent.getParcelableExtra(EXTRA_ENTITY) as AnywhereEntity? }
     private val isEditMode by lazy { intent.getBooleanExtra(EXTRA_EDIT_MODE, false) }
@@ -76,52 +75,6 @@ class EditorActivity : BaseActivity() {
         setUpBottomDrawer()
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        if (!hasInit) {
-            if (isEditMode) {
-                binding.tvOpenUrl.apply {
-                    isVisible = true
-                    text = HtmlCompat.fromHtml(
-                            String.format(getString(R.string.bsd_open_url),
-                                    entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)),
-                            HtmlCompat.FROM_HTML_MODE_LEGACY)
-                    setOnLongClickListener {
-                        ClipboardUtil.put(this@EditorActivity, "anywhere://open?sid=${entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)}")
-                        ToastUtil.makeText(R.string.toast_copied)
-                        true
-                    }
-                }
-            } else {
-                binding.tvOpenUrl.isGone = true
-            }
-
-            fragment = when (entity!!.type) {
-                AnywhereType.Card.URL_SCHEME -> SchemeEditorFragment()
-                AnywhereType.Card.ACTIVITY -> AnywhereEditorFragment()
-                AnywhereType.Card.QR_CODE -> QRCodeEditorFragment()
-                AnywhereType.Card.IMAGE -> ImageEditorFragment()
-                AnywhereType.Card.SHELL -> ShellEditorFragment()
-                AnywhereType.Card.SWITCH_SHELL -> SwitchShellEditorFragment()
-                AnywhereType.Card.FILE -> FileEditorFragment()
-                AnywhereType.Card.BROADCAST -> BroadcastEditorFragment()
-                else -> AnywhereEditorFragment()
-            }
-            fragment.apply {
-                arguments = Bundle().apply {
-                    putParcelable(EXTRA_ENTITY, entity!!)
-                    putBoolean(EXTRA_EDIT_MODE, isEditMode)
-                }
-            }
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(binding.fragmentContainerView.id, fragment)
-                    .commitNow()
-            hasInit = true
-        }
-    }
-
     override fun onBackPressed() {
         if (bottomDrawerBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
             bottomDrawerBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -139,6 +92,48 @@ class EditorActivity : BaseActivity() {
             }
         }
         return true
+    }
+
+    override fun initView() {
+        super.initView()
+        if (isEditMode) {
+            binding.tvOpenUrl.apply {
+                isVisible = true
+                text = HtmlCompat.fromHtml(
+                        String.format(getString(R.string.bsd_open_url),
+                                entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)),
+                        HtmlCompat.FROM_HTML_MODE_LEGACY)
+                setOnLongClickListener {
+                    ClipboardUtil.put(this@EditorActivity, "anywhere://open?sid=${entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)}")
+                    ToastUtil.makeText(R.string.toast_copied)
+                    true
+                }
+            }
+        } else {
+            binding.tvOpenUrl.isGone = true
+        }
+
+        fragment = when (entity!!.type) {
+            AnywhereType.Card.URL_SCHEME -> SchemeEditorFragment()
+            AnywhereType.Card.ACTIVITY -> AnywhereEditorFragment()
+            AnywhereType.Card.QR_CODE -> QRCodeEditorFragment()
+            AnywhereType.Card.IMAGE -> ImageEditorFragment()
+            AnywhereType.Card.SHELL -> ShellEditorFragment()
+            AnywhereType.Card.SWITCH_SHELL -> SwitchShellEditorFragment()
+            AnywhereType.Card.FILE -> FileEditorFragment()
+            AnywhereType.Card.BROADCAST -> BroadcastEditorFragment()
+            else -> AnywhereEditorFragment()
+        }
+        fragment.apply {
+            arguments = Bundle().apply {
+                putParcelable(EXTRA_ENTITY, entity!!)
+                putBoolean(EXTRA_EDIT_MODE, isEditMode)
+            }
+        }
+        supportFragmentManager
+                .beginTransaction()
+                .replace(binding.fragmentContainerView.id, fragment)
+                .commitNow()
     }
 
     private fun initTransition() {

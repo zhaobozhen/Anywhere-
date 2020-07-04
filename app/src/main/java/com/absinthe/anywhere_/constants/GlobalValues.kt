@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.absinthe.anywhere_.utils.SPUtils
 import com.blankj.utilcode.util.Utils
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
 
@@ -21,7 +22,11 @@ object GlobalValues {
     var cardModeLiveData = MutableLiveData<Any>()
 
     var shortcutsList= listOf<String>()
-    get() = Gson().fromJson<List<String>>(mmkv.decodeString(Const.SHORTCUTS_LIST), object : TypeToken<List<String>>() {}.type)
+    get() = try {
+        Gson().fromJson<List<String>>(mmkv.decodeString(Const.SHORTCUTS_LIST), object : TypeToken<List<String>>() {}.type)
+    } catch (e: JsonSyntaxException) {
+        listOf<String>()
+    }
     set(value) {
         field = value
         mmkv.encode(Const.SHORTCUTS_LIST, Gson().toJson(value))

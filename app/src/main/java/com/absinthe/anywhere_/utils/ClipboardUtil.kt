@@ -91,7 +91,7 @@ object ClipboardUtil {
             return ""
         }
         val item = clipData.getItemAt(0) ?: return ""
-        val clipText = item.text
+        val clipText = item.text ?: ""
         return clipText.toString()
     }
 
