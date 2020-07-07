@@ -13,10 +13,11 @@ import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.model.ShizukuProcess
 import com.absinthe.anywhere_.model.SuProcess
 import com.absinthe.anywhere_.model.manager.QRCollection
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler.parse
+import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
 import com.blankj.utilcode.util.Utils
 import timber.log.Timber
+import java.net.URISyntaxException
 
 object CommandUtils {
     /**
@@ -26,17 +27,12 @@ object CommandUtils {
      */
     @JvmStatic
     fun execAdbCmd(cmd: String): String {
-        val result: String = when (workingMode) {
+        return when (workingMode) {
             Const.WORKING_MODE_SHIZUKU -> execShizukuCmd(cmd)
             Const.WORKING_MODE_ROOT -> execRootCmd(cmd)
-            Const.WORKING_MODE_URL_SCHEME -> {
-                ToastUtil.makeText(R.string.toast_change_work_mode)
-                CommandResult.RESULT_ERROR
-            }
+            Const.WORKING_MODE_URL_SCHEME -> CommandResult.RESULT_CHANGE_WORKING_MODE
             else -> CommandResult.RESULT_ERROR
         }
-        Timber.d("execAdbCmd result = %s", result)
-        return result
     }
 
     /**
@@ -44,7 +40,6 @@ object CommandUtils {
      *
      * @param cmd command
      */
-    @JvmStatic
     @SuppressLint("NewApi")
     fun execCmd(cmd: String) {
         var newCmd = cmd
@@ -53,7 +48,7 @@ object CommandUtils {
         if (newCmd.startsWith("am start -a")) {
             newCmd = newCmd.replace(Const.CMD_OPEN_URL_SCHEME, "")
             result = try {
-                parse(newCmd, Utils.getApp())
+                URLSchemeHandler.parse(Utils.getApp(), newCmd)
                 CommandResult.RESULT_SUCCESS
             } catch (e: ActivityNotFoundException) {
                 Timber.e(e)
@@ -64,6 +59,9 @@ object CommandUtils {
             } catch (e: RuntimeException) {
                 Timber.e(e)
                 CommandResult.RESULT_ERROR
+            } catch (e: URISyntaxException) {
+                Timber.e(e)
+                CommandResult.RESULT_NO_REACT_URL
             }
         } else if (newCmd.startsWith("am start -n")) {
             val pkgClsString = newCmd.replace("am start -n ", "")
@@ -107,7 +105,7 @@ object CommandUtils {
                 }
                 newCmd.contains("://") -> {
                     try {
-                        parse(newCmd, Utils.getApp())
+                        URLSchemeHandler.parse(Utils.getApp(), newCmd)
                     } catch (e: Exception) {
                         e.printStackTrace()
 
@@ -144,6 +142,7 @@ object CommandUtils {
             CommandResult.RESULT_FILE_URI_EXPOSED -> ToastUtil.makeText(R.string.toast_file_uri_exposed)
             CommandResult.RESULT_SECURITY_EXCEPTION -> ToastUtil.makeText(R.string.toast_security_exception)
             CommandResult.RESULT_ERROR -> ToastUtil.makeText(R.string.toast_runtime_error)
+            CommandResult.RESULT_CHANGE_WORKING_MODE -> ToastUtil.makeText(R.string.toast_change_work_mode)
         }
     }
 

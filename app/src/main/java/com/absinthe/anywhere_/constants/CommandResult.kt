@@ -14,6 +14,7 @@ object CommandResult {
     const val RESULT_SECURITY_EXCEPTION = "1006"
     const val RESULT_URL_SCHEME = "1007"
     const val RESULT_EMPTY = "1008"
+    const val RESULT_CHANGE_WORKING_MODE = "1009"
 
     val MAP: HashMap<String, String> = hashMapOf(
             Pair(RESULT_ERROR, "RESULT_ERROR"),

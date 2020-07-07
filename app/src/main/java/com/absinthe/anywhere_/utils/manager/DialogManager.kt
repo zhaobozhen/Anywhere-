@@ -176,7 +176,7 @@ object DialogManager {
                     } else {
                         ToastUtil.makeText(R.string.toast_not_install_shizuku)
                         try {
-                            URLSchemeHandler.parse(URLManager.SHIZUKU_MARKET_URL, context)
+                            URLSchemeHandler.parse(context, URLManager.SHIZUKU_MARKET_URL)
                         } catch (e: ActivityNotFoundException) {
                             e.printStackTrace()
                             ToastUtil.makeText(R.string.toast_no_react_url)

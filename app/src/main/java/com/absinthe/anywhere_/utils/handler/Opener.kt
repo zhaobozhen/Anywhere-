@@ -153,10 +153,34 @@ object Opener {
                                 when (extra.type) {
                                     TYPE_STRING -> intent.putExtra(extra.key, extra.value)
                                     TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
-                                    TYPE_INT -> intent.putExtra(extra.key, extra.value.toInt())
-                                    TYPE_LONG -> intent.putExtra(extra.key, extra.value.toLong())
-                                    TYPE_FLOAT -> intent.putExtra(extra.key, extra.value.toFloat())
                                     TYPE_URI -> intent.putExtra(extra.key, extra.value.toUri())
+                                    TYPE_INT -> {
+                                        try {
+                                            extra.value.toInt()
+                                        } catch (ignore: NumberFormatException) {
+                                            null
+                                        }?.let { value ->
+                                            intent.putExtra(extra.key, value)
+                                        }
+                                    }
+                                    TYPE_LONG -> {
+                                        try {
+                                            extra.value.toLong()
+                                        } catch (ignore: NumberFormatException) {
+                                            null
+                                        }?.let { value ->
+                                            intent.putExtra(extra.key, value)
+                                        }
+                                    }
+                                    TYPE_FLOAT -> {
+                                        try {
+                                            extra.value.toFloat()
+                                        } catch (ignore: NumberFormatException) {
+                                            null
+                                        }?.let { value ->
+                                            intent.putExtra(extra.key, value)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -174,7 +198,7 @@ object Opener {
                     DialogManager.showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : OnParamsInputListener {
                         override fun onFinish(text: String?) {
                             try {
-                                URLSchemeHandler.parse(item.param1 + text, context)
+                                URLSchemeHandler.parse(context, item.param1 + text)
                             } catch (e: Exception) {
                                 e.printStackTrace()
                                 if (e is ActivityNotFoundException) {
@@ -194,7 +218,7 @@ object Opener {
                     })
                 } else {
                     try {
-                        URLSchemeHandler.parse(item.param1, context)
+                        URLSchemeHandler.parse(context, item.param1)
                     } catch (e: Exception) {
                         e.printStackTrace()
                         if (e is ActivityNotFoundException) {
@@ -284,7 +308,7 @@ object Opener {
             return
         }
 
-        if (packageName == null || packageName.isEmpty()) {
+        if (packageName.isNullOrEmpty()) {
             CommandUtils.execCmd(cmd)
         } else {
             try {

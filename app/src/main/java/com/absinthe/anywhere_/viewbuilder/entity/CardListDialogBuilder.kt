@@ -6,11 +6,11 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.applist.MODE_CARD_LIST
+import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class CardListDialogBuilder(context: Context) : ViewBuilder(context) {
@@ -31,7 +31,7 @@ class CardListDialogBuilder(context: Context) : ViewBuilder(context) {
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.WRAP_CONTENT
             )
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = WrapContentLinearLayoutManager(context)
             adapter = mAdapter
             overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         }

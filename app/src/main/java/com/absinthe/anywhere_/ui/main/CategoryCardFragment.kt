@@ -21,7 +21,6 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.FragmentCategoryCardBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils.updateWidget
-import com.absinthe.anywhere_.utils.manager.ActivityStackManager.topActivity
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.google.android.material.card.MaterialCardView
 import java.lang.ref.WeakReference
@@ -52,7 +51,6 @@ class CategoryCardFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCategoryCardBinding.inflate(inflater, container, false)
-        initView()
         return binding.root
     }
 
@@ -63,6 +61,11 @@ class CategoryCardFragment : Fragment() {
             refreshRecyclerView()
         })
         AnywhereApplication.sRepository.allAnywhereEntities.observe(viewLifecycleOwner, listObserver)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
     }
 
     override fun onResume() {
@@ -209,7 +212,7 @@ class CategoryCardFragment : Fragment() {
             if (GlobalValues.isStreamCardMode) {
                 WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             } else {
-                WrapContentLinearLayoutManager(topActivity)
+                WrapContentLinearLayoutManager(requireContext())
             }
         }
     }

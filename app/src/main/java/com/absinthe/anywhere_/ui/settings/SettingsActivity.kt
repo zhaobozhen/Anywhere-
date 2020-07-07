@@ -204,7 +204,7 @@ class SettingsActivity : BaseActivity() {
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
                         try {
-                            URLSchemeHandler.parse(URLManager.BETA_DISTRIBUTE_URL, requireActivity())
+                            URLSchemeHandler.parse(requireActivity(), URLManager.BETA_DISTRIBUTE_URL)
                         } catch (e: ActivityNotFoundException) {
                             ToastUtil.makeText(R.string.toast_no_react_url)
                         }

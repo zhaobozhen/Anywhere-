@@ -109,49 +109,33 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                     false
                 }
 
-                if (!isFrozen) {
-                    packageInfo.activities?.let { activities ->
-                        for (ai in activities) {
-                            val bean = AppListBean().apply {
-                                appName = if (ai.exported) {
-                                    isExported = true
-                                    "${ai.loadLabel(packageManager)} (Exported)"
-                                } else {
-                                    isExported = false
-                                    ai.loadLabel(packageManager).toString()
-                                }
-                                packageName = pkgName
-                                className = ai.name
-                                type = -1
-                            }
-                            mItems.add(bean)
-                        }
-                    }
+                val appPackageInfo = if (!isFrozen) {
+                    packageInfo
                 } else {
                     val pmFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         PackageManager.MATCH_DISABLED_COMPONENTS
                     } else {
                         PackageManager.GET_DISABLED_COMPONENTS
                     }
+                    packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES or pmFlag)
+                }
 
-                    val archivePackageInfo = packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES or pmFlag)
-
-                    archivePackageInfo?.activities?.let { activities ->
-                        for (ai in activities) {
-                            val bean = AppListBean().apply {
-                                appName = if (ai.exported) {
-                                    isExported = true
-                                    "${ai.loadLabel(packageManager)} (Exported)"
-                                } else {
-                                    isExported = false
-                                    ai.loadLabel(packageManager).toString()
-                                }
-                                packageName = pkgName
-                                className = ai.name
-                                type = -1
+                appPackageInfo?.activities?.let { activities ->
+                    for (ai in activities) {
+                        val bean = AppListBean().apply {
+                            appName = if (ai.exported) {
+                                isExported = true
+                                "${ai.loadLabel(packageManager)} (Exported)"
+                            } else {
+                                isExported = false
+                                ai.loadLabel(packageManager).toString()
                             }
-                            mItems.add(bean)
+                            packageName = pkgName
+                            className = ai.name
+                            icon = ai.loadIcon(packageManager)
+                            type = -1
                         }
+                        mItems.add(bean)
                     }
                 }
                 mItems.sortByDescending { it.isExported }

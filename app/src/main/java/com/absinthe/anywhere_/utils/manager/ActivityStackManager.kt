@@ -6,6 +6,7 @@ import com.absinthe.anywhere_.BaseActivity
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.NoSuchElementException
 
 object ActivityStackManager {
     /***
@@ -50,11 +51,10 @@ object ActivityStackManager {
      */
     val topActivity: BaseActivity?
         get() {
-            val activity = stack.lastElement().get()
-            return if (null == activity) {
-                null
-            } else {
+            return try {
                 stack.lastElement().get()
+            } catch (e: NoSuchElementException) {
+                null
             }
         }
 

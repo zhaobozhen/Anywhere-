@@ -337,7 +337,7 @@ public class QRCollection {
 
         alipayScan = new QREntity(() -> {
             try {
-                URLSchemeHandler.INSTANCE.parse(urlScheme, mContext);
+                URLSchemeHandler.INSTANCE.parse(mContext, urlScheme);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -367,7 +367,7 @@ public class QRCollection {
 
         alipayPay = new QREntity(() -> {
             try {
-                URLSchemeHandler.INSTANCE.parse(urlScheme, mContext);
+                URLSchemeHandler.INSTANCE.parse(mContext, urlScheme);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -397,7 +397,7 @@ public class QRCollection {
 
         alipayBus = new QREntity(() -> {
             try {
-                URLSchemeHandler.INSTANCE.parse(urlScheme, mContext);
+                URLSchemeHandler.INSTANCE.parse(mContext, urlScheme);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -427,7 +427,7 @@ public class QRCollection {
 
         alipayCollect = new QREntity(() -> {
             try {
-                URLSchemeHandler.INSTANCE.parse(urlScheme, mContext);
+                URLSchemeHandler.INSTANCE.parse(mContext, urlScheme);
             } catch (Exception e) {
                 e.printStackTrace();
             }

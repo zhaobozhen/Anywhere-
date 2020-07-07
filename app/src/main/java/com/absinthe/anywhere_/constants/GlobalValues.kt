@@ -21,17 +21,18 @@ object GlobalValues {
 
     var cardModeLiveData = MutableLiveData<Any>()
 
-    var shortcutsList= listOf<String>()
-    get() = try {
-        Gson().fromJson<List<String>>(mmkv.decodeString(Const.SHORTCUTS_LIST), object : TypeToken<List<String>>() {}.type)
-    } catch (e: JsonSyntaxException) {
-        listOf<String>()
-    }
-    set(value) {
-        field = value
-        mmkv.encode(Const.SHORTCUTS_LIST, Gson().toJson(value))
-        shortcutListChanged = true
-    }
+    var shortcutsList = listOf<String>()
+        get() = try {
+            Gson().fromJson<List<String>>(mmkv.decodeString(Const.SHORTCUTS_LIST), object : TypeToken<List<String>>() {}.type)
+                    ?: listOf()
+        } catch (e: JsonSyntaxException) {
+            listOf<String>()
+        }
+        set(value) {
+            field = value
+            mmkv.encode(Const.SHORTCUTS_LIST, Gson().toJson(value))
+            shortcutListChanged = true
+        }
     var shortcutListChanged = false
 
     var isStreamCardMode
@@ -126,7 +127,8 @@ object GlobalValues {
         }
 
     var category
-        get() = mmkv.decodeString(Const.PREF_CURR_CATEGORY, AnywhereType.Category.DEFAULT_CATEGORY) ?: AnywhereType.Category.DEFAULT_CATEGORY
+        get() = mmkv.decodeString(Const.PREF_CURR_CATEGORY, AnywhereType.Category.DEFAULT_CATEGORY)
+                ?: AnywhereType.Category.DEFAULT_CATEGORY
         set(value) {
             mmkv.encode(Const.PREF_CURR_CATEGORY, value)
         }

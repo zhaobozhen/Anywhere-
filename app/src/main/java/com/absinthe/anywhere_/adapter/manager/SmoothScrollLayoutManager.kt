@@ -5,6 +5,7 @@ import android.util.DisplayMetrics
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 
 class SmoothScrollLayoutManager(context: Context?) : LinearLayoutManager(context) {
 
@@ -20,5 +21,13 @@ class SmoothScrollLayoutManager(context: Context?) : LinearLayoutManager(context
         }
 
         startSmoothScroll(smoothScroller)
+    }
+
+    override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
+        try {
+            super.onLayoutChildren(recycler, state)
+        } catch (e: IndexOutOfBoundsException) {
+            Timber.e("encounter an IOOBE in RecyclerView")
+        }
     }
 }

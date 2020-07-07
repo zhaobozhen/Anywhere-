@@ -174,7 +174,7 @@ class MainActivity : BaseActivity() {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         mToggle?.let {
             if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_LIGHT
-                    || StatusBarUtil.isDarkMode(this) && GlobalValues.backgroundUri.isEmpty()) {
+                    || (StatusBarUtil.isDarkMode(this) && GlobalValues.backgroundUri.isEmpty())) {
                 UxUtils.tintToolbarIcon(this, menu, it, Const.ACTION_BAR_TYPE_LIGHT)
             } else {
                 UxUtils.tintToolbarIcon(this, menu, it, Const.ACTION_BAR_TYPE_DARK)

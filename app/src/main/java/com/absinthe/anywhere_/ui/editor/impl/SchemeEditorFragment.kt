@@ -104,7 +104,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
 
     private fun openShortcutCommunity() {
         try {
-            URLSchemeHandler.parse(URLManager.SHORTCUT_COMMUNITY_PAGE, requireContext())
+            URLSchemeHandler.parse(requireContext(), URLManager.SHORTCUT_COMMUNITY_PAGE)
         } catch (e: Exception) {
             e.printStackTrace()
             if (e is ActivityNotFoundException) {

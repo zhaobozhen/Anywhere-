@@ -49,12 +49,12 @@ object AppUtils {
                 + "&param2=" + param2
                 + "&param3=" + param3
                 + "&type=" + AnywhereType.Card.ACTIVITY)
-        URLSchemeHandler.parse(url, context)
+        URLSchemeHandler.parse(context, url)
     }
 
     fun openNewURLScheme(context: Context) {
         val url = URLManager.ANYWHERE_SCHEME + URLManager.URL_HOST + "?param1=&type=${AnywhereType.Card.URL_SCHEME}"
-        URLSchemeHandler.parse(url, context)
+        URLSchemeHandler.parse(context, url)
     }
 
     /**

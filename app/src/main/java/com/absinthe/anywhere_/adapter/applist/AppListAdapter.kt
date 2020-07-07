@@ -1,12 +1,10 @@
 package com.absinthe.anywhere_.adapter.applist
 
-import android.content.ComponentName
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.UxUtils
-import com.blankj.utilcode.util.ActivityUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.michaelrocks.paranoid.Obfuscate
@@ -31,13 +29,10 @@ class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(
                 holder.setText(R.id.tv_pkg_name, item.packageName)
             }
             MODE_APP_DETAIL -> {
-                holder.setImageDrawable(R.id.iv_app_icon,
-                        ActivityUtils.getActivityIcon(ComponentName(item.packageName, item.className))
-                                ?: ContextCompat.getDrawable(context, R.drawable.ic_logo)
-                )
+                holder.setImageDrawable(R.id.iv_app_icon, item.icon)
                 holder.setText(R.id.tv_pkg_name, item.className)
 
-                if (item.appName.endsWith(" (Exported)")) {
+                if (item.isExported) {
                     holder.itemView.rootView.setBackgroundColor(ContextCompat.getColor(context, R.color.exported_background))
                 } else {
                     holder.itemView.rootView.setBackgroundColor(Color.TRANSPARENT)

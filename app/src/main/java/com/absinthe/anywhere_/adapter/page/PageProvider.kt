@@ -22,17 +22,13 @@ class PageProvider : BaseNodeProvider() {
         val recyclerView = helper.getView<RecyclerView>(R.id.rv_chip)
         val adapter = ChipAdapter(title)
 
-        when {
-            adapter.itemCount == 0 -> {
-                recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
-            }
-            adapter.itemCount <= 3 -> {
-                recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(adapter.itemCount, StaggeredGridLayoutManager.HORIZONTAL)
-            }
-            else -> {
-                recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
-            }
+        val spanCount = when {
+            adapter.itemCount == 0 -> 1
+            adapter.itemCount <= 3 -> adapter.itemCount
+            else -> 3
         }
+        recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL)
+
         adapter.setOnItemClickListener { _, _, position ->
             Opener.with(context).load(adapter.getItem(position)).open()
         }

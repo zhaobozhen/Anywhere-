@@ -173,7 +173,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
         if (menuItem.itemId == R.id.toolbar_rate) {
             try {
-                URLSchemeHandler.parse(URLManager.ANYWHERE_MARKET_URL, this)
+                URLSchemeHandler.parse(this, URLManager.ANYWHERE_MARKET_URL)
             } catch (e: ActivityNotFoundException) {
                 e.printStackTrace()
             }
