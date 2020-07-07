@@ -39,10 +39,10 @@ import kotlinx.coroutines.withContext
 
 class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
-    private val mAdapter: AppListAdapter = AppListAdapter(MODE_APP_LIST)
-    private var mItems = mutableListOf<AppListBean>()
     private lateinit var binding: ActivityAppListBinding
+    private var mItems = mutableListOf<AppListBean>()
     private var isShowSystemApp = false
+    private val mAdapter: AppListAdapter = AppListAdapter(MODE_APP_LIST)
 
     init {
         isPaddingToolbar = true

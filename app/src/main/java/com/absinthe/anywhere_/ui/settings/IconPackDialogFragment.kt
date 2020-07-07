@@ -34,9 +34,19 @@ class IconPackDialogFragment : AnywhereDialogFragment() {
         val hashMap = Settings.sIconPackManager.getAvailableIconPacks(true)
         val listBeans: MutableList<AppListBean> = ArrayList()
 
-        listBeans.add(AppListBean(requireContext().getString(R.string.bsd_default), Const.DEFAULT_ICON_PACK, "", type = -1))
+        listBeans.add(AppListBean(
+                id = Const.DEFAULT_ICON_PACK,
+                appName = requireContext().getString(R.string.bsd_default),
+                packageName = Const.DEFAULT_ICON_PACK,
+                type = -1
+        ))
         for ((_, iconPack) in hashMap) {
-            listBeans.add(AppListBean(iconPack.name, iconPack.packageName, "", type = -1))
+            listBeans.add(AppListBean(
+                    id = iconPack.packageName,
+                    appName = iconPack.name,
+                    packageName = iconPack.packageName,
+                    type = -1
+            ))
         }
         adapter.apply {
             setOnItemClickListener { _, _, position ->

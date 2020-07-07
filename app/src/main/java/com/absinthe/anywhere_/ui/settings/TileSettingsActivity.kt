@@ -88,21 +88,25 @@ open class TileSettingsActivity : BaseActivity() {
     }
 
     private fun initCard(): AppListBean {
-        return AppListBean().apply {
-            this.appName = getString(R.string.app_name)
-            this.packageName = getPackageName()
-            this.className = localClassName
-            this.icon = getDrawable(R.mipmap.ic_launcher) ?: ColorDrawable(Color.TRANSPARENT)
-        }
+        return AppListBean(
+                id = packageName,
+                appName = getString(R.string.app_name),
+                packageName = packageName,
+                className = localClassName,
+                icon = getDrawable(R.mipmap.ic_launcher) ?: ColorDrawable(Color.TRANSPARENT),
+                type = -1
+        )
     }
 
     private fun initCard(item: AnywhereEntity): AppListBean {
-        return AppListBean().apply {
-            appName = item.appName
-            packageName = item.param1
-            className = item.param2
-            icon = UxUtils.getAppIcon(this@TileSettingsActivity, item)
-        }
+        return AppListBean(
+                id = item.param1,
+                appName = item.appName,
+                packageName = item.param1,
+                className = item.param2,
+                icon = UxUtils.getAppIcon(this@TileSettingsActivity, item),
+                type = -1
+        )
     }
 
     private fun load() {

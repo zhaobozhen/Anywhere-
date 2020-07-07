@@ -134,16 +134,18 @@ object AppUtils {
                     continue
                 }
 
-                val bean = AppListBean().apply {
-                    this.packageName = packageInfo.packageName
-                    this.appName = AppUtils.getAppName(packageInfo.packageName)
-                    this.icon = if (GlobalValues.iconPack == Const.DEFAULT_ICON_PACK || GlobalValues.iconPack.isEmpty()) {
-                        packageInfo.applicationInfo.loadIcon(packageManager)
-                    } else {
-                        com.absinthe.anywhere_.model.Settings.sIconPack?.getDrawableIconForPackage(packageInfo.packageName, packageInfo.applicationInfo.loadIcon(packageManager))
-                                ?: Utils.getApp().getDrawable(R.drawable.ic_logo)!!
-                    }
-                }
+                val bean = AppListBean(
+                        id = packageInfo.packageName,
+                        packageName = packageInfo.packageName,
+                        appName = AppUtils.getAppName(packageInfo.packageName),
+                        icon = if (GlobalValues.iconPack == Const.DEFAULT_ICON_PACK || GlobalValues.iconPack.isEmpty()) {
+                            packageInfo.applicationInfo.loadIcon(packageManager)
+                        } else {
+                            com.absinthe.anywhere_.model.Settings.sIconPack?.getDrawableIconForPackage(packageInfo.packageName, packageInfo.applicationInfo.loadIcon(packageManager))
+                                    ?: Utils.getApp().getDrawable(R.drawable.ic_logo)!!
+                        },
+                        type = -1
+                )
                 list.add(bean)
             }
         } catch (e: Exception) {

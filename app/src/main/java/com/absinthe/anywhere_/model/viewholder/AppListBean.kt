@@ -6,10 +6,11 @@ import android.graphics.drawable.Drawable
 import com.absinthe.anywhere_.constants.AnywhereType
 
 data class AppListBean(
-        var appName: String = "",
-        var packageName: String = "",
-        var className: String = "",
-        var icon: Drawable = ColorDrawable(Color.TRANSPARENT),
-        var type: Int = AnywhereType.Card.URL_SCHEME,
-        var isExported: Boolean = false
+        val id: String,
+        val appName: String = "",
+        val packageName: String = "",
+        val className: String = "",
+        val icon: Drawable = ColorDrawable(Color.TRANSPARENT),
+        val type: Int,
+        val isExported: Boolean = false
 )

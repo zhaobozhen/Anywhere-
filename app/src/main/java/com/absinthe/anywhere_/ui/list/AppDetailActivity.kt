@@ -122,19 +122,19 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
                 appPackageInfo?.activities?.let { activities ->
                     for (ai in activities) {
-                        val bean = AppListBean().apply {
-                            appName = if (ai.exported) {
-                                isExported = true
-                                "${ai.loadLabel(packageManager)} (Exported)"
-                            } else {
-                                isExported = false
-                                ai.loadLabel(packageManager).toString()
-                            }
-                            packageName = pkgName
-                            className = ai.name
-                            icon = ai.loadIcon(packageManager)
-                            type = -1
-                        }
+                        val bean = AppListBean(
+                                id = ai.name,
+                                appName = if (ai.exported) {
+                                    "${ai.loadLabel(packageManager)} (Exported)"
+                                } else {
+                                    ai.loadLabel(packageManager).toString()
+                                },
+                                isExported = ai.exported,
+                                packageName = pkgName,
+                                className = ai.name,
+                                icon = ai.loadIcon(packageManager),
+                                type = AnywhereType.Card.ACTIVITY
+                        )
                         mItems.add(bean)
                     }
                 }

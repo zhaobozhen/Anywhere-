@@ -52,11 +52,23 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                     if (ae.type == AnywhereType.Card.URL_SCHEME
                             || ae.type == AnywhereType.Card.IMAGE
                             || ae.type == AnywhereType.Card.SHELL) {
-                        listBeans.add(AppListBean(ae.appName, ae.param2, ae.param1,
-                                UxUtils.getAppIcon(requireContext(), ae.param2), ae.type))
+                        listBeans.add(AppListBean(
+                                id = ae.param2,
+                                appName =  ae.appName,
+                                packageName =  ae.param2,
+                                className =  ae.param1,
+                                icon =  UxUtils.getAppIcon(requireContext(), ae.param2),
+                                type =  ae.type)
+                        )
                     } else {
-                        listBeans.add(AppListBean(ae.appName, ae.param1, ae.param2,
-                                UxUtils.getAppIcon(requireContext(), ae.param1), ae.type))
+                        listBeans.add(AppListBean(
+                                id = ae.param1,
+                                appName =  ae.appName,
+                                packageName =  ae.param1,
+                                className =  ae.param2,
+                                icon =  UxUtils.getAppIcon(requireContext(), ae.param1),
+                                type =  ae.type)
+                        )
                     }
                 }
                 mBuilder.mAdapter.apply {
