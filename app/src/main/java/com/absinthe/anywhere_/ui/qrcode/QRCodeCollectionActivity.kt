@@ -88,8 +88,7 @@ class QRCodeCollectionActivity : BaseActivity() {
         mAdapter.setOnItemLongClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int -> mAdapter.longClickItem(view, position, isEditMode = false) }
 
         lifecycleScope.launch(Dispatchers.Main) {
-            val collection = QRCollection.Singleton.INSTANCE.instance
-            mAdapter.setList(collection.list)
+            mAdapter.setList(QRCollection.list)
 
             binding.srlQrCollection.apply {
                 isRefreshing = false

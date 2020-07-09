@@ -110,7 +110,7 @@ object Opener {
                 } else {
                     item.param2
                 }
-                QRCollection.Singleton.INSTANCE.instance.getQREntity(qrId)?.launch()
+                QRCollection.getQREntity(qrId)?.launch()
                 listener?.onOpened()
             }
             AnywhereType.Card.IMAGE -> {
