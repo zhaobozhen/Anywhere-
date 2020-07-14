@@ -44,6 +44,7 @@ object Opener {
     private var item: AnywhereEntity? = null
     private var command: String? = null
     private var type: Int = TYPE_NONE
+    private var extraItem: ExtraBean.ExtraItem? = null
 
     fun with(context: Context): Opener {
         this.context = WeakReference(context)
@@ -59,6 +60,11 @@ object Opener {
     fun load(cmd: String): Opener {
         type = TYPE_CMD
         this.command = cmd
+        return this
+    }
+
+    fun setDynamicExtra(item: ExtraBean.ExtraItem?): Opener {
+        extraItem = item
         return this
     }
 
@@ -149,7 +155,12 @@ object Opener {
                                 intent.data = it.data.toUri()
                             }
 
-                            for (extra in it.extras) {
+                            val extras = it.extras.toMutableList()
+                            extraItem?.let { extra ->
+                                extras.add(extra)
+                            }
+
+                            for (extra in extras) {
                                 when (extra.type) {
                                     TYPE_STRING -> intent.putExtra(extra.key, extra.value)
                                     TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
@@ -185,7 +196,11 @@ object Opener {
                             }
                         }
 
-                        context.startActivity(intent)
+                        try {
+                            context.startActivity(intent)
+                        } catch (e: Exception) {
+                            ToastUtil.makeText(e.toString())
+                        }
                         listener?.onOpened()
                     }
                     else -> {
@@ -283,7 +298,12 @@ object Opener {
                         intent.data = extraBean.data.toUri()
                     }
 
-                    for (extra in extraBean.extras) {
+                    val extras = extraBean.extras.toMutableList()
+                    extraItem?.let { extra ->
+                        extras.add(extra)
+                    }
+
+                    for (extra in extras) {
                         when (extra.type) {
                             TYPE_STRING -> intent.putExtra(extra.key, extra.value)
                             TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())

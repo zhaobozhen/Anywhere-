@@ -17,15 +17,15 @@ android {
     }
 
     compileSdkVersion 30
-    buildToolsVersion '30.0.0'
-    ndkVersion "21.2.6472646"
+    buildToolsVersion '30.0.1'
+    ndkVersion "21.3.6528147"
 
     defaultConfig {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 200300
-        versionName "2.0.3"
+        versionCode 200400
+        versionName "2.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]

@@ -13,18 +13,22 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.EventTag
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
+import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.blankj.utilcode.util.Utils
+import com.google.gson.Gson
 import com.microsoft.appcenter.analytics.Analytics
 import timber.log.Timber
+import java.lang.Exception
 
 class ShortcutsActivity : BaseActivity() {
 
@@ -153,22 +157,31 @@ class ShortcutsActivity : BaseActivity() {
                 }
                 Intent.ACTION_VIEW -> {
                     intent.data?.let { uri ->
-                        uri.getQueryParameter(Const.INTENT_EXTRA_OPEN_SHORT_ID)?.let { sid ->
-                            viewModel.allAnywhereEntities.observe(this, Observer { list ->
-                                list.find { findItem ->
-                                    findItem.id.endsWith(sid)
-                                }?.apply {
-                                    Opener.with(this@ShortcutsActivity)
-                                            .load(this)
-                                            .setOpenedListener(object : Opener.OnOpenListener {
-                                                override fun onOpened() {
-                                                    finish()
-                                                }
-                                            })
-                                            .open()
-                                }
-                            })
-                        } ?: finish()
+                        if (uri.host == URLManager.OPEN_HOST) {
+                            var dynamicParam: ExtraBean.ExtraItem? = null
+                            uri.getQueryParameter(Const.INTENT_EXTRA_DYNAMIC_PARAM)?.let { dynamic ->
+                                try {
+                                    dynamicParam = Gson().fromJson(dynamic, ExtraBean.ExtraItem::class.java)
+                                } catch (ignore: Exception) {}
+                            }
+                            uri.getQueryParameter(Const.INTENT_EXTRA_OPEN_SHORT_ID)?.let { sid ->
+                                viewModel.allAnywhereEntities.observe(this, Observer { list ->
+                                    list.find { findItem ->
+                                        findItem.id.endsWith(sid)
+                                    }?.apply {
+                                        Opener.with(this@ShortcutsActivity)
+                                                .load(this)
+                                                .setDynamicExtra(dynamicParam)
+                                                .setOpenedListener(object : Opener.OnOpenListener {
+                                                    override fun onOpened() {
+                                                        finish()
+                                                    }
+                                                })
+                                                .open()
+                                    }
+                                })
+                            } ?: finish()
+                        }
                     }
                 }
                 else -> finish()

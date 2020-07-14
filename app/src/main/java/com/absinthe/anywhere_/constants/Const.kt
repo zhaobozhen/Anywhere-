@@ -86,6 +86,7 @@ object Const {
     const val INTENT_EXTRA_SHORTCUTS_CMD = "shortcutsCmd" // Old scheme
     const val INTENT_EXTRA_SHORTCUTS_ID = "shortcutsId"
     const val INTENT_EXTRA_OPEN_SHORT_ID = "sid"
+    const val INTENT_EXTRA_DYNAMIC_PARAM = "dynamic"
 
     const val INTENT_EXTRA_WIDGET_ENTITY = "entity"
     const val INTENT_EXTRA_WIDGET_ITEM_ID = "item_id"

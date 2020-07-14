@@ -59,7 +59,9 @@ class LogcatActivity : BaseActivity() {
                 if (logModel != null) {
                     if (view.id == R.id.btn_delete) {
                         if (FileUtils.delete(logModel.filePath)) {
-                            mAdapter.removeAt(position)
+                            mAdapter.getItemOrNull(position)?.let {
+                                mAdapter.remove(it)
+                            }
                         }
                     } else if (view.id == R.id.btn_send) {
                         val file = FileUtils.getFileByPath(logModel.filePath)

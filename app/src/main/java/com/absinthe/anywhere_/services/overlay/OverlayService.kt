@@ -31,6 +31,10 @@ class OverlayService : Service() {
         val entity = intent.getParcelableExtra<AnywhereEntity>(ENTITY)
 
         if (entity != null) {
+            startActivity(Intent(Intent.ACTION_MAIN).apply {
+                this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                addCategory(Intent.CATEGORY_HOME)
+            })
             initWindowManager(entity)
         } else {
             stopSelf()

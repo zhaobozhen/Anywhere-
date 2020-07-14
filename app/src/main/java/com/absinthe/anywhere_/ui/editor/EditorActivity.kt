@@ -69,10 +69,13 @@ class EditorActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (entity == null) finish()
-        initTransition()
-        super.onCreate(savedInstanceState)
-        setUpBottomDrawer()
+        if (entity == null) {
+            finish()
+        } else {
+            initTransition()
+            super.onCreate(savedInstanceState)
+            setUpBottomDrawer()
+        }
     }
 
     override fun onBackPressed() {
@@ -303,11 +306,6 @@ class EditorActivity : BaseActivity() {
             putExtra(OverlayService.ENTITY, entity!!)
         })
         finish()
-
-        startActivity(Intent(Intent.ACTION_MAIN).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            addCategory(Intent.CATEGORY_HOME)
-        })
 
         if (!Once.beenDone(OnceTag.OVERLAY_TIP)) {
             ToastUtil.makeText(R.string.toast_overlay_tip)
