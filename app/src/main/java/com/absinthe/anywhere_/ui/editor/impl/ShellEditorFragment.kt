@@ -9,11 +9,12 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorShellBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
+import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 
-class ShellEditorFragment :BaseEditorFragment() {
+class ShellEditorFragment : BaseEditorFragment(), IEditor {
 
     private lateinit var binding: EditorShellBinding
 
@@ -28,7 +29,7 @@ class ShellEditorFragment :BaseEditorFragment() {
         binding.etShellContent.setText(item.param1)
     }
 
-    override fun tryingRun() {
+    override fun tryRunning() {
         if (binding.etShellContent.text.isNullOrBlank()) {
             binding.etShellContent.error = getString(R.string.bsd_error_should_not_empty)
             return

@@ -29,7 +29,6 @@ import com.absinthe.anywhere_.databinding.ActivityEditorBinding
 import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.OverlayService
-import com.absinthe.anywhere_.ui.editor.impl.*
 import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.AppUtils.atLeastNMR1
 import com.absinthe.anywhere_.utils.AppUtils.atLeastR
@@ -54,9 +53,10 @@ class EditorActivity : BaseActivity() {
 
     private lateinit var binding: ActivityEditorBinding
     private lateinit var bottomDrawerBehavior: BottomSheetBehavior<FrameLayout>
-    private lateinit var fragment: BaseEditorFragment
+    private lateinit var editor: IEditor
+    private lateinit var entity: AnywhereEntity
 
-    private val entity by lazy { intent.getParcelableExtra(EXTRA_ENTITY) as AnywhereEntity? }
+    private val _entity by lazy { intent.getParcelableExtra(EXTRA_ENTITY) as? AnywhereEntity }
     private val isEditMode by lazy { intent.getBooleanExtra(EXTRA_EDIT_MODE, false) }
 
     override fun setViewBinding() {
@@ -69,9 +69,10 @@ class EditorActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (entity == null) {
+        if (_entity == null) {
             finish()
         } else {
+            entity = _entity!!
             initTransition()
             super.onCreate(savedInstanceState)
             setUpBottomDrawer()
@@ -104,10 +105,10 @@ class EditorActivity : BaseActivity() {
                 isVisible = true
                 text = HtmlCompat.fromHtml(
                         String.format(getString(R.string.bsd_open_url),
-                                entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)),
+                                entity.id.substring(entity.id.length - 4, entity.id.length)),
                         HtmlCompat.FROM_HTML_MODE_LEGACY)
                 setOnLongClickListener {
-                    ClipboardUtil.put(this@EditorActivity, "anywhere://open?sid=${entity!!.id.substring(entity!!.id.length - 4, entity!!.id.length)}")
+                    ClipboardUtil.put(this@EditorActivity, "anywhere://open?sid=${entity.id.substring(entity.id.length - 4, entity.id.length)}")
                     ToastUtil.makeText(R.string.toast_copied)
                     true
                 }
@@ -116,20 +117,12 @@ class EditorActivity : BaseActivity() {
             binding.tvOpenUrl.isGone = true
         }
 
-        fragment = when (entity!!.type) {
-            AnywhereType.Card.URL_SCHEME -> SchemeEditorFragment()
-            AnywhereType.Card.ACTIVITY -> AnywhereEditorFragment()
-            AnywhereType.Card.QR_CODE -> QRCodeEditorFragment()
-            AnywhereType.Card.IMAGE -> ImageEditorFragment()
-            AnywhereType.Card.SHELL -> ShellEditorFragment()
-            AnywhereType.Card.SWITCH_SHELL -> SwitchShellEditorFragment()
-            AnywhereType.Card.FILE -> FileEditorFragment()
-            AnywhereType.Card.BROADCAST -> BroadcastEditorFragment()
-            else -> AnywhereEditorFragment()
-        }
+        editor = EditorFactory.produce(entity.type)
+
+        val fragment = editor as BaseEditorFragment
         fragment.apply {
             arguments = Bundle().apply {
-                putParcelable(EXTRA_ENTITY, entity!!)
+                putParcelable(EXTRA_ENTITY, entity)
                 putBoolean(EXTRA_EDIT_MODE, isEditMode)
             }
         }
@@ -170,7 +163,7 @@ class EditorActivity : BaseActivity() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.trying_run -> {
-                        fragment.tryingRun()
+                        editor.tryRunning()
                     }
                     R.id.overlay -> {
                         startOverlay()
@@ -181,10 +174,10 @@ class EditorActivity : BaseActivity() {
         }
 
         binding.fab.apply {
-            val color = if (entity!!.color == 0) {
+            val color = if (entity.color == 0) {
                 ContextCompat.getColor(context, R.color.colorPrimary)
             } else {
-                entity!!.color
+                entity.color
             }
             backgroundTintList = ColorStateList.valueOf(color)
 
@@ -195,7 +188,7 @@ class EditorActivity : BaseActivity() {
             }
 
             setOnClickListener {
-                if (fragment.doneEdit()) {
+                if (editor.doneEdit()) {
                     onBackPressed()
                 }
             }
@@ -206,32 +199,32 @@ class EditorActivity : BaseActivity() {
                 when (it.itemId) {
                     R.id.add_shortcuts -> {
                         if (atLeastNMR1()) {
-                            if (!GlobalValues.shortcutsList.contains(entity!!.id)) {
-                                addShortcut(this@EditorActivity, entity!!)
+                            if (!GlobalValues.shortcutsList.contains(entity.id)) {
+                                addShortcut(this@EditorActivity, entity)
                             } else {
-                                removeShortcut(this@EditorActivity, entity!!)
+                                removeShortcut(this@EditorActivity, entity)
                             }
                         }
                     }
                     R.id.add_home_shortcuts -> {
-                        showCreatePinnedShortcutDialog(this@EditorActivity, entity!!)
+                        showCreatePinnedShortcutDialog(this@EditorActivity, entity)
                     }
                     R.id.delete -> {
-                        DialogManager.showDeleteAnywhereDialog(this@EditorActivity, entity!!)
+                        DialogManager.showDeleteAnywhereDialog(this@EditorActivity, entity)
                     }
                     R.id.move_to_page -> {
-                        DialogManager.showPageListDialog(this@EditorActivity, entity!!)
+                        DialogManager.showPageListDialog(this@EditorActivity, entity)
                     }
                     R.id.custom_color -> {
-                        DialogManager.showColorPickerDialog(this@EditorActivity, entity!!)
+                        DialogManager.showColorPickerDialog(this@EditorActivity, entity)
                     }
                     R.id.share_card -> {
-                        DialogManager.showCardSharingDialog(this@EditorActivity, AppTextUtils.genCardSharingUrl(entity!!))
+                        DialogManager.showCardSharingDialog(this@EditorActivity, AppTextUtils.genCardSharingUrl(entity))
                     }
                     R.id.custom_icon -> {
                         setDocumentResultListener(object : OnDocumentResultListener {
                             override fun onResult(uri: Uri) {
-                                val ae = AnywhereEntity(entity!!).apply {
+                                val ae = AnywhereEntity(entity).apply {
                                     iconUri = uri.toString()
                                 }
                                 AnywhereApplication.sRepository.update(ae)
@@ -252,7 +245,7 @@ class EditorActivity : BaseActivity() {
                         }
                     }
                     R.id.restore_icon -> {
-                        val ae = AnywhereEntity(entity!!).apply {
+                        val ae = AnywhereEntity(entity).apply {
                             iconUri = ""
                         }
                         AnywhereApplication.sRepository.update(ae)
@@ -265,7 +258,7 @@ class EditorActivity : BaseActivity() {
 
             menu.findItem(R.id.add_shortcuts)?.let {
                 if (atLeastNMR1()) {
-                    if (GlobalValues.shortcutsList.contains(entity!!.id)) {
+                    if (GlobalValues.shortcutsList.contains(entity.id)) {
                         binding.navigationView.apply {
                             menu.clear()
                             inflateMenu(R.menu.editor_added_shortcut_menu)
@@ -276,8 +269,8 @@ class EditorActivity : BaseActivity() {
                 }
             }
 
-            menu.findItem(R.id.restore_icon)?.isVisible = entity!!.iconUri.isNotEmpty()
-            menu.findItem(R.id.share_card)?.isVisible = entity!!.type != AnywhereType.Card.IMAGE && entity!!.type != AnywhereType.Card.FILE
+            menu.findItem(R.id.restore_icon)?.isVisible = entity.iconUri.isNotEmpty()
+            menu.findItem(R.id.share_card)?.isVisible = entity.type != AnywhereType.Card.IMAGE && entity.type != AnywhereType.Card.FILE
 
             invalidate()
         }
@@ -303,7 +296,7 @@ class EditorActivity : BaseActivity() {
 
     private fun startOverlayImpl() {
         startService(Intent(this, OverlayService::class.java).apply {
-            putExtra(OverlayService.ENTITY, entity!!)
+            putExtra(OverlayService.ENTITY, entity)
         })
         finish()
 
@@ -338,8 +331,8 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun shouldShowMenu(): Boolean {
-        return entity!!.type != AnywhereType.Card.IMAGE &&
-                entity!!.type != AnywhereType.Card.SWITCH_SHELL &&
-                entity!!.type != AnywhereType.Card.FILE
+        return entity.type != AnywhereType.Card.IMAGE &&
+                entity.type != AnywhereType.Card.SWITCH_SHELL &&
+                entity.type != AnywhereType.Card.FILE
     }
 }

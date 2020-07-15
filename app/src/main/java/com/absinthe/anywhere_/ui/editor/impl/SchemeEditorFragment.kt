@@ -12,6 +12,7 @@ import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.EditorUrlSchemeBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
+import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -21,7 +22,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
 import jonathanfinerty.once.Once
 
-class SchemeEditorFragment : BaseEditorFragment() {
+class SchemeEditorFragment : BaseEditorFragment(), IEditor {
 
     private lateinit var binding: EditorUrlSchemeBinding
 
@@ -52,7 +53,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
         }
     }
 
-    override fun tryingRun() {
+    override fun tryRunning() {
         val urlScheme = binding.tietUrlScheme.text.toString()
         if (urlScheme.isBlank()) {
             binding.tilUrlScheme.error = getString(R.string.bsd_error_should_not_empty)

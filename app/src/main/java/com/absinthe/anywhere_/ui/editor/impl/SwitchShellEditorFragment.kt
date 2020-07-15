@@ -9,13 +9,14 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorSwitchShellBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
+import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 
 const val SWITCH_OFF = "off"
 const val SWITCH_ON = "on"
 
-class SwitchShellEditorFragment  : BaseEditorFragment() {
+class SwitchShellEditorFragment : BaseEditorFragment(), IEditor {
 
     private lateinit var binding: EditorSwitchShellBinding
 
@@ -31,7 +32,7 @@ class SwitchShellEditorFragment  : BaseEditorFragment() {
         binding.tietSwitchOff.setText(item.param2)
     }
 
-    override fun tryingRun() {}
+    override fun tryRunning() {}
 
     override fun doneEdit(): Boolean {
         if (binding.tietAppName.text.isNullOrBlank()) {

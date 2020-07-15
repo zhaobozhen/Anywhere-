@@ -10,11 +10,12 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorQrCodeBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
+import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 
-class QRCodeEditorFragment : BaseEditorFragment() {
+class QRCodeEditorFragment : BaseEditorFragment(), IEditor {
 
     private lateinit var binding: EditorQrCodeBinding
 
@@ -28,7 +29,7 @@ class QRCodeEditorFragment : BaseEditorFragment() {
         binding.tietDescription.setText(item.description)
     }
 
-    override fun tryingRun() {
+    override fun tryRunning() {
         Opener.with(requireContext()).load(item).open()
     }
 

@@ -13,13 +13,14 @@ import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.TYPE_STRING
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
+import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 
-class BroadcastEditorFragment : BaseEditorFragment() {
+class BroadcastEditorFragment : BaseEditorFragment(), IEditor {
 
     private lateinit var binding: EditorBroadcastBinding
     private val adapter = ExtrasAdapter()
@@ -68,7 +69,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
         }
     }
 
-    override fun tryingRun() {
+    override fun tryRunning() {
         val ae = AnywhereEntity(item).apply {
             val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
             val extraBean = ExtraBean(

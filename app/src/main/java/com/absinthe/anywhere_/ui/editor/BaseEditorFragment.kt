@@ -15,9 +15,6 @@ abstract class BaseEditorFragment : Fragment() {
     protected abstract fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View
     protected abstract fun initView()
 
-    abstract fun tryingRun()
-    abstract fun doneEdit(): Boolean
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (arguments != null) {
             item = requireArguments().getParcelable(EXTRA_ENTITY)!!
