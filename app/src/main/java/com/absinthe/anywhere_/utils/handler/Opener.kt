@@ -162,10 +162,10 @@ object Opener {
 
                             for (extra in extras) {
                                 when (extra.type) {
-                                    TYPE_STRING -> intent.putExtra(extra.key, extra.value)
-                                    TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
-                                    TYPE_URI -> intent.putExtra(extra.key, extra.value.toUri())
-                                    TYPE_INT -> {
+                                    TYPE_STRING, TYPE_STRING_LABEL -> intent.putExtra(extra.key, extra.value)
+                                    TYPE_BOOLEAN, TYPE_BOOLEAN_LABEL -> intent.putExtra(extra.key, extra.value.toBoolean())
+                                    TYPE_URI, TYPE_URI_LABEL -> intent.putExtra(extra.key, extra.value.toUri())
+                                    TYPE_INT, TYPE_INT_LABEL -> {
                                         try {
                                             extra.value.toInt()
                                         } catch (ignore: NumberFormatException) {
@@ -174,7 +174,7 @@ object Opener {
                                             intent.putExtra(extra.key, value)
                                         }
                                     }
-                                    TYPE_LONG -> {
+                                    TYPE_LONG, TYPE_LONG_LABEL -> {
                                         try {
                                             extra.value.toLong()
                                         } catch (ignore: NumberFormatException) {
@@ -183,7 +183,7 @@ object Opener {
                                             intent.putExtra(extra.key, value)
                                         }
                                     }
-                                    TYPE_FLOAT -> {
+                                    TYPE_FLOAT, TYPE_FLOAT_LABEL -> {
                                         try {
                                             extra.value.toFloat()
                                         } catch (ignore: NumberFormatException) {
@@ -305,12 +305,12 @@ object Opener {
 
                     for (extra in extras) {
                         when (extra.type) {
-                            TYPE_STRING -> intent.putExtra(extra.key, extra.value)
-                            TYPE_BOOLEAN -> intent.putExtra(extra.key, extra.value.toBoolean())
-                            TYPE_INT -> intent.putExtra(extra.key, extra.value.toInt())
-                            TYPE_LONG -> intent.putExtra(extra.key, extra.value.toLong())
-                            TYPE_FLOAT -> intent.putExtra(extra.key, extra.value.toFloat())
-                            TYPE_URI -> intent.putExtra(extra.key, extra.value.toUri())
+                            TYPE_STRING, TYPE_STRING_LABEL -> intent.putExtra(extra.key, extra.value)
+                            TYPE_BOOLEAN, TYPE_BOOLEAN_LABEL -> intent.putExtra(extra.key, extra.value.toBoolean())
+                            TYPE_INT, TYPE_INT_LABEL -> intent.putExtra(extra.key, extra.value.toInt())
+                            TYPE_LONG, TYPE_LONG_LABEL -> intent.putExtra(extra.key, extra.value.toLong())
+                            TYPE_FLOAT, TYPE_FLOAT_LABEL -> intent.putExtra(extra.key, extra.value.toFloat())
+                            TYPE_URI, TYPE_URI_LABEL -> intent.putExtra(extra.key, extra.value.toUri())
                         }
                     }
 
