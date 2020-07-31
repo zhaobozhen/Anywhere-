@@ -30,11 +30,18 @@ class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(
                 holder.setImageDrawable(R.id.iv_app_icon, item.icon)
                 holder.setText(R.id.tv_pkg_name, item.className)
 
-                if (item.isExported) {
-                    holder.itemView.rootView.setBackgroundColor(ContextCompat.getColor(context, R.color.exported_background))
-                } else {
-                    holder.itemView.rootView.setBackgroundColor(Color.TRANSPARENT)
+                when {
+                    item.isLaunchActivity -> {
+                        holder.itemView.rootView.setBackgroundColor(ContextCompat.getColor(context, R.color.launcher_activity_background))
+                    }
+                    item.isExported -> {
+                        holder.itemView.rootView.setBackgroundColor(ContextCompat.getColor(context, R.color.exported_background))
+                    }
+                    else -> {
+                        holder.itemView.rootView.setBackgroundColor(Color.TRANSPARENT)
+                    }
                 }
+
             }
             MODE_CARD_LIST -> {
                 holder.setImageDrawable(R.id.iv_app_icon, UxUtils.getAppIcon(context, item))

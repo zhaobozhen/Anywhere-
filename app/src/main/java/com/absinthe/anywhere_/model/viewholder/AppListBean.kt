@@ -12,5 +12,6 @@ data class AppListBean(
         val className: String = "",
         val icon: Drawable = ColorDrawable(Color.TRANSPARENT),
         val type: Int,
-        val isExported: Boolean = false
+        val isExported: Boolean = false,
+        var isLaunchActivity: Boolean = false
 )

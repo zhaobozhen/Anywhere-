@@ -17,6 +17,7 @@ import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.handler.Opener
+import com.blankj.utilcode.util.ActivityUtils
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 
@@ -76,14 +77,14 @@ class AnywhereEditorFragment : BaseEditorFragment(), IEditor {
             binding.tilPackageName.error = getString(R.string.bsd_error_should_not_empty)
             return
         }
-        if (binding.tietClassName.text.isNullOrBlank()) {
-            binding.tilClassName.error = getString(R.string.bsd_error_should_not_empty)
-            return
-        }
 
         val ae = AnywhereEntity(item).apply {
             param1 = binding.tietPackageName.text.toString()
-            param2 = binding.tietClassName.text.toString()
+            param2 = if (binding.tietClassName.text.isNullOrBlank()) {
+                ActivityUtils.getLauncherActivity(param1)
+            } else {
+                binding.tietClassName.text.toString()
+            }
             val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
             val extraBean = ExtraBean(
                     action = binding.tietIntentAction.text.toString(),
@@ -102,10 +103,6 @@ class AnywhereEditorFragment : BaseEditorFragment(), IEditor {
         }
         if (binding.tietPackageName.text.isNullOrBlank()) {
             binding.tilPackageName.error = getString(R.string.bsd_error_should_not_empty)
-            return false
-        }
-        if (binding.tietClassName.text.isNullOrBlank()) {
-            binding.tilClassName.error = getString(R.string.bsd_error_should_not_empty)
             return false
         }
 

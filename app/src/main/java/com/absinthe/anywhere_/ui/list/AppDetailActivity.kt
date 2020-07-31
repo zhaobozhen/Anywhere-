@@ -27,6 +27,7 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.StatusBarUtil
+import com.blankj.utilcode.util.ActivityUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -149,6 +150,11 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 if (mItems.isEmpty()) {
                     mBinding.vfContainer.displayedChild = 1
                 } else {
+                    val launchActivity = ActivityUtils.getLauncherActivity(mItems[0].packageName)
+                    mItems.find { it.className == launchActivity }?.let {
+                        it.isLaunchActivity = true
+                    }
+
                     mAdapter.setDiffNewData(mItems)
                     mBinding.vfContainer.displayedChild = 0
                 }

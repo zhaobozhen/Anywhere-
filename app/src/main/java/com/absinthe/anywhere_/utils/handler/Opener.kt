@@ -28,6 +28,7 @@ import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
+import com.blankj.utilcode.util.IntentUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -134,7 +135,7 @@ object Opener {
                 }
 
                 when {
-                    isActivityExported(context, ComponentName(item.param1, className)) -> {
+                    item.param2.isBlank() || isActivityExported(context, ComponentName(item.param1, className)) -> {
                         val extraBean: ExtraBean? = try {
                             Gson().fromJson(item.param3, ExtraBean::class.java)
                         } catch (e: JsonSyntaxException) {
@@ -146,9 +147,15 @@ object Opener {
                             extraBean.action
                         }
 
-                        val intent = Intent(action).apply {
-                            component = ComponentName(item.param1, className)
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        val intent = if (item.param2.isBlank()) {
+                            IntentUtils.getLaunchAppIntent(item.param1).apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                        } else {
+                            Intent(action).apply {
+                                component = ComponentName(item.param1, className)
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
                         }
                         extraBean?.let {
                             if (it.data.isNotEmpty()) {
