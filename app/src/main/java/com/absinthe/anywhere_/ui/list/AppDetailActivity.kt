@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
@@ -123,12 +124,19 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
                 appPackageInfo?.activities?.let { activities ->
                     for (ai in activities) {
+                        val launchActivity = ActivityUtils.getLauncherActivity(ai.packageName)
                         val bean = AppListBean(
                                 id = ai.name,
-                                appName = if (ai.exported) {
-                                    "${ai.loadLabel(packageManager)} (Exported)"
-                                } else {
-                                    ai.loadLabel(packageManager).toString()
+                                appName = when {
+                                    ai.name == launchActivity -> {
+                                        "${ai.loadLabel(packageManager)} (Launcher)"
+                                    }
+                                    ai.exported -> {
+                                        "${ai.loadLabel(packageManager)} (Exported)"
+                                    }
+                                    else -> {
+                                        ai.loadLabel(packageManager).toString()
+                                    }
                                 },
                                 isExported = ai.exported,
                                 packageName = pkgName,
@@ -183,6 +191,16 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
         }
 
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.open_detail) {
+            startActivity(Intent().apply {
+                action = "android.intent.action.SHOW_APP_INFO"
+                putExtra("android.intent.extra.PACKAGE_NAME", intent.getStringExtra(Const.INTENT_EXTRA_PKG_NAME))
+            })
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {

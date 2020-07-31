@@ -341,6 +341,7 @@
     <string name="icon_badge_todo">Badge</string>
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_open_detail">Open Detail</string>
     <string name="settings_backup">Backup</string>
     <string name="settings_category_normal">General</string>
     <string name="settings_dark_mode_summary">Enable dark mode at night</string>
