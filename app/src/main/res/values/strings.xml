@@ -313,6 +313,7 @@
     <string name="btn_add_intent" translatable="false">Intent</string>
     <string name="btn_add_broadcast">Broadcast</string>
     <string name="btn_add_switch_shell">Switch Shell</string>
+    <string name="btn_add_workflow" translatable="false">Workflow</string>
     <string name="btn_add_advanced_card">Advanced Card</string>
 
     <string name="btn_acquire_permission">Grant</string>

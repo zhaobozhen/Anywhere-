@@ -342,6 +342,9 @@ object Opener {
                 }
                 listener?.onOpened()
             }
+            AnywhereType.Card.WORKFLOW -> {
+
+            }
         }
     }
 

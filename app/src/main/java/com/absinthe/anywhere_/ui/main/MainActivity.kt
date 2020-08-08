@@ -605,7 +605,7 @@ class MainActivity : BaseActivity() {
                 }
                 AnywhereType.Card.SHELL -> {
                     val ae = AnywhereEntity.Builder().apply {
-                        this.appName = "New Shell"
+                        this.appName = AnywhereType.Card.NEW_TITLE_MAP[AnywhereType.Card.SHELL]!!
                         this.param1 = param1
                         this.param2 = param2
                         this.param3 = param3

@@ -16,6 +16,7 @@ object EditorFactory {
             AnywhereType.Card.SWITCH_SHELL -> SwitchShellEditorFragment()
             AnywhereType.Card.FILE -> FileEditorFragment()
             AnywhereType.Card.BROADCAST -> BroadcastEditorFragment()
+            AnywhereType.Card.WORKFLOW -> WorkflowEditorFragment()
             else -> throw IllegalArgumentException("Editor type not exists.")
         }
     }

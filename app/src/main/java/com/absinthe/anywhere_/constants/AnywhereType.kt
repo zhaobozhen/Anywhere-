@@ -16,6 +16,19 @@ object AnywhereType {
         const val FILE = 7
         const val BROADCAST = 8
         const val WORKFLOW = 9
+
+        val NEW_TITLE_MAP = hashMapOf(
+                Pair(URL_SCHEME, "New URL Scheme"),
+                Pair(ACTIVITY, "New Activity"),
+                Pair(MINI_PROGRAM, "New Mini Program"),
+                Pair(QR_CODE, "New QR Code"),
+                Pair(IMAGE, "New Image"),
+                Pair(SHELL, "New Shell"),
+                Pair(SWITCH_SHELL, "New Switch Shell"),
+                Pair(FILE, "New File"),
+                Pair(BROADCAST, "New Broadcast"),
+                Pair(WORKFLOW, "New Workflow")
+        )
     }
 
     object Property {

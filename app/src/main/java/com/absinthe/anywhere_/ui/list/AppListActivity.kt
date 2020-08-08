@@ -128,7 +128,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
             setOnClickListener {
                 val ae = AnywhereEntity.Builder().apply {
-                    appName = "New Activity"
+                    appName = AnywhereType.Card.NEW_TITLE_MAP[AnywhereType.Card.ACTIVITY]!!
                     type = AnywhereType.Card.ACTIVITY
                 }
                 startActivity(Intent(this@AppListActivity, EditorActivity::class.java).apply {
