@@ -10,6 +10,7 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AnywhereRepository(application: Application) {
@@ -48,7 +49,8 @@ class AnywhereRepository(application: Application) {
         GlobalValues.needBackup = true
     }
 
-    fun delete(ae: AnywhereEntity) = GlobalScope.launch(Dispatchers.IO) {
+    fun delete(ae: AnywhereEntity, delayTime: Long = 0L) = GlobalScope.launch(Dispatchers.IO) {
+        delay(delayTime)
         mAnywhereDao.delete(ae)
         if (AppUtils.atLeastNMR1()) {
             ShortcutsUtils.removeShortcut(ae)

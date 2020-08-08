@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Patterns
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -41,7 +42,6 @@ object AppTextUtils {
      *
      * @param item the item
      */
-    @JvmStatic
     fun getItemCommand(item: AnywhereEntity): String {
         val cmd = StringBuilder()
 
@@ -58,6 +58,7 @@ object AppTextUtils {
                 if (className.startsWith(".")) {
                     className = packageName + className
                 }
+                className = className.replace("\$", "\\$")
                 cmd.append(String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, packageName, className))
 
                 extras?.let {
@@ -149,7 +150,9 @@ object AppTextUtils {
      */
     fun getPkgNameByUrlScheme(url: String): String? {
         val resolveInfo = Utils.getApp().packageManager
-                .queryIntentActivities(handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
+                .queryIntentActivities(handleIntent(url).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }, PackageManager.MATCH_DEFAULT_ONLY)
         return if (resolveInfo.size != 0) {
             resolveInfo[0].activityInfo.packageName
         } else {

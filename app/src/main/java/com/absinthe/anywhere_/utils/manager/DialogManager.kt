@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.ui.settings.IntervalDialogFragment
 import com.absinthe.anywhere_.ui.settings.TimePickerDialogFragment
 import com.absinthe.anywhere_.ui.shortcuts.CreateShortcutDialogFragment
 import com.absinthe.anywhere_.utils.AppUtils
+import com.absinthe.anywhere_.utils.ClipboardUtil
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
@@ -104,8 +105,8 @@ object DialogManager {
         builder.setTitle(R.string.dialog_delete_title)
                 .setMessage(HtmlCompat.fromHtml(String.format(activity.getString(R.string.dialog_delete_message), "<b>" + ae.appName + "</b>"), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
-                    AnywhereApplication.sRepository.delete(ae)
                     activity.onBackPressed()
+                    AnywhereApplication.sRepository.delete(ae, 300)
                 }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show()
@@ -263,7 +264,6 @@ object DialogManager {
         builder.show()
     }
 
-    @JvmStatic
     fun showShellResultDialog(context: Context, result: String?, posListener: DialogInterface.OnClickListener? = null, cancelListener: DialogInterface.OnCancelListener? = null) {
         if (!GlobalValues.isShowShellResult) {
             ToastUtil.makeText(R.string.toast_execute_shell_successful)
@@ -281,6 +281,10 @@ object DialogManager {
                 .setTitle(R.string.dialog_shell_result_title)
                 .setMessage(parsedResult)
                 .setPositiveButton(R.string.dialog_close_button, posListener)
+                .setNeutralButton(R.string.dialog_copy) { _, _ ->
+                    ClipboardUtil.put(context, "$parsedResult")
+                    ToastUtil.makeText(R.string.toast_copied)
+                }
                 .setOnCancelListener(cancelListener)
                 .show()
     }

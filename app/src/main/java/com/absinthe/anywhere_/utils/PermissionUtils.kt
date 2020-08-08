@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.utils
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -32,7 +33,9 @@ object PermissionUtils {
             val intent = Intent().apply {
                 action = "miui.intent.action.APP_PERM_EDITOR"
                 addCategory(Intent.CATEGORY_DEFAULT)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                if (context !is Activity) {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
                 setClassName("com.miui.securitycenter",
                         "com.miui.permcenter.permissions.PermissionsEditorActivity")
                 putExtra("extra_pkgname", context.packageName)

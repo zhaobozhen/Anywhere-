@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.list
 
 import android.animation.LayoutTransition
 import android.app.SearchManager
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -28,6 +29,7 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.StatusBarUtil
+import com.absinthe.anywhere_.utils.ToastUtil
 import com.blankj.utilcode.util.ActivityUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import kotlinx.coroutines.Dispatchers
@@ -195,10 +197,14 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.open_detail) {
-            startActivity(Intent().apply {
-                action = "android.intent.action.SHOW_APP_INFO"
-                putExtra("android.intent.extra.PACKAGE_NAME", intent.getStringExtra(Const.INTENT_EXTRA_PKG_NAME))
-            })
+            try {
+                startActivity(Intent().apply {
+                    action = "android.intent.action.SHOW_APP_INFO"
+                    putExtra("android.intent.extra.PACKAGE_NAME", intent.getStringExtra(Const.INTENT_EXTRA_PKG_NAME))
+                })
+            } catch (e: ActivityNotFoundException) {
+                ToastUtil.makeText(R.string.toast_no_react_show_info)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

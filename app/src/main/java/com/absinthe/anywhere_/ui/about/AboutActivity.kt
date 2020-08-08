@@ -158,8 +158,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     }
 
     private fun initView() {
-        StatusBarUtil.setDarkMode(this, false)
-        StatusBarUtil.setSystemBarTransparent(this)
+        StatusBarUtil.setSystemBarStyle(this, false)
 
         val appbar = findViewById<AppBarLayout>(com.drakeet.about.R.id.header_layout)
         appbar.fitsSystemWindows = true

@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils.handler
 
+import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.os.FileUriExposedException
@@ -148,13 +149,23 @@ object Opener {
                         }
 
                         val intent = if (item.param2.isBlank()) {
-                            IntentUtils.getLaunchAppIntent(item.param1).apply {
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            IntentUtils.getLaunchAppIntent(item.param1)?.apply {
+                                if (context !is Activity) {
+                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                }
+                            } ?: let {
+                                Intent().apply {
+                                    if (context !is Activity) {
+                                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    }
+                                }
                             }
                         } else {
                             Intent(action).apply {
                                 component = ComponentName(item.param1, className)
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                if (context !is Activity) {
+                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                }
                             }
                         }
                         extraBean?.let {
@@ -275,7 +286,9 @@ object Opener {
                 val intent = Intent().apply {
                     action = Intent.ACTION_VIEW
                     data = item.param1.toUri()
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    if (context !is Activity) {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
                 }
 
                 try {
@@ -299,7 +312,9 @@ object Opener {
                         Const.DEFAULT_BR_ACTION
                     }
                     val intent = Intent(action).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        if (context !is Activity) {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
                     }
                     if (extraBean.data.isNotEmpty()) {
                         intent.data = extraBean.data.toUri()

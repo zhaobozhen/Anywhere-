@@ -9,7 +9,6 @@ import android.os.Build
 import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.Utils
 
@@ -27,7 +26,7 @@ object StatusBarUtil {
         }
     }
 
-    fun setDarkMode(activity: Activity, needLightStatusBar: Boolean = true) {
+    fun setSystemBarStyle(activity: Activity, needLightStatusBar: Boolean = true) {
         val decorView = activity.window.decorView
         if (isDarkMode(activity)) {
             decorView.systemUiVisibility = (
@@ -54,6 +53,7 @@ object StatusBarUtil {
                 }
             }
         }
+        setSystemBarTransparent(activity)
     }
 
     fun getNavBarHeight(): Int {
@@ -86,7 +86,7 @@ object StatusBarUtil {
         }
     }
 
-    fun setSystemBarTransparent(activity: AppCompatActivity) {
+    fun setSystemBarTransparent(activity: Activity) {
         val window = activity.window
         val view = window.decorView
         val flag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or

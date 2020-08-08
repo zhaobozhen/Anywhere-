@@ -364,4 +364,5 @@
     <string name="settings_transparent_icon_title">透明圖標</string>
     <string name="toast_check_webdav_configuration">請檢查你的 WebDAV 配置項</string>
     <string name="menu_open_detail">打開詳情</string>
+    <string name="toast_no_react_show_info">沒有 App 可以查看詳情信息</string>
 </resources>
