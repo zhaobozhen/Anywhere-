@@ -30,11 +30,8 @@ class GiftActivity : BaseActivity() {
     private val mViewModel by lazy { ViewModelProvider(this).get(GiftViewModel::class.java) }
     private var mAdapter: ChatAdapter = ChatAdapter()
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         mBinding = ActivityGiftBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
     }

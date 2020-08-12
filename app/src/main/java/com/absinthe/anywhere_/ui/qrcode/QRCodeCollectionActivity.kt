@@ -28,11 +28,8 @@ class QRCodeCollectionActivity : BaseActivity() {
     private lateinit var binding: ActivityQrcodeCollectionBinding
     private var mAdapter = BaseCardAdapter(LAYOUT_MODE_STREAM)
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         binding = ActivityQrcodeCollectionBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }

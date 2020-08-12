@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.absinthe.anywhere_">
+  package="com.absinthe.anywhere_">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -27,8 +26,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="q">
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".ui.main.MainActivity"
@@ -195,7 +193,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".ui.list.AppDetailActivity" />
+        <activity
+          android:name=".ui.list.AppDetailActivity"
+          android:label="@string/app_list_detail_title" />
         <activity
             android:name=".ui.settings.TileSettingsActivity"
             android:label="@string/settings_tiles">
@@ -222,8 +222,10 @@
         <activity
             android:name=".ui.settings.LogcatActivity"
             android:label="@string/logcat" />
-        <activity android:name=".ui.editor.EditorActivity"
-            android:windowSoftInputMode="adjustResize" />
+        <activity
+          android:name=".ui.editor.EditorActivity"
+          android:label="@string/card_editor_title"
+          android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="moe.shizuku.api.ShizukuProvider"

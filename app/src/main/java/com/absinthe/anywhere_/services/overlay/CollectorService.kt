@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.services.overlay
 
-import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
@@ -13,9 +12,9 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues.dumpInterval
 import com.absinthe.anywhere_.constants.GlobalValues.isCollectorPlus
 import com.absinthe.anywhere_.model.manager.CollectorWindowManager
+import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
-import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.blankj.utilcode.util.PermissionUtils
 import timber.log.Timber
@@ -25,7 +24,6 @@ class CollectorService : Service() {
     private lateinit var mCollectorWindowManager: CollectorWindowManager
     private val binder = CollectorBinder()
 
-    @SuppressLint("HandlerLeak")
     private val mHandler = Handler(Looper.myLooper()!!)
     private val getCurrentInfoTask: Runnable = object : Runnable {
         override fun run() {
@@ -60,6 +58,7 @@ class CollectorService : Service() {
 
     override fun onDestroy() {
         Timber.d("CollectorService onDestroy.")
+        mHandler.removeCallbacks(getCurrentInfoTask)
         super.onDestroy()
     }
 

@@ -43,7 +43,11 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
 
     override fun onCreateHeader(icon: ImageView, slogan: TextView, version: TextView) {
         icon.apply {
-            setImageResource(R.drawable.pic_splash)
+            if (BuildConfig.DEBUG) {
+                setImageResource(R.mipmap.ic_launcher_beta)
+            } else {
+                setImageResource(R.drawable.pic_splash)
+            }
             setOnClickListener(createDebugListener())
         }
 

@@ -18,11 +18,8 @@ class LabActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivityLabBinding
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         mBinding = ActivityLabBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
     }

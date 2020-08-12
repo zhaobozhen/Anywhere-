@@ -24,8 +24,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 200600
-        versionName "2.0.6"
+        versionCode 200700
+        versionName "2.0.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
@@ -42,15 +42,16 @@ android {
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "Anywhere-β"]
+            buildConfigField("boolean", "BETA", 'true')
         }
 
         release {
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
-            debuggable false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("boolean", "BETA", 'true')
         }
     }
 
@@ -148,7 +149,6 @@ dependencies {
     implementation 'moe.feng:AlipayZeroSdk:1.1'
     implementation 'moe.shizuku.privilege:api:4.0.0'
     implementation 'me.weishu:free_reflection:2.2.0'
-    implementation 'me.drakeet.support:toastcompat:1.1.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.catchingnow.icebox:SDK:1.0.5'

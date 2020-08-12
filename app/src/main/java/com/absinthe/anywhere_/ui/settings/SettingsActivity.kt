@@ -31,11 +31,8 @@ class SettingsActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivitySettingsBinding
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         mBinding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
     }

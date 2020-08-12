@@ -198,7 +198,7 @@
     <string name="desc_work_at_any_mode">无需权限</string>
     <string name="qr_tip_title">长按以添加 Anywhere- 卡片到主页</string>
     <string name="qr_tip_subtitle">这个页面的 Anywhere- 卡片与其它的不同，它们是主动适配的。未来将会适配更多的 App。</string>
-    <string name="shortcut_open">打开 Anywhere-</string>
+    <string name="shortcut_open">打开 Anywhere- 卡片</string>
     <string name="settings_lab">实验室</string>
     <string name="settings_lab_summary">实验性功能</string>
     <string name="btn_apply">应用</string>
@@ -365,4 +365,6 @@
     <string name="toast_check_webdav_configuration">请检查你的 WebDAV 配置项</string>
     <string name="menu_open_detail">打开详情</string>
     <string name="toast_no_react_show_info">没有 App 可以查看详情信息</string>
+    <string name="app_list_detail_title">应用详情</string>
+    <string name="card_editor_title">卡片编辑器</string>
 </resources>

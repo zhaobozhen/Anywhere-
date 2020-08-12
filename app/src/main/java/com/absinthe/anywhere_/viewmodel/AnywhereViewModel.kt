@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.viewmodel
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -25,6 +24,7 @@ import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.checkShizukuOnWorking
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.isGrantShizukuPermission
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
@@ -72,7 +72,8 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun setUpUrlScheme(context: Context, url: String = "") {
+    fun setUpUrlScheme(url: String = "") {
+        val context = ActivityStackManager.topActivity!! as Context
         val ae = AnywhereEntity.Builder().apply {
             appName = getApplication<Application>().getString(R.string.bsd_new_url_scheme_name)
             param1 = url
@@ -84,7 +85,9 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         })
     }
 
-    fun startCollector(activity: Activity, listener: OnStartCollectorListener) {
+    fun startCollector(listener: OnStartCollectorListener) {
+        val activity = ActivityStackManager.topActivity!!
+
         when (GlobalValues.workingMode) {
             Const.WORKING_MODE_URL_SCHEME -> {
                 ToastUtil.makeText(R.string.toast_works_on_root_or_shizuku)

@@ -39,8 +39,8 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                 AdvancedCardItem(R.string.btn_add_shell, R.drawable.ic_card_shell, getOpeningEditorListener(AnywhereType.Card.SHELL)),
                 AdvancedCardItem(R.string.btn_add_switch_shell, R.drawable.ic_card_switch, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),
                 AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, getOpeningEditorListener(AnywhereType.Card.FILE)),
-                AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, getOpeningEditorListener(AnywhereType.Card.BROADCAST)),
-                AdvancedCardItem(R.string.btn_add_workflow, R.drawable.ic_card_workflow, getOpeningEditorListener(AnywhereType.Card.WORKFLOW))
+                AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, getOpeningEditorListener(AnywhereType.Card.BROADCAST))
+//                AdvancedCardItem(R.string.btn_add_workflow, R.drawable.ic_card_workflow, getOpeningEditorListener(AnywhereType.Card.WORKFLOW))
         )
         mBuilder.adapter.setList(cardList.toMutableList())
     }

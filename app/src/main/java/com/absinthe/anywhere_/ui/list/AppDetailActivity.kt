@@ -42,11 +42,8 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
     private var mAdapter: AppListAdapter = AppListAdapter(MODE_APP_DETAIL)
     private val mItems = mutableListOf<AppListBean>()
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         mBinding = ActivityAppDetailBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
     }
@@ -97,9 +94,12 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun initData(pkgName: String) {
+        val searchItem = mBinding.toolbar.toolbar.menu.findItem(R.id.search)
+
         mBinding.srlAppDetail.apply {
             isEnabled = true
             isRefreshing = true
+            searchItem.isVisible = false
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -172,6 +172,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 mBinding.srlAppDetail.apply {
                     isEnabled = false
                     isRefreshing = false
+                    searchItem.isVisible = true
                 }
             }
         }

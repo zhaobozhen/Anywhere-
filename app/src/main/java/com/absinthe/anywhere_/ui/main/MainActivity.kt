@@ -85,7 +85,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.lang.Exception
 import java.util.*
 
 class MainActivity : BaseActivity() {
@@ -114,11 +113,8 @@ class MainActivity : BaseActivity() {
 
     }
 
-    init {
-        isPaddingToolbar = !GlobalValues.isMd2Toolbar
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
     }
@@ -518,7 +514,7 @@ class MainActivity : BaseActivity() {
         mBinding.fab.setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
             when (actionItem.id) {
                 R.id.fab_url_scheme -> {
-                    viewModel.setUpUrlScheme(this)
+                    viewModel.setUpUrlScheme()
                     Analytics.trackEvent(EventTag.FAB_URL_SCHEME_CLICK)
                 }
                 R.id.fab_activity_list -> {
@@ -526,7 +522,7 @@ class MainActivity : BaseActivity() {
                     Analytics.trackEvent(EventTag.FAB_ACTIVITY_LIST_CLICK)
                 }
                 R.id.fab_collector -> {
-                    viewModel.startCollector(this, object : AnywhereViewModel.OnStartCollectorListener {
+                    viewModel.startCollector(object : AnywhereViewModel.OnStartCollectorListener {
                         override fun onStart() {
                             if (isBound) {
                                 collectorService?.startCollector()
@@ -574,7 +570,7 @@ class MainActivity : BaseActivity() {
             }
         } else if (action == Intent.ACTION_SEND) {
             val sharing = intent.getStringExtra(Intent.EXTRA_TEXT)
-            viewModel.setUpUrlScheme(this, AppTextUtils.parseUrlFromSharingText(sharing))
+            viewModel.setUpUrlScheme(AppTextUtils.parseUrlFromSharingText(sharing))
         }
     }
 
@@ -587,7 +583,7 @@ class MainActivity : BaseActivity() {
 
             when (type.toInt()) {
                 AnywhereType.Card.URL_SCHEME -> {
-                    viewModel.setUpUrlScheme(this, param1)
+                    viewModel.setUpUrlScheme(param1)
                 }
                 AnywhereType.Card.ACTIVITY -> {
                     val appName = AppUtils.getAppName(param1) ?: ""

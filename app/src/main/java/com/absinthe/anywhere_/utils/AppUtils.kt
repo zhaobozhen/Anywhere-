@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.utils
 
-import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -311,11 +310,7 @@ object AppUtils {
      */
     fun getPackageNameByScheme(context: Context, url: String): String {
         val resolveInfo = context.packageManager
-                .queryIntentActivities(URLSchemeHandler.handleIntent(url).apply {
-                    if (context !is Activity) {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }
-                }, PackageManager.MATCH_DEFAULT_ONLY)
+                .queryIntentActivities(URLSchemeHandler.handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
         if (resolveInfo.isNotEmpty()) {
             return resolveInfo[0].activityInfo.packageName
         }

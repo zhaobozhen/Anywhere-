@@ -18,11 +18,8 @@ class BackupActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivityBackupBinding
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         mBinding = ActivityBackupBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
     }

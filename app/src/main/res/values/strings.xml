@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!--  General  -->
     <string name="application_id" translatable="false">com.absinthe.anywhere_</string>
     <string name="app_name">Anywhere-</string>
     <string name="settings_title">Settings</string>
@@ -7,10 +8,12 @@
     <string name="shortcuts_title">Shortcuts</string>
     <string name="backup_title">Backup</string>
     <string name="app_list_title">Activities List</string>
+    <string name="app_list_detail_title">App Detail</string>
+    <string name="card_editor_title">Card Editor</string>
     <string name="tile_collector_on">Open Collector</string>
     <string name="tile_collector_off">Close Collector</string>
     <string name="shortcut_add">Add an Anywhere-</string>
-    <string name="shortcut_open">Open an Anywhere-</string>
+    <string name="shortcut_open">Open an Anywhere- card</string>
     <string name="welcome_title">Welcome to Anywhere-</string>
     <string name="welcome_start_button">Start</string>
     <string name="logcat" translatable="false">Logcat</string>

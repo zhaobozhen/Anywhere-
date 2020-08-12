@@ -40,4 +40,6 @@
     <!--  List  -->
     <dimen name="list_padding_bottom">20dp</dimen>
 
+    <dimen name="toast_radius">24dp</dimen>
+
 </resources>

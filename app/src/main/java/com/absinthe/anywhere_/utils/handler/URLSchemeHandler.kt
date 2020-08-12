@@ -11,11 +11,7 @@ object URLSchemeHandler {
     @Throws(Exception::class)
     fun parse(context: Context, url: String) {
         try {
-            context.startActivity(handleIntent(url).apply {
-                if (context !is Activity || url.startsWith("#Intent;")) {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-            })
+            context.startActivity(handleIntent(url))
         } catch (e: Throwable) {
             throw e
         }
@@ -42,9 +38,7 @@ object URLSchemeHandler {
     @Throws(Exception::class)
     fun parse(fragment: Fragment, url: String) {
         try {
-            fragment.startActivity(handleIntent(url).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            })
+            fragment.startActivity(handleIntent(url))
         } catch (e: Throwable) {
             throw e
         }
@@ -53,9 +47,7 @@ object URLSchemeHandler {
     @Throws(Exception::class)
     fun parseForResult(fragment: Fragment, url: String, requestCode: Int) {
         try {
-            fragment.startActivityForResult(handleIntent(url).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }, requestCode)
+            fragment.startActivityForResult(handleIntent(url), requestCode)
         } catch (e: Throwable) {
             throw e
         }
@@ -65,7 +57,9 @@ object URLSchemeHandler {
     fun handleIntent(url: String): Intent {
         val intent: Intent
         try {
-            intent = Intent.parseUri(url, 0)
+            intent = Intent.parseUri(url, 0).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
         } catch (e: Throwable) {
             throw e
         }

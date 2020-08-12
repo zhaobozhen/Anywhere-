@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.utils
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Patterns
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -150,9 +149,7 @@ object AppTextUtils {
      */
     fun getPkgNameByUrlScheme(url: String): String? {
         val resolveInfo = Utils.getApp().packageManager
-                .queryIntentActivities(handleIntent(url).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }, PackageManager.MATCH_DEFAULT_ONLY)
+                .queryIntentActivities(handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
         return if (resolveInfo.size != 0) {
             resolveInfo[0].activityInfo.packageName
         } else {

@@ -30,11 +30,8 @@ class LogcatActivity : BaseActivity() {
     private lateinit var mBinding: ActivityLogcatBinding
     private var mAdapter: LogAdapter = LogAdapter()
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         mBinding = ActivityLogcatBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
     }

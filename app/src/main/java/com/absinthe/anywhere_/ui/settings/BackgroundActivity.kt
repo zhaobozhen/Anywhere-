@@ -19,11 +19,8 @@ class BackgroundActivity : BaseActivity() {
     private lateinit var mBinding: ActivityBackgroundBinding
     private var mAdapter: BackgroundAdapter = BackgroundAdapter()
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         mBinding = ActivityBackgroundBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
     }

@@ -9,11 +9,8 @@ class SetupActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySetupBinding
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         binding = ActivitySetupBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }

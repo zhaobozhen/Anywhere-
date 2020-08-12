@@ -34,6 +34,7 @@ import com.absinthe.anywhere_.utils.AppUtils.getAppList
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.blankj.utilcode.util.ConvertUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -42,13 +43,11 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
     private lateinit var binding: ActivityAppListBinding
     private var mItems = mutableListOf<AppListBean>()
     private var isShowSystemApp = false
+    private var initDataJob: Job? = null
     private val mAdapter: AppListAdapter = AppListAdapter(MODE_APP_LIST)
 
-    init {
-        isPaddingToolbar = true
-    }
-
     override fun setViewBinding() {
+        isPaddingToolbar = true
         binding = ActivityAppListBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
@@ -156,30 +155,36 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + StatusBarUtil.getNavBarHeight())
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val topRowVerticalPosition = if (recyclerView.childCount == 0) 0 else recyclerView.getChildAt(0).top
+                    val topRowVerticalPosition = if (recyclerView.childCount == 0) {
+                        0
+                    } else {
+                        recyclerView.getChildAt(0).top
+                    }
                     binding.srlAppList.isEnabled = topRowVerticalPosition >= 0
-                    if (dy > 0 || dy < 0 && binding.extendedFab.isShown)
-                        binding.extendedFab.shrink()
-                }
 
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                    if (dy < 0 && binding.extendedFab.isExtended) {
+                        binding.extendedFab.shrink()
+                    } else if (dy > 0 && !binding.extendedFab.isExtended) {
                         binding.extendedFab.extend()
-                    super.onScrollStateChanged(recyclerView, newState)
+                    }
                 }
             })
         }
     }
 
     private fun initData(showSystem: Boolean = false) {
+        val searchItem = binding.toolbar.toolbar.menu.findItem(R.id.search)
+        initDataJob?.cancel()
+        searchItem.isVisible = false
         binding.srlAppList.isRefreshing = true
 
-        lifecycleScope.launch(Dispatchers.IO) {
+        initDataJob = lifecycleScope.launch(Dispatchers.IO) {
             mItems = getAppList(packageManager, showSystem).toMutableList()
 
             withContext(Dispatchers.Main) {
                 mAdapter.setDiffNewData(mItems)
                 binding.srlAppList.isRefreshing = false
+                searchItem.isVisible = true
             }
         }
     }
