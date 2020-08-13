@@ -77,7 +77,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
 
             add(Category(getString(R.string.communication)))
             add(Card(
-                    HtmlCompat.fromHtml("Telegram: <a href=\"t.me/anywhereee\">t.me/anywhereee</a><br>E-mail: ${Absinthe.EMAIL}", HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    HtmlCompat.fromHtml("Telegram: <a href=\"t.me/anywhereee\">t.me/anywhereee</a><br>E-mail: <a href=\"mailto:${Absinthe.EMAIL}\">${Absinthe.EMAIL}</a>", HtmlCompat.FROM_HTML_MODE_LEGACY)
             ))
 
             add(Category(getString(R.string.open_source_licenses)))

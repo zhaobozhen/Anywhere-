@@ -289,6 +289,12 @@ class MainActivity : BaseActivity() {
                         }
                     })
 
+                    setOnScrollChangeListener { _, _, _, _, _ ->
+                        if (mBinding.fab.isShown) {
+                            mBinding.fab.hide()
+                        }
+                    }
+
                     setPageTransformer(CategoryCardTransformer())
                     setCurrentItem(GlobalValues.currentPage, false)
                     getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
