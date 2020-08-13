@@ -163,9 +163,9 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                     }
                     binding.srlAppList.isEnabled = topRowVerticalPosition >= 0
 
-                    if (dy < 0 && binding.extendedFab.isExtended) {
+                    if (!recyclerView.canScrollVertically(-1) && binding.extendedFab.isExtended) {
                         binding.extendedFab.shrink()
-                    } else if (dy > 0 && !binding.extendedFab.isExtended) {
+                    } else if (dy < 0 && !binding.extendedFab.isExtended) {
                         binding.extendedFab.extend()
                     }
                 }
@@ -183,7 +183,12 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             withContext(Dispatchers.Main) {
                 mAdapter.setDiffNewData(mItems)
                 binding.srlAppList.isRefreshing = false
-                binding.toolbar.toolbar.menu.findItem(R.id.search).isVisible = true
+                
+                var menu: Menu? = binding.toolbar.toolbar.menu
+                while (menu == null) {
+                    menu = binding.toolbar.toolbar.menu
+                }
+                menu.findItem(R.id.search).isVisible = true
             }
         }
     }

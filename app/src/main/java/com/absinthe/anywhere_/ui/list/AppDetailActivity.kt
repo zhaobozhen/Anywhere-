@@ -170,7 +170,12 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 mBinding.srlAppDetail.apply {
                     isEnabled = false
                     isRefreshing = false
-                    mBinding.toolbar.toolbar.menu.findItem(R.id.search).isVisible = true
+
+                    var menu: Menu? = mBinding.toolbar.toolbar.menu
+                    while (menu == null) {
+                        menu = mBinding.toolbar.toolbar.menu
+                    }
+                    menu.findItem(R.id.search).isVisible = true
                 }
             }
         }
