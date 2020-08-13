@@ -289,11 +289,13 @@ class MainActivity : BaseActivity() {
                         }
                     })
 
-                    setOnScrollChangeListener { _, _, _, _, _ ->
-                        if (mBinding.fab.isShown) {
-                            mBinding.fab.hide()
+                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                        override fun onPageScrollStateChanged(state: Int) {
+                            if (mBinding.fab.isOpen) {
+                                mBinding.fab.close()
+                            }
                         }
-                    }
+                    })
 
                     setPageTransformer(CategoryCardTransformer())
                     setCurrentItem(GlobalValues.currentPage, false)
