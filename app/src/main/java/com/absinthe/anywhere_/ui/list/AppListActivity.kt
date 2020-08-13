@@ -157,7 +157,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE || newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                         if (!recyclerView.canScrollVertically(-1) && !binding.extendedFab.isExtended) {
                             binding.extendedFab.extend()
                         } else {

@@ -286,6 +286,9 @@ object DialogManager {
                     ToastUtil.makeText(R.string.toast_copied)
                 }
                 .setOnCancelListener(cancelListener)
+                .apply {
+                    (this as AnywhereDialogBuilder).setMessageSelectable(true)
+                }
                 .show()
     }
 

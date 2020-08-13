@@ -13,7 +13,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -72,6 +71,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.node.BaseNode
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -299,7 +299,8 @@ class MainActivity : BaseActivity() {
         if (GlobalValues.isMd2Toolbar) {
             val marginHorizontal = resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
             val marginVertical = resources.getDimension(R.dimen.toolbar_margin_vertical).toInt()
-            val newLayoutParams = mBinding.toolbar.layoutParams as ConstraintLayout.LayoutParams
+
+            val newLayoutParams = mBinding.toolbar.layoutParams as AppBarLayout.LayoutParams
             newLayoutParams.apply {
                 rightMargin = marginHorizontal
                 leftMargin = newLayoutParams.rightMargin
@@ -510,39 +511,41 @@ class MainActivity : BaseActivity() {
 
     private fun initFab() {
         build(this, mBinding.fab)
-        mBinding.fab.mainFab.transitionName = "item_container"
-        mBinding.fab.setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
-            when (actionItem.id) {
-                R.id.fab_url_scheme -> {
-                    viewModel.setUpUrlScheme()
-                    Analytics.trackEvent(EventTag.FAB_URL_SCHEME_CLICK)
-                }
-                R.id.fab_activity_list -> {
-                    startActivity(Intent(this, AppListActivity::class.java))
-                    Analytics.trackEvent(EventTag.FAB_ACTIVITY_LIST_CLICK)
-                }
-                R.id.fab_collector -> {
-                    viewModel.startCollector(object : AnywhereViewModel.OnStartCollectorListener {
-                        override fun onStart() {
-                            if (isBound) {
-                                collectorService?.startCollector()
-                                ActivityUtils.startHomeActivity()
-                            } else {
-                                bindService(Intent(this@MainActivity, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
+        mBinding.fab.apply {
+            mainFab.transitionName = "item_container"
+            setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
+                when (actionItem.id) {
+                    R.id.fab_url_scheme -> {
+                        viewModel.setUpUrlScheme()
+                        Analytics.trackEvent(EventTag.FAB_URL_SCHEME_CLICK)
+                    }
+                    R.id.fab_activity_list -> {
+                        startActivity(Intent(this@MainActivity, AppListActivity::class.java))
+                        Analytics.trackEvent(EventTag.FAB_ACTIVITY_LIST_CLICK)
+                    }
+                    R.id.fab_collector -> {
+                        viewModel.startCollector(object : AnywhereViewModel.OnStartCollectorListener {
+                            override fun onStart() {
+                                if (isBound) {
+                                    collectorService?.startCollector()
+                                    ActivityUtils.startHomeActivity()
+                                } else {
+                                    bindService(Intent(this@MainActivity, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
+                                }
                             }
-                        }
-                    })
-                    Analytics.trackEvent(EventTag.FAB_COLLECTOR_CLICK)
+                        })
+                        Analytics.trackEvent(EventTag.FAB_COLLECTOR_CLICK)
+                    }
+                    R.id.fab_qr_code_collection -> {
+                        startActivity(Intent(this@MainActivity, QRCodeCollectionActivity::class.java))
+                        Analytics.trackEvent(EventTag.FAB_QR_CODE_COLLECTION_CLICK)
+                    }
+                    R.id.fab_advanced -> showAdvancedCardSelectDialog(this@MainActivity)
+                    else -> return@setOnActionSelectedListener false
                 }
-                R.id.fab_qr_code_collection -> {
-                    startActivity(Intent(this, QRCodeCollectionActivity::class.java))
-                    Analytics.trackEvent(EventTag.FAB_QR_CODE_COLLECTION_CLICK)
-                }
-                R.id.fab_advanced -> showAdvancedCardSelectDialog(this)
-                else -> return@setOnActionSelectedListener false
+                close()
+                true
             }
-            mBinding.fab.close()
-            true
         }
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_TIP)) {
