@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.utils.manager
 
 import com.absinthe.anywhere_.BuildConfig
+import com.absinthe.libraries.Absinthe
 import io.michaelrocks.paranoid.Obfuscate
 
 /**
@@ -11,16 +12,11 @@ import io.michaelrocks.paranoid.Obfuscate
 @Obfuscate
 object URLManager {
     //General
-    const val MARKET_DETAIL_SCHEME = "market://details?id="
-
-    const val GITHUB_PAGE = "https://github.com/zhaobozhen"
-    const val OLD_DOCUMENT_PAGE = "https://zhaobozhen.github.io/Anywhere-Docs/"
     const val DOCUMENT_PAGE = "https://absinthe.life/Anywhere-Docs/"
-    const val SHIZUKU_MARKET_URL = MARKET_DETAIL_SCHEME + "moe.shizuku.privileged.api"
+    const val SHIZUKU_MARKET_URL = Absinthe.MARKET_DETAIL_SCHEME + "moe.shizuku.privileged.api"
     const val SHORTCUT_COMMUNITY_PAGE = "https://sharecuts.cn/apps/"
     const val BETA_DISTRIBUTE_URL = "https://install.appcenter.ms/users/zhaobozhen2025-gmail.com/apps/anywhere/distribution_groups/public"
-    const val ANYWHERE_MARKET_URL = MARKET_DETAIL_SCHEME + BuildConfig.APPLICATION_ID
-    const val COOLAPK_PAGE = "coolmarket://u/482045"
+    const val ANYWHERE_MARKET_URL = Absinthe.MARKET_DETAIL_SCHEME + BuildConfig.APPLICATION_ID
 
     //Scheme
     const val ANYWHERE_SCHEME = "anywhere://"

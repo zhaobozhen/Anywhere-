@@ -24,6 +24,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://dl.bintray.com/absinthe/libraries' }
         maven { url 'https://dl.bintray.com/rikkaw/Shizuku' }
         maven { url 'https://dl.bintray.com/heruoxin/icebox' }
         maven { url 'https://jitpack.io' }

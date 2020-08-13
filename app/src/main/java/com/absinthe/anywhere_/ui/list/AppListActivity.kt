@@ -86,6 +86,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 }
             }
         }
+        menu.findItem(R.id.search).isVisible = false
         return true
     }
 
@@ -173,9 +174,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun initData(showSystem: Boolean = false) {
-        val searchItem = binding.toolbar.toolbar.menu.findItem(R.id.search)
         initDataJob?.cancel()
-        searchItem.isVisible = false
         binding.srlAppList.isRefreshing = true
 
         initDataJob = lifecycleScope.launch(Dispatchers.IO) {
@@ -184,7 +183,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             withContext(Dispatchers.Main) {
                 mAdapter.setDiffNewData(mItems)
                 binding.srlAppList.isRefreshing = false
-                searchItem.isVisible = true
+                binding.toolbar.toolbar.menu.findItem(R.id.search).isVisible = true
             }
         }
     }

@@ -229,7 +229,7 @@ object AppUtils {
             emailIntent.apply {
                 type = "application/octet-stream"
 
-                val emailReceiver = arrayOf("zhaobozhen2025@gmail.com")
+                val emailReceiver = arrayOf("absinthe@absinthe.life")
                 val emailTitle = String.format("[%s] App Version Code: %s", context.getString(R.string.report_title), BuildConfig.VERSION_CODE)
                 putExtra(Intent.EXTRA_EMAIL, emailReceiver)
                 putExtra(Intent.EXTRA_SUBJECT, emailTitle)

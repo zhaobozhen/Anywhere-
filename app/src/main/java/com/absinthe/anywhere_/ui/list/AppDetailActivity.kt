@@ -94,12 +94,10 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun initData(pkgName: String) {
-        val searchItem = mBinding.toolbar.toolbar.menu.findItem(R.id.search)
 
         mBinding.srlAppDetail.apply {
             isEnabled = true
             isRefreshing = true
-            searchItem.isVisible = false
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -172,7 +170,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 mBinding.srlAppDetail.apply {
                     isEnabled = false
                     isRefreshing = false
-                    searchItem.isVisible = true
+                    mBinding.toolbar.toolbar.menu.findItem(R.id.search).isVisible = true
                 }
             }
         }
@@ -192,6 +190,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setOnQueryTextListener(this@AppDetailActivity)
         }
+        menu.findItem(R.id.search).isVisible = false
 
         return true
     }

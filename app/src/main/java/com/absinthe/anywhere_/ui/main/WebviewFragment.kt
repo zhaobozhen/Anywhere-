@@ -26,7 +26,7 @@ class WebviewFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mUri = arguments?.getString(BUNDLE_URI) ?: URLManager.OLD_DOCUMENT_PAGE
+        mUri = arguments?.getString(BUNDLE_URI) ?: URLManager.DOCUMENT_PAGE
     }
 
     @SuppressLint("SetJavaScriptEnabled")

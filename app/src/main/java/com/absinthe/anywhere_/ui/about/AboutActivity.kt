@@ -19,6 +19,7 @@ import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
+import com.absinthe.libraries.Absinthe
 import com.blankj.utilcode.util.AppUtils
 import com.drakeet.about.*
 import com.drakeet.about.extension.RecommendationLoaderDelegate
@@ -64,7 +65,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(Card(getString(R.string.about_text)))
 
             add(Category(getString(R.string.developer)))
-            val developerUrl = if (hasInstallCoolApk) { URLManager.COOLAPK_PAGE } else { URLManager.GITHUB_PAGE }
+            val developerUrl = if (hasInstallCoolApk) { Absinthe.COOLAPK_HOME_PAGE } else { Absinthe.GITHUB_HOME_PAGE }
             add(Contributor(R.mipmap.pic_rabbit, "Absinthe", getString(R.string.developer_info), developerUrl))
 
             add(Category(getString(R.string.certification)))
@@ -72,12 +73,11 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(Contributor(R.drawable.ic_green_android, getString(R.string.green_android_title), "https://green-android.org/", "https://green-android.org/"))
 
             add(Category(getString(R.string.other_works)))
-            add(Contributor(R.mipmap.libchecker_icon, "LibChecker", getString(R.string.lc_intro), URLManager.MARKET_DETAIL_SCHEME + "com.absinthe.libchecker"))
-            add(Contributor(R.mipmap.kage_icon, "Kage(Beta)", getString(R.string.kage_intro), URLManager.MARKET_DETAIL_SCHEME + "com.absinthe.kage"))
+            addAll(Absinthe.getAboutPageRecommendedApps(this@AboutActivity, BuildConfig.APPLICATION_ID))
 
             add(Category(getString(R.string.communication)))
             add(Card(
-                    HtmlCompat.fromHtml("Telegram: <a href=\"t.me/anywhereee\">t.me/anywhereee</a><br>E-mail: zhaobozhen2025@gmail.com", HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    HtmlCompat.fromHtml("Telegram: <a href=\"t.me/anywhereee\">t.me/anywhereee</a><br>E-mail: ${Absinthe.EMAIL}", HtmlCompat.FROM_HTML_MODE_LEGACY)
             ))
 
             add(Category(getString(R.string.open_source_licenses)))

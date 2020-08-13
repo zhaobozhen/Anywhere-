@@ -114,7 +114,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setViewBinding() {
-        isPaddingToolbar = true
+        isPaddingToolbar = !GlobalValues.isMd2Toolbar
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
     }
@@ -551,7 +551,7 @@ class MainActivity : BaseActivity() {
             viewModel.insert(AnywhereEntity.Builder().apply {
                 appName = getString(R.string.help_card_title)
                 type = AnywhereType.Card.URL_SCHEME
-                param1 = URLManager.OLD_DOCUMENT_PAGE
+                param1 = URLManager.DOCUMENT_PAGE
             })
 
             Once.markDone(OnceTag.FAB_TIP)

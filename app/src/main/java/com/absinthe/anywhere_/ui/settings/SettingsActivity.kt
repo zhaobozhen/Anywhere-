@@ -182,12 +182,12 @@ class SettingsActivity : BaseActivity() {
                 Const.PREF_HELP -> {
                     try {
                         CustomTabsIntent.Builder().build().apply {
-                            launchUrl(requireActivity(), URLManager.OLD_DOCUMENT_PAGE.toUri())
+                            launchUrl(requireActivity(), URLManager.DOCUMENT_PAGE.toUri())
                         }
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
                         val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data = URLManager.OLD_DOCUMENT_PAGE.toUri()
+                            data = URLManager.DOCUMENT_PAGE.toUri()
                         }
                         requireActivity().startActivity(intent)
                     }
