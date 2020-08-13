@@ -155,18 +155,14 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             adapter = mAdapter
             setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + StatusBarUtil.getNavBarHeight())
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val topRowVerticalPosition = if (recyclerView.childCount == 0) {
-                        0
-                    } else {
-                        recyclerView.getChildAt(0).top
-                    }
-                    binding.srlAppList.isEnabled = topRowVerticalPosition >= 0
 
-                    if (!recyclerView.canScrollVertically(-1) && binding.extendedFab.isExtended) {
-                        binding.extendedFab.shrink()
-                    } else if (dy < 0 && !binding.extendedFab.isExtended) {
-                        binding.extendedFab.extend()
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        if (!recyclerView.canScrollVertically(-1) && !binding.extendedFab.isExtended) {
+                            binding.extendedFab.extend()
+                        } else {
+                            binding.extendedFab.shrink()
+                        }
                     }
                 }
             })
@@ -183,7 +179,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             withContext(Dispatchers.Main) {
                 mAdapter.setDiffNewData(mItems)
                 binding.srlAppList.isRefreshing = false
-                
+
                 var menu: Menu? = binding.toolbar.toolbar.menu
                 while (menu == null) {
                     menu = binding.toolbar.toolbar.menu
