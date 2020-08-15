@@ -9,7 +9,7 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.adapter.background.BackgroundAdapter
 import com.absinthe.anywhere_.databinding.ActivityBackgroundBinding
-import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
+import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
 import com.chad.library.adapter.base.BaseQuickAdapter

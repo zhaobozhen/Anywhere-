@@ -367,4 +367,6 @@
     <string name="toast_no_react_show_info">沒有 App 可以查看詳情信息</string>
     <string name="app_list_detail_title">應用詳情</string>
     <string name="card_editor_title">卡片編輯器</string>
+    <string name="settings_editor_entry_animation_summary">開啟此選項會有更佳的動畫體驗</string>
+    <string name="settings_editor_entry_animation">編輯器入場動畫</string>
 </resources>

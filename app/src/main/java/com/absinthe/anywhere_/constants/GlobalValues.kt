@@ -187,6 +187,12 @@ object GlobalValues {
             mmkv.encode(Const.PREF_NEED_BACKUP, value)
         }
 
+    var editorEntryAnim
+        get() = mmkv.decodeBool(Const.PREF_EDITOR_ENTRY_ANIM, true)
+        set(value) {
+            mmkv.encode(Const.PREF_EDITOR_ENTRY_ANIM, value)
+        }
+
     val info: CharSequence
         get() {
             val sb = StringBuilder()

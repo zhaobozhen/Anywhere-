@@ -40,6 +40,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var mBinding: ActivityAppDetailBinding
     private var mAdapter: AppListAdapter = AppListAdapter(MODE_APP_DETAIL)
+    private var isDataInit = false
     private val mItems = mutableListOf<AppListBean>()
 
     override fun setViewBinding() {
@@ -148,6 +149,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                     }
                 }
                 mItems.sortByDescending { it.isExported }
+                isDataInit = true
             } catch (exception: PackageManager.NameNotFoundException) {
                 exception.printStackTrace()
             } catch (exception: RuntimeException) {
@@ -170,12 +172,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 mBinding.srlAppDetail.apply {
                     isEnabled = false
                     isRefreshing = false
-
-                    var menu: Menu? = mBinding.toolbar.toolbar.menu
-                    while (menu == null) {
-                        menu = mBinding.toolbar.toolbar.menu
-                    }
-                    menu.findItem(R.id.search).isVisible = true
+                    mBinding.toolbar.toolbar.menu?.findItem(R.id.search)?.isVisible = true
                 }
             }
         }
@@ -195,7 +192,10 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setOnQueryTextListener(this@AppDetailActivity)
         }
-        menu.findItem(R.id.search).isVisible = false
+
+        if (!isDataInit) {
+            menu.findItem(R.id.search).isVisible = false
+        }
 
         return true
     }

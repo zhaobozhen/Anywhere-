@@ -367,4 +367,6 @@
     <string name="toast_no_react_show_info">没有 App 可以查看详情信息</string>
     <string name="app_list_detail_title">应用详情</string>
     <string name="card_editor_title">卡片编辑器</string>
+    <string name="settings_editor_entry_animation">编辑器入场动画</string>
+    <string name="settings_editor_entry_animation_summary">开启此选项会有更佳的动画体验</string>
 </resources>

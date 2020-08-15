@@ -9,7 +9,7 @@ import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.interfaces.OnQRLaunchedListener
+import com.absinthe.anywhere_.listener.OnQRLaunchedListener
 import com.absinthe.anywhere_.model.QREntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.IzukoService

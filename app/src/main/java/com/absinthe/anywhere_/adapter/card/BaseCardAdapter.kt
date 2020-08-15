@@ -21,7 +21,7 @@ import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener
+import com.absinthe.anywhere_.listener.OnPaletteFinishedListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
@@ -33,10 +33,7 @@ import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
-import com.absinthe.anywhere_.view.card.CardItemView
-import com.absinthe.anywhere_.view.card.NormalItemView
-import com.absinthe.anywhere_.view.card.StreamItemView
-import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
+import com.absinthe.anywhere_.view.card.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.catchingnow.icebox.sdk_client.IceBox
@@ -172,15 +169,16 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                     .into(itemView.icon)
         }
 
-        itemView.badge.apply {
-            if (GlobalValues.shortcutsList.contains(item.id)) {
-                isVisible = true
+        if (GlobalValues.shortcutsList.contains(item.id)) {
+            (itemView as ICard).addBadge()
+            itemView.badge?.apply {
                 setImageResource(R.drawable.ic_add_shortcut)
                 setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
-            } else {
-                isVisible = false
             }
+        } else {
+            (itemView as ICard).removeBadge()
         }
+
         itemView.indicator.apply {
             if (item.type == AnywhereType.Card.SWITCH_SHELL) {
                 isVisible = true
@@ -266,15 +264,23 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
             val item = getItem(position)
 
             if (mode == ADAPTER_MODE_NORMAL) {
-                val options = ActivityOptions.makeSceneTransitionAnimation(
-                        context as BaseActivity,
-                        v,
-                        context.getString(R.string.trans_item_container)
-                )
-                context.startActivity(Intent(context, EditorActivity::class.java).apply {
+
+                val intent = Intent(context, EditorActivity::class.java).apply {
                     putExtra(EXTRA_ENTITY, item)
                     putExtra(EXTRA_EDIT_MODE, isEditMode)
-                }, options.toBundle())
+                }
+
+                if (GlobalValues.editorEntryAnim) {
+                    val options = ActivityOptions.makeSceneTransitionAnimation(
+                            context as BaseActivity,
+                            v,
+                            context.getString(R.string.trans_item_container)
+                    )
+
+                    context.startActivity(intent, options.toBundle())
+                } else {
+                    context.startActivity(intent)
+                }
                 v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             }
 

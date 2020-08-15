@@ -1,6 +1,6 @@
 package com.absinthe.anywhere_.model
 
-import com.absinthe.anywhere_.interfaces.OnQRLaunchedListener
+import com.absinthe.anywhere_.listener.OnQRLaunchedListener
 
 class QREntity internal constructor(var listener: OnQRLaunchedListener) {
 

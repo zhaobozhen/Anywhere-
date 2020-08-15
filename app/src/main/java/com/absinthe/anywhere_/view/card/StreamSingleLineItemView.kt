@@ -12,14 +12,14 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.view.app.AlwaysMarqueeTextView
 import com.squareup.contour.ContourLayout
 
-class StreamSingleLineItemView(context: Context) : ContourLayout(context) {
+class StreamSingleLineItemView(context: Context) : ContourLayout(context), ICard {
 
     init {
         contourHeightOf { icon.bottom() + 10.ydip }
     }
 
     val icon: AppCompatImageView = AppCompatImageView(context).apply {
-        backgroundTintList = ContextCompat.getColorStateList(context, R.color.material_on_surface_emphasis_medium)
+        backgroundTintList = ContextCompat.getColorStateList(context, com.google.android.material.R.color.material_on_surface_emphasis_medium)
         backgroundTintMode = PorterDuff.Mode.ADD
         applyLayout(
                 x = leftTo { parent.left() + 10.xdip }.widthOf { 45.xdip },
@@ -27,13 +27,8 @@ class StreamSingleLineItemView(context: Context) : ContourLayout(context) {
         )
     }
 
-    val badge: ImageView = ImageView(context).apply {
-        contentDescription = context.getString(R.string.icon_badge_todo)
-        applyLayout(
-                x = rightTo { icon.right() }.widthOf { 10.xdip },
-                y = topTo { icon.top() }.heightOf { 10.ydip }
-        )
-    }
+    var badge: ImageView? = null
+        private set
 
     val indicator: ImageView = ImageView(context).apply {
         applyLayout(
@@ -43,7 +38,7 @@ class StreamSingleLineItemView(context: Context) : ContourLayout(context) {
     }
 
     val appName: AlwaysMarqueeTextView = AlwaysMarqueeTextView(context).apply {
-        setTextAppearance(R.style.TextAppearance_MaterialComponents_Headline6)
+        setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Headline6)
         setTypeface(null, Typeface.BOLD)
         setHorizontallyScrolling(true)
         gravity = Gravity.CENTER_VERTICAL
@@ -57,5 +52,20 @@ class StreamSingleLineItemView(context: Context) : ContourLayout(context) {
                 x = leftTo { icon.right() + 10.xdip }.rightTo { parent.right() - 10.xdip },
                 y = topTo { icon.top() }.bottomTo { icon.bottom() }
         )
+    }
+
+    override fun addBadge() {
+        badge = ImageView(context).apply {
+            contentDescription = context.getString(R.string.icon_badge_todo)
+            applyLayout(
+                    x = rightTo { icon.right() }.widthOf { 10.xdip },
+                    y = topTo { icon.top() }.heightOf { 10.ydip }
+            )
+        }
+    }
+
+    override fun removeBadge() {
+        removeView(badge)
+        badge = null
     }
 }

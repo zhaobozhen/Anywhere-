@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
-import com.absinthe.anywhere_.interfaces.OnAppDefrostListener;
+import com.absinthe.anywhere_.listener.OnAppDefrostListener;
 import com.absinthe.anywhere_.receiver.AdminReceiver;
 import com.absinthe.anywhere_.utils.CommandUtils;
 import com.absinthe.anywhere_.utils.ToastUtil;

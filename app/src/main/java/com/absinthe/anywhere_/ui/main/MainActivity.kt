@@ -36,7 +36,7 @@ import com.absinthe.anywhere_.adapter.page.PageTitleProvider
 import com.absinthe.anywhere_.constants.*
 import com.absinthe.anywhere_.constants.GlobalValues.setsCategory
 import com.absinthe.anywhere_.databinding.ActivityMainBinding
-import com.absinthe.anywhere_.interfaces.OnDocumentResultListener
+import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity

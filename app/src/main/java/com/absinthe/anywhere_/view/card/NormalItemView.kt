@@ -10,14 +10,14 @@ import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
 import com.squareup.contour.ContourLayout
 
-class NormalItemView(context: Context) : ContourLayout(context) {
+class NormalItemView(context: Context) : ContourLayout(context), ICard {
 
     init {
         contourHeightOf { description.bottom() + 10.ydip }
     }
 
     val icon: AppCompatImageView = AppCompatImageView(context).apply {
-        backgroundTintList = ContextCompat.getColorStateList(context, R.color.material_on_surface_emphasis_medium)
+        backgroundTintList = ContextCompat.getColorStateList(context, com.google.android.material.R.color.material_on_surface_emphasis_medium)
         backgroundTintMode = PorterDuff.Mode.ADD
         applyLayout(
                 x = rightTo { parent.right() - 15.xdip }.widthOf { 45.xdip },
@@ -25,13 +25,8 @@ class NormalItemView(context: Context) : ContourLayout(context) {
         )
     }
 
-    val badge: ImageView = ImageView(context).apply {
-        contentDescription = context.getString(R.string.icon_badge_todo)
-        applyLayout(
-                x = rightTo { icon.right() }.widthOf { 10.xdip },
-                y = topTo { icon.top() }.heightOf { 10.ydip }
-        )
-    }
+    var badge: ImageView? = null
+        private set
 
     val indicator: ImageView = ImageView(context).apply {
         applyLayout(
@@ -41,7 +36,7 @@ class NormalItemView(context: Context) : ContourLayout(context) {
     }
 
     val appName: TextView = TextView(context).apply {
-        setTextAppearance(R.style.TextAppearance_MaterialComponents_Headline6)
+        setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Headline6)
         setTypeface(null, Typeface.BOLD)
         applyLayout(
                 x = leftTo { parent.left() + 10.xdip }.rightTo { icon.left() - 10.xdip },
@@ -50,7 +45,7 @@ class NormalItemView(context: Context) : ContourLayout(context) {
     }
 
     val param1: TextView = TextView(context).apply {
-        setTextAppearance(R.style.TextAppearance_MaterialComponents_Body2)
+        setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Body2)
         setTypeface(null, Typeface.ITALIC)
         applyLayout(
                 x = leftTo { appName.left() }.rightTo { appName.right() },
@@ -59,7 +54,7 @@ class NormalItemView(context: Context) : ContourLayout(context) {
     }
 
     val param2: TextView = TextView(context).apply {
-        setTextAppearance(R.style.TextAppearance_MaterialComponents_Body2)
+        setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Body2)
         setTypeface(null, Typeface.ITALIC)
         applyLayout(
                 x = leftTo { appName.left() }.rightTo { appName.right() },
@@ -68,10 +63,25 @@ class NormalItemView(context: Context) : ContourLayout(context) {
     }
 
     val description: TextView = TextView(context).apply {
-        setTextAppearance(R.style.TextAppearance_MaterialComponents_Subtitle2)
+        setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Subtitle2)
         applyLayout(
                 x = leftTo { appName.left() }.rightTo { appName.right() },
                 y = topTo { param2.bottom() + context.resources.getDimension(R.dimen.cardview_line_spacing).toInt() }
         )
+    }
+
+    override fun addBadge() {
+        badge = ImageView(context).apply {
+            contentDescription = context.getString(R.string.icon_badge_todo)
+            applyLayout(
+                    x = rightTo { icon.right() }.widthOf { 10.xdip },
+                    y = topTo { icon.top() }.heightOf { 10.ydip }
+            )
+        }
+    }
+
+    override fun removeBadge() {
+        removeView(badge)
+        badge = null
     }
 }

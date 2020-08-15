@@ -230,6 +230,9 @@
     <string name="settings_transparent_icon_title">Transparent Icon</string>
     <string name="settings_transparent_icon_summary">Used to prevent the generation of application corner marks when creating desktop shortcuts on some ROMs</string>
 
+    <string name="settings_editor_entry_animation">Editor Entry Animation</string>
+    <string name="settings_editor_entry_animation_summary">It will have a better animation experience after turning on this option</string>
+
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root permission denied</string>
     <string name="toast_open_pop_up_when_background_permission">MIUI ROM should grant the pop-up permission, or may has problems</string>

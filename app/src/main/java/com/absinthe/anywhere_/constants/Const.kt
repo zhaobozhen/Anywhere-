@@ -55,6 +55,7 @@ object Const {
     const val PREF_WEBDAV_RESTORE = "webdavRestore"
     const val PREF_NEED_BACKUP = "needBackup"
     const val PREF_TRANS_ICON = "transparentIcon"
+    const val PREF_EDITOR_ENTRY_ANIM = "editorEntryAnim"
 
     const val WORKING_MODE_URL_SCHEME = "url_scheme"
     const val WORKING_MODE_ROOT = "root"

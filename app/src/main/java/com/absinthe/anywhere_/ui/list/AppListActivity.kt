@@ -44,6 +44,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
     private var mItems = mutableListOf<AppListBean>()
     private var isShowSystemApp = false
     private var initDataJob: Job? = null
+    private var isDataInit = false
     private val mAdapter: AppListAdapter = AppListAdapter(MODE_APP_LIST)
 
     override fun setViewBinding() {
@@ -86,7 +87,11 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 }
             }
         }
-        menu.findItem(R.id.search).isVisible = false
+
+        if (!isDataInit) {
+            menu.findItem(R.id.search).isVisible = false
+        }
+
         return true
     }
 
@@ -175,16 +180,12 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
         initDataJob = lifecycleScope.launch(Dispatchers.IO) {
             mItems = getAppList(packageManager, showSystem).toMutableList()
+            isDataInit = true
 
             withContext(Dispatchers.Main) {
                 mAdapter.setDiffNewData(mItems)
                 binding.srlAppList.isRefreshing = false
-
-                var menu: Menu? = binding.toolbar.toolbar.menu
-                while (menu == null) {
-                    menu = binding.toolbar.toolbar.menu
-                }
-                menu.findItem(R.id.search).isVisible = true
+                binding.toolbar.toolbar.menu?.findItem(R.id.search)?.isVisible = true
             }
         }
     }

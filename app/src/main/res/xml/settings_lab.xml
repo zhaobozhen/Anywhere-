@@ -13,6 +13,13 @@
             app:icon="@drawable/ic_transparent_icon"
             app:defaultValue="false" />
 
+        <SwitchPreferenceCompat
+            android:key="editorEntryAnim"
+            android:title="@string/settings_editor_entry_animation"
+            app:summary="@string/settings_editor_entry_animation_summary"
+            app:icon="@drawable/ic_animation"
+            app:defaultValue="true" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

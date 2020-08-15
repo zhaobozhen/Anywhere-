@@ -33,7 +33,7 @@ import com.absinthe.anywhere_.constants.GlobalValues.iconPack
 import com.absinthe.anywhere_.constants.GlobalValues.isMd2Toolbar
 import com.absinthe.anywhere_.constants.GlobalValues.isPages
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
-import com.absinthe.anywhere_.interfaces.OnPaletteFinishedListener
+import com.absinthe.anywhere_.listener.OnPaletteFinishedListener
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
