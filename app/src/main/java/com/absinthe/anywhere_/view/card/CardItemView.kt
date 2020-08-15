@@ -16,7 +16,7 @@ class CardItemView<T : ViewGroup>(context: Context, t: T) : MaterialCardView(con
 
     val appName: TextView
     val icon: AppCompatImageView
-    val badge: ImageView?
+    val badge: ImageView
     val indicator: ImageView
     val cardBackground: ImageView
 

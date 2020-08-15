@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.text.TextUtils
 import android.view.Gravity
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
@@ -12,7 +13,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.view.app.AlwaysMarqueeTextView
 import com.squareup.contour.ContourLayout
 
-class StreamSingleLineItemView(context: Context) : ContourLayout(context), ICard {
+class StreamSingleLineItemView(context: Context) : ContourLayout(context) {
 
     init {
         contourHeightOf { icon.bottom() + 10.ydip }
@@ -27,8 +28,14 @@ class StreamSingleLineItemView(context: Context) : ContourLayout(context), ICard
         )
     }
 
-    var badge: ImageView? = null
-        private set
+    val badge: ImageView = ImageView(context).apply {
+        contentDescription = context.getString(R.string.icon_badge_todo)
+        visibility = View.GONE
+        applyLayout(
+                x = rightTo { icon.right() }.widthOf { 10.xdip },
+                y = topTo { icon.top() }.heightOf { 10.ydip }
+        )
+    }
 
     val indicator: ImageView = ImageView(context).apply {
         applyLayout(
@@ -52,20 +59,5 @@ class StreamSingleLineItemView(context: Context) : ContourLayout(context), ICard
                 x = leftTo { icon.right() + 10.xdip }.rightTo { parent.right() - 10.xdip },
                 y = topTo { icon.top() }.bottomTo { icon.bottom() }
         )
-    }
-
-    override fun addBadge() {
-        badge = ImageView(context).apply {
-            contentDescription = context.getString(R.string.icon_badge_todo)
-            applyLayout(
-                    x = rightTo { icon.right() }.widthOf { 10.xdip },
-                    y = topTo { icon.top() }.heightOf { 10.ydip }
-            )
-        }
-    }
-
-    override fun removeBadge() {
-        removeView(badge)
-        badge = null
     }
 }

@@ -169,16 +169,15 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                     .into(itemView.icon)
         }
 
-        if (GlobalValues.shortcutsList.contains(item.id)) {
-            (itemView as ICard).addBadge()
-            itemView.badge?.apply {
+        itemView.badge.apply {
+            if (GlobalValues.shortcutsList.contains(item.id)) {
+                isVisible = true
                 setImageResource(R.drawable.ic_add_shortcut)
                 setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN)
+            } else {
+                isGone = true
             }
-        } else {
-            (itemView as ICard).removeBadge()
         }
-
         itemView.indicator.apply {
             if (item.type == AnywhereType.Card.SWITCH_SHELL) {
                 isVisible = true
