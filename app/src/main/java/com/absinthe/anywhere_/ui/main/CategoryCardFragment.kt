@@ -54,15 +54,6 @@ class CategoryCardFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        GlobalValues.cardModeLiveData.observe(viewLifecycleOwner, Observer {
-            refreshRecyclerView()
-        })
-        AnywhereApplication.sRepository.allAnywhereEntities.observe(viewLifecycleOwner, listObserver)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -137,6 +128,7 @@ class CategoryCardFragment : Fragment() {
     private fun initView() {
         setHasOptionsMenu(true)
         setupRecyclerView()
+        initObservers()
     }
 
     private fun setupRecyclerView() {
@@ -174,6 +166,13 @@ class CategoryCardFragment : Fragment() {
         }).apply {
             attachToRecyclerView(null)
         }
+    }
+
+    private fun initObservers() {
+        GlobalValues.cardModeLiveData.observe(viewLifecycleOwner, Observer {
+            refreshRecyclerView()
+        })
+        AnywhereApplication.sRepository.allAnywhereEntities.observe(viewLifecycleOwner, listObserver)
     }
 
     private fun resetSelectState() {
