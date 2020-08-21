@@ -3,9 +3,11 @@ package com.absinthe.anywhere_.services
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.service.controls.Control
 import android.service.controls.ControlsProviderService
 import android.service.controls.actions.ControlAction
+import androidx.annotation.RequiresApi
 import io.reactivex.Flowable
 import org.reactivestreams.FlowAdapters
 import java.util.concurrent.Flow
@@ -17,6 +19,7 @@ import java.util.function.Consumer
  * time : 2020/08/12
  * </pre>
  */
+@RequiresApi(Build.VERSION_CODES.R)
 class AnywhereControlsProviderService : ControlsProviderService() {
 
     override fun createPublisherForAllAvailable(): Flow.Publisher<Control> {

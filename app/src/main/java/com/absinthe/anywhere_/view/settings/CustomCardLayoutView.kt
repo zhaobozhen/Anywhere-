@@ -1,10 +1,8 @@
 package com.absinthe.anywhere_.view.settings
 
 import android.content.Context
-import com.squareup.contour.ContourLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 
-class CustomCardLayoutView(context: Context) : ContourLayout(context) {
-
-
+class CustomCardLayoutView(context: Context) : ConstraintLayout(context) {
 
 }

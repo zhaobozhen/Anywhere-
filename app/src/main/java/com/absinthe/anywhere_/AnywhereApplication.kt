@@ -30,7 +30,6 @@ class AnywhereApplication : Application() {
                     Analytics::class.java, Crashes::class.java)
         }
 
-        Settings.init()
         sRepository = AnywhereRepository(this)
     }
 
@@ -40,6 +39,7 @@ class AnywhereApplication : Application() {
         Reflection.unseal(base)
         Once.initialise(this)
         Settings.initMMKV(this)
+        Settings.init(this)
     }
 
     companion object {

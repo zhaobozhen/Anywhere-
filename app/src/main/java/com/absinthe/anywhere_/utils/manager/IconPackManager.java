@@ -13,13 +13,10 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
+import androidx.core.content.res.ResourcesCompat;
+import com.blankj.utilcode.util.Utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -28,6 +25,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 /**
  * Icon Pack Manager
@@ -36,8 +36,8 @@ public class IconPackManager {
 
     private Context mContext;
 
-    public void setContext(Context c) {
-        mContext = c;
+    public void setContext(Context context) {
+        mContext = context;
     }
 
     public class IconPack {
@@ -61,6 +61,7 @@ public class IconPackManager {
             if (pm == null) {
                 return;
             }
+
             try {
                 XmlPullParser xpp = null;
 
@@ -153,7 +154,7 @@ public class IconPackManager {
         private Bitmap loadBitmap(String drawableName) {
             int id = iconPackres.getIdentifier(drawableName, "drawable", packageName);
             if (id > 0) {
-                Drawable bitmap = iconPackres.getDrawable(id);
+                Drawable bitmap = ResourcesCompat.getDrawable(iconPackres, id, null);
                 if (bitmap instanceof BitmapDrawable) {
                     return ((BitmapDrawable) bitmap).getBitmap();
                 }
@@ -165,7 +166,7 @@ public class IconPackManager {
             int id = iconPackres.getIdentifier(drawableName, "drawable", packageName);
             if (id > 0) {
                 try {
-                    return iconPackres.getDrawable(id);
+                    return ResourcesCompat.getDrawable(iconPackres, id, null);
                 } catch (Resources.NotFoundException e) {
                     return null;
                 }
@@ -278,27 +279,26 @@ public class IconPackManager {
                 scaledBitmap = Bitmap.createBitmap(defaultBitmap);
             }
 
+            Bitmap mutableMask = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas maskCanvas = new Canvas(mutableMask);
+
             if (mMaskImage != null) {
                 // draw the scaled bitmap with mask
-                Bitmap mutableMask = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-                Canvas maskCanvas = new Canvas(mutableMask);
                 maskCanvas.drawBitmap(mMaskImage, 0, 0, new Paint());
 
                 // paint the bitmap with mask into the result
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-                mCanvas.drawBitmap(scaledBitmap, (w - scaledBitmap.getWidth()) / 2, (h - scaledBitmap.getHeight()) / 2, null);
+                mCanvas.drawBitmap(scaledBitmap, (w - scaledBitmap.getWidth()) / 2f, (h - scaledBitmap.getHeight()) / 2f, null);
                 mCanvas.drawBitmap(mutableMask, 0, 0, paint);
                 paint.setXfermode(null);
             } else {    // draw the scaled bitmap with the back image as mask
-                Bitmap mutableMask = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-                Canvas maskCanvas = new Canvas(mutableMask);
                 maskCanvas.drawBitmap(backImage, 0, 0, new Paint());
 
                 // paint the bitmap with mask into the result
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-                mCanvas.drawBitmap(scaledBitmap, (w - scaledBitmap.getWidth()) / 2, (h - scaledBitmap.getHeight()) / 2, null);
+                mCanvas.drawBitmap(scaledBitmap, (w - scaledBitmap.getWidth()) / 2f, (h - scaledBitmap.getHeight()) / 2f, null);
                 mCanvas.drawBitmap(mutableMask, 0, 0, paint);
                 paint.setXfermode(null);
 

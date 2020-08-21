@@ -75,13 +75,13 @@ object UxUtils {
             AnywhereType.Card.ACTIVITY, AnywhereType.Card.QR_CODE -> {
                 return getAppIcon(context, item.packageName)
             }
-            AnywhereType.Card.IMAGE -> return context.getDrawable(R.drawable.ic_card_image)!!
-            AnywhereType.Card.SHELL -> return context.getDrawable(R.drawable.ic_card_shell)!!
-            AnywhereType.Card.SWITCH_SHELL -> return context.getDrawable(R.drawable.ic_card_switch)!!
-            AnywhereType.Card.FILE -> return context.getDrawable(R.drawable.ic_card_file)!!
-            AnywhereType.Card.BROADCAST -> return context.getDrawable(R.drawable.ic_card_broadcast)!!
+            AnywhereType.Card.IMAGE -> return ContextCompat.getDrawable(context, R.drawable.ic_card_image)!!
+            AnywhereType.Card.SHELL -> return ContextCompat.getDrawable(context, R.drawable.ic_card_shell)!!
+            AnywhereType.Card.SWITCH_SHELL -> return ContextCompat.getDrawable(context, R.drawable.ic_card_switch)!!
+            AnywhereType.Card.FILE -> return ContextCompat.getDrawable(context, R.drawable.ic_card_file)!!
+            AnywhereType.Card.BROADCAST -> return ContextCompat.getDrawable(context, R.drawable.ic_card_broadcast)!!
         }
-        return context.getDrawable(R.drawable.ic_logo)!!
+        return ContextCompat.getDrawable(context, R.drawable.ic_logo)!!
     }
 
     fun getAppIcon(context: Context, item: AppListBean): Drawable {
@@ -104,11 +104,11 @@ object UxUtils {
                 context.packageManager.getApplicationIcon(packageName)
             } else {
                 Settings.sIconPack?.getDrawableIconForPackage(packageName, context.packageManager.getApplicationIcon(packageName))
-                        ?: context.getDrawable(R.drawable.ic_logo)!!
+                        ?: ContextCompat.getDrawable(context, R.drawable.ic_logo)!!
             }
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
-            context.getDrawable(R.drawable.ic_logo)!!
+            ContextCompat.getDrawable(context, R.drawable.ic_logo)!!
         }
         return drawable
     }

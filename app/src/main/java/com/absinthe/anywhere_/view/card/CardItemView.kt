@@ -10,9 +10,7 @@ import com.absinthe.anywhere_.R
 import com.google.android.material.card.MaterialCardView
 
 @SuppressLint("ViewConstructor")
-class CardItemView<T : ViewGroup>(context: Context, t: T) : MaterialCardView(context) {
-
-    val content = t
+class CardItemView<T : ViewGroup>(context: Context, val content: T) : MaterialCardView(context) {
 
     val appName: TextView
     val icon: AppCompatImageView

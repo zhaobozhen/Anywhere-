@@ -14,6 +14,7 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.IconPackDialogBuilder
+import com.blankj.utilcode.util.Utils
 import java.util.*
 
 class IconPackDialogFragment : AnywhereDialogFragment() {
@@ -52,7 +53,7 @@ class IconPackDialogFragment : AnywhereDialogFragment() {
             setOnItemClickListener { _, _, position ->
                 val item = getItem(position)
                 GlobalValues.iconPack = item.packageName
-                Settings.initIconPackManager()
+                Settings.initIconPackManager(Utils.getApp())
                 AppUtils.restart()
             }
             setList(listBeans)

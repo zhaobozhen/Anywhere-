@@ -5,8 +5,7 @@ import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import android.widget.ArrayAdapter
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -35,7 +34,7 @@ class ShortcutsActivity : BaseActivity() {
     private var isBound = false
     private var collectorService: ICollectorService? = null
 
-    private val conn = object : ServiceConnection {
+    private val connection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
             collectorService = null
@@ -48,14 +47,26 @@ class ShortcutsActivity : BaseActivity() {
         }
 
     }
+    private val viewModel by viewModels<AnywhereViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         UxUtils.setActionBarTransparent(this)
-
-        val viewModel = ViewModelProvider(this).get(AnywhereViewModel::class.java)
         Analytics.trackEvent(EventTag.SHORTCUT_OPEN)
+        handleIntent(intent)
+    }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    override fun initView() {}
+    override fun setViewBinding() {}
+    override fun setToolbar() {}
+
+    private fun handleIntent(intent: Intent) {
         intent.action?.let {
             Timber.d("action = %s", it)
 
@@ -67,14 +78,14 @@ class ShortcutsActivity : BaseActivity() {
                         if (isBound) {
                             collectorService?.startCollector()
                         } else {
-                            bindService(Intent(this, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
+                            bindService(Intent(this, CollectorService::class.java), connection, Context.BIND_AUTO_CREATE)
                         }
                     }
                     finish()
                 }
                 ACTION_START_ENTITY -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_ID)?.let { id ->
-                        viewModel.allAnywhereEntities.observe(this, Observer { list ->
+                        viewModel.allAnywhereEntities.observe(this, { list ->
                             list.find { findItem ->
                                 findItem.id == id
                             }?.apply {
@@ -92,7 +103,7 @@ class ShortcutsActivity : BaseActivity() {
                 }
                 ACTION_START_FROM_WIDGET -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_WIDGET_ITEM_ID)?.let { id ->
-                        viewModel.allAnywhereEntities.observe(this, Observer { list ->
+                        viewModel.allAnywhereEntities.observe(this, { list ->
                             list.find { findItem ->
                                 findItem.id == id
                             }?.apply {
@@ -109,7 +120,7 @@ class ShortcutsActivity : BaseActivity() {
                     } ?: finish()
                 }
                 Intent.ACTION_CREATE_SHORTCUT -> {
-                    viewModel.allAnywhereEntities.observe(this, Observer { anywhereEntities: List<AnywhereEntity>? ->
+                    viewModel.allAnywhereEntities.observe(this, { anywhereEntities: List<AnywhereEntity>? ->
                         val arrayAdapter = ArrayAdapter<String>(Utils.getApp(), android.R.layout.select_dialog_singlechoice)
 
                         anywhereEntities?.let { entities ->
@@ -132,14 +143,13 @@ class ShortcutsActivity : BaseActivity() {
                                             }
                                         }
 
-                                        val intent = Intent().apply {
+                                        setResult(Activity.RESULT_OK, Intent().apply {
                                             putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
                                             putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_open))
                                             putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                                                     Intent.ShortcutIconResource.fromContext(
                                                             this@ShortcutsActivity, R.drawable.ic_shortcut_start_collector))
-                                        }
-                                        setResult(Activity.RESULT_OK, intent)
+                                        })
                                         finish()
                                     }
                                     .setOnCancelListener { finish() }
@@ -163,10 +173,11 @@ class ShortcutsActivity : BaseActivity() {
                             uri.getQueryParameter(Const.INTENT_EXTRA_DYNAMIC_PARAM)?.let { dynamic ->
                                 try {
                                     dynamicParam = Gson().fromJson(dynamic, ExtraBean.ExtraItem::class.java)
-                                } catch (ignore: Exception) {}
+                                } catch (ignore: Exception) {
+                                }
                             }
                             uri.getQueryParameter(Const.INTENT_EXTRA_OPEN_SHORT_ID)?.let { sid ->
-                                viewModel.allAnywhereEntities.observe(this, Observer { list ->
+                                viewModel.allAnywhereEntities.observe(this, { list ->
                                     list.find { findItem ->
                                         findItem.id.endsWith(sid)
                                     }?.apply {
@@ -188,14 +199,6 @@ class ShortcutsActivity : BaseActivity() {
                 else -> finish()
             }
         }
-    }
-
-    override fun initView() {}
-    override fun setViewBinding() {}
-    override fun setToolbar() {}
-
-    init {
-        isPaddingToolbar = false
     }
 
     companion object {

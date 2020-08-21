@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
@@ -90,7 +91,7 @@ open class TileSettingsActivity : BaseActivity() {
                 appName = getString(R.string.app_name),
                 packageName = packageName,
                 className = localClassName,
-                icon = getDrawable(R.mipmap.ic_launcher) ?: ColorDrawable(Color.TRANSPARENT),
+                icon = ContextCompat.getDrawable(this, R.mipmap.ic_launcher) ?: ColorDrawable(Color.TRANSPARENT),
                 type = -1
         )
     }

@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.viewbuilder.entity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
 import android.widget.LinearLayout
@@ -37,6 +38,7 @@ class TimePickerBuilder(context: Context) : ViewBuilder(context) {
         }
         addView(btnStart)
 
+        @SuppressLint("SetTextI18n")
         val tvTo = TextView(context).apply {
             layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,

@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.model
 
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.appcompat.app.AppCompatDelegate
 import com.absinthe.anywhere_.AnywhereApplication
@@ -12,7 +13,6 @@ import com.absinthe.anywhere_.utils.StorageUtils.getTokenFromFile
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.IconPackManager
 import com.absinthe.anywhere_.utils.manager.IconPackManager.IconPack
-import com.blankj.utilcode.util.Utils
 import com.tencent.mmkv.MMKV
 import jonathanfinerty.once.Once
 import java.io.IOException
@@ -27,12 +27,12 @@ object Settings {
     lateinit var sDate: String
     lateinit var sToken: String
 
-    fun init() {
+    fun init(context: Context) {
         setLogger()
         setTheme(GlobalValues.darkMode)
-        initIconPackManager()
+        initIconPackManager(context)
         setDate()
-        initToken()
+        initToken(context)
     }
 
     fun setTheme(mode: String) {
@@ -49,8 +49,8 @@ object Settings {
         GlobalValues.sIsDebugMode = BuildConfig.DEBUG or GlobalValues.sIsDebugMode
     }
 
-    fun initIconPackManager() {
-        sIconPackManager.setContext(Utils.getApp())
+    fun initIconPackManager(context: Context) {
+        sIconPackManager.setContext(context)
         val hashMap = sIconPackManager.getAvailableIconPacks(true)
 
         for ((key, value) in hashMap) {
@@ -77,9 +77,9 @@ object Settings {
         sDate = dateFormat.format(date)
     }
 
-    private fun initToken() {
+    private fun initToken(context: Context) {
         sToken = try {
-            getTokenFromFile(Utils.getApp())
+            getTokenFromFile(context)
         } catch (e: IOException) {
             ""
         }

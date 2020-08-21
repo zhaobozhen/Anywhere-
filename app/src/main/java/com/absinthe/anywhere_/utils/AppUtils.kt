@@ -13,6 +13,7 @@ import android.os.Parcelable
 import android.os.Process
 import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.absinthe.anywhere_.BuildConfig
@@ -142,7 +143,7 @@ object AppUtils {
                             packageInfo.applicationInfo.loadIcon(packageManager)
                         } else {
                             com.absinthe.anywhere_.model.Settings.sIconPack?.getDrawableIconForPackage(packageInfo.packageName, packageInfo.applicationInfo.loadIcon(packageManager))
-                                    ?: Utils.getApp().getDrawable(R.drawable.ic_logo)!!
+                                    ?: ContextCompat.getDrawable(Utils.getApp(), R.drawable.ic_logo)!!
                         },
                         type = -1
                 )

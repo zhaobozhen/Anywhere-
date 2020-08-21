@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.constants
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.MutableLiveData
 import com.absinthe.anywhere_.utils.SPUtils
-import com.blankj.utilcode.util.Utils
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -12,10 +11,6 @@ import com.tencent.mmkv.MMKV
 object GlobalValues {
 
     private val mmkv: MMKV = MMKV.mmkvWithID(SPUtils.sPName)
-
-    init {
-        MMKV.initialize(Utils.getApp())
-    }
 
     var sIsDebugMode = false
 

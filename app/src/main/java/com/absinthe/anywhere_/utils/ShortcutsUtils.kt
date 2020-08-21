@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -74,9 +75,9 @@ object ShortcutsUtils {
 
         val icon = if (ae.type == AnywhereType.Card.SWITCH_SHELL) {
             if (ae.param3 == SWITCH_OFF) {
-                Utils.getApp().getDrawable(R.drawable.ic_red_dot)!!.toBitmap()
+                ContextCompat.getDrawable(Utils.getApp(), R.drawable.ic_red_dot)!!.toBitmap()
             } else {
-                Utils.getApp().getDrawable(R.drawable.ic_green_dot)!!.toBitmap()
+                ContextCompat.getDrawable(Utils.getApp(), R.drawable.ic_green_dot)!!.toBitmap()
             }
         } else {
             UxUtils.getAppIcon(Utils.getApp(), ae).toBitmap()

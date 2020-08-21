@@ -30,9 +30,8 @@
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan">
+            android:configChanges="orientation"
+            android:launchMode="singleTask">
 
             <meta-data
                 android:name="android.app.shortcuts"
@@ -45,9 +44,8 @@
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:targetActivity=".ui.main.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan">
+            android:configChanges="orientation"
+            android:launchMode="singleTask">
             <intent-filter>
                 <!-- Start from URL Scheme -->
                 <!-- Required -->
@@ -97,9 +95,8 @@
             android:icon="@drawable/transparent"
             android:roundIcon="@drawable/transparent"
             android:targetActivity=".ui.main.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan">
+            android:configChanges="orientation"
+            android:launchMode="singleTask">
             <intent-filter>
                 <!-- Start from URL Scheme -->
                 <!-- Required -->
@@ -161,6 +158,7 @@
             android:name=".ui.shortcuts.ShortcutsActivity"
             android:excludeFromRecents="true"
             android:label="@string/shortcut_open"
+            android:launchMode="singleTask"
             android:theme="@style/Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />

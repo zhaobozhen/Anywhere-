@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -53,6 +54,7 @@ object ToastUtil {
             show(context, context.getString(res), Toast.LENGTH_LONG)
         }
 
+        @SuppressLint("InflateParams")
         private fun show(context: Context, message: String, duration: Int) {
             val view = LayoutInflater.from(context).inflate(R.layout.layout_toast, null)
 
