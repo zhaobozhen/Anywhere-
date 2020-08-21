@@ -11,20 +11,22 @@ import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.services.overlay.CollectorService
+import com.absinthe.anywhere_.services.overlay.ICollectorService
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 class CollectorTileService : TileService() {
 
     private var isBound = false
-    private var collectorService: CollectorService? = null
-    private val conn = object : ServiceConnection {
+    private var collectorService: ICollectorService? = null
+    private val connection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
+            collectorService = null
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             isBound = true
-            collectorService = (service as CollectorService.CollectorBinder).service
+            collectorService = ICollectorService.Stub.asInterface(service)
             collectorService?.startCollector()
         }
 
@@ -35,7 +37,7 @@ class CollectorTileService : TileService() {
             if (isBound) {
                 collectorService?.startCollector()
             } else {
-                bindService(Intent(this, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
+                bindService(Intent(this, CollectorService::class.java), connection, Context.BIND_AUTO_CREATE)
             }
 
             it.state = Tile.STATE_ACTIVE

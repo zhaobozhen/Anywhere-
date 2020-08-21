@@ -6,7 +6,7 @@ import android.view.*
 import android.widget.LinearLayout
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.OverlayWindowManager
-import com.absinthe.anywhere_.services.overlay.OverlayService
+import com.absinthe.anywhere_.services.overlay.IOverlayService
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
@@ -14,7 +14,7 @@ import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder
 import timber.log.Timber
 
 @SuppressLint("ViewConstructor")
-class OverlayView(context: Context, private val service: OverlayService) : LinearLayout(context) {
+class OverlayView(context: Context, private val binder: IOverlayService) : LinearLayout(context) {
 
     var entity: AnywhereEntity = AnywhereEntity.Builder()
         set(value) {
@@ -33,7 +33,7 @@ class OverlayView(context: Context, private val service: OverlayService) : Linea
 
     private val removeWindowTask = Runnable {
         mBuilder.ivIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-        service.closeOverlay()
+        binder.closeOverlay()
     }
 
     init {

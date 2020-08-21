@@ -7,6 +7,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
@@ -71,7 +72,7 @@ class CategoryCardFragment : Fragment() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        setRecyclerViewLayoutManager(newConfig)
+        setRecyclerViewLayoutManager(binding.recyclerView, newConfig)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -156,10 +157,11 @@ class CategoryCardFragment : Fragment() {
             setHasStableIds(true)
         }
 
-        binding.recyclerView.adapter = this.adapter
-        binding.recyclerView.addItemDecoration(decoration)
-
-        setRecyclerViewLayoutManager(resources.configuration)
+        with(binding.recyclerView) {
+            adapter = this@CategoryCardFragment.adapter
+            setRecyclerViewLayoutManager(this, resources.configuration)
+            addItemDecoration(decoration)
+        }
 
         itemTouchHelper = ItemTouchHelper(ItemTouchCallBack().apply {
             setOnItemTouchListener(adapter)
@@ -200,8 +202,8 @@ class CategoryCardFragment : Fragment() {
         }
     }
 
-    private fun setRecyclerViewLayoutManager(configuration: Configuration) {
-        binding.recyclerView.layoutManager = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+    private fun setRecyclerViewLayoutManager(recyclerView: RecyclerView, configuration: Configuration) {
+        recyclerView.layoutManager = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (GlobalValues.isStreamCardMode) {
                 WrapContentStaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
             } else {

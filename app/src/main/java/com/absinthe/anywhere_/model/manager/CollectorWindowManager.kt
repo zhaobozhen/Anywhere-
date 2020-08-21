@@ -5,17 +5,17 @@ import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
-import com.absinthe.anywhere_.services.overlay.CollectorService
+import com.absinthe.anywhere_.services.overlay.ICollectorService
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.view.home.CollectorView
 import timber.log.Timber
 
-class CollectorWindowManager(context: Context, service: CollectorService) {
+class CollectorWindowManager(context: Context, binder: ICollectorService) {
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private var hasAdded = false
 
-    var view: CollectorView = CollectorView(context, service)
+    var view: CollectorView = CollectorView(context, binder)
         private set
 
     fun addView() {

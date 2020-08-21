@@ -42,6 +42,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.services.BackupIntentService
 import com.absinthe.anywhere_.services.overlay.CollectorService
+import com.absinthe.anywhere_.services.overlay.ICollectorService
 import com.absinthe.anywhere_.transformer.CategoryCardTransformer
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
@@ -96,17 +97,18 @@ class MainActivity : BaseActivity() {
     private lateinit var mObserver: Observer<List<PageEntity>?>
 
     private var isBound = false
-    private var collectorService: CollectorService? = null
+    private var collectorService: ICollectorService? = null
     private var mToggle: ActionBarDrawerToggle? = null
 
     private val conn = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
+            collectorService = null
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             isBound = true
-            collectorService = (service as CollectorService.CollectorBinder).service
+            collectorService = ICollectorService.Stub.asInterface(service)
             collectorService?.startCollector()
             ActivityUtils.startHomeActivity()
         }

@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.CollectorService
+import com.absinthe.anywhere_.services.overlay.ICollectorService
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
@@ -28,21 +29,21 @@ import com.blankj.utilcode.util.Utils
 import com.google.gson.Gson
 import com.microsoft.appcenter.analytics.Analytics
 import timber.log.Timber
-import java.lang.Exception
 
 class ShortcutsActivity : BaseActivity() {
 
     private var isBound = false
-    private var collectorService: CollectorService? = null
+    private var collectorService: ICollectorService? = null
 
     private val conn = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             isBound = false
+            collectorService = null
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             isBound = true
-            collectorService = (service as CollectorService.CollectorBinder).service
+            collectorService = ICollectorService.Stub.asInterface(service)
             collectorService?.startCollector()
         }
 

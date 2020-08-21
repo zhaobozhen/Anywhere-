@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.services.overlay
 
 import android.app.Service
 import android.content.Intent
-import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -21,8 +20,17 @@ import timber.log.Timber
 
 class CollectorService : Service() {
 
-    private lateinit var mCollectorWindowManager: CollectorWindowManager
-    private val binder = CollectorBinder()
+    private val binder = object : ICollectorService.Stub() {
+
+        override fun startCollector() {
+            startCollectorInternal()
+        }
+
+        override fun stopCollector() {
+            stopCollectorInternal()
+        }
+    }
+    private val mCollectorWindowManager by lazy { CollectorWindowManager(applicationContext, binder) }
 
     private val mHandler = Handler(Looper.myLooper()!!)
     private val getCurrentInfoTask: Runnable = object : Runnable {
@@ -43,11 +51,6 @@ class CollectorService : Service() {
         }
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        initCollectorWindowManager()
-    }
-
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         return START_NOT_STICKY
     }
@@ -62,7 +65,7 @@ class CollectorService : Service() {
         super.onDestroy()
     }
 
-    fun startCollector() {
+    private fun startCollectorInternal() {
         if (!PermissionUtils.isGrantedDrawOverlays()) {
             ToastUtil.makeText(
                     if (AppUtils.atLeastR()) {
@@ -84,16 +87,12 @@ class CollectorService : Service() {
         }
     }
 
-    fun stopCollector() {
+    private fun stopCollectorInternal() {
         if (isCollectorPlus) {
             mHandler.removeCallbacks(getCurrentInfoTask)
         }
         mCollectorWindowManager.removeView()
         stopSelf()
-    }
-
-    private fun initCollectorWindowManager() {
-        mCollectorWindowManager = CollectorWindowManager(applicationContext, this)
     }
 
     private fun startCollectorImpl() {
@@ -104,10 +103,5 @@ class CollectorService : Service() {
         }
 
         ToastUtil.makeText(R.string.toast_collector_opened)
-    }
-
-    inner class CollectorBinder : Binder() {
-        val service: CollectorService
-            get() = this@CollectorService
     }
 }

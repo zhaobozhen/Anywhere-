@@ -6,16 +6,16 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.services.overlay.OverlayService
+import com.absinthe.anywhere_.services.overlay.IOverlayService
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.view.home.OverlayView
 import timber.log.Timber
 
-class OverlayWindowManager(context: Context, service: OverlayService, entity: AnywhereEntity) {
+class OverlayWindowManager(context: Context, binder: IOverlayService, entity: AnywhereEntity) {
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val mEntity = entity
-    private var mOverlayView: OverlayView = OverlayView(context, service)
+    private var mOverlayView: OverlayView = OverlayView(context, binder)
     private var hasAdded = false
 
     fun addView() {
