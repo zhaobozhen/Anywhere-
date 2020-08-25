@@ -32,6 +32,7 @@ class StreamItemView(context: Context) : ConstraintLayout(context) {
 
     val indicator: ImageView = ImageView(context).apply {
         id = View.generateViewId()
+        visibility = View.GONE
     }
 
     val appName: TextView = TextView(context).apply {
@@ -77,10 +78,9 @@ class StreamItemView(context: Context) : ConstraintLayout(context) {
         addView(appName, LayoutParams(0, 45.dp).apply {
             startToStart = this@StreamItemView.id
             endToStart = icon.id
-            topToTop = this@StreamItemView.id
+            topToTop = icon.id
             marginStart = 10.dp
             marginEnd = 10.dp
-            topMargin = 10.dp
         })
 
         addView(description, LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT).apply {

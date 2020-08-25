@@ -21,7 +21,7 @@ object GlobalValues {
             Gson().fromJson<List<String>>(mmkv.decodeString(Const.SHORTCUTS_LIST), object : TypeToken<List<String>>() {}.type)
                     ?: listOf()
         } catch (e: JsonSyntaxException) {
-            listOf<String>()
+            listOf()
         }
         set(value) {
             field = value

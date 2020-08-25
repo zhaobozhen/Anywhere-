@@ -1,6 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext.kotlin_version = '1.4.0'
     repositories {
         google()
         jcenter()
@@ -16,6 +17,7 @@ buildscript {
         classpath 'com.github.heruoxin:Robfuscate:master'   // R obfuscate
         classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.18' // Resource obfuscate
         classpath 'io.michaelrocks:paranoid-gradle-plugin:0.3.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 

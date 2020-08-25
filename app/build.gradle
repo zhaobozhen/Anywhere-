@@ -24,8 +24,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 200801
-        versionName "2.0.8"
+        versionCode 200900
+        versionName "2.0.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
@@ -42,7 +42,7 @@ android {
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "Anywhere-β"]
-            buildConfigField("boolean", "BETA", 'true')
+            buildConfigField("boolean", "BETA", 'false')
         }
 
         release {
@@ -82,6 +82,7 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    mavenCentral()
 }
 
 android {
@@ -124,7 +125,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:${lifecycle_version}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:${lifecycle_version}"
 
-    def activity_version = '1.2.0-alpha07'
+    def activity_version = '1.2.0-alpha08'
     implementation "androidx.activity:activity:$activity_version"
     implementation "androidx.activity:activity-ktx:$activity_version"
 
@@ -137,7 +138,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.browser:browser:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
     implementation "androidx.annotation:annotation:1.2.0-alpha01"

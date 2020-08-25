@@ -120,10 +120,10 @@ class CategoryCardFragment : Fragment() {
     }
 
     fun deleteSelected() {
-        DialogManager.showDeleteSelectCardDialog(requireContext(), DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
+        DialogManager.showDeleteSelectCardDialog(requireContext()) { _: DialogInterface?, _: Int ->
             adapter.deleteSelect()
             resetSelectState()
-        })
+        }
     }
 
     private fun initView() {
