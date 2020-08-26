@@ -67,7 +67,7 @@ class CollectorService : Service() {
 
     private fun startCollectorInternal() {
         if (!PermissionUtils.isGrantedDrawOverlays()) {
-            ToastUtil.makeText(
+            ToastUtil.Toasty.show(this,
                     if (AppUtils.atLeastR()) {
                         R.string.toast_overlay_choose_anywhere
                     } else {
@@ -102,6 +102,6 @@ class CollectorService : Service() {
             mHandler.post(getCurrentInfoTask)
         }
 
-        ToastUtil.makeText(R.string.toast_collector_opened)
+        ToastUtil.Toasty.show(this, R.string.toast_collector_opened)
     }
 }

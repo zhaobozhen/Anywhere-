@@ -15,21 +15,22 @@ import com.absinthe.anywhere_.services.overlay.ICollectorService
 class CollectorTileService : TileService() {
 
     private var collectorBinder: ICollectorService? = null
-    private val connection = object : ServiceConnection {
-        override fun onServiceDisconnected(name: ComponentName?) {
-            collectorBinder = null
-        }
-
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            collectorBinder = ICollectorService.Stub.asInterface(service)
-            collectorBinder?.startCollector()
-        }
-    }
+    private var connection: ServiceConnection? = null
 
     override fun onClick() {
         qsTile?.let {
             if (collectorBinder == null) {
-                bindService(Intent(this, CollectorService::class.java), connection, Context.BIND_AUTO_CREATE)
+                connection = object : ServiceConnection {
+                    override fun onServiceDisconnected(name: ComponentName?) {
+                        collectorBinder = null
+                    }
+
+                    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                        collectorBinder = ICollectorService.Stub.asInterface(service)
+                        collectorBinder?.startCollector()
+                    }
+                }
+                bindService(Intent(this, CollectorService::class.java), connection!!, Context.BIND_AUTO_CREATE)
             } else {
                 collectorBinder?.startCollector()
             }
@@ -38,7 +39,7 @@ class CollectorTileService : TileService() {
     }
 
     override fun onDestroy() {
-        unbindService(connection)
+        connection?.let { unbindService(it) }
         super.onDestroy()
     }
 }
