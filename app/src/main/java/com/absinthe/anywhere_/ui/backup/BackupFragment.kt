@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.absinthe.anywhere_.BaseActivity
@@ -19,7 +18,6 @@ import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.launch
 
 const val BACKUP_TIP_VERSION = "2.0.0"
 
@@ -113,9 +111,7 @@ class BackupFragment : PreferenceFragmentCompat(),
                         GlobalValues.webdavPassword.isEmpty()) {
                     Snackbar.make(listView, R.string.toast_check_webdav_configuration, Snackbar.LENGTH_LONG).show()
                 } else {
-                    lifecycleScope.launch {
-                        StorageUtils.webdavBackup()
-                    }
+                    StorageUtils.webdavBackup()
                 }
                 return true
             }

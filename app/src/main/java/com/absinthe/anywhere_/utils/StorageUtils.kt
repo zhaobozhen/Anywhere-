@@ -17,9 +17,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.thegrizzlylabs.sardineandroid.DavResource
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.IOException
 
@@ -146,8 +144,8 @@ object StorageUtils {
         return String(buffer)
     }
 
-    suspend fun webdavBackup() {
-        withContext(Dispatchers.IO) {
+    fun webdavBackup() {
+        GlobalScope.launch(Dispatchers.IO) {
             val sardine = OkHttpSardine()
             sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
 

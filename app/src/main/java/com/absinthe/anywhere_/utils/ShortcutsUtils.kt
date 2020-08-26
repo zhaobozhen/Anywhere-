@@ -114,8 +114,9 @@ object ShortcutsUtils {
                 putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
             }
 
+            val finalName = if (name.isEmpty()) " " else name
             val pinShortcutInfo = ShortcutInfo.Builder(Utils.getApp(), ae.id)
-                    .setShortLabel(name)
+                    .setShortLabel(finalName)
                     .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(icon)))
                     .setIntent(intent)
                     .build()
