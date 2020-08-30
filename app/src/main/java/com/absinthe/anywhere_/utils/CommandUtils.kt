@@ -11,9 +11,9 @@ import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.model.ShizukuProcess
-import com.absinthe.anywhere_.model.SuProcess
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
+import com.absinthe.anywhere_.utils.manager.ShellManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
 import com.blankj.utilcode.util.Utils
 import timber.log.Timber
@@ -156,7 +156,7 @@ object CommandUtils {
         val result = StringBuilder()
 
         try {
-            result.append(SuProcess.exec(cmd))
+            result.append(ShellManager.exec(cmd))
         } catch (e: Exception) {
             e.printStackTrace()
             result.append(CommandResult.RESULT_ROOT_PERM_ERROR)

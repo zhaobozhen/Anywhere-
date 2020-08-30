@@ -269,15 +269,6 @@ object AppUtils {
         }
     }
 
-    /**
-     * Acquire su permission to app
-     *
-     * @param context context
-     */
-    fun acquireRootPerm(context: Context): Boolean {
-        return SuProcess.acquireRootPerm(context)
-    }
-
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
     fun atLeastR(): Boolean {
         return Build.VERSION.SDK_INT >= 30

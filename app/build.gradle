@@ -161,6 +161,7 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation 'com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT'
     implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.6'
+    implementation "com.github.topjohnwu.libsu:core:3.0.2"
 
     //UX
     implementation 'com.drakeet.about:about:2.4.1'

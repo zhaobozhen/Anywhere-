@@ -21,6 +21,7 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.SPUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
+import com.absinthe.anywhere_.utils.manager.ShellManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper
 import com.blankj.utilcode.util.PermissionUtils
 import com.google.android.material.button.MaterialButtonToggleGroup
@@ -203,7 +204,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         when (card) {
             CARD_ROOT -> {
                 rootBinding.btnAcquireRootPermission.setOnClickListener {
-                    isRoot.setValue(AppUtils.acquireRootPerm(requireContext()))
+                    isRoot.setValue(ShellManager.acquireRoot())
                 }
                 if (isAdd) {
                     if (!bRoot) {

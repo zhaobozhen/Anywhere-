@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
+import com.absinthe.anywhere_.utils.manager.ShellManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.checkShizukuOnWorking
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.isGrantShizukuPermission
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
@@ -123,7 +124,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                     } else {
                         Timber.d("ROOT permission denied.")
                         ToastUtil.makeText(R.string.toast_root_permission_denied)
-                        AppUtils.acquireRootPerm(activity)
+                        ShellManager.acquireRoot()
                     }
                 } else {
                     if (AppUtils.atLeastR()) {
@@ -136,7 +137,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                             } else {
                                 Timber.d("ROOT permission denied.")
                                 ToastUtil.makeText(R.string.toast_root_permission_denied)
-                                AppUtils.acquireRootPerm(activity)
+                                ShellManager.acquireRoot()
                             }
                         }
 

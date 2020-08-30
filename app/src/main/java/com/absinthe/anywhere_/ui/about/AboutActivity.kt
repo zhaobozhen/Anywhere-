@@ -84,6 +84,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(License("Kotlin", "JetBrains", License.APACHE_2, "https://github.com/JetBrains/kotlin"))
             add(License("Shizuku", "Rikka", License.APACHE_2, "https://github.com/RikkaApps/Shizuku"))
             add(License("FreeReflection", "tiann", License.MIT, "https://github.com/tiann/FreeReflection"))
+            add(License("libsu", "topjohnwu", License.APACHE_2, "https://github.com/topjohnwu/libsu"))
             add(License("MultiType", "drakeet", License.APACHE_2, "https://github.com/drakeet/MultiType"))
             add(License("about-page", "drakeet", License.APACHE_2, "https://github.com/drakeet/about-page"))
             add(License("glide", "bumptech", "BSD, part MIT and Apache 2.0", "https://github.com/bumptech/glide"))
