@@ -13,7 +13,7 @@ object ShellManager {
     }
 
     fun exec(command: String): String {
-        return Shell.su(command).exec().toString()
+        return Shell.su(command).exec().out.toString()
     }
 
     fun acquireRoot(): Boolean {

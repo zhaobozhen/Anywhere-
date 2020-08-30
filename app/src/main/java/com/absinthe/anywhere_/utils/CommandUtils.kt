@@ -153,19 +153,19 @@ object CommandUtils {
      */
     private fun execRootCmd(cmd: String): String {
         Timber.i(cmd)
-        val result = StringBuilder()
+        val result: String
 
-        try {
-            result.append(ShellManager.exec(cmd))
+        result = try {
+            ShellManager.exec(cmd)
         } catch (e: Exception) {
             e.printStackTrace()
-            result.append(CommandResult.RESULT_ROOT_PERM_ERROR)
+            CommandResult.RESULT_ROOT_PERM_ERROR
         }
 
-        if (result.toString().isEmpty()) {
-            result.append(CommandResult.RESULT_EMPTY)
+        if (result.isEmpty() || result == "[]") {
+            return CommandResult.RESULT_EMPTY
         }
-        return result.toString()
+        return result
     }
 
     /**

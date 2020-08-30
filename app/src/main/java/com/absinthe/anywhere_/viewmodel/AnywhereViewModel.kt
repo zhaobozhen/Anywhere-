@@ -33,6 +33,7 @@ import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.google.gson.Gson
+import com.topjohnwu.superuser.Shell
 import timber.log.Timber
 import java.util.*
 
@@ -119,7 +120,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
             }
             Const.WORKING_MODE_ROOT -> {
                 if (PermissionUtils.isGrantedDrawOverlays()) {
-                    if (DeviceUtils.isDeviceRooted()) {
+                    if (Shell.rootAccess()) {
                         listener.onStart()
                     } else {
                         Timber.d("ROOT permission denied.")
