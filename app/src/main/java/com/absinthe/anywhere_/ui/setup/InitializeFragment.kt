@@ -115,19 +115,15 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
             when (mWorkingMode) {
                 Const.WORKING_MODE_URL_SCHEME -> flag = true
-                Const.WORKING_MODE_ROOT -> if (allPerm and ROOT_PERM == 1 && allPerm and OVERLAY_PERM == 1) {
-                    flag = if (XiaomiUtilities.isMIUI()) {
-                        allPerm and POPUP_PERM == 1
-                    } else {
-                        true
-                    }
+                Const.WORKING_MODE_ROOT -> flag = if (XiaomiUtilities.isMIUI()) {
+                    allPerm == (ROOT_PERM or OVERLAY_PERM or POPUP_PERM)
+                } else {
+                    allPerm == (ROOT_PERM or OVERLAY_PERM)
                 }
-                Const.WORKING_MODE_SHIZUKU -> if (allPerm and SHIZUKU_CHECK_PERM == 1 && allPerm and SHIZUKU_PERM == 1 && allPerm and OVERLAY_PERM == 1) {
-                    flag = if (XiaomiUtilities.isMIUI()) {
-                        allPerm and POPUP_PERM == 1
-                    } else {
-                        true
-                    }
+                Const.WORKING_MODE_SHIZUKU -> flag = if (XiaomiUtilities.isMIUI()) {
+                    allPerm == (SHIZUKU_GROUP_PERM or OVERLAY_PERM or POPUP_PERM)
+                } else {
+                    allPerm == (SHIZUKU_GROUP_PERM or OVERLAY_PERM)
                 }
             }
 
@@ -156,8 +152,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                     btnAcquireRootPermission.isEnabled = false
                     done.visibility = View.VISIBLE
                 }
-                allPerm.value?.or(ROOT_PERM)
-                Timber.d("allPerm = %s", allPerm.value)
+                allPerm.value = allPerm.value!! or ROOT_PERM
             } else {
                 Timber.d("Root permission denied.")
                 ToastUtil.makeText(R.string.toast_root_permission_denied)
@@ -165,7 +160,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         })
         isShizukuCheck.observe(viewLifecycleOwner, { aBoolean: Boolean ->
             if (aBoolean) {
-                allPerm.value?.or(SHIZUKU_CHECK_PERM)
+                allPerm.value = allPerm.value!! or SHIZUKU_CHECK_PERM
 
                 shizukuBinding.apply {
                     btnCheckShizukuState.setText(R.string.btn_checked)
@@ -185,7 +180,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                     btnAcquirePermission.setText(R.string.btn_acquired)
                     btnAcquirePermission.isEnabled = false
                 }
-                allPerm.value?.or(SHIZUKU_PERM)
+                allPerm.value = allPerm.value!! or SHIZUKU_PERM
             }
             allPerm.value?.let {
                 if (it and SHIZUKU_GROUP_PERM == SHIZUKU_GROUP_PERM) {
@@ -200,8 +195,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                     btnAcquireOverlayPermission.isEnabled = false
                     done.visibility = View.VISIBLE
                 }
-                allPerm.value?.or(OVERLAY_PERM)
-                Timber.d("allPerm = %s", allPerm.value)
+                allPerm.value = allPerm.value!! or OVERLAY_PERM
             }
         })
         isPopup.observe(viewLifecycleOwner, { aBoolean: Boolean ->
@@ -211,8 +205,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                     btnAcquirePopupPermission.isEnabled = false
                     done.visibility = View.VISIBLE
                 }
-                allPerm.value?.or(POPUP_PERM)
-                Timber.d("allPerm = %s", allPerm.value)
+                allPerm.value = allPerm.value!! or POPUP_PERM
             }
         })
     }
@@ -242,7 +235,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 shizukuBinding.btnAcquirePermission.setOnClickListener {
                     isShizuku.value = ShizukuHelper.isGrantShizukuPermission
                     if (!ShizukuHelper.isGrantShizukuPermission) {
-                        ShizukuHelper.requestShizukuPermission()
+                        ShizukuHelper.requestShizukuPermission(this)
                     }
                 }
                 if (isAdd) {

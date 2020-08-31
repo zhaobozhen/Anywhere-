@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.utils.manager
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import androidx.fragment.app.Fragment
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -10,6 +11,7 @@ import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager.topActivity
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCheckShizukuWorkingDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showGotoShizukuManagerDialog
+import com.absinthe.libraries.utils.utils.XiaomiUtilities
 import com.blankj.utilcode.util.IntentUtils
 import com.blankj.utilcode.util.PermissionUtils
 import moe.shizuku.api.ShizukuApiConstants
@@ -64,19 +66,34 @@ object ShizukuHelper {
             return
         }
         topActivity?.let {
-            try {
-                it.requestPermissions(arrayOf(ShizukuApiConstants.PERMISSION), Const.REQUEST_CODE_SHIZUKU_PERMISSION)
-            } catch (e:Exception) {
+            if (XiaomiUtilities.isMIUI()) {
                 showPermissionDialog(it)
+            } else {
+                it.requestPermissions(arrayOf(ShizukuApiConstants.PERMISSION), Const.REQUEST_CODE_SHIZUKU_PERMISSION)
             }
         }
     }
 
-    private fun showPermissionDialog(activity: Activity) {
+    fun requestShizukuPermission(fragment: Fragment) {
+        if (isGrantShizukuPermission) {
+            return
+        }
+        if (XiaomiUtilities.isMIUI()) {
+            showPermissionDialog(fragment.requireActivity(), fragment)
+        } else {
+            fragment.requestPermissions(arrayOf(ShizukuApiConstants.PERMISSION), Const.REQUEST_CODE_SHIZUKU_PERMISSION)
+        }
+    }
+
+    private fun showPermissionDialog(activity: Activity, fragment: Fragment? = null) {
         showGotoShizukuManagerDialog(activity, DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
             val intent = IntentUtils.getLaunchAppIntent("moe.shizuku.privileged.api")
             if (intent != null) {
-                activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
+                if (fragment != null) {
+                    fragment.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
+                } else {
+                    activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
+                }
             } else {
                 ToastUtil.makeText(R.string.toast_not_install_shizuku)
                 URLSchemeHandler.parse(activity, URLManager.SHIZUKU_MARKET_URL)

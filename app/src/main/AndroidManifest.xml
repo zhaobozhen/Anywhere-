@@ -311,15 +311,6 @@
         <service
             android:name=".services.BackupIntentService"
             android:exported="false" />
-        <!-- New signature permission to ensure only systemui can bind to these services -->
-        <service
-          android:name=".services.AnywhereControlsProviderService"
-          android:label="Controls Center"
-          android:permission="android.permission.BIND_CONTROLS">
-            <intent-filter>
-                <action android:name="android.service.controls.ControlsProviderService" />
-            </intent-filter>
-        </service>
 
         <receiver android:name=".receiver.HomeWidgetProvider">
             <meta-data
