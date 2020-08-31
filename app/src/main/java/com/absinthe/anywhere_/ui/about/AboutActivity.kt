@@ -19,7 +19,7 @@ import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.libraries.Absinthe
+import com.absinthe.libraries.me.Absinthe
 import com.blankj.utilcode.util.AppUtils
 import com.drakeet.about.*
 import com.drakeet.about.extension.RecommendationLoaderDelegate

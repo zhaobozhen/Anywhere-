@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.databinding.FragmentWelcomeBinding
-import com.absinthe.anywhere_.utils.TimeRecorder
 
 class WelcomeFragment : Fragment() {
 
@@ -23,8 +22,6 @@ class WelcomeFragment : Fragment() {
                     .replace(R.id.fragment_container_view, InitializeFragment.newInstance())
                     .commitNow()
         }
-
-        TimeRecorder.shouldRecord = false
 
         return binding.root
     }

@@ -7,6 +7,7 @@ import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.checkSignature
 import com.absinthe.anywhere_.utils.timber.ReleaseTree
 import com.absinthe.anywhere_.utils.timber.ThreadAwareDebugTree
+import com.absinthe.libraries.utils.utils.Utility
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -40,6 +41,7 @@ class AnywhereApplication : Application() {
         Once.initialise(this)
         Settings.initMMKV(this)
         Settings.init(this)
+        Utility.init(this)
     }
 
     companion object {

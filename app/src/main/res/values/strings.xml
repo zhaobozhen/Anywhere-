@@ -299,7 +299,7 @@
     <string name="title_acquire_overlay_permission">Grant Overlay permission</string>
     <string name="subtitle_acquire_overlay_permission">Overlay permission is used to generate a hover button to select a page</string>
     <string name="title_acquire_popup_permission">Grant Pop-up permission</string>
-    <string name="subtitle_acquire_popup_permission">MIUI ROM may need to obtain this permission to make the app work properly. This permission is not a standard privilege and cannot obtain an authorization status.</string>
+    <string name="subtitle_acquire_popup_permission">MIUI ROM may need to obtain this permission to make the app work properly</string>
     <string name="title_acquire_shizuku_permission">Grant Shizuku permission</string>
     <string name="subtitle_acquire_shizuku_permission">Execute the adb commands by Shizuku permission</string>
     <string name="subtitle_check_shizuku_state">Check Shizuku service</string>

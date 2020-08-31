@@ -1,15 +1,12 @@
 package com.absinthe.anywhere_.ui.setup
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.Settings
 import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
@@ -23,6 +20,7 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.ShellManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper
+import com.absinthe.libraries.utils.utils.XiaomiUtilities
 import com.blankj.utilcode.util.PermissionUtils
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
@@ -117,20 +115,28 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
             when (mWorkingMode) {
                 Const.WORKING_MODE_URL_SCHEME -> flag = true
-                Const.WORKING_MODE_ROOT -> if (allPerm == ROOT_PERM or OVERLAY_PERM) {
-                    flag = true
+                Const.WORKING_MODE_ROOT -> if (allPerm and ROOT_PERM == 1 && allPerm and OVERLAY_PERM == 1) {
+                    flag = if (XiaomiUtilities.isMIUI()) {
+                        allPerm and POPUP_PERM == 1
+                    } else {
+                        true
+                    }
                 }
-                Const.WORKING_MODE_SHIZUKU -> if (allPerm == SHIZUKU_GROUP_PERM or OVERLAY_PERM) {
-                    flag = true
+                Const.WORKING_MODE_SHIZUKU -> if (allPerm and SHIZUKU_CHECK_PERM == 1 && allPerm and SHIZUKU_PERM == 1 && allPerm and OVERLAY_PERM == 1) {
+                    flag = if (XiaomiUtilities.isMIUI()) {
+                        allPerm and POPUP_PERM == 1
+                    } else {
+                        true
+                    }
                 }
             }
 
             if (flag) {
                 enterHomePage()
             } else {
-                DialogManager.showHasNotGrantPermYetDialog(requireActivity(), DialogInterface.OnClickListener { _, _ ->
+                DialogManager.showHasNotGrantPermYetDialog(requireActivity()) { _, _ ->
                     enterHomePage()
-                })
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -143,7 +149,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     }
 
     private fun initObserver() {
-        isRoot.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
+        isRoot.observe(viewLifecycleOwner, { aBoolean: Boolean ->
             if (aBoolean) {
                 rootBinding.apply {
                     btnAcquireRootPermission.setText(R.string.btn_acquired)
@@ -157,7 +163,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 ToastUtil.makeText(R.string.toast_root_permission_denied)
             }
         })
-        isShizukuCheck.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
+        isShizukuCheck.observe(viewLifecycleOwner, { aBoolean: Boolean ->
             if (aBoolean) {
                 allPerm.value?.or(SHIZUKU_CHECK_PERM)
 
@@ -173,7 +179,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
             }
         })
-        isShizuku.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
+        isShizuku.observe(viewLifecycleOwner, { aBoolean: Boolean ->
             if (aBoolean) {
                 shizukuBinding.apply {
                     btnAcquirePermission.setText(R.string.btn_acquired)
@@ -187,7 +193,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
             }
         })
-        isOverlay.observe(viewLifecycleOwner, Observer { aBoolean: Boolean ->
+        isOverlay.observe(viewLifecycleOwner, { aBoolean: Boolean ->
             if (aBoolean) {
                 overlayBinding.apply {
                     btnAcquireOverlayPermission.setText(R.string.btn_acquired)
@@ -195,6 +201,17 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                     done.visibility = View.VISIBLE
                 }
                 allPerm.value?.or(OVERLAY_PERM)
+                Timber.d("allPerm = %s", allPerm.value)
+            }
+        })
+        isPopup.observe(viewLifecycleOwner, { aBoolean: Boolean ->
+            if (aBoolean) {
+                popupBinding.apply {
+                    btnAcquirePopupPermission.setText(R.string.btn_acquired)
+                    btnAcquirePopupPermission.isEnabled = false
+                    done.visibility = View.VISIBLE
+                }
+                allPerm.value?.or(POPUP_PERM)
                 Timber.d("allPerm = %s", allPerm.value)
             }
         })
@@ -268,10 +285,12 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
             }
             CARD_POPUP -> {
+                if (!XiaomiUtilities.isMIUI()) {
+                    return
+                }
+                isPopup.value = XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_BACKGROUND_START_ACTIVITY)
                 popupBinding.btnAcquirePopupPermission.setOnClickListener {
-                    if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {
-                        com.absinthe.anywhere_.utils.PermissionUtils.goToMIUIPermissionManager(requireActivity())
-                    }
+                    startActivityForResult(XiaomiUtilities.getPermissionManagerIntent(), Const.REQUEST_CODE_GO_TO_MIUI_PERM_MANAGER)
                 }
                 if (isAdd) {
                     if (!bPopup) {
@@ -283,30 +302,13 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                     bPopup = false
                 }
             }
-            else -> {
-                popupBinding.btnAcquirePopupPermission.setOnClickListener {
-                    if (com.absinthe.anywhere_.utils.PermissionUtils.isMIUI) {
-                        com.absinthe.anywhere_.utils.PermissionUtils.goToMIUIPermissionManager(requireContext())
-                    }
-                }
-                if (isAdd) {
-                    if (!bPopup) {
-                        mBinding.container.addView(popupBinding.root, -1)
-                        bPopup = true
-                    }
-                } else {
-                    mBinding.container.removeView(popupBinding.root)
-                    bPopup = false
-                }
-            }
+            else -> return
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == Const.REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION) {
-            if (Settings.canDrawOverlays(context)) {
-                isOverlay.value = java.lang.Boolean.TRUE
-            }
+        if (requestCode == Const.REQUEST_CODE_GO_TO_MIUI_PERM_MANAGER) {
+            isPopup.value = XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_BACKGROUND_START_ACTIVITY)
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
             lifecycleScope.launch(Dispatchers.Main) {
                 delay(1500)
@@ -334,13 +336,13 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         private const val CARD_OVERLAY = 3
         private const val CARD_POPUP = 4
 
-        const val ROOT_PERM = 1
-        const val SHIZUKU_CHECK_PERM = 2
-        const val SHIZUKU_PERM = 4
-        const val OVERLAY_PERM = 8
-        const val SHIZUKU_GROUP_PERM = 6
+        const val ROOT_PERM = 1.shl(0)
+        const val SHIZUKU_CHECK_PERM = 1.shl(1)
+        const val SHIZUKU_PERM = 1.shl(2)
+        const val OVERLAY_PERM = 1.shl(3)
+        const val POPUP_PERM = 1.shl(4)
+        const val SHIZUKU_GROUP_PERM = SHIZUKU_PERM or SHIZUKU_CHECK_PERM
 
-        @JvmStatic
         fun newInstance(): InitializeFragment {
             return InitializeFragment()
         }

@@ -155,7 +155,7 @@
     <string name="title_acquire_overlay_permission">獲取懸浮窗權限</string>
     <string name="subtitle_acquire_overlay_permission">懸浮窗權限用於生成一個懸浮按鈕來選擇頁面</string>
     <string name="title_acquire_popup_permission">獲取後台彈出界面權限</string>
-    <string name="subtitle_acquire_popup_permission">MIUI 可能需要獲取此權限來使應用正常運行，此權限非標準權限，無法獲取授權狀態</string>
+    <string name="subtitle_acquire_popup_permission">MIUI 可能需要獲取此權限來使應用正常運行</string>
     <string name="title_acquire_shizuku_permission">獲取 Shizuku 權限</string>
     <string name="subtitle_acquire_shizuku_permission">使用 Shizuku 權限執行 adb 指令</string>
     <string name="subtitle_check_shizuku_state">檢查 Shizuku 服務狀態</string>

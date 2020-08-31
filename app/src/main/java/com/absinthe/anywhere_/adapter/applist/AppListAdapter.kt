@@ -54,6 +54,16 @@ class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(
         }
     }
 
+    override fun getItemId(position: Int): Long {
+        return when(mMode) {
+            MODE_APP_LIST -> data[position].packageName.hashCode().toLong()
+            MODE_APP_DETAIL -> data[position].className.hashCode().toLong()
+            MODE_CARD_LIST -> data[position].className.hashCode().toLong()
+            MODE_ICON_PACK -> data[position].packageName.hashCode().toLong()
+            else -> super.getItemId(position)
+        }
+    }
+
     fun setOnAppItemClickListener(listener: OnAppItemClickListener?) {
         mListener = listener
     }

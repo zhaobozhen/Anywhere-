@@ -18,9 +18,9 @@ import com.absinthe.anywhere_.adapter.defrost.DefrostItem
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityDefrostBinding
 import com.absinthe.anywhere_.receiver.AdminReceiver
-import com.absinthe.anywhere_.utils.PermissionUtils.isMIUI
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager.showGrantPrivilegedPermDialog
+import com.absinthe.libraries.utils.utils.XiaomiUtilities
 import com.blankj.utilcode.util.AppUtils
 import com.catchingnow.delegatedscopeclient.DSMClient
 import com.catchingnow.icebox.sdk_client.IceBox
@@ -60,7 +60,7 @@ class DefrostActivity : BaseActivity() {
                         }
                     } else if (mList[position].mode == Const.DEFROST_MODE_ICEBOX_SDK) {
                         if (ContextCompat.checkSelfPermission(this@DefrostActivity, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                            if (isMIUI) {
+                            if (XiaomiUtilities.isMIUI()) {
                                 showGrantPrivilegedPermDialog(this@DefrostActivity)
                             } else {
                                 ActivityCompat.requestPermissions(this@DefrostActivity, arrayOf(IceBox.SDK_PERMISSION), Const.REQUEST_CODE_ICEBOX)
