@@ -267,9 +267,7 @@ object Opener {
             }
             AnywhereType.Card.SHELL -> {
                 val result = CommandUtils.execAdbCmd(item.param1)
-                DialogManager.showShellResultDialog(context, result,
-                        DialogInterface.OnClickListener { _, _ -> listener?.onOpened() },
-                        DialogInterface.OnCancelListener { listener?.onOpened() })
+                DialogManager.showShellResultDialog(context, result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
             }
             AnywhereType.Card.SWITCH_SHELL -> {
                 openByCommand(context, getItemCommand(item), item.packageName)
@@ -400,9 +398,7 @@ object Opener {
         val result = CommandUtils.execAdbCmd(newCommand)
 
         if (isShowShellResult) {
-            DialogManager.showShellResultDialog(context, result,
-                    DialogInterface.OnClickListener { _, _ -> listener?.onOpened() },
-                    DialogInterface.OnCancelListener { listener?.onOpened() })
+            DialogManager.showShellResultDialog(context, result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
         } else {
             listener?.onOpened()
         }
