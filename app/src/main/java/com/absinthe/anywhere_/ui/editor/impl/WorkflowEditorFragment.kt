@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.adapter.workflow.FlowStepAdapter
 import com.absinthe.anywhere_.databinding.EditorWorkflowBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -26,9 +27,17 @@ class WorkflowEditorFragment  : BaseEditorFragment(), IEditor {
     }
 
     override fun initView() {
+        item.let {
+            binding.apply {
+                tietAppName.setText(it.appName)
+                tietDescription.setText(it.description)
+            }
+        }
+
         binding.list.apply {
             adapter = this@WorkflowEditorFragment.adapter
             layoutManager = LinearLayoutManager(requireContext())
+            overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
             lifecycleScope.launchWhenResumed {
                 repeat(5) {

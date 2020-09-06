@@ -34,7 +34,7 @@ class AnywhereEditorFragment : BaseEditorFragment(), IEditor {
     override fun initView() {
         item.let {
             val extraBean: ExtraBean? = try {
-                Gson().fromJson<ExtraBean>(it.param3, ExtraBean::class.java)
+                Gson().fromJson(it.param3, ExtraBean::class.java)
             } catch (e: JsonSyntaxException) {
                 null
             }

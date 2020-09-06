@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.ui.editor.impl
 
 import android.content.ActivityNotFoundException
-import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,9 +33,9 @@ class SchemeEditorFragment : BaseEditorFragment(), IEditor {
     override fun initView() {
         binding.btnUrlSchemeCommunity.setOnClickListener {
             if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.SHORTCUT_COMM_TIPS)) {
-                DialogManager.showShortcutCommunityTipsDialog(requireActivity(), DialogInterface.OnClickListener { _, _ ->
+                DialogManager.showShortcutCommunityTipsDialog(requireActivity()) { _, _ ->
                     openShortcutCommunity()
-                })
+                }
                 Once.markDone(OnceTag.SHORTCUT_COMM_TIPS)
             } else {
                 openShortcutCommunity()
