@@ -56,7 +56,7 @@ class CollectorWindowManager(context: Context, binder: ICollectorService) {
             flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
 
             type = if (AppUtils.atLeastO()) {
-                WindowManager.LayoutParams.LAST_SYSTEM_WINDOW
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             } else {
                 WindowManager.LayoutParams.TYPE_PHONE
             }
