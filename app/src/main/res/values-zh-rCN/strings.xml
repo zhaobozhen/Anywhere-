@@ -269,7 +269,7 @@
     <string name="bsd_text_input_layout_shell_name_label">Shell 名称</string>
     <string name="dialog_shell_result_title">Shell 结果</string>
     <string name="dialog_close_button">关闭</string>
-    <string name="btn_add_advanced_card">高级卡片</string>
+    <string name="btn_add_advanced_card">添加卡片</string>
     <string name="dialog_add_shortcut_anymore_button">仍要添加</string>
     <string name="toast_security_exception">Activity 被阻止访问</string>
     <string name="help_card_title">帮助文档</string>
@@ -361,4 +361,5 @@
     <string name="card_editor_title">卡片编辑器</string>
     <string name="settings_editor_entry_animation">编辑器入场动画</string>
     <string name="settings_editor_entry_animation_summary">开启此选项会有更佳的动画体验</string>
+  <string name="btn_activity">活动</string>
 </resources>

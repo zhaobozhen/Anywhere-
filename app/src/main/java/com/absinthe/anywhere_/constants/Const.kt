@@ -55,6 +55,9 @@ object Const {
     const val PREF_NEED_BACKUP = "needBackup"
     const val PREF_TRANS_ICON = "transparentIcon"
     const val PREF_EDITOR_ENTRY_ANIM = "editorEntryAnim"
+    const val PREF_TILE_ONE_ACTIVE = "tileOneActive"
+    const val PREF_TILE_TWO_ACTIVE = "tileTwoActive"
+    const val PREF_TILE_THREE_ACTIVE = "tileThreeActive"
 
     const val WORKING_MODE_URL_SCHEME = "url_scheme"
     const val WORKING_MODE_ROOT = "root"
@@ -87,6 +90,7 @@ object Const {
     const val INTENT_EXTRA_SHORTCUTS_ID = "shortcutsId"
     const val INTENT_EXTRA_OPEN_SHORT_ID = "sid"
     const val INTENT_EXTRA_DYNAMIC_PARAM = "dynamic"
+    const val INTENT_EXTRA_FROM_TILE = "tile"
 
     const val INTENT_EXTRA_WIDGET_ENTITY = "entity"
     const val INTENT_EXTRA_WIDGET_ITEM_ID = "item_id"

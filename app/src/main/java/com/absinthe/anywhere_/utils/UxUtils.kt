@@ -39,6 +39,7 @@ import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.AppUtils.getPackageNameByScheme
 import com.absinthe.anywhere_.utils.StatusBarUtil.clearLightStatusBarAndNavigationBar
 import com.absinthe.anywhere_.utils.manager.ShadowHelper
+import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
@@ -407,8 +408,8 @@ object UxUtils {
     fun drawMd2Toolbar(toolbar: Toolbar, shadowRadius: Int) {
         ShadowHelper.getInstance()
                 .setShape(ShadowHelper.SHAPE_ROUND)
-                .setShapeRadius(ConvertUtils.dp2px(8f))
-                .setShadowRadius(ConvertUtils.dp2px(shadowRadius.toFloat()))
+                .setShapeRadius(8.dp)
+                .setShadowRadius(shadowRadius.dp)
                 .setShadowColor(Color.parseColor("#4D000000"))
                 .into(toolbar)
     }

@@ -62,10 +62,10 @@ import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.home.DrawerRecyclerView
 import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
+import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
-import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -315,7 +315,7 @@ class MainActivity : BaseActivity() {
                 leftMargin = newLayoutParams.rightMargin
                 topMargin = BarUtils.getStatusBarHeight()
                 bottomMargin = marginVertical
-                height = ConvertUtils.dp2px(55f)
+                height = 55.dp
             }
             mBinding.toolbar.apply {
                 layoutParams = newLayoutParams
@@ -654,7 +654,7 @@ class MainActivity : BaseActivity() {
                     .anchor(target, 0, 0, false)
                     .text(getText(R.string.first_launch_guide_title))
                     .closePolicy(TOUCH_ANYWHERE_CONSUME)
-                    .maxWidth(ConvertUtils.dp2px(150f))
+                    .maxWidth(150.dp)
                     .create()
                     .show(target, Tooltip.Gravity.LEFT, true)
         }

@@ -32,7 +32,7 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
 import com.absinthe.anywhere_.utils.StatusBarUtil
-import com.blankj.utilcode.util.ConvertUtils
+import com.absinthe.libraries.utils.extensions.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -123,13 +123,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             setOnRefreshListener { initData(isShowSystemApp) }
         }
         binding.extendedFab.apply {
-            (layoutParams as CoordinatorLayout.LayoutParams)
-                    .setMargins(
-                            0,
-                            0,
-                            ConvertUtils.dp2px(16f),
-                            ConvertUtils.dp2px(16f) + StatusBarUtil.getNavBarHeight()
-                    )
+            (layoutParams as CoordinatorLayout.LayoutParams).setMargins(0, 0, 16.dp, 16.dp + StatusBarUtil.getNavBarHeight())
 
             setOnClickListener {
                 val ae = AnywhereEntity.Builder().apply {

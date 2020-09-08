@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.services.overlay.ICollectorService
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
@@ -97,6 +98,18 @@ class ShortcutsActivity : BaseActivity() {
                                             }
                                         })
                                         .open()
+
+                                val tileExtra = intent.getStringExtra(Const.INTENT_EXTRA_FROM_TILE)
+                                if (tileExtra != null) {
+                                    if (this.type == AnywhereType.Card.SWITCH_SHELL) {
+                                        when (tileExtra) {
+                                            Const.PREF_TILE_ONE -> GlobalValues.tileOneActive = this.param3 != SWITCH_OFF
+                                            Const.PREF_TILE_TWO -> GlobalValues.tileTwoActive = this.param3 != SWITCH_OFF
+                                            Const.PREF_TILE_THREE -> GlobalValues.tileThreeActive = this.param3 != SWITCH_OFF
+                                            else -> {}
+                                        }
+                                    }
+                                }
                             }
                         })
                     }

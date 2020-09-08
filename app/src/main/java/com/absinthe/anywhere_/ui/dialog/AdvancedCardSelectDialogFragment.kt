@@ -36,7 +36,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
     private fun initView() {
         val cardList = listOf(
                 AdvancedCardItem(R.string.btn_url_scheme, R.drawable.ic_url_scheme, getOpeningEditorListener(AnywhereType.Card.URL_SCHEME)),
-                AdvancedCardItem(R.string.btn_activity_list, R.drawable.ic_card_activity, getOpeningEditorListener(AnywhereType.Card.ACTIVITY)),
+                AdvancedCardItem(R.string.btn_activity, R.drawable.ic_card_activity, getOpeningEditorListener(AnywhereType.Card.ACTIVITY)),
                 AdvancedCardItem(R.string.btn_add_image, R.drawable.ic_card_image, getOpeningEditorListener(AnywhereType.Card.IMAGE)),
                 AdvancedCardItem(R.string.btn_add_shell, R.drawable.ic_card_shell, getOpeningEditorListener(AnywhereType.Card.SHELL)),
                 AdvancedCardItem(R.string.btn_add_switch_shell, R.drawable.ic_card_switch, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),

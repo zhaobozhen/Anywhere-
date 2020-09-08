@@ -208,6 +208,22 @@ object GlobalValues {
     val collectorMode: String
         get() = if (isCollectorPlus) { "Collector+" } else { "Collector" }
 
+    var tileOneActive
+        get() = mmkv.decodeBool(Const.PREF_TILE_ONE_ACTIVE, false)
+        set(value) {
+            mmkv.encode(Const.PREF_TILE_ONE_ACTIVE, value)
+        }
+    var tileTwoActive
+        get() = mmkv.decodeBool(Const.PREF_TILE_TWO_ACTIVE, false)
+        set(value) {
+            mmkv.encode(Const.PREF_TILE_TWO_ACTIVE, value)
+        }
+    var tileThreeActive
+        get() = mmkv.decodeBool(Const.PREF_TILE_THREE_ACTIVE, false)
+        set(value) {
+            mmkv.encode(Const.PREF_TILE_THREE_ACTIVE, value)
+        }
+
     private fun getInfoLine(infoName: String, infoValue: String?): CharSequence {
         return StringBuilder()
                 .append("<b>").append(infoName).append("</b>")

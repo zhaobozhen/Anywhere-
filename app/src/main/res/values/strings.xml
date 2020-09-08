@@ -307,6 +307,7 @@
     <string name="btn_root">Root</string>
     <string name="btn_shizuku">Shizuku</string>
     <string name="btn_activity_list">Activities List</string>
+    <string name="btn_activity">Activity</string>
     <string name="btn_qr_code_collection">QR Codes</string>
     <string name="btn_add_image">Image</string>
     <string name="btn_add_shell" translatable="false">Shell</string>
@@ -315,7 +316,7 @@
     <string name="btn_add_broadcast">Broadcast</string>
     <string name="btn_add_switch_shell">Switch Shell</string>
     <string name="btn_add_workflow" translatable="false">Workflow</string>
-    <string name="btn_add_advanced_card">Advanced Card</string>
+    <string name="btn_add_advanced_card">Add Card</string>
 
     <string name="btn_acquire_permission">Grant</string>
     <string name="btn_acquired">Granted</string>

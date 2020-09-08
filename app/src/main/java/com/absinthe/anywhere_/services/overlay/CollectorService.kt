@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.widget.Toast
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
@@ -102,6 +103,6 @@ class CollectorService : Service() {
             mHandler.post(getCurrentInfoTask)
         }
 
-        ToastUtil.Toasty.show(this, R.string.toast_collector_opened)
+        Toast.makeText(this, R.string.toast_collector_opened, Toast.LENGTH_SHORT).show()
     }
 }

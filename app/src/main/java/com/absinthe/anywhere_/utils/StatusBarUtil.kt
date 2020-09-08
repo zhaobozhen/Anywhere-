@@ -9,7 +9,7 @@ import android.os.Build
 import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
-import com.blankj.utilcode.util.ConvertUtils
+import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.Utils
 
 object StatusBarUtil {
@@ -45,7 +45,7 @@ object StatusBarUtil {
                         decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
 
-            if (getNavBarHeight() > ConvertUtils.dp2px(20f)) {
+            if (getNavBarHeight() > 20.dp) {
                 if (AppUtils.atLeastO()) {
                     decorView.systemUiVisibility = (
                             decorView.systemUiVisibility
@@ -59,7 +59,7 @@ object StatusBarUtil {
     fun getNavBarHeight(): Int {
         //Full screen adaption
         if (Settings.Global.getInt(Utils.getApp().contentResolver, "force_fsg_nav_bar", 0) != 0) {
-            return ConvertUtils.dp2px(20f)
+            return 20.dp
         }
 
         val res = Resources.getSystem()

@@ -2,9 +2,11 @@ package com.absinthe.anywhere_.services.tile
 
 import android.content.Intent
 import android.os.Build
+import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
 import com.absinthe.anywhere_.utils.SPUtils
 
@@ -19,6 +21,7 @@ class TileOneService : TileService() {
             if (label.isNotEmpty()) {
                 it.label = label
             }
+            it.state = if (GlobalValues.tileOneActive) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
 
             it.updateTile()
         }
@@ -30,6 +33,7 @@ class TileOneService : TileService() {
             action = ShortcutsActivity.ACTION_START_ENTITY
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, id)
+            putExtra(Const.INTENT_EXTRA_FROM_TILE, Const.PREF_TILE_ONE)
         }
 
         if (id.isNotEmpty()) {

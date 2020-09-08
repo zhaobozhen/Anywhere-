@@ -7,7 +7,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.UxUtils
-import com.blankj.utilcode.util.ConvertUtils
+import com.absinthe.libraries.utils.extensions.dp
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -33,7 +33,7 @@ class BackgroundAdapter : BaseQuickAdapter<PageEntity?, BaseViewHolder>(R.layout
                     leftMargin = newLayoutParams.rightMargin
                     bottomMargin = marginVertical
                     topMargin = newLayoutParams.bottomMargin
-                    height = ConvertUtils.dp2px(55f)
+                    height = 55.dp
                 }
                 toolbar.apply {
                     layoutParams = newLayoutParams
