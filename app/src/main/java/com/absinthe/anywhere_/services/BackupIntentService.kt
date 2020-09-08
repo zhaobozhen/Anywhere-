@@ -1,7 +1,8 @@
 package com.absinthe.anywhere_.services
 
-import android.app.IntentService
+import android.content.Context
 import android.content.Intent
+import androidx.core.app.JobIntentService
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.utils.*
@@ -9,13 +10,14 @@ import com.absinthe.anywhere_.utils.manager.URLManager
 import com.blankj.utilcode.util.NotificationUtils
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 
-class BackupIntentService : IntentService("BackupIntentService") {
+class BackupIntentService : JobIntentService() {
+
     override fun onStart(intent: Intent?, startId: Int) {
         super.onStart(intent, startId)
         NotifyUtils.createBackupNotification(this)
     }
 
-    override fun onHandleIntent(intent: Intent?) {
+    override fun onHandleWork(intent: Intent) {
         NotifyUtils.createBackupNotification(this)
 
         if (GlobalValues.webdavHost.isEmpty() ||
@@ -60,6 +62,15 @@ class BackupIntentService : IntentService("BackupIntentService") {
             stopForeground(true)
         } finally {
             stopForeground(true)
+        }
+    }
+
+    companion object {
+
+        const val JOB_ID = 1
+
+        fun enqueueWork(context: Context, work: Intent) {
+            enqueueWork(context, BackupIntentService::class.java, JOB_ID, work)
         }
     }
 }

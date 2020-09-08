@@ -55,6 +55,7 @@ object NotifyUtils {
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setPriority(NotificationCompat.PRIORITY_LOW)
+                    .setProgress(0, 0, true)
                     .setOngoing(true)
                     .setAutoCancel(false)
             context.startForeground(BACKUP_NOTIFICATION_ID, param.build())
