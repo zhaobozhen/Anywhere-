@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
 import com.absinthe.libraries.utils.extensions.dp
 import com.absinthe.anywhere_.view.app.AlwaysMarqueeTextView
+import com.absinthe.libraries.utils.extensions.addPaddingBottom
 
 class StreamItemView(context: Context) : ConstraintLayout(context) {
 
@@ -56,7 +57,7 @@ class StreamItemView(context: Context) : ConstraintLayout(context) {
 
     init {
         id = R.id.card_container
-        setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + 10.dp)
+        addPaddingBottom(10.dp)
 
         addView(icon, LayoutParams(45.dp, 45.dp).apply {
             endToEnd = this@StreamItemView.id

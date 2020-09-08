@@ -67,7 +67,7 @@ class BackupIntentService : JobIntentService() {
 
     companion object {
 
-        const val JOB_ID = 1
+        private const val JOB_ID = 1
 
         fun enqueueWork(context: Context, work: Intent) {
             enqueueWork(context, BackupIntentService::class.java, JOB_ID, work)

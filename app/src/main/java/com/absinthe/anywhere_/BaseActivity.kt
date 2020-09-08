@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
+import com.absinthe.libraries.utils.extensions.paddingTopCompat
 import com.blankj.utilcode.util.BarUtils
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -53,7 +54,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun initView() {
         setToolbar()
         if (isPaddingToolbar) {
-            mToolbar?.setPadding(0, BarUtils.getStatusBarHeight(), 0, 0)
+            mToolbar?.paddingTopCompat = BarUtils.getStatusBarHeight()
         }
         setSupportActionBar(mToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

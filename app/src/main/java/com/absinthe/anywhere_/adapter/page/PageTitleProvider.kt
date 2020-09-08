@@ -71,7 +71,7 @@ class PageTitleProvider : BaseNodeProvider() {
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.rename_page -> DialogManager.showRenameDialog(context as BaseActivity, node.title)
-                R.id.delete_page -> DialogManager.showDeletePageDialog(context, node.title, DialogInterface.OnClickListener { _, _ ->
+                R.id.delete_page -> DialogManager.showDeletePageDialog(context, node.title, { _, _ ->
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
                     AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
                         val title = list[0].title
@@ -88,7 +88,7 @@ class PageTitleProvider : BaseNodeProvider() {
                         GlobalValues.setsCategory(title, 0)
                     }
                 }, false)
-                R.id.delete_page_and_item -> DialogManager.showDeletePageDialog(context, node.title, DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
+                R.id.delete_page_and_item -> DialogManager.showDeletePageDialog(context, node.title, { _: DialogInterface?, _: Int ->
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
                     AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
                         AnywhereApplication.sRepository.allAnywhereEntities.value?.let {

@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.ui.settings
 
 import android.app.Dialog
-import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
@@ -48,8 +47,7 @@ class TimePickerDialogFragment : AnywhereDialogFragment() {
         }
 
         val listener = View.OnClickListener { v: View ->
-            val timePickerDialog = ObservableTimePickerDialog(context,
-                    OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
+            val timePickerDialog = ObservableTimePickerDialog(context, { _: TimePicker?, hourOfDay: Int, minute: Int ->
                         (v as MaterialButton).text = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute)
                         DialogStack.pop()
                     },

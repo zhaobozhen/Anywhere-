@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
+import com.absinthe.libraries.utils.extensions.addPaddingBottom
 import com.absinthe.libraries.utils.extensions.dp
 
 class NormalItemView(context: Context) : ConstraintLayout(context) {
@@ -55,7 +56,7 @@ class NormalItemView(context: Context) : ConstraintLayout(context) {
 
     init {
         id = R.id.card_container
-        setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + 10.dp)
+        addPaddingBottom(10.dp)
 
         addView(icon, LayoutParams(45.dp, 45.dp).apply {
             endToEnd = this@NormalItemView.id

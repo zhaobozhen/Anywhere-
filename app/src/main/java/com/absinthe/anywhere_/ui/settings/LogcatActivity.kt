@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.utils.AppUtils.startLogcat
 import com.absinthe.anywhere_.utils.NotifyUtils
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.manager.LogRecorder
+import com.absinthe.libraries.utils.extensions.addPaddingBottom
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.NotificationUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -51,7 +52,10 @@ class LogcatActivity : BaseActivity() {
         mAdapter.apply {
             setDiffCallback(LogDiffCallback())
             setOnItemChildClickListener { adapter: BaseQuickAdapter<*, *>, view: View, position: Int ->
-                val logModel = adapter.getItem(position) as LogModel?
+                if (position > adapter.data.size - 1) {
+                    return@setOnItemChildClickListener
+                }
+                val logModel = adapter.getItem(position) as? LogModel
 
                 if (logModel != null) {
                     if (view.id == R.id.btn_delete) {
@@ -71,7 +75,7 @@ class LogcatActivity : BaseActivity() {
         mBinding.rvLog.apply {
             layoutManager = WrapContentLinearLayoutManager(this@LogcatActivity)
             adapter = mAdapter
-            setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + StatusBarUtil.getNavBarHeight())
+            addPaddingBottom(StatusBarUtil.getNavBarHeight())
         }
 
         if (isStartCatching) {

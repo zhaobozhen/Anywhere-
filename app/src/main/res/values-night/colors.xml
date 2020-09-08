@@ -4,17 +4,14 @@
     <color name="colorAccent">#FFB1B8DF</color>
 
     <color name="gray">#FF454545</color>
-    <color name="cardColor">#EE121212</color>
     <color name="textColorNormal">#FFFFFFFF</color>
     <color name="toolbarColorNormal">#FF666666</color>
     <color name="navigationColorNormal">#FF121212</color>
-    <color name="bottomSheetColorNormal">#FF121212</color>
     <color name="divider">#FFA0A0A0</color>
     <color name="widgetPrimaryColor">#FF121212</color>
     <color name="widgetSecondaryColor">#FF343434</color>
     <color name="widgetThirdlyColor">#FF565656</color>
     <color name="aboutHeader">#FF121212</color>
-    <color name="cardBorder">#FF888888</color>
 
     <!--  Shell  -->
     <color name="shellBackground">#FFECECEC</color>

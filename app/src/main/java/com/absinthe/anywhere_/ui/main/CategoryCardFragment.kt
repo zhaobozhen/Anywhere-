@@ -98,7 +98,7 @@ class CategoryCardFragment : Fragment() {
 
     fun refreshSortMode() {
         AnywhereApplication.sRepository.refresh()
-        AnywhereApplication.sRepository.allAnywhereEntities.observe(this, listObserver)
+        observeEntitiesList()
     }
 
     fun editDone() {
@@ -174,7 +174,7 @@ class CategoryCardFragment : Fragment() {
         GlobalValues.cardModeLiveData.observe(viewLifecycleOwner, {
             refreshRecyclerView()
         })
-        AnywhereApplication.sRepository.allAnywhereEntities.observe(viewLifecycleOwner, listObserver)
+        observeEntitiesList()
     }
 
     private fun resetSelectState() {
@@ -216,6 +216,11 @@ class CategoryCardFragment : Fragment() {
                 WrapContentLinearLayoutManager(requireContext())
             }
         }
+    }
+
+    private fun observeEntitiesList() {
+        AnywhereApplication.sRepository.allAnywhereEntities.removeObserver(listObserver)
+        AnywhereApplication.sRepository.allAnywhereEntities.observe(viewLifecycleOwner, listObserver)
     }
 
     companion object {

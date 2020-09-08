@@ -57,6 +57,7 @@ public class DefrostHandler {
         .getSystemService(Context.DEVICE_POLICY_SERVICE);
 
     if (devicePolicyManager != null) {
+      //noinspection ConstantConditions
       Observable
           .create((ObservableOnSubscribe<Boolean>) emitter -> emitter.onNext(devicePolicyManager.setApplicationHidden(null, packageName, false)))
           .subscribeOn(Schedulers.io())

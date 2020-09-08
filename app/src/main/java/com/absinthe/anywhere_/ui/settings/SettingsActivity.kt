@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.IzukoHelper
 import com.absinthe.anywhere_.utils.manager.URLManager
+import com.absinthe.libraries.utils.extensions.paddingBottomCompat
 
 class SettingsActivity : BaseActivity() {
 
@@ -123,7 +124,7 @@ class SettingsActivity : BaseActivity() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            listView.setPadding(0, 0, 0, StatusBarUtil.getNavBarHeight())
+            listView.paddingBottomCompat = StatusBarUtil.getNavBarHeight()
         }
 
         override fun onPreferenceClick(preference: Preference): Boolean {

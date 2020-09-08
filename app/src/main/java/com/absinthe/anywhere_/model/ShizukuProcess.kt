@@ -42,7 +42,7 @@ object ShizukuProcess {
         if (AppUtils.atLeastO()) {
             process.destroyForcibly()
         } else {
-            process.destroy();
+            process.destroy()
         }
 
         return sb.toString()

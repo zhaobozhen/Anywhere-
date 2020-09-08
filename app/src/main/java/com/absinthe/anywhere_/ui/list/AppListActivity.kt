@@ -32,6 +32,7 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
 import com.absinthe.anywhere_.utils.StatusBarUtil
+import com.absinthe.libraries.utils.extensions.addPaddingBottom
 import com.absinthe.libraries.utils.extensions.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -152,7 +153,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         binding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppListActivity)
             adapter = mAdapter
-            setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + StatusBarUtil.getNavBarHeight())
+            addPaddingBottom(StatusBarUtil.getNavBarHeight())
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

@@ -17,6 +17,7 @@ import com.absinthe.anywhere_.utils.StorageUtils.isExternalStorageWritable
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
+import com.absinthe.libraries.utils.extensions.paddingBottomCompat
 import com.google.android.material.snackbar.Snackbar
 
 const val BACKUP_TIP_VERSION = "2.0.0"
@@ -131,7 +132,7 @@ class BackupFragment : PreferenceFragmentCompat(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listView.setPadding(0, 0, 0, StatusBarUtil.getNavBarHeight())
+        listView.paddingBottomCompat = StatusBarUtil.getNavBarHeight()
     }
 
     override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {

@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.model.viewholder
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import com.absinthe.anywhere_.constants.AnywhereType
 
 data class AppListBean(
         val id: String,
