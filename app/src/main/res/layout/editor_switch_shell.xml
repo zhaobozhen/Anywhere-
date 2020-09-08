@@ -13,7 +13,7 @@
     android:layout_height="wrap_content"
     android:drawablePadding="3dp"
     android:gravity="center"
-    android:text="@string/bsd_switch_shell_status_on"
+    android:text="@string/bsd_switch_shell_status_off"
     app:drawableStartCompat="@drawable/ic_red_dot"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
     android:layout_marginStart="@dimen/bsd_edit_text_margin_horizontal"
     android:drawablePadding="3dp"
     android:gravity="center"
-    android:text="@string/bsd_switch_shell_status_off"
+    android:text="@string/bsd_switch_shell_status_on"
     app:drawableStartCompat="@drawable/ic_green_dot"
     app:layout_constraintStart_toEndOf="@id/tv_indicator_red"
     app:layout_constraintTop_toTopOf="parent" />

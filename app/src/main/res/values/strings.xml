@@ -128,7 +128,6 @@
     <string name='menu_hide_system_app'>Hide system apps</string>
     <string name='menu_add_manually'>Add Activity</string>
     <string name="menu_rate">Rate</string>
-    <string name="menu_gift">Gift</string>
 
     <string name="menu_sort_by_time_desc">Descending by creating time(9–0)</string>
     <string name="menu_sort_by_time_asc">Ascending by creating time(0–9)</string>
@@ -171,8 +170,6 @@
     <string name="settings_help">Help</string>
     <string name="settings_beta">Beta Version</string>
     <string name="settings_about">About</string>
-    <string name="settings_gift">Anywhere- Gift</string>
-    <string name="settings_gift_typing">Typing…</string>
 
     <string name="settings_working_mode_summary">Select a working mode</string>
     <string name="settings_defrost_mode_summary">Select a defrost mode</string>
@@ -195,8 +192,6 @@
     <string name="settings_beta_summary">Experience the beta version under development in advance</string>
     <string name="settings_logcat_summary">Catch system logs and report problems</string>
     <string name="settings_about_summary">This is Anywhere- !</string>
-    <string name="settings_gift_summary" translatable="false"><i>\"Do you like it?\" </i></string>
-    <string name="settings_gift_purchase_summary" translatable="false"><i>\"Anywhere, I like it.\" </i></string>
 
     <string name="settings_restore">Restore</string>
     <string name="settings_backup_backup_title">Create a New Backup File</string>
@@ -379,13 +374,6 @@
     <!--  Drawer  -->
     <string name="drawer_title">Pages</string>
     <string name="drawer_tool_add">Add Page</string>
-
-    <!--  Gift  -->
-    <string name="gift_third_info">Single device\nactivated three times</string>
-    <string name="gift_infinity_info">Single device\nactivation unlimited</string>
-    <string name="gift_tip">* Requires reactivation after reinstalling the device or replacing the device</string>
-    <string name="gift_feature">After activating \"Anywhere- Gift\", you will get:\n◉ Set a separate background for each page\n◉ New a custom HTML page\n◉ ···</string>
-    <string name="gift_alipay_purchase">Alipay payment</string>
 
     <!--  Log Report  -->
     <string name="report_title">Anywhere- Issue Report</string>

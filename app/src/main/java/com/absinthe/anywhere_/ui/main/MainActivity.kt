@@ -269,7 +269,7 @@ class MainActivity : BaseActivity() {
         }
         initFab()
 
-        AnywhereApplication.sRepository.allPageEntities.observe(this, Observer {
+        AnywhereApplication.sRepository.allPageEntities.observe(this, {
             if (it.isNotEmpty()) {
                 mBinding.viewPager.apply {
                     adapter = object : FragmentStateAdapter(this@MainActivity) {
@@ -340,7 +340,7 @@ class MainActivity : BaseActivity() {
                 mBinding.drawer.addDrawerListener(mToggle!!)
                 mToggle!!.syncState()
                 AnywhereApplication.sRepository.allAnywhereEntities
-                        .observe(this, Observer<List<AnywhereEntity?>?> { initDrawer(mBinding.drawer) })
+                        .observe(this, { initDrawer(mBinding.drawer) })
             } else {
                 it.setHomeButtonEnabled(false)
                 it.setDisplayHomeAsUpEnabled(false)
@@ -383,7 +383,7 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        AnywhereApplication.sRepository.allPageEntities.observe(this, Observer { pageEntities: List<PageEntity>? ->
+        AnywhereApplication.sRepository.allPageEntities.observe(this, { pageEntities: List<PageEntity>? ->
             pageEntities?.let { setupDrawerData(adapter, it) }
         })
 
@@ -498,14 +498,14 @@ class MainActivity : BaseActivity() {
         }
 
         AnywhereApplication.sRepository.allPageEntities.observe(this, mObserver)
-        AnywhereApplication.sRepository.allAnywhereEntities.observe(this, Observer {
+        AnywhereApplication.sRepository.allAnywhereEntities.observe(this, {
             if (Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FIRST_GUIDE) && !Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.CONVERT_TYPE_TO_V2)) {
                 viewModel.convertAnywhereTypeV2()
                 Once.markDone(OnceTag.CONVERT_TYPE_TO_V2)
             }
         })
 
-        viewModel.background.observe(this, Observer { s: String ->
+        viewModel.background.observe(this, { s: String ->
             GlobalValues.backgroundUri = s
 
             if (s.isNotEmpty()) {
@@ -514,7 +514,7 @@ class MainActivity : BaseActivity() {
                 UxUtils.setActionBarTransparent(this)
             }
         })
-        viewModel.shouldShowFab.observe(this, Observer {
+        viewModel.shouldShowFab.observe(this, {
             mBinding.fab.isVisible = it
         })
     }
@@ -525,10 +525,7 @@ class MainActivity : BaseActivity() {
             mainFab.transitionName = "item_container"
             setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
                 when (actionItem.id) {
-                    R.id.fab_url_scheme -> {
-                        viewModel.setUpUrlScheme()
-                        Analytics.trackEvent(EventTag.FAB_URL_SCHEME_CLICK)
-                    }
+                    R.id.fab_advanced -> showAdvancedCardSelectDialog(this@MainActivity)
                     R.id.fab_activity_list -> {
                         startActivity(Intent(this@MainActivity, AppListActivity::class.java))
                         Analytics.trackEvent(EventTag.FAB_ACTIVITY_LIST_CLICK)
@@ -550,7 +547,6 @@ class MainActivity : BaseActivity() {
                         startActivity(Intent(this@MainActivity, QRCodeCollectionActivity::class.java))
                         Analytics.trackEvent(EventTag.FAB_QR_CODE_COLLECTION_CLICK)
                     }
-                    R.id.fab_advanced -> showAdvancedCardSelectDialog(this@MainActivity)
                     else -> return@setOnActionSelectedListener false
                 }
                 close()

@@ -244,7 +244,6 @@
     <string name="menu_delete_page">删除页</string>
     <string name="menu_delete_page_and_item">完全删除页</string>
     <string name="menu_move_to_page">移至页</string>
-    <string name="settings_gift">艾薇的馈赠</string>
     <string name="btn_reset_color">重置卡片色</string>
     <string name="dialog_choose_color_title">选择颜色</string>
     <string name="menu_custom_color">自定义颜色</string>
@@ -259,8 +258,6 @@
     <string name="desc_need_accessibility">需要无障碍服务</string>
     <string name="toast_grant_accessibility">请打开无障碍服务</string>
     <string name="toast_file_uri_exposed">不支持自定义的文件路径</string>
-    <string name="settings_gift_typing">对方正在输入…</string>
-    <string name="menu_gift">礼物</string>
     <string name="settings_exclude_from_recent">从近期任务列表排除</string>
     <string name="settings_exclude_from_recent_summary">退出应用后不在近期应用列表中显示</string>
     <string name="dialog_empty_list">空空如也😮</string>
@@ -271,11 +268,6 @@
     <string name="dialog_dynamic_params_title">输入动态参数</string>
     <string name="bsd_text_input_layout_shell_name_label">Shell 名称</string>
     <string name="dialog_shell_result_title">Shell 结果</string>
-    <string name="gift_alipay_purchase">支付宝付款</string>
-    <string name="gift_infinity_info">单设备\n激活无限次</string>
-    <string name="gift_tip">*重装设备或者更换设备后需要重新激活</string>
-    <string name="gift_feature">激活“艾薇的馈赠”，将获得：\n◉ 为每页设置单独的背景\n◉ 新建自定义 HTML 页\n◉ ···</string>
-    <string name="gift_third_info">单设备\n激活三次</string>
     <string name="dialog_close_button">关闭</string>
     <string name="btn_add_advanced_card">高级卡片</string>
     <string name="dialog_add_shortcut_anymore_button">仍要添加</string>

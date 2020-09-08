@@ -33,7 +33,6 @@ import com.absinthe.anywhere_.constants.GlobalValues.iconPack
 import com.absinthe.anywhere_.constants.GlobalValues.isMd2Toolbar
 import com.absinthe.anywhere_.constants.GlobalValues.isPages
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
-import com.absinthe.anywhere_.listener.OnPaletteFinishedListener
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
@@ -256,9 +255,9 @@ object UxUtils {
      *
      * @param cardBackgroundView     card view
      * @param drawable icon drawable
-     * @param listener notify when Palette finished
+     * @param action notify when Palette finished
      */
-    fun setCardUseIconColor(cardBackgroundView: View, drawable: Drawable, listener: OnPaletteFinishedListener) {
+    fun setCardUseIconColor(cardBackgroundView: View, drawable: Drawable, action: (color: Int) -> Unit) {
         val bitmap = ConvertUtils.drawable2Bitmap(drawable) ?: return
 
         Palette.from(bitmap).generate { p: Palette? ->
@@ -268,7 +267,7 @@ object UxUtils {
                     color = p.getDominantColor(Color.TRANSPARENT)
                 }
                 cardBackgroundView.setBackgroundColor(color)
-                listener.onFinished(color)
+                action(color)
             }
         }
     }

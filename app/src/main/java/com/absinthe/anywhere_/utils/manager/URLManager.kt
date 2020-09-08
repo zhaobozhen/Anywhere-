@@ -24,11 +24,6 @@ object URLManager {
     const val OPEN_HOST = "open"
     const val CARD_SHARING_HOST = "share"
 
-    //Gift
-    const val DOMAIN = "https://service-65n0wylk-1252542993.gz.apigw.tencentcs.com/release/"
-    const val GIFT_API = "Anywhere-Gift"
-    const val GET_GIFT_PRICE_API = "GetGiftPrice"
-
     //WebDAV
     const val BACKUP_DIR = "Anywhere-/Backup/"
 }

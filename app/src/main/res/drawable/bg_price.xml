@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 矩形的圆角弧度 -->
-    <corners android:radius="8dp" />
-    <!-- 矩形的填充色 -->
-    <solid android:color="@color/bubbleBlue" />
-</shape>

@@ -3,15 +3,18 @@ package com.absinthe.anywhere_.ui.editor.impl
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.adapter.workflow.FlowStepAdapter
 import com.absinthe.anywhere_.databinding.EditorWorkflowBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.ui.editor.IEditor
+import com.absinthe.anywhere_.utils.manager.DialogManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -20,6 +23,7 @@ class WorkflowEditorFragment  : BaseEditorFragment(), IEditor {
 
     private lateinit var binding: EditorWorkflowBinding
     private val adapter = FlowStepAdapter()
+    private val nodeEditMenu = listOf("Edit", "Delete")
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorWorkflowBinding.inflate(inflater, container, false)
@@ -34,20 +38,34 @@ class WorkflowEditorFragment  : BaseEditorFragment(), IEditor {
             }
         }
 
-        binding.list.apply {
-            adapter = this@WorkflowEditorFragment.adapter
-            layoutManager = LinearLayoutManager(requireContext())
-            overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        binding.apply {
+            list.apply {
+                adapter = this@WorkflowEditorFragment.adapter
+                layoutManager = LinearLayoutManager(requireContext())
+                overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
-            lifecycleScope.launchWhenResumed {
-                repeat(5) {
-                    withContext(Dispatchers.IO) {
-                        delay(1000)
+                lifecycleScope.launchWhenResumed {
+                    repeat(5) {
+                        withContext(Dispatchers.IO) {
+                            delay(1000)
 
-                        withContext(Dispatchers.Main) {
-                            this@WorkflowEditorFragment.adapter.addData(FlowStepBean(AnywhereEntity.Builder(), 0))
+                            withContext(Dispatchers.Main) {
+                                this@WorkflowEditorFragment.adapter.addData(FlowStepBean(AnywhereEntity.Builder(), 0))
+                            }
                         }
                     }
+                }
+            }
+            btnAddNode.setOnClickListener {
+                adapter.addData(FlowStepBean())
+            }
+            adapter.setOnItemClickListener { _, _, position ->
+                if (adapter.data[position].entity == null) {
+                    DialogManager.showAdvancedCardSelectDialog(requireActivity() as BaseActivity)
+                } else {
+                    AlertDialog.Builder(requireContext())
+                            .setItems(nodeEditMenu.toTypedArray()) { _, _ -> }
+                            .show()
                 }
             }
         }

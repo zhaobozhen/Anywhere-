@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.utils.ktx.ViewKtx.dp
+import com.absinthe.libraries.utils.extensions.dp
 import com.absinthe.anywhere_.view.app.AlwaysMarqueeTextView
 
 class StreamItemView(context: Context) : ConstraintLayout(context) {

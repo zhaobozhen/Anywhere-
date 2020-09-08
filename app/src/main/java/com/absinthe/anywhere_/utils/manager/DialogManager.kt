@@ -18,7 +18,6 @@ import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
 import com.absinthe.anywhere_.ui.backup.WebdavFilesListDialogFragment
 import com.absinthe.anywhere_.ui.dialog.*
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
-import com.absinthe.anywhere_.ui.gift.GiftPriceDialogFragment
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment
 import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment
 import com.absinthe.anywhere_.ui.settings.IntervalDialogFragment
@@ -112,7 +111,6 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun showAddShortcutDialog(context: Context, builder: AnywhereDialogBuilder, ae: AnywhereEntity, listener: DialogInterface.OnClickListener?) {
         builder.setTitle(R.string.dialog_add_shortcut_title)
@@ -122,7 +120,6 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
     fun showCannotAddShortcutDialog(context: Context, listener: DialogInterface.OnClickListener?) {
         AnywhereDialogBuilder(context)
                 .setTitle(R.string.dialog_cant_add_shortcut_title)
@@ -132,7 +129,6 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     fun showRemoveShortcutDialog(context: Context, ae: AnywhereEntity, listener: DialogInterface.OnClickListener? = null) {
         val builder = AnywhereDialogBuilder(context)
@@ -212,7 +208,6 @@ object DialogManager {
                 .show()
     }
 
-    @JvmStatic
     fun showPageListDialog(context: Context, ae: AnywhereEntity) {
         val items = mutableListOf<String>()
 
@@ -230,7 +225,6 @@ object DialogManager {
         }
     }
 
-    @JvmStatic
     fun showColorPickerDialog(context: Context, item: AnywhereEntity) {
         val builder = ColorPickerDialogBuilder.with(context)
         builder.setTitle(context.getString(R.string.dialog_choose_color_title))
@@ -312,7 +306,6 @@ object DialogManager {
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 
-    @JvmStatic
     fun showCreatePinnedShortcutDialog(activity: AppCompatActivity, ae: AnywhereEntity) {
         val fragment = CreateShortcutDialogFragment(ae)
         fragment.show(activity.supportFragmentManager, fragment.tag)
@@ -339,18 +332,11 @@ object DialogManager {
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 
-    fun showGiftPriceDialog(activity: AppCompatActivity) {
-        val dialogFragment = GiftPriceDialogFragment()
-        dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
-    }
-
-    @JvmStatic
     fun showCardSharingDialog(activity: AppCompatActivity, text: String) {
         val dialogFragment = CardSharingDialogFragment(text)
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 
-    @JvmStatic
     fun showDynamicParamsDialog(activity: AppCompatActivity, text: String, listener: OnParamsInputListener?) {
         val dialogFragment = DynamicParamsDialogFragment(text)
         dialogFragment.setListener(listener)

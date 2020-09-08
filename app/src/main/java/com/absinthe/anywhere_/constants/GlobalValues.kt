@@ -206,11 +206,7 @@ object GlobalValues {
         }
 
     val collectorMode: String
-        get() = if (isCollectorPlus) {
-            "Collector+"
-        } else {
-            "Collector"
-        }
+        get() = if (isCollectorPlus) { "Collector+" } else { "Collector" }
 
     private fun getInfoLine(infoName: String, infoValue: String?): CharSequence {
         return StringBuilder()

@@ -12,7 +12,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.absinthe.anywhere_.BaseActivity
-import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
@@ -120,33 +119,11 @@ class SettingsActivity : BaseActivity() {
             findPreference<Preference>(Const.PREF_BETA)?.apply {
                 onPreferenceClickListener = this@SettingsFragment
             }
-            findPreference<Preference>(Const.PREF_GIFT)?.apply {
-                if (!BuildConfig.DEBUG) {
-                    isVisible = false
-                }
-                summary = if (IzukoHelper.isHitagi) {
-                    getText(R.string.settings_gift_purchase_summary)
-                } else {
-                    getText(R.string.settings_gift_summary)
-                }
-            }
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
             listView.setPadding(0, 0, 0, StatusBarUtil.getNavBarHeight())
-        }
-
-        override fun onResume() {
-            super.onResume()
-
-            findPreference<Preference>(Const.PREF_GIFT)?.apply {
-                summary = if (IzukoHelper.isHitagi) {
-                    getText(R.string.settings_gift_purchase_summary)
-                } else {
-                    getText(R.string.settings_gift_summary)
-                }
-            }
         }
 
         override fun onPreferenceClick(preference: Preference): Boolean {

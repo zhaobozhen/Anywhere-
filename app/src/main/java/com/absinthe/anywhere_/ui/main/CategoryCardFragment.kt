@@ -171,7 +171,7 @@ class CategoryCardFragment : Fragment() {
     }
 
     private fun initObservers() {
-        GlobalValues.cardModeLiveData.observe(viewLifecycleOwner, Observer {
+        GlobalValues.cardModeLiveData.observe(viewLifecycleOwner, {
             refreshRecyclerView()
         })
         AnywhereApplication.sRepository.allAnywhereEntities.observe(viewLifecycleOwner, listObserver)

@@ -197,16 +197,6 @@ object AppTextUtils {
     }
 
     /**
-     * Judge that whether it is a gift code
-     *
-     * @param code code str
-     * @return true if is a gift code
-     */
-    fun isGiftCode(code: String): Boolean {
-        return code.matches("^([A-Z0-9]{5}-){3}[A-Z0-9]{5}$".toRegex())
-    }
-
-    /**
      * Get card sharing URL
      *
      * @param ae Card entity

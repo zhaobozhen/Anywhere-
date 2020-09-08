@@ -21,7 +21,6 @@ import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.listener.OnPaletteFinishedListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
@@ -33,7 +32,10 @@ import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
-import com.absinthe.anywhere_.view.card.*
+import com.absinthe.anywhere_.view.card.CardItemView
+import com.absinthe.anywhere_.view.card.NormalItemView
+import com.absinthe.anywhere_.view.card.StreamItemView
+import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.catchingnow.icebox.sdk_client.IceBox
@@ -51,7 +53,7 @@ const val LAYOUT_MODE_NORMAL = 0
 const val LAYOUT_MODE_STREAM = 1
 const val LAYOUT_MODE_STREAM_SINGLE_LINE = 2
 
-class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(0), ItemTouchCallBack.OnItemTouchListener {
+class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(0), ItemTouchCallBack.OnItemTouchListener {
 
     var mode = ADAPTER_MODE_NORMAL
     private val mSelectedIndex = mutableListOf<Int>()
@@ -108,26 +110,22 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
 
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
-                        UxUtils.setCardUseIconColor(itemView.cardBackground,
-                                UxUtils.getAppIcon(context, item),
-                                object : OnPaletteFinishedListener {
-                                    override fun onFinished(color: Int) {
-                                        if (color != 0) {
-                                            itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
-                                            if (layoutMode == LAYOUT_MODE_STREAM) {
-                                                normalView!!.content.description.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
-                                            }
-                                            item.color = color
+                        UxUtils.setCardUseIconColor(itemView.cardBackground, UxUtils.getAppIcon(context, item)) { color ->
+                            if (color != 0) {
+                                itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                if (layoutMode == LAYOUT_MODE_STREAM) {
+                                    normalView!!.content.description.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                }
+                                item.color = color
 
-                                            if (shouldUpdateColorInfo(context, item)) {
-                                                AnywhereApplication.sRepository.update(item)
-                                            }
-                                        } else {
-                                            itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
-                                            normalView?.content?.description?.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
-                                        }
-                                    }
-                                })
+                                if (shouldUpdateColorInfo(context, item)) {
+                                    AnywhereApplication.sRepository.update(item)
+                                }
+                            } else {
+                                itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
+                                normalView?.content?.description?.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
+                            }
+                        }
                     } else {
                         itemView.rootView.backgroundTintList = ColorStateList.valueOf(item.color)
                         itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
@@ -135,16 +133,12 @@ class BaseCardAdapter(val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, Ba
                     }
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
-                        UxUtils.setCardUseIconColor(itemView.cardBackground,
-                                UxUtils.getAppIcon(context, item),
-                                object : OnPaletteFinishedListener {
-                                    override fun onFinished(color: Int) {
-                                        item.color = color
-                                        if (shouldUpdateColorInfo(context, item)) {
-                                            AnywhereApplication.sRepository.update(item)
-                                        }
-                                    }
-                                })
+                        UxUtils.setCardUseIconColor(itemView.cardBackground, UxUtils.getAppIcon(context, item)) { color ->
+                            item.color = color
+                            if (shouldUpdateColorInfo(context, item)) {
+                                AnywhereApplication.sRepository.update(item)
+                            }
+                        }
                         itemView.cardBackground.setImageDrawable(null)
                     } else {
                         (context as BaseActivity).lifecycleScope.launch(Dispatchers.IO) {

@@ -45,7 +45,6 @@ object Const {
     const val PREF_DUMP_INTERVAL = "dumpInterval"
     const val PREF_AUTO_DARK_MODE_START = "autoDarkModeStart"
     const val PREF_AUTO_DARK_MODE_END = "autoDarkModeEnd"
-    const val PREF_GIFT = "gift"
     const val PREF_DEFROST_MODE = "defrostMode"
     const val PREF_WEBDAV_HOST = "webdavHost"
     const val PREF_WEBDAV_USERNAME = "webdavUsername"

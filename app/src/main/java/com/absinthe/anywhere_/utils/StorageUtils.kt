@@ -15,7 +15,6 @@ import com.absinthe.anywhere_.model.BackupBean
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import com.thegrizzlylabs.sardineandroid.DavResource
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import kotlinx.coroutines.*
 import java.io.File
@@ -177,22 +176,5 @@ object StorageUtils {
                 }
             }
         }
-    }
-
-    @Throws(IOException::class)
-    suspend fun getAllWebdavBackups(): List<DavResource>? {
-        if (GlobalValues.webdavHost.isEmpty() ||
-                GlobalValues.webdavUsername.isEmpty() ||
-                GlobalValues.webdavPassword.isEmpty()) {
-            return null
-        }
-        var resource: List<DavResource>? = null
-
-        withContext(Dispatchers.IO) {
-            val sardine = OkHttpSardine()
-            sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
-            resource = sardine.list(GlobalValues.webdavHost + URLManager.BACKUP_DIR)
-        }
-        return resource
     }
 }
