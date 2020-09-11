@@ -7,10 +7,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
-import androidx.preference.DropDownPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
@@ -26,6 +22,10 @@ import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.IzukoHelper
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.libraries.utils.extensions.paddingBottomCompat
+import moe.shizuku.preference.DropDownPreference
+import moe.shizuku.preference.Preference
+import moe.shizuku.preference.PreferenceFragment
+import moe.shizuku.preference.SwitchPreferenceCompat
 
 class SettingsActivity : BaseActivity() {
 
@@ -41,95 +41,22 @@ class SettingsActivity : BaseActivity() {
         mToolbar = mBinding.toolbar.toolbar
     }
 
-    class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+    class SettingsFragment : PreferenceFragment() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.settings, rootKey)
-        }
-
-        override fun onActivityCreated(savedInstanceState: Bundle?) {
-            super.onActivityCreated(savedInstanceState)
 
             //Normal
-            findPreference<DropDownPreference>(Const.PREF_WORKING_MODE)?.apply {
-                onPreferenceChangeListener = this@SettingsFragment
+            (findPreference(Const.PREF_WORKING_MODE) as DropDownPreference).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.workingMode = newValue as String
+                    true
+                }
             }
 
             //View
-            findPreference<Preference>(Const.PREF_CHANGE_BACKGROUND)?.apply {
-                onPreferenceClickListener = this@SettingsFragment
-            }
-            findPreference<Preference>(Const.PREF_RESET_BACKGROUND)?.apply {
-                onPreferenceClickListener = this@SettingsFragment
-            }
-            findPreference<DropDownPreference>(Const.PREF_DARK_MODE)?.apply {
-                onPreferenceChangeListener = this@SettingsFragment
-            }
-            val streamCardModePreference = findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_MODE)?.apply {
-                onPreferenceChangeListener = this@SettingsFragment
-            }
-            findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_SINGLE_LINE)?.apply {
-                isEnabled = streamCardModePreference?.isChecked ?: false
-                onPreferenceChangeListener = this@SettingsFragment
-            }
-            findPreference<DropDownPreference>(Const.PREF_CARD_BACKGROUND)?.apply {
-                isEnabled = findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_MODE)?.isChecked
-                        ?: false
-                onPreferenceChangeListener = this@SettingsFragment
-            }
-            findPreference<SwitchPreferenceCompat>(Const.PREF_MD2_TOOLBAR)?.apply {
-                onPreferenceChangeListener = this@SettingsFragment
-            }
-            findPreference<Preference>(Const.PREF_ICON_PACK)?.apply {
-                onPreferenceClickListener = this@SettingsFragment
-            }
-            findPreference<Preference>(Const.PREF_CARD_LAYOUT)?.apply {
-                onPreferenceClickListener = this@SettingsFragment
-            }
-
-            //Advanced
-            findPreference<Preference>(Const.PREF_PAGES)?.apply {
-                onPreferenceChangeListener = this@SettingsFragment
-            }
-            findPreference<Preference>(Const.PREF_CLEAR_SHORTCUTS)?.apply {
-                onPreferenceClickListener = this@SettingsFragment
-
-                if (!AppUtils.atLeastNMR1()) {
-                    isVisible = false
-                }
-            }
-            findPreference<Preference>(Const.PREF_TILES)?.apply {
-                if (!AppUtils.atLeastN()) {
-                    isVisible = false
-                }
-            }
-            findPreference<SwitchPreferenceCompat>(Const.PREF_COLLECTOR_PLUS)?.apply {
-                onPreferenceChangeListener = this@SettingsFragment
-            }
-            findPreference<SwitchPreferenceCompat>(Const.PREF_EXCLUDE_FROM_RECENT)?.apply {
-                onPreferenceChangeListener = this@SettingsFragment
-            }
-            findPreference<SwitchPreferenceCompat>(Const.PREF_SHOW_SHELL_RESULT)?.apply {
-                onPreferenceChangeListener = this@SettingsFragment
-            }
-
-            //Others
-            findPreference<Preference>(Const.PREF_HELP)?.apply {
-                onPreferenceClickListener = this@SettingsFragment
-            }
-            findPreference<Preference>(Const.PREF_BETA)?.apply {
-                onPreferenceClickListener = this@SettingsFragment
-            }
-        }
-
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-            listView.paddingBottomCompat = StatusBarUtil.getNavBarHeight()
-        }
-
-        override fun onPreferenceClick(preference: Preference): Boolean {
-            when (preference.key) {
-                Const.PREF_CHANGE_BACKGROUND -> {
+            (findPreference(Const.PREF_CHANGE_BACKGROUND) as Preference).apply {
+                setOnPreferenceClickListener {
                     try {
                         if (IzukoHelper.isHitagi) {
                             startActivity(Intent(requireActivity(), BackgroundActivity::class.java))
@@ -151,13 +78,123 @@ class SettingsActivity : BaseActivity() {
                         e.printStackTrace()
                         ToastUtil.makeText(R.string.toast_no_document_app)
                     }
-                    return true
+                    true
                 }
-                Const.PREF_RESET_BACKGROUND -> {
+            }
+            (findPreference(Const.PREF_RESET_BACKGROUND) as Preference).apply {
+                setOnPreferenceClickListener {
                     DialogManager.showResetBackgroundDialog(requireActivity())
-                    return true
+                    true
                 }
-                Const.PREF_HELP -> {
+            }
+            (findPreference(Const.PREF_DARK_MODE) as DropDownPreference).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    if (newValue.toString() == Const.DARK_MODE_AUTO) {
+                        DialogManager.showDarkModeTimePickerDialog(requireActivity() as BaseActivity)
+                    } else {
+                        Settings.setTheme(newValue.toString())
+                        GlobalValues.darkMode = newValue.toString()
+                    }
+                    true
+                }
+            }
+            val streamCardModePreference = (findPreference(Const.PREF_STREAM_CARD_MODE) as SwitchPreferenceCompat).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.isStreamCardMode = newValue as Boolean
+                    GlobalValues.cardModeLiveData.value = newValue
+
+                    (findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE) as SwitchPreferenceCompat).apply {
+                        isEnabled = newValue
+                    }
+                    (findPreference(Const.PREF_CARD_BACKGROUND) as DropDownPreference).apply {
+                        isEnabled = newValue
+                    }
+                    true
+                }
+            }
+            (findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE) as SwitchPreferenceCompat).apply {
+                isEnabled = streamCardModePreference.isChecked
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.isStreamCardModeSingleLine = newValue as Boolean
+                    GlobalValues.cardModeLiveData.value = newValue
+                    true
+                }
+            }
+            (findPreference(Const.PREF_CARD_BACKGROUND) as DropDownPreference).apply {
+                isEnabled = streamCardModePreference.isChecked
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.sCardBackgroundMode = newValue.toString()
+                    GlobalValues.cardModeLiveData.value = newValue
+                    true
+                }
+            }
+            (findPreference(Const.PREF_MD2_TOOLBAR) as SwitchPreferenceCompat).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.isMd2Toolbar = newValue as Boolean
+                    AppUtils.restart()
+                    true
+                }
+            }
+            (findPreference(Const.PREF_ICON_PACK) as Preference).apply {
+                setOnPreferenceClickListener {
+                    DialogManager.showIconPackChoosingDialog(requireActivity() as BaseActivity)
+                    true
+                }
+            }
+            (findPreference(Const.PREF_CARD_LAYOUT) as Preference).apply {
+                setOnPreferenceClickListener {
+                    true
+                }
+            }
+
+            //Advanced
+            (findPreference(Const.PREF_PAGES) as SwitchPreferenceCompat).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.isPages = newValue as Boolean
+                    AppUtils.restart()
+                    true
+                }
+            }
+            (findPreference(Const.PREF_CLEAR_SHORTCUTS) as Preference).apply {
+                if (!AppUtils.atLeastNMR1()) {
+                    isVisible = false
+                } else {
+                    setOnPreferenceClickListener {
+                        DialogManager.showClearShortcutsDialog(requireActivity())
+                        true
+                    }
+                }
+            }
+            (findPreference(Const.PREF_TILES) as Preference).apply {
+                if (!AppUtils.atLeastN()) {
+                    isVisible = false
+                }
+            }
+            (findPreference(Const.PREF_COLLECTOR_PLUS) as SwitchPreferenceCompat).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.isCollectorPlus = newValue as Boolean
+                    if (newValue) {
+                        DialogManager.showIntervalSetupDialog(requireActivity() as BaseActivity)
+                    }
+                    true
+                }
+            }
+            (findPreference(Const.PREF_EXCLUDE_FROM_RECENT) as SwitchPreferenceCompat).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.isExcludeFromRecent = newValue as Boolean
+                    true
+                }
+            }
+            (findPreference(Const.PREF_SHOW_SHELL_RESULT) as SwitchPreferenceCompat).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.isShowShellResult = newValue as Boolean
+                    true
+                }
+            }
+
+            //Others
+            (findPreference(Const.PREF_HELP) as Preference).apply {
+                setOnPreferenceClickListener {
                     try {
                         CustomTabsIntent.Builder().build().apply {
                             launchUrl(requireActivity(), URLManager.DOCUMENT_PAGE.toUri())
@@ -169,9 +206,11 @@ class SettingsActivity : BaseActivity() {
                         }
                         requireActivity().startActivity(intent)
                     }
-                    return true
+                    true
                 }
-                Const.PREF_BETA -> {
+            }
+            (findPreference(Const.PREF_BETA) as Preference).apply {
+                setOnPreferenceClickListener {
                     try {
                         CustomTabsIntent.Builder().build().apply {
                             launchUrl(requireActivity(), URLManager.BETA_DISTRIBUTE_URL.toUri())
@@ -184,81 +223,18 @@ class SettingsActivity : BaseActivity() {
                             ToastUtil.makeText(R.string.toast_no_react_url)
                         }
                     }
-                    return true
-                }
-                Const.PREF_CLEAR_SHORTCUTS -> {
-                    DialogManager.showClearShortcutsDialog(requireActivity())
-                    return true
-                }
-                Const.PREF_ICON_PACK -> {
-                    DialogManager.showIconPackChoosingDialog(requireActivity() as BaseActivity)
-                    return true
-                }
-                Const.PREF_CARD_LAYOUT -> {
-                    return true
+                    true
                 }
             }
-            return false
         }
 
-        override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
-            when (preference.key) {
-                Const.PREF_WORKING_MODE -> GlobalValues.workingMode = newValue as String
-                Const.PREF_DARK_MODE -> if (newValue.toString() == Const.DARK_MODE_AUTO) {
-                    DialogManager.showDarkModeTimePickerDialog(requireActivity() as BaseActivity)
-                } else {
-                    Settings.setTheme(newValue.toString())
-                    GlobalValues.darkMode = newValue.toString()
-                }
-                Const.PREF_STREAM_CARD_MODE -> {
-                    GlobalValues.isStreamCardMode = newValue as Boolean
-                    GlobalValues.cardModeLiveData.value = newValue
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            listView.paddingBottomCompat = StatusBarUtil.getNavBarHeight()
+        }
 
-                    findPreference<SwitchPreferenceCompat>(Const.PREF_STREAM_CARD_SINGLE_LINE)?.apply {
-                        isEnabled = newValue
-                    }
-                    findPreference<DropDownPreference>(Const.PREF_CARD_BACKGROUND)?.apply {
-                        isEnabled = newValue
-                    }
-                    return true
-                }
-                Const.PREF_STREAM_CARD_SINGLE_LINE -> {
-                    GlobalValues.isStreamCardModeSingleLine = newValue as Boolean
-                    GlobalValues.cardModeLiveData.value = newValue
-                    return true
-                }
-                Const.PREF_CARD_BACKGROUND -> {
-                    GlobalValues.sCardBackgroundMode = newValue.toString()
-                    GlobalValues.cardModeLiveData.value = newValue
-                    return true
-                }
-                Const.PREF_COLLECTOR_PLUS -> {
-                    GlobalValues.isCollectorPlus = newValue as Boolean
-                    if (newValue) {
-                        DialogManager.showIntervalSetupDialog(requireActivity() as BaseActivity)
-                    }
-                    return true
-                }
-                Const.PREF_MD2_TOOLBAR -> {
-                    GlobalValues.isMd2Toolbar = newValue as Boolean
-                    AppUtils.restart()
-                    return true
-                }
-                Const.PREF_EXCLUDE_FROM_RECENT -> {
-                    GlobalValues.isExcludeFromRecent = newValue as Boolean
-                    return true
-                }
-                Const.PREF_SHOW_SHELL_RESULT -> {
-                    GlobalValues.isShowShellResult = newValue as Boolean
-                    return true
-                }
-                Const.PREF_PAGES -> {
-                    GlobalValues.isPages = newValue as Boolean
-                    AppUtils.restart()
-                    return true
-                }
-            }
-            return true
+        override fun onCreateItemDecoration(): DividerDecoration? {
+            return CategoryDivideDividerDecoration()
         }
     }
 

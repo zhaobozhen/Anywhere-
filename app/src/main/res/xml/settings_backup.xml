@@ -1,83 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-        android:key="cloudBackupCategory"
-        android:title="@string/settings_backup_cloud_category">
+    <moe.shizuku.preference.PreferenceCategory
+        app:key="cloudBackupCategory"
+        app:title="@string/settings_backup_cloud_category">
 
         <EditTextPreference
-            android:key="webdavHost"
-            android:title="@string/settings_backup_webdav_host_title"
+            app:key="webdavHost"
+            app:title="@string/settings_backup_webdav_host_title"
             app:icon="@drawable/ic_cloud_backup"/>
 
         <EditTextPreference
-            android:key="webdavUsername"
-            android:title="@string/settings_backup_webdav_username_title"/>
+            app:key="webdavUsername"
+            app:title="@string/settings_backup_webdav_username_title"/>
 
         <EditTextPreference
-            android:key="webdavPassword"
-            android:dialogLayout="@layout/layout_webdav_password"
+            app:key="webdavPassword"
+            app:dialogLayout="@layout/layout_webdav_password"
             app:title="@string/settings_backup_webdav_password_title" />
 
         <Preference
-            android:key="webdavBackup"
-            android:title="@string/settings_backup_webdav_backup_title"/>
+            app:key="webdavBackup"
+            app:title="@string/settings_backup_webdav_backup_title"/>
 
         <SwitchPreferenceCompat
-            android:key="webdavAutoBackup"
-            android:title="@string/settings_backup_webdav_auto_backup_title"
+            app:key="webdavAutoBackup"
+            app:title="@string/settings_backup_webdav_auto_backup_title"
             app:summary="@string/settings_backup_webdav_auto_backup_summary"
             app:defaultValue="false" />
 
         <Preference
-            android:key="webdavRestore"
-            android:title="@string/settings_backup_webdav_restore_title"/>
+            app:key="webdavRestore"
+            app:title="@string/settings_backup_webdav_restore_title"/>
 
-    </PreferenceCategory>
+    </moe.shizuku.preference.PreferenceCategory>
 
     <PreferenceCategory
-        android:key="backupCategory"
-        android:title="@string/settings_backup">
+        app:key="backupCategory"
+        app:title="@string/settings_backup">
 
         <Preference
-            android:key="backup"
-            android:title="@string/settings_backup_backup_title"
+            app:key="backup"
+            app:title="@string/settings_backup_backup_title"
             app:summary="@string/settings_backup_backup_summary"
             app:icon="@drawable/ic_backup"/>
 
         <Preference
-            android:key="backupShare"
-            android:title="@string/settings_backup_share_title"
+            app:key="backupShare"
+            app:title="@string/settings_backup_share_title"
             app:summary="@string/settings_backup_share_summary"
             app:icon="@drawable/ic_share"/>
 
         <Preference
-            android:key="backupTip"
+            app:key="backupTip"
             app:icon="@drawable/ic_alert"/>
 
         <Preference
-            android:key="backupTip2"
+            app:key="backupTip2"
             app:icon="@drawable/ic_alert"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:key="restoreCategory"
-        android:title="@string/settings_restore">
+    <moe.shizuku.preference.PreferenceCategory
+        app:key="restoreCategory"
+        app:title="@string/settings_restore">
 
         <Preference
-            android:key="restore"
-            android:title="@string/settings_backup_restore_title"
-            android:summary="@string/settings_backup_restore_summary"
-            android:icon="@drawable/ic_restore"/>
+            app:key="restore"
+            app:title="@string/settings_backup_restore_title"
+            app:summary="@string/settings_backup_restore_summary"
+            app:icon="@drawable/ic_restore"/>
 
         <Preference
-            android:key="restoreApply"
-            android:title="@string/settings_backup_apply_title"
-            android:summary="@string/settings_backup_apply_summary"
-            android:icon="@drawable/ic_apply_restore"/>
+            app:key="restoreApply"
+            app:title="@string/settings_backup_apply_title"
+            app:summary="@string/settings_backup_apply_summary"
+            app:icon="@drawable/ic_apply_restore"/>
 
-    </PreferenceCategory>
+    </moe.shizuku.preference.PreferenceCategory>
 
 </PreferenceScreen>

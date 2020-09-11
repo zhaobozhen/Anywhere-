@@ -135,7 +135,6 @@ dependencies {
     implementation "androidx.collection:collection-ktx:$collection_version"
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.browser:browser:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
@@ -160,7 +159,7 @@ dependencies {
     implementation 'com.tencent:mmkv-static:1.2.2'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation 'com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT'
-    implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.6'
+    implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.7'
     implementation "com.github.topjohnwu.libsu:core:3.0.2"
 
     //UX
@@ -169,6 +168,10 @@ dependencies {
     implementation 'com.drakeet.multitype:multitype:4.2.0'
     implementation "com.leinardi.android:speed-dial:3.1.1"
     implementation 'com.github.sephiroth74:android-target-tooltip:2.0.4'
+
+    def rikkaPreference = "4.2.0-alpha03"
+    implementation("moe.shizuku.preference:preference-appcompat:$rikkaPreference")
+    implementation("moe.shizuku.preference:preference-simplemenu-appcompat:$rikkaPreference")
 
     //Network
     implementation("com.squareup.okhttp3:okhttp:4.8.1")

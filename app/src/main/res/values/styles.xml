@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="preferenceTheme">@style/AppTheme.Preference</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
@@ -20,15 +19,6 @@
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
         <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
-    </style>
-
-    <style name="AppTheme.Preference" parent="PreferenceThemeOverlay">
-        <item name="dropdownPreferenceStyle">@style/AppTheme.Preference.DropDown</item>
-    </style>
-
-    <style name="AppTheme.Preference.DropDown" parent="Preference.DropDown.Material">
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">10dp</item>
     </style>
 
     <style name="AppTheme.SplashTheme" parent="AppTheme">
