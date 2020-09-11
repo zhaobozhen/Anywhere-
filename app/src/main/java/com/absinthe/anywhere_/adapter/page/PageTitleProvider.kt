@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.adapter.page
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
@@ -71,7 +70,7 @@ class PageTitleProvider : BaseNodeProvider() {
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.rename_page -> DialogManager.showRenameDialog(context as BaseActivity, node.title)
-                R.id.delete_page -> DialogManager.showDeletePageDialog(context, node.title, { _, _ ->
+                R.id.delete_page -> DialogManager.showDeletePageDialog(context, node.title, false) {
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
                     AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
                         val title = list[0].title
@@ -87,8 +86,8 @@ class PageTitleProvider : BaseNodeProvider() {
 
                         GlobalValues.setsCategory(title, 0)
                     }
-                }, false)
-                R.id.delete_page_and_item -> DialogManager.showDeletePageDialog(context, node.title, { _: DialogInterface?, _: Int ->
+                }
+                R.id.delete_page_and_item -> DialogManager.showDeletePageDialog(context, node.title, true) {
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
                     AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
                         AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
@@ -101,7 +100,7 @@ class PageTitleProvider : BaseNodeProvider() {
 
                         GlobalValues.setsCategory(list[0].title, 0)
                     }
-                }, true)
+                }
             }
             true
         }

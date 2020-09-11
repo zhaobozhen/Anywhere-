@@ -134,7 +134,7 @@
     <string name="menu_sort_by_name_desc">Descending by name(Z–A)</string>
     <string name="menu_sort_by_name_asc">Ascending by name(A–Z)</string>
     <string name="menu_sort_manually">Drag to sort</string>
-    <string name="menu_multi_select">Multi-select delete</string>
+    <string name="menu_multi_select">Multi-select</string>
     <string name="menu_rename">Rename</string>
     <string name="menu_delete_page">Delete page</string>
     <string name="menu_delete_page_and_item">Delete page completely</string>

@@ -193,7 +193,7 @@ object DialogManager {
                 .show()
     }
 
-    fun showDeletePageDialog(context: Context, title: String, listener: DialogInterface.OnClickListener?, isDeletePageAndItem: Boolean) {
+    fun showDeletePageDialog(context: Context, title: String, isDeletePageAndItem: Boolean, action: () -> Unit) {
         val message: Spanned = if (isDeletePageAndItem) {
             HtmlCompat.fromHtml(String.format(context.getString(R.string.dialog_delete_with_sub_item_message), "<b>$title</b>"), HtmlCompat.FROM_HTML_MODE_LEGACY)
         } else {
@@ -203,9 +203,25 @@ object DialogManager {
                 .setTitle(R.string.dialog_delete_selected_title)
                 .setMessage(message)
                 .setCancelable(false)
-                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show()
+    }
+
+    fun showPageListDialog(context: Context, action: (title: String) -> Unit) {
+        val items = mutableListOf<String>()
+
+        AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
+            list.iterator().forEach { items.add(it.title) }
+
+            AnywhereDialogBuilder(context).apply {
+                setTitle(R.string.menu_move_to_page)
+                setItems(items.toTypedArray()) { _, which ->
+                    action(items[which])
+                }
+                show()
+            }
+        }
     }
 
     fun showPageListDialog(context: Context, ae: AnywhereEntity) {

@@ -56,7 +56,7 @@ const val LAYOUT_MODE_STREAM_SINGLE_LINE = 2
 class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(0), ItemTouchCallBack.OnItemTouchListener {
 
     var mode = ADAPTER_MODE_NORMAL
-    private val mSelectedIndex = mutableListOf<Int>()
+    private val selectedIndex = mutableListOf<Int>()
     private val deleteItemSet = mutableSetOf<AnywhereEntity>()
 
     override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -185,7 +185,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
             }
         }
 
-        if (!mSelectedIndex.contains(holder.layoutPosition)) {
+        if (!selectedIndex.contains(holder.layoutPosition)) {
             (holder.itemView as MaterialCardView).apply {
                 scaleX = 1.0f
                 scaleY = 1.0f
@@ -231,20 +231,20 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 }
                 Opener.with(context).load(item).open()
             } else if (mode == ADAPTER_MODE_SELECT) {
-                if (mSelectedIndex.contains(position)) {
+                if (selectedIndex.contains(position)) {
                     (v as MaterialCardView).apply {
                         scaleX = 1.0f
                         scaleY = 1.0f
                         isChecked = false
                     }
-                    mSelectedIndex.remove(position)
+                    selectedIndex.remove(position)
                 } else {
                     (v as MaterialCardView).apply {
                         scaleX = 0.9f
                         scaleY = 0.9f
                         isChecked = true
                     }
-                    mSelectedIndex.add(position)
+                    selectedIndex.add(position)
                 }
             }
         } catch (e: IndexOutOfBoundsException) {
@@ -285,12 +285,12 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
     }
 
     fun deleteSelect() {
-        if (mSelectedIndex.size == 0) {
+        if (selectedIndex.size == 0) {
             return
         }
         val deleteList = mutableListOf<AnywhereEntity>()
 
-        for (index in mSelectedIndex) {
+        for (index in selectedIndex) {
 
             if (index < data.size) {
                 deleteList.add(data[index])
@@ -303,8 +303,28 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
         clearSelect()
     }
 
+    fun moveSelect(pageTitle: String) {
+        if (selectedIndex.size == 0) {
+            return
+        }
+        val moveList = mutableListOf<AnywhereEntity>()
+
+        for (index in selectedIndex) {
+
+            if (index < data.size) {
+                moveList.add(data[index])
+            }
+        }
+
+        for (item in moveList) {
+            item.category = pageTitle
+            AnywhereApplication.sRepository.update(item)
+        }
+        clearSelect()
+    }
+
     fun clearSelect() {
-        mSelectedIndex.clear()
+        selectedIndex.clear()
     }
 
     fun updateSortedList() {

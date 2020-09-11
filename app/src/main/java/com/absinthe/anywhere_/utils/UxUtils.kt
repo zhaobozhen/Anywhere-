@@ -387,7 +387,7 @@ object UxUtils {
         item.icon = wrapDrawable
     }
 
-    fun tintToolbarIcon(context: Context, menu: Menu, toggle: ActionBarDrawerToggle, type: String) {
+    fun tintToolbarIcon(context: Context, menu: Menu, toggle: ActionBarDrawerToggle?, type: String) {
         val colorRes: Int = if (type == Const.ACTION_BAR_TYPE_DARK) {
             R.color.black
         } else {
@@ -398,10 +398,13 @@ object UxUtils {
         tintMenuIcon(context, menu.findItem(R.id.toolbar_delete), colorRes)
         tintMenuIcon(context, menu.findItem(R.id.toolbar_done), colorRes)
         tintMenuIcon(context, menu.findItem(R.id.toolbar_done), colorRes)
-        if (type == Const.ACTION_BAR_TYPE_DARK) {
-            toggle.drawerArrowDrawable.color = Color.BLACK
-        } else {
-            toggle.drawerArrowDrawable.color = Color.WHITE
+
+        toggle?.let {
+            if (type == Const.ACTION_BAR_TYPE_DARK) {
+                it.drawerArrowDrawable.color = Color.BLACK
+            } else {
+                it.drawerArrowDrawable.color = Color.WHITE
+            }
         }
     }
 

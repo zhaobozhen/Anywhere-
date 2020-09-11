@@ -23,6 +23,13 @@
         android:visible="false"/>
 
     <item
+      android:id="@+id/toolbar_move"
+      android:icon="@drawable/ic_move"
+      android:title="@string/menu_move_to_page"
+      app:showAsAction="ifRoom"
+      android:visible="false"/>
+
+    <item
         android:id="@+id/toolbar_done"
         android:icon="@drawable/ic_done"
         android:title="@string/menu_done"

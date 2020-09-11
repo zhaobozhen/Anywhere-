@@ -35,14 +35,14 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private fun initView() {
         val cardList = listOf(
-                AdvancedCardItem(R.string.btn_url_scheme, R.drawable.ic_url_scheme, getOpeningEditorListener(AnywhereType.Card.URL_SCHEME)),
-                AdvancedCardItem(R.string.btn_activity, R.drawable.ic_card_activity, getOpeningEditorListener(AnywhereType.Card.ACTIVITY)),
-                AdvancedCardItem(R.string.btn_add_image, R.drawable.ic_card_image, getOpeningEditorListener(AnywhereType.Card.IMAGE)),
-                AdvancedCardItem(R.string.btn_add_shell, R.drawable.ic_card_shell, getOpeningEditorListener(AnywhereType.Card.SHELL)),
-                AdvancedCardItem(R.string.btn_add_switch_shell, R.drawable.ic_card_switch, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),
-                AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, getOpeningEditorListener(AnywhereType.Card.FILE)),
-                AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, getOpeningEditorListener(AnywhereType.Card.BROADCAST)),
-                AdvancedCardItem(R.string.btn_add_workflow, R.drawable.ic_card_workflow, getOpeningEditorListener(AnywhereType.Card.WORKFLOW))
+                AdvancedCardItem(R.string.btn_url_scheme, R.drawable.ic_url_scheme, R.color.material_blue_300, getOpeningEditorListener(AnywhereType.Card.URL_SCHEME)),
+                AdvancedCardItem(R.string.btn_activity, R.drawable.ic_card_activity, R.color.material_red_300, getOpeningEditorListener(AnywhereType.Card.ACTIVITY)),
+                AdvancedCardItem(R.string.btn_add_image, R.drawable.ic_card_image, R.color.material_green_300, getOpeningEditorListener(AnywhereType.Card.IMAGE)),
+                AdvancedCardItem(R.string.btn_add_shell, R.drawable.ic_card_shell, R.color.material_pink_300, getOpeningEditorListener(AnywhereType.Card.SHELL)),
+                AdvancedCardItem(R.string.btn_add_switch_shell, R.drawable.ic_card_switch, R.color.material_purple_300, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),
+                AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, R.color.material_cyan_300, getOpeningEditorListener(AnywhereType.Card.FILE)),
+                AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, R.color.material_lime_300, getOpeningEditorListener(AnywhereType.Card.BROADCAST)),
+                AdvancedCardItem(R.string.btn_add_workflow, R.drawable.ic_card_workflow, R.color.material_orange_300, getOpeningEditorListener(AnywhereType.Card.WORKFLOW))
         )
         mBuilder.adapter.setList(cardList.toMutableList())
     }

@@ -169,13 +169,11 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        mToggle?.let {
-            if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_LIGHT
-                    || (StatusBarUtil.isDarkMode(this) && GlobalValues.backgroundUri.isEmpty())) {
-                UxUtils.tintToolbarIcon(this, menu, it, Const.ACTION_BAR_TYPE_LIGHT)
-            } else {
-                UxUtils.tintToolbarIcon(this, menu, it, Const.ACTION_BAR_TYPE_DARK)
-            }
+        if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_LIGHT
+                || (StatusBarUtil.isDarkMode(this) && GlobalValues.backgroundUri.isEmpty())) {
+            UxUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_LIGHT)
+        } else {
+            UxUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_DARK)
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -188,8 +186,7 @@ class MainActivity : BaseActivity() {
             }
             R.id.toolbar_sort -> {
                 val popup = PopupMenu(this, findViewById(R.id.toolbar_sort))
-                popup.menuInflater
-                        .inflate(R.menu.sort_menu, popup.menu)
+                popup.menuInflater.inflate(R.menu.sort_menu, popup.menu)
 
                 if (popup.menu is MenuBuilder) {
                     (popup.menu as MenuBuilder).setOptionalIconsVisible(true)
@@ -234,6 +231,9 @@ class MainActivity : BaseActivity() {
             }
             R.id.toolbar_delete -> {
                 CategoryCardFragment.currentReference?.get()?.deleteSelected()
+            }
+            R.id.toolbar_move -> {
+                CategoryCardFragment.currentReference?.get()?.moveSelected()
             }
         }
 
@@ -338,8 +338,7 @@ class MainActivity : BaseActivity() {
                 it.setDisplayHomeAsUpEnabled(true)
                 mBinding.drawer.addDrawerListener(mToggle!!)
                 mToggle!!.syncState()
-                AnywhereApplication.sRepository.allAnywhereEntities
-                        .observe(this, { initDrawer(mBinding.drawer) })
+                AnywhereApplication.sRepository.allAnywhereEntities.observe(this, { initDrawer(mBinding.drawer) })
             } else {
                 it.setHomeButtonEnabled(false)
                 it.setDisplayHomeAsUpEnabled(false)

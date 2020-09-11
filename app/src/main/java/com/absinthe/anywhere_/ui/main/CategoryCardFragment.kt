@@ -80,6 +80,7 @@ class CategoryCardFragment : Fragment() {
         menu.findItem(R.id.toolbar_sort).isVisible = adapter.mode == ADAPTER_MODE_NORMAL
         menu.findItem(R.id.toolbar_done).isVisible = adapter.mode != ADAPTER_MODE_NORMAL
         menu.findItem(R.id.toolbar_delete).isVisible = adapter.mode == ADAPTER_MODE_SELECT
+        menu.findItem(R.id.toolbar_move).isVisible = adapter.mode == ADAPTER_MODE_SELECT
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -123,6 +124,12 @@ class CategoryCardFragment : Fragment() {
         DialogManager.showDeleteSelectCardDialog(requireContext()) { _: DialogInterface?, _: Int ->
             adapter.deleteSelect()
             resetSelectState()
+        }
+    }
+
+    fun moveSelected() {
+        DialogManager.showPageListDialog(requireContext()) {
+            adapter.moveSelect(it)
         }
     }
 

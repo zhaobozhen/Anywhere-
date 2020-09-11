@@ -101,10 +101,10 @@ class SettingsActivity : BaseActivity() {
                     GlobalValues.cardModeLiveData.value = newValue
 
                     (findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE) as SwitchPreference).apply {
-                        isEnabled = newValue
+                        isVisible = newValue
                     }
                     (findPreference(Const.PREF_CARD_BACKGROUND) as ListPreference).apply {
-                        isEnabled = newValue
+                        isVisible = newValue
                     }
                     true
                 }
