@@ -12,7 +12,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import moe.shizuku.preference.PreferenceFragment
-import moe.shizuku.preference.SwitchPreferenceCompat
+import moe.shizuku.preference.SwitchPreference
 
 class LabActivity : BaseActivity() {
 
@@ -33,7 +33,7 @@ class LabActivity : BaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.settings_lab, rootKey)
 
-            (findPreference(Const.PREF_TRANS_ICON) as SwitchPreferenceCompat).apply {
+            (findPreference(Const.PREF_TRANS_ICON) as SwitchPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalScope.launch(Dispatchers.IO) {
                         delay(500)
@@ -42,7 +42,7 @@ class LabActivity : BaseActivity() {
                     true
                 }
             }
-            (findPreference(Const.PREF_EDITOR_ENTRY_ANIM) as SwitchPreferenceCompat).apply {
+            (findPreference(Const.PREF_EDITOR_ENTRY_ANIM) as SwitchPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.editorEntryAnim = newValue as Boolean
                     true

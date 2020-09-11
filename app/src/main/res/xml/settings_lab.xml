@@ -7,14 +7,14 @@
         app:key="normalCategory"
         app:title="@string/settings_category_normal">
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             app:key="transparentIcon"
             app:title="@string/settings_transparent_icon_title"
             app:summary="@string/settings_transparent_icon_summary"
             app:icon="@drawable/ic_transparent_icon"
             app:defaultValue="false" />
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             app:key="editorEntryAnim"
             app:title="@string/settings_editor_entry_animation"
             app:summary="@string/settings_editor_entry_animation_summary"

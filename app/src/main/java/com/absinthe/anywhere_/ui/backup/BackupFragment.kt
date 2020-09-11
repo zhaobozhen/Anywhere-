@@ -19,6 +19,7 @@ import com.absinthe.libraries.utils.extensions.paddingBottomCompat
 import com.google.android.material.snackbar.Snackbar
 import moe.shizuku.preference.Preference
 import moe.shizuku.preference.PreferenceFragment
+import moe.shizuku.preference.SwitchPreference
 
 const val BACKUP_TIP_VERSION = "2.0.0"
 
@@ -42,6 +43,7 @@ class BackupFragment : PreferenceFragment() {
                 true
             }
             summary = GlobalValues.webdavUsername
+            isIconSpaceReserved = true
         }
         (findPreference(Const.PREF_WEBDAV_PASSWORD) as Preference).apply {
             setOnPreferenceChangeListener { preference, newValue ->
@@ -50,6 +52,7 @@ class BackupFragment : PreferenceFragment() {
                 true
             }
             summary = getPWString(GlobalValues.webdavPassword)
+            isIconSpaceReserved = true
         }
         findPreference(Const.PREF_WEBDAV_BACKUP)?.apply {
             setOnPreferenceClickListener {
@@ -62,12 +65,14 @@ class BackupFragment : PreferenceFragment() {
                 }
                 true
             }
+            isIconSpaceReserved = true
         }
-        (findPreference(Const.PREF_WEBDAV_AUTO_BACKUP) as Preference).apply {
+        (findPreference(Const.PREF_WEBDAV_AUTO_BACKUP) as SwitchPreference).apply {
             setOnPreferenceChangeListener { _, newValue ->
                 GlobalValues.isAutoBackup = newValue as Boolean
                 true
             }
+            isIconSpaceReserved = true
         }
         (findPreference(Const.PREF_WEBDAV_RESTORE) as Preference).apply {
             setOnPreferenceClickListener {
@@ -80,6 +85,7 @@ class BackupFragment : PreferenceFragment() {
                 }
                 true
             }
+            isIconSpaceReserved = true
         }
         (findPreference(Const.PREF_BACKUP) as Preference).apply {
             setOnPreferenceClickListener {

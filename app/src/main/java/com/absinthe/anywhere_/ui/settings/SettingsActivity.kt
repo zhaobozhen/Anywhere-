@@ -22,10 +22,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.IzukoHelper
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.libraries.utils.extensions.paddingBottomCompat
-import moe.shizuku.preference.DropDownPreference
-import moe.shizuku.preference.Preference
-import moe.shizuku.preference.PreferenceFragment
-import moe.shizuku.preference.SwitchPreferenceCompat
+import moe.shizuku.preference.*
 
 class SettingsActivity : BaseActivity() {
 
@@ -47,7 +44,7 @@ class SettingsActivity : BaseActivity() {
             setPreferencesFromResource(R.xml.settings, rootKey)
 
             //Normal
-            (findPreference(Const.PREF_WORKING_MODE) as DropDownPreference).apply {
+            (findPreference(Const.PREF_WORKING_MODE) as ListPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.workingMode = newValue as String
                     true
@@ -87,7 +84,7 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            (findPreference(Const.PREF_DARK_MODE) as DropDownPreference).apply {
+            (findPreference(Const.PREF_DARK_MODE) as ListPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     if (newValue.toString() == Const.DARK_MODE_AUTO) {
                         DialogManager.showDarkModeTimePickerDialog(requireActivity() as BaseActivity)
@@ -98,37 +95,38 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            val streamCardModePreference = (findPreference(Const.PREF_STREAM_CARD_MODE) as SwitchPreferenceCompat).apply {
+            val streamCardModePreference = (findPreference(Const.PREF_STREAM_CARD_MODE) as SwitchPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isStreamCardMode = newValue as Boolean
                     GlobalValues.cardModeLiveData.value = newValue
 
-                    (findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE) as SwitchPreferenceCompat).apply {
+                    (findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE) as SwitchPreference).apply {
                         isEnabled = newValue
                     }
-                    (findPreference(Const.PREF_CARD_BACKGROUND) as DropDownPreference).apply {
+                    (findPreference(Const.PREF_CARD_BACKGROUND) as ListPreference).apply {
                         isEnabled = newValue
                     }
                     true
                 }
             }
-            (findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE) as SwitchPreferenceCompat).apply {
-                isEnabled = streamCardModePreference.isChecked
+            (findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE) as SwitchPreference).apply {
+                isVisible = streamCardModePreference.isChecked
+                isIconSpaceReserved = true
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isStreamCardModeSingleLine = newValue as Boolean
                     GlobalValues.cardModeLiveData.value = newValue
                     true
                 }
             }
-            (findPreference(Const.PREF_CARD_BACKGROUND) as DropDownPreference).apply {
-                isEnabled = streamCardModePreference.isChecked
+            (findPreference(Const.PREF_CARD_BACKGROUND) as ListPreference).apply {
+                isVisible = streamCardModePreference.isChecked
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.sCardBackgroundMode = newValue.toString()
                     GlobalValues.cardModeLiveData.value = newValue
                     true
                 }
             }
-            (findPreference(Const.PREF_MD2_TOOLBAR) as SwitchPreferenceCompat).apply {
+            (findPreference(Const.PREF_MD2_TOOLBAR) as SwitchPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isMd2Toolbar = newValue as Boolean
                     AppUtils.restart()
@@ -141,14 +139,9 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            (findPreference(Const.PREF_CARD_LAYOUT) as Preference).apply {
-                setOnPreferenceClickListener {
-                    true
-                }
-            }
 
             //Advanced
-            (findPreference(Const.PREF_PAGES) as SwitchPreferenceCompat).apply {
+            (findPreference(Const.PREF_PAGES) as SwitchPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isPages = newValue as Boolean
                     AppUtils.restart()
@@ -170,7 +163,7 @@ class SettingsActivity : BaseActivity() {
                     isVisible = false
                 }
             }
-            (findPreference(Const.PREF_COLLECTOR_PLUS) as SwitchPreferenceCompat).apply {
+            (findPreference(Const.PREF_COLLECTOR_PLUS) as SwitchPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isCollectorPlus = newValue as Boolean
                     if (newValue) {
@@ -179,13 +172,13 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            (findPreference(Const.PREF_EXCLUDE_FROM_RECENT) as SwitchPreferenceCompat).apply {
+            (findPreference(Const.PREF_EXCLUDE_FROM_RECENT) as SwitchPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isExcludeFromRecent = newValue as Boolean
                     true
                 }
             }
-            (findPreference(Const.PREF_SHOW_SHELL_RESULT) as SwitchPreferenceCompat).apply {
+            (findPreference(Const.PREF_SHOW_SHELL_RESULT) as SwitchPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isShowShellResult = newValue as Boolean
                     true

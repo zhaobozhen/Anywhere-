@@ -10,7 +10,7 @@
         <SimpleMenuPreference
             app:key="workingMode"
             app:title="@string/settings_working_mode"
-            app:summary="@string/settings_working_mode_summary"
+            app:summary="%s"
             app:icon="@drawable/ic_working_mode"
             app:defaultValue="url_scheme"
             app:entries="@array/list_working_mode"
@@ -60,20 +60,20 @@
         <SimpleMenuPreference
             app:key="darkMode"
             app:title="@string/settings_dark_mode"
-            app:summary="@string/settings_dark_mode_summary"
+            app:summary="%s"
             app:icon="@drawable/ic_dark_mode"
             app:entries="@array/list_dark_mode"
             app:entryValues="@array/list_dark_mode_value"
             app:defaultValue="off"/>
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             app:key="streamCardMode"
             app:title="@string/settings_stream_card_mode"
             app:summary="@string/settings_stream_card_mode_summary"
             app:icon="@drawable/ic_stream_card"
             app:defaultValue="false"/>
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             app:key="streamCardModeSingleLine"
             app:title="@string/settings_stream_card_single_line"
             app:summary="@string/settings_stream_card_single_line_summary"
@@ -83,11 +83,12 @@
             app:key="cardBackgroundMode"
             app:title="@string/settings_card_background"
             app:icon="@drawable/ic_color"
+            app:summary="%s"
             app:entries="@array/list_card_bg"
             app:entryValues="@array/list_card_bg_value"
             app:defaultValue="off"/>
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             app:key="md2Toolbar"
             app:title="@string/settings_md2_toolbar_title"
             app:summary="@string/settings_md2_toolbar_summary"
@@ -111,7 +112,7 @@
         app:key="advancedCategory"
         app:title="@string/settings_category_advanced">
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             app:key="pages"
             app:title="@string/settings_pages_title"
             app:summary="@string/settings_pages_summary"
@@ -134,21 +135,21 @@
                 android:targetClass="com.absinthe.anywhere_.ui.settings.TileSettingsActivity"/>
         </Preference>
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             app:key="collectorPlus"
             app:title="@string/settings_collector_plus"
             app:summary="@string/settings_collector_plus_summary"
             app:icon="@drawable/ic_plus_circle"
             app:defaultValue="false" />
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             app:key="excludeFromRecent"
             app:title="@string/settings_exclude_from_recent"
             app:summary="@string/settings_exclude_from_recent_summary"
             app:icon="@drawable/ic_visibility_off"
             app:defaultValue="false" />
 
-        <SwitchPreferenceCompat
+        <SwitchPreference
             app:key="showShellResult"
             app:title="@string/settings_show_shell_result"
             app:summary="@string/settings_show_shell_result_summary"
