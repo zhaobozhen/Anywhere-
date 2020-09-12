@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.ui.main
 
-import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
@@ -121,7 +120,7 @@ class CategoryCardFragment : Fragment() {
     }
 
     fun deleteSelected() {
-        DialogManager.showDeleteSelectCardDialog(requireContext()) { _: DialogInterface?, _: Int ->
+        DialogManager.showDeleteSelectCardDialog(requireContext()) {
             adapter.deleteSelect()
             resetSelectState()
         }

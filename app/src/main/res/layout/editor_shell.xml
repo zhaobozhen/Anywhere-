@@ -18,11 +18,10 @@
     android:fontFamily="@font/jetbrains_mono_regular"
     android:gravity="top|start"
     android:importantForAutofill="no"
-    android:inputType="text"
     android:textColor="@color/shellText"
     android:textCursorDrawable="@drawable/bg_shell_cursor"
     app:layout_constraintTop_toBottomOf="@id/til_app_name"
-    tools:ignore="LabelFor" />
+    tools:ignore="LabelFor,TextFields" />
 
   <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/til_app_name"

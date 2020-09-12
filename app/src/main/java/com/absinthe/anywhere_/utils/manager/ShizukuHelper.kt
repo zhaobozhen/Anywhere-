@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.utils.manager
 
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import androidx.fragment.app.Fragment
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
@@ -86,7 +85,7 @@ object ShizukuHelper {
     }
 
     private fun showPermissionDialog(activity: Activity, fragment: Fragment? = null) {
-        showGotoShizukuManagerDialog(activity, DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
+        showGotoShizukuManagerDialog(activity) {
             val intent = IntentUtils.getLaunchAppIntent("moe.shizuku.privileged.api")
             if (intent != null) {
                 if (fragment != null) {
@@ -98,6 +97,6 @@ object ShizukuHelper {
                 ToastUtil.makeText(R.string.toast_not_install_shizuku)
                 URLSchemeHandler.parse(activity, URLManager.SHIZUKU_MARKET_URL)
             }
-        })
+        }
     }
 }

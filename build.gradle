@@ -3,8 +3,6 @@
 buildscript {
     ext.kotlin_version = '1.4.0'
     repositories {
-        google()
-        jcenter()
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/public' }
@@ -15,7 +13,7 @@ buildscript {
         // in the individual module build.gradle files
 
         classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10'
         classpath 'com.iwhys.sdkeditor:plugin:1.1.4'
         classpath 'com.github.heruoxin:Robfuscate:master'   // R obfuscate
         classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.18' // Resource obfuscate
@@ -26,8 +24,6 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        jcenter()
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/google' }

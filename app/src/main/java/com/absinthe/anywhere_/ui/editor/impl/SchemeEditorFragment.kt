@@ -33,7 +33,7 @@ class SchemeEditorFragment : BaseEditorFragment(), IEditor {
     override fun initView() {
         binding.btnUrlSchemeCommunity.setOnClickListener {
             if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.SHORTCUT_COMM_TIPS)) {
-                DialogManager.showShortcutCommunityTipsDialog(requireActivity()) { _, _ ->
+                DialogManager.showShortcutCommunityTipsDialog(requireActivity()) {
                     openShortcutCommunity()
                 }
                 Once.markDone(OnceTag.SHORTCUT_COMM_TIPS)

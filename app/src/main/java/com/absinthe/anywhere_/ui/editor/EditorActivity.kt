@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.ui.editor
 
 import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -69,12 +68,13 @@ class EditorActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initTransition()
+        super.onCreate(savedInstanceState)
+
         if (_entity == null) {
             finish()
         } else {
             entity = _entity!!
-            initTransition()
-            super.onCreate(savedInstanceState)
             setUpBottomDrawer()
         }
     }
@@ -141,7 +141,7 @@ class EditorActivity : BaseActivity() {
             }
             sharedElementReturnTransition = MaterialContainerTransform().apply {
                 addTarget(android.R.id.content)
-                duration = 300L
+                duration = 250L
             }
         }
         findViewById<View>(android.R.id.content).transitionName = getString(R.string.trans_item_container)
@@ -162,12 +162,8 @@ class EditorActivity : BaseActivity() {
             }
             setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.trying_run -> {
-                        editor.tryRunning()
-                    }
-                    R.id.overlay -> {
-                        startOverlay()
-                    }
+                    R.id.trying_run -> { editor.tryRunning() }
+                    R.id.overlay -> { startOverlay() }
                 }
                 true
             }
@@ -310,24 +306,24 @@ class EditorActivity : BaseActivity() {
     private fun addShortcut(context: Context, ae: AnywhereEntity) {
         if (ShortcutsUtils.SHORTCUT_MANAGER!!.dynamicShortcuts.size < 3) {
             val builder = AnywhereDialogBuilder(context)
-            showAddShortcutDialog(context, builder, ae, DialogInterface.OnClickListener { _, _ ->
+            showAddShortcutDialog(context, builder, ae) {
                 ShortcutsUtils.addShortcut(ae)
                 onBackPressed()
-            })
+            }
         } else {
-            showCannotAddShortcutDialog(context, DialogInterface.OnClickListener { _, _ ->
+            showCannotAddShortcutDialog(context) {
                 ShortcutsUtils.addShortcut(ae)
                 onBackPressed()
-            })
+            }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private fun removeShortcut(context: Context, ae: AnywhereEntity) {
-        showRemoveShortcutDialog(context, ae, DialogInterface.OnClickListener { _, _ ->
+        showRemoveShortcutDialog(context, ae) {
             ShortcutsUtils.removeShortcut(ae)
             onBackPressed()
-        })
+        }
     }
 
     private fun shouldShowMenu(): Boolean {

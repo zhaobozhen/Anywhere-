@@ -130,7 +130,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             if (flag) {
                 enterHomePage()
             } else {
-                DialogManager.showHasNotGrantPermYetDialog(requireActivity()) { _, _ ->
+                DialogManager.showHasNotGrantPermYetDialog(requireActivity()) {
                     enterHomePage()
                 }
             }

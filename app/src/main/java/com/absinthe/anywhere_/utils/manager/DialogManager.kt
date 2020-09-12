@@ -45,7 +45,7 @@ object DialogManager {
         AnywhereDialogBuilder(activity)
                 .setTitle(R.string.dialog_reset_background_confirm_title)
                 .setMessage(R.string.dialog_reset_background_confirm_message)
-                .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
+                .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ ->
                     GlobalValues.backgroundUri = ""
                     GlobalValues.actionBarType = Const.ACTION_BAR_TYPE_DARK
                     AppUtils.restart()
@@ -58,7 +58,7 @@ object DialogManager {
         AnywhereDialogBuilder(activity)
                 .setTitle(R.string.dialog_reset_background_confirm_title)
                 .setMessage(R.string.dialog_reset_shortcuts_confirm_message)
-                .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
+                .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ ->
                     if (AppUtils.atLeastNMR1()) {
                         ShortcutsUtils.clearAllShortcuts()
                     }
@@ -67,21 +67,21 @@ object DialogManager {
                 .show()
     }
 
-    fun showBackupShareDialog(context: Context, dig: String?, encrypted: String?) {
-        AnywhereDialogBuilder(context)
+    fun showBackupShareDialog(activity: Activity, dig: String, encrypted: String) {
+        AnywhereDialogBuilder(activity)
                 .setTitle(R.string.settings_backup_share_title)
                 .setMessage(dig)
-                .setPositiveButton(R.string.btn_backup_copy) { _: DialogInterface?, _: Int ->
-                    val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                .setPositiveButton(R.string.btn_backup_copy) { _, _ ->
+                    val cm = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val mClipData = ClipData.newPlainText("Label", encrypted)
                     cm.setPrimaryClip(mClipData)
                     ToastUtil.makeText(R.string.toast_copied)
                 }
-                .setNeutralButton(R.string.btn_backup_share) { _: DialogInterface?, _: Int ->
+                .setNeutralButton(R.string.btn_backup_share) { _, _ ->
                     val textIntent = Intent(Intent.ACTION_SEND)
                     textIntent.type = "text/plain"
                     textIntent.putExtra(Intent.EXTRA_TEXT, encrypted)
-                    context.startActivity(Intent.createChooser(textIntent, context.getString(R.string.settings_backup_share_title)))
+                    activity.startActivity(Intent.createChooser(textIntent, activity.getString(R.string.settings_backup_share_title)))
                 }
                 .show()
     }
@@ -91,7 +91,7 @@ object DialogManager {
                 .setTitle("Debug info")
                 .setMessage(GlobalValues.info)
                 .setPositiveButton(R.string.dialog_delete_positive_button, null)
-                .setNeutralButton(R.string.logcat) { _: DialogInterface?, _: Int ->
+                .setNeutralButton(R.string.logcat) { _, _ ->
                     Settings.setLogger()
                     AppUtils.startLogcat(activity)
                 }
@@ -99,11 +99,11 @@ object DialogManager {
                 .show()
     }
 
-    fun showDeleteAnywhereDialog(activity: AppCompatActivity, ae: AnywhereEntity) {
-        val builder = AnywhereDialogBuilder(activity)
-        builder.setTitle(R.string.dialog_delete_title)
+    fun showDeleteAnywhereDialog(activity: Activity, ae: AnywhereEntity) {
+        AnywhereDialogBuilder(activity)
+                .setTitle(R.string.dialog_delete_title)
                 .setMessage(HtmlCompat.fromHtml(String.format(activity.getString(R.string.dialog_delete_message), "<b>" + ae.appName + "</b>"), HtmlCompat.FROM_HTML_MODE_LEGACY))
-                .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
+                .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ ->
                     activity.onBackPressed()
                     AnywhereApplication.sRepository.delete(ae, 300)
                 }
@@ -112,54 +112,55 @@ object DialogManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-    fun showAddShortcutDialog(context: Context, builder: AnywhereDialogBuilder, ae: AnywhereEntity, listener: DialogInterface.OnClickListener?) {
+    fun showAddShortcutDialog(context: Context, builder: AnywhereDialogBuilder, ae: AnywhereEntity, action: () -> Unit) {
         builder.setTitle(R.string.dialog_add_shortcut_title)
                 .setMessage(HtmlCompat.fromHtml(String.format(context.getString(R.string.dialog_add_shortcut_message), "<b>" + ae.appName + "</b>"), HtmlCompat.FROM_HTML_MODE_LEGACY))
-                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
-                .show()
-    }
-
-    fun showCannotAddShortcutDialog(context: Context, listener: DialogInterface.OnClickListener?) {
-        AnywhereDialogBuilder(context)
-                .setTitle(R.string.dialog_cant_add_shortcut_title)
-                .setMessage(R.string.dialog_cant_add_shortcut_message)
-                .setPositiveButton(R.string.dialog_delete_positive_button, null)
-                .setNeutralButton(R.string.dialog_add_shortcut_anymore_button, listener)
                 .show()
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-    fun showRemoveShortcutDialog(context: Context, ae: AnywhereEntity, listener: DialogInterface.OnClickListener? = null) {
+    fun showCannotAddShortcutDialog(context: Context, action: () -> Unit) {
+        AnywhereDialogBuilder(context)
+                .setTitle(R.string.dialog_cant_add_shortcut_title)
+                .setMessage(R.string.dialog_cant_add_shortcut_message)
+                .setPositiveButton(R.string.dialog_delete_positive_button, null)
+                .setNeutralButton(R.string.dialog_add_shortcut_anymore_button) { _, _ -> action() }
+                .show()
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
+    fun showRemoveShortcutDialog(context: Context, ae: AnywhereEntity, action: () -> Unit) {
         val builder = AnywhereDialogBuilder(context)
         builder.setTitle(R.string.dialog_remove_shortcut_title)
                 .setMessage(HtmlCompat.fromHtml(String.format(context.getString(R.string.dialog_remove_shortcut_message), "<b>" + ae.appName + "</b>"), HtmlCompat.FROM_HTML_MODE_LEGACY))
-                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
         builder.show()
     }
 
-    fun showDeleteSelectCardDialog(context: Context, listener: DialogInterface.OnClickListener?) {
+    fun showDeleteSelectCardDialog(context: Context, action: () -> Unit) {
         AnywhereDialogBuilder(context)
                 .setTitle(R.string.dialog_delete_selected_title)
                 .setMessage(R.string.dialog_delete_selected_message)
-                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show()
     }
 
-    fun showHasNotGrantPermYetDialog(activity: Activity, listener: DialogInterface.OnClickListener) {
+    fun showHasNotGrantPermYetDialog(activity: Activity, action: () -> Unit) {
         AnywhereDialogBuilder(activity)
                 .setMessage(R.string.dialog_message_perm_not_ever)
-                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show()
     }
 
-    fun showShortcutCommunityTipsDialog(activity: Activity, listener: DialogInterface.OnClickListener) {
+    fun showShortcutCommunityTipsDialog(activity: Activity, action: () -> Unit) {
         AnywhereDialogBuilder(activity)
                 .setMessage(R.string.dialog_shortcut_community_tips)
-                .setPositiveButton(android.R.string.ok, listener)
+                .setPositiveButton(android.R.string.ok) { _, _ -> action() }
                 .show()
     }
 
@@ -183,12 +184,12 @@ object DialogManager {
                 .show()
     }
 
-    fun showGotoShizukuManagerDialog(activity: Activity, listener: DialogInterface.OnClickListener?) {
+    fun showGotoShizukuManagerDialog(activity: Activity, action: () -> Unit) {
         AnywhereDialogBuilder(activity)
                 .setTitle(R.string.dialog_permission_title)
                 .setMessage(R.string.dialog_permission_message)
                 .setCancelable(false)
-                .setPositiveButton(R.string.dialog_delete_positive_button, listener)
+                .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
                 .setNegativeButton(R.string.dialog_delete_negative_button, null)
                 .show()
     }
@@ -264,11 +265,11 @@ object DialogManager {
         builder.build().show()
     }
 
-    fun showAddPageDialog(context: Context, listener: DialogInterface.OnClickListener) {
+    fun showAddPageDialog(context: Context, action: (which: Int) -> Unit) {
         val items = arrayOf("Add card page", "Add WebView")
         val builder = AnywhereDialogBuilder(context)
-        builder.setItems(items) { dialog: DialogInterface?, which: Int ->
-            listener.onClick(dialog, which)
+        builder.setItems(items) { _, which: Int ->
+            action(which)
             builder.setDismissParent(true)
         }
         builder.show()

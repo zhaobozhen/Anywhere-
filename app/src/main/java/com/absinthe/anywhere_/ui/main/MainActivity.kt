@@ -396,7 +396,7 @@ class MainActivity : BaseActivity() {
 
         ibAdd.setOnClickListener {
             if (isHitagi) {
-                showAddPageDialog(this@MainActivity, DialogInterface.OnClickListener { _: DialogInterface?, which: Int ->
+                showAddPageDialog(this@MainActivity) { which ->
                     if (which == 0) {
                         viewModel.addPage()
                     } else {
@@ -416,7 +416,7 @@ class MainActivity : BaseActivity() {
                             ToastUtil.makeText(R.string.toast_no_document_app)
                         }
                     }
-                })
+                }
             } else {
                 viewModel.addPage()
             }
