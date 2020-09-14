@@ -9,13 +9,11 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.utils.SPUtils
-import com.absinthe.anywhere_.utils.StorageUtils.getTokenFromFile
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.IconPackManager
 import com.absinthe.anywhere_.utils.manager.IconPackManager.IconPack
 import com.tencent.mmkv.MMKV
 import jonathanfinerty.once.Once
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,7 +30,6 @@ object Settings {
         setTheme(GlobalValues.darkMode)
         initIconPackManager(context)
         setDate()
-        initToken(context)
     }
 
     fun setTheme(mode: String) {
@@ -75,13 +72,5 @@ object Settings {
         val date = Date()
         val dateFormat = SimpleDateFormat("MM-dd", Locale.getDefault())
         sDate = dateFormat.format(date)
-    }
-
-    private fun initToken(context: Context) {
-        sToken = try {
-            getTokenFromFile(context)
-        } catch (e: IOException) {
-            ""
-        }
     }
 }

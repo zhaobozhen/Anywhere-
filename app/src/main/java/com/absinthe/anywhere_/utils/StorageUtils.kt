@@ -122,27 +122,6 @@ object StorageUtils {
         }
     }
 
-    @Throws(IOException::class)
-    fun getTokenFromFile(context: Context): String {
-        val fileName = "Token"
-        val file = File(context.filesDir, fileName)
-        val fis = context.openFileInput(fileName)
-
-        if (!file.exists()) {
-            return ""
-        }
-
-        if (fis.available() == 0) {
-            return ""
-        }
-
-        val buffer = ByteArray(fis.available())
-        while (fis.read(buffer) != -1) { }
-        fis.close()
-
-        return String(buffer)
-    }
-
     fun webdavBackup() {
         GlobalScope.launch(Dispatchers.IO) {
             val sardine = OkHttpSardine()

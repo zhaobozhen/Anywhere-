@@ -22,10 +22,6 @@
         <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
     </style>
 
-    <style name="AppTheme.SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/splash_drawable</item>
-    </style>
-
     <style name="AppTheme.About" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
