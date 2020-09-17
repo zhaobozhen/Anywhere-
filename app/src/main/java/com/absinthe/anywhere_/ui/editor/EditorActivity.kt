@@ -69,12 +69,13 @@ class EditorActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initTransition()
-        super.onCreate(savedInstanceState)
 
         if (_entity == null) {
             finish()
         } else {
             entity = _entity!!
+
+            super.onCreate(savedInstanceState)
             setUpBottomDrawer()
         }
     }

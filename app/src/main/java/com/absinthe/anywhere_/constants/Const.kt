@@ -7,9 +7,7 @@ object Const {
 
     const val SP_NAME = "com.absinthe.anywhere__preferences"
     const val SP_NAME_DEBUG = "com.absinthe.anywhere_.debug_preferences"
-    const val TOKEN_SP_NAME = "AnywhereToken"
     const val SHORTCUTS_LIST = "shortcutsList"
-    const val PREF_TOKEN = "token"
     const val PREF_WORKING_MODE = "workingMode"
     const val PREF_DARK_MODE = "darkMode"
     const val PREF_CHANGE_BACKGROUND = "changeBackground"
@@ -104,16 +102,15 @@ object Const {
     const val CMD_OPEN_ACTIVITY_FORMAT = "am start -n %s/%s"
 
     const val REQUEST_CODE_SHIZUKU_PERMISSION = 1001
-    const val REQUEST_CODE_ACTION_MANAGE_OVERLAY_PERMISSION = 1002
+    const val REQUEST_CODE_GO_TO_MIUI_PERM_MANAGER = 1002
+    const val REQUEST_CODE_R_CONTROL = 1003
     const val REQUEST_CODE_IMAGE_CAPTURE = 1004
     const val REQUEST_CODE_WRITE_FILE = 1005
     const val REQUEST_CODE_RESTORE_BACKUPS = 1006
     const val REQUEST_CODE_ICEBOX = 1007
     const val REQUEST_CODE_DSM = 1008
     const val REQUEST_CODE_DPM = 1009
-    const val REQUEST_CODE_R_CONTROL = 1010
-    const val REQUEST_CODE_GO_TO_MIUI_PERM_MANAGER = 1011
-    const val REQUEST_CODE_OPEN_EDITOR = 1012
+    const val REQUEST_CODE_OPEN_EDITOR = 1010
 
     const val DEFROST_MODE_ROOT = "root"
     const val DEFROST_MODE_ICEBOX_SDK = "icebox"

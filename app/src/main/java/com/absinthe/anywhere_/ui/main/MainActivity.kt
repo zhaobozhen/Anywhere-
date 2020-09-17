@@ -1,7 +1,10 @@
 package com.absinthe.anywhere_.ui.main
 
 import android.annotation.SuppressLint
-import android.content.*
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
@@ -36,7 +39,6 @@ import com.absinthe.anywhere_.adapter.page.PageTitleProvider
 import com.absinthe.anywhere_.constants.*
 import com.absinthe.anywhere_.constants.GlobalValues.setsCategory
 import com.absinthe.anywhere_.databinding.ActivityMainBinding
-import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
@@ -55,9 +57,7 @@ import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
 import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
-import com.absinthe.anywhere_.utils.manager.DialogManager.showAddPageDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
-import com.absinthe.anywhere_.utils.manager.IzukoHelper.isHitagi
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.home.DrawerRecyclerView
 import com.absinthe.anywhere_.view.home.FabBuilder.build
@@ -395,31 +395,7 @@ class MainActivity : BaseActivity() {
         val ibDone: ImageButton = drawer.findViewById(R.id.ib_done)
 
         ibAdd.setOnClickListener {
-            if (isHitagi) {
-                showAddPageDialog(this@MainActivity) { which ->
-                    if (which == 0) {
-                        viewModel.addPage()
-                    } else {
-                        try {
-                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                                addCategory(Intent.CATEGORY_OPENABLE)
-                                type = "text/html"
-                            }
-                            startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
-                            setDocumentResultListener(object : OnDocumentResultListener {
-                                override fun onResult(uri: Uri) {
-                                    viewModel.addWebPage(uri, intent)
-                                }
-                            })
-                        } catch (e: ActivityNotFoundException) {
-                            e.printStackTrace()
-                            ToastUtil.makeText(R.string.toast_no_document_app)
-                        }
-                    }
-                }
-            } else {
-                viewModel.addPage()
-            }
+            viewModel.addPage()
         }
         ibPageSort.setOnClickListener {
             ibPageSort.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)

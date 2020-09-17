@@ -213,9 +213,6 @@
             android:name=".ui.settings.DefrostActivity"
             android:label="@string/title_activity_defrost" />
         <activity
-            android:name=".ui.settings.BackgroundActivity"
-            android:label="@string/settings_change_background" />
-        <activity
             android:name=".ui.settings.LogcatActivity"
             android:label="@string/logcat" />
         <activity

@@ -19,10 +19,12 @@ import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
-import com.absinthe.anywhere_.utils.manager.IzukoHelper
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.libraries.utils.extensions.paddingBottomCompat
-import moe.shizuku.preference.*
+import moe.shizuku.preference.ListPreference
+import moe.shizuku.preference.Preference
+import moe.shizuku.preference.PreferenceFragment
+import moe.shizuku.preference.SwitchPreference
 
 class SettingsActivity : BaseActivity() {
 
@@ -55,22 +57,18 @@ class SettingsActivity : BaseActivity() {
             (findPreference(Const.PREF_CHANGE_BACKGROUND) as Preference).apply {
                 setOnPreferenceClickListener {
                     try {
-                        if (IzukoHelper.isHitagi) {
-                            startActivity(Intent(requireActivity(), BackgroundActivity::class.java))
-                        } else {
-                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                                addCategory(Intent.CATEGORY_OPENABLE)
-                                type = "image/*"
-                            }
-                            requireActivity().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
-                            (requireActivity() as BaseActivity).setDocumentResultListener(object : OnDocumentResultListener {
-                                override fun onResult(uri: Uri) {
-                                    GlobalValues.backgroundUri = uri.toString()
-                                    GlobalValues.clearActionBarType()
-                                    AppUtils.restart()
-                                }
-                            })
+                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            type = "image/*"
                         }
+                        requireActivity().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
+                        (requireActivity() as BaseActivity).setDocumentResultListener(object : OnDocumentResultListener {
+                            override fun onResult(uri: Uri) {
+                                GlobalValues.backgroundUri = uri.toString()
+                                GlobalValues.clearActionBarType()
+                                AppUtils.restart()
+                            }
+                        })
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
                         ToastUtil.makeText(R.string.toast_no_document_app)

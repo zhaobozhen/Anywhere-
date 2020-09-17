@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.utils.manager
 
 import androidx.annotation.Keep
-import com.absinthe.anywhere_.model.Settings
 
 @Keep
 object IzukoHelper {
@@ -13,11 +12,6 @@ object IzukoHelper {
     val cipherKey: String
         external get
 
-    val isHitagi: Boolean
-        get() = isHitagi(Settings.sToken)
-
     external fun checkSignature()
-
-    external fun isHitagi(token: String): Boolean
 
 }

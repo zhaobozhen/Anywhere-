@@ -61,7 +61,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                     it,
                     requireContext().getString(R.string.trans_item_container)
             )
-            startActivityForResult(Intent(context, EditorActivity::class.java).apply {
+            startActivityForResult(Intent(requireActivity(), EditorActivity::class.java).apply {
                 putExtra(EXTRA_ENTITY, ae)
                 putExtra(EXTRA_EDIT_MODE, false)
             }, Const.REQUEST_CODE_OPEN_EDITOR, options.toBundle())
@@ -69,11 +69,12 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
             Analytics.trackEvent("Fab ${ae.appName} clicked")
         }
     }
-
+    
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Const.REQUEST_CODE_OPEN_EDITOR && resultCode == Activity.RESULT_OK) {
             dismiss()
         }
     }
+
 }
