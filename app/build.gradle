@@ -24,8 +24,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2001101
-        versionName "2.0.11"
+        versionCode 2001200
+        versionName "2.0.12"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
@@ -46,9 +46,9 @@ android {
         }
 
         release {
-            minifyEnabled false
-            zipAlignEnabled false
-            shrinkResources false
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("boolean", "BETA", 'false')
