@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.editor
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -84,6 +85,7 @@ class EditorActivity : BaseActivity() {
         if (bottomDrawerBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
             bottomDrawerBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
+            setResult(Activity.RESULT_OK)
             super.onBackPressed()
         }
     }

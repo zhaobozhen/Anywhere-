@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.services
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.core.app.JobIntentService
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.constants.GlobalValues
@@ -9,6 +10,9 @@ import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.blankj.utilcode.util.NotificationUtils
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class BackupIntentService : JobIntentService() {
 
@@ -58,7 +62,9 @@ class BackupIntentService : JobIntentService() {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            ToastUtil.makeText("Backup failed: $e")
+            GlobalScope.launch(Dispatchers.Main) {
+                Toast.makeText(this@BackupIntentService, "Backup failed: $e", Toast.LENGTH_LONG).show()
+            }
             stopForeground(true)
         } finally {
             stopForeground(true)

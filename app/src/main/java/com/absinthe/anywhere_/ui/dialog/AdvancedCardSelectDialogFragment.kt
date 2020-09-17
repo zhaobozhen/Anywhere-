@@ -69,7 +69,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
             Analytics.trackEvent("Fab ${ae.appName} clicked")
         }
     }
-    
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Const.REQUEST_CODE_OPEN_EDITOR && resultCode == Activity.RESULT_OK) {
