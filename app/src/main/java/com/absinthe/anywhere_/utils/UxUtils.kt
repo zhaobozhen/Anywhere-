@@ -21,7 +21,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.palette.graphics.Palette
-import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
@@ -47,9 +46,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 
@@ -330,25 +326,12 @@ object UxUtils {
     /**
      * Create a linear gradient bitmap picture
      *
-     * @param activity activity
+     * @param context context
      * @param view      target to set background
      * @param darkColor primary color
      */
-    suspend fun createLinearGradientBitmap(activity: BaseActivity, view: ImageView, darkColor: Int) {
-        var w = view.width
-        var h = view.height
-
-        while (true) {
-            delay(50)
-            if (view.width > 0 && view.height > 0 && w == view.width && h == view.height) {
-                break
-            } else {
-                w = view.width
-                h = view.height
-            }
-        }
-
-        val bgBitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+    fun createLinearGradientBitmap(context: Context, view: ImageView, darkColor: Int) {
+        val bgBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas().apply {
             setBitmap(bgBitmap)
             drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
@@ -361,13 +344,12 @@ object UxUtils {
         val rectF = RectF(0f, 0f, bgBitmap.width.toFloat(), bgBitmap.height.toFloat())
 
         canvas.drawRect(rectF, paint)
-        withContext(Dispatchers.Main) {
-            Glide.with(activity)
-                    .load(bgBitmap)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(view)
-        }
+        Glide.with(context)
+                .load(bgBitmap)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(view)
     }
 
     /**

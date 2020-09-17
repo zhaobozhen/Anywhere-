@@ -58,7 +58,6 @@
     <string name="dialog_delete_message">Are you sure to delete %s ?</string>
     <string name="dialog_delete_with_sub_item_message">Are you sure to delete %s and its items?</string>
     <string name="dialog_delete_positive_button">Confirm</string>
-    <string name="dialog_delete_negative_button">Cancel</string>
     <string name="dialog_close_button">Close</string>
     <string name="dialog_go_to_perm_button">Grant</string>
     <string name="dialog_add_shortcut_title">Add Shortcuts</string>

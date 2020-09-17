@@ -113,6 +113,7 @@ object Const {
     const val REQUEST_CODE_DPM = 1009
     const val REQUEST_CODE_R_CONTROL = 1010
     const val REQUEST_CODE_GO_TO_MIUI_PERM_MANAGER = 1011
+    const val REQUEST_CODE_OPEN_EDITOR = 1012
 
     const val DEFROST_MODE_ROOT = "root"
     const val DEFROST_MODE_ICEBOX_SDK = "icebox"

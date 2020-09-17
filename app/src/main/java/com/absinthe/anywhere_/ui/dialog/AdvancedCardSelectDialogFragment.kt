@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.dialog
 
+import android.app.Activity
 import android.app.ActivityOptions
 import android.app.Dialog
 import android.content.Intent
@@ -9,6 +10,7 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.card.AdvancedCardItem
 import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
@@ -42,7 +44,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                 AdvancedCardItem(R.string.btn_add_switch_shell, R.drawable.ic_card_switch, R.color.material_purple_300, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),
                 AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, R.color.material_cyan_300, getOpeningEditorListener(AnywhereType.Card.FILE)),
                 AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, R.color.material_lime_300, getOpeningEditorListener(AnywhereType.Card.BROADCAST)),
-//                AdvancedCardItem(R.string.btn_add_workflow, R.drawable.ic_card_workflow, R.color.material_orange_300, getOpeningEditorListener(AnywhereType.Card.WORKFLOW))
+                AdvancedCardItem(R.string.btn_add_workflow, R.drawable.ic_card_workflow, R.color.material_orange_300, getOpeningEditorListener(AnywhereType.Card.WORKFLOW))
         )
         mBuilder.adapter.setList(cardList.toMutableList())
     }
@@ -59,12 +61,19 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                     it,
                     requireContext().getString(R.string.trans_item_container)
             )
-            requireContext().startActivity(Intent(context, EditorActivity::class.java).apply {
+            startActivityForResult(Intent(context, EditorActivity::class.java).apply {
                 putExtra(EXTRA_ENTITY, ae)
                 putExtra(EXTRA_EDIT_MODE, false)
-            }, options.toBundle())
+            }, Const.REQUEST_CODE_OPEN_EDITOR, options.toBundle())
 
             Analytics.trackEvent("Fab ${ae.appName} clicked")
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Const.REQUEST_CODE_OPEN_EDITOR && resultCode == Activity.RESULT_OK) {
+            dismiss()
         }
     }
 }

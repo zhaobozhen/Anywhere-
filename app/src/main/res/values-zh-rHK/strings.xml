@@ -25,7 +25,6 @@
     <string name="dialog_delete_title">刪除</string>
     <string name="dialog_delete_message">確定要刪除 %s ?</string>
     <string name="dialog_delete_positive_button">確定</string>
-    <string name="dialog_delete_negative_button">取消</string>
     <string name="dialog_go_to_perm_button">去授予</string>
     <string name="dialog_add_shortcut_title">添加 Shortcuts</string>
     <string name="dialog_add_shortcut_message">確定要添加 %s ?</string>

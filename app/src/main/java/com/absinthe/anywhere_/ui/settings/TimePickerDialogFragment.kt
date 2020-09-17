@@ -73,7 +73,7 @@ class TimePickerDialogFragment : AnywhereDialogFragment() {
                         e.printStackTrace()
                     }
                 }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create()
     }
 }

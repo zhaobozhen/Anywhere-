@@ -33,7 +33,7 @@ class IntervalDialogFragment : AnywhereDialogFragment() {
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
                     GlobalValues.dumpInterval = mBuilder.slider.value.toInt() * 1000
                 }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create()
     }
 }

@@ -21,7 +21,7 @@ class RenameDialogFragment(private val mTitle: String) : AnywhereDialogFragment(
         return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root)
                 .setTitle(R.string.dialog_rename_title)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int -> renameTitle(mTitle, mBuilder.etName.text.toString()) }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create()
     }
 

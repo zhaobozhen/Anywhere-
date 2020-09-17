@@ -39,7 +39,7 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
                                 mBuilder.ivIcon.drawable, mBuilder.etName.text.toString())
                     }
                 }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create()
     }
 

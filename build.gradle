@@ -16,7 +16,7 @@ buildscript {
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10'
         classpath 'com.iwhys.sdkeditor:plugin:1.1.4'
         classpath 'com.github.heruoxin:Robfuscate:master'   // R obfuscate
-        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.18' // Resource obfuscate
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.19' // Resource obfuscate
         classpath 'io.michaelrocks:paranoid-gradle-plugin:0.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }

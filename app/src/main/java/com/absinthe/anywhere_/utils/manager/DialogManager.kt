@@ -50,7 +50,7 @@ object DialogManager {
                     GlobalValues.actionBarType = Const.ACTION_BAR_TYPE_DARK
                     AppUtils.restart()
                 }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
@@ -63,7 +63,7 @@ object DialogManager {
                         ShortcutsUtils.clearAllShortcuts()
                     }
                 }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
@@ -107,7 +107,7 @@ object DialogManager {
                     activity.onBackPressed()
                     AnywhereApplication.sRepository.delete(ae, 300)
                 }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
@@ -116,7 +116,7 @@ object DialogManager {
         builder.setTitle(R.string.dialog_add_shortcut_title)
                 .setMessage(HtmlCompat.fromHtml(String.format(context.getString(R.string.dialog_add_shortcut_message), "<b>" + ae.appName + "</b>"), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
@@ -136,7 +136,7 @@ object DialogManager {
         builder.setTitle(R.string.dialog_remove_shortcut_title)
                 .setMessage(HtmlCompat.fromHtml(String.format(context.getString(R.string.dialog_remove_shortcut_message), "<b>" + ae.appName + "</b>"), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
         builder.show()
     }
 
@@ -145,7 +145,7 @@ object DialogManager {
                 .setTitle(R.string.dialog_delete_selected_title)
                 .setMessage(R.string.dialog_delete_selected_message)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
@@ -153,7 +153,7 @@ object DialogManager {
         AnywhereDialogBuilder(activity)
                 .setMessage(R.string.dialog_message_perm_not_ever)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
@@ -190,7 +190,7 @@ object DialogManager {
                 .setMessage(R.string.dialog_permission_message)
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
@@ -205,7 +205,7 @@ object DialogManager {
                 .setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ -> action() }
-                .setNegativeButton(R.string.dialog_delete_negative_button, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
     }
 
@@ -261,7 +261,7 @@ object DialogManager {
                     })
                     builder.setDismissParent(true)
                 }
-                .setNegativeButton(context.getString(R.string.dialog_delete_negative_button), null)
+                .setNegativeButton(context.getString(android.R.string.cancel), null)
         builder.build().show()
     }
 

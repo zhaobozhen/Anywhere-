@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -42,8 +41,6 @@ import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -141,8 +138,8 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                         }
                         itemView.cardBackground.setImageDrawable(null)
                     } else {
-                        (context as BaseActivity).lifecycleScope.launch(Dispatchers.IO) {
-                            UxUtils.createLinearGradientBitmap(context as BaseActivity, itemView.cardBackground, item.color)
+                        itemView.cardBackground.post {
+                            UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)
                         }
                     }
                 } else {
