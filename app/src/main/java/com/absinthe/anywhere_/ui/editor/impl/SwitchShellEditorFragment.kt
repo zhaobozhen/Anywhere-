@@ -9,14 +9,13 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorSwitchShellBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
-import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 
 const val SWITCH_OFF = "off"
 const val SWITCH_ON = "on"
 
-class SwitchShellEditorFragment : BaseEditorFragment(), IEditor {
+class SwitchShellEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorSwitchShellBinding
 
@@ -48,7 +47,7 @@ class SwitchShellEditorFragment : BaseEditorFragment(), IEditor {
             return false
         }
 
-        val ae = AnywhereEntity(item).apply {
+        doneItem = AnywhereEntity(item).apply {
             appName = binding.tietAppName.text.toString()
             param1 = binding.tietSwitchOn.text.toString()
             param2 = binding.tietSwitchOff.text.toString()
@@ -56,19 +55,20 @@ class SwitchShellEditorFragment : BaseEditorFragment(), IEditor {
             description = binding.tietDescription.text.toString()
         }
 
-        if (isEditMode && ae == item) return true
+        if (super.doneEdit()) return true
+        if (isEditMode && doneItem == item) return true
 
         if (isEditMode) {
-            if (ae.appName != item.appName) {
-                if (GlobalValues.shortcutsList.contains(ae.id)) {
+            if (doneItem.appName != item.appName) {
+                if (GlobalValues.shortcutsList.contains(doneItem.id)) {
                     if (AppUtils.atLeastNMR1()) {
-                        ShortcutsUtils.updateShortcut(ae)
+                        ShortcutsUtils.updateShortcut(doneItem)
                     }
                 }
             }
-            AnywhereApplication.sRepository.update(ae)
+            AnywhereApplication.sRepository.update(doneItem)
         } else {
-            AnywhereApplication.sRepository.insert(ae)
+            AnywhereApplication.sRepository.insert(doneItem)
         }
 
         return true

@@ -69,6 +69,7 @@ public class AnywhereEntity implements Parcelable {
     @SerializedName("iconUri")
     private String mIconUri;
 
+    @NonNull
     public static AnywhereEntity Builder() {
         String time = System.currentTimeMillis() + "";
         return new AnywhereEntity(

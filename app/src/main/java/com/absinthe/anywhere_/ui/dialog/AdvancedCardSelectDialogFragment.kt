@@ -21,10 +21,13 @@ import com.absinthe.anywhere_.viewbuilder.entity.AdvancedCardSelectDialogBuilder
 import com.microsoft.appcenter.analytics.Analytics
 import io.michaelrocks.paranoid.Obfuscate
 
+const val EXTRA_FROM_WORKFLOW = "EXTRA_FROM_WORKFLOW"
+
 @Obfuscate
 class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private lateinit var mBuilder: AdvancedCardSelectDialogBuilder
+    private val isFromWorkflow by lazy { arguments?.getBoolean(EXTRA_FROM_WORKFLOW) ?: false }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = AdvancedCardSelectDialogBuilder(requireContext())
@@ -44,7 +47,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
                 AdvancedCardItem(R.string.btn_add_switch_shell, R.drawable.ic_card_switch, R.color.material_purple_300, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),
                 AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, R.color.material_cyan_300, getOpeningEditorListener(AnywhereType.Card.FILE)),
                 AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, R.color.material_lime_300, getOpeningEditorListener(AnywhereType.Card.BROADCAST)),
-//                AdvancedCardItem(R.string.btn_add_workflow, R.drawable.ic_card_workflow, R.color.material_orange_300, getOpeningEditorListener(AnywhereType.Card.WORKFLOW))
+                AdvancedCardItem(R.string.btn_add_workflow, R.drawable.ic_card_workflow, R.color.material_orange_300, getOpeningEditorListener(AnywhereType.Card.WORKFLOW))
         )
         mBuilder.adapter.setList(cardList.toMutableList())
     }
@@ -64,6 +67,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
             startActivityForResult(Intent(requireActivity(), EditorActivity::class.java).apply {
                 putExtra(EXTRA_ENTITY, ae)
                 putExtra(EXTRA_EDIT_MODE, false)
+                putExtra(EXTRA_FROM_WORKFLOW, isFromWorkflow)
             }, Const.REQUEST_CODE_OPEN_EDITOR, options.toBundle())
 
             Analytics.trackEvent("Fab ${ae.appName} clicked")

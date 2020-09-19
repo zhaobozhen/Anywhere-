@@ -13,14 +13,13 @@ import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.TYPE_STRING
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
-import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 
-class BroadcastEditorFragment : BaseEditorFragment(), IEditor {
+class BroadcastEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorBroadcastBinding
     private val adapter = ExtrasAdapter()
@@ -70,7 +69,7 @@ class BroadcastEditorFragment : BaseEditorFragment(), IEditor {
     }
 
     override fun tryRunning() {
-        val ae = AnywhereEntity(item).apply {
+        val doneItem = AnywhereEntity(item).apply {
             val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
             val extraBean = ExtraBean(
                     action = binding.tietIntentAction.text.toString(),
@@ -79,7 +78,7 @@ class BroadcastEditorFragment : BaseEditorFragment(), IEditor {
             )
             param1 = Gson().toJson(extraBean)
         }
-        Opener.with(requireContext()).load(ae).open()
+        Opener.with(requireContext()).load(doneItem).open()
     }
 
     override fun doneEdit(): Boolean {
@@ -88,7 +87,7 @@ class BroadcastEditorFragment : BaseEditorFragment(), IEditor {
             return false
         }
 
-        val ae = AnywhereEntity(item).apply {
+        doneItem = AnywhereEntity(item).apply {
             appName = binding.tietAppName.text.toString()
             description = binding.tietDescription.text.toString()
 
@@ -101,19 +100,20 @@ class BroadcastEditorFragment : BaseEditorFragment(), IEditor {
             param1 = Gson().toJson(extraBean)
         }
 
-        if (isEditMode && ae == item) return true
+        if (super.doneEdit()) return true
+        if (isEditMode && doneItem == item) return true
 
         if (isEditMode) {
-            if (ae.appName != item.appName) {
-                if (GlobalValues.shortcutsList.contains(ae.id)) {
+            if (doneItem.appName != item.appName) {
+                if (GlobalValues.shortcutsList.contains(doneItem.id)) {
                     if (AppUtils.atLeastNMR1()) {
-                        ShortcutsUtils.updateShortcut(ae)
+                        ShortcutsUtils.updateShortcut(doneItem)
                     }
                 }
             }
-            AnywhereApplication.sRepository.update(ae)
+            AnywhereApplication.sRepository.update(doneItem)
         } else {
-            AnywhereApplication.sRepository.insert(ae)
+            AnywhereApplication.sRepository.insert(doneItem)
         }
 
         return true

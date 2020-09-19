@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.utils.manager
 import android.app.Activity
 import android.content.*
 import android.os.Build
+import android.os.Bundle
 import android.text.Spanned
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -360,8 +361,12 @@ object DialogManager {
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 
-    fun showAdvancedCardSelectDialog(activity: AppCompatActivity) {
-        val dialogFragment = AdvancedCardSelectDialogFragment()
+    fun showAdvancedCardSelectDialog(activity: AppCompatActivity, isFromWorkFlow: Boolean = false) {
+        val dialogFragment = AdvancedCardSelectDialogFragment().apply {
+            arguments = Bundle().apply {
+                putBoolean(EXTRA_FROM_WORKFLOW, isFromWorkFlow)
+            }
+        }
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 

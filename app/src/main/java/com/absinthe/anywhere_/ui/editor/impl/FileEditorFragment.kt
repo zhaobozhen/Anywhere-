@@ -16,12 +16,11 @@ import com.absinthe.anywhere_.databinding.EditorFileBinding
 import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
-import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 
-class FileEditorFragment : BaseEditorFragment(), IEditor {
+class FileEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorFileBinding
 
@@ -73,25 +72,26 @@ class FileEditorFragment : BaseEditorFragment(), IEditor {
             return false
         }
 
-        val ae = AnywhereEntity(item).apply {
+        doneItem = AnywhereEntity(item).apply {
             appName = binding.tietAppName.text.toString()
             param1 = binding.tietUrl.text.toString()
             description = binding.tietDescription.text.toString()
         }
 
-        if (isEditMode && ae == item) return true
+        if (super.doneEdit()) return true
+        if (isEditMode && doneItem == item) return true
 
         if (isEditMode) {
-            if (ae.appName != item.appName || ae.param1 != item.param1) {
-                if (GlobalValues.shortcutsList.contains(ae.id)) {
+            if (doneItem.appName != item.appName || doneItem.param1 != item.param1) {
+                if (GlobalValues.shortcutsList.contains(doneItem.id)) {
                     if (AppUtils.atLeastNMR1()) {
-                        ShortcutsUtils.updateShortcut(ae)
+                        ShortcutsUtils.updateShortcut(doneItem)
                     }
                 }
             }
-            AnywhereApplication.sRepository.update(ae)
+            AnywhereApplication.sRepository.update(doneItem)
         } else {
-            AnywhereApplication.sRepository.insert(ae)
+            AnywhereApplication.sRepository.insert(doneItem)
         }
 
         return true

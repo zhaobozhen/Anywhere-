@@ -11,7 +11,6 @@ import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.EditorUrlSchemeBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
-import com.absinthe.anywhere_.ui.editor.IEditor
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -21,7 +20,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
 import jonathanfinerty.once.Once
 
-class SchemeEditorFragment : BaseEditorFragment(), IEditor {
+class SchemeEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorUrlSchemeBinding
 
@@ -59,11 +58,11 @@ class SchemeEditorFragment : BaseEditorFragment(), IEditor {
             return
         }
 
-        val ae = AnywhereEntity(item).apply {
+        val doneItem = AnywhereEntity(item).apply {
             param1 = binding.tietUrlScheme.text.toString()
             param3 = binding.tietDynamicParams.text.toString()
         }
-        Opener.with(requireContext()).load(ae).open()
+        Opener.with(requireContext()).load(doneItem).open()
     }
 
     override fun doneEdit(): Boolean {
@@ -76,7 +75,7 @@ class SchemeEditorFragment : BaseEditorFragment(), IEditor {
             return false
         }
 
-        val ae = AnywhereEntity(item).apply {
+        doneItem = AnywhereEntity(item).apply {
             appName = binding.tietAppName.text.toString()
             param1 = binding.tietUrlScheme.text.toString()
             param2 = AppUtils.getPackageNameByScheme(requireContext(), binding.tietUrlScheme.text.toString())
@@ -84,19 +83,20 @@ class SchemeEditorFragment : BaseEditorFragment(), IEditor {
             description = binding.tietDescription.text.toString()
         }
 
-        if (isEditMode && ae == item) return true
+        if (super.doneEdit()) return true
+        if (isEditMode && doneItem == item) return true
 
         if (isEditMode) {
-            if (ae.appName != item.appName) {
-                if (GlobalValues.shortcutsList.contains(ae.id)) {
+            if (doneItem.appName != item.appName) {
+                if (GlobalValues.shortcutsList.contains(doneItem.id)) {
                     if (AppUtils.atLeastNMR1()) {
-                        ShortcutsUtils.updateShortcut(ae)
+                        ShortcutsUtils.updateShortcut(doneItem)
                     }
                 }
             }
-            AnywhereApplication.sRepository.update(ae)
+            AnywhereApplication.sRepository.update(doneItem)
         } else {
-            AnywhereApplication.sRepository.insert(ae)
+            AnywhereApplication.sRepository.insert(doneItem)
         }
 
         return true

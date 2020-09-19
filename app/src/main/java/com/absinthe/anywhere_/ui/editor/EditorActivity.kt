@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -28,7 +29,10 @@ import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.ActivityEditorBinding
 import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.services.overlay.OverlayService
+import com.absinthe.anywhere_.ui.dialog.EXTRA_FROM_WORKFLOW
+import com.absinthe.anywhere_.ui.editor.impl.WorkflowEditorFragment
 import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.AppUtils.atLeastNMR1
 import com.absinthe.anywhere_.utils.AppUtils.atLeastR
@@ -58,6 +62,7 @@ class EditorActivity : BaseActivity() {
 
     private val _entity by lazy { intent.getParcelableExtra(EXTRA_ENTITY) as? AnywhereEntity }
     private val isEditMode by lazy { intent.getBooleanExtra(EXTRA_EDIT_MODE, false) }
+    private val isFromWorkFlow by lazy { intent.getBooleanExtra(EXTRA_FROM_WORKFLOW, false) }
 
     override fun setViewBinding() {
         binding = ActivityEditorBinding.inflate(layoutInflater)
@@ -127,12 +132,21 @@ class EditorActivity : BaseActivity() {
             arguments = Bundle().apply {
                 putParcelable(EXTRA_ENTITY, entity)
                 putBoolean(EXTRA_EDIT_MODE, isEditMode)
+                putBoolean(EXTRA_FROM_WORKFLOW, isFromWorkFlow)
             }
         }
         supportFragmentManager
                 .beginTransaction()
                 .replace(binding.fragmentContainerView.id, fragment)
                 .commitNow()
+
+        if (editor is WorkflowEditorFragment) {
+            workflowResultItem.observe(this, {
+                (editor as WorkflowEditorFragment).apply {
+                    adapter.setData(currentIndex, FlowStepBean(it, adapter.data[currentIndex].delay))
+                }
+            })
+        }
     }
 
     private fun initTransition() {
@@ -333,5 +347,10 @@ class EditorActivity : BaseActivity() {
         return entity.type != AnywhereType.Card.IMAGE &&
                 entity.type != AnywhereType.Card.SWITCH_SHELL &&
                 entity.type != AnywhereType.Card.FILE
+    }
+
+    companion object {
+        var workflowResultItem: MutableLiveData<AnywhereEntity> = MutableLiveData()
+
     }
 }

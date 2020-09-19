@@ -21,7 +21,7 @@
     tools:ignore="HardcodedText" />
 
   <ImageView
-    android:id="@+id/iv_select"
+    android:id="@+id/iv_type"
     android:layout_width="40dp"
     android:layout_height="40dp"
     android:clickable="false"
@@ -69,7 +69,7 @@
     android:clickable="false"
     android:text="                            "
     app:layout_constraintBottom_toTopOf="@id/tv_card_type"
-    app:layout_constraintStart_toEndOf="@id/iv_select"
+    app:layout_constraintStart_toEndOf="@id/iv_type"
     app:layout_constraintTop_toTopOf="parent"
     tools:ignore="HardcodedText" />
 
