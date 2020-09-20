@@ -143,7 +143,9 @@ class EditorActivity : BaseActivity() {
         if (editor is WorkflowEditorFragment) {
             workflowResultItem.observe(this, {
                 (editor as WorkflowEditorFragment).apply {
-                    adapter.setData(currentIndex, FlowStepBean(it, adapter.data[currentIndex].delay))
+                    if (adapter.data.isNotEmpty()) {
+                        adapter.setData(currentIndex, FlowStepBean(it, adapter.data[currentIndex].delay))
+                    }
                 }
             })
         }
@@ -351,6 +353,5 @@ class EditorActivity : BaseActivity() {
 
     companion object {
         var workflowResultItem: MutableLiveData<AnywhereEntity> = MutableLiveData()
-
     }
 }

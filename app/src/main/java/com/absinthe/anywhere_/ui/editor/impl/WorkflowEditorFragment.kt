@@ -6,12 +6,21 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.workflow.FlowStepAdapter
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorWorkflowBinding
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
+import com.absinthe.anywhere_.utils.AppUtils
+import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 
 class WorkflowEditorFragment  : BaseEditorFragment() {
 
@@ -31,6 +40,16 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
             binding.apply {
                 tietAppName.setText(it.appName)
                 tietDescription.setText(it.description)
+            }
+
+            val extra: List<FlowStepBean>? = try {
+                Gson().fromJson(it.param1, object : TypeToken<List<FlowStepBean>>() {}.type)
+            } catch (e: JsonSyntaxException) {
+                null
+            }
+
+            if (extra != null) {
+                adapter.setList(extra)
             }
         }
 
@@ -65,7 +84,34 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
     }
 
     override fun doneEdit(): Boolean {
+        if (binding.tietAppName.text.isNullOrBlank()) {
+            binding.tilAppName.error = getString(R.string.bsd_error_should_not_empty)
+            return false
+        }
+
+        doneItem = AnywhereEntity(item).apply {
+            appName = binding.tietAppName.text.toString()
+            description = binding.tietDescription.text.toString()
+
+            val extras = adapter.data
+            param1 = Gson().toJson(extras)
+        }
+
         if (super.doneEdit()) return true
+        if (isEditMode && doneItem == item) return true
+
+        if (isEditMode) {
+            if (doneItem.appName != item.appName) {
+                if (GlobalValues.shortcutsList.contains(doneItem.id)) {
+                    if (AppUtils.atLeastNMR1()) {
+                        ShortcutsUtils.updateShortcut(doneItem)
+                    }
+                }
+            }
+            AnywhereApplication.sRepository.update(doneItem)
+        } else {
+            AnywhereApplication.sRepository.insert(doneItem)
+        }
 
         return true
     }
