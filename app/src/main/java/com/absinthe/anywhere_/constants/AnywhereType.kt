@@ -17,6 +17,7 @@ object AnywhereType {
         const val FILE = 7
         const val BROADCAST = 8
         const val WORKFLOW = 9
+        const val ACCESSIBILITY = 10
 
         val NEW_TITLE_MAP = hashMapOf(
                 Pair(URL_SCHEME, "New URL Scheme"),

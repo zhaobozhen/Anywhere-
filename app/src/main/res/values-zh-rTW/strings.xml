@@ -366,4 +366,5 @@
     <string name="bsd_workflow_menu_choose_exist">選擇卡片</string>
     <string name="bsd_workflow_delay_time">延時</string>
     <string name="bsd_workflow_btn_add_flow_node">添加 Flow 節點</string>
+    <string name="btn_add_accessibility">無障礙</string>
 </resources>

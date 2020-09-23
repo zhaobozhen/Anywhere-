@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.viewmodel
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -150,11 +149,16 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun addPage() {
-        mRepository.allPageEntities.value?.let {
+        mRepository.allPageEntities.value?.let { pages ->
             val pe = PageEntity.Builder().apply {
-                if (it.isNotEmpty()) {
-                    title = "Page " + (it.size + 1)
-                    priority = it.size + 1
+                if (pages.isNotEmpty()) {
+                    var count = 1
+                    var t = "Page " + (pages.size + count++)
+                    while (pages.any { it.title == t }) {
+                        t = "Page " + (pages.size + count++)
+                    }
+                    title = t
+                    priority = pages.size + 1
                 } else {
                     title = AnywhereType.Category.DEFAULT_CATEGORY
                     priority = 1
@@ -162,19 +166,6 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                 type = AnywhereType.Page.CARD_PAGE
             }
             mRepository.insertPage(pe)
-        }
-    }
-
-    fun addWebPage(uri: Uri, intent: Intent) {
-        mRepository.allPageEntities.value?.let {
-            val pe = PageEntity.Builder().apply {
-                title = "Web Page " + (it.size + 1)
-                priority = it.size + 1
-                type = AnywhereType.Page.WEB_PAGE
-                extra = uri.toString()
-            }
-            mRepository.insertPage(pe)
-            AppUtils.takePersistableUriPermission(getApplication(), uri, intent)
         }
     }
 

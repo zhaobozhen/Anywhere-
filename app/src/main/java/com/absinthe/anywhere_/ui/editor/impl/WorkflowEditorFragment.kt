@@ -19,7 +19,6 @@ import com.absinthe.anywhere_.databinding.EditorWorkflowBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
-import com.absinthe.anywhere_.services.WorkflowIntentService
 import com.absinthe.anywhere_.ui.dialog.EXTRA_FROM_WORKFLOW
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
