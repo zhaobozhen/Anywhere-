@@ -22,12 +22,15 @@
     <string name="notification_channel_collector" translatable="false">Collector</string>
     <string name="notification_channel_logcat" translatable="false">@string/logcat</string>
     <string name="notification_channel_backup" translatable="false">Backup Service</string>
+    <string name="notification_channel_workflow" translatable="false">Workflow Service</string>
     <string name="notification_collector_title">Collector is running</string>
     <string name="notification_collector_content">This notification can be ignored</string>
     <string name="notification_logcat_title">Logcat is starting recording</string>
     <string name="notification_logcat_content">Tap to stop recording</string>
     <string name="notification_backup_title">Backing up cards</string>
     <string name="notification_backup_content">This may take some time</string>
+    <string name="notification_workflow_title">Executing Workflow task</string>
+    <string name="notification_workflow_content">Waiting for executing done</string>
     <string name="help_card_title">Help Docs</string>
     <string name="add">Add</string>
 

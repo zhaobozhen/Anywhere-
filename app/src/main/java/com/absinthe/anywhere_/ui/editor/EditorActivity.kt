@@ -143,7 +143,7 @@ class EditorActivity : BaseActivity() {
         if (editor is WorkflowEditorFragment) {
             workflowResultItem.observe(this, {
                 (editor as WorkflowEditorFragment).apply {
-                    if (adapter.data.isNotEmpty()) {
+                    if (adapter.data.isNotEmpty() && currentIndex != -1) {
                         adapter.setData(currentIndex, FlowStepBean(it, adapter.data[currentIndex].delay))
                     }
                 }

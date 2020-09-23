@@ -24,6 +24,7 @@ import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager
+import com.absinthe.libraries.utils.extensions.logd
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -31,7 +32,7 @@ import com.google.gson.reflect.TypeToken
 class WorkflowEditorFragment  : BaseEditorFragment() {
 
     val adapter = FlowStepAdapter()
-    var currentIndex = 0
+    var currentIndex = -1
 
     private lateinit var binding: EditorWorkflowBinding
     private val nodeEditMenu = listOf("Edit", "Delete")
@@ -106,10 +107,10 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
             description = binding.tietDescription.text.toString()
 
             val extras = adapter.data
+            logd("$extras")
             param1 = Gson().toJson(extras)
         }
 
-        if (super.doneEdit()) return true
         if (isEditMode && doneItem == item) return true
 
         if (isEditMode) {

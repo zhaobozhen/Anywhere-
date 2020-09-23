@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.absinthe.anywhere_">
+    package="com.absinthe.anywhere_">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -22,83 +22,35 @@
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="${appName}"
         android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <!--    Home    -->
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation"
             android:launchMode="singleTask">
-
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
+
+        <!--    Transparent icon launcher    -->
         <activity-alias
-            android:name="MainAliasActivity"
-            android:enabled="true"
-            android:label="@string/app_name"
-            android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:targetActivity=".ui.main.MainActivity"
+            android:name=".TransIconActivity"
             android:configChanges="orientation"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <!-- Start from URL Scheme -->
-                <!-- Required -->
-                <action android:name="android.intent.action.VIEW" />
-                <!-- Start from a browser -->
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Implicit intent -->
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- Protocol -->
-                <data
-                    android:host="url"
-                    android:scheme="anywhere" />
-            </intent-filter>
-            <intent-filter> <!-- Start from URL Scheme -->
-                <!-- Required -->
-                <action android:name="android.intent.action.VIEW" />
-                <!-- Start from a browser -->
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Implicit intent -->
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- Protocol -->
-                <data
-                    android:host="share"
-                    android:scheme="anywhere" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
-        </activity-alias>
-        <activity-alias
-            android:name="TransIconActivity"
             android:enabled="false"
-            android:label="@string/app_name"
             android:icon="@drawable/transparent"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:roundIcon="@drawable/transparent"
-            android:targetActivity=".ui.main.MainActivity"
-            android:configChanges="orientation"
-            android:launchMode="singleTask">
+            android:targetActivity=".ui.main.MainActivity">
             <intent-filter>
+
                 <!-- Start from URL Scheme -->
                 <!-- Required -->
                 <action android:name="android.intent.action.VIEW" />
@@ -140,9 +92,67 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity-alias>
+
+        <!--    Default icon launcher    -->
+        <activity-alias
+            android:name=".MainAliasActivity"
+            android:configChanges="orientation"
+            android:enabled="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:targetActivity=".ui.main.MainActivity">
+            <intent-filter>
+
+                <!-- Start from URL Scheme -->
+                <!-- Required -->
+                <action android:name="android.intent.action.VIEW" />
+                <!-- Start from a browser -->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Implicit intent -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Protocol -->
+                <data
+                    android:host="url"
+                    android:scheme="anywhere" />
+            </intent-filter>
+            <intent-filter> <!-- Start from URL Scheme -->
+                <!-- Required -->
+                <action android:name="android.intent.action.VIEW" />
+                <!-- Start from a browser -->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Implicit intent -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Protocol -->
+                <data
+                    android:host="share"
+                    android:scheme="anywhere" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity-alias>
+
+        <!--    Setup    -->
         <activity
             android:name=".ui.setup.SetupActivity"
             android:label="@string/setup_title" />
+
+        <!--    Settings    -->
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title"
@@ -151,10 +161,14 @@
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
             </intent-filter>
         </activity>
+
+        <!--    About page    -->
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about_title"
             android:theme="@style/AppTheme.About" />
+
+        <!--    Shortcut bridge    -->
         <activity
             android:name=".ui.shortcuts.ShortcutsActivity"
             android:excludeFromRecents="true"
@@ -177,9 +191,13 @@
                     android:scheme="anywhere" />
             </intent-filter>
         </activity>
+
+        <!--    Backup page    -->
         <activity
             android:name=".ui.backup.BackupActivity"
             android:label="@string/settings_backup" />
+
+        <!--    App list page    -->
         <activity
             android:name=".ui.list.AppListActivity"
             android:label="@string/app_list_title"
@@ -192,9 +210,13 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
+        <!--    App detail page    -->
         <activity
-          android:name=".ui.list.AppDetailActivity"
-          android:label="@string/app_list_detail_title" />
+            android:name=".ui.list.AppDetailActivity"
+            android:label="@string/app_list_detail_title" />
+
+        <!--    Tile setting page    -->
         <activity
             android:name=".ui.settings.TileSettingsActivity"
             android:label="@string/settings_tiles">
@@ -202,24 +224,35 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
             </intent-filter>
         </activity>
+
+        <!--    QR code collection page    -->
         <activity
             android:name=".ui.qrcode.QRCodeCollectionActivity"
             android:configChanges="orientation"
             android:label="@string/btn_qr_code_collection" />
+
+        <!--    Lab page    -->
         <activity
             android:name=".ui.settings.LabActivity"
             android:label="@string/settings_lab" />
+
+        <!--    Defrost mode page    -->
         <activity
             android:name=".ui.settings.DefrostActivity"
             android:label="@string/title_activity_defrost" />
+
+        <!--    Logcat page    -->
         <activity
             android:name=".ui.settings.LogcatActivity"
             android:label="@string/logcat" />
-        <activity
-          android:name=".ui.editor.EditorActivity"
-          android:label="@string/card_editor_title"
-          android:windowSoftInputMode="adjustResize" />
 
+        <!--    Editor container    -->
+        <activity
+            android:name=".ui.editor.EditorActivity"
+            android:label="@string/card_editor_title"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!--    Shizuku provider    -->
         <provider
             android:name="moe.shizuku.api.ShizukuProvider"
             android:authorities="${applicationId}.shizuku"
@@ -227,6 +260,8 @@
             android:exported="true"
             android:multiprocess="false"
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+        <!--    File provider    -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -237,6 +272,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <!--    Collector tile service    -->
         <service
             android:name=".services.tile.CollectorTileService"
             android:enabled="true"
@@ -248,10 +284,14 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <!--    Overlay view service    -->
         <service
             android:name=".services.overlay.OverlayService"
             android:enabled="true"
             android:exported="false" />
+
+        <!--    Custom tile one service    -->
         <service
             android:name=".services.tile.TileOneService"
             android:enabled="true"
@@ -263,6 +303,8 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <!--    Custom tile two service    -->
         <service
             android:name=".services.tile.TileTwoService"
             android:enabled="true"
@@ -274,6 +316,8 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <!--    Custom tile three service    -->
         <service
             android:name=".services.tile.TileThreeService"
             android:enabled="true"
@@ -285,12 +329,18 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <!--    Collector service    -->
         <service
             android:name=".services.overlay.CollectorService"
             android:enabled="true" />
+
+        <!--    Home launcher widget service    -->
         <service
             android:name=".services.widget.AppRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <!--    Accessibility service    -->
         <service
             android:name=".services.IzukoService"
             android:enabled="true"
@@ -303,11 +353,20 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
+
+        <!--    Workflow service    -->
+        <service
+            android:name=".services.WorkflowIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true" />
+
+        <!--    Backup service    -->
         <service
             android:name=".services.BackupIntentService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="false" />
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <!--    Home launcher widget click event receiver    -->
         <receiver android:name=".receiver.HomeWidgetProvider">
             <meta-data
                 android:name="android.appwidget.provider"
@@ -318,6 +377,8 @@
                 <action android:name="${applicationId}.action.CLICK" />
             </intent-filter>
         </receiver>
+
+        <!--    DPM receiver    -->
         <receiver
             android:name=".receiver.AdminReceiver"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
@@ -330,6 +391,8 @@
                 android:name="android.app.develop.delegation"
                 android:resource="@xml/app_delegation" />
         </receiver>
+
+        <!--    Notification click event receiver    -->
         <receiver android:name=".receiver.NotificationClickReceiver" />
 
         <meta-data

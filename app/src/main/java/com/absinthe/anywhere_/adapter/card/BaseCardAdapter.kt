@@ -21,6 +21,7 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.ui.dialog.EXTRA_FROM_WORKFLOW
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
@@ -259,6 +260,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 val intent = Intent(context, EditorActivity::class.java).apply {
                     putExtra(EXTRA_ENTITY, item)
                     putExtra(EXTRA_EDIT_MODE, isEditMode)
+                    putExtra(EXTRA_FROM_WORKFLOW, item.type == AnywhereType.Card.WORKFLOW)
                 }
 
                 if (GlobalValues.editorEntryAnim) {

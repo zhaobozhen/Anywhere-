@@ -1,11 +1,13 @@
 package com.absinthe.anywhere_.utils.handler
 
 import android.app.Activity
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.FileUriExposedException
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
@@ -17,6 +19,7 @@ import com.absinthe.anywhere_.listener.OnAppDefrostListener
 import com.absinthe.anywhere_.model.*
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.QRCollection
+import com.absinthe.anywhere_.services.WorkflowIntentService
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
@@ -343,10 +346,9 @@ object Opener {
                 listener?.onOpened()
             }
             AnywhereType.Card.WORKFLOW -> {
-                val intent = Intent(context, xxx).apply {
+                WorkflowIntentService.enqueueWork(context, Intent().apply {
                     putExtra(EXTRA_ENTITY, item)
-                }
-                ContextCompat.startForegroundService(context, intent)
+                })
             }
         }
     }
