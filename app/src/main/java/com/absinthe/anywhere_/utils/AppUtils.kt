@@ -141,7 +141,7 @@ object AppUtils {
                         icon = if (GlobalValues.iconPack == Const.DEFAULT_ICON_PACK || GlobalValues.iconPack.isEmpty()) {
                             packageInfo.applicationInfo.loadIcon(packageManager)
                         } else {
-                            com.absinthe.anywhere_.model.Settings.sIconPack?.getDrawableIconForPackage(packageInfo.packageName, packageInfo.applicationInfo.loadIcon(packageManager))
+                            com.absinthe.anywhere_.model.Settings.iconPack?.getDrawableIconForPackage(packageInfo.packageName, packageInfo.applicationInfo.loadIcon(packageManager))
                                     ?: ContextCompat.getDrawable(Utils.getApp(), R.drawable.ic_logo)!!
                         },
                         type = -1

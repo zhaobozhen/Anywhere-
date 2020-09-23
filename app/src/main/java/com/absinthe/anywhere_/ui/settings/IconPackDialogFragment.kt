@@ -32,7 +32,7 @@ class IconPackDialogFragment : AnywhereDialogFragment() {
 
     private fun initView() {
         val adapter = AppListAdapter(MODE_ICON_PACK)
-        val hashMap = Settings.sIconPackManager.getAvailableIconPacks(true)
+        val hashMap = Settings.iconPackManager.getAvailableIconPacks(true)
         val listBeans: MutableList<AppListBean> = ArrayList()
 
         listBeans.add(AppListBean(

@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.editor.impl
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,16 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.workflow.FlowStepAdapter
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorWorkflowBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
+import com.absinthe.anywhere_.ui.dialog.EXTRA_FROM_WORKFLOW
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
+import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
+import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
+import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager
@@ -70,7 +76,13 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
                     AlertDialog.Builder(requireContext())
                             .setItems(nodeEditMenu.toTypedArray()) { _, which ->
                                 when(which) {
-                                    0 -> {}
+                                    0 -> {
+                                        startActivityForResult(Intent(requireActivity(), EditorActivity::class.java).apply {
+                                            putExtra(EXTRA_ENTITY, adapter.data[position].entity)
+                                            putExtra(EXTRA_EDIT_MODE, false)
+                                            putExtra(EXTRA_FROM_WORKFLOW, isFromWorkflow)
+                                        }, Const.REQUEST_CODE_OPEN_EDITOR)
+                                    }
                                     1 -> adapter.removeAt(position)
                                 }
                             }

@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.constants
 
+import com.absinthe.anywhere_.R
 import io.michaelrocks.paranoid.Obfuscate
 
 @Obfuscate
@@ -28,6 +29,19 @@ object AnywhereType {
                 Pair(FILE, "New File"),
                 Pair(BROADCAST, "New Broadcast"),
                 Pair(WORKFLOW, "New Workflow")
+        )
+
+        val TYPE_STRINGRES_MAP = hashMapOf(
+                Pair(URL_SCHEME, R.string.btn_url_scheme),
+                Pair(ACTIVITY, R.string.btn_activity),
+                Pair(MINI_PROGRAM, R.string.btn_add_mini_program),
+                Pair(QR_CODE, R.string.btn_add_qr_code),
+                Pair(IMAGE, R.string.btn_add_image),
+                Pair(SHELL, R.string.btn_add_shell),
+                Pair(SWITCH_SHELL, R.string.btn_add_switch_shell),
+                Pair(FILE, R.string.btn_add_file),
+                Pair(BROADCAST, R.string.btn_add_broadcast),
+                Pair(WORKFLOW, R.string.btn_add_workflow)
         )
     }
 

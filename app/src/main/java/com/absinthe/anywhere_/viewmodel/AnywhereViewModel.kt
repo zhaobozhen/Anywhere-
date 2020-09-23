@@ -77,7 +77,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
     fun setUpUrlScheme(url: String = "") {
         val context = ActivityStackManager.topActivity!! as Context
         val ae = AnywhereEntity.Builder().apply {
-            appName = getApplication<Application>().getString(R.string.bsd_new_url_scheme_name)
+            appName = AnywhereType.Card.NEW_TITLE_MAP[AnywhereType.Card.URL_SCHEME]!!
             param1 = url
             type = AnywhereType.Card.URL_SCHEME
         }

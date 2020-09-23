@@ -51,8 +51,6 @@
     <string name="bsd_text_input_layout_description_helper_text">描述一下你的 Anywhere- 卡片吧</string>
     <string name="bsd_text_input_layout_intent_extra_helper_text" tools:ignore="TypographyDashes">啟動 Intent 時傳遞參數，格式：\n[--cmd] extraKey1 value1\n[--cmd] extraKey2 value2 …\ncmd 指令可前往幫助查看</string>
 
-    <string name="bsd_new_url_scheme_name">New URL Scheme</string>
-
     <!--  AppBarMenu  -->
     <string name="menu_sort">排序</string>
     <string name="menu_settings">設置</string>

@@ -41,11 +41,11 @@
     android:layout_marginBottom="16dp"
     android:background="@color/gray"
     android:clickable="false"
-    android:text="               "
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="@id/tv_app_name"
     app:layout_constraintTop_toBottomOf="@id/tv_app_name"
-    tools:ignore="HardcodedText" />
+    tools:ignore="HardcodedText"
+    tools:text="               " />
 
   <TextView
     android:id="@+id/tv_delay_time"
@@ -67,10 +67,10 @@
     android:layout_marginStart="10dp"
     android:background="@color/gray"
     android:clickable="false"
-    android:text="                            "
     app:layout_constraintBottom_toTopOf="@id/tv_card_type"
     app:layout_constraintStart_toEndOf="@id/iv_type"
     app:layout_constraintTop_toTopOf="parent"
-    tools:ignore="HardcodedText" />
+    tools:ignore="HardcodedText"
+    tools:text="                            " />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

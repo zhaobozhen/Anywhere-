@@ -68,14 +68,13 @@ object UxUtils {
                 }
                 return getAppIcon(context, packageName)
             }
-            AnywhereType.Card.ACTIVITY, AnywhereType.Card.QR_CODE -> {
-                return getAppIcon(context, item.packageName)
-            }
+            AnywhereType.Card.ACTIVITY, AnywhereType.Card.QR_CODE -> return getAppIcon(context, item.packageName)
             AnywhereType.Card.IMAGE -> return ContextCompat.getDrawable(context, R.drawable.ic_card_image)!!
             AnywhereType.Card.SHELL -> return ContextCompat.getDrawable(context, R.drawable.ic_card_shell)!!
             AnywhereType.Card.SWITCH_SHELL -> return ContextCompat.getDrawable(context, R.drawable.ic_card_switch)!!
             AnywhereType.Card.FILE -> return ContextCompat.getDrawable(context, R.drawable.ic_card_file)!!
             AnywhereType.Card.BROADCAST -> return ContextCompat.getDrawable(context, R.drawable.ic_card_broadcast)!!
+            AnywhereType.Card.WORKFLOW -> return ContextCompat.getDrawable(context, R.drawable.ic_card_workflow)!!
         }
         return ContextCompat.getDrawable(context, R.drawable.ic_logo)!!
     }
@@ -99,7 +98,7 @@ object UxUtils {
             if (iconPack == Const.DEFAULT_ICON_PACK || iconPack.isEmpty()) {
                 context.packageManager.getApplicationIcon(packageName)
             } else {
-                Settings.sIconPack?.getDrawableIconForPackage(packageName, context.packageManager.getApplicationIcon(packageName))
+                Settings.iconPack?.getDrawableIconForPackage(packageName, context.packageManager.getApplicationIcon(packageName))
                         ?: ContextCompat.getDrawable(context, R.drawable.ic_logo)!!
             }
         } catch (e: PackageManager.NameNotFoundException) {
@@ -123,7 +122,7 @@ object UxUtils {
             else -> title.append(AnywhereType.WhereMode.NOWHERE)
         }
 
-        if (Settings.sDate == "12-25") {
+        if (Settings.date == "12-25") {
             title.append(" \uD83C\uDF84")
         }
         return title.toString()

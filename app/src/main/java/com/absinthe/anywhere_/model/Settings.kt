@@ -19,17 +19,19 @@ import java.util.*
 
 object Settings {
 
-    var sIconPackManager: IconPackManager = IconPackManager()
-    var sIconPack: IconPack? = null
+    var iconPackManager: IconPackManager = IconPackManager()
+    var iconPack: IconPack? = null
 
-    lateinit var sDate: String
-    lateinit var sToken: String
+    val date: String by lazy {
+        val date = Date()
+        val dateFormat = SimpleDateFormat("MM-dd", Locale.CHINA)
+        dateFormat.format(date)
+    }
 
     fun init(context: Context) {
         setLogger()
         setTheme(GlobalValues.darkMode)
         initIconPackManager(context)
-        setDate()
     }
 
     fun setTheme(mode: String) {
@@ -47,12 +49,12 @@ object Settings {
     }
 
     fun initIconPackManager(context: Context) {
-        sIconPackManager.setContext(context)
-        val hashMap = sIconPackManager.getAvailableIconPacks(true)
+        iconPackManager.setContext(context)
+        val hashMap = iconPackManager.getAvailableIconPacks(true)
 
         for ((key, value) in hashMap) {
             if (key == GlobalValues.iconPack) {
-                sIconPack = value
+                iconPack = value
                 break
             }
         }
@@ -66,11 +68,5 @@ object Settings {
             MMKV.mmkvWithID(SPUtils.sPName).importFromSharedPreferences(sp)
             Once.markDone(OnceTag.MMKV_MIGRATE)
         }
-    }
-
-    private fun setDate() {
-        val date = Date()
-        val dateFormat = SimpleDateFormat("MM-dd", Locale.getDefault())
-        sDate = dateFormat.format(date)
     }
 }
