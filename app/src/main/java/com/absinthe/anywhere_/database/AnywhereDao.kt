@@ -31,6 +31,9 @@ interface AnywhereDao {
     @get:Query("SELECT * from anywhere_table ORDER BY app_name ASC")
     val allAnywhereEntitiesOrderByNameAsc: LiveData<List<AnywhereEntity>>
 
+    @Query("SELECT * from anywhere_table WHERE id LIKE :id")
+    fun getEntityById(id: String): AnywhereEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPage(pe: PageEntity)
 

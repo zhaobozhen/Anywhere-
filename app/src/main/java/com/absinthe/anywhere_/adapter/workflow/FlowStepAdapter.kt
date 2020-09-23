@@ -6,12 +6,14 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.module.DraggableModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
-class FlowStepAdapter : BaseQuickAdapter<FlowStepBean, BaseViewHolder>(R.layout.item_workflow) {
+class FlowStepAdapter : BaseQuickAdapter<FlowStepBean, BaseViewHolder>(R.layout.item_workflow), DraggableModule {
 
     override fun convert(holder: BaseViewHolder, item: FlowStepBean) {
         if (item.entity == null) {

@@ -30,7 +30,7 @@
     <string name="notification_backup_title">Backing up cards</string>
     <string name="notification_backup_content">This may take some time</string>
     <string name="notification_workflow_title">Executing Workflow task</string>
-    <string name="notification_workflow_content">Waiting for executing done</string>
+    <string name="notification_workflow_content">Waiting for execution</string>
     <string name="help_card_title">Help Docs</string>
     <string name="add">Add</string>
 
@@ -116,6 +116,12 @@
 
     <string name="bsd_button_select_file">Select File</string>
     <string name="bsd_open_url"><![CDATA[Use the following URL:<br>anywhere://open?sid=<b>%s</b><br>to open the card quickly]]></string>
+
+    <string name="bsd_workflow_menu_edit">Edit</string>
+    <string name="bsd_workflow_menu_create">Create new…</string>
+    <string name="bsd_workflow_menu_choose_exist">Choose card</string>
+    <string name="bsd_workflow_delay_time">Delay Time</string>
+    <string name="bsd_workflow_btn_add_flow_node">Add Flow node</string>
 
     <!--  AppBarMenu  -->
     <string name="menu_sort">Sort</string>

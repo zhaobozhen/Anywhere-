@@ -2,13 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/bsd_edit_text_margin_horizontal"
+    android:paddingVertical="@dimen/bsd_margin_vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/bsd_edit_text_margin_horizontal"
-        android:layout_marginVertical="@dimen/bsd_margin_vertical"
         android:background="@color/transparent">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -16,7 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-            app:layout_constraintTop_toBottomOf="@id/btn_add_node" />
+            android:layout_marginBottom="@dimen/editor_padding_bottom"
+            app:layout_constraintTop_toBottomOf="@id/btn_add_node"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_add_node"
@@ -24,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/bsd_margin_vertical"
-            android:text="Add FlowNode"
+            android:text="@string/bsd_workflow_btn_add_flow_node"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_description" />
 

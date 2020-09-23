@@ -359,4 +359,11 @@
     <string name="settings_editor_entry_animation_summary">開啟此選項會有更佳的動畫體驗</string>
     <string name="settings_editor_entry_animation">編輯器入場動畫</string>
   <string name="btn_activity">活動</string>
+    <string name="notification_workflow_title">正在執行 Workflow 工作</string>
+    <string name="notification_workflow_content">等待執行完畢</string>
+    <string name="bsd_workflow_menu_edit">編輯</string>
+    <string name="bsd_workflow_menu_create">新建…</string>
+    <string name="bsd_workflow_menu_choose_exist">選擇卡片</string>
+    <string name="bsd_workflow_delay_time">延時</string>
+    <string name="bsd_workflow_btn_add_flow_node">添加 Flow 節點</string>
 </resources>

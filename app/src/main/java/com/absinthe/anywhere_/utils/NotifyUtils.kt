@@ -15,9 +15,9 @@ import com.blankj.utilcode.util.NotificationUtils.ChannelConfig
 
 object NotifyUtils {
 
-    const val LOGCAT_CHANNEL_ID = "logcat_channel"
-    const val BACKUP_CHANNEL_ID = "backup_channel"
-    const val WORKFLOW_CHANNEL_ID = "workflow_channel"
+    private const val LOGCAT_CHANNEL_ID = "logcat_channel"
+    private const val BACKUP_CHANNEL_ID = "backup_channel"
+    private const val WORKFLOW_CHANNEL_ID = "workflow_channel"
 
     const val LOGCAT_NOTIFICATION_ID = 1002
     const val BACKUP_NOTIFICATION_ID = 1003
@@ -75,7 +75,7 @@ object NotifyUtils {
                     .setSmallIcon(R.drawable.ic_card_workflow)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                    .setPriority(NotificationCompat.PRIORITY_LOW)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setProgress(0, 0, true)
                     .setOngoing(true)
                     .setAutoCancel(false)

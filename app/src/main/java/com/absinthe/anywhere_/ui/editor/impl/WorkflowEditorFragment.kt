@@ -5,17 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.workflow.FlowStepAdapter
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorWorkflowBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
+import com.absinthe.anywhere_.services.WorkflowIntentService
 import com.absinthe.anywhere_.ui.dialog.EXTRA_FROM_WORKFLOW
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
@@ -23,11 +27,15 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
+import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.manager.DialogManager
-import com.absinthe.libraries.utils.extensions.logd
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 class WorkflowEditorFragment  : BaseEditorFragment() {
 
@@ -35,7 +43,19 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
     var currentIndex = -1
 
     private lateinit var binding: EditorWorkflowBinding
-    private val nodeEditMenu = listOf("Edit", "Delete")
+
+    private val nodeEditMenu by lazy {
+        listOf(
+                requireContext().getString(R.string.bsd_workflow_menu_edit),
+                requireContext().getString(R.string.menu_delete)
+        )
+    }
+    private val nodeCreateMenu by lazy {
+        listOf(
+                requireContext().getString(R.string.bsd_workflow_menu_create),
+                requireContext().getString(R.string.bsd_workflow_menu_choose_exist)
+        )
+    }
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorWorkflowBinding.inflate(inflater, container, false)
@@ -69,10 +89,33 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
             btnAddNode.setOnClickListener {
                 adapter.addData(FlowStepBean())
             }
+            adapter.draggableModule.isDragEnabled = true
             adapter.setOnItemClickListener { _, _, position ->
                 currentIndex = position
                 if (adapter.data[position].entity == null) {
-                    DialogManager.showAdvancedCardSelectDialog(requireActivity() as BaseActivity, true)
+                    AlertDialog.Builder(requireContext())
+                            .setItems(nodeCreateMenu.toTypedArray()) { _, which ->
+                                when(which) {
+                                    0 -> DialogManager.showAdvancedCardSelectDialog(requireActivity() as BaseActivity, true)
+                                    1 -> {
+                                        DialogManager.showCardListDialog(requireActivity() as BaseActivity).apply {
+                                            setOnItemClickListener(object : AppListAdapter.OnAppItemClickListener {
+                                                override fun onClick(bean: AppListBean, which: Int) {
+                                                    lifecycleScope.launch(Dispatchers.IO) {
+                                                        AnywhereApplication.sRepository.getEntityById(bean.id)?.let {
+                                                            withContext(Dispatchers.Main) {
+                                                                adapter.setData(position, FlowStepBean(it, adapter.data[position].delay))
+                                                            }
+                                                        }
+                                                    }
+                                                    dismiss()
+                                                }
+                                            })
+                                        }
+                                    }
+                                }
+                            }
+                            .show()
                 } else {
                     AlertDialog.Builder(requireContext())
                             .setItems(nodeEditMenu.toTypedArray()) { _, which ->
@@ -94,6 +137,14 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
     }
 
     override fun tryRunning() {
+        val ae = AnywhereEntity(item).apply {
+            appName = binding.tietAppName.text.toString()
+            description = binding.tietDescription.text.toString()
+
+            val extras = adapter.data
+            param1 = Gson().toJson(extras)
+        }
+        Opener.with(requireContext()).load(ae).open()
     }
 
     override fun doneEdit(): Boolean {
@@ -107,7 +158,6 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
             description = binding.tietDescription.text.toString()
 
             val extras = adapter.data
-            logd("$extras")
             param1 = Gson().toJson(extras)
         }
 

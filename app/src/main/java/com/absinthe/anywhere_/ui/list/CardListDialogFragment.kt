@@ -53,7 +53,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                             || ae.type == AnywhereType.Card.IMAGE
                             || ae.type == AnywhereType.Card.SHELL) {
                         listBeans.add(AppListBean(
-                                id = ae.param2,
+                                id = ae.id,
                                 appName =  ae.appName,
                                 packageName =  ae.param2,
                                 className =  ae.param1,
@@ -62,7 +62,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                         )
                     } else {
                         listBeans.add(AppListBean(
-                                id = ae.param1,
+                                id = ae.id,
                                 appName =  ae.appName,
                                 packageName =  ae.param1,
                                 className =  ae.param2,

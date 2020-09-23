@@ -76,4 +76,8 @@ class AnywhereRepository(application: Application) {
         mAnywhereDao.deletePage(pe)
         GlobalValues.needBackup = true
     }
+
+    fun getEntityById(id: String) : AnywhereEntity? {
+        return mAnywhereDao.getEntityById(id)
+    }
 }
