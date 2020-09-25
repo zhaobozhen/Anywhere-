@@ -52,7 +52,8 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
     private val nodeCreateMenu by lazy {
         listOf(
                 requireContext().getString(R.string.bsd_workflow_menu_create),
-                requireContext().getString(R.string.bsd_workflow_menu_choose_exist)
+                requireContext().getString(R.string.bsd_workflow_menu_choose_exist),
+                requireContext().getString(R.string.menu_delete)
         )
     }
 
@@ -112,6 +113,7 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
                                             })
                                         }
                                     }
+                                    2 -> adapter.removeAt(position)
                                 }
                             }
                             .show()

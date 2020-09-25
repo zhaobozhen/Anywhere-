@@ -29,7 +29,8 @@ object AnywhereType {
                 Pair(SWITCH_SHELL, "New Switch Shell"),
                 Pair(FILE, "New File"),
                 Pair(BROADCAST, "New Broadcast"),
-                Pair(WORKFLOW, "New Workflow")
+                Pair(WORKFLOW, "New Workflow"),
+                Pair(ACCESSIBILITY, "New A11y"),
         )
 
         val TYPE_STRINGRES_MAP = hashMapOf(
@@ -42,8 +43,9 @@ object AnywhereType {
                 Pair(SWITCH_SHELL, R.string.btn_add_switch_shell),
                 Pair(FILE, R.string.btn_add_file),
                 Pair(BROADCAST, R.string.btn_add_broadcast),
-                Pair(WORKFLOW, R.string.btn_add_workflow)
-        )
+                Pair(WORKFLOW, R.string.btn_add_workflow),
+                Pair(ACCESSIBILITY, R.string.btn_add_accessibility),
+                )
     }
 
     object Property {

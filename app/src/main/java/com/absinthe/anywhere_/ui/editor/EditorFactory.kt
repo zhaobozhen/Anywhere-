@@ -17,6 +17,7 @@ object EditorFactory {
             AnywhereType.Card.FILE -> FileEditorFragment()
             AnywhereType.Card.BROADCAST -> BroadcastEditorFragment()
             AnywhereType.Card.WORKFLOW -> WorkflowEditorFragment()
+            AnywhereType.Card.ACCESSIBILITY -> A11yEditorFragment()
             else -> throw IllegalArgumentException("Editor type not exists.")
         }
     }

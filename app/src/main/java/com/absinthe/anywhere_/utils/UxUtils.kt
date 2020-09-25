@@ -75,6 +75,7 @@ object UxUtils {
             AnywhereType.Card.FILE -> return ContextCompat.getDrawable(context, R.drawable.ic_card_file)!!
             AnywhereType.Card.BROADCAST -> return ContextCompat.getDrawable(context, R.drawable.ic_card_broadcast)!!
             AnywhereType.Card.WORKFLOW -> return ContextCompat.getDrawable(context, R.drawable.ic_card_workflow)!!
+            AnywhereType.Card.ACCESSIBILITY -> return ContextCompat.getDrawable(context, R.drawable.ic_card_accessibility)!!
         }
         return ContextCompat.getDrawable(context, R.drawable.ic_logo)!!
     }
