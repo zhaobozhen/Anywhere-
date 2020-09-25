@@ -37,6 +37,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.AppUtils.getPackageNameByScheme
 import com.absinthe.anywhere_.utils.StatusBarUtil.clearLightStatusBarAndNavigationBar
+import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.ShadowHelper
 import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.BarUtils
@@ -59,25 +60,18 @@ object UxUtils {
      */
     fun getAppIcon(context: Context, item: AnywhereEntity): Drawable {
         val packageName: String
-        when (item.type) {
+        return when (item.type) {
             AnywhereType.Card.URL_SCHEME -> {
                 packageName = if (TextUtils.isEmpty(item.param2)) {
                     getPackageNameByScheme(context, item.param1)
                 } else {
                     item.packageName
                 }
-                return getAppIcon(context, packageName)
+                getAppIcon(context, packageName) ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type)
             }
-            AnywhereType.Card.ACTIVITY, AnywhereType.Card.QR_CODE -> return getAppIcon(context, item.packageName)
-            AnywhereType.Card.IMAGE -> return ContextCompat.getDrawable(context, R.drawable.ic_card_image)!!
-            AnywhereType.Card.SHELL -> return ContextCompat.getDrawable(context, R.drawable.ic_card_shell)!!
-            AnywhereType.Card.SWITCH_SHELL -> return ContextCompat.getDrawable(context, R.drawable.ic_card_switch)!!
-            AnywhereType.Card.FILE -> return ContextCompat.getDrawable(context, R.drawable.ic_card_file)!!
-            AnywhereType.Card.BROADCAST -> return ContextCompat.getDrawable(context, R.drawable.ic_card_broadcast)!!
-            AnywhereType.Card.WORKFLOW -> return ContextCompat.getDrawable(context, R.drawable.ic_card_workflow)!!
-            AnywhereType.Card.ACCESSIBILITY -> return ContextCompat.getDrawable(context, R.drawable.ic_card_accessibility)!!
+            AnywhereType.Card.ACTIVITY, AnywhereType.Card.QR_CODE -> getAppIcon(context, item.packageName) ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type)
+            else -> CardTypeIconGenerator.getAdvancedIcon(context, item.type)
         }
-        return ContextCompat.getDrawable(context, R.drawable.ic_logo)!!
     }
 
     fun getAppIcon(context: Context, item: AppListBean): Drawable {
@@ -93,20 +87,16 @@ object UxUtils {
         return getAppIcon(context, ae)
     }
 
-    fun getAppIcon(context: Context, packageName: String): Drawable {
-        val drawable: Drawable
-        drawable = try {
+    fun getAppIcon(context: Context, packageName: String): Drawable? {
+        return try {
             if (iconPack == Const.DEFAULT_ICON_PACK || iconPack.isEmpty()) {
                 context.packageManager.getApplicationIcon(packageName)
             } else {
                 Settings.iconPack?.getDrawableIconForPackage(packageName, context.packageManager.getApplicationIcon(packageName))
-                        ?: ContextCompat.getDrawable(context, R.drawable.ic_logo)!!
             }
         } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-            ContextCompat.getDrawable(context, R.drawable.ic_logo)!!
+            null
         }
-        return drawable
     }
 
     /**

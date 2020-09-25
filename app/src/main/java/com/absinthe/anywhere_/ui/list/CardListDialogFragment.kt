@@ -8,6 +8,7 @@ import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.UxUtils
+import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.CardListDialogBuilder
@@ -57,7 +58,8 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                                 appName =  ae.appName,
                                 packageName =  ae.param2,
                                 className =  ae.param1,
-                                icon =  UxUtils.getAppIcon(requireContext(), ae.param2),
+                                icon =  UxUtils.getAppIcon(requireContext(), ae.param2)
+                                        ?: CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type),
                                 type =  ae.type)
                         )
                     } else {
@@ -66,7 +68,8 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                                 appName =  ae.appName,
                                 packageName =  ae.param1,
                                 className =  ae.param2,
-                                icon =  UxUtils.getAppIcon(requireContext(), ae.param1),
+                                icon =  UxUtils.getAppIcon(requireContext(), ae.param1)
+                                        ?: CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type),
                                 type =  ae.type)
                         )
                     }

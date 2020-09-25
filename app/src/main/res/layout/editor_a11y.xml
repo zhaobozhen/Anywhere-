@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/bsd_margin_vertical"
-            android:text="@string/bsd_workflow_btn_add_flow_node"
+            android:text="Todo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_description" />
 

@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
+import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.AdvancedCardSelectDialogBuilder
@@ -55,6 +56,11 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private fun getOpeningEditorListener(type: Int): View.OnClickListener {
         return View.OnClickListener {
+            //Todo
+            if (type == AnywhereType.Card.ACCESSIBILITY) {
+                ToastUtil.makeText("TODO")
+                return@OnClickListener
+            }
             val ae = AnywhereEntity.Builder().apply {
                 this.type = type
                 appName = AnywhereType.Card.NEW_TITLE_MAP[type] ?: "New Card"
