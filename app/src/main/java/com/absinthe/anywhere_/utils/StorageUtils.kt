@@ -12,6 +12,7 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.BackupBean
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -70,6 +71,7 @@ object StorageUtils {
     fun exportAnywhereEntityJsonString(): String? {
         val anywhereList = AnywhereApplication.sRepository.allAnywhereEntities.value
         val pageList = AnywhereApplication.sRepository.allPageEntities.value
+        val finalList = mutableListOf<AnywhereEntity>()
 
         return if (anywhereList == null || pageList == null) {
             null
@@ -79,8 +81,9 @@ object StorageUtils {
                     continue
                 }
                 ae.iconUri = ""
+                finalList.add(ae)
             }
-            val backupBean = BackupBean(anywhereList, pageList)
+            val backupBean = BackupBean(finalList, pageList)
             Gson().toJson(backupBean)
         }
     }

@@ -1,9 +1,9 @@
-package com.absinthe.anywhere_.workflow
+package com.absinthe.anywhere_.a11y
 
 import com.absinthe.anywhere_.services.IzukoService
 import timber.log.Timber
 
-class FlowNode(private val content: String, private val type: Int) {
+class A11yFlowNode(private val content: String, private val type: Int) {
 
     fun trigger() {
         Timber.d("trigger")

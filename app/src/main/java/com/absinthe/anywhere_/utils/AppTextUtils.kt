@@ -202,7 +202,9 @@ object AppTextUtils {
      * @param ae Card entity
      * @return URL
      */
-    fun genCardSharingUrl(ae: AnywhereEntity?): String {
+    fun genCardSharingUrl(ae: AnywhereEntity): String {
+        ae.category = ""
+        ae.iconUri = ""
         val json = Gson().toJson(ae, AnywhereEntity::class.java)
         var encrypted = encrypt(json)
 

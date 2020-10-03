@@ -7,12 +7,12 @@ import android.view.accessibility.AccessibilityEvent;
 
 import androidx.annotation.Nullable;
 
-import com.absinthe.anywhere_.workflow.WorkFlow;
+import com.absinthe.anywhere_.a11y.A11yWorkFlow;
 
 public class IzukoService extends BaseAccessibilityService {
     @SuppressLint("StaticFieldLeak")
     private static IzukoService sInstance;
-    private WorkFlow mWorkFlow = new WorkFlow();
+    private A11yWorkFlow mA11yWorkFlow = new A11yWorkFlow();
     private String mPackageName = "";
     private String mClassName = "";
     private boolean isClicked = true;
@@ -39,7 +39,7 @@ public class IzukoService extends BaseAccessibilityService {
             CharSequence className = event.getClassName();
 
             if (className.equals(mClassName)) {
-                mWorkFlow.start();
+                mA11yWorkFlow.start();
             }
         }
     }
@@ -66,7 +66,7 @@ public class IzukoService extends BaseAccessibilityService {
         mClassName = className;
     }
 
-    public void setWorkFlow(WorkFlow workFlow) {
-        mWorkFlow = workFlow;
+    public void setWorkFlow(A11yWorkFlow a11yWorkFlow) {
+        mA11yWorkFlow = a11yWorkFlow;
     }
 }

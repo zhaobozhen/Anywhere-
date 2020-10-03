@@ -1,4 +1,4 @@
-package com.absinthe.anywhere_.workflow
+package com.absinthe.anywhere_.a11y
 
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -7,12 +7,12 @@ import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class WorkFlow {
+class A11yWorkFlow {
 
-    private var mObservable: Observable<FlowNode>? = null
+    private var mObservable: Observable<A11yFlowNode>? = null
     private val mDisposables = CompositeDisposable()
 
-    fun observe(observable: Observable<FlowNode>): WorkFlow {
+    fun observe(observable: Observable<A11yFlowNode>): A11yWorkFlow {
         mObservable = observable
         return this
     }
@@ -24,7 +24,7 @@ class WorkFlow {
         mDisposables.add(mObservable!!
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<FlowNode?>() {
+                .subscribeWith(object : DisposableObserver<A11yFlowNode?>() {
                     override fun onComplete() {
                         Timber.d("onComplete()")
                     }
@@ -33,8 +33,8 @@ class WorkFlow {
                         Timber.e(e)
                     }
 
-                    override fun onNext(flowNode: FlowNode) {
-                        flowNode.trigger()
+                    override fun onNext(a11yFlowNode: A11yFlowNode) {
+                        a11yFlowNode.trigger()
                     }
                 }))
     }

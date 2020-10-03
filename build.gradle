@@ -3,6 +3,8 @@
 buildscript {
     ext.kotlin_version = '1.4.0'
     repositories {
+        google()
+        jcenter()
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/public' }
@@ -24,6 +26,8 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
+        jcenter()
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/google' }

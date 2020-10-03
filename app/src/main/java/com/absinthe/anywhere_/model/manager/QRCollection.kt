@@ -16,8 +16,8 @@ import com.absinthe.anywhere_.services.IzukoService
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
-import com.absinthe.anywhere_.workflow.FlowNode
-import com.absinthe.anywhere_.workflow.WorkFlow
+import com.absinthe.anywhere_.a11y.A11yFlowNode
+import com.absinthe.anywhere_.a11y.A11yWorkFlow
 import com.blankj.utilcode.util.Utils
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -183,20 +183,20 @@ object QRCollection {
                             isClicked(false)
                         }
 
-                        val source = Observable.create { emitter: ObservableEmitter<FlowNode> ->
-                            emitter.onNext(FlowNode("我", FlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(FlowNode("Me", FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                        val source = Observable.create { emitter: ObservableEmitter<A11yFlowNode> ->
+                            emitter.onNext(A11yFlowNode("我", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("Me", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                             Thread.sleep(300)
 
-                            emitter.onNext(FlowNode("支付", FlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(FlowNode("WeChat Pay", FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("支付", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("WeChat Pay", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                             Thread.sleep(800)
 
-                            emitter.onNext(FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(FlowNode("Money", FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("收付款", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("Money", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                             emitter.onComplete()
                         }
-                        IzukoService.getInstance()?.setWorkFlow(WorkFlow().observe(source))
+                        IzukoService.getInstance()?.setWorkFlow(A11yWorkFlow().observe(source))
 
                         try {
                             getContext().packageManager.getLaunchIntentForPackage(pkgName)?.let {
@@ -270,25 +270,25 @@ object QRCollection {
                             isClicked(false)
                         }
 
-                        val source = Observable.create { emitter: ObservableEmitter<FlowNode> ->
-                            emitter.onNext(FlowNode("我", FlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(FlowNode("Me", FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                        val source = Observable.create { emitter: ObservableEmitter<A11yFlowNode> ->
+                            emitter.onNext(A11yFlowNode("我", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("Me", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                             Thread.sleep(200)
 
-                            emitter.onNext(FlowNode("支付", FlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(FlowNode("WeChat Pay", FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("支付", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("WeChat Pay", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                             Thread.sleep(300)
 
-                            emitter.onNext(FlowNode("收付款", FlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(FlowNode("Money", FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("收付款", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("Money", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                             Thread.sleep(800)
 
                             IzukoService.getInstance()?.setClassName("com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI")
-                            emitter.onNext(FlowNode("二维码收款", FlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(FlowNode("Receive Money", FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("二维码收款", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode("Receive Money", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                             emitter.onComplete()
                         }
-                        IzukoService.getInstance()?.setWorkFlow(WorkFlow().observe(source))
+                        IzukoService.getInstance()?.setWorkFlow(A11yWorkFlow().observe(source))
 
                         try {
                             getContext().packageManager.getLaunchIntentForPackage(pkgName)?.let {
@@ -470,19 +470,19 @@ object QRCollection {
                         isClicked(false)
                     }
 
-                    val source = Observable.create { emitter: ObservableEmitter<FlowNode> ->
-                        emitter.onNext(FlowNode("知道了", FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                    val source = Observable.create { emitter: ObservableEmitter<A11yFlowNode> ->
+                        emitter.onNext(A11yFlowNode("知道了", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                         Thread.sleep(200)
 
-                        emitter.onNext(FlowNode("跳过", FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                        emitter.onNext(A11yFlowNode("跳过", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                         Thread.sleep(200)
 
                         for (split in text.split("&".toRegex()).toTypedArray()) {
-                            emitter.onNext(FlowNode(split, FlowNode.TYPE_ACCESSIBILITY_TEXT))
+                            emitter.onNext(A11yFlowNode(split, A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
                         }
                         emitter.onComplete()
                     }
-                    IzukoService.getInstance()?.setWorkFlow(WorkFlow().observe(source))
+                    IzukoService.getInstance()?.setWorkFlow(A11yWorkFlow().observe(source))
 
                     try {
                         getContext().packageManager.getLaunchIntentForPackage(pkgName)?.let {
