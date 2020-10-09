@@ -9,7 +9,7 @@ import timber.log.Timber
 
 class DynamicParamsDialogBuilder(context: Context) : ViewBuilder(context) {
 
-    private val paramsMap: MutableMap<String, EditText> = mapOf<String, EditText>().toMutableMap()
+    private val paramsMap: MutableMap<String, EditText> = mutableMapOf()
 
     init {
         root = LinearLayout(context).apply {
@@ -39,6 +39,7 @@ class DynamicParamsDialogBuilder(context: Context) : ViewBuilder(context) {
             addView(editText)
             paramsMap[para] = editText
         }
+        paramsMap[params[0]]?.requestFocus()
     }
 
     val inputParams: String

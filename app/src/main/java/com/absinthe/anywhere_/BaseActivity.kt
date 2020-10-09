@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.FileUriExposedException
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -73,15 +74,23 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Const.REQUEST_CODE_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            data?.data?.let {
-                mListener?.onResult(it)
-                if (it.toString().contains("file://")) {
-                    ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                } else {
-                    try {
-                        AppUtils.takePersistableUriPermission(this, it, data)
-                    } catch (e: RuntimeException) {
-                        ToastUtil.makeText(R.string.toast_runtime_error)
+            try {
+                data?.data?.let {
+                    mListener?.onResult(it)
+                    if (it.toString().contains("file://")) {
+                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                    } else {
+                        try {
+                            AppUtils.takePersistableUriPermission(this, it, data)
+                        } catch (e: RuntimeException) {
+                            ToastUtil.makeText(R.string.toast_runtime_error)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                if (AppUtils.atLeastN()) {
+                    if (e is FileUriExposedException) {
+                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
                     }
                 }
             }
