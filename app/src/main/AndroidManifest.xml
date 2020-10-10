@@ -246,6 +246,11 @@
             android:name=".ui.settings.LogcatActivity"
             android:label="@string/logcat" />
 
+        <!--    Cloud rules page    -->
+        <activity
+            android:name=".ui.cloud.CloudRulesActivity"
+            android:label="@string/btn_cloud_rules" />
+
         <!--    Editor container    -->
         <activity
             android:name=".ui.editor.EditorActivity"

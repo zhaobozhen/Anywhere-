@@ -151,6 +151,7 @@
     <string name="menu_share_card">Share card</string>
     <string name="menu_custom_icon">Custom icon</string>
     <string name="menu_restore_icon">Restore icon</string>
+    <string name="menu_share_to_cloud">Share to cloud</string>
 
     <!--  Settings  -->
     <string name="settings_category_advanced">Advanced</string>
@@ -327,6 +328,7 @@
     <string name="btn_add_workflow" translatable="false">Workflow</string>
     <string name="btn_add_accessibility">Accessibility</string>
     <string name="btn_add_advanced_card">Add Card</string>
+    <string name="btn_cloud_rules">Cloud Rules</string>
 
     <string name="btn_acquire_permission">Grant</string>
     <string name="btn_acquired">Granted</string>
@@ -407,5 +409,9 @@
 
     <string name="defrost_mode_dpm_desc">Active Anywhere- as a Device Policy Manager to gain the ability to defrost apps.</string>
     <string name="defrost_mode_dpm_addition"><![CDATA[<b>Connect to PC and enter adb command:</b><br><i>adb shell dpm set-device-owner com.absinthe.anywhere_/.receiver.AdminReceiver</i>]]></string>
+
+    <!--  Cloud  -->
+    <string name="cloud_rules_email_title" translatable="false">New Cloud Rule</string>
+    <string name="cloud_rules_email_header">** DO NOT MODIFY CONTENT BELOW ** Card will be uploaded after reviewing</string>
 
 </resources>

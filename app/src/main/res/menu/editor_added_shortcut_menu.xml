@@ -41,4 +41,9 @@
         android:title="@string/menu_restore_icon"
         android:icon="@drawable/ic_reset" />
 
+    <item
+        android:id="@+id/share_to_cloud"
+        android:title="@string/menu_share_to_cloud"
+        android:icon="@drawable/ic_cloud_backup" />
+
 </menu>

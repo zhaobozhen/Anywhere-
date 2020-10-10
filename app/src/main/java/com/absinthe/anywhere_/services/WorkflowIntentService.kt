@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.core.app.JobIntentService
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
@@ -13,6 +14,7 @@ import com.absinthe.anywhere_.utils.handler.Opener
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import java.lang.NumberFormatException
 
 class WorkflowIntentService : JobIntentService() {
 
@@ -38,9 +40,19 @@ class WorkflowIntentService : JobIntentService() {
             flowStepList?.let { list ->
                 list.forEach {
                     if (it.entity != null) {
+                        val a11yDelay = if (it.entity!!.type == AnywhereType.Card.ACCESSIBILITY) {
+                            try {
+                                it.entity!!.param2.toInt()
+                            } catch (e: NumberFormatException) {
+                                0
+                            }
+                        } else {
+                            0
+                        }
+
                         handler.postDelayed({
                             Opener.with(this@WorkflowIntentService).load(it.entity!!).open()
-                        }, it.delay)
+                        }, it.delay + a11yDelay)
                     }
                 }
             }

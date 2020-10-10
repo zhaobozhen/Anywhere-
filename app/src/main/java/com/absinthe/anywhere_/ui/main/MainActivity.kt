@@ -46,6 +46,7 @@ import com.absinthe.anywhere_.services.BackupIntentService
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.services.overlay.ICollectorService
 import com.absinthe.anywhere_.transformer.CategoryCardTransformer
+import com.absinthe.anywhere_.ui.cloud.CloudRulesActivity
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
@@ -520,6 +521,10 @@ class MainActivity : BaseActivity() {
                     R.id.fab_qr_code_collection -> {
                         startActivity(Intent(this@MainActivity, QRCodeCollectionActivity::class.java))
                         Analytics.trackEvent(EventTag.FAB_QR_CODE_COLLECTION_CLICK)
+                    }
+                    R.id.fab_cloud_rules -> {
+                        startActivity(Intent(this@MainActivity, CloudRulesActivity::class.java))
+                        Analytics.trackEvent(EventTag.FAB_CLOUD_RULES_CLICK)
                     }
                     else -> return@setOnActionSelectedListener false
                 }

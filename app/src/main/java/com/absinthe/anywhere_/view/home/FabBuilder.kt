@@ -30,5 +30,10 @@ object FabBuilder {
                 .setLabel(context.getString(R.string.btn_qr_code_collection))
                 .setLabelClickable(false)
                 .create())
+        fab.addActionItem(SpeedDialActionItem.Builder(R.id.fab_cloud_rules, R.drawable.ic_cloud_backup)
+                .setFabBackgroundColor(Color.WHITE)
+                .setLabel(context.getString(R.string.btn_cloud_rules))
+                .setLabelClickable(false)
+                .create())
     }
 }

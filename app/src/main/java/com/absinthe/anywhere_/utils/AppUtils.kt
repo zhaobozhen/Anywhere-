@@ -28,9 +28,11 @@ import com.absinthe.anywhere_.ui.settings.LogcatActivity
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.absinthe.anywhere_.utils.manager.URLManager
+import com.absinthe.libraries.me.Absinthe
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
+import com.google.gson.Gson
 import java.io.File
 import java.util.*
 
@@ -266,6 +268,53 @@ object AppUtils {
             }
             context.startActivity(chooser)
         }
+    }
+
+    /**
+     *
+     * Send shared card entity information to my mailbox
+     *
+     * @param context Context
+     * @param entity Card entity
+     */
+    fun sendEntityToMailBox(context: Context, entity: AnywhereEntity) {
+        val emailIntent = Intent(Intent.ACTION_SEND)
+
+        val content = Gson().toJson(entity, AnywhereEntity::class.java)
+        val encrypted = CipherUtils.encrypt(content)
+
+        emailIntent.apply {
+            type = "application/octet-stream"
+
+            val emailReceiver = arrayOf(Absinthe.EMAIL)
+            val emailTitle = "[${context.getString(R.string.cloud_rules_email_title)}]${entity.appName}"
+            putExtra(Intent.EXTRA_EMAIL, emailReceiver)
+            putExtra(Intent.EXTRA_SUBJECT, emailTitle)
+
+            val emailContent = "${context.getString(R.string.cloud_rules_email_header)}\n" +
+                    "------------------------------------------\n\n\n" +
+                    encrypted
+
+            putExtra(Intent.EXTRA_TEXT, emailContent)
+        }
+
+        //Filter Email Apps
+        val queryIntent = Intent(Intent.ACTION_SENDTO, "mailto:".toUri())
+        val resolveInfos = context.packageManager.queryIntentActivities(queryIntent, PackageManager.MATCH_DEFAULT_ONLY or PackageManager.GET_RESOLVED_FILTER)
+        val targetIntents = ArrayList<Intent>()
+
+        for (info in resolveInfos) {
+            val ai = info.activityInfo
+            val intent = Intent(emailIntent).apply {
+                setPackage(ai.packageName)
+                component = ComponentName(ai.packageName, ai.name)
+            }
+            targetIntents.add(intent)
+        }
+        val chooser = Intent.createChooser(targetIntents.removeAt(0), context.getString(R.string.report_select_mail_app)).apply {
+            putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(arrayOf<Parcelable>()))
+        }
+        context.startActivity(chooser)
     }
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)

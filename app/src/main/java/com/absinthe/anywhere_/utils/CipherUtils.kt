@@ -37,7 +37,6 @@ object CipherUtils {
             val encrypted = cipher.doFinal(data.toByteArray())
             Base64.encodeToString(encrypted, Base64.DEFAULT)
         } catch (e: Exception) {
-            e.printStackTrace()
             Timber.e(e)
             null
         }
