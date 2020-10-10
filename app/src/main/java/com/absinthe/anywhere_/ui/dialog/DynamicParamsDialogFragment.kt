@@ -8,14 +8,15 @@ import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.DynamicParamsDialogBuilder
 
-class DynamicParamsDialogFragment(private val mText: String) : AnywhereDialogFragment() {
+class DynamicParamsDialogFragment : AnywhereDialogFragment() {
 
+    private val text by lazy { arguments?.getString(EXTRA_SHARING_TEXT) ?: "" }
     private lateinit var mBuilder: DynamicParamsDialogBuilder
     private var mListener: OnParamsInputListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = DynamicParamsDialogBuilder(requireContext())
-        mBuilder.setParams(mText)
+        mBuilder.setParams(text)
 
         val builder = AnywhereDialogBuilder(requireContext())
         setWrapOnDismissListener(object : OnDismissListener {

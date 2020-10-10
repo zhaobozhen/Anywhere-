@@ -12,14 +12,18 @@ import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.CardSharingBuilder
 
-class CardSharingDialogFragment(private val mText: String) : AnywhereDialogFragment() {
+const val EXTRA_SHARING_TEXT = "EXTRA_SHARING_TEXT"
+
+class CardSharingDialogFragment : AnywhereDialogFragment() {
+
+    private val text by lazy { arguments?.getString(EXTRA_SHARING_TEXT) ?: "" }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AnywhereDialogBuilder(requireContext()).setView(CardSharingBuilder(requireActivity(), mText).root)
+        return AnywhereDialogBuilder(requireContext()).setView(CardSharingBuilder(requireActivity(), text).root)
                 .setTitle(R.string.menu_share_card)
                 .setPositiveButton(R.string.dialog_copy) { _: DialogInterface?, _: Int ->
                     val cm = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val mClipData = ClipData.newPlainText("Label", mText)
+                    val mClipData = ClipData.newPlainText("Label", text)
 
                     cm.setPrimaryClip(mClipData)
                     ToastUtil.makeText(R.string.toast_copied)

@@ -5,11 +5,10 @@ import com.absinthe.anywhere_.model.cloud.GitHubApiContentBean
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
-class CloudRulesAdapter : BaseQuickAdapter<GitHubApiContentBean, BaseViewHolder>(R.layout.item_app_list) {
+class CloudRulesAdapter : BaseQuickAdapter<GitHubApiContentBean, BaseViewHolder>(R.layout.item_cloud_rules) {
 
     override fun convert(holder: BaseViewHolder, item: GitHubApiContentBean) {
         holder.setText(R.id.tv_app_name, item.name)
-        holder.setText(R.id.tv_pkg_name, item.html_url)
     }
 
 }

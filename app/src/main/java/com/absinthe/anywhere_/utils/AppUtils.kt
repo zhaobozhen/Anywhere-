@@ -282,6 +282,7 @@ object AppUtils {
 
         val content = Gson().toJson(entity, AnywhereEntity::class.java)
         val encrypted = CipherUtils.encrypt(content)
+        encrypted?.replace("\n".toRegex(), "")
 
         emailIntent.apply {
             type = "application/octet-stream"
@@ -292,7 +293,8 @@ object AppUtils {
             putExtra(Intent.EXTRA_SUBJECT, emailTitle)
 
             val emailContent = "${context.getString(R.string.cloud_rules_email_header)}\n" +
-                    "------------------------------------------\n\n\n" +
+                    "------------------------------------------\n\n" +
+                    "Type: ${AnywhereType.Card.NEW_TITLE_MAP[entity.type]}\n\n" +
                     encrypted
 
             putExtra(Intent.EXTRA_TEXT, emailContent)

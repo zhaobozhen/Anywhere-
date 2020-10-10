@@ -336,7 +336,11 @@ object DialogManager {
     }
 
     fun showRenameDialog(activity: AppCompatActivity, title: String) {
-        val dialog = RenameDialogFragment(title)
+        val dialog = RenameDialogFragment().apply {
+            arguments = Bundle().apply {
+                putString(EXTRA_SHARING_TEXT, title)
+            }
+        }
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 
@@ -351,12 +355,20 @@ object DialogManager {
     }
 
     fun showCardSharingDialog(activity: AppCompatActivity, text: String) {
-        val dialogFragment = CardSharingDialogFragment(text)
+        val dialogFragment = CardSharingDialogFragment().apply {
+            arguments = Bundle().apply {
+                putString(EXTRA_SHARING_TEXT, text)
+            }
+        }
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 
     fun showDynamicParamsDialog(activity: AppCompatActivity, text: String, listener: OnParamsInputListener?) {
-        val dialogFragment = DynamicParamsDialogFragment(text)
+        val dialogFragment = DynamicParamsDialogFragment().apply {
+            arguments = Bundle().apply {
+                putString(EXTRA_SHARING_TEXT, text)
+            }
+        }
         dialogFragment.setListener(listener)
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
@@ -373,5 +385,14 @@ object DialogManager {
     fun showWebdavRestoreDialog(activity: AppCompatActivity) {
         val dialog = WebdavFilesListDialogFragment()
         dialog.show(activity.supportFragmentManager, dialog.tag)
+    }
+
+    fun showCloudRuleDialog(activity: AppCompatActivity, entity: AnywhereEntity) {
+        val dialogFragment = CloudRuleDetailDialogFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(EXTRA_ENTITY, entity)
+            }
+        }
+        dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)
     }
 }
