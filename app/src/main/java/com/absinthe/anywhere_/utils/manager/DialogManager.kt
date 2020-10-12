@@ -387,10 +387,10 @@ object DialogManager {
         dialog.show(activity.supportFragmentManager, dialog.tag)
     }
 
-    fun showCloudRuleDialog(activity: AppCompatActivity, entity: AnywhereEntity) {
+    fun showCloudRuleDialog(activity: AppCompatActivity, url: String) {
         val dialogFragment = CloudRuleDetailDialogFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(EXTRA_ENTITY, entity)
+                putString(EXTRA_URL, url)
             }
         }
         dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)

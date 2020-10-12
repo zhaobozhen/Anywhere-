@@ -1,20 +1,17 @@
 package com.absinthe.anywhere_.ui.cloud
 
 import android.os.Bundle
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.adapter.cloud.CloudRulesAdapter
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.api.ApiManager
 import com.absinthe.anywhere_.api.GitHubApi
 import com.absinthe.anywhere_.databinding.ActivityCloudRulesBinding
-import com.absinthe.anywhere_.model.cloud.GitHubApiContentBean
-import com.absinthe.anywhere_.model.cloud.RuleEntity
-import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.utils.CipherUtils
+import com.absinthe.anywhere_.model.cloud.GiteeApiContentBean
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.libraries.utils.extensions.addPaddingBottom
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,49 +47,38 @@ class CloudRulesActivity : BaseActivity() {
             layoutManager = WrapContentLinearLayoutManager(this@CloudRulesActivity)
             adapter = mAdapter
             addPaddingBottom(StatusBarUtil.getNavBarHeight())
+            addItemDecoration(DividerItemDecoration(this@CloudRulesActivity, DividerItemDecoration.VERTICAL))
         }
         mAdapter.setOnItemClickListener { _, _, position ->
-            Timber.d("onClick")
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(ApiManager.RULES_RAW_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-            val request = retrofit.create(GitHubApi::class.java)
-            val task = request.requestEntity(mAdapter.data[position].download_url!!.removePrefix(ApiManager.RULES_RAW_URL))
-            task.enqueue(object : Callback<RuleEntity> {
-                override fun onResponse(call: Call<RuleEntity>, response: Response<RuleEntity>) {
-                    val entity = response.body()
-                    entity?.let {
-                        val decrypted = CipherUtils.decrypt(it.content)
-                        val ae = Gson().fromJson(decrypted, AnywhereEntity::class.java)
-                        DialogManager.showCloudRuleDialog(this@CloudRulesActivity, ae)
-                    }
-                }
-
-                override fun onFailure(call: Call<RuleEntity>, t: Throwable) {
-                    Timber.e(t)
-                }
-            })
+            DialogManager.showCloudRuleDialog(this@CloudRulesActivity, mAdapter.data[position].download_url!!)
+        }
+        binding.srlAppList.apply {
+            isRefreshing = true
+            setOnRefreshListener {
+                requestRules()
+            }
         }
     }
 
     private fun requestRules() {
         val retrofit = Retrofit.Builder()
-                .baseUrl(ApiManager.RULES_REPO)
+                .baseUrl(ApiManager.GITEE_RULES_REPO)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         val request = retrofit.create(GitHubApi::class.java)
-        val task = request.requestAllContents()
-        task.enqueue(object : Callback<List<GitHubApiContentBean>> {
-            override fun onResponse(call: Call<List<GitHubApiContentBean>>, response: Response<List<GitHubApiContentBean>>) {
+        val task = request.requestGiteeAllContents()
+        task.enqueue(object : Callback<List<GiteeApiContentBean>> {
+            override fun onResponse(call: Call<List<GiteeApiContentBean>>, response: Response<List<GiteeApiContentBean>>) {
                 val list = response.body()
                 list?.let {
-                    mAdapter.setList(it)
+                    mAdapter.setList(it.filter { content -> content.type == "file" })
                 }
+                binding.srlAppList.isRefreshing = false
             }
 
-            override fun onFailure(call: Call<List<GitHubApiContentBean>>, t: Throwable) {
+            override fun onFailure(call: Call<List<GiteeApiContentBean>>, t: Throwable) {
                 Timber.e(t)
+                binding.srlAppList.isRefreshing = false
             }
         })
     }
