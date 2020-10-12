@@ -123,6 +123,12 @@ public class AnywhereEntity implements Parcelable {
         }
     }
 
+    public static AnywhereEntity getClearedEntity(@NonNull AnywhereEntity entity) {
+        entity.setCategory("");
+        entity.setIconUri("");
+        return entity;
+    }
+
     public AnywhereEntity(AnywhereEntity ae) {
         mId = ae.getId();
         mAppName = ae.getAppName();

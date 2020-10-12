@@ -39,10 +39,14 @@ class CategoryCardFragment : Fragment() {
     private val listObserver = Observer<List<AnywhereEntity>> { list ->
         if (!refreshLock) {
             adapter.setDiffNewData(
-                    if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
-                        list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
+                    if (GlobalValues.isPages) {
+                        if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
+                            list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
+                        } else {
+                            list.filter { it.category == this.category }.toMutableList()
+                        }
                     } else {
-                        list.filter { it.category == this.category }.toMutableList()
+                        list.toMutableList()
                     }
             )
         }

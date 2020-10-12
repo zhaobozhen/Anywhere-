@@ -45,4 +45,7 @@ interface AnywhereDao {
 
     @get:Query("SELECT * from page_table ORDER BY priority ASC")
     val allPageEntities: LiveData<List<PageEntity>>
+
+    @Query("SELECT * from page_table WHERE title LIKE :title")
+    fun getPageEntityByTitle(title: String): PageEntity?
 }

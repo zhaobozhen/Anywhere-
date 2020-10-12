@@ -3,16 +3,22 @@ package com.absinthe.anywhere_.ui.dialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.api.ApiManager
 import com.absinthe.anywhere_.api.GitHubApi
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.databinding.LayoutCloudRuleDetailBinding
 import com.absinthe.anywhere_.model.cloud.RuleEntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.CipherUtils
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,16 +51,27 @@ class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
         task.enqueue(object : Callback<RuleEntity> {
             override fun onResponse(call: Call<RuleEntity>, response: Response<RuleEntity>) {
                 Timber.d("onResponse")
-                val detailBean = response.body()
-                detailBean?.let {
-                    val decrypted = CipherUtils.decrypt(it.content)
+                response.body()?.let { ruleEntity ->
+                    val decrypted = CipherUtils.decrypt(ruleEntity.content)
                     entity = Gson().fromJson(decrypted, AnywhereEntity::class.java)
-                    binding.tvName.text = it.name
-                    binding.tvContributor.text = it.contributor
-                    binding.tvDesc.text = it.desc
+                    binding.tvName.text = ruleEntity.name
+                    binding.tvContributor.text = ruleEntity.contributor
+                    binding.tvDesc.text = ruleEntity.desc
                     binding.btnAdd.setOnClickListener {
                         entity?.let {
-                            viewModel.insert(entity!!)
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                if (AnywhereApplication.sRepository.getPageEntityByTitle(it.category) == null) {
+                                    val category = it.category.ifEmpty { AnywhereType.Category.DEFAULT_CATEGORY }
+                                    AnywhereApplication.sRepository.insertPage(
+                                            PageEntity.Builder().apply {
+                                                title = category
+                                                priority = AnywhereApplication.sRepository.allPageEntities.value?.size ?: 0
+                                            }
+                                    )
+                                    it.category = category
+                                }
+                                viewModel.insert(it)
+                            }
                         }
                         dismiss()
                     }

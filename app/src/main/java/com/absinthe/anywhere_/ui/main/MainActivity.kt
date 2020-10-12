@@ -300,8 +300,14 @@ class MainActivity : BaseActivity() {
                     })
 
                     setPageTransformer(CategoryCardTransformer())
-                    setCurrentItem(GlobalValues.currentPage, false)
                     getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+
+                    isUserInputEnabled = GlobalValues.isPages
+                    if (GlobalValues.isPages) {
+                        setCurrentItem(GlobalValues.currentPage, false)
+                    } else {
+                        setCurrentItem(0, false)
+                    }
                 }
             }
         })

@@ -13,13 +13,12 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.BackupBean
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import kotlinx.coroutines.*
-import java.io.File
-import java.io.IOException
 
 object StorageUtils {
     /* Checks if external storage is available for read and write */
@@ -96,32 +95,29 @@ object StorageUtils {
             if (backupBean == null) {
                 ToastUtil.makeText(R.string.toast_backup_file_error)
             } else {
-                for (ae in backupBean.anywhereList) {
-                    AnywhereApplication.sRepository.insert(ae)
-                }
-
                 for (pe in backupBean.pageList) {
                     AnywhereApplication.sRepository.insertPage(pe)
                 }
+
+                for (ae in backupBean.anywhereList) {
+                    if (AnywhereApplication.sRepository.getPageEntityByTitle(ae.category) == null) {
+                        val category = ae.category.ifEmpty { AnywhereType.Category.DEFAULT_CATEGORY }
+                        AnywhereApplication.sRepository.insertPage(
+                                PageEntity.Builder().apply {
+                                    title = category
+                                    priority = AnywhereApplication.sRepository.allPageEntities.value?.size ?: 0
+                                }
+                        )
+                        ae.category = category
+                    }
+                    AnywhereApplication.sRepository.insert(ae)
+                }
+
                 ToastUtil.makeText(context.getString(R.string.toast_restore_success))
             }
         } catch (e: JsonSyntaxException) {
             e.printStackTrace()
             ToastUtil.makeText(R.string.toast_backup_file_error)
-        }
-    }
-
-    @Throws(IOException::class)
-    fun storageToken(context: Context, token: String) {
-        val fileName = "Token"
-        val file = File(context.filesDir, fileName)
-        if (file.exists()) {
-            return
-        }
-
-        context.openFileOutput(fileName, Context.MODE_PRIVATE).apply {
-            write(token.toByteArray())
-            close()
         }
     }
 

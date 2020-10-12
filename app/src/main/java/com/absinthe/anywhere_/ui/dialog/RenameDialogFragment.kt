@@ -17,6 +17,7 @@ class RenameDialogFragment : AnywhereDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = RenameDialogBuilder(requireContext()).apply {
             etName.setText(title)
+            etName.requestFocus()
         }
 
         return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root)

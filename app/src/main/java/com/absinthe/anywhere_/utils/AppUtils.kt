@@ -280,7 +280,8 @@ object AppUtils {
     fun sendEntityToMailBox(context: Context, entity: AnywhereEntity) {
         val emailIntent = Intent(Intent.ACTION_SEND)
 
-        val content = Gson().toJson(entity, AnywhereEntity::class.java)
+        val clearEntity = AnywhereEntity.getClearedEntity(entity)
+        val content = Gson().toJson(clearEntity, AnywhereEntity::class.java)
         val encrypted = CipherUtils.encrypt(content)
         encrypted?.replace("\n".toRegex(), "")
 
@@ -288,13 +289,13 @@ object AppUtils {
             type = "application/octet-stream"
 
             val emailReceiver = arrayOf(Absinthe.EMAIL)
-            val emailTitle = "[${context.getString(R.string.cloud_rules_email_title)}]${entity.appName}"
+            val emailTitle = "[${context.getString(R.string.cloud_rules_email_title)}]${clearEntity.appName}"
             putExtra(Intent.EXTRA_EMAIL, emailReceiver)
             putExtra(Intent.EXTRA_SUBJECT, emailTitle)
 
             val emailContent = "${context.getString(R.string.cloud_rules_email_header)}\n" +
                     "------------------------------------------\n\n" +
-                    "Type: ${AnywhereType.Card.NEW_TITLE_MAP[entity.type]}\n\n" +
+                    "Type: ${AnywhereType.Card.NEW_TITLE_MAP[clearEntity.type]}\n\n" +
                     encrypted
 
             putExtra(Intent.EXTRA_TEXT, emailContent)
