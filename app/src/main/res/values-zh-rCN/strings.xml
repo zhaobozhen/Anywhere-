@@ -369,5 +369,5 @@
     <string name="btn_add_accessibility">无障碍</string>
     <string name="menu_share_to_cloud">分享至云端</string>
     <string name="btn_cloud_rules">云端规则</string>
-    <string name="cloud_rules_email_header">** 请勿修改下方的内容 **\n卡片会在审核后上传到云端仓库</string>
+    <string name="cloud_rules_email_header">贡献者：\n卡片描述：\n\n** 请勿修改下方的内容 **\n卡片会在审核后上传到云端仓库</string>
 </resources>

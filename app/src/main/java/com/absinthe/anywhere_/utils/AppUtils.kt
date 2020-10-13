@@ -8,9 +8,7 @@ import android.content.UriPermission
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
-import android.os.Parcelable
-import android.os.Process
+import android.os.*
 import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.core.content.ContextCompat
@@ -33,6 +31,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.google.gson.Gson
+import timber.log.Timber
 import java.io.File
 import java.util.*
 
@@ -286,7 +285,7 @@ object AppUtils {
         encrypted?.replace("\n".toRegex(), "")
 
         emailIntent.apply {
-            type = "application/octet-stream"
+            type = "text/plain"
 
             val emailReceiver = arrayOf(Absinthe.EMAIL)
             val emailTitle = "[${context.getString(R.string.cloud_rules_email_title)}]${clearEntity.appName}"
@@ -392,5 +391,41 @@ object AppUtils {
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0)
         }
 
+    }
+}
+
+/**
+ * From drakeet
+ */
+fun doOnMainThreadIdle(action: () -> Unit, timeout: Long? = null) {
+    val handler = Handler(Looper.getMainLooper())
+
+    val idleHandler = MessageQueue.IdleHandler {
+        handler.removeCallbacksAndMessages(null)
+        action()
+        return@IdleHandler false
+    }
+
+    fun setupIdleHandler(queue: MessageQueue) {
+        if (timeout != null) {
+            handler.postDelayed({
+                queue.removeIdleHandler(idleHandler)
+                action()
+                if (BuildConfig.DEBUG) {
+                    Timber.d("${timeout}ms timeout!")
+                }
+            }, timeout)
+        }
+        queue.addIdleHandler(idleHandler)
+    }
+
+    if (Looper.getMainLooper() == Looper.myLooper()) {
+        setupIdleHandler(Looper.myQueue())
+    } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setupIdleHandler(Looper.getMainLooper().queue)
+        } else {
+            handler.post { setupIdleHandler(Looper.myQueue()) }
+        }
     }
 }

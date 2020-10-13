@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.model.cloud
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -8,6 +9,7 @@ import com.google.gson.annotations.SerializedName
  * time : 2020/10/10
  * </pre>
  */
+@Keep
 data class GitHubApiContentBean(
         @SerializedName("name") val name: String,
         @SerializedName("path") val path: String,

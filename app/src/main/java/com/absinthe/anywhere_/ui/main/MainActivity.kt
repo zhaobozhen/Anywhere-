@@ -82,7 +82,6 @@ import it.sephiroth.android.library.xtooltip.ClosePolicy.Companion.TOUCH_ANYWHER
 import it.sephiroth.android.library.xtooltip.Tooltip
 import jonathanfinerty.once.Once
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -369,22 +368,18 @@ class MainActivity : BaseActivity() {
             if (view.id == R.id.iv_entry) {
                 drawer.closeDrawer(GravityCompat.START)
 
-                (adapter.getItem(position) as PageTitleNode?)?.let { titleNode ->
-                    AnywhereApplication.sRepository.allPageEntities.value?.find { it.title == titleNode.title }?.let { pe ->
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            delay(300)
-
-                            withContext(Dispatchers.Main) {
-                                try {
-                                    mBinding.viewPager.setCurrentItem(AnywhereApplication.sRepository.allPageEntities.value!!.indexOf(pe), true)
-                                    setsCategory(pe.title, position)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
+                doOnMainThreadIdle({
+                    (adapter.getItem(position) as PageTitleNode?)?.let { titleNode ->
+                        AnywhereApplication.sRepository.allPageEntities.value?.find { it.title == titleNode.title }?.let { pe ->
+                            try {
+                                mBinding.viewPager.setCurrentItem(AnywhereApplication.sRepository.allPageEntities.value!!.indexOf(pe), true)
+                                setsCategory(pe.title, position)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
                         }
                     }
-                }
+                })
             }
         }
 

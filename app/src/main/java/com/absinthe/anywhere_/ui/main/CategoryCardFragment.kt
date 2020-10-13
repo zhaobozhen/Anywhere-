@@ -22,6 +22,10 @@ import com.absinthe.anywhere_.databinding.FragmentCategoryCardBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils.updateWidget
 import com.absinthe.anywhere_.utils.manager.DialogManager
+import com.absinthe.libraries.utils.extensions.paddingBottomCompat
+import com.absinthe.libraries.utils.extensions.paddingEndCompat
+import com.absinthe.libraries.utils.extensions.paddingStartCompat
+import com.absinthe.libraries.utils.utils.UiUtils
 import com.google.android.material.card.MaterialCardView
 import java.lang.ref.WeakReference
 
@@ -55,12 +59,8 @@ class CategoryCardFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCategoryCardBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initView()
+        return binding.root
     }
 
     override fun onResume() {
@@ -171,6 +171,9 @@ class CategoryCardFragment : Fragment() {
             adapter = this@CategoryCardFragment.adapter
             setRecyclerViewLayoutManager(this, resources.configuration)
             addItemDecoration(decoration)
+            paddingStartCompat = decoration.space
+            paddingEndCompat = decoration.space
+            paddingBottomCompat = UiUtils.getNavBarHeight(requireActivity().contentResolver)
         }
 
         itemTouchHelper = ItemTouchHelper(ItemTouchCallBack().apply {

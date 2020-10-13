@@ -88,10 +88,15 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
 
                 normalView.content.description.isGone = item.description.isEmpty()
                 normalView.content.param1.isGone = item.type == AnywhereType.Card.QR_CODE
+                        || item.type == AnywhereType.Card.IMAGE
+                        || item.type == AnywhereType.Card.BROADCAST
                         || item.type == AnywhereType.Card.WORKFLOW
                 normalView.content.param2.isGone = item.type == AnywhereType.Card.URL_SCHEME
                         || item.type == AnywhereType.Card.QR_CODE
                         || item.type == AnywhereType.Card.IMAGE
+                        || item.type == AnywhereType.Card.BROADCAST
+                        || item.type == AnywhereType.Card.WORKFLOW
+
                 normalView.content.description.text = item.description
                 normalView.content.param1.text = item.param1
                 normalView.content.param2.text = item.param2

@@ -28,6 +28,7 @@ import jonathanfinerty.once.Once
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import moe.shizuku.api.ShizukuApiConstants
 import timber.log.Timber
 
@@ -303,11 +304,14 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         if (requestCode == Const.REQUEST_CODE_GO_TO_MIUI_PERM_MANAGER) {
             isPopup.value = XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_BACKGROUND_START_ACTIVITY)
         } else if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
-            lifecycleScope.launch(Dispatchers.Main) {
+            lifecycleScope.launch(Dispatchers.IO) {
                 delay(1500)
-                if (ActivityCompat.checkSelfPermission(requireContext(), ShizukuApiConstants.PERMISSION)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    isShizuku.value = java.lang.Boolean.TRUE
+
+                withContext(Dispatchers.Main) {
+                    if (ActivityCompat.checkSelfPermission(requireContext(), ShizukuApiConstants.PERMISSION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        isShizuku.value = java.lang.Boolean.TRUE
+                    }
                 }
             }
         }
