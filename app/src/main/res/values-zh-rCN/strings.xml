@@ -17,7 +17,7 @@
     <string name="toast_permission_overlap">请先授予 \"Anywhere-\" 悬浮窗权限</string>
     <string name="toast_collector_opened">已开启 Collector</string>
     <string name="ib_collector_todo">Collector</string>
-    <string name="accessibility_service_description">开启此辅助项以实现自动点击功能</string>
+    <string name="accessibility_service_description">Izuko - 无障碍卡片的动力源泉</string>
     <string name="dialog_permission_title">需要权限</string>
     <string name="dialog_permission_message">需要 Shizuku 权限，MIUI 由于系统限制，请到 Shizuku 打开</string>
 

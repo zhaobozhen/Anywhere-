@@ -2,20 +2,31 @@ package com.absinthe.anywhere_.services;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.absinthe.anywhere_.a11y.A11yWorkFlow;
+import com.absinthe.anywhere_.a11y.A11yActionBean;
+import com.absinthe.anywhere_.a11y.A11yEntity;
+import com.absinthe.anywhere_.a11y.A11yType;
+
+import timber.log.Timber;
 
 public class IzukoService extends BaseAccessibilityService {
+
     @SuppressLint("StaticFieldLeak")
+    @Nullable
     private static IzukoService sInstance;
-    private A11yWorkFlow mA11yWorkFlow = new A11yWorkFlow();
-    private String mPackageName = "";
-    private String mClassName = "";
-    private boolean isClicked = true;
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private A11yEntity mA11yEntity = new A11yEntity();
+    private String currentActionActivity;
+    private boolean isExecutingFinish = false;
 
     @Override
     protected void onServiceConnected() {
@@ -31,15 +42,19 @@ public class IzukoService extends BaseAccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        if (isClicked) return;
 
-        if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
-                TextUtils.equals(event.getPackageName(), mPackageName)) {
+        if (isExecutingFinish) {
+            return;
+        }
 
-            CharSequence className = event.getClassName();
+        if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
 
-            if (className.equals(mClassName)) {
-                mA11yWorkFlow.start();
+            if (TextUtils.equals(event.getPackageName(), mA11yEntity.getApplicationId())) {
+                CharSequence className = event.getClassName();
+
+                if (TextUtils.equals(className, currentActionActivity)) {
+                    start();
+                }
             }
         }
     }
@@ -54,19 +69,47 @@ public class IzukoService extends BaseAccessibilityService {
         return sInstance;
     }
 
-    public void isClicked(boolean isClicked) {
-        this.isClicked = isClicked;
+    public void setA11yEntity(@NonNull A11yEntity a11yEntity) {
+        mA11yEntity = a11yEntity;
+        currentActionActivity = mA11yEntity.getEntryActivity();
+        isExecutingFinish = false;
     }
 
-    public void setPackageName(String packageName) {
-        mPackageName = packageName;
+    private void start() {
+        Thread workingThread = new Thread(() -> {
+            for (A11yActionBean action : mA11yEntity.getActions()) {
+                if (!action.getActionActivity().isEmpty()) {
+                    currentActionActivity = action.getActionActivity();
+                }
+                try {
+                    Thread.sleep(action.getDelay());
+                    mHandler.post(getActionRunnable(action));
+                } catch (InterruptedException e) {
+                    Timber.e(e);
+                }
+            }
+            isExecutingFinish = true;
+        });
+        workingThread.start();
     }
 
-    public void setClassName(String className) {
-        mClassName = className;
-    }
-
-    public void setWorkFlow(A11yWorkFlow a11yWorkFlow) {
-        mA11yWorkFlow = a11yWorkFlow;
+    private Runnable getActionRunnable(@NonNull A11yActionBean actionBean) {
+        return () -> {
+            switch (actionBean.getType()) {
+                case A11yType.TEXT:
+                    clickTextViewByText(actionBean.getContent());
+                    break;
+                case A11yType.VIEW_ID:
+                    clickTextViewByID(actionBean.getContent());
+                    break;
+                case A11yType.LONG_PRESS_TEXT:
+                    longClickTextViewByText(actionBean.getContent());
+                    break;
+                case A11yType.LONG_PRESS_VIEW_ID:
+                    longClickTextViewByID(actionBean.getContent());
+                    break;
+                default:
+            }
+        };
     }
 }

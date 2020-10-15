@@ -7,6 +7,9 @@ import android.provider.Settings
 import android.view.accessibility.AccessibilityManager
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.a11y.A11yActionBean
+import com.absinthe.anywhere_.a11y.A11yEntity
+import com.absinthe.anywhere_.a11y.A11yType
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.listener.OnQRLaunchedListener
@@ -16,11 +19,7 @@ import com.absinthe.anywhere_.services.IzukoService
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
-import com.absinthe.anywhere_.a11y.A11yFlowNode
-import com.absinthe.anywhere_.a11y.A11yWorkFlow
 import com.blankj.utilcode.util.Utils
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
@@ -177,26 +176,20 @@ object QRCollection {
                         getContext().startActivity(intent)
                         ToastUtil.makeText(R.string.toast_grant_accessibility)
                     } else {
-                        IzukoService.getInstance()?.apply {
-                            packageName = pkgName
-                            setClassName(clsName)
-                            isClicked(false)
+                        val a11yEntity = A11yEntity().apply {
+                            applicationId = pkgName
+                            entryActivity = clsName
+                            actions = listOf(
+                                    A11yActionBean(A11yType.TEXT, "我", "", 0L),
+                                    A11yActionBean(A11yType.TEXT, "Me", "", 300L),
+                                    A11yActionBean(A11yType.TEXT, "支付", "", 0L),
+                                    A11yActionBean(A11yType.TEXT, "WeChat Pay", "", 800L),
+                                    A11yActionBean(A11yType.TEXT, "收付款", "", 0L),
+                                    A11yActionBean(A11yType.TEXT, "Money", "", 0L),
+                            )
                         }
 
-                        val source = Observable.create { emitter: ObservableEmitter<A11yFlowNode> ->
-                            emitter.onNext(A11yFlowNode("我", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(A11yFlowNode("Me", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            Thread.sleep(300)
-
-                            emitter.onNext(A11yFlowNode("支付", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(A11yFlowNode("WeChat Pay", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            Thread.sleep(800)
-
-                            emitter.onNext(A11yFlowNode("收付款", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(A11yFlowNode("Money", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onComplete()
-                        }
-                        IzukoService.getInstance()?.setWorkFlow(A11yWorkFlow().observe(source))
+                        IzukoService.getInstance()?.setA11yEntity(a11yEntity)
 
                         try {
                             getContext().packageManager.getLaunchIntentForPackage(pkgName)?.let {
@@ -264,31 +257,22 @@ object QRCollection {
                         getContext().startActivity(intent)
                         ToastUtil.makeText(R.string.toast_grant_accessibility)
                     } else {
-                        IzukoService.getInstance()?.apply {
-                            packageName = pkgName
-                            setClassName(clsName)
-                            isClicked(false)
+                        val a11yEntity = A11yEntity().apply {
+                            applicationId = pkgName
+                            entryActivity = clsName
+                            actions = listOf(
+                                    A11yActionBean(A11yType.TEXT, "我", "", 0L),
+                                    A11yActionBean(A11yType.TEXT, "Me", "", 300L),
+                                    A11yActionBean(A11yType.TEXT, "支付", "", 0L),
+                                    A11yActionBean(A11yType.TEXT, "WeChat Pay", "", 800L),
+                                    A11yActionBean(A11yType.TEXT, "收付款", "", 0L),
+                                    A11yActionBean(A11yType.TEXT, "Money", "", 800L),
+                                    A11yActionBean(A11yType.TEXT, "二维码收款", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI"),
+                                    A11yActionBean(A11yType.TEXT, "Receive Money", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI")
+                            )
                         }
 
-                        val source = Observable.create { emitter: ObservableEmitter<A11yFlowNode> ->
-                            emitter.onNext(A11yFlowNode("我", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(A11yFlowNode("Me", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            Thread.sleep(200)
-
-                            emitter.onNext(A11yFlowNode("支付", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(A11yFlowNode("WeChat Pay", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            Thread.sleep(300)
-
-                            emitter.onNext(A11yFlowNode("收付款", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(A11yFlowNode("Money", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            Thread.sleep(800)
-
-                            IzukoService.getInstance()?.setClassName("com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI")
-                            emitter.onNext(A11yFlowNode("二维码收款", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onNext(A11yFlowNode("Receive Money", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                            emitter.onComplete()
-                        }
-                        IzukoService.getInstance()?.setWorkFlow(A11yWorkFlow().observe(source))
+                        IzukoService.getInstance()?.setA11yEntity(a11yEntity)
 
                         try {
                             getContext().packageManager.getLaunchIntentForPackage(pkgName)?.let {
@@ -445,12 +429,12 @@ object QRCollection {
             }
         }
 
-    private fun genUnionPay(id: String, text: String): QREntity {
+    private fun genUnionPay(id: String, vararg text: String): QREntity {
         val pkgName = "com.unionpay"
         val clsName = "com.unionpay.activity.UPActivityMain"
         list.add(AnywhereEntity.Builder().apply {
             this.id = id
-            appName = "云闪付" + text.split("&".toRegex()).toTypedArray()[0]
+            appName = "云闪付${text[0]}"
             param1 = pkgName
             description = getContext().getString(R.string.desc_need_accessibility)
             type = AnywhereType.Card.QR_CODE
@@ -464,25 +448,20 @@ object QRCollection {
                     getContext().startActivity(intent)
                     ToastUtil.makeText(R.string.toast_grant_accessibility)
                 } else {
-                    IzukoService.getInstance()?.apply {
-                        packageName = pkgName
-                        setClassName(clsName)
-                        isClicked(false)
+                    val list = mutableListOf(
+                            A11yActionBean(A11yType.TEXT, "知道了", "", 200L),
+                            A11yActionBean(A11yType.TEXT, "跳过", "", 300L)
+                    )
+                    text.forEach { list.add(A11yActionBean(A11yType.TEXT, it, "", 0L)) }
+
+                    val a11yEntity = A11yEntity().apply {
+                        applicationId = pkgName
+                        entryActivity = clsName
+                        actions = list
+
                     }
 
-                    val source = Observable.create { emitter: ObservableEmitter<A11yFlowNode> ->
-                        emitter.onNext(A11yFlowNode("知道了", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                        Thread.sleep(200)
-
-                        emitter.onNext(A11yFlowNode("跳过", A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                        Thread.sleep(200)
-
-                        for (split in text.split("&".toRegex()).toTypedArray()) {
-                            emitter.onNext(A11yFlowNode(split, A11yFlowNode.TYPE_ACCESSIBILITY_TEXT))
-                        }
-                        emitter.onComplete()
-                    }
-                    IzukoService.getInstance()?.setWorkFlow(A11yWorkFlow().observe(source))
+                    IzukoService.getInstance()?.setA11yEntity(a11yEntity)
 
                     try {
                         getContext().packageManager.getLaunchIntentForPackage(pkgName)?.let {
@@ -521,8 +500,7 @@ object QRCollection {
     /**
      * UnionPay bus page
      */
-    private const val unionPayBusConstants = "乘车码&坐公交"
     private val unionpayBus: QREntity
-        get() = genUnionPay(unionpayBusId, unionPayBusConstants)
+        get() = genUnionPay(unionpayBusId, "乘车码", "坐公交")
 
 }

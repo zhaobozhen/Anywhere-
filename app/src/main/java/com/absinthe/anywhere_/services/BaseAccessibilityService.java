@@ -72,6 +72,24 @@ public class BaseAccessibilityService extends AccessibilityService {
     }
 
     /**
+     * 模拟长按事件
+     *
+     * @param nodeInfo nodeInfo
+     */
+    public void performViewLongClick(AccessibilityNodeInfo nodeInfo) {
+        if (nodeInfo == null) {
+            return;
+        }
+        while (nodeInfo != null) {
+            if (nodeInfo.isClickable()) {
+                nodeInfo.performAction(AccessibilityNodeInfo.ACTION_LONG_CLICK);
+                break;
+            }
+            nodeInfo = nodeInfo.getParent();
+        }
+    }
+
+    /**
      * 模拟返回操作
      */
     public void performBackClick() {
@@ -188,6 +206,38 @@ public class BaseAccessibilityService extends AccessibilityService {
             for (AccessibilityNodeInfo nodeInfo : nodeInfoList) {
                 if (nodeInfo != null) {
                     performViewClick(nodeInfo);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void longClickTextViewByText(String text) {
+        AccessibilityNodeInfo accessibilityNodeInfo = getRootInActiveWindow();
+        if (accessibilityNodeInfo == null) {
+            return;
+        }
+        List<AccessibilityNodeInfo> nodeInfoList = accessibilityNodeInfo.findAccessibilityNodeInfosByText(text);
+        if (nodeInfoList != null && !nodeInfoList.isEmpty()) {
+            for (AccessibilityNodeInfo nodeInfo : nodeInfoList) {
+                if (nodeInfo != null) {
+                    performViewLongClick(nodeInfo);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void longClickTextViewByID(String id) {
+        AccessibilityNodeInfo accessibilityNodeInfo = getRootInActiveWindow();
+        if (accessibilityNodeInfo == null) {
+            return;
+        }
+        List<AccessibilityNodeInfo> nodeInfoList = accessibilityNodeInfo.findAccessibilityNodeInfosByViewId(id);
+        if (nodeInfoList != null && !nodeInfoList.isEmpty()) {
+            for (AccessibilityNodeInfo nodeInfo : nodeInfoList) {
+                if (nodeInfo != null) {
+                    performViewLongClick(nodeInfo);
                     break;
                 }
             }
