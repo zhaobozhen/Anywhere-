@@ -38,6 +38,7 @@ import com.blankj.utilcode.util.IntentUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import timber.log.Timber
 import java.lang.ref.WeakReference
 
 private const val TYPE_NONE = -1
@@ -238,7 +239,7 @@ object Opener {
                             try {
                                 URLSchemeHandler.parse(context, item.param1 + text)
                             } catch (e: Exception) {
-                                e.printStackTrace()
+                                Timber.e(e)
                                 if (e is ActivityNotFoundException) {
                                     ToastUtil.makeText(R.string.toast_no_react_url)
                                 } else if (AppUtils.atLeastN()) {
@@ -258,7 +259,7 @@ object Opener {
                     try {
                         URLSchemeHandler.parse(context, item.param1)
                     } catch (e: Exception) {
-                        e.printStackTrace()
+                        Timber.e(e)
                         if (e is ActivityNotFoundException) {
                             ToastUtil.makeText(R.string.toast_no_react_url)
                         } else if (AppUtils.atLeastN()) {
