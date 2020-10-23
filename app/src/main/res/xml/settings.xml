@@ -149,12 +149,14 @@
             app:icon="@drawable/ic_visibility_off"
             app:defaultValue="false" />
 
-        <SwitchPreference
-            app:key="showShellResult"
+        <SimpleMenuPreference
+            app:key="showShellResultMode"
             app:title="@string/settings_show_shell_result"
-            app:summary="@string/settings_show_shell_result_summary"
+            app:summary="%s"
             app:icon="@drawable/ic_code_setting"
-            app:defaultValue="false" />
+            app:entries="@array/list_shell_result"
+            app:entryValues="@array/list_shell_result_value"
+            app:defaultValue="off"/>
 
         <Preference
             app:key="lab"

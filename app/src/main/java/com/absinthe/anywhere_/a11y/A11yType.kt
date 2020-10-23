@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.a11y
 
 object A11yType {
+    const val NONE = -1
     const val TEXT = 0
     const val VIEW_ID = 1
     const val COORDINATE = 2

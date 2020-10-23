@@ -7,18 +7,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.FileUriExposedException
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.a11y.A11yEntity
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
-import com.absinthe.anywhere_.constants.GlobalValues.isShowShellResult
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.listener.OnAppDefrostListener
 import com.absinthe.anywhere_.model.*
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.QRCollection
+import com.absinthe.anywhere_.services.IzukoService
 import com.absinthe.anywhere_.services.WorkflowIntentService
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
@@ -351,6 +354,27 @@ object Opener {
                     putExtra(EXTRA_ENTITY, item)
                 })
             }
+            AnywhereType.Card.ACCESSIBILITY -> {
+                if (!QRCollection.checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
+                    val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    context.startActivity(intent)
+                    ToastUtil.Toasty.show(context, R.string.toast_grant_accessibility)
+                    return
+                }
+
+                try {
+                    val a11yEntity = Gson().fromJson(item.param1, A11yEntity::class.java)
+                    IzukoService.getInstance()?.setA11yEntity(a11yEntity)
+                    context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
+                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        context.startActivity(it)
+                    }
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+            }
         }
     }
 
@@ -405,10 +429,16 @@ object Opener {
         val newCommand = command.removePrefix(AnywhereType.Prefix.SHELL_PREFIX)
         val result = CommandUtils.execAdbCmd(newCommand)
 
-        if (isShowShellResult) {
-            DialogManager.showShellResultDialog(context, result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
-        } else {
-            listener?.onOpened()
+        when(GlobalValues.showShellResultMode) {
+            Const.SHELL_RESULT_TOAST -> {
+                listener?.onOpened()
+            }
+            Const.SHELL_RESULT_DIALOG -> {
+                DialogManager.showShellResultDialog(context, result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
+            }
+            else -> {
+                listener?.onOpened()
+            }
         }
     }
 

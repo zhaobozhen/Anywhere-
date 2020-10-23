@@ -176,9 +176,9 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            (findPreference(Const.PREF_SHOW_SHELL_RESULT) as SwitchPreference).apply {
+            (findPreference(Const.PREF_SHOW_SHELL_RESULT_MODE) as ListPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
-                    GlobalValues.isShowShellResult = newValue as Boolean
+                    GlobalValues.showShellResultMode = newValue as String
                     true
                 }
             }

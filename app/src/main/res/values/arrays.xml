@@ -44,4 +44,16 @@
         <item>Float</item>
         <item>Uri</item>
     </string-array>
+
+    <string-array name="list_shell_result" tools:ignore="InconsistentArrays">
+        <item>@string/settings_shell_off</item>
+        <item>@string/settings_shell_toast</item>
+        <item>@string/settings_shell_dialog</item>
+    </string-array>
+
+    <string-array name="list_shell_result_value" tools:ignore="InconsistentArrays">
+        <item>off</item>
+        <item>toast</item>
+        <item>dialog</item>
+    </string-array>
 </resources>

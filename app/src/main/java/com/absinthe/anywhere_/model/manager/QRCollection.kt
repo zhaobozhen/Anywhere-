@@ -3,7 +3,6 @@ package com.absinthe.anywhere_.model.manager
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.content.Intent
-import android.provider.Settings
 import android.view.accessibility.AccessibilityManager
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
@@ -15,12 +14,10 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.listener.OnQRLaunchedListener
 import com.absinthe.anywhere_.model.QREntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.services.IzukoService
-import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.blankj.utilcode.util.Utils
-import timber.log.Timber
+import com.google.gson.Gson
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -79,7 +76,7 @@ object QRCollection {
      *
      * @return 是否启用
      */
-    private fun checkAccessibilityEnabled(): Boolean {
+    fun checkAccessibilityEnabled(): Boolean {
         val serviceName: String = if (BuildConfig.DEBUG) {
             "com.absinthe.anywhere_.debug/com.absinthe.anywhere_.services.IzukoService"
         } else {
@@ -169,37 +166,23 @@ object QRCollection {
             })
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
-                    if (!checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
-                        val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        }
-                        getContext().startActivity(intent)
-                        ToastUtil.makeText(R.string.toast_grant_accessibility)
-                    } else {
-                        val a11yEntity = A11yEntity().apply {
-                            applicationId = pkgName
-                            entryActivity = clsName
-                            actions = listOf(
-                                    A11yActionBean(A11yType.TEXT, "我", "", 0L),
-                                    A11yActionBean(A11yType.TEXT, "Me", "", 300L),
-                                    A11yActionBean(A11yType.TEXT, "支付", "", 0L),
-                                    A11yActionBean(A11yType.TEXT, "WeChat Pay", "", 800L),
-                                    A11yActionBean(A11yType.TEXT, "收付款", "", 0L),
-                                    A11yActionBean(A11yType.TEXT, "Money", "", 0L),
-                            )
-                        }
-
-                        IzukoService.getInstance()?.setA11yEntity(a11yEntity)
-
-                        try {
-                            getContext().packageManager.getLaunchIntentForPackage(pkgName)?.let {
-                                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                getContext().startActivity(it)
-                            }
-                        } catch (e: Exception) {
-                            Timber.e(e)
-                        }
+                    val a11yEntity = A11yEntity().apply {
+                        applicationId = pkgName
+                        entryActivity = clsName
+                        actions = listOf(
+                                A11yActionBean(A11yType.TEXT, "我", "", 0L),
+                                A11yActionBean(A11yType.TEXT, "Me", "", 300L),
+                                A11yActionBean(A11yType.TEXT, "支付", "", 0L),
+                                A11yActionBean(A11yType.TEXT, "WeChat Pay", "", 800L),
+                                A11yActionBean(A11yType.TEXT, "收付款", "", 0L),
+                                A11yActionBean(A11yType.TEXT, "Money", "", 0L),
+                        )
                     }
+                    val entity = AnywhereEntity.Builder().apply {
+                        type = AnywhereType.Card.ACCESSIBILITY
+                        param1 = Gson().toJson(a11yEntity)
+                    }
+                    Opener.with(getContext()).load(entity).open()
                 }
             }).apply {
                 this.pkgName = pkgName
@@ -250,39 +233,25 @@ object QRCollection {
             })
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
-                    if (!checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
-                        val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        }
-                        getContext().startActivity(intent)
-                        ToastUtil.makeText(R.string.toast_grant_accessibility)
-                    } else {
-                        val a11yEntity = A11yEntity().apply {
-                            applicationId = pkgName
-                            entryActivity = clsName
-                            actions = listOf(
-                                    A11yActionBean(A11yType.TEXT, "我", "", 0L),
-                                    A11yActionBean(A11yType.TEXT, "Me", "", 300L),
-                                    A11yActionBean(A11yType.TEXT, "支付", "", 0L),
-                                    A11yActionBean(A11yType.TEXT, "WeChat Pay", "", 800L),
-                                    A11yActionBean(A11yType.TEXT, "收付款", "", 0L),
-                                    A11yActionBean(A11yType.TEXT, "Money", "", 800L),
-                                    A11yActionBean(A11yType.TEXT, "二维码收款", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI"),
-                                    A11yActionBean(A11yType.TEXT, "Receive Money", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI")
-                            )
-                        }
-
-                        IzukoService.getInstance()?.setA11yEntity(a11yEntity)
-
-                        try {
-                            getContext().packageManager.getLaunchIntentForPackage(pkgName)?.let {
-                                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                getContext().startActivity(it)
-                            }
-                        } catch (e: Exception) {
-                            Timber.e(e)
-                        }
+                    val a11yEntity = A11yEntity().apply {
+                        applicationId = pkgName
+                        entryActivity = clsName
+                        actions = listOf(
+                                A11yActionBean(A11yType.TEXT, "我", "", 0L),
+                                A11yActionBean(A11yType.TEXT, "Me", "", 300L),
+                                A11yActionBean(A11yType.TEXT, "支付", "", 0L),
+                                A11yActionBean(A11yType.TEXT, "WeChat Pay", "", 800L),
+                                A11yActionBean(A11yType.TEXT, "收付款", "", 0L),
+                                A11yActionBean(A11yType.TEXT, "Money", "", 800L),
+                                A11yActionBean(A11yType.TEXT, "二维码收款", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI"),
+                                A11yActionBean(A11yType.TEXT, "Receive Money", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI")
+                        )
                     }
+                    val entity = AnywhereEntity.Builder().apply {
+                        type = AnywhereType.Card.ACCESSIBILITY
+                        param1 = Gson().toJson(a11yEntity)
+                    }
+                    Opener.with(getContext()).load(entity).open()
                 }
             }).apply {
                 this.pkgName = pkgName
@@ -441,37 +410,22 @@ object QRCollection {
         })
         return QREntity(object : OnQRLaunchedListener {
             override fun onLaunched() {
-                if (!checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
-                    val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    }
-                    getContext().startActivity(intent)
-                    ToastUtil.makeText(R.string.toast_grant_accessibility)
-                } else {
-                    val list = mutableListOf(
-                            A11yActionBean(A11yType.TEXT, "知道了", "", 200L),
-                            A11yActionBean(A11yType.TEXT, "跳过", "", 300L)
-                    )
-                    text.forEach { list.add(A11yActionBean(A11yType.TEXT, it, "", 0L)) }
+                val list = mutableListOf(
+                        A11yActionBean(A11yType.TEXT, "知道了", "", 200L),
+                        A11yActionBean(A11yType.TEXT, "跳过", "", 300L)
+                )
+                text.forEach { list.add(A11yActionBean(A11yType.TEXT, it, "", 0L)) }
 
-                    val a11yEntity = A11yEntity().apply {
-                        applicationId = pkgName
-                        entryActivity = clsName
-                        actions = list
-
-                    }
-
-                    IzukoService.getInstance()?.setA11yEntity(a11yEntity)
-
-                    try {
-                        getContext().packageManager.getLaunchIntentForPackage(pkgName)?.let {
-                            it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            getContext().startActivity(it)
-                        }
-                    } catch (e: Exception) {
-                        Timber.e(e)
-                    }
+                val a11yEntity = A11yEntity().apply {
+                    applicationId = pkgName
+                    entryActivity = clsName
+                    actions = list
                 }
+                val entity = AnywhereEntity.Builder().apply {
+                    type = AnywhereType.Card.ACCESSIBILITY
+                    param1 = Gson().toJson(a11yEntity)
+                }
+                Opener.with(getContext()).load(entity).open()
             }
         }).apply {
             this.pkgName = pkgName

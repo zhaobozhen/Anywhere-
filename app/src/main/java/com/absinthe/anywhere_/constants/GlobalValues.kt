@@ -66,10 +66,10 @@ object GlobalValues {
             mmkv.encode(Const.PREF_EXCLUDE_FROM_RECENT, value)
         }
 
-    var isShowShellResult
-        get() = mmkv.decodeBool(Const.PREF_SHOW_SHELL_RESULT)
+    var showShellResultMode
+        get() = mmkv.decodeString(Const.PREF_SHOW_SHELL_RESULT_MODE) ?: Const.SHELL_RESULT_TOAST
         set(value) {
-            mmkv.encode(Const.PREF_SHOW_SHELL_RESULT, value)
+            mmkv.encode(Const.PREF_SHOW_SHELL_RESULT_MODE, value)
         }
 
     var isAutoBackup

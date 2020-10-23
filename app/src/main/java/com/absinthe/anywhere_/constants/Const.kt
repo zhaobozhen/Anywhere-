@@ -39,7 +39,7 @@ object Const {
     const val PREF_CURR_PAGE_NUM = "currPageNum"
     const val PREF_COLLECTOR_PLUS = "collectorPlus"
     const val PREF_EXCLUDE_FROM_RECENT = "excludeFromRecent"
-    const val PREF_SHOW_SHELL_RESULT = "showShellResult"
+    const val PREF_SHOW_SHELL_RESULT_MODE = "showShellResultMode"
     const val PREF_DUMP_INTERVAL = "dumpInterval"
     const val PREF_AUTO_DARK_MODE_START = "autoDarkModeStart"
     const val PREF_AUTO_DARK_MODE_END = "autoDarkModeEnd"
@@ -79,6 +79,10 @@ object Const {
     const val SORT_MODE_TIME_DESC = "TIME_DESC"
     const val SORT_MODE_NAME_ASC = "NAME_ASC"
     const val SORT_MODE_NAME_DESC = "NAME_DESC"
+
+    const val SHELL_RESULT_OFF = "off"
+    const val SHELL_RESULT_TOAST = "toast"
+    const val SHELL_RESULT_DIALOG = "dialog"
 
     const val INTENT_EXTRA_PARAM_1 = "param1"
     const val INTENT_EXTRA_PARAM_2 = "param2"

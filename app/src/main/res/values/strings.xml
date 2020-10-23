@@ -122,6 +122,7 @@
     <string name="bsd_workflow_menu_choose_exist">Choose card</string>
     <string name="bsd_workflow_delay_time">Delay Time</string>
     <string name="bsd_workflow_btn_add_flow_node">Add Flow node</string>
+    <string name="bsd_workflow_btn_add_a11y_node">Add accessibility node</string>
 
     <!--  AppBarMenu  -->
     <string name="menu_sort">Sort</string>
@@ -235,6 +236,10 @@
 
     <string name="settings_editor_entry_animation">Editor Entry Animation</string>
     <string name="settings_editor_entry_animation_summary">It will have a better animation experience after turning on this option</string>
+
+    <string name="settings_shell_off">Off</string>
+    <string name="settings_shell_toast" translatable="false">Toast</string>
+    <string name="settings_shell_dialog">Dialog</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root permission denied</string>

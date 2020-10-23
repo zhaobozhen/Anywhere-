@@ -266,42 +266,38 @@ object DialogManager {
         builder.build().show()
     }
 
-    fun showAddPageDialog(context: Context, action: (which: Int) -> Unit) {
-        val items = arrayOf("Add card page", "Add WebView")
-        val builder = AnywhereDialogBuilder(context)
-        builder.setItems(items) { _, which: Int ->
-            action(which)
-            builder.setDismissParent(true)
-        }
-        builder.show()
-    }
-
     fun showShellResultDialog(context: Context, result: String?, posListener: DialogInterface.OnClickListener? = null, cancelListener: DialogInterface.OnCancelListener? = null) {
-        if (!GlobalValues.isShowShellResult) {
-            ToastUtil.makeText(R.string.toast_execute_shell_successful)
-            posListener?.onClick(null, 0)
-            return
-        }
-
-        val parsedResult = if (CommandResult.MAP.containsKey(result)) {
-            "[Anywhere- $result] ${CommandResult.MAP[result]}"
-        } else {
-            result
-        }
-
-        AnywhereDialogBuilder(context)
-                .setTitle(R.string.dialog_shell_result_title)
-                .setMessage(parsedResult)
-                .setPositiveButton(R.string.dialog_close_button, posListener)
-                .setNeutralButton(R.string.dialog_copy) { _, _ ->
-                    ClipboardUtil.put(context, "$parsedResult")
-                    ToastUtil.makeText(R.string.toast_copied)
+        when(GlobalValues.showShellResultMode) {
+            Const.SHELL_RESULT_TOAST -> {
+                ToastUtil.makeText(R.string.toast_execute_shell_successful)
+                posListener?.onClick(null, 0)
+                return
+            }
+            Const.SHELL_RESULT_DIALOG -> {
+                val parsedResult = if (CommandResult.MAP.containsKey(result)) {
+                    "[Anywhere- $result] ${CommandResult.MAP[result]}"
+                } else {
+                    result
                 }
-                .setOnCancelListener(cancelListener)
-                .apply {
-                    (this as AnywhereDialogBuilder).setMessageSelectable(true)
-                }
-                .show()
+
+                AnywhereDialogBuilder(context)
+                        .setTitle(R.string.dialog_shell_result_title)
+                        .setMessage(parsedResult)
+                        .setPositiveButton(R.string.dialog_close_button, posListener)
+                        .setNeutralButton(R.string.dialog_copy) { _, _ ->
+                            ClipboardUtil.put(context, "$parsedResult")
+                            ToastUtil.makeText(R.string.toast_copied)
+                        }
+                        .setOnCancelListener(cancelListener)
+                        .apply {
+                            (this as AnywhereDialogBuilder).setMessageSelectable(true)
+                        }
+                        .show()
+            }
+            else -> {
+                return
+            }
+        }
     }
 
     fun showIconPackChoosingDialog(activity: AppCompatActivity) {

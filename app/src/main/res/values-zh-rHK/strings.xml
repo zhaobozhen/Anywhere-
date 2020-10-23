@@ -370,4 +370,7 @@
     <string name="menu_share_to_cloud">分享至雲端</string>
     <string name="btn_cloud_rules">雲端規則</string>
     <string name="cloud_rules_email_header">貢獻者：\n卡片描述：\n\n** 請勿修改下方的內容 **\n卡片會在審核後上傳到雲端倉庫</string>
+    <string name="bsd_workflow_btn_add_a11y_node">添加無障礙節點</string>
+    <string name="settings_shell_off">關閉</string>
+    <string name="settings_shell_dialog">對話方塊</string>
 </resources>
