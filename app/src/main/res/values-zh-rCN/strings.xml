@@ -381,7 +381,7 @@
     <string name="bsd_a11y_menu_click_view_id">长按文本</string>
     <string name="bsd_a11y_menu_long_press_view_id">长按 View ID</string>
     <string name="bsd_a11y_menu_long_press_text">点击 View ID</string>
-    <string name="bsd_a11y_contains">bao\'han</string>
+    <string name="bsd_a11y_contains">包含</string>
     <string name="bsd_text_input_layout_application_id_helper_text">输入或选择启动的应用程序</string>
     <string name="bsd_text_input_layout_entry_activity_helper_text">输入或选择启动的 Activity</string>
     <string name="bsd_text_input_layout_content_helper_text">输入响应的内容</string>
