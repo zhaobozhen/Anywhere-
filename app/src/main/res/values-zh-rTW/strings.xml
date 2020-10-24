@@ -373,4 +373,17 @@
     <string name="bsd_workflow_btn_add_a11y_node">添加無障礙節點</string>
     <string name="settings_shell_off">關閉</string>
     <string name="settings_shell_dialog">對話方塊</string>
+    <string name="bsd_text_input_layout_application_id_hint">啟動的應用程式</string>
+    <string name="bsd_text_input_layout_entry_activity_hint">入場 Activity</string>
+    <string name="bsd_text_input_layout_content_hint">內容</string>
+    <string name="bsd_text_input_layout_content_activity_hint">內容的 Activity</string>
+    <string name="bsd_a11y_menu_click_text">點擊文本</string>
+    <string name="bsd_a11y_menu_click_view_id">長按文本</string>
+    <string name="bsd_a11y_menu_long_press_view_id">長按 View ID</string>
+    <string name="bsd_a11y_menu_long_press_text">點擊 View ID</string>
+    <string name="bsd_a11y_contains">包含</string>
+    <string name="bsd_text_input_layout_application_id_helper_text">輸入或選擇啟動的應用程式</string>
+    <string name="bsd_text_input_layout_entry_activity_helper_text">輸入或選擇啟動的 Activity</string>
+    <string name="bsd_text_input_layout_content_helper_text">輸入響應的內容</string>
+    <string name="bsd_text_input_layout_content_activity_helper_text">綁定內容所在的 Activity，如果與上一項處於同一 Activity 則無需填寫</string>
 </resources>

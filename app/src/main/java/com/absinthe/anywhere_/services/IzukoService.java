@@ -94,6 +94,15 @@ public class IzukoService extends BaseAccessibilityService {
     }
 
     private Runnable getActionRunnable(@NonNull A11yActionBean actionBean) {
+        long startTime = System.currentTimeMillis();
+
+        if (findViewByText(actionBean.getContent()) == null) {
+            while (System.currentTimeMillis() - startTime < 5000) {
+                if (findViewByText(actionBean.getContent()) != null) {
+                    break;
+                }
+            }
+        }
         return () -> {
             switch (actionBean.getType()) {
                 case A11yType.TEXT:

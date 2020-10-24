@@ -96,6 +96,8 @@
     <string name="bsd_text_input_layout_file_uri_hint">File URI</string>
     <string name="bsd_text_input_layout_application_id_hint">Launched app</string>
     <string name="bsd_text_input_layout_entry_activity_hint">Entry Activity</string>
+    <string name="bsd_text_input_layout_content_hint">Content</string>
+    <string name="bsd_text_input_layout_content_activity_hint">Content Activity</string>
 
     <string name="bsd_text_input_layout_app_name_helper_text">Give your Anywhere- card a name</string>
     <string name="bsd_text_input_layout_package_name_helper_text">App \'s package name, usually default</string>
@@ -111,8 +113,10 @@
     <string name="bsd_text_input_layout_switch_on_helper_text">Execute the shell above when the switch is on</string>
     <string name="bsd_text_input_layout_switch_off_helper_text">Execute the shell above when the switch is off</string>
     <string name="bsd_text_input_layout_file_helper_text">Secure file path obtained by Content Provider</string>
-    <string name="bsd_text_input_layout_application_id_helper_text">Jump to the app as a beginning point</string>
-    <string name="bsd_text_input_layout_entry_activity_helper_text">Jump to the activity as a beginning point</string>
+    <string name="bsd_text_input_layout_application_id_helper_text">Input or select the application to start</string>
+    <string name="bsd_text_input_layout_entry_activity_helper_text">Input or select the Activity to start</string>
+    <string name="bsd_text_input_layout_content_helper_text">Input the responsed content</string>
+    <string name="bsd_text_input_layout_content_activity_helper_text">Bind the activity where the content located, if it is in the same activity as the previous item, no need to fill in</string>
 
     <string name="bsd_default">Default</string>
     <string name="bsd_switch_shell_status_on">Status ON</string>
@@ -132,6 +136,7 @@
     <string name="bsd_a11y_menu_click_view_id">Long-press Text</string>
     <string name="bsd_a11y_menu_long_press_text">Click View ID</string>
     <string name="bsd_a11y_menu_long_press_view_id">Long-press View ID</string>
+    <string name="bsd_a11y_contains">Contains</string>
 
     <!--  AppBarMenu  -->
     <string name="menu_sort">Sort</string>
