@@ -39,6 +39,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+const val EXTRA_APP_LIST_ENTRY_MODE = "EXTRA_APP_LIST_ENTRY_MODE"
+const val EXTRA_PACKAGE_NAME = "EXTRA_PACKAGE_NAME"
+const val MODE_NORMAL = 0
+const val MODE_SELECT = 1
+
 class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityAppListBinding
@@ -47,6 +52,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
     private var initDataJob: Job? = null
     private var isDataInit = false
     private val mAdapter: AppListAdapter = AppListAdapter(MODE_APP_LIST)
+    private val entryMode by lazy { intent.getIntExtra(EXTRA_APP_LIST_ENTRY_MODE, MODE_NORMAL) }
 
     override fun setViewBinding() {
         isPaddingToolbar = true
@@ -143,11 +149,20 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         mAdapter.setDiffCallback(AppListDiffCallback())
         mAdapter.setOnItemClickListener { _, _, position ->
             val item = mAdapter.getItem(position)
-            val intent = Intent(this, AppDetailActivity::class.java).apply {
-                putExtra(Const.INTENT_EXTRA_APP_NAME, item.appName)
-                putExtra(Const.INTENT_EXTRA_PKG_NAME, item.packageName)
+
+            if (entryMode == MODE_NORMAL) {
+                val intent = Intent(this, AppDetailActivity::class.java).apply {
+                    putExtra(Const.INTENT_EXTRA_APP_NAME, item.appName)
+                    putExtra(Const.INTENT_EXTRA_PKG_NAME, item.packageName)
+                }
+                startActivity(intent)
+            } else {
+                val intent = Intent().apply {
+                    putExtra(EXTRA_PACKAGE_NAME, item.packageName)
+                }
+                setResult(Const.REQUEST_CODE_APP_LIST_SELECT, intent)
+                finish()
             }
-            startActivity(intent)
         }
 
         binding.rvAppList.apply {

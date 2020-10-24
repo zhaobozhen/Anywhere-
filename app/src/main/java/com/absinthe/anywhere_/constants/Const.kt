@@ -115,6 +115,8 @@ object Const {
     const val REQUEST_CODE_DSM = 1008
     const val REQUEST_CODE_DPM = 1009
     const val REQUEST_CODE_OPEN_EDITOR = 1010
+    const val REQUEST_CODE_APP_LIST_SELECT = 1011
+    const val REQUEST_CODE_APP_DETAIL_SELECT = 1012
 
     const val DEFROST_MODE_ROOT = "root"
     const val DEFROST_MODE_ICEBOX_SDK = "icebox"

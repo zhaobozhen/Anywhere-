@@ -31,11 +31,14 @@ import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.libraries.utils.extensions.addPaddingBottom
+import com.absinthe.libraries.utils.extensions.logd
 import com.blankj.utilcode.util.ActivityUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+const val EXTRA_APP_DETAIL_ENTRY_MODE = "EXTRA_APP_DETAIL_ENTRY_MODE"
 
 class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
@@ -43,6 +46,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
     private var mAdapter: AppListAdapter = AppListAdapter(MODE_APP_DETAIL)
     private var isDataInit = false
     private val mItems = mutableListOf<AppListBean>()
+    private val entryMode by lazy { intent.getIntExtra(EXTRA_APP_DETAIL_ENTRY_MODE, MODE_NORMAL) }
 
     override fun setViewBinding() {
         isPaddingToolbar = true
@@ -52,16 +56,14 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     override fun setToolbar() {
         mToolbar = mBinding.toolbar.toolbar
-
-        intent?.let {
-            mToolbar?.title = it.getStringExtra(Const.INTENT_EXTRA_APP_NAME)
-        } ?: finish()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         intent?.let {
+            logd("this")
+            mToolbar?.title = it.getStringExtra(Const.INTENT_EXTRA_APP_NAME)
             initRecyclerView()
             it.getStringExtra(Const.INTENT_EXTRA_PKG_NAME)?.let { packageName ->
                 initData(packageName)
@@ -73,16 +75,25 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
         mAdapter.setDiffCallback(AppListDiffCallback())
         mAdapter.setOnItemClickListener { _, _, position ->
             val item = mAdapter.getItem(position)
-            val ae = AnywhereEntity.Builder().apply {
-                appName = item.appName
-                param1 = item.packageName
-                param2 = item.className.removePrefix(item.packageName)
-                type = AnywhereType.Card.ACTIVITY
+
+            if (entryMode == MODE_NORMAL) {
+                val ae = AnywhereEntity.Builder().apply {
+                    appName = item.appName
+                    param1 = item.packageName
+                    param2 = item.className.removePrefix(item.packageName)
+                    type = AnywhereType.Card.ACTIVITY
+                }
+                startActivity(Intent(this, EditorActivity::class.java).apply {
+                    putExtra(EXTRA_ENTITY, ae)
+                    putExtra(EXTRA_EDIT_MODE, false)
+                })
+            } else {
+                val intent = Intent().apply {
+                    putExtra(EXTRA_PACKAGE_NAME, item.className)
+                }
+                setResult(Const.REQUEST_CODE_APP_DETAIL_SELECT, intent)
+                finish()
             }
-            startActivity(Intent(this, EditorActivity::class.java).apply {
-                putExtra(EXTRA_ENTITY, ae)
-                putExtra(EXTRA_EDIT_MODE, false)
-            })
         }
         mBinding.srlAppDetail.apply {
             setProgressBackgroundColorSchemeResource(R.color.colorPrimary)

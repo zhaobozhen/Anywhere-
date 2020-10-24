@@ -7,23 +7,24 @@
     android:paddingHorizontal="@dimen/bsd_edit_text_margin_horizontal"
     android:paddingVertical="@dimen/bsd_margin_vertical">
 
-    <com.absinthe.anywhere_.view.card.FlowRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:layout_marginBottom="@dimen/editor_padding_bottom"
+        android:clipToPadding="false"
+        android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_add_node" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add_node"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_margin_vertical"
         android:text="@string/bsd_workflow_btn_add_a11y_node"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_entry_activity" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -32,8 +33,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-        android:hint="@string/bsd_text_input_layout_description_label"
-        app:helperText="@string/bsd_text_input_layout_description_helper_text"
+        android:hint="@string/bsd_text_input_layout_entry_activity_hint"
+        app:endIconCheckable="true"
+        app:endIconDrawable="@drawable/ic_add"
+        app:endIconMode="custom"
+        app:helperText="@string/bsd_text_input_layout_entry_activity_helper_text"
         app:helperTextEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/til_application_id">
 
@@ -52,8 +56,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
-        android:hint="@string/bsd_text_input_layout_description_label"
-        app:helperText="@string/bsd_text_input_layout_description_helper_text"
+        android:hint="@string/bsd_text_input_layout_application_id_hint"
+        app:endIconCheckable="true"
+        app:endIconDrawable="@drawable/ic_add"
+        app:endIconMode="custom"
+        app:helperText="@string/bsd_text_input_layout_application_id_helper_text"
         app:helperTextEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/til_description">
 
@@ -61,8 +68,9 @@
             android:id="@+id/tiet_application_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no" />
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:nextFocusForward="@id/tiet_entry_activity" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,8 +89,9 @@
             android:id="@+id/tiet_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no" />
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:nextFocusForward="@id/tiet_application_id" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -91,6 +91,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                         || item.type == AnywhereType.Card.IMAGE
                         || item.type == AnywhereType.Card.BROADCAST
                         || item.type == AnywhereType.Card.WORKFLOW
+                        || item.type == AnywhereType.Card.ACCESSIBILITY
                 normalView.content.param2.isGone = item.type == AnywhereType.Card.URL_SCHEME
                         || item.type == AnywhereType.Card.QR_CODE
                         || item.type == AnywhereType.Card.IMAGE

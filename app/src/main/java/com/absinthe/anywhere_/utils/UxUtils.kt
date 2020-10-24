@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.children
 import androidx.palette.graphics.Palette
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -365,11 +366,7 @@ object UxUtils {
         } else {
             R.color.white
         }
-        tintMenuIcon(context, menu.findItem(R.id.toolbar_settings), colorRes)
-        tintMenuIcon(context, menu.findItem(R.id.toolbar_sort), colorRes)
-        tintMenuIcon(context, menu.findItem(R.id.toolbar_delete), colorRes)
-        tintMenuIcon(context, menu.findItem(R.id.toolbar_done), colorRes)
-        tintMenuIcon(context, menu.findItem(R.id.toolbar_done), colorRes)
+        menu.children.forEach { tintMenuIcon(context, it, colorRes) }
 
         toggle?.let {
             if (type == Const.ACTION_BAR_TYPE_DARK) {

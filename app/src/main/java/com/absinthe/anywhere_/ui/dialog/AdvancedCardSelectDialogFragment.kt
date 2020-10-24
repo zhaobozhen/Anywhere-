@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.AdvancedCardSelectDialogBuilder
 import com.microsoft.appcenter.analytics.Analytics
 import io.michaelrocks.paranoid.Obfuscate
+import java.lang.ref.WeakReference
 
 const val EXTRA_FROM_WORKFLOW = "EXTRA_FROM_WORKFLOW"
 
@@ -28,6 +29,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private lateinit var mBuilder: AdvancedCardSelectDialogBuilder
     private val isFromWorkflow by lazy { arguments?.getBoolean(EXTRA_FROM_WORKFLOW) ?: false }
+    private val weakContext by lazy { WeakReference(requireActivity()) }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         mBuilder = AdvancedCardSelectDialogBuilder(requireContext())
@@ -61,7 +63,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
             }
 
             val options = ActivityOptions.makeSceneTransitionAnimation(
-                    context as BaseActivity,
+                    weakContext.get() as BaseActivity,
                     it,
                     requireContext().getString(R.string.trans_item_container)
             )

@@ -94,6 +94,8 @@
     <string name="bsd_text_input_layout_switch_on_label">Switch On</string>
     <string name="bsd_text_input_layout_switch_off_label">Switch Off</string>
     <string name="bsd_text_input_layout_file_uri_hint">File URI</string>
+    <string name="bsd_text_input_layout_application_id_hint">Launched app</string>
+    <string name="bsd_text_input_layout_entry_activity_hint">Entry Activity</string>
 
     <string name="bsd_text_input_layout_app_name_helper_text">Give your Anywhere- card a name</string>
     <string name="bsd_text_input_layout_package_name_helper_text">App \'s package name, usually default</string>
@@ -109,6 +111,8 @@
     <string name="bsd_text_input_layout_switch_on_helper_text">Execute the shell above when the switch is on</string>
     <string name="bsd_text_input_layout_switch_off_helper_text">Execute the shell above when the switch is off</string>
     <string name="bsd_text_input_layout_file_helper_text">Secure file path obtained by Content Provider</string>
+    <string name="bsd_text_input_layout_application_id_helper_text">Jump to the app as a beginning point</string>
+    <string name="bsd_text_input_layout_entry_activity_helper_text">Jump to the activity as a beginning point</string>
 
     <string name="bsd_default">Default</string>
     <string name="bsd_switch_shell_status_on">Status ON</string>
@@ -123,6 +127,11 @@
     <string name="bsd_workflow_delay_time">Delay Time</string>
     <string name="bsd_workflow_btn_add_flow_node">Add Flow node</string>
     <string name="bsd_workflow_btn_add_a11y_node">Add accessibility node</string>
+
+    <string name="bsd_a11y_menu_click_text">Click Text</string>
+    <string name="bsd_a11y_menu_click_view_id">Long-press Text</string>
+    <string name="bsd_a11y_menu_long_press_text">Click View ID</string>
+    <string name="bsd_a11y_menu_long_press_view_id">Long-press View ID</string>
 
     <!--  AppBarMenu  -->
     <string name="menu_sort">Sort</string>

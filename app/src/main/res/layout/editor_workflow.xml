@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/editor_padding_bottom"
     android:background="@color/transparent"
     android:paddingHorizontal="@dimen/bsd_edit_text_margin_horizontal"
-    android:paddingVertical="@dimen/bsd_margin_vertical"
-    android:layout_marginBottom="@dimen/editor_padding_bottom">
+    android:paddingVertical="@dimen/bsd_margin_vertical">
 
-    <com.absinthe.anywhere_.view.card.FlowRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,11 +18,10 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add_node"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_margin_vertical"
         android:text="@string/bsd_workflow_btn_add_flow_node"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_description" />
 
     <com.google.android.material.textfield.TextInputLayout

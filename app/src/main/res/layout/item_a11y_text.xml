@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="@dimen/cardview_corner_radius"
+    app:cardElevation="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="@string/bsd_a11y_menu_click_text"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/bsd_text_input_layout_app_name_label"
+            app:errorEnabled="true"
+            app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
+            app:helperTextEnabled="true"
+            app:layout_constraintEnd_toStartOf="@id/switch_contains"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:nextFocusForward="@id/tiet_activity_id" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_contains"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/til_text" />
+
+        <TextView
+            android:id="@+id/tv_contains"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Contains"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@id/switch_contains"
+            app:layout_constraintStart_toStartOf="@id/switch_contains"
+            app:layout_constraintTop_toBottomOf="@id/switch_contains"
+            tools:ignore="SmallSp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_activity_id"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/bsd_text_input_layout_app_name_label"
+            app:errorEnabled="true"
+            app:helperText="@string/bsd_text_input_layout_app_name_helper_text"
+            app:helperTextEnabled="true"
+            app:layout_constraintTop_toBottomOf="@id/til_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_activity_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_delay_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/bsd_workflow_delay_time"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/et_delay_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_delay_time" />
+
+        <EditText
+            android:id="@+id/et_delay_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="8dp"
+            android:hint="0ms"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="6"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/tv_delay_time"
+            app:layout_constraintTop_toBottomOf="@id/til_activity_id"
+            tools:ignore="HardcodedText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

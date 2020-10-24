@@ -21,7 +21,8 @@ object CardTypeIconGenerator {
             R.color.material_cyan_300,
             R.color.material_lime_300,
             R.color.material_indigo_300,
-            R.color.material_deep_orange_300
+            R.color.material_deep_orange_300,
+            R.color.material_amber_300,
     )
 
     fun getAdvancedIcon(context: Context, type: Int): Drawable {
@@ -35,7 +36,7 @@ object CardTypeIconGenerator {
     }
 
     private fun getIconRes(type: Int): Int {
-        return when(type) {
+        return when (type) {
             AnywhereType.Card.URL_SCHEME -> R.drawable.ic_url_scheme
             AnywhereType.Card.ACTIVITY -> R.drawable.ic_card_activity
             AnywhereType.Card.QR_CODE -> R.drawable.ic_qr_code
