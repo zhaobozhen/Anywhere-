@@ -100,6 +100,11 @@ class A11yEditorFragment : BaseEditorFragment() {
                 }, Const.REQUEST_CODE_APP_DETAIL_SELECT)
             }
             adapter.draggableModule.isDragEnabled = true
+            adapter.setOnItemChildClickListener { _, view, position ->
+                if (view.id == R.id.ib_remove) {
+                    adapter.removeAt(position)
+                }
+            }
         }
     }
 

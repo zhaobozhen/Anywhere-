@@ -16,9 +16,9 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 object StorageUtils {
     /* Checks if external storage is available for read and write */
@@ -115,9 +115,17 @@ object StorageUtils {
 
                 ToastUtil.makeText(context.getString(R.string.toast_restore_success))
             }
-        } catch (e: JsonSyntaxException) {
-            e.printStackTrace()
-            ToastUtil.makeText(R.string.toast_backup_file_error)
+        } catch (e: Exception) {
+            Timber.e(e)
+
+            try {
+                val entity = Gson().fromJson(content, AnywhereEntity::class.java)
+
+                AnywhereApplication.sRepository.insert(entity)
+            } catch (e: Exception) {
+                Timber.e(e)
+                ToastUtil.makeText(R.string.toast_backup_file_error)
+            }
         }
     }
 

@@ -15,6 +15,10 @@ import com.google.android.material.textfield.TextInputEditText
 
 class A11yAdapter : BaseQuickAdapter<A11yActionBean, BaseViewHolder>(0), DraggableModule {
 
+    init {
+        addChildClickViewIds(R.id.ib_remove)
+    }
+
     override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return createBaseViewHolder(LayoutInflater.from(context).inflate(R.layout.item_a11y_text, parent, false))
     }
@@ -48,12 +52,18 @@ class A11yAdapter : BaseQuickAdapter<A11yActionBean, BaseViewHolder>(0), Draggab
             }
         }
         holder.getView<EditText>(R.id.et_delay_time).apply {
-            setText(item.delay.toString())
+            if (item.delay != 0L) {
+                setText(item.delay.toString())
+            }
             addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
-                    item.delay = s.toString().toLong()
+                    try {
+                        item.delay = s.toString().toLong()
+                    } catch (e: Exception) {
+
+                    }
                 }
             })
         }
