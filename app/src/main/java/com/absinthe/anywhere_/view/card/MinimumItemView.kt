@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
@@ -38,6 +39,7 @@ class MinimumItemView(context: Context) : ConstraintLayout(context) {
         setTypeface(null, Typeface.BOLD)
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
         isSingleLine = true
+        gravity = Gravity.CENTER_HORIZONTAL
     }
 
     init {

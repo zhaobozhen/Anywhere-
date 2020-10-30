@@ -145,6 +145,7 @@ class A11yEditorFragment : BaseEditorFragment() {
             param2 = adapter.data.sumOf { it.delay }.toString()
         }
 
+        if (super.doneEdit()) return true
         if (isEditMode && doneItem == item) return true
 
         if (isEditMode) {
