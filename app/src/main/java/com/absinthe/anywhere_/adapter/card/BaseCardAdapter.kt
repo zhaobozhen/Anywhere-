@@ -32,10 +32,7 @@ import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
-import com.absinthe.anywhere_.view.card.CardItemView
-import com.absinthe.anywhere_.view.card.NormalItemView
-import com.absinthe.anywhere_.view.card.StreamItemView
-import com.absinthe.anywhere_.view.card.StreamSingleLineItemView
+import com.absinthe.anywhere_.view.card.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.catchingnow.icebox.sdk_client.IceBox
@@ -47,9 +44,10 @@ const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
 const val ADAPTER_MODE_SELECT = 2
 
-const val LAYOUT_MODE_NORMAL = 0
-const val LAYOUT_MODE_STREAM = 1
-const val LAYOUT_MODE_STREAM_SINGLE_LINE = 2
+const val LAYOUT_MODE_LARGE = 0
+const val LAYOUT_MODE_MEDIUM = 1
+const val LAYOUT_MODE_SMALL = 2
+const val LAYOUT_MODE_MINIMUM = 3
 
 class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(0), ItemTouchCallBack.OnItemTouchListener {
 
@@ -59,9 +57,10 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
 
     override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (layoutMode) {
-            LAYOUT_MODE_NORMAL -> createBaseViewHolder(CardItemView(context, NormalItemView(context)))
-            LAYOUT_MODE_STREAM -> createBaseViewHolder(CardItemView(context, StreamItemView(context)))
-            LAYOUT_MODE_STREAM_SINGLE_LINE -> createBaseViewHolder(CardItemView(context, StreamSingleLineItemView(context)))
+            LAYOUT_MODE_LARGE -> createBaseViewHolder(CardItemView(context, NormalItemView(context)))
+            LAYOUT_MODE_MEDIUM -> createBaseViewHolder(CardItemView(context, StreamItemView(context)))
+            LAYOUT_MODE_SMALL -> createBaseViewHolder(CardItemView(context, StreamSingleLineItemView(context)))
+            LAYOUT_MODE_MINIMUM -> createBaseViewHolder(CardItemView(context, MinimumItemView(context)))
             else -> createBaseViewHolder(CardItemView(context, NormalItemView(context)))
         }
     }
@@ -83,7 +82,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
         itemView.appName.text = appName
 
         when (layoutMode) {
-            LAYOUT_MODE_NORMAL -> {
+            LAYOUT_MODE_LARGE -> {
                 val normalView = itemView as CardItemView<NormalItemView>
 
                 normalView.content.description.isGone = item.description.isEmpty()
@@ -102,14 +101,14 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 normalView.content.param1.text = item.param1
                 normalView.content.param2.text = item.param2
             }
-            LAYOUT_MODE_STREAM, LAYOUT_MODE_STREAM_SINGLE_LINE -> {
-                val normalView: CardItemView<StreamItemView>? = if (layoutMode == LAYOUT_MODE_STREAM) {
+            LAYOUT_MODE_MEDIUM, LAYOUT_MODE_SMALL -> {
+                val normalView: CardItemView<StreamItemView>? = if (layoutMode == LAYOUT_MODE_MEDIUM) {
                     itemView as CardItemView<StreamItemView>
                 } else {
                     null
                 }
 
-                if (layoutMode == LAYOUT_MODE_STREAM) {
+                if (layoutMode == LAYOUT_MODE_MEDIUM) {
                     normalView!!.content.description.text = item.description
                 }
 
@@ -119,7 +118,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                             if (color != 0) {
                                 itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
                                 itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
-                                if (layoutMode == LAYOUT_MODE_STREAM) {
+                                if (layoutMode == LAYOUT_MODE_MEDIUM) {
                                     normalView!!.content.description.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                 }
                                 item.color = color
@@ -146,6 +145,51 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                             }
                         }
                         itemView.cardBackground.setImageDrawable(null)
+                    } else {
+                        itemView.cardBackground.post {
+                            UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)
+                        }
+                    }
+                } else {
+                    itemView.cardBackground.setImageDrawable(null)
+                }
+            }
+            LAYOUT_MODE_MINIMUM -> {
+                if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
+                    if (item.color == 0) {
+                        UxUtils.setCardUseIconColor(itemView.cardBackground, UxUtils.getAppIcon(context, item)) { color ->
+                            if (color != 0) {
+                                itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
+                                itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                item.color = color
+
+                                if (shouldUpdateColorInfo(context, item)) {
+                                    AnywhereApplication.sRepository.update(item)
+                                }
+                            } else {
+                                itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
+                            }
+                        }
+                    } else {
+                        itemView.rootView.backgroundTintList = ColorStateList.valueOf(item.color)
+                        itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                    }
+                } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
+                    if (item.color == 0) {
+                        UxUtils.setCardUseIconColor(itemView.cardBackground, UxUtils.getAppIcon(context, item)) { color ->
+                            item.color = color
+                            if (shouldUpdateColorInfo(context, item)) {
+                                AnywhereApplication.sRepository.update(item)
+                            }
+
+                            if (color == 0) {
+                                itemView.cardBackground.setImageDrawable(null)
+                            } else {
+                                itemView.cardBackground.post {
+                                    UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)
+                                }
+                            }
+                        }
                     } else {
                         itemView.cardBackground.post {
                             UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)

@@ -93,31 +93,14 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            val streamCardModePreference = (findPreference(Const.PREF_STREAM_CARD_MODE) as SwitchPreference).apply {
+            (findPreference(Const.PREF_CARD_MODE) as ListPreference).apply {
                 setOnPreferenceChangeListener { _, newValue ->
-                    GlobalValues.isStreamCardMode = newValue as Boolean
-                    GlobalValues.cardModeLiveData.value = newValue
-
-                    (findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE) as SwitchPreference).apply {
-                        isVisible = newValue
-                    }
-                    (findPreference(Const.PREF_CARD_BACKGROUND) as ListPreference).apply {
-                        isVisible = newValue
-                    }
-                    true
-                }
-            }
-            (findPreference(Const.PREF_STREAM_CARD_SINGLE_LINE) as SwitchPreference).apply {
-                isVisible = streamCardModePreference.isChecked
-                isIconSpaceReserved = true
-                setOnPreferenceChangeListener { _, newValue ->
-                    GlobalValues.isStreamCardModeSingleLine = newValue as Boolean
+                    GlobalValues.cardMode = newValue.toString()
                     GlobalValues.cardModeLiveData.value = newValue
                     true
                 }
             }
             (findPreference(Const.PREF_CARD_BACKGROUND) as ListPreference).apply {
-                isVisible = streamCardModePreference.isChecked
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.sCardBackgroundMode = newValue.toString()
                     GlobalValues.cardModeLiveData.value = newValue

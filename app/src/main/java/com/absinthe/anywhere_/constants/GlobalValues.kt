@@ -30,16 +30,10 @@ object GlobalValues {
         }
     var shortcutListChanged = false
 
-    var isStreamCardMode
-        get() = mmkv.decodeBool(Const.PREF_STREAM_CARD_MODE)
+    var cardMode
+        get() = mmkv.decodeString(Const.PREF_CARD_MODE)
         set(value) {
-            mmkv.encode(Const.PREF_STREAM_CARD_MODE, value)
-        }
-
-    var isStreamCardModeSingleLine
-        get() = mmkv.decodeBool(Const.PREF_STREAM_CARD_SINGLE_LINE)
-        set(value) {
-            mmkv.encode(Const.PREF_STREAM_CARD_SINGLE_LINE, value)
+            mmkv.encode(Const.PREF_CARD_MODE, value)
         }
 
     var isMd2Toolbar

@@ -178,8 +178,6 @@
     <string name="settings_reset_background">Reset Background</string>
     <string name="settings_dark_mode">Dark Mode</string>
     <string name="settings_dark_mode_oled">OLED dark mode</string>
-    <string name="settings_stream_card_mode">Stream Card Mode</string>
-    <string name="settings_stream_card_single_line">Fold into a Single Line</string>
     <string name="settings_card_background">Card Background Color</string>
     <string name="settings_clear_shortcuts">Clear Shortcuts</string>
     <string name="settings_icon_pack">Icon Pack</string>
@@ -254,6 +252,12 @@
     <string name="settings_shell_off">Off</string>
     <string name="settings_shell_toast" translatable="false">Toast</string>
     <string name="settings_shell_dialog">Dialog</string>
+
+    <string name="settings_card_mode">Card Layout Mode</string>
+    <string name="settings_card_mode_large">Large</string>
+    <string name="settings_card_mode_medium">Medium</string>
+    <string name="settings_card_mode_small">Small</string>
+    <string name="settings_card_mode_minimum">Minimum</string>
 
     <!--  Toast  -->
     <string name="toast_root_permission_denied">Root permission denied</string>

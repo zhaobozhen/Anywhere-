@@ -81,8 +81,6 @@
     <string name="settings_reset_background">重置背景</string>
     <string name="settings_dark_mode">夜间模式</string>
     <string name="settings_dark_mode_oled">OLED 夜间模式</string>
-    <string name="settings_stream_card_mode">瀑布流卡片模式</string>
-    <string name="settings_stream_card_single_line">折叠为单行</string>
     <string name="settings_card_background">卡片背景色</string>
     <string name="settings_clear_shortcuts">清除 Shortcuts</string>
     <string name="settings_icon_pack">图标包</string>
@@ -386,4 +384,9 @@
     <string name="bsd_text_input_layout_entry_activity_helper_text">输入或选择启动的 Activity</string>
     <string name="bsd_text_input_layout_content_helper_text">输入响应的内容</string>
     <string name="bsd_text_input_layout_content_activity_helper_text">绑定内容所在的 Activity，如果与上一项处于同一 Activity 则无需填写</string>
+    <string name="settings_card_mode">卡片布局模式</string>
+    <string name="settings_card_mode_large">大</string>
+    <string name="settings_card_mode_medium">中</string>
+    <string name="settings_card_mode_small">小</string>
+    <string name="settings_card_mode_minimum">极小</string>
 </resources>

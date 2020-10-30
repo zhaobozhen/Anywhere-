@@ -12,10 +12,15 @@ object Const {
     const val PREF_DARK_MODE = "darkMode"
     const val PREF_CHANGE_BACKGROUND = "changeBackground"
     const val PREF_RESET_BACKGROUND = "resetBackground"
-    const val PREF_STREAM_CARD_MODE = "streamCardMode"
-    const val PREF_STREAM_CARD_SINGLE_LINE = "streamCardModeSingleLine"
+
+    const val PREF_CARD_MODE = "cardMode"
+    const val PREF_CARD_MODE_LARGE = "large"
+    const val PREF_CARD_MODE_MEDIUM = "medium"
+    const val PREF_CARD_MODE_SMALL = "small"
+    const val PREF_CARD_MODE_MINIMUM = "minimum"
     const val PREF_CARD_BACKGROUND = "cardBackgroundMode"
     const val PREF_CARD_LAYOUT = "cardLayout"
+
     const val PREF_ACTION_BAR_TYPE = "actionBarType"
     const val PREF_HELP = "help"
     const val PREF_BETA = "beta"

@@ -13,7 +13,6 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.adapter.SpacesItemDecoration
 import com.absinthe.anywhere_.adapter.card.*
-import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
@@ -145,15 +144,24 @@ class CategoryCardFragment : Fragment() {
     private fun setupRecyclerView() {
         decoration = SpacesItemDecoration(resources.getDimension(R.dimen.cardview_item_margin).toInt())
 
-        adapter = if (GlobalValues.isStreamCardMode) {
-            if (GlobalValues.isStreamCardModeSingleLine) {
-                BaseCardAdapter(LAYOUT_MODE_STREAM_SINGLE_LINE)
-            } else {
-                BaseCardAdapter(LAYOUT_MODE_STREAM)
+        when(GlobalValues.cardMode) {
+            Const.PREF_CARD_MODE_LARGE -> {
+                decoration = SpacesItemDecoration(resources.getDimension(R.dimen.cardview_margin_parent_horizontal).toInt() / 2)
+                adapter = BaseCardAdapter(LAYOUT_MODE_LARGE)
             }
-        } else {
-            decoration = SpacesItemDecoration(resources.getDimension(R.dimen.cardview_margin_parent_horizontal).toInt() / 2)
-            BaseCardAdapter(LAYOUT_MODE_NORMAL)
+            Const.PREF_CARD_MODE_MEDIUM -> {
+                adapter = BaseCardAdapter(LAYOUT_MODE_MEDIUM)
+            }
+            Const.PREF_CARD_MODE_SMALL -> {
+                adapter = BaseCardAdapter(LAYOUT_MODE_SMALL)
+            }
+            Const.PREF_CARD_MODE_MINIMUM -> {
+                decoration = SpacesItemDecoration(resources.getDimension(R.dimen.cardview_margin_parent_horizontal).toInt() / 2)
+                adapter = BaseCardAdapter(LAYOUT_MODE_MINIMUM)
+            }
+            else -> {
+                adapter = BaseCardAdapter(LAYOUT_MODE_MEDIUM)
+            }
         }
 
         adapter.apply {
@@ -217,17 +225,21 @@ class CategoryCardFragment : Fragment() {
 
     private fun setRecyclerViewLayoutManager(recyclerView: RecyclerView, configuration: Configuration) {
         recyclerView.layoutManager = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            if (GlobalValues.isStreamCardMode) {
-                WrapContentStaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
-            } else {
-                WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            val spanCount = when(GlobalValues.cardMode) {
+                Const.PREF_CARD_MODE_LARGE -> 2
+                Const.PREF_CARD_MODE_MEDIUM, Const.PREF_CARD_MODE_SMALL -> 4
+                Const.PREF_CARD_MODE_MINIMUM -> 8
+                else -> 4
             }
+            WrapContentStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
         } else {
-            if (GlobalValues.isStreamCardMode) {
-                WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            } else {
-                WrapContentLinearLayoutManager(requireContext())
+            val spanCount = when(GlobalValues.cardMode) {
+                Const.PREF_CARD_MODE_LARGE -> 1
+                Const.PREF_CARD_MODE_MEDIUM, Const.PREF_CARD_MODE_SMALL -> 2
+                Const.PREF_CARD_MODE_MINIMUM -> 4
+                else -> 2
             }
+            WrapContentStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
         }
     }
 

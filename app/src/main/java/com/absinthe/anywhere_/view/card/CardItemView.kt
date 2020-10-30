@@ -55,6 +55,13 @@ class CardItemView<T : ViewGroup>(context: Context, val content: T) : MaterialCa
                 indicator = content.indicator
                 addView(cardBackground)
             }
+            is MinimumItemView -> {
+                appName = content.appName
+                icon = content.icon
+                badge = content.badge
+                indicator = content.indicator
+                addView(cardBackground)
+            }
             else -> {
                 appName = TextView(context)
                 icon = AppCompatImageView(context)

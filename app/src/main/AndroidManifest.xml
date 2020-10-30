@@ -33,7 +33,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation"
-            android:launchMode="singleTask">
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
@@ -46,7 +46,7 @@
             android:enabled="false"
             android:icon="@drawable/transparent"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:roundIcon="@drawable/transparent"
             android:targetActivity=".ui.main.MainActivity">
             <intent-filter>
@@ -100,7 +100,7 @@
             android:enabled="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:targetActivity=".ui.main.MainActivity">
             <intent-filter>

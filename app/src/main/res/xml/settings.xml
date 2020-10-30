@@ -66,18 +66,14 @@
             app:entryValues="@array/list_dark_mode_value"
             app:defaultValue="off"/>
 
-        <SwitchPreference
-            app:key="streamCardMode"
-            app:title="@string/settings_stream_card_mode"
-            app:summary="@string/settings_stream_card_mode_summary"
+        <SimpleMenuPreference
+            app:key="cardMode"
+            app:title="@string/settings_card_mode"
+            app:summary="%s"
             app:icon="@drawable/ic_stream_card"
-            app:defaultValue="false"/>
-
-        <SwitchPreference
-            app:key="streamCardModeSingleLine"
-            app:title="@string/settings_stream_card_single_line"
-            app:summary="@string/settings_stream_card_single_line_summary"
-            app:defaultValue="false"/>
+            app:defaultValue="medium"
+            app:entries="@array/list_card_mode"
+            app:entryValues="@array/list_card_mode_value"/>
 
         <SimpleMenuPreference
             app:key="cardBackgroundMode"

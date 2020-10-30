@@ -10,7 +10,7 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.SpacesItemDecoration
 import com.absinthe.anywhere_.adapter.card.BaseCardAdapter
-import com.absinthe.anywhere_.adapter.card.LAYOUT_MODE_STREAM
+import com.absinthe.anywhere_.adapter.card.LAYOUT_MODE_MEDIUM
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.ActivityQrcodeCollectionBinding
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class QRCodeCollectionActivity : BaseActivity() {
 
     private lateinit var binding: ActivityQrcodeCollectionBinding
-    private var mAdapter = BaseCardAdapter(LAYOUT_MODE_STREAM)
+    private var mAdapter = BaseCardAdapter(LAYOUT_MODE_MEDIUM)
 
     override fun setViewBinding() {
         isPaddingToolbar = true
