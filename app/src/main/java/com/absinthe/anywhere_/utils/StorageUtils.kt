@@ -120,6 +120,7 @@ object StorageUtils {
 
             try {
                 val entity = Gson().fromJson(content, AnywhereEntity::class.java)
+                entity.category = GlobalValues.category
 
                 AnywhereApplication.sRepository.insert(entity)
             } catch (e: Exception) {
