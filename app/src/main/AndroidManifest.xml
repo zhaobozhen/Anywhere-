@@ -173,7 +173,7 @@
             android:name=".ui.shortcuts.ShortcutsActivity"
             android:excludeFromRecents="true"
             android:label="@string/shortcut_open"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             android:theme="@style/Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />

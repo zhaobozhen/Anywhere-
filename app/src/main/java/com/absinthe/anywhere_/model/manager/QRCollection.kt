@@ -170,12 +170,9 @@ object QRCollection {
                         applicationId = pkgName
                         entryActivity = clsName
                         actions = listOf(
-                                A11yActionBean(A11yType.TEXT, "我", "", 0L),
-                                A11yActionBean(A11yType.TEXT, "Me", "", 300L),
-                                A11yActionBean(A11yType.TEXT, "支付", "", 0L),
-                                A11yActionBean(A11yType.TEXT, "WeChat Pay", "", 800L),
-                                A11yActionBean(A11yType.TEXT, "收付款", "", 0L),
-                                A11yActionBean(A11yType.TEXT, "Money", "", 0L),
+                                A11yActionBean(A11yType.TEXT, "我|Me", "", 300L),
+                                A11yActionBean(A11yType.TEXT, "支付|WeChat Pay", "", 800L),
+                                A11yActionBean(A11yType.TEXT, "收付款|Money", "", 0L),
                         )
                     }
                     val entity = AnywhereEntity.Builder().apply {
@@ -237,14 +234,10 @@ object QRCollection {
                         applicationId = pkgName
                         entryActivity = clsName
                         actions = listOf(
-                                A11yActionBean(A11yType.TEXT, "我", "", 0L),
-                                A11yActionBean(A11yType.TEXT, "Me", "", 300L),
-                                A11yActionBean(A11yType.TEXT, "支付", "", 0L),
-                                A11yActionBean(A11yType.TEXT, "WeChat Pay", "", 800L),
-                                A11yActionBean(A11yType.TEXT, "收付款", "", 0L),
-                                A11yActionBean(A11yType.TEXT, "Money", "", 800L),
-                                A11yActionBean(A11yType.TEXT, "二维码收款", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI"),
-                                A11yActionBean(A11yType.TEXT, "Receive Money", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI")
+                                A11yActionBean(A11yType.TEXT, "我|Me", "", 300L),
+                                A11yActionBean(A11yType.TEXT, "支付|WeChat Pay", "", 800L),
+                                A11yActionBean(A11yType.TEXT, "收付款|Money", "", 800L),
+                                A11yActionBean(A11yType.TEXT, "二维码收款|Receive Money", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI"),
                         )
                     }
                     val entity = AnywhereEntity.Builder().apply {

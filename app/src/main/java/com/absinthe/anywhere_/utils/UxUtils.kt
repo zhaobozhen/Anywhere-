@@ -254,8 +254,7 @@ object UxUtils {
                 if (color == Color.TRANSPARENT) {
                     color = p.getDominantColor(Color.TRANSPARENT)
                 }
-                cardBackgroundView.setBackgroundColor(color)
-                action(color)
+                cardBackgroundView.post { action(color) }
             }
         }
     }

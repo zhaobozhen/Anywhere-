@@ -11,6 +11,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 import timber.log.Timber;
@@ -131,8 +133,22 @@ public class BaseAccessibilityService extends AccessibilityService {
      * @param text text
      * @return View
      */
+    @Nullable
     public AccessibilityNodeInfo findViewByText(String text) {
         return findViewByText(text, false);
+    }
+
+    @Nullable
+    public String findViewByText(String[] list) {
+        @Nullable AccessibilityNodeInfo info;
+
+        for (String text : list) {
+            info = findViewByText(text, false);
+            if (info != null) {
+                return text;
+            }
+        }
+        return null;
     }
 
     /**
@@ -175,6 +191,18 @@ public class BaseAccessibilityService extends AccessibilityService {
                 if (nodeInfo != null) {
                     return nodeInfo;
                 }
+            }
+        }
+        return null;
+    }
+
+    public String findViewByID(String[] list) {
+        @Nullable AccessibilityNodeInfo info;
+
+        for (String text : list) {
+            info = findViewByID(text);
+            if (info != null) {
+                return text;
             }
         }
         return null;

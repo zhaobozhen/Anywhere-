@@ -117,6 +117,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                     if (item.color == 0) {
                         UxUtils.setCardUseIconColor(itemView.cardBackground, UxUtils.getAppIcon(context, item)) { color ->
                             if (color != 0) {
+                                itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
                                 itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                 if (layoutMode == LAYOUT_MODE_STREAM) {
                                     normalView!!.content.description.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)

@@ -96,26 +96,45 @@ public class IzukoService extends BaseAccessibilityService {
     private Runnable getActionRunnable(@NonNull A11yActionBean actionBean) {
         long startTime = System.currentTimeMillis();
 
-        if (findViewByText(actionBean.getContent()) == null) {
-            while (System.currentTimeMillis() - startTime < 5000) {
-                if (findViewByText(actionBean.getContent()) != null) {
-                    break;
+        String[] split = actionBean.getContent().split("\\|");
+        String content = null;
+
+        if (actionBean.getType() == A11yType.TEXT || actionBean.getType() == A11yType.LONG_PRESS_TEXT) {
+            content = findViewByText(split);
+            if (content == null) {
+                while (System.currentTimeMillis() - startTime < 5000) {
+                    content = findViewByText(split);
+                    if (content != null) {
+                        break;
+                    }
+                }
+            }
+        } else if (actionBean.getType() == A11yType.VIEW_ID || actionBean.getType() == A11yType.LONG_PRESS_VIEW_ID) {
+            content = findViewByID(split);
+            if (content == null) {
+                while (System.currentTimeMillis() - startTime < 5000) {
+                    content = findViewByID(split);
+                    if (content != null) {
+                        break;
+                    }
                 }
             }
         }
+
+        String finalContent = content;
         return () -> {
             switch (actionBean.getType()) {
                 case A11yType.TEXT:
-                    clickTextViewByText(actionBean.getContent());
+                    clickTextViewByText(finalContent);
                     break;
                 case A11yType.VIEW_ID:
-                    clickTextViewByID(actionBean.getContent());
+                    clickTextViewByID(finalContent);
                     break;
                 case A11yType.LONG_PRESS_TEXT:
-                    longClickTextViewByText(actionBean.getContent());
+                    longClickTextViewByText(finalContent);
                     break;
                 case A11yType.LONG_PRESS_VIEW_ID:
-                    longClickTextViewByID(actionBean.getContent());
+                    longClickTextViewByID(finalContent);
                     break;
                 default:
             }

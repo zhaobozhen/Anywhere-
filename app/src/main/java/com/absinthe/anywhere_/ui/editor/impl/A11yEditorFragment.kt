@@ -142,6 +142,7 @@ class A11yEditorFragment : BaseEditorFragment() {
                 actions = adapter.data
             }
             param1 = Gson().toJson(a11yEntity)
+            param2 = adapter.data.sumOf { it.delay }.toString()
         }
 
         if (isEditMode && doneItem == item) return true
