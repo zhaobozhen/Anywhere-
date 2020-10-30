@@ -155,9 +155,6 @@ class MainActivity : BaseActivity() {
                 }
             }
         })
-        Timber.d(CipherUtils.decrypt("J2Ve4HxUVSiWndx33Cc7lw01atNQYUAwVubaxbyw2Asigr7Olu88KTxpIaC+rc1ilsppSbRVwP6R\n" +
-                "KpXWzHGj1BjbOijuBeO68lcWjkXEupGN7mVd/Vh6lhI8xtM3C6Opal5bH3ZJmPukcTnj93eto7Z4\n" +
-                "mwPcUmgZaHdwK+dfSzhpGwLstxJgSXzDYQABwtH/FqeGAgBpyhJBMKGkMO8F9FU3zDaSiqy/OD37RKq8RlIXq4CPvovBO1js+OCACUhU0d655LdIhKwH8dhqnNE5IF4hObtxaeKsARgubc8DkcNxb9y69rlyCoxd6EFC2lLkWRgLnPaHfTxrdHgAPo/dHIQFf0dAFO+msNY0O5oSKeNAqWwrn5C5Q+zJ34dhE4dIi184DavQv6pl4H98acjvxBRkgWM1e6GaZnkA6NPbQYzOU+8DLUpY4AX2N8GgeK35Jgp5ICHgXDdQgM8Q"))
     }
 
     override fun onNewIntent(intent: Intent) {
