@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.utils.StorageUtils
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RestoreApplyFragmentDialog : AnywhereDialogFragment() {
 
@@ -34,7 +37,9 @@ class RestoreApplyFragmentDialog : AnywhereDialogFragment() {
         mEditText = inflate.findViewById(R.id.tiet_paste)
 
         val listener = DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
-            StorageUtils.restoreFromJson(requireContext(), text)
+            lifecycleScope.launch(Dispatchers.IO) {
+                StorageUtils.restoreFromJson(requireContext(), text)
+            }
         }
 
         return builder.setView(inflate)

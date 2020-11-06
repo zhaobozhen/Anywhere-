@@ -49,13 +49,13 @@ class StreamSingleLineItemView(context: Context) : ConstraintLayout(context) {
 
     init {
         id = R.id.card_container
-        setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + 10.dp)
+        setPadding(paddingStart, paddingTop, paddingEnd, paddingBottom + 8.dp)
 
         addView(icon, LayoutParams(45.dp, 45.dp).apply {
             startToStart = this@StreamSingleLineItemView.id
             topToTop = this@StreamSingleLineItemView.id
             marginStart = 10.dp
-            topMargin = 10.dp
+            topMargin = 8.dp
         })
 
         addView(badge, LayoutParams(10.dp, 10.dp).apply {

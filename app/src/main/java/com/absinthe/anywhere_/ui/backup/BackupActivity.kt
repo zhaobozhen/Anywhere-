@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.backup
 
 import android.app.Activity
 import android.content.Intent
+import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
@@ -10,6 +11,8 @@ import com.absinthe.anywhere_.utils.CipherUtils.encrypt
 import com.absinthe.anywhere_.utils.StorageUtils
 import com.absinthe.anywhere_.utils.StorageUtils.exportAnywhereEntityJsonString
 import com.absinthe.anywhere_.utils.ToastUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -60,7 +63,9 @@ class BackupActivity : BaseActivity() {
                             stringBuilder.append(line)
                         }
 
-                        StorageUtils.restoreFromJson(this, stringBuilder.toString())
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            StorageUtils.restoreFromJson(this@BackupActivity, stringBuilder.toString())
+                        }
 
                         inputStream.close()
                         reader.close()

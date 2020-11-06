@@ -78,7 +78,7 @@ class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
         sardine.get(url)?.let {
             val result = ConvertUtils.inputStream2String(it, "UTF-8")
             result?.apply {
-                withContext(Dispatchers.Main) {
+                withContext(Dispatchers.IO) {
                     StorageUtils.restoreFromJson(Utils.getApp(), this@apply)
                 }
             } ?: withContext(Dispatchers.Main) {

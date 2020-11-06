@@ -87,13 +87,16 @@ object StorageUtils {
         }
     }
 
-    fun restoreFromJson(context: Context, jsonString: String) {
+    suspend fun restoreFromJson(context: Context, jsonString: String) {
         val content = CipherUtils.decrypt(jsonString)
+        Timber.d(content)
 
         try {
             val backupBean = Gson().fromJson(content, BackupBean::class.java)
             if (backupBean == null) {
-                ToastUtil.makeText(R.string.toast_backup_file_error)
+                withContext(Dispatchers.Main) {
+                    ToastUtil.makeText(R.string.toast_backup_file_error)
+                }
             } else {
                 for (pe in backupBean.pageList) {
                     AnywhereApplication.sRepository.insertPage(pe)
@@ -113,7 +116,9 @@ object StorageUtils {
                     AnywhereApplication.sRepository.insert(ae)
                 }
 
-                ToastUtil.makeText(context.getString(R.string.toast_restore_success))
+                withContext(Dispatchers.Main) {
+                    ToastUtil.makeText(context.getString(R.string.toast_restore_success))
+                }
             }
         } catch (e: Exception) {
             Timber.e(e)
@@ -125,7 +130,9 @@ object StorageUtils {
                 AnywhereApplication.sRepository.insert(entity)
             } catch (e: Exception) {
                 Timber.e(e)
-                ToastUtil.makeText(R.string.toast_backup_file_error)
+                withContext(Dispatchers.Main) {
+                    ToastUtil.makeText(R.string.toast_backup_file_error)
+                }
             }
         }
     }
