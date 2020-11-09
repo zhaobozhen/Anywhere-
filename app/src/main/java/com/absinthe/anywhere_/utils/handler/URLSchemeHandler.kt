@@ -4,26 +4,37 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import com.absinthe.anywhere_.listener.OnAppDefrostListener
+import com.catchingnow.icebox.sdk_client.IceBox
 import java.net.URISyntaxException
 
 object URLSchemeHandler {
 
     @Throws(Exception::class)
-    fun parse(context: Context, url: String) {
-        try {
-            context.startActivity(handleIntent(url))
-        } catch (e: Throwable) {
-            throw e
+    fun parse(context: Context, url: String, packageName: String? = null, action: () -> Unit = {}) {
+        if (packageName != null && IceBox.getAppEnabledSetting(context, packageName) != 0) {
+            DefrostHandler.defrost(context, packageName, object : OnAppDefrostListener {
+                override fun onAppDefrost() {
+                    try {
+                        context.startActivity(handleIntent(url))
+                        action()
+                    } catch (e: Throwable) {
+                        throw e
+                    }
+                }
+            })
+        } else {
+            try {
+                context.startActivity(handleIntent(url))
+            } catch (e: Throwable) {
+                throw e
+            }
         }
     }
 
     @Throws(Exception::class)
-    fun parse(activity: Activity, url: String) {
-        try {
-            activity.startActivity(handleIntent(url))
-        } catch (e: Throwable) {
-            throw e
-        }
+    fun parse(activity: Activity, url: String, packageName: String? = null, action: () -> Unit = {}) {
+        parse(activity as Context, url, packageName, action)
     }
 
     @Throws(Exception::class)

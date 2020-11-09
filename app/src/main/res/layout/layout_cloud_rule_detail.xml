@@ -17,58 +17,56 @@
 
     <TextView
         android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:text="@string/brvah_loading"
         android:textAppearance="?attr/textAppearanceBody2"
-        app:layout_constraintBottom_toBottomOf="@id/iv_name"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_name"
         app:layout_constraintTop_toTopOf="@id/iv_name"
         tools:text="Welcome" />
 
     <ImageView
-    android:id="@+id/iv_contributor"
-    android:layout_width="24dp"
-    android:layout_height="24dp"
-    android:layout_marginTop="12dp"
-    android:importantForAccessibility="no"
-    android:src="@drawable/ic_user"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/iv_name" />
+        android:id="@+id/iv_contributor"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_contributor" />
 
     <TextView
         android:id="@+id/tv_contributor"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
         android:text="@string/brvah_loading"
         android:textAppearance="?attr/textAppearanceBody2"
-        app:layout_constraintBottom_toBottomOf="@id/iv_contributor"
-        app:layout_constraintStart_toEndOf="@id/iv_contributor"
-        app:layout_constraintTop_toTopOf="@id/iv_contributor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
         tools:text="Absinthe" />
 
     <ImageView
         android:id="@+id/iv_desc"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginTop="12dp"
         android:importantForAccessibility="no"
         android:src="@drawable/ic_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_contributor" />
+        app:layout_constraintTop_toTopOf="@id/tv_desc" />
 
     <TextView
         android:id="@+id/tv_desc"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
         android:text="@string/brvah_loading"
         android:textAppearance="?attr/textAppearanceBody2"
-        app:layout_constraintBottom_toBottomOf="@id/iv_desc"
-        app:layout_constraintStart_toEndOf="@id/iv_desc"
-        app:layout_constraintTop_toTopOf="@id/iv_desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_contributor"
+        app:layout_constraintTop_toBottomOf="@id/tv_contributor"
         tools:text="Description" />
 
     <com.google.android.material.button.MaterialButton
@@ -76,10 +74,10 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:text="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_desc" />
+        app:layout_constraintTop_toBottomOf="@id/tv_desc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

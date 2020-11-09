@@ -98,14 +98,13 @@ object StorageUtils {
                     ToastUtil.makeText(R.string.toast_backup_file_error)
                 }
             } else {
-                for (pe in backupBean.pageList) {
-                    AnywhereApplication.sRepository.insertPage(pe)
-                }
+                val pageList = mutableListOf<PageEntity>()
+                pageList.addAll(backupBean.pageList)
 
                 for (ae in backupBean.anywhereList) {
-                    if (AnywhereApplication.sRepository.getPageEntityByTitle(ae.category) == null) {
+                    if (!pageList.any { it.title == ae.category }) {
                         val category = ae.category.ifEmpty { AnywhereType.Category.DEFAULT_CATEGORY }
-                        AnywhereApplication.sRepository.insertPage(
+                        pageList.add(
                                 PageEntity.Builder().apply {
                                     title = category
                                     priority = AnywhereApplication.sRepository.allPageEntities.value?.size ?: 0
@@ -115,6 +114,7 @@ object StorageUtils {
                     }
                     AnywhereApplication.sRepository.insert(ae)
                 }
+                AnywhereApplication.sRepository.insertPage(pageList)
 
                 withContext(Dispatchers.Main) {
                     ToastUtil.makeText(context.getString(R.string.toast_restore_success))

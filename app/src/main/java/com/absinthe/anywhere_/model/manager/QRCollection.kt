@@ -141,7 +141,7 @@ object QRCollection {
             })
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
-                    Opener.with(getContext()).load(cmd).open()
+                    Opener.with(getContext()).load(cmd).openWithPackageName(pkgName)
                 }
             }).apply {
                 this.pkgName = pkgName
@@ -205,7 +205,7 @@ object QRCollection {
             })
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
-                    Opener.with(getContext()).load(cmd).open()
+                    Opener.with(getContext()).load(cmd).openWithPackageName(pkgName)
                 }
             }).apply {
                 this.pkgName = pkgName
@@ -270,7 +270,7 @@ object QRCollection {
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
                     try {
-                        URLSchemeHandler.parse(getContext(), urlScheme)
+                        URLSchemeHandler.parse(getContext(), urlScheme, pkgName)
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
@@ -298,7 +298,7 @@ object QRCollection {
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
                     try {
-                        URLSchemeHandler.parse(getContext(), urlScheme)
+                        URLSchemeHandler.parse(getContext(), urlScheme, pkgName)
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
@@ -327,7 +327,7 @@ object QRCollection {
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
                     try {
-                        URLSchemeHandler.parse(getContext(), urlScheme)
+                        URLSchemeHandler.parse(getContext(), urlScheme, pkgName)
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
@@ -355,7 +355,7 @@ object QRCollection {
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
                     try {
-                        URLSchemeHandler.parse(getContext(), urlScheme)
+                        URLSchemeHandler.parse(getContext(), urlScheme, pkgName)
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }

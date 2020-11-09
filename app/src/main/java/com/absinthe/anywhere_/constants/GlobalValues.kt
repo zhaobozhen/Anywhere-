@@ -31,7 +31,7 @@ object GlobalValues {
     var shortcutListChanged = false
 
     var cardMode
-        get() = mmkv.decodeString(Const.PREF_CARD_MODE)
+        get() = mmkv.decodeString(Const.PREF_CARD_MODE) ?: Const.PREF_CARD_MODE_MEDIUM
         set(value) {
             mmkv.encode(Const.PREF_CARD_MODE, value)
         }

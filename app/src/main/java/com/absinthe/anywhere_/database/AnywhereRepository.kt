@@ -67,6 +67,11 @@ class AnywhereRepository(application: Application) {
         GlobalValues.needBackup = true
     }
 
+    fun insertPage(pageList: List<PageEntity>) = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.insertPage(pageList)
+        GlobalValues.needBackup = true
+    }
+
     fun updatePage(pe: PageEntity) = GlobalScope.launch(Dispatchers.IO) {
         mAnywhereDao.updatePage(pe)
         GlobalValues.needBackup = true

@@ -97,6 +97,15 @@ object Opener {
         }
     }
 
+    @Throws(NullPointerException::class)
+    fun openWithPackageName(packageName: String) {
+        context?.get()?.let {
+            openByCommand(it, command ?: throw NullPointerException("null package name."), packageName)
+        } ?: let {
+            throw NullPointerException("Got a null context instance from Opener.")
+        }
+    }
+
     private fun openFromEntity(context: Context) {
         item?.let {
             openAnywhereEntity(context, it)
@@ -240,7 +249,9 @@ object Opener {
                     DialogManager.showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : OnParamsInputListener {
                         override fun onFinish(text: String?) {
                             try {
-                                URLSchemeHandler.parse(context, item.param1 + text)
+                                URLSchemeHandler.parse(context, item.param1 + text, item.param2) {
+                                    listener?.onOpened()
+                                }
                             } catch (e: Exception) {
                                 Timber.e(e)
                                 if (e is ActivityNotFoundException) {
@@ -250,8 +261,8 @@ object Opener {
                                         ToastUtil.makeText(R.string.toast_file_uri_exposed)
                                     }
                                 }
+                                listener?.onOpened()
                             }
-                            listener?.onOpened()
                         }
 
                         override fun onCancel() {
@@ -260,7 +271,9 @@ object Opener {
                     })
                 } else {
                     try {
-                        URLSchemeHandler.parse(context, item.param1)
+                        URLSchemeHandler.parse(context, item.param1, item.param2) {
+                            listener?.onOpened()
+                        }
                     } catch (e: Exception) {
                         Timber.e(e)
                         if (e is ActivityNotFoundException) {
@@ -270,8 +283,8 @@ object Opener {
                                 ToastUtil.makeText(R.string.toast_file_uri_exposed)
                             }
                         }
+                        listener?.onOpened()
                     }
-                    listener?.onOpened()
                 }
             }
             AnywhereType.Card.SHELL -> {
@@ -367,9 +380,21 @@ object Opener {
                 try {
                     val a11yEntity = Gson().fromJson(item.param1, A11yEntity::class.java)
                     IzukoService.getInstance()?.setA11yEntity(a11yEntity)
-                    context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
-                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        context.startActivity(it)
+
+                    if (IceBox.getAppEnabledSetting(context, a11yEntity.applicationId) != 0) {
+                        DefrostHandler.defrost(context, a11yEntity.applicationId, object : OnAppDefrostListener {
+                            override fun onAppDefrost() {
+                                context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
+                                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                    context.startActivity(it)
+                                }
+                            }
+                        })
+                    } else {
+                        context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
+                            it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            context.startActivity(it)
+                        }
                     }
                 } catch (e: Exception) {
                     Timber.e(e)

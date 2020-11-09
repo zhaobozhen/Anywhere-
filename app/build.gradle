@@ -24,8 +24,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2010100
-        versionName "2.1.1"
+        versionCode 2010200
+        versionName "2.1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
@@ -98,7 +98,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0'
 
     implementation 'com.absinthe.libraries.me:me:1.0.6'
-    implementation 'com.absinthe.libraries.utils:utils:1.0.5'
+    implementation 'com.absinthe.libraries.utils:utils:1.0.9'
 
     def appCenterSdkVersion = '3.3.1'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"

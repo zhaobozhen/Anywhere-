@@ -13,10 +13,10 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.ui.main.MainActivity
 import com.absinthe.anywhere_.utils.AppUtils
-import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.libraries.utils.extensions.paddingTopCompat
+import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.BarUtils
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -36,7 +36,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate")
         if (GlobalValues.backgroundUri.isEmpty() || this !is MainActivity) {
-            StatusBarUtil.setSystemBarStyle(this)
+            UiUtils.setSystemBarStyle(window)
         }
 
         super.onCreate(savedInstanceState)

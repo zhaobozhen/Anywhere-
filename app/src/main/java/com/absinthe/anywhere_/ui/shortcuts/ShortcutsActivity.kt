@@ -18,6 +18,7 @@ import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.services.overlay.ICollectorService
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
+import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.manager.DialogManager.showImageDialog
@@ -203,6 +204,9 @@ class ShortcutsActivity : BaseActivity() {
                                                     }
                                                 })
                                                 .open()
+                                    } ?: run {
+                                        ToastUtil.makeText(R.string.toast_invaild_sid)
+                                        finish()
                                     }
                                 })
                             } ?: finish()

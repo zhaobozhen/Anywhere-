@@ -84,7 +84,6 @@ object AppUtils {
      * @param item    Anywhere- entity
      * @return true if the app is frost
      */
-    @JvmStatic
     fun isAppFrozen(context: Context, item: AnywhereEntity): Boolean {
         val type = item.type
         val apkTempPackageName: String

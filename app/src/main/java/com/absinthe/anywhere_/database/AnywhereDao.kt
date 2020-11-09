@@ -37,6 +37,9 @@ interface AnywhereDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPage(pe: PageEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPage(pageList: List<PageEntity>)
+
     @Update
     suspend fun updatePage(pe: PageEntity)
 
