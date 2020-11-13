@@ -2,9 +2,11 @@ package com.absinthe.anywhere_.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.api.ApiManager
 import com.absinthe.anywhere_.api.GitHubApi
 import com.absinthe.anywhere_.constants.AnywhereType
@@ -57,6 +59,11 @@ class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
                     binding.tvName.text = ruleEntity.name
                     binding.tvContributor.text = ruleEntity.contributor
                     binding.tvDesc.text = ruleEntity.desc
+                    entity?.let {
+                        val image = ContextCompat.getDrawable(requireContext(), AnywhereType.Card.TYPE_ICON_RES_MAP[it.type] ?: R.drawable.ic_card_activity)
+                        binding.tvType.text = getString(AnywhereType.Card.TYPE_STRINGRES_MAP[it.type] ?: R.string.btn_activity)
+                        binding.tvType.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)
+                    }
                     binding.btnAdd.setOnClickListener {
                         entity?.let {
                             lifecycleScope.launch(Dispatchers.IO) {
@@ -65,7 +72,8 @@ class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
                                     AnywhereApplication.sRepository.insertPage(
                                             PageEntity.Builder().apply {
                                                 title = category
-                                                priority = AnywhereApplication.sRepository.allPageEntities.value?.size ?: 0
+                                                priority = AnywhereApplication.sRepository.allPageEntities.value?.size
+                                                        ?: 0
                                             }
                                     )
                                     it.category = category

@@ -6,14 +6,27 @@
     android:layout_height="wrap_content"
     android:padding="24dp">
 
+    <TextView
+        android:id="@+id/tv_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:drawableStart="@drawable/ic_card_activity"
+        tools:text="Activity" />
+
     <ImageView
         android:id="@+id/iv_name"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_marginTop="24dp"
         android:importantForAccessibility="no"
         android:src="@drawable/ic_cloud_backup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_type" />
 
     <TextView
         android:id="@+id/tv_name"

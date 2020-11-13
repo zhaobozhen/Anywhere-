@@ -46,6 +46,20 @@ object AnywhereType {
                 Pair(WORKFLOW, R.string.btn_add_workflow),
                 Pair(ACCESSIBILITY, R.string.btn_add_accessibility),
                 )
+
+        val TYPE_ICON_RES_MAP = hashMapOf(
+                Pair(URL_SCHEME, R.drawable.ic_url_scheme),
+                Pair(ACTIVITY, R.drawable.ic_card_activity),
+                Pair(MINI_PROGRAM, R.drawable.ic_card_activity),
+                Pair(QR_CODE, R.drawable.ic_qr_code),
+                Pair(IMAGE, R.drawable.ic_card_image),
+                Pair(SHELL, R.drawable.ic_card_shell),
+                Pair(SWITCH_SHELL, R.drawable.ic_card_switch),
+                Pair(FILE, R.drawable.ic_card_file),
+                Pair(BROADCAST, R.drawable.ic_card_broadcast),
+                Pair(WORKFLOW, R.drawable.ic_card_workflow),
+                Pair(ACCESSIBILITY, R.drawable.ic_card_accessibility),
+        )
     }
 
     object Property {
