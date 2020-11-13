@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.FileUriExposedException
 import android.provider.Settings
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
@@ -35,6 +34,7 @@ import com.absinthe.anywhere_.utils.AppUtils.isActivityExported
 import com.absinthe.anywhere_.utils.CommandUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.blankj.utilcode.util.IntentUtils
@@ -140,11 +140,13 @@ object Opener {
                 listener?.onOpened()
             }
             AnywhereType.Card.IMAGE -> {
-                DialogManager.showImageDialog((context as AppCompatActivity), item.param1, object : AnywhereDialogFragment.OnDismissListener {
-                    override fun onDismiss() {
-                        listener?.onOpened()
-                    }
-                })
+                ActivityStackManager.topActivity?.let {
+                    DialogManager.showImageDialog(it, item.param1, object : AnywhereDialogFragment.OnDismissListener {
+                        override fun onDismiss() {
+                            listener?.onOpened()
+                        }
+                    })
+                }
             }
             AnywhereType.Card.ACTIVITY -> {
                 val className = if (item.param2.startsWith(".")) {
@@ -246,29 +248,31 @@ object Opener {
             }
             AnywhereType.Card.URL_SCHEME -> {
                 if (item.param3.isNotEmpty()) {
-                    DialogManager.showDynamicParamsDialog((context as AppCompatActivity), item.param3, object : OnParamsInputListener {
-                        override fun onFinish(text: String?) {
-                            try {
-                                URLSchemeHandler.parse(context, item.param1 + text, item.param2) {
+                    ActivityStackManager.topActivity?.let {
+                        DialogManager.showDynamicParamsDialog(it, item.param3, object : OnParamsInputListener {
+                            override fun onFinish(text: String?) {
+                                try {
+                                    URLSchemeHandler.parse(context, item.param1 + text, item.param2) {
+                                        listener?.onOpened()
+                                    }
+                                } catch (e: Exception) {
+                                    Timber.e(e)
+                                    if (e is ActivityNotFoundException) {
+                                        ToastUtil.makeText(R.string.toast_no_react_url)
+                                    } else if (AppUtils.atLeastN()) {
+                                        if (e is FileUriExposedException) {
+                                            ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                                        }
+                                    }
                                     listener?.onOpened()
                                 }
-                            } catch (e: Exception) {
-                                Timber.e(e)
-                                if (e is ActivityNotFoundException) {
-                                    ToastUtil.makeText(R.string.toast_no_react_url)
-                                } else if (AppUtils.atLeastN()) {
-                                    if (e is FileUriExposedException) {
-                                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                                    }
-                                }
+                            }
+
+                            override fun onCancel() {
                                 listener?.onOpened()
                             }
-                        }
-
-                        override fun onCancel() {
-                            listener?.onOpened()
-                        }
-                    })
+                        })
+                    }
                 } else {
                     try {
                         URLSchemeHandler.parse(context, item.param1, item.param2) {

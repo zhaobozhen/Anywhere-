@@ -35,7 +35,7 @@ class ImageDialogFragment : AnywhereDialogFragment {
 
     private fun initView() {
         lifecycleScope.launch(Dispatchers.Main) {
-            Glide.with(requireContext())
+            Glide.with(this@ImageDialogFragment)
                     .load(mUri)
                     .into(mBuilder.image)
         }

@@ -153,7 +153,7 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
     }
 
     private fun loadImage(url: String) {
-        Glide.with(requireContext())
+        Glide.with(this)
                 .load(url)
                 .into(binding.ivPreview)
         binding.ivPreview.requestFocus()

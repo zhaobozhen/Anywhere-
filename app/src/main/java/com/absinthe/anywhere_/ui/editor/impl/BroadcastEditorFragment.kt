@@ -48,7 +48,9 @@ class BroadcastEditorFragment : BaseEditorFragment() {
                 }
                 setOnItemChildClickListener { _, view, position ->
                     if (view.id == R.id.ib_delete) {
-                        removeAt(position)
+                        if (data.size > 0 && position < data.size) {
+                            removeAt(position)
+                        }
                     }
                 }
             }
