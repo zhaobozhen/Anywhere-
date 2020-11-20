@@ -3,13 +3,13 @@ package com.absinthe.anywhere_.ui.dialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.api.ApiManager
 import com.absinthe.anywhere_.api.GitHubApi
 import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.LayoutCloudRuleDetailBinding
 import com.absinthe.anywhere_.model.cloud.RuleEntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -17,7 +17,6 @@ import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.CipherUtils
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
-import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +32,6 @@ const val EXTRA_URL = "EXTRA_URL"
 class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
 
     private val url by lazy { arguments?.getString(EXTRA_URL) ?: "" }
-    private val viewModel by viewModels<AnywhereViewModel>()
     private var entity: AnywhereEntity? = null
     private lateinit var binding: LayoutCloudRuleDetailBinding
 
@@ -68,17 +66,16 @@ class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
                         entity?.let {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 if (AnywhereApplication.sRepository.getPageEntityByTitle(it.category) == null) {
-                                    val category = it.category.ifEmpty { AnywhereType.Category.DEFAULT_CATEGORY }
+                                    val category = it.category.ifEmpty { GlobalValues.category }
                                     AnywhereApplication.sRepository.insertPage(
                                             PageEntity.Builder().apply {
                                                 title = category
-                                                priority = AnywhereApplication.sRepository.allPageEntities.value?.size
-                                                        ?: 0
+                                                priority = AnywhereApplication.sRepository.allPageEntities.value?.size ?: 0
                                             }
                                     )
                                     it.category = category
                                 }
-                                viewModel.insert(it)
+                                AnywhereApplication.sRepository.insert(it)
                             }
                         }
                         dismiss()
