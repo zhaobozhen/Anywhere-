@@ -9,11 +9,9 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.api.ApiManager
 import com.absinthe.anywhere_.api.GitHubApi
 import com.absinthe.anywhere_.constants.AnywhereType
-import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.LayoutCloudRuleDetailBinding
 import com.absinthe.anywhere_.model.cloud.RuleEntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.CipherUtils
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
@@ -65,16 +63,6 @@ class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
                     binding.btnAdd.setOnClickListener {
                         entity?.let {
                             lifecycleScope.launch(Dispatchers.IO) {
-                                if (AnywhereApplication.sRepository.getPageEntityByTitle(it.category) == null) {
-                                    val category = it.category.ifEmpty { GlobalValues.category }
-                                    AnywhereApplication.sRepository.insertPage(
-                                            PageEntity.Builder().apply {
-                                                title = category
-                                                priority = AnywhereApplication.sRepository.allPageEntities.value?.size ?: 0
-                                            }
-                                    )
-                                    it.category = category
-                                }
                                 AnywhereApplication.sRepository.insert(it)
                             }
                         }
