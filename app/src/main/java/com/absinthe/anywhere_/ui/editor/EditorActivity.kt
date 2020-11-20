@@ -81,6 +81,7 @@ class EditorActivity : BaseActivity() {
             finish()
         } else {
             entity = _entity!!
+            initViews()
             setUpBottomDrawer()
         }
     }
@@ -105,7 +106,10 @@ class EditorActivity : BaseActivity() {
         return true
     }
 
-    override fun initView() {
+    private fun initViews() {
+        if (_entity == null) {
+            return
+        }
         super.initView()
         if (isEditMode) {
             binding.tvOpenUrl.apply {

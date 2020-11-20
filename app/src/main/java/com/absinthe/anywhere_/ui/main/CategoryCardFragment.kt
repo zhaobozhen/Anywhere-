@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.FragmentCategoryCardBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils.updateWidget
+import com.absinthe.anywhere_.utils.doOnMainThreadIdle
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.libraries.utils.extensions.paddingBottomCompat
 import com.absinthe.libraries.utils.extensions.paddingEndCompat
@@ -41,17 +42,19 @@ class CategoryCardFragment : Fragment() {
 
     private val listObserver = Observer<List<AnywhereEntity>> { list ->
         if (!refreshLock) {
-            adapter.setDiffNewData(
-                    if (GlobalValues.isPages) {
-                        if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
-                            list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
+            doOnMainThreadIdle({
+                adapter.setDiffNewData(
+                        if (GlobalValues.isPages) {
+                            if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
+                                list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
+                            } else {
+                                list.filter { it.category == this.category }.toMutableList()
+                            }
                         } else {
-                            list.filter { it.category == this.category }.toMutableList()
+                            list.toMutableList()
                         }
-                    } else {
-                        list.toMutableList()
-                    }
-            )
+                )
+            })
         }
         updateWidget(requireContext())
     }
