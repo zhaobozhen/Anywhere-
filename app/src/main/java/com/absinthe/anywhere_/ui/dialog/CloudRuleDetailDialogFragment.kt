@@ -9,6 +9,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.api.ApiManager
 import com.absinthe.anywhere_.api.GitHubApi
 import com.absinthe.anywhere_.constants.AnywhereType
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.LayoutCloudRuleDetailBinding
 import com.absinthe.anywhere_.model.cloud.RuleEntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -63,6 +64,7 @@ class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
                     binding.btnAdd.setOnClickListener {
                         entity?.let {
                             lifecycleScope.launch(Dispatchers.IO) {
+                                it.category = GlobalValues.category
                                 AnywhereApplication.sRepository.insert(it)
                             }
                         }
