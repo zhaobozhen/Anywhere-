@@ -147,6 +147,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                     } else {
                         itemView.cardBackground.post {
                             UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)
+                            itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                         }
                     }
                 } else {
@@ -186,12 +187,14 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                             } else {
                                 itemView.cardBackground.post {
                                     UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)
+                                    itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                                 }
                             }
                         }
                     } else {
                         itemView.cardBackground.post {
                             UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)
+                            itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                         }
                     }
                 } else {
