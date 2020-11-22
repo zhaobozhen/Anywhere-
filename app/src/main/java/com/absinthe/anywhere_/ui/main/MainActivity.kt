@@ -625,7 +625,7 @@ class MainActivity : BaseActivity() {
         Glide.with(this)
                 .load(url)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(mBinding.ivBack)
     }
 

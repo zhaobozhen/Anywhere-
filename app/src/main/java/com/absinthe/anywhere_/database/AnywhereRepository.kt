@@ -44,8 +44,18 @@ class AnywhereRepository(application: Application) {
         GlobalValues.needBackup = true
     }
 
+    fun insert(list: List<AnywhereEntity>) = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.insert(list)
+        GlobalValues.needBackup = true
+    }
+
     fun update(ae: AnywhereEntity) = GlobalScope.launch(Dispatchers.IO) {
         mAnywhereDao.update(ae)
+        GlobalValues.needBackup = true
+    }
+
+    fun update(list: List<AnywhereEntity>) = GlobalScope.launch(Dispatchers.IO) {
+        mAnywhereDao.update(list)
         GlobalValues.needBackup = true
     }
 
@@ -58,8 +68,13 @@ class AnywhereRepository(application: Application) {
         GlobalValues.needBackup = true
     }
 
-    fun deleteAll() = GlobalScope.launch(Dispatchers.IO) {
-        mAnywhereDao.deleteAll()
+    fun delete(list: List<AnywhereEntity>, delayTime: Long = 0L) = GlobalScope.launch(Dispatchers.IO) {
+        delay(delayTime)
+        mAnywhereDao.delete(list)
+        if (AppUtils.atLeastNMR1()) {
+            list.forEach { ShortcutsUtils.removeShortcut(it) }
+        }
+        GlobalValues.needBackup = true
     }
 
     fun insertPage(pe: PageEntity) = GlobalScope.launch(Dispatchers.IO) {
@@ -84,9 +99,5 @@ class AnywhereRepository(application: Application) {
 
     fun getEntityById(id: String) : AnywhereEntity? {
         return mAnywhereDao.getEntityById(id)
-    }
-
-    fun getPageEntityByTitle(title: String) : PageEntity? {
-        return mAnywhereDao.getPageEntityByTitle(title)
     }
 }

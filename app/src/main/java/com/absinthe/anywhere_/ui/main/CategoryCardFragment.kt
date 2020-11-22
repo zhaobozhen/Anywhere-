@@ -40,19 +40,17 @@ class CategoryCardFragment : Fragment() {
     private lateinit var itemTouchHelper: ItemTouchHelper
 
     private val listObserver = Observer<List<AnywhereEntity>> { list ->
-        if (!refreshLock) {
-            adapter.setDiffNewData(
-                    if (GlobalValues.isPages) {
-                        if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
-                            list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
-                        } else {
-                            list.filter { it.category == this.category }.toMutableList()
-                        }
+        adapter.setDiffNewData(
+                if (GlobalValues.isPages) {
+                    if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
+                        list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
                     } else {
-                        list.toMutableList()
+                        list.filter { it.category == this.category }.toMutableList()
                     }
-            )
-        }
+                } else {
+                    list.toMutableList()
+                }
+        )
         updateWidget(requireContext())
     }
 
@@ -257,7 +255,6 @@ class CategoryCardFragment : Fragment() {
             }
         }
 
-        var refreshLock = false
         var currentReference: WeakReference<CategoryCardFragment>? = null
     }
 }

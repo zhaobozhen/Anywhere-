@@ -12,6 +12,7 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.chad.library.adapter.base.entity.node.BaseNode
@@ -74,14 +75,16 @@ class PageTitleProvider : BaseNodeProvider() {
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
                     AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
                         val title = list[0].title
+                        val aeList = mutableListOf<AnywhereEntity>()
 
                         AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
                             for (ae in it) {
                                 if (ae.category == node.title) {
                                     ae.category = title
-                                    AnywhereApplication.sRepository.update(ae)
+                                    aeList.add(ae)
                                 }
                             }
+                            AnywhereApplication.sRepository.update(aeList)
                         }
 
                         GlobalValues.setsCategory(title, 0)
@@ -91,11 +94,14 @@ class PageTitleProvider : BaseNodeProvider() {
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
                     AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
                         AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
+                            val deleteList = mutableListOf<AnywhereEntity>()
+
                             for (ae in it) {
                                 if (ae.category == node.title) {
-                                    AnywhereApplication.sRepository.delete(ae)
+                                    deleteList.add(ae)
                                 }
                             }
+                            AnywhereApplication.sRepository.delete(deleteList)
                         }
 
                         GlobalValues.setsCategory(list[0].title, 0)
@@ -144,12 +150,15 @@ class PageTitleProvider : BaseNodeProvider() {
             val pe = getPageEntity(oldTitle)
             AnywhereApplication.sRepository.allAnywhereEntities.value?.let { list ->
                 pe?.let {
+                    val aeList = mutableListOf<AnywhereEntity>()
+
                     for (ae in list) {
                         if (ae.category == pe.title) {
                             ae.category = newTitle
-                            AnywhereApplication.sRepository.update(ae)
+                            aeList.add(ae)
                         }
                     }
+                    AnywhereApplication.sRepository.update(aeList)
                     pe.title = newTitle
                     AnywhereApplication.sRepository.updatePage(pe)
                     GlobalValues.category = newTitle

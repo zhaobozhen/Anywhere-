@@ -27,7 +27,6 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
-import com.absinthe.anywhere_.ui.main.CategoryCardFragment
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
 import com.absinthe.anywhere_.utils.UxUtils
@@ -49,6 +48,8 @@ const val LAYOUT_MODE_MEDIUM = 1
 const val LAYOUT_MODE_SMALL = 2
 const val LAYOUT_MODE_MINIMUM = 3
 
+const val SNOW_FLAKE_EMOJI = "\u2744"
+
 class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(0), ItemTouchCallBack.OnItemTouchListener {
 
     var mode = ADAPTER_MODE_NORMAL
@@ -69,16 +70,15 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
 
         val itemView = holder.itemView as CardItemView<*>
 
-        val appName = try {
+        itemView.appName.text = try {
             if (IceBox.getAppEnabledSetting(context, item.packageName) != 0) {
-                "\u2744" + item.appName
+                SNOW_FLAKE_EMOJI + item.appName
             } else {
                 item.appName
             }
         } catch (e: PackageManager.NameNotFoundException) {
             item.appName
         }
-        itemView.appName.text = appName
 
         when (layoutMode) {
             LAYOUT_MODE_LARGE -> {
@@ -117,9 +117,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                             if (color != 0) {
                                 itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
                                 itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
-                                if (layoutMode == LAYOUT_MODE_MEDIUM) {
-                                    normalView!!.content.description.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
-                                }
+                                normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                                 item.color = color
 
                                 if (shouldUpdateColorInfo(context, item)) {
@@ -148,6 +146,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                         itemView.cardBackground.post {
                             UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)
                             itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                            normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
                         }
                     }
                 } else {
@@ -251,8 +250,9 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
         notifyItemMoved(fromPosition, toPosition)
     }
 
-    override fun onSwiped(position: Int) {
-    }
+    override fun onSwiped(position: Int) { /* Do nothing */ }
+
+    override fun getItemId(position: Int): Long = data[position].timeStamp.toLong()
 
     fun clickItem(v: View, position: Int) {
         try {
@@ -331,9 +331,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
             }
         }
 
-        for (item in deleteList) {
-            AnywhereApplication.sRepository.delete(item)
-        }
+        AnywhereApplication.sRepository.delete(deleteList)
         clearSelect()
     }
 
@@ -362,16 +360,14 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
     }
 
     fun updateSortedList() {
-        CategoryCardFragment.refreshLock = true
-
+        val list = mutableListOf<AnywhereEntity>()
         val startTime = System.currentTimeMillis()
         for (pos in 0 until data.size) {
             val item = data[pos]
             item.timeStamp = (startTime - pos * 100).toString()
-            AnywhereApplication.sRepository.update(item)
+            list.add(item)
         }
-
-        CategoryCardFragment.refreshLock = false
+        AnywhereApplication.sRepository.update(list)
     }
 
     private fun shouldUpdateColorInfo(context: Context, item: AnywhereEntity): Boolean {

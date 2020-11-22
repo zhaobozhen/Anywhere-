@@ -98,6 +98,7 @@ object StorageUtils {
                     ToastUtil.makeText(R.string.toast_backup_file_error)
                 }
             } else {
+                val aeList = mutableListOf<AnywhereEntity>()
                 val pageList = mutableListOf<PageEntity>()
                 pageList.addAll(backupBean.pageList)
 
@@ -112,8 +113,9 @@ object StorageUtils {
                         )
                         ae.category = category
                     }
-                    AnywhereApplication.sRepository.insert(ae)
+                    aeList.add(ae)
                 }
+                AnywhereApplication.sRepository.insert(aeList)
                 AnywhereApplication.sRepository.insertPage(pageList)
 
                 withContext(Dispatchers.Main) {
