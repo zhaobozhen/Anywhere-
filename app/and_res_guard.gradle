@@ -14,17 +14,19 @@ andResGuard {
     mergeDuplicatedRes = true
     whiteList = [
             // your icon
-            "R.mipmap.ic_launcher"
+            "R.mipmap.ic_launcher",
+            "R.id.*",
+            "R.drawable.*",
+            "R.layout.*"
     ]
     compressFilePattern = [
             "*.png",
             "*.jpg",
             "*.jpeg",
-            "*.gif",
-            "*.webp"
+            "*.gif"
     ]
     sevenzip {
-        artifact = 'com.tencent.mm:SevenZip:1.2.19'
+        artifact = 'com.tencent.mm:SevenZip:1.2.20'
         //path = "/usr/local/bin/7za"
     }
 
