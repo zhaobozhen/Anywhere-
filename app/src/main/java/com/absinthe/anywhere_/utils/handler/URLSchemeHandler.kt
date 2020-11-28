@@ -12,7 +12,7 @@ object URLSchemeHandler {
 
     @Throws(Exception::class)
     fun parse(context: Context, url: String, packageName: String? = null, action: () -> Unit = {}) {
-        if (packageName != null && IceBox.getAppEnabledSetting(context, packageName) != 0) {
+        if (!packageName.isNullOrEmpty() && IceBox.getAppEnabledSetting(context, packageName) != 0) {
             DefrostHandler.defrost(context, packageName, object : OnAppDefrostListener {
                 override fun onAppDefrost() {
                     try {

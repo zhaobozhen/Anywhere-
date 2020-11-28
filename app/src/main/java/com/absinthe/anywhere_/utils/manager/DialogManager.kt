@@ -106,7 +106,7 @@ object DialogManager {
                 .setMessage(HtmlCompat.fromHtml(String.format(activity.getString(R.string.dialog_delete_message), "<b>" + ae.appName + "</b>"), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _, _ ->
                     activity.onBackPressed()
-                    AnywhereApplication.sRepository.delete(ae, 350)
+                    AnywhereApplication.sRepository.delete(ae)
                 }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()

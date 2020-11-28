@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.FragmentCategoryCardBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils.updateWidget
+import com.absinthe.anywhere_.utils.doOnMainThreadIdle
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.libraries.utils.extensions.paddingBottomCompat
 import com.absinthe.libraries.utils.extensions.paddingEndCompat
@@ -38,23 +39,20 @@ class CategoryCardFragment : Fragment() {
     private lateinit var binding: FragmentCategoryCardBinding
     private lateinit var adapter: BaseCardAdapter
     private lateinit var itemTouchHelper: ItemTouchHelper
+    private var isFirstLoadItems = true
 
     private val listObserver = Observer<List<AnywhereEntity>> { list ->
-        adapter.setDiffNewData(
-                if (GlobalValues.isPages) {
-                    if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
-                        list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
-                    } else {
-                        list.filter { it.category == this.category }.toMutableList()
-                    }
-                } else {
-                    list.toMutableList()
-                }
-        )
-        updateWidget(requireContext())
+        if (isFirstLoadItems) {
+            isFirstLoadItems = false
+            updateItems(list)
+        } else {
+            doOnMainThreadIdle({
+                binding.root.postDelayed({ updateItems(list) }, 300)
+            })
+        }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCategoryCardBinding.inflate(inflater, container, false)
         initView()
         return binding.root
@@ -194,6 +192,21 @@ class CategoryCardFragment : Fragment() {
             refreshRecyclerView()
         })
         observeEntitiesList()
+    }
+
+    private fun updateItems(list: List<AnywhereEntity>) {
+        adapter.setDiffNewData(
+                if (GlobalValues.isPages) {
+                    if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
+                        list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
+                    } else {
+                        list.filter { it.category == this.category }.toMutableList()
+                    }
+                } else {
+                    list.toMutableList()
+                }
+        )
+        updateWidget(requireContext())
     }
 
     private fun resetSelectState() {

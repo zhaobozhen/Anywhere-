@@ -368,7 +368,7 @@ object AppUtils {
         return try {
             packageManager.getActivityInfo(cn, 0).exported
         } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
+            Timber.e(e)
             false
         }
     }

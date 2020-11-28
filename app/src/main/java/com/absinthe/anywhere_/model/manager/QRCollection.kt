@@ -12,6 +12,7 @@ import com.absinthe.anywhere_.a11y.A11yType
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.listener.OnQRLaunchedListener
+import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.QREntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.handler.Opener
@@ -391,32 +392,35 @@ object QRCollection {
             }
         }
 
-    private fun genUnionPay(id: String, vararg text: String): QREntity {
+    private fun genUnionPay(id: String, text: String): QREntity {
         val pkgName = "com.unionpay"
-        val clsName = "com.unionpay.activity.UPActivityMain"
+        val clsName = "com.unionpay.activity.UPActivityWelcome"
         list.add(AnywhereEntity.Builder().apply {
             this.id = id
-            appName = "云闪付${text[0]}"
+            appName = "云闪付${text}"
             param1 = pkgName
-            description = getContext().getString(R.string.desc_need_accessibility)
+            description = getContext().getString(R.string.desc_work_at_any_mode)
             type = AnywhereType.Card.QR_CODE
         })
+        val extraData = when (text) {
+            "乘车码" -> "upwallet://rn/rnhtmlridingcode"
+            "付款码" -> "upwallet://native/codepay"
+            "收款码" -> "upwallet://native/codecollect"
+            "扫一扫" -> "upwallet://native/qrcode"
+            else -> ""
+        }
         return QREntity(object : OnQRLaunchedListener {
             override fun onLaunched() {
-                val list = mutableListOf(
-                        A11yActionBean(A11yType.TEXT, "知道了", "", 200L),
-                        A11yActionBean(A11yType.TEXT, "跳过", "", 300L)
+                val extraBean = ExtraBean(
+                        data = extraData,
+                        action = Intent.ACTION_VIEW,
+                        extras = emptyList()
                 )
-                text.forEach { list.add(A11yActionBean(A11yType.TEXT, it, "", 0L)) }
-
-                val a11yEntity = A11yEntity().apply {
-                    applicationId = pkgName
-                    entryActivity = clsName
-                    actions = list
-                }
                 val entity = AnywhereEntity.Builder().apply {
-                    type = AnywhereType.Card.ACCESSIBILITY
-                    param1 = Gson().toJson(a11yEntity)
+                    type = AnywhereType.Card.ACTIVITY
+                    param1 = pkgName
+                    param2 = clsName
+                    param3 = Gson().toJson(extraBean)
                 }
                 Opener.with(getContext()).load(entity).open()
             }
@@ -432,22 +436,87 @@ object QRCollection {
         get() = genUnionPay(unionpayPayId, "付款码")
 
     /**
+     * UnionPay bus page
+     */
+    private val unionpayBus: QREntity
+        get() = genUnionPay(unionpayBusId, "乘车码")
+
+    /**
      * UnionPay collect page
      */
     private val unionpayCollect: QREntity
-        get() = genUnionPay(unionpayCollectId, "收款码")
+        get() {
+            val pkgName = "com.unionpay"
+            val clsName = "com.unionpay.activity.UPActivityMain"
+            list.add(AnywhereEntity.Builder().apply {
+                id = unionpayCollectId
+                appName = "云闪付收款码"
+                param1 = pkgName
+                description = getContext().getString(R.string.desc_need_accessibility)
+                type = AnywhereType.Card.QR_CODE
+            })
+            return QREntity(object : OnQRLaunchedListener {
+                override fun onLaunched() {
+                    val list = mutableListOf(
+                            A11yActionBean(A11yType.TEXT, "知道了", "", 200L),
+                            A11yActionBean(A11yType.TEXT, "跳过", "", 300L),
+                            A11yActionBean(A11yType.TEXT, "收款码", "", 0L)
+                    )
+
+                    val a11yEntity = A11yEntity().apply {
+                        applicationId = pkgName
+                        entryActivity = clsName
+                        actions = list
+                    }
+                    val entity = AnywhereEntity.Builder().apply {
+                        type = AnywhereType.Card.ACCESSIBILITY
+                        param1 = Gson().toJson(a11yEntity)
+                    }
+                    Opener.with(getContext()).load(entity).open()
+                }
+            }).apply {
+                this.pkgName = pkgName
+            }
+        }
 
 
     /**
      * UnionPay scan page
      */
     private val unionpayScan: QREntity
-        get() = genUnionPay(unionpayScanId, "扫一扫")
+        get() {
+            val pkgName = "com.unionpay"
+            val clsName = "com.unionpay.activity.UPActivityMain"
+            list.add(AnywhereEntity.Builder().apply {
+                id = unionpayScanId
+                appName = "云闪付扫一扫"
+                param1 = pkgName
+                param2 = clsName
+                description = getContext().getString(R.string.desc_need_accessibility)
+                type = AnywhereType.Card.QR_CODE
+            })
+            return QREntity(object : OnQRLaunchedListener {
+                override fun onLaunched() {
+                    val list = mutableListOf(
+                            A11yActionBean(A11yType.TEXT, "知道了", "", 200L),
+                            A11yActionBean(A11yType.TEXT, "跳过", "", 300L),
+                            A11yActionBean(A11yType.TEXT, "扫一扫", "", 0L)
+                    )
 
-    /**
-     * UnionPay bus page
-     */
-    private val unionpayBus: QREntity
-        get() = genUnionPay(unionpayBusId, "乘车码", "坐公交")
+                    val a11yEntity = A11yEntity().apply {
+                        applicationId = pkgName
+                        entryActivity = clsName
+                        actions = list
+                    }
+                    val entity = AnywhereEntity.Builder().apply {
+                        type = AnywhereType.Card.ACCESSIBILITY
+                        param1 = Gson().toJson(a11yEntity)
+                    }
+                    Opener.with(getContext()).load(entity).open()
+                }
+            }).apply {
+                this.pkgName = pkgName
+            }
+        }
 
 }

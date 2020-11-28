@@ -122,6 +122,10 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
 
                                 if (shouldUpdateColorInfo(context, item)) {
                                     AnywhereApplication.sRepository.update(item)
+                                } else {
+                                    itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
+                                    itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                    normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
                                 }
                             } else {
                                 itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
@@ -139,6 +143,12 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                             item.color = color
                             if (shouldUpdateColorInfo(context, item)) {
                                 AnywhereApplication.sRepository.update(item)
+                            } else {
+                                itemView.cardBackground.post {
+                                    UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, color)
+                                    itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                    normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                }
                             }
                         }
                         itemView.cardBackground.setImageDrawable(null)
@@ -205,12 +215,12 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
         if (item.iconUri.isEmpty()) {
             Glide.with(context)
                     .load(UxUtils.getAppIcon(context, item))
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into(itemView.icon)
         } else {
             Glide.with(context)
                     .load(item.iconUri)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into(itemView.icon)
         }
 
