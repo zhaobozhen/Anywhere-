@@ -437,5 +437,6 @@
     <!--  Cloud  -->
     <string name="cloud_rules_email_title" translatable="false">New Cloud Rule</string>
     <string name="cloud_rules_email_header">Contributor:\nDescription:\n\n** DO NOT MODIFY CONTENT BELOW ** Card will be uploaded after reviewing</string>
+    <string name="cloud_rules_need_root">Need root</string>
 
 </resources>

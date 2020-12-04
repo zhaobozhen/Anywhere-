@@ -406,7 +406,7 @@ object QRCollection {
             "乘车码" -> "upwallet://rn/rnhtmlridingcode"
             "付款码" -> "upwallet://native/codepay"
             "收款码" -> "upwallet://native/codecollect"
-            "扫一扫" -> "upwallet://native/qrcode"
+            "扫一扫" -> "upwallet://native/scanCode"
             else -> ""
         }
         return QREntity(object : OnQRLaunchedListener {
@@ -442,6 +442,12 @@ object QRCollection {
         get() = genUnionPay(unionpayBusId, "乘车码")
 
     /**
+     * UnionPay scan page
+     */
+    private val unionpayScan: QREntity
+        get() = genUnionPay(unionpayPayId, "扫一扫")
+
+    /**
      * UnionPay collect page
      */
     private val unionpayCollect: QREntity
@@ -461,46 +467,6 @@ object QRCollection {
                             A11yActionBean(A11yType.TEXT, "知道了", "", 200L),
                             A11yActionBean(A11yType.TEXT, "跳过", "", 300L),
                             A11yActionBean(A11yType.TEXT, "收款码", "", 0L)
-                    )
-
-                    val a11yEntity = A11yEntity().apply {
-                        applicationId = pkgName
-                        entryActivity = clsName
-                        actions = list
-                    }
-                    val entity = AnywhereEntity.Builder().apply {
-                        type = AnywhereType.Card.ACCESSIBILITY
-                        param1 = Gson().toJson(a11yEntity)
-                    }
-                    Opener.with(getContext()).load(entity).open()
-                }
-            }).apply {
-                this.pkgName = pkgName
-            }
-        }
-
-
-    /**
-     * UnionPay scan page
-     */
-    private val unionpayScan: QREntity
-        get() {
-            val pkgName = "com.unionpay"
-            val clsName = "com.unionpay.activity.UPActivityMain"
-            list.add(AnywhereEntity.Builder().apply {
-                id = unionpayScanId
-                appName = "云闪付扫一扫"
-                param1 = pkgName
-                param2 = clsName
-                description = getContext().getString(R.string.desc_need_accessibility)
-                type = AnywhereType.Card.QR_CODE
-            })
-            return QREntity(object : OnQRLaunchedListener {
-                override fun onLaunched() {
-                    val list = mutableListOf(
-                            A11yActionBean(A11yType.TEXT, "知道了", "", 200L),
-                            A11yActionBean(A11yType.TEXT, "跳过", "", 300L),
-                            A11yActionBean(A11yType.TEXT, "扫一扫", "", 0L)
                     )
 
                     val a11yEntity = A11yEntity().apply {

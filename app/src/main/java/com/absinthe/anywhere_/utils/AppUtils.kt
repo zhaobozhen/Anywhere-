@@ -21,6 +21,7 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
+import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.receiver.HomeWidgetProvider
 import com.absinthe.anywhere_.ui.settings.LogcatActivity
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
@@ -31,6 +32,8 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.Utils
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 import timber.log.Timber
 import java.io.File
 import java.util.*
@@ -387,7 +390,42 @@ object AppUtils {
             packageManager.setComponentEnabledSetting(ComponentName(context, context.packageName + ".MainAliasActivity"),
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0)
         }
+    }
 
+    fun isAnywhereEntityNeedRoot(ae: AnywhereEntity): Boolean {
+        return when(ae.type) {
+            AnywhereType.Card.ACTIVITY -> {
+                val clsName = if (ae.param2.startsWith(".")) {
+                    ae.param1 + ae.param2
+                } else {
+                    ae.param2
+                }
+                isActivityExported(Utils.getApp(), ComponentName(ae.param1, clsName))
+            }
+            AnywhereType.Card.SHELL -> {
+                true
+            }
+            AnywhereType.Card.SWITCH_SHELL -> {
+                true
+            }
+            AnywhereType.Card.WORKFLOW -> {
+                val flowStepList: List<FlowStepBean>? = try {
+                    Gson().fromJson(ae.param1, object : TypeToken<List<FlowStepBean>>() {}.type)
+                } catch (e: JsonSyntaxException) {
+                    null
+                }
+
+                flowStepList?.let { list ->
+                    list.forEach {
+                        it.entity?.let { entity ->
+                            return isAnywhereEntityNeedRoot(entity)
+                        }
+                    }
+                }
+                false
+            }
+            else -> false
+        }
     }
 }
 

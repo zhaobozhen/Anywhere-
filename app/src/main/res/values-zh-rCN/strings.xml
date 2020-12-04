@@ -390,4 +390,5 @@
     <string name="settings_card_mode_small">小</string>
     <string name="settings_card_mode_minimum">极小</string>
     <string name="toast_invaild_sid">无效的 SID</string>
+    <string name="cloud_rules_need_root">需要 root</string>
 </resources>
