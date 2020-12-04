@@ -243,11 +243,17 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (mBinding.drawer.isDrawerVisible(GravityCompat.START)) {
-            mBinding.drawer.closeDrawer(GravityCompat.START)
-        } else {
-            backupIfNeeded()
-            finish()
+        when {
+            mBinding.drawer.isDrawerVisible(GravityCompat.START) -> {
+                mBinding.drawer.closeDrawer(GravityCompat.START)
+            }
+            mBinding.fab.isOpen -> {
+                mBinding.fab.close()
+            }
+            else -> {
+                backupIfNeeded()
+                finish()
+            }
         }
     }
 

@@ -445,7 +445,7 @@ object QRCollection {
      * UnionPay scan page
      */
     private val unionpayScan: QREntity
-        get() = genUnionPay(unionpayPayId, "扫一扫")
+        get() = genUnionPay(unionpayScanId, "扫一扫")
 
     /**
      * UnionPay collect page
