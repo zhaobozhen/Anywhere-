@@ -40,6 +40,7 @@ import com.absinthe.anywhere_.utils.AppUtils.getPackageNameByScheme
 import com.absinthe.anywhere_.utils.StatusBarUtil.clearLightStatusBarAndNavigationBar
 import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.ShadowHelper
+import com.absinthe.anywhere_.view.home.TextSwitcherView
 import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
@@ -68,9 +69,11 @@ object UxUtils {
                 } else {
                     item.packageName
                 }
-                getAppIcon(context, packageName) ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type)
+                getAppIcon(context, packageName)
+                        ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type)
             }
-            AnywhereType.Card.ACTIVITY, AnywhereType.Card.QR_CODE -> getAppIcon(context, item.packageName) ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type)
+            AnywhereType.Card.ACTIVITY, AnywhereType.Card.QR_CODE -> getAppIcon(context, item.packageName)
+                    ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type)
             else -> CardTypeIconGenerator.getAdvancedIcon(context, item.type)
         }
     }
@@ -151,14 +154,14 @@ object UxUtils {
      *
      * @param activity Activity for use Glide
      */
-    fun setAdaptiveToolbarTitleColor(activity: AppCompatActivity, toolbar: Toolbar) {
+    fun setAdaptiveToolbarTitleColor(activity: AppCompatActivity, textSwitcher: TextSwitcherView) {
         if (backgroundUri.isEmpty()) {
             return
         }
 
         val title = getToolbarTitle()
         if (actionBarType.isNotEmpty()) {
-            setTopWidgetColor(activity, toolbar, actionBarType, title)
+            setTopWidgetColor(activity, textSwitcher, actionBarType, title)
             return
         }
 
@@ -177,10 +180,10 @@ object UxUtils {
                                 val dominantColor = p.getDominantColor(ContextCompat.getColor(activity, R.color.colorPrimary))
                                 if (isLightColor(dominantColor)) {
                                     // 深色字体
-                                    setTopWidgetColor(activity, toolbar, Const.ACTION_BAR_TYPE_DARK, title)
+                                    setTopWidgetColor(activity, textSwitcher, Const.ACTION_BAR_TYPE_DARK, title)
                                 } else {
                                     // 浅色字体
-                                    setTopWidgetColor(activity, toolbar, Const.ACTION_BAR_TYPE_LIGHT, title)
+                                    setTopWidgetColor(activity, textSwitcher, Const.ACTION_BAR_TYPE_LIGHT, title)
                                 }
                             }
                         }
@@ -192,11 +195,11 @@ object UxUtils {
      * Set action bar title color and status bar and navigation bar style
      *
      * @param activity  Activity for bind action bar
-     * @param toolbar our target
+     * @param textSwitcher our target
      * @param type      dark or light
      * @param title     action bar title
      */
-    private fun setTopWidgetColor(activity: AppCompatActivity, toolbar: Toolbar, type: String, title: String) {
+    private fun setTopWidgetColor(activity: AppCompatActivity, textSwitcher: TextSwitcherView, type: String, title: String) {
         var newType = type
 
         if (backgroundUri.isEmpty() && type == Const.ACTION_BAR_TYPE_LIGHT) {
@@ -210,10 +213,9 @@ object UxUtils {
             } else {
                 ForegroundColorSpan(Color.BLACK)
             }
-            toolbar.title = SpannableString(title).apply {
+            textSwitcher.setText(SpannableString(title).apply {
                 setSpan(span, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-            toolbar.setTitleTextColor(Color.BLACK)
+            })
 
             actionBarType = Const.ACTION_BAR_TYPE_DARK
             activity.invalidateOptionsMenu()
@@ -226,10 +228,9 @@ object UxUtils {
         } else if (newType == Const.ACTION_BAR_TYPE_LIGHT) {
             Timber.d("Light-")
             val span = ForegroundColorSpan(Color.WHITE)
-            toolbar.title = SpannableString(title).apply {
+            textSwitcher.setText(SpannableString(title).apply {
                 setSpan(span, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-            toolbar.setTitleTextColor(Color.WHITE)
+            })
 
             actionBarType = Const.ACTION_BAR_TYPE_LIGHT
 

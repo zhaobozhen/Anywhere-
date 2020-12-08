@@ -82,6 +82,7 @@ import it.sephiroth.android.library.xtooltip.ClosePolicy.Companion.TOUCH_ANYWHER
 import it.sephiroth.android.library.xtooltip.Tooltip
 import jonathanfinerty.once.Once
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -122,6 +123,8 @@ class MainActivity : BaseActivity() {
 
     override fun setToolbar() {
         mToolbar = mBinding.toolbar
+        mToolbar?.title = ""
+        mBinding.tsTitle.setText(UxUtils.getToolbarTitle())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -268,7 +271,7 @@ class MainActivity : BaseActivity() {
         GlobalValues.backgroundUri.apply {
             if (isNotEmpty()) {
                 loadBackground(this)
-                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, mBinding.toolbar)
+                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, mBinding.tsTitle)
                 UxUtils.setActionBarTransparent(this@MainActivity)
             }
         }
@@ -293,6 +296,7 @@ class MainActivity : BaseActivity() {
                             super.onPageSelected(position)
                             val pos = if (position >= it.size) it.size - 1 else position
                             setsCategory(it[pos].title, pos)
+                            mBinding.tsTitle.setText(it[pos].title)
                         }
                     })
 
@@ -355,6 +359,16 @@ class MainActivity : BaseActivity() {
                 it.setHomeButtonEnabled(false)
                 it.setDisplayHomeAsUpEnabled(false)
                 mBinding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+        }
+
+        if (GlobalValues.isPages) {
+            lifecycleScope.launchWhenResumed {
+                delay(2000)
+
+                withContext(Dispatchers.Main) {
+                    mBinding.tsTitle.setText(GlobalValues.category)
+                }
             }
         }
     }
@@ -492,7 +506,7 @@ class MainActivity : BaseActivity() {
 
             if (s.isNotEmpty()) {
                 loadBackground(GlobalValues.backgroundUri)
-                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, mBinding.toolbar)
+                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, mBinding.tsTitle)
                 UxUtils.setActionBarTransparent(this)
             }
         })

@@ -400,7 +400,7 @@ object AppUtils {
                 } else {
                     ae.param2
                 }
-                isActivityExported(Utils.getApp(), ComponentName(ae.param1, clsName))
+                !isActivityExported(Utils.getApp(), ComponentName(ae.param1, clsName))
             }
             AnywhereType.Card.SHELL -> {
                 true

@@ -1,99 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context=".ui.main.MainActivity">
-
-  <ImageView
-    android:id="@+id/iv_back"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/background_todo"
-    android:scaleType="centerCrop" />
+    tools:context=".ui.main.MainActivity">
 
-  <androidx.drawerlayout.widget.DrawerLayout
-    android:id="@+id/drawer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
-
-      <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+    <ImageView
+        android:id="@+id/iv_back"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        android:contentDescription="@string/background_todo"
+        android:scaleType="centerCrop" />
 
-      <com.google.android.material.appbar.AppBarLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        app:elevation="0dp">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-          android:id="@+id/toolbar"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:elevation="3dp"
-          android:minHeight="?attr/actionBarSize"
-          android:theme="?attr/actionBarTheme"
-          android:translationZ="3dp"
-          app:titleTextAppearance="@style/Toolbar.TitleText" />
-
-      </com.google.android.material.appbar.AppBarLayout>
-
-      <com.leinardi.android.speeddial.SpeedDialView
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:padding="16dp"
-        android:clipToPadding="false"
-        android:fitsSystemWindows="true"
-        app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
-        app:sdMainFabClosedBackgroundColor="@color/fabBackgroundColor"
-        app:sdMainFabClosedIconColor="@color/fabIconColor"
-        app:sdMainFabClosedSrc="@drawable/ic_add"
-        app:sdMainFabOpenedBackgroundColor="@color/fabBackgroundColor"
-        app:sdMainFabOpenedIconColor="@color/fabIconColor" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <com.google.android.material.navigation.NavigationView
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:layout_gravity="start"
-      android:maxWidth="500dp">
-
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include layout="@layout/layout_nav_header" />
-
-        <ScrollView
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:fillViewport="true">
-
-          <com.absinthe.anywhere_.view.home.DrawerRecyclerView
-            android:id="@+id/rv_pages"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
 
-        </ScrollView>
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-      </LinearLayout>
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                app:elevation="0dp">
 
-    </com.google.android.material.navigation.NavigationView>
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="3dp"
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="?attr/actionBarTheme"
+                    android:translationZ="3dp">
 
-  </androidx.drawerlayout.widget.DrawerLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.absinthe.anywhere_.view.home.TextSwitcherView
+                            android:id="@+id/ts_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+
+                    </LinearLayout>
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <com.leinardi.android.speeddial.SpeedDialView
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:clipToPadding="false"
+                android:fitsSystemWindows="true"
+                android:padding="16dp"
+                app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
+                app:sdMainFabClosedBackgroundColor="@color/fabBackgroundColor"
+                app:sdMainFabClosedIconColor="@color/fabIconColor"
+                app:sdMainFabClosedSrc="@drawable/ic_add"
+                app:sdMainFabOpenedBackgroundColor="@color/fabBackgroundColor"
+                app:sdMainFabOpenedIconColor="@color/fabIconColor" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:maxWidth="500dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/layout_nav_header" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                    <com.absinthe.anywhere_.view.home.DrawerRecyclerView
+                        android:id="@+id/rv_pages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </ScrollView>
+
+            </LinearLayout>
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </FrameLayout>
