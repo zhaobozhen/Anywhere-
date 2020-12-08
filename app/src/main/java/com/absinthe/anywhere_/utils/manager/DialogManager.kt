@@ -295,6 +295,7 @@ object DialogManager {
                         .show()
             }
             else -> {
+                posListener?.onClick(null, 0)
                 return
             }
         }
