@@ -97,6 +97,7 @@ class MainActivity : BaseActivity() {
     private lateinit var mObserver: Observer<List<PageEntity>?>
 
     private var isBound = false
+    private var isTitleShown = false
     private var collectorService: ICollectorService? = null
     private var mToggle: ActionBarDrawerToggle? = null
 
@@ -296,7 +297,10 @@ class MainActivity : BaseActivity() {
                             super.onPageSelected(position)
                             val pos = if (position >= it.size) it.size - 1 else position
                             setsCategory(it[pos].title, pos)
-                            mBinding.tsTitle.setText(it[pos].title)
+                            
+                            if (isTitleShown) {
+                                mBinding.tsTitle.setText(it[pos].title)
+                            }
                         }
                     })
 
@@ -368,6 +372,7 @@ class MainActivity : BaseActivity() {
 
                 withContext(Dispatchers.Main) {
                     mBinding.tsTitle.setText(GlobalValues.category)
+                    isTitleShown = true
                 }
             }
         }
