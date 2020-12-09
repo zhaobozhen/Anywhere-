@@ -126,7 +126,6 @@ class MainActivity : BaseActivity() {
     override fun setToolbar() {
         mToolbar = mBinding.toolbar
         mToolbar?.title = ""
-        mBinding.tsTitle.setText(UxUtils.getToolbarTitle())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -277,6 +276,8 @@ class MainActivity : BaseActivity() {
                 UxUtils.setActionBarTransparent(this@MainActivity)
             }
         }
+        mBinding.tsTitle.setText(UxUtils.getToolbarTitle())
+
         initFab()
 
         AnywhereApplication.sRepository.allPageEntities.observe(this, {
