@@ -240,6 +240,25 @@ object UxUtils {
     }
 
     /**
+     * Get action bar title color and status bar and navigation bar style
+     *
+     * @param type      dark or light
+     */
+    fun getTopWidgetColor(type: String): Int {
+        var newType = type
+
+        if (backgroundUri.isEmpty() && type == Const.ACTION_BAR_TYPE_LIGHT) {
+            actionBarType = Const.ACTION_BAR_TYPE_DARK
+            newType = Const.ACTION_BAR_TYPE_DARK
+        }
+        return if (newType == Const.ACTION_BAR_TYPE_DARK) {
+            Color.BLACK
+        } else {
+            Color.WHITE
+        }
+    }
+
+    /**
      * Make the card use icon's color
      *
      * @param cardBackgroundView     card view

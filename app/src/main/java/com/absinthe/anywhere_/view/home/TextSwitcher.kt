@@ -10,6 +10,8 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import android.widget.ViewSwitcher
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.utils.UxUtils
 
 /**
  * <pre>
@@ -18,6 +20,8 @@ import com.absinthe.anywhere_.R
  * </pre>
  */
 class TextSwitcherView : TextSwitcher, ViewSwitcher.ViewFactory {
+
+    private var text: TextView? = null
 
     constructor(context: Context?) : super(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
@@ -31,7 +35,7 @@ class TextSwitcherView : TextSwitcher, ViewSwitcher.ViewFactory {
     }
 
     override fun makeView(): View {
-        return TextView(context).apply {
+        text = TextView(context).apply {
             layoutParams = LayoutParams(
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT
@@ -41,5 +45,11 @@ class TextSwitcherView : TextSwitcher, ViewSwitcher.ViewFactory {
             setTextColor(context.getColor(R.color.textColorNormal))
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
         }
+        return text!!
+    }
+
+    override fun setText(text: CharSequence?) {
+        super.setText(text)
+        (nextView as TextView).setTextColor(UxUtils.getTopWidgetColor(GlobalValues.actionBarType))
     }
 }
