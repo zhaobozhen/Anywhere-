@@ -26,7 +26,9 @@ object URLSchemeHandler {
         } else {
             try {
                 context.startActivity(handleIntent(url))
+                action()
             } catch (e: Throwable) {
+                action()
                 throw e
             }
         }

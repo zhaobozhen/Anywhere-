@@ -28,10 +28,10 @@ import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
-import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.libraries.utils.extensions.addPaddingBottom
 import com.absinthe.libraries.utils.extensions.logd
+import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import kotlinx.coroutines.Dispatchers
@@ -102,7 +102,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
         mBinding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppDetailActivity)
             adapter = mAdapter
-            addPaddingBottom(StatusBarUtil.getNavBarHeight())
+            addPaddingBottom(UiUtils.getNavBarHeight(contentResolver))
         }
     }
 

@@ -42,6 +42,7 @@ import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.ShadowHelper
 import com.absinthe.anywhere_.view.home.TextSwitcherView
 import com.absinthe.libraries.utils.extensions.dp
+import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
@@ -202,13 +203,17 @@ object UxUtils {
     private fun setTopWidgetColor(activity: AppCompatActivity, textSwitcher: TextSwitcherView, type: String, title: String) {
         var newType = type
 
-        if (backgroundUri.isEmpty() && type == Const.ACTION_BAR_TYPE_LIGHT) {
-            actionBarType = Const.ACTION_BAR_TYPE_DARK
-            newType = Const.ACTION_BAR_TYPE_DARK
+        if (backgroundUri.isEmpty()) {
+            newType = if (UiUtils.isDarkMode()) {
+                Const.ACTION_BAR_TYPE_LIGHT
+            } else {
+                Const.ACTION_BAR_TYPE_DARK
+            }
         }
         if (newType == Const.ACTION_BAR_TYPE_DARK || newType.isEmpty()) {
             Timber.d("Dark-")
-            val span = if (StatusBarUtil.isDarkMode(activity) && backgroundUri.isEmpty()) {
+            ToastUtil.makeText("Dark-")
+            val span = if (UiUtils.isDarkMode() && backgroundUri.isEmpty()) {
                 ForegroundColorSpan(Color.WHITE)
             } else {
                 ForegroundColorSpan(Color.BLACK)
@@ -227,34 +232,18 @@ object UxUtils {
             }
         } else if (newType == Const.ACTION_BAR_TYPE_LIGHT) {
             Timber.d("Light-")
+            ToastUtil.makeText("Light-")
+
             val span = ForegroundColorSpan(Color.WHITE)
             textSwitcher.setText(SpannableString(title).apply {
                 setSpan(span, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             })
+            textSwitcher.textColor = Color.WHITE
 
             actionBarType = Const.ACTION_BAR_TYPE_LIGHT
 
             activity.invalidateOptionsMenu()
             clearLightStatusBarAndNavigationBar(activity.window.decorView)
-        }
-    }
-
-    /**
-     * Get action bar title color and status bar and navigation bar style
-     *
-     * @param type      dark or light
-     */
-    fun getTopWidgetColor(type: String): Int {
-        var newType = type
-
-        if (backgroundUri.isEmpty() && type == Const.ACTION_BAR_TYPE_LIGHT) {
-            actionBarType = Const.ACTION_BAR_TYPE_DARK
-            newType = Const.ACTION_BAR_TYPE_DARK
-        }
-        return if (newType == Const.ACTION_BAR_TYPE_DARK) {
-            Color.BLACK
-        } else {
-            Color.WHITE
         }
     }
 

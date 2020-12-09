@@ -31,9 +31,9 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
-import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.libraries.utils.extensions.addPaddingBottom
 import com.absinthe.libraries.utils.extensions.dp
+import com.absinthe.libraries.utils.utils.UiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -88,7 +88,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
         // Bug of DayNight lib
         showSystemApp?.apply {
-            if (StatusBarUtil.isDarkMode(this@AppListActivity)) {
+            if (UiUtils.isDarkMode()) {
                 title = SpannableStringBuilder(title).apply {
                     setSpan(ForegroundColorSpan(Color.WHITE), 0, title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 }
@@ -112,7 +112,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 false
             }
 
-            if (StatusBarUtil.isDarkMode(this)) {
+            if (UiUtils.isDarkMode()) {
                 item.title = SpannableStringBuilder(item.title).apply {
                     setSpan(ForegroundColorSpan(Color.WHITE), 0, item.title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 }
@@ -130,7 +130,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             setOnRefreshListener { initData(isShowSystemApp) }
         }
         binding.extendedFab.apply {
-            (layoutParams as CoordinatorLayout.LayoutParams).setMargins(0, 0, 16.dp, 16.dp + StatusBarUtil.getNavBarHeight())
+            (layoutParams as CoordinatorLayout.LayoutParams).setMargins(0, 0, 16.dp, 16.dp + UiUtils.getNavBarHeight(contentResolver))
 
             setOnClickListener {
                 val ae = AnywhereEntity.Builder().apply {
@@ -168,7 +168,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         binding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppListActivity)
             adapter = mAdapter
-            addPaddingBottom(StatusBarUtil.getNavBarHeight())
+            addPaddingBottom(UiUtils.getNavBarHeight(contentResolver))
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

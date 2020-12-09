@@ -1,7 +1,11 @@
 package com.absinthe.anywhere_.view.home
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -10,8 +14,7 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import android.widget.ViewSwitcher
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.utils.UxUtils
+import com.absinthe.libraries.utils.utils.UiUtils
 
 /**
  * <pre>
@@ -21,7 +24,7 @@ import com.absinthe.anywhere_.utils.UxUtils
  */
 class TextSwitcherView : TextSwitcher, ViewSwitcher.ViewFactory {
 
-    private var text: TextView? = null
+    var textColor = if (UiUtils.isDarkMode()) Color.WHITE else Color.BLACK
 
     constructor(context: Context?) : super(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
@@ -35,21 +38,22 @@ class TextSwitcherView : TextSwitcher, ViewSwitcher.ViewFactory {
     }
 
     override fun makeView(): View {
-        text = TextView(context).apply {
+        return TextView(context).apply {
             layoutParams = LayoutParams(
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT
             )
             gravity = Gravity.START or Gravity.CENTER
             setTypeface(null, Typeface.BOLD)
-            setTextColor(context.getColor(R.color.textColorNormal))
+            setTextColor(textColor)
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
         }
-        return text!!
     }
 
-    override fun setText(text: CharSequence?) {
-        super.setText(text)
-        (nextView as TextView).setTextColor(UxUtils.getTopWidgetColor(GlobalValues.actionBarType))
+    override fun setText(text: CharSequence) {
+        val span = ForegroundColorSpan(textColor)
+        super.setText(SpannableString(text).apply {
+            setSpan(span, 0, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        })
     }
 }

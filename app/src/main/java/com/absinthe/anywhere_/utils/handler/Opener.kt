@@ -370,6 +370,7 @@ object Opener {
                 WorkflowIntentService.enqueueWork(context, Intent().apply {
                     putExtra(EXTRA_ENTITY, item)
                 })
+                listener?.onOpened()
             }
             AnywhereType.Card.ACCESSIBILITY -> {
                 if (!QRCollection.checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
@@ -400,8 +401,10 @@ object Opener {
                             context.startActivity(it)
                         }
                     }
+                    listener?.onOpened()
                 } catch (e: Exception) {
                     Timber.e(e)
+                    listener?.onOpened()
                 }
             }
         }

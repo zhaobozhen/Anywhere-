@@ -64,6 +64,7 @@ import com.absinthe.anywhere_.view.home.DrawerRecyclerView
 import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.absinthe.libraries.utils.extensions.dp
+import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
@@ -174,7 +175,7 @@ class MainActivity : BaseActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_LIGHT
-                || (StatusBarUtil.isDarkMode(this) && GlobalValues.backgroundUri.isEmpty())) {
+                || (UiUtils.isDarkMode() && GlobalValues.backgroundUri.isEmpty())) {
             UxUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_LIGHT)
         } else {
             UxUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_DARK)

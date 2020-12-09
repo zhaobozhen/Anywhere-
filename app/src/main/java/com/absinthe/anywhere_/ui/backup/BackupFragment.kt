@@ -8,14 +8,18 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.utils.*
+import com.absinthe.anywhere_.utils.AppTextUtils
+import com.absinthe.anywhere_.utils.CipherUtils
+import com.absinthe.anywhere_.utils.StorageUtils
 import com.absinthe.anywhere_.utils.StorageUtils.createFile
 import com.absinthe.anywhere_.utils.StorageUtils.exportAnywhereEntityJsonString
 import com.absinthe.anywhere_.utils.StorageUtils.isExternalStorageWritable
+import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
 import com.absinthe.libraries.utils.extensions.paddingBottomCompat
+import com.absinthe.libraries.utils.utils.UiUtils
 import com.google.android.material.snackbar.Snackbar
 import moe.shizuku.preference.Preference
 import moe.shizuku.preference.PreferenceFragment
@@ -135,10 +139,10 @@ class BackupFragment : PreferenceFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listView.paddingBottomCompat = StatusBarUtil.getNavBarHeight()
+        listView.paddingBottomCompat = UiUtils.getNavBarHeight(requireActivity().contentResolver)
     }
 
-    override fun onCreateItemDecoration(): DividerDecoration? {
+    override fun onCreateItemDecoration(): DividerDecoration {
         return CategoryDivideDividerDecoration()
     }
 

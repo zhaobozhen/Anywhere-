@@ -15,11 +15,11 @@ import androidx.core.text.HtmlCompat
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.utils.StatusBarUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.libraries.me.Absinthe
+import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.AppUtils
 import com.drakeet.about.*
 import com.drakeet.about.extension.RecommendationLoaderDelegate
@@ -162,7 +162,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     }
 
     private fun initView() {
-        StatusBarUtil.setSystemBarStyle(this, false)
+        UiUtils.setSystemBarStyle(window, false)
 
         val appbar = findViewById<AppBarLayout>(com.drakeet.about.R.id.header_layout)
         appbar.fitsSystemWindows = true
