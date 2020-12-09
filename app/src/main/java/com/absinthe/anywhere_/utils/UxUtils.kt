@@ -212,7 +212,6 @@ object UxUtils {
         }
         if (newType == Const.ACTION_BAR_TYPE_DARK || newType.isEmpty()) {
             Timber.d("Dark-")
-            ToastUtil.makeText("Dark-")
             val span = if (UiUtils.isDarkMode() && backgroundUri.isEmpty()) {
                 ForegroundColorSpan(Color.WHITE)
             } else {
@@ -232,8 +231,6 @@ object UxUtils {
             }
         } else if (newType == Const.ACTION_BAR_TYPE_LIGHT) {
             Timber.d("Light-")
-            ToastUtil.makeText("Light-")
-
             val span = ForegroundColorSpan(Color.WHITE)
             textSwitcher.setText(SpannableString(title).apply {
                 setSpan(span, 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
