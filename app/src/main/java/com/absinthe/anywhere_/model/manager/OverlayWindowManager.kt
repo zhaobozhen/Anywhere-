@@ -14,6 +14,7 @@ import timber.log.Timber
 class OverlayWindowManager(context: Context, binder: IOverlayService, entity: AnywhereEntity) {
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private val overlayList = mutableListOf<OverlayView>()
     private val mEntity = entity
     private var mOverlayView: OverlayView = OverlayView(context, binder)
     private var hasAdded = false

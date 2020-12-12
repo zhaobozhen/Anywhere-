@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.editor.impl
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
         item.let {
             val extraBean: ExtraBean? = try {
@@ -68,6 +70,15 @@ class AnywhereEditorFragment : BaseEditorFragment() {
                     tietIntentAction.setText(action)
                     tietIntentData.setText(data)
                     adapter.setList(extras)
+                }
+                tilClassName.setEndIconOnClickListener {
+                    if (!tietClassName.text.isNullOrBlank() && !tietPackageName.text.isNullOrBlank()) {
+                        if (tietClassName.text.toString().startsWith(tietPackageName.text.toString())) {
+                            tietClassName.setText(tietClassName.text.toString().removePrefix(tietPackageName.text.toString()))
+                        } else if (tietClassName.text.toString().startsWith(".")) {
+                            tietClassName.setText("${tietPackageName.text.toString()}${tietClassName.text.toString()}")
+                        }
+                    }
                 }
             }
         }
