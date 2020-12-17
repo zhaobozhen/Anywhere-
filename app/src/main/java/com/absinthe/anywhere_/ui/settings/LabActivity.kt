@@ -48,9 +48,15 @@ class LabActivity : BaseActivity() {
                     true
                 }
             }
+            (findPreference(Const.PREF_DEPRECATED_SC_CREATING_METHOD) as SwitchPreference).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.deprecatedScCreatingMethod = newValue as Boolean
+                    true
+                }
+            }
         }
 
-        override fun onCreateItemDecoration(): DividerDecoration? {
+        override fun onCreateItemDecoration(): DividerDecoration {
             return CategoryDivideDividerDecoration()
         }
     }

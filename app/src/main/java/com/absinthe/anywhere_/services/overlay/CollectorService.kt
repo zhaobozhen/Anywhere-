@@ -36,6 +36,7 @@ class CollectorService : Service() {
     private val mHandler = Handler(Looper.myLooper()!!)
     private val getCurrentInfoTask: Runnable = object : Runnable {
         override fun run() {
+            Timber.d("getCurrentInfoTask#run")
             val result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY)
 
             if (result == CommandResult.RESULT_NULL ||
@@ -56,7 +57,7 @@ class CollectorService : Service() {
         return START_NOT_STICKY
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent): IBinder {
         return binder
     }
 

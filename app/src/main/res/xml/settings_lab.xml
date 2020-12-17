@@ -21,6 +21,13 @@
             app:icon="@drawable/ic_animation"
             app:defaultValue="true" />
 
+        <SwitchPreference
+            app:key="deprecatedScCreatingMethod"
+            app:title="@string/settings_deprecated_sc_creating_method"
+            app:summary="@string/settings_deprecated_sc_creating_method_summary"
+            app:icon="@drawable/ic_deprecate_icon"
+            app:defaultValue="false" />
+
     </moe.shizuku.preference.PreferenceCategory>
 
 </PreferenceScreen>

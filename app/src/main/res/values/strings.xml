@@ -249,6 +249,9 @@
     <string name="settings_editor_entry_animation">Editor Entry Animation</string>
     <string name="settings_editor_entry_animation_summary">It will have a better animation experience after turning on this option</string>
 
+    <string name="settings_deprecated_sc_creating_method">Use deprecated method to create shortcuts</string>
+    <string name="settings_deprecated_sc_creating_method_summary">We use this method to create shortcuts by default under Android 8.0</string>
+
     <string name="settings_shell_off">Off</string>
     <string name="settings_shell_toast" translatable="false">Toast</string>
     <string name="settings_shell_dialog">Dialog</string>

@@ -391,4 +391,6 @@
     <string name="settings_card_mode_minimum">極小</string>
     <string name="toast_invaild_sid">無效的 SID</string>
     <string name="cloud_rules_need_root">需要 root</string>
+    <string name="settings_deprecated_sc_creating_method_summary">在 Android 8.0 以下默認使用此方法創建快捷方式</string>
+    <string name="settings_deprecated_sc_creating_method">使用廢棄的方法創建快捷方式</string>
 </resources>

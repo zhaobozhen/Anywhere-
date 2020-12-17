@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
@@ -31,7 +32,7 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
         return builder.setView(mBuilder.root)
                 .setTitle(R.string.dialog_set_icon_and_name_title)
                 .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
-                    if (AppUtils.atLeastO()) {
+                    if (AppUtils.atLeastO() && !GlobalValues.deprecatedScCreatingMethod) {
                         ShortcutsUtils.addPinnedShortcut(mEntity,
                                 mBuilder.ivIcon.drawable, mBuilder.etName.text.toString())
                     } else {
