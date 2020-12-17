@@ -71,14 +71,18 @@ class AnywhereEditorFragment : BaseEditorFragment() {
                     tietIntentData.setText(data)
                     adapter.setList(extras)
                 }
-                tilClassName.setEndIconOnClickListener {
-                    if (!tietClassName.text.isNullOrBlank() && !tietPackageName.text.isNullOrBlank()) {
-                        if (tietClassName.text.toString().startsWith(tietPackageName.text.toString())) {
-                            tietClassName.setText(tietClassName.text.toString().removePrefix(tietPackageName.text.toString()))
-                        } else if (tietClassName.text.toString().startsWith(".")) {
-                            tietClassName.setText("${tietPackageName.text.toString()}${tietClassName.text.toString()}")
+                if (it.param2.startsWith(it.param1) || it.param2.startsWith(".")) {
+                    tilClassName.setEndIconOnClickListener {
+                        if (!tietClassName.text.isNullOrBlank() && !tietPackageName.text.isNullOrBlank()) {
+                            if (tietClassName.text.toString().startsWith(tietPackageName.text.toString())) {
+                                tietClassName.setText(tietClassName.text.toString().removePrefix(tietPackageName.text.toString()))
+                            } else if (tietClassName.text.toString().startsWith(".")) {
+                                tietClassName.setText("${tietPackageName.text.toString()}${tietClassName.text.toString()}")
+                            }
                         }
                     }
+                } else {
+                    tilClassName.isEndIconVisible = false
                 }
             }
         }

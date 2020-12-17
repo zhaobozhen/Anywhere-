@@ -17,8 +17,8 @@ android {
     }
 
     compileSdkVersion 30
-    buildToolsVersion '30.0.2'
-    ndkVersion "21.3.6528147"
+    buildToolsVersion '30.0.3'
+    ndkVersion "22.0.7026061"
 
     defaultConfig {
         applicationId "com.absinthe.anywhere_"

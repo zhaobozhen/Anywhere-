@@ -37,8 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:hint="@string/bsd_text_input_layout_package_name_label"
-        app:endIconCheckable="true"
-        app:endIconDrawable="@drawable/ic_full_class_switch"
         app:helperText="@string/bsd_text_input_layout_package_name_helper_text"
         app:helperTextEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/til_app_name">
@@ -60,6 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bsd_item_margin_vertical"
         android:hint="@string/bsd_text_input_layout_class_name_label"
+        app:endIconDrawable="@drawable/ic_full_class_switch"
+        app:endIconMode="custom"
         app:helperText="@string/bsd_text_input_layout_class_name_helper_text"
         app:helperTextEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/til_package_name">

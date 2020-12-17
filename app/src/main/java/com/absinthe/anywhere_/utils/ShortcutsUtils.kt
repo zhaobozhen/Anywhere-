@@ -18,7 +18,6 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
-import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.Utils
 
 object ShortcutsUtils {
@@ -114,10 +113,10 @@ object ShortcutsUtils {
                 putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, ae.id)
             }
 
-            val finalName = if (name.isEmpty()) " " else name
+            val finalName = name.ifEmpty { " " }
             val pinShortcutInfo = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                     .setShortLabel(finalName)
-                    .setIcon(Icon.createWithBitmap(ConvertUtils.drawable2Bitmap(icon)))
+                    .setIcon(Icon.createWithBitmap(icon.toBitmap()))
                     .setIntent(intent)
                     .build()
 
