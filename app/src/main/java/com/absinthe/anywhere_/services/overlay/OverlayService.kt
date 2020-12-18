@@ -10,32 +10,32 @@ import timber.log.Timber
 class OverlayService : Service() {
 
     private val binder = object : IOverlayService.Stub() {
-        override fun closeOverlay() {
-            mWindowManager.removeView()
+
+        override fun addOverlay(entity: AnywhereEntity?) {
+            entity?.let {
+                startActivity(Intent(Intent.ACTION_MAIN).apply {
+                    this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    addCategory(Intent.CATEGORY_HOME)
+                })
+                windowManager.addView(it)
+            }
+        }
+
+        override fun closeOverlay(entity: AnywhereEntity?) {
+            entity?.let { windowManager.removeView(it) }
             stopSelf()
         }
     }
-    private lateinit var mWindowManager: OverlayWindowManager
+    private lateinit var windowManager: OverlayWindowManager
 
     override fun onCreate() {
         super.onCreate()
         Timber.i("OverlayService onCreate")
+        windowManager = OverlayWindowManager(applicationContext, binder)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        val entity = intent.getParcelableExtra<AnywhereEntity>(ENTITY)
-
-        if (entity != null) {
-            mWindowManager = OverlayWindowManager(applicationContext, binder, entity)
-            startActivity(Intent(Intent.ACTION_MAIN).apply {
-                this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                addCategory(Intent.CATEGORY_HOME)
-            })
-        } else {
-            stopSelf()
-        }
-        mWindowManager.addView()
-
+        super.onStartCommand(intent, flags, startId)
         return START_NOT_STICKY
     }
 
@@ -45,10 +45,8 @@ class OverlayService : Service() {
 
     override fun onDestroy() {
         Timber.d("OverlayService onDestroy.")
+        windowManager.release()
         super.onDestroy()
     }
 
-    companion object {
-        const val ENTITY = "ENTITY"
-    }
 }

@@ -39,6 +39,12 @@
 
         </Preference>
 
+        <SwitchPreference
+            app:key="closeAfterLaunch"
+            app:title="@string/settings_close_after_launch"
+            app:summary="@string/settings_close_after_launch_summary"
+            app:icon="@drawable/ic_rocket" />
+
     </moe.shizuku.preference.PreferenceCategory>
 
     <PreferenceCategory

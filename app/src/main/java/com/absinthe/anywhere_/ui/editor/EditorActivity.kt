@@ -1,14 +1,13 @@
 package com.absinthe.anywhere_.ui.editor
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.view.Menu
 import android.view.View
 import android.view.Window
@@ -30,6 +29,7 @@ import com.absinthe.anywhere_.databinding.ActivityEditorBinding
 import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
+import com.absinthe.anywhere_.services.overlay.IOverlayService
 import com.absinthe.anywhere_.services.overlay.OverlayService
 import com.absinthe.anywhere_.ui.dialog.EXTRA_FROM_WORKFLOW
 import com.absinthe.anywhere_.ui.editor.impl.WorkflowEditorFragment
@@ -42,6 +42,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showCannotAddShortcutD
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCreatePinnedShortcutDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRemoveShortcutDialog
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.platform.MaterialContainerTransform
@@ -63,6 +64,23 @@ class EditorActivity : BaseActivity() {
     private val _entity by lazy { intent.getParcelableExtra(EXTRA_ENTITY) as? AnywhereEntity }
     private val isEditMode by lazy { intent.getBooleanExtra(EXTRA_EDIT_MODE, false) }
     private val isFromWorkFlow by lazy { intent.getBooleanExtra(EXTRA_FROM_WORKFLOW, false) }
+    private var overlayService: IOverlayService? = null
+    private var isBound = false
+
+    private val conn = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound = false
+            overlayService = null
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            isBound = true
+            overlayService = IOverlayService.Stub.asInterface(service)
+            overlayService?.addOverlay(entity)
+            ActivityUtils.startHomeActivity()
+        }
+
+    }
 
     override fun setViewBinding() {
         binding = ActivityEditorBinding.inflate(layoutInflater)
@@ -184,8 +202,12 @@ class EditorActivity : BaseActivity() {
             }
             setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.trying_run -> { editor.tryRunning() }
-                    R.id.overlay -> { startOverlay() }
+                    R.id.trying_run -> {
+                        editor.tryRunning()
+                    }
+                    R.id.overlay -> {
+                        startOverlay()
+                    }
                 }
                 true
             }
@@ -316,9 +338,12 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun startOverlayImpl() {
-        startService(Intent(this, OverlayService::class.java).apply {
-            putExtra(OverlayService.ENTITY, entity)
-        })
+        if (isBound) {
+            overlayService?.addOverlay(entity)
+            ActivityUtils.startHomeActivity()
+        } else {
+            applicationContext.bindService(Intent(this, OverlayService::class.java), conn, Context.BIND_AUTO_CREATE)
+        }
         finish()
 
         if (!Once.beenDone(OnceTag.OVERLAY_TIP)) {

@@ -71,7 +71,7 @@ public class AnywhereEntity implements Parcelable {
 
     @NonNull
     public static AnywhereEntity Builder() {
-        String time = System.currentTimeMillis() + "";
+        String time = String.valueOf(System.currentTimeMillis());
         return new AnywhereEntity(
                 time,
                 "",

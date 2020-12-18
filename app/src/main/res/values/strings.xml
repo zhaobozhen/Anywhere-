@@ -176,6 +176,7 @@
     <string name="settings_working_mode">Working Mode</string>
     <string name="settings_change_background">Change Background</string>
     <string name="settings_reset_background">Reset Background</string>
+    <string name="settings_close_after_launch">Close after launching cards</string>
     <string name="settings_dark_mode">Dark Mode</string>
     <string name="settings_dark_mode_oled">OLED dark mode</string>
     <string name="settings_card_background">Card Background Color</string>
@@ -196,6 +197,7 @@
     <string name="settings_defrost_mode_summary">Select a defrost mode</string>
     <string name="settings_change_background_summary">Choose an image as background to home page</string>
     <string name="settings_reset_background_summary">Reset home page background to blank</string>
+    <string name="settings_close_after_launch_summary">Ready to use, leave no trace</string>
     <string name="settings_dark_mode_oled_summary">Enable pure dark background on OLED devices</string>
     <string name="settings_stream_card_mode_summary">Make more cards available on a whole page</string>
     <string name="settings_stream_card_single_line_summary">Further compress card size</string>

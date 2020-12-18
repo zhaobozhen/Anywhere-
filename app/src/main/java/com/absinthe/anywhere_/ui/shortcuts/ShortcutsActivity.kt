@@ -26,7 +26,6 @@ import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
-import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.Utils
 import com.google.gson.Gson
 import com.microsoft.appcenter.analytics.Analytics
@@ -81,10 +80,10 @@ class ShortcutsActivity : BaseActivity() {
                         if (isBound) {
                             collectorService?.startCollector()
                         } else {
-                            bindService(Intent(this, CollectorService::class.java), connection, Context.BIND_AUTO_CREATE)
+                            applicationContext.bindService(Intent(this, CollectorService::class.java), connection, Context.BIND_AUTO_CREATE)
                         }
                     }
-                    ActivityUtils.startHomeActivity()
+                    finish()
                 }
                 ACTION_START_ENTITY -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_ID)?.let { id ->

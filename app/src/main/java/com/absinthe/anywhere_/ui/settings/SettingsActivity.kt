@@ -52,6 +52,12 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
+            (findPreference(Const.PREF_CLOSE_AFTER_LAUNCH) as SwitchPreference).apply {
+                setOnPreferenceChangeListener { _, newValue ->
+                    GlobalValues.closeAfterLaunch = newValue as Boolean
+                    true
+                }
+            }
 
             //View
             (findPreference(Const.PREF_CHANGE_BACKGROUND) as Preference).apply {

@@ -12,6 +12,7 @@ object Const {
     const val PREF_DARK_MODE = "darkMode"
     const val PREF_CHANGE_BACKGROUND = "changeBackground"
     const val PREF_RESET_BACKGROUND = "resetBackground"
+    const val PREF_CLOSE_AFTER_LAUNCH = "closeAfterLaunch"
 
     const val PREF_CARD_MODE = "cardMode"
     const val PREF_CARD_MODE_LARGE = "large"

@@ -393,4 +393,6 @@
     <string name="cloud_rules_need_root">需要 root</string>
     <string name="settings_deprecated_sc_creating_method_summary">在 Android 8.0 以下默认使用此方法创建快捷方式</string>
     <string name="settings_deprecated_sc_creating_method">使用废弃的方法创建快捷方式</string>
+    <string name="settings_close_after_launch_summary">即用即走，不留痕迹</string>
+    <string name="settings_close_after_launch">启动卡片后关闭 Anywhere-</string>
 </resources>

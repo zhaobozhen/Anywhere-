@@ -272,7 +272,17 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 if (isAppFrozen(context, item)) {
                     v.postDelayed({ notifyItemChanged(position) }, 500)
                 }
-                Opener.with(context).load(item).open()
+                Opener.with(context)
+                        .load(item)
+                        .setOpenedListener(object :Opener.OnOpenListener{
+                            override fun onOpened() {
+                                if (GlobalValues.closeAfterLaunch) {
+                                    (context as BaseActivity).finish()
+                                }
+                            }
+
+                        })
+                        .open()
             } else if (mode == ADAPTER_MODE_SELECT) {
                 if (selectedIndex.contains(position)) {
                     (v as MaterialCardView).apply {

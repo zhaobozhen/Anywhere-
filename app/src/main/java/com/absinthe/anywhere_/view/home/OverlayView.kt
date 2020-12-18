@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.*
 import android.widget.LinearLayout
 import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.model.manager.OverlayWindowManager
 import com.absinthe.anywhere_.services.overlay.IOverlayService
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
@@ -14,17 +13,18 @@ import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder
 import timber.log.Timber
 
 @SuppressLint("ViewConstructor")
-class OverlayView(context: Context, private val binder: IOverlayService) : LinearLayout(context) {
+class OverlayView(context: Context, private val binder: IOverlayService, windowLayoutParams: WindowManager.LayoutParams) : LinearLayout(context) {
 
     var entity: AnywhereEntity = AnywhereEntity.Builder()
         set(value) {
             field = value
             mBuilder.ivIcon.setImageDrawable(UxUtils.getAppIcon(context, value))
+            mBuilder.tvName.text = value.appName
         }
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val mTouchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
-    private val mLayoutParams = OverlayWindowManager.LAYOUT_PARAMS
+    private var mLayoutParams = windowLayoutParams
 
     private lateinit var mBuilder: OverlayBuilder
     private var isClick = false
@@ -33,7 +33,7 @@ class OverlayView(context: Context, private val binder: IOverlayService) : Linea
 
     private val removeWindowTask = Runnable {
         mBuilder.ivIcon.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-        binder.closeOverlay()
+        binder.closeOverlay(entity)
     }
 
     init {

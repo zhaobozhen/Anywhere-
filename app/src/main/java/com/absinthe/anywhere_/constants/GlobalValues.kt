@@ -36,6 +36,12 @@ object GlobalValues {
             mmkv.encode(Const.PREF_CARD_MODE, value)
         }
 
+    var closeAfterLaunch
+        get() = mmkv.decodeBool(Const.PREF_CLOSE_AFTER_LAUNCH, false)
+        set(value) {
+            mmkv.encode(Const.PREF_CLOSE_AFTER_LAUNCH, value)
+        }
+
     var isMd2Toolbar
         get() = mmkv.decodeBool(Const.PREF_MD2_TOOLBAR)
         set(value) {

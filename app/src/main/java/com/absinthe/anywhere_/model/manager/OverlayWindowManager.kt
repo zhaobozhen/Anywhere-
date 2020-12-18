@@ -11,38 +11,13 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.view.home.OverlayView
 import timber.log.Timber
 
-class OverlayWindowManager(context: Context, binder: IOverlayService, entity: AnywhereEntity) {
+class OverlayWindowManager(private val context: Context, private val binder: IOverlayService) {
 
     private val mWindowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    private val overlayList = mutableListOf<OverlayView>()
-    private val mEntity = entity
-    private var mOverlayView: OverlayView = OverlayView(context, binder)
-    private var hasAdded = false
+    private val overlayMap = mutableMapOf<String, OverlayView>()
 
-    fun addView() {
-        if (!hasAdded) {
-            mOverlayView.apply {
-                entity = mEntity
-                layoutParams = LAYOUT_PARAMS
-                measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-            }
-
-            mWindowManager.addView(mOverlayView, LAYOUT_PARAMS)
-            Timber.d("Overlay window addView.")
-        }
-        hasAdded = true
-    }
-
-    fun removeView() {
-        if (hasAdded) {
-            mWindowManager.removeView(mOverlayView)
-            Timber.d("Overlay window removeView.")
-        }
-        hasAdded = false
-    }
-
-    companion object {
-        var LAYOUT_PARAMS = WindowManager.LayoutParams().apply {
+    fun addView(entity: AnywhereEntity) {
+        val layoutParams = WindowManager.LayoutParams().apply {
             x = width
             y = height / 2
             width = WindowManager.LayoutParams.WRAP_CONTENT
@@ -57,6 +32,24 @@ class OverlayWindowManager(context: Context, binder: IOverlayService, entity: An
                 WindowManager.LayoutParams.TYPE_PHONE
             }
         }
+        val overlayView = OverlayView(context, binder, layoutParams).apply {
+            this.entity = entity
+            measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        }
+        mWindowManager.addView(overlayView, layoutParams)
+        overlayMap[entity.id] = overlayView
+        Timber.d("Overlay window addView.")
+    }
+
+    fun removeView(entity: AnywhereEntity) {
+        overlayMap.remove(entity.id)?.let {
+            mWindowManager.removeView(it)
+            Timber.d("Overlay window removeView.")
+        }
+    }
+
+    fun release() {
+        overlayMap.clear()
     }
 
 }
