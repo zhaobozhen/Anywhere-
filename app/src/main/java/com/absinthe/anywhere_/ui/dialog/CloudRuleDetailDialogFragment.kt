@@ -59,6 +59,9 @@ class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
                     binding.tvContributor.text = ruleEntity.contributor
                     binding.tvDesc.text = ruleEntity.desc
                     entity?.let {
+                        if (context == null) {
+                            return
+                        }
                         val image = ContextCompat.getDrawable(requireContext(), AnywhereType.Card.TYPE_ICON_RES_MAP[it.type] ?: R.drawable.ic_card_activity)
                         binding.tvType.text = getString(AnywhereType.Card.TYPE_STRINGRES_MAP[it.type] ?: R.string.btn_activity)
                         binding.tvType.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)

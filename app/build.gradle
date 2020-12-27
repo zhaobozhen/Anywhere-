@@ -24,8 +24,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2010800
-        versionName "2.1.8"
+        versionCode 2010900
+        versionName "2.1.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
@@ -105,13 +105,13 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 
     //Android X
-    def room_version = '2.2.5'
+    def room_version = '2.2.6'
     implementation "androidx.room:room-runtime:${room_version}"
     implementation "androidx.room:room-ktx:${room_version}"
     kapt "androidx.room:room-compiler:${room_version}"
     androidTestImplementation "androidx.room:room-testing:${room_version}"
 
-    def lifecycle_version = '2.3.0-beta01'
+    def lifecycle_version = '2.3.0-rc01'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:${lifecycle_version}"
     implementation "androidx.lifecycle:lifecycle-common-java8:${lifecycle_version}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle_version}"
@@ -124,8 +124,8 @@ dependencies {
 
     implementation 'androidx.browser:browser:1.3.0'
     implementation 'androidx.collection:collection-ktx:1.1.0'
-    implementation 'androidx.activity:activity-ktx:1.2.0-beta02'
-    implementation 'androidx.fragment:fragment-ktx:1.3.0-beta02'
+    implementation 'androidx.activity:activity-ktx:1.2.0-rc01'
+    implementation 'androidx.fragment:fragment-ktx:1.3.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
@@ -134,7 +134,7 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
 
     //Google
-    implementation 'com.google.android.material:material:1.3.0-alpha04'
+    implementation 'com.google.android.material:material:1.3.0-beta01'
 
     //Function
     implementation 'moe.shizuku.privilege:api:4.0.0'

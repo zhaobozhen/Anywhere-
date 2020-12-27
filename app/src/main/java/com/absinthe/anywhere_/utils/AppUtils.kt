@@ -351,10 +351,14 @@ object AppUtils {
      * @param url     for get package name
      */
     fun getPackageNameByScheme(context: Context, url: String): String {
-        val resolveInfo = context.packageManager
-                .queryIntentActivities(URLSchemeHandler.handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
-        if (resolveInfo.isNotEmpty()) {
-            return resolveInfo[0].activityInfo.packageName
+        try {
+            val resolveInfo = context.packageManager
+                    .queryIntentActivities(URLSchemeHandler.handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
+            if (resolveInfo.isNotEmpty()) {
+                return resolveInfo[0].activityInfo.packageName
+            }
+        } catch (e: Throwable) {
+            Timber.e(e)
         }
         return ""
     }

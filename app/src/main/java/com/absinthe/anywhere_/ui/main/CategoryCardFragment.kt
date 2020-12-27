@@ -51,6 +51,7 @@ class CategoryCardFragment : Fragment() {
             })
         }
     }
+    private val cardObserver = Observer<Any> { refreshRecyclerView() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCategoryCardBinding.inflate(inflater, container, false)
@@ -66,6 +67,11 @@ class CategoryCardFragment : Fragment() {
             adapter.notifyDataSetChanged()
             GlobalValues.shortcutListChanged = false
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        unregisterObservers()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -188,10 +194,13 @@ class CategoryCardFragment : Fragment() {
     }
 
     private fun initObservers() {
-        GlobalValues.cardModeLiveData.observe(viewLifecycleOwner, {
-            refreshRecyclerView()
-        })
+        GlobalValues.cardModeLiveData.observe(viewLifecycleOwner, cardObserver)
         observeEntitiesList()
+    }
+
+    private fun unregisterObservers() {
+        GlobalValues.cardModeLiveData.removeObserver(cardObserver)
+        AnywhereApplication.sRepository.allAnywhereEntities.removeObserver(listObserver)
     }
 
     private fun updateItems(list: List<AnywhereEntity>) {

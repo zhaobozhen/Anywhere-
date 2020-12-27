@@ -39,19 +39,15 @@ class WorkflowIntentService : JobIntentService() {
 
             flowStepList?.let { list ->
                 list.forEach {
-                    if (it.entity != null) {
-                        val a11yDelay = if (it.entity!!.type == AnywhereType.Card.ACCESSIBILITY) {
-                            try {
-                                it.entity!!.param2.toInt()
-                            } catch (e: NumberFormatException) {
-                                0
-                            }
+                    it.entity?.let { anywhereEntity ->
+                        val a11yDelay = if (anywhereEntity.type == AnywhereType.Card.ACCESSIBILITY) {
+                            try { anywhereEntity.param2.toInt() } catch (e: NumberFormatException) { 0 }
                         } else {
                             0
                         }
 
                         handler.postDelayed({
-                            Opener.with(this@WorkflowIntentService).load(it.entity!!).open()
+                            Opener.with(this@WorkflowIntentService).load(anywhereEntity).open()
                         }, it.delay + a11yDelay)
                     }
                 }

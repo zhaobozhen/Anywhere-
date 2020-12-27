@@ -350,13 +350,17 @@ object Opener {
                     }
 
                     for (extra in extras) {
-                        when (extra.type) {
-                            TYPE_STRING, TYPE_STRING_LABEL -> intent.putExtra(extra.key, extra.value)
-                            TYPE_BOOLEAN, TYPE_BOOLEAN_LABEL -> intent.putExtra(extra.key, extra.value.toBoolean())
-                            TYPE_INT, TYPE_INT_LABEL -> intent.putExtra(extra.key, extra.value.toInt())
-                            TYPE_LONG, TYPE_LONG_LABEL -> intent.putExtra(extra.key, extra.value.toLong())
-                            TYPE_FLOAT, TYPE_FLOAT_LABEL -> intent.putExtra(extra.key, extra.value.toFloat())
-                            TYPE_URI, TYPE_URI_LABEL -> intent.putExtra(extra.key, extra.value.toUri())
+                        try {
+                            when (extra.type) {
+                                TYPE_STRING, TYPE_STRING_LABEL -> intent.putExtra(extra.key, extra.value)
+                                TYPE_BOOLEAN, TYPE_BOOLEAN_LABEL -> intent.putExtra(extra.key, extra.value.toBoolean())
+                                TYPE_INT, TYPE_INT_LABEL -> intent.putExtra(extra.key, extra.value.toInt())
+                                TYPE_LONG, TYPE_LONG_LABEL -> intent.putExtra(extra.key, extra.value.toLong())
+                                TYPE_FLOAT, TYPE_FLOAT_LABEL -> intent.putExtra(extra.key, extra.value.toFloat())
+                                TYPE_URI, TYPE_URI_LABEL -> intent.putExtra(extra.key, extra.value.toUri())
+                            }
+                        } catch (e: NumberFormatException) {
+                            Timber.e(e)
                         }
                     }
 

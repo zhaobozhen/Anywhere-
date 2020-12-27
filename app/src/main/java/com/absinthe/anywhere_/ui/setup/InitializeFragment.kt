@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.setup
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -284,7 +285,11 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
                 isPopup.value = XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_BACKGROUND_START_ACTIVITY)
                 popupBinding.btnAcquirePopupPermission.setOnClickListener {
-                    startActivityForResult(XiaomiUtilities.getPermissionManagerIntent(), Const.REQUEST_CODE_GO_TO_MIUI_PERM_MANAGER)
+                    try {
+                        startActivityForResult(XiaomiUtilities.getPermissionManagerIntent(), Const.REQUEST_CODE_GO_TO_MIUI_PERM_MANAGER)
+                    } catch (e: ActivityNotFoundException) {
+                        Timber.e(e)
+                    }
                 }
                 if (isAdd) {
                     if (!bPopup) {

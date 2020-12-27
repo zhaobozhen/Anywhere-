@@ -284,7 +284,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                         })
                         .open()
             } else if (mode == ADAPTER_MODE_SELECT) {
-                if (selectedIndex.contains(position)) {
+                if (selectedIndex.isNotEmpty() && selectedIndex.contains(position)) {
                     (v as MaterialCardView).apply {
                         scaleX = 1.0f
                         scaleY = 1.0f

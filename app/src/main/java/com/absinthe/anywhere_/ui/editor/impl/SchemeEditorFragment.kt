@@ -62,7 +62,9 @@ class SchemeEditorFragment : BaseEditorFragment() {
             param1 = binding.tietUrlScheme.text.toString()
             param3 = binding.tietDynamicParams.text.toString()
         }
-        Opener.with(requireContext()).load(doneItem).open()
+        context?.let {
+            Opener.with(it).load(doneItem).open()
+        }
     }
 
     override fun doneEdit(): Boolean {
@@ -72,6 +74,9 @@ class SchemeEditorFragment : BaseEditorFragment() {
         }
         if (binding.tietUrlScheme.text.isNullOrBlank()) {
             binding.tilUrlScheme.error = getString(R.string.bsd_error_should_not_empty)
+            return false
+        }
+        if (context == null) {
             return false
         }
 
