@@ -239,6 +239,9 @@ class MainActivity : BaseActivity() {
             R.id.toolbar_move -> {
                 CategoryCardFragment.currentReference?.get()?.moveSelected()
             }
+            R.id.toolbar_create_sc -> {
+                CategoryCardFragment.currentReference?.get()?.createShortcutSelected()
+            }
         }
 
         return if (mToggle?.onOptionsItemSelected(item) == true) {
@@ -277,6 +280,7 @@ class MainActivity : BaseActivity() {
             }
         }
         mBinding.tsTitle.setText(UxUtils.getToolbarTitle())
+        mBinding.fullDraggableContainer.shouldEnableDrawer = GlobalValues.isPages
 
         initFab()
 

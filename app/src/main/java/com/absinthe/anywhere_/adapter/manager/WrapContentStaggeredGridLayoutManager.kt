@@ -14,4 +14,12 @@ class WrapContentStaggeredGridLayoutManager(spanCount: Int, orientation: Int) : 
             Timber.e("encounter an IOOBE in RecyclerView")
         }
     }
+
+    override fun onItemsChanged(recyclerView: RecyclerView) {
+        try {
+            super.onItemsChanged(recyclerView)
+        } catch (e: IndexOutOfBoundsException) {
+            Timber.e("encounter an IOOBE in RecyclerView")
+        }
+    }
 }

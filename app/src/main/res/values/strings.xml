@@ -65,6 +65,7 @@
     <string name="dialog_go_to_perm_button">Grant</string>
     <string name="dialog_add_shortcut_title">Add Shortcuts</string>
     <string name="dialog_add_shortcut_message">Are you sure to add %s ?</string>
+    <string name="dialog_add_select_shortcut_message">Are you sure to add the selected card to the pinned shortcut?</string>
     <string name="dialog_remove_shortcut_title">Delete Shortcuts</string>
     <string name="dialog_remove_shortcut_message">Are you sure to delete %s ?</string>
     <string name="dialog_cant_add_shortcut_title">Unable to Add Shortcuts</string>

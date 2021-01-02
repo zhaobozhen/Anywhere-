@@ -24,14 +24,15 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2010900
-        versionName "2.1.9"
+        versionCode 2011000
+        versionName "2.1.10"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
+        resConfigs "en", "zh-rCN", "zh-rHK", "zh-rTW"
     }
 
     buildFeatures {
@@ -98,9 +99,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
 
     implementation 'com.absinthe.libraries.me:me:1.0.6'
-    implementation 'com.absinthe.libraries.utils:utils:1.1.1'
+    implementation 'com.absinthe.libraries.utils:utils:1.1.2'
 
-    def appCenterSdkVersion = '3.3.1'
+    def appCenterSdkVersion = '4.1.0'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 
@@ -175,7 +176,7 @@ dependencies {
     //Debug
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     testImplementation 'junit:junit:4.13.1'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

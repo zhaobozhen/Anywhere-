@@ -19,7 +19,7 @@
             app:title="@string/settings_editor_entry_animation"
             app:summary="@string/settings_editor_entry_animation_summary"
             app:icon="@drawable/ic_animation"
-            app:defaultValue="true" />
+            app:defaultValue="false" />
 
         <SwitchPreference
             app:key="deprecatedScCreatingMethod"

@@ -301,6 +301,16 @@ object DialogManager {
         }
     }
 
+    fun showMultiSelectCreatingShortcutDialog(context: Context, action: () -> Unit) {
+        AnywhereDialogBuilder(context).apply {
+            setTitle(R.string.dialog_add_home_shortcut_title)
+            setMessage(R.string.dialog_add_select_shortcut_message)
+            setPositiveButton(android.R.string.ok) { _, _ -> action() }
+            setNegativeButton(android.R.string.cancel, null)
+            show()
+        }
+    }
+
     fun showIconPackChoosingDialog(activity: AppCompatActivity) {
         val fragment = IconPackDialogFragment()
         fragment.show(activity.supportFragmentManager, fragment.tag)

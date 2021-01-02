@@ -26,7 +26,12 @@ import com.absinthe.libraries.utils.extensions.paddingBottomCompat
 import com.absinthe.libraries.utils.extensions.paddingEndCompat
 import com.absinthe.libraries.utils.extensions.paddingStartCompat
 import com.absinthe.libraries.utils.utils.UiUtils
+import com.absinthe.libraries.utils.utils.XiaomiUtilities
+import com.blankj.utilcode.util.Utils
 import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
 const val BUNDLE_CATEGORY = "CATEGORY"
@@ -85,6 +90,8 @@ class CategoryCardFragment : Fragment() {
         menu.findItem(R.id.toolbar_done).isVisible = adapter.mode != ADAPTER_MODE_NORMAL
         menu.findItem(R.id.toolbar_delete).isVisible = adapter.mode == ADAPTER_MODE_SELECT
         menu.findItem(R.id.toolbar_move).isVisible = adapter.mode == ADAPTER_MODE_SELECT
+        menu.findItem(R.id.toolbar_create_sc).isVisible = adapter.mode == ADAPTER_MODE_SELECT && XiaomiUtilities.isMIUI()
+
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -134,6 +141,15 @@ class CategoryCardFragment : Fragment() {
     fun moveSelected() {
         DialogManager.showPageListDialog(requireContext()) {
             adapter.moveSelect(it)
+        }
+    }
+
+    fun createShortcutSelected() {
+        DialogManager.showMultiSelectCreatingShortcutDialog(requireContext()) {
+            GlobalScope.launch(Dispatchers.IO) {
+                adapter.createShortcutSelect()
+                resetSelectState()
+            }
         }
     }
 
@@ -215,7 +231,7 @@ class CategoryCardFragment : Fragment() {
                     list.toMutableList()
                 }
         )
-        updateWidget(requireContext())
+        updateWidget(Utils.getApp())
     }
 
     private fun resetSelectState() {

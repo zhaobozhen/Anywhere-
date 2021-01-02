@@ -4,6 +4,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.log.LogAdapter
 import com.absinthe.anywhere_.adapter.log.LogDiffCallback
@@ -48,6 +49,11 @@ class LogcatActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
+
+        if (!BuildConfig.DEBUG) {
+            finish()
+            return
+        }
 
         mAdapter.apply {
             setDiffCallback(LogDiffCallback())

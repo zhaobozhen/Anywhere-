@@ -28,16 +28,22 @@ import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_ON
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
+import com.absinthe.anywhere_.utils.AppUtils.atLeastO
 import com.absinthe.anywhere_.utils.AppUtils.isAppFrozen
+import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.view.card.*
+import com.blankj.utilcode.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -372,6 +378,31 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
             item.category = pageTitle
             AnywhereApplication.sRepository.update(item)
         }
+        clearSelect()
+    }
+
+    suspend fun createShortcutSelect() {
+        if (selectedIndex.size == 0) {
+            return
+        }
+
+        var entity: AnywhereEntity
+        for (index in selectedIndex) {
+
+            if (index < data.size) {
+                entity = data[index]
+                withContext(Dispatchers.Main) {
+                    if (atLeastO()) {
+                        ShortcutsUtils.addPinnedShortcut(entity, UxUtils.getAppIcon(Utils.getApp(), entity), entity.appName)
+                    } else {
+                        ShortcutsUtils.addHomeShortcutPreO(entity, UxUtils.getAppIcon(Utils.getApp(), entity), entity.appName)
+                    }
+                }
+
+                delay(200)
+            }
+        }
+
         clearSelect()
     }
 

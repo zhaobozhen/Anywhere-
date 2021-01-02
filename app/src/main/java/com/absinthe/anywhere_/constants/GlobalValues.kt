@@ -183,7 +183,7 @@ object GlobalValues {
         }
 
     var editorEntryAnim
-        get() = mmkv.decodeBool(Const.PREF_EDITOR_ENTRY_ANIM, true)
+        get() = mmkv.decodeBool(Const.PREF_EDITOR_ENTRY_ANIM, false)
         set(value) {
             mmkv.encode(Const.PREF_EDITOR_ENTRY_ANIM, value)
         }
