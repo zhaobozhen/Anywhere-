@@ -5,6 +5,7 @@ import android.content.Context
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.checkSignature
+import com.absinthe.anywhere_.utils.manager.PoliceMan
 import com.absinthe.anywhere_.utils.timber.ReleaseTree
 import com.absinthe.anywhere_.utils.timber.ThreadAwareDebugTree
 import com.absinthe.libraries.utils.utils.Utility
@@ -31,6 +32,8 @@ class AnywhereApplication : Application() {
                     Analytics::class.java, Crashes::class.java)
         }
 
+        PoliceMan.checkApplicationClass(this)
+        PoliceMan.checkPMProxy(this)
         sRepository = AnywhereRepository(this)
     }
 

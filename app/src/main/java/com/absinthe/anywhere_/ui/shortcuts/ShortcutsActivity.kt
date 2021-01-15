@@ -35,6 +35,7 @@ class ShortcutsActivity : BaseActivity() {
 
     private var isBound = false
     private var collectorService: ICollectorService? = null
+    private var shouldFinish = false
 
     private val connection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -64,6 +65,13 @@ class ShortcutsActivity : BaseActivity() {
         handleIntent(intent)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (shouldFinish) {
+            finish()
+        }
+    }
+
     override fun initView() {}
     override fun setViewBinding() {}
     override fun setToolbar() {}
@@ -83,7 +91,7 @@ class ShortcutsActivity : BaseActivity() {
                             applicationContext.bindService(Intent(this, CollectorService::class.java), connection, Context.BIND_AUTO_CREATE)
                         }
                     }
-                    finish()
+                    shouldFinish = true
                 }
                 ACTION_START_ENTITY -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_ID)?.let { id ->
@@ -95,7 +103,7 @@ class ShortcutsActivity : BaseActivity() {
                                         .load(this)
                                         .setOpenedListener(object : Opener.OnOpenListener {
                                             override fun onOpened() {
-                                                finish()
+                                                shouldFinish = true
                                             }
                                         })
                                         .open()
@@ -125,13 +133,13 @@ class ShortcutsActivity : BaseActivity() {
                                         .load(this)
                                         .setOpenedListener(object : Opener.OnOpenListener {
                                             override fun onOpened() {
-                                                finish()
+                                                shouldFinish = true
                                             }
                                         })
                                         .open()
                             }
                         })
-                    } ?: finish()
+                    } ?: let { shouldFinish = true }
                 }
                 Intent.ACTION_CREATE_SHORTCUT -> {
                     viewModel.allAnywhereEntities.observe(this, { anywhereEntities: List<AnywhereEntity>? ->
@@ -164,56 +172,63 @@ class ShortcutsActivity : BaseActivity() {
                                                     Intent.ShortcutIconResource.fromContext(
                                                             this@ShortcutsActivity, R.drawable.ic_shortcut_start_collector))
                                         })
-                                        finish()
+                                        shouldFinish = true
                                     }
-                                    .setOnCancelListener { finish() }
+                                    .setOnCancelListener { shouldFinish = true }
                                     .show()
                         }
                     })
                 }
                 ACTION_START_IMAGE -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { uri ->
-                        showImageDialog(this, uri, object : AnywhereDialogFragment.OnDismissListener {
-                            override fun onDismiss() {
-                                finish()
-                            }
-                        })
-                    } ?: finish()
+                        showImageDialog(
+                            this,
+                            uri,
+                            object : AnywhereDialogFragment.OnDismissListener {
+                                override fun onDismiss() {
+                                    shouldFinish = true
+                                }
+                            })
+                    } ?: { shouldFinish = true }
                 }
                 Intent.ACTION_VIEW -> {
                     intent.data?.let { uri ->
                         if (uri.host == URLManager.OPEN_HOST) {
                             var dynamicParam: ExtraBean.ExtraItem? = null
-                            uri.getQueryParameter(Const.INTENT_EXTRA_DYNAMIC_PARAM)?.let { dynamic ->
-                                try {
-                                    dynamicParam = Gson().fromJson(dynamic, ExtraBean.ExtraItem::class.java)
-                                } catch (ignore: Exception) {
+                            uri.getQueryParameter(Const.INTENT_EXTRA_DYNAMIC_PARAM)
+                                ?.let { dynamic ->
+                                    try {
+                                        dynamicParam = Gson().fromJson(
+                                            dynamic,
+                                            ExtraBean.ExtraItem::class.java
+                                        )
+                                    } catch (ignore: Exception) {
+                                    }
                                 }
-                            }
                             uri.getQueryParameter(Const.INTENT_EXTRA_OPEN_SHORT_ID)?.let { sid ->
                                 viewModel.allAnywhereEntities.observe(this, { list ->
                                     list.find { findItem ->
                                         findItem.id.endsWith(sid)
                                     }?.apply {
                                         Opener.with(this@ShortcutsActivity)
-                                                .load(this)
-                                                .setDynamicExtra(dynamicParam)
-                                                .setOpenedListener(object : Opener.OnOpenListener {
-                                                    override fun onOpened() {
-                                                        finish()
-                                                    }
-                                                })
-                                                .open()
+                                            .load(this)
+                                            .setDynamicExtra(dynamicParam)
+                                            .setOpenedListener(object : Opener.OnOpenListener {
+                                                override fun onOpened() {
+                                                    shouldFinish = true
+                                                }
+                                            })
+                                            .open()
                                     } ?: run {
                                         ToastUtil.makeText(R.string.toast_invaild_sid)
-                                        finish()
+                                        shouldFinish = true
                                     }
                                 })
-                            } ?: finish()
+                            } ?: run { shouldFinish = true }
                         }
                     }
                 }
-                else -> finish()
+                else -> shouldFinish = true
             }
         }
     }
