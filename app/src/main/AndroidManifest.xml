@@ -254,7 +254,13 @@
         <activity
             android:name=".ui.editor.EditorActivity"
             android:label="@string/card_editor_title"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.absinthe.anywhere_.intent.action.EDITOR" />
+            </intent-filter>
+        </activity>
 
         <!--    Shizuku provider    -->
         <provider

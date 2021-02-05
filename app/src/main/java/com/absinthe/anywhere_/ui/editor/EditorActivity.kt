@@ -53,6 +53,10 @@ import jonathanfinerty.once.Once
 const val EXTRA_ENTITY = "EXTRA_ENTITY"
 const val EXTRA_EDIT_MODE = "EXTRA_EDIT_MODE"
 
+const val ACTION_EDITOR = "com.absinthe.anywhere_.intent.action.EDITOR"
+const val EXTRA_PACKAGE_NAME = "EXTRA_PACKAGE_NAME"
+const val EXTRA_CLASS_NAME = "EXTRA_CLASS_NAME"
+
 @Obfuscate
 class EditorActivity : BaseActivity() {
 
@@ -61,7 +65,6 @@ class EditorActivity : BaseActivity() {
     private lateinit var editor: IEditor
     private lateinit var entity: AnywhereEntity
 
-    private val _entity by lazy { intent.getParcelableExtra(EXTRA_ENTITY) as? AnywhereEntity }
     private val isEditMode by lazy { intent.getBooleanExtra(EXTRA_EDIT_MODE, false) }
     private val isFromWorkFlow by lazy { intent.getBooleanExtra(EXTRA_FROM_WORKFLOW, false) }
     private var overlayService: IOverlayService? = null
@@ -95,13 +98,24 @@ class EditorActivity : BaseActivity() {
         initTransition()
         super.onCreate(savedInstanceState)
 
-        if (_entity == null) {
-            finish()
+        if (intent.action == ACTION_EDITOR) {
+            entity = AnywhereEntity.Builder().apply {
+                    type = AnywhereType.Card.ACTIVITY
+                    appName = com.blankj.utilcode.util.AppUtils.getAppName(intent.getStringExtra(EXTRA_PACKAGE_NAME))
+                    param1 = intent.getStringExtra(EXTRA_PACKAGE_NAME).toString()
+                    param2 = intent.getStringExtra(EXTRA_CLASS_NAME).toString()
+                }
         } else {
-            entity = _entity!!
-            initViews()
-            setUpBottomDrawer()
+            (intent.getParcelableExtra(EXTRA_ENTITY) as? AnywhereEntity)?.let {
+                entity = it
+            } ?: run {
+                finish()
+                return
+            }
         }
+
+        initViews()
+        setUpBottomDrawer()
     }
 
     override fun onBackPressed() {
@@ -125,10 +139,8 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        if (_entity == null) {
-            return
-        }
         super.initView()
+
         if (isEditMode) {
             binding.tvOpenUrl.apply {
                 isVisible = true
