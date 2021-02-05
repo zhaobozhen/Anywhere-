@@ -25,9 +25,7 @@ import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.ShellManager
-import com.absinthe.anywhere_.utils.manager.ShizukuHelper.checkShizukuOnWorking
-import com.absinthe.anywhere_.utils.manager.ShizukuHelper.isGrantShizukuPermission
-import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
+import com.absinthe.anywhere_.utils.manager.ShizukuHelper
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.chad.library.adapter.base.entity.node.BaseNode
@@ -95,10 +93,8 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
             }
             Const.WORKING_MODE_SHIZUKU -> {
                 if (PermissionUtils.isGrantedDrawOverlays()) {
-                    if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
+                    if (ShizukuHelper.checkPermission(activity)) {
                         listener.onStart()
-                    } else {
-                        requestShizukuPermission()
                     }
                 } else {
                     if (AppUtils.atLeastR()) {
@@ -106,10 +102,8 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
                     }
                     PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
                         override fun onGranted() {
-                            if (checkShizukuOnWorking(activity) && isGrantShizukuPermission) {
+                            if (ShizukuHelper.checkPermission(activity)) {
                                 listener.onStart()
-                            } else {
-                                requestShizukuPermission()
                             }
                         }
 

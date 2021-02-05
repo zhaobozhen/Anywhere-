@@ -15,6 +15,7 @@ import com.microsoft.appcenter.crashes.Crashes
 import io.michaelrocks.paranoid.Obfuscate
 import jonathanfinerty.once.Once
 import me.weishu.reflection.Reflection
+import rikka.sui.Sui
 import timber.log.Timber
 
 @Obfuscate
@@ -49,5 +50,6 @@ class AnywhereApplication : Application() {
 
     companion object {
         lateinit var sRepository: AnywhereRepository
+        val isSui = Sui.init(BuildConfig.APPLICATION_ID)
     }
 }

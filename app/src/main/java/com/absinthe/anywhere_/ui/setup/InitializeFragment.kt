@@ -2,10 +2,8 @@ package com.absinthe.anywhere_.ui.setup
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.*
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +28,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import moe.shizuku.api.ShizukuApiConstants
 import timber.log.Timber
 
 class InitializeFragment : Fragment(), OnButtonCheckedListener {
@@ -44,7 +41,6 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     private var isRoot: MutableLiveData<Boolean> = MutableLiveData()
     private var isOverlay: MutableLiveData<Boolean> = MutableLiveData()
     private var isPopup: MutableLiveData<Boolean> = MutableLiveData()
-    private var isShizukuCheck: MutableLiveData<Boolean> = MutableLiveData()
     private var isShizuku: MutableLiveData<Boolean> = MutableLiveData()
     private var allPerm: MutableLiveData<Int> = MutableLiveData()
 
@@ -68,6 +64,13 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (ShizukuHelper.checkPermission(requireActivity())) {
+            isShizuku.value = java.lang.Boolean.TRUE
+        }
     }
 
     private fun initView() {
@@ -160,22 +163,6 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 ToastUtil.makeText(R.string.toast_root_permission_denied)
             }
         })
-        isShizukuCheck.observe(viewLifecycleOwner, { aBoolean: Boolean ->
-            if (aBoolean) {
-                allPerm.value = allPerm.value!! or SHIZUKU_CHECK_PERM
-
-                shizukuBinding.apply {
-                    btnCheckShizukuState.setText(R.string.btn_checked)
-                    btnCheckShizukuState.isEnabled = false
-                    btnAcquirePermission.isEnabled = true
-                }
-            }
-            allPerm.value?.let {
-                if (it and SHIZUKU_GROUP_PERM == SHIZUKU_GROUP_PERM) {
-                    shizukuBinding.done.visibility = View.VISIBLE
-                }
-            }
-        })
         isShizuku.observe(viewLifecycleOwner, { aBoolean: Boolean ->
             if (aBoolean) {
                 shizukuBinding.apply {
@@ -230,15 +217,8 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             }
             CARD_SHIZUKU -> {
                 shizukuBinding.btnAcquirePermission.isEnabled = false
-                shizukuBinding.btnCheckShizukuState.setOnClickListener {
-                    val result = ShizukuHelper.checkShizukuOnWorking(requireContext())
-                    isShizukuCheck.setValue(result)
-                }
                 shizukuBinding.btnAcquirePermission.setOnClickListener {
-                    isShizuku.value = ShizukuHelper.isGrantShizukuPermission
-                    if (!ShizukuHelper.isGrantShizukuPermission) {
-                        ShizukuHelper.requestShizukuPermission(this)
-                    }
+                    isShizuku.value = ShizukuHelper.checkPermission(requireActivity())
                 }
                 if (isAdd) {
                     if (!bShizuku) {
@@ -313,23 +293,13 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 delay(1500)
 
                 withContext(Dispatchers.Main) {
-                    if (ActivityCompat.checkSelfPermission(requireContext(), ShizukuApiConstants.PERMISSION)
-                            == PackageManager.PERMISSION_GRANTED) {
+                    if (ShizukuHelper.checkPermission(requireActivity())) {
                         isShizuku.value = java.lang.Boolean.TRUE
                     }
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
-            if (ActivityCompat.checkSelfPermission(requireContext(), ShizukuApiConstants.PERMISSION) == PackageManager.PERMISSION_GRANTED) {
-                isShizuku.value = java.lang.Boolean.TRUE
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     companion object {

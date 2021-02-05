@@ -13,8 +13,9 @@ import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.model.ShizukuProcess
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.ShellManager
-import com.absinthe.anywhere_.utils.manager.ShizukuHelper.requestShizukuPermission
+import com.absinthe.anywhere_.utils.manager.ShizukuHelper
 import com.blankj.utilcode.util.Utils
 import timber.log.Timber
 import java.net.URISyntaxException
@@ -133,11 +134,7 @@ object CommandUtils {
             CommandResult.RESULT_ROOT_PERM_ERROR -> ToastUtil.makeText(R.string.toast_check_perm)
             CommandResult.RESULT_SHIZUKU_PERM_ERROR -> {
                 ToastUtil.makeText(R.string.toast_check_perm)
-                try {
-                    requestShizukuPermission()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                ShizukuHelper.checkPermission(ActivityStackManager.topActivity!!)
             }
             CommandResult.RESULT_FILE_URI_EXPOSED -> ToastUtil.makeText(R.string.toast_file_uri_exposed)
             CommandResult.RESULT_SECURITY_EXCEPTION -> ToastUtil.makeText(R.string.toast_security_exception)

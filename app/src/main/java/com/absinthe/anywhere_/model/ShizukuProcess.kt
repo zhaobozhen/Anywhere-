@@ -1,7 +1,7 @@
 package com.absinthe.anywhere_.model
 
 import com.absinthe.anywhere_.utils.AppUtils
-import moe.shizuku.api.ShizukuService
+import rikka.shizuku.Shizuku
 import java.io.BufferedReader
 import java.io.DataOutputStream
 import java.io.InputStreamReader
@@ -10,7 +10,7 @@ object ShizukuProcess {
 
     fun exec(cmd: String): String {
 
-        val process = ShizukuService.newProcess(arrayOf("sh"), null, null)
+        val process = Shizuku.newProcess(arrayOf("sh"), null, null)
         val outputStream = DataOutputStream(process.outputStream)
 
         outputStream.apply {

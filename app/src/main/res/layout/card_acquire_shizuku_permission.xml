@@ -50,28 +50,6 @@
             app:layout_constraintTop_toBottomOf="@id/title" />
 
         <TextView
-            android:id="@+id/subtitle_check_shizuku"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/cardview_item_margin"
-            android:layout_marginTop="@dimen/cardview_item_margin_long"
-            android:text="@string/subtitle_check_shizuku_state"
-            android:textAppearance="?attr/textAppearanceSubtitle2"
-            android:textStyle="italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subtitle" />
-
-        <Button
-            android:id="@+id/btn_check_shizuku_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/cardview_item_margin"
-            android:layout_marginTop="@dimen/cardview_item_margin"
-            android:text="@string/btn_check_permission"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subtitle_check_shizuku" />
-
-        <TextView
             android:id="@+id/subtitle_check_shizuku_permission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,7 +58,7 @@
             android:textAppearance="?attr/textAppearanceSubtitle2"
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_check_shizuku_state" />
+            app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
         <Button
             android:id="@+id/btn_acquire_permission"
