@@ -199,7 +199,7 @@ class CategoryCardFragment : Fragment() {
             addItemDecoration(decoration)
             paddingStartCompat = decoration.space
             paddingEndCompat = decoration.space
-            paddingBottomCompat = UiUtils.getNavBarHeight(requireActivity().contentResolver)
+            paddingBottomCompat = UiUtils.getNavBarHeight(requireActivity().windowManager)
         }
 
         itemTouchHelper = ItemTouchHelper(ItemTouchCallBack().apply {

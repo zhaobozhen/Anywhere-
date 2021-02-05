@@ -210,7 +210,7 @@ class SettingsActivity : BaseActivity() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            listView.paddingBottomCompat = UiUtils.getNavBarHeight(requireActivity().contentResolver)
+            listView.paddingBottomCompat = UiUtils.getNavBarHeight(requireActivity().windowManager)
         }
 
         override fun onCreateItemDecoration(): DividerDecoration {

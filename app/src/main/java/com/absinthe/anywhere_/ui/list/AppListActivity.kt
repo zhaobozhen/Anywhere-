@@ -130,7 +130,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             setOnRefreshListener { initData(isShowSystemApp) }
         }
         binding.extendedFab.apply {
-            (layoutParams as CoordinatorLayout.LayoutParams).setMargins(0, 0, 16.dp, 16.dp + UiUtils.getNavBarHeight(contentResolver))
+            (layoutParams as CoordinatorLayout.LayoutParams).setMargins(0, 0, 16.dp, 16.dp + UiUtils.getNavBarHeight(windowManager))
 
             setOnClickListener {
                 val ae = AnywhereEntity.Builder().apply {
@@ -168,7 +168,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         binding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppListActivity)
             adapter = mAdapter
-            addPaddingBottom(UiUtils.getNavBarHeight(contentResolver))
+            addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

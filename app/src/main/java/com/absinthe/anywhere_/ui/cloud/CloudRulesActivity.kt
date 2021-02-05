@@ -46,7 +46,7 @@ class CloudRulesActivity : BaseActivity() {
         binding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@CloudRulesActivity)
             adapter = mAdapter
-            addPaddingBottom(UiUtils.getNavBarHeight(contentResolver))
+            addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
             addItemDecoration(DividerItemDecoration(this@CloudRulesActivity, DividerItemDecoration.VERTICAL))
         }
         mAdapter.setOnItemClickListener { _, _, position ->

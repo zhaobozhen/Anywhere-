@@ -102,7 +102,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
         mBinding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppDetailActivity)
             adapter = mAdapter
-            addPaddingBottom(UiUtils.getNavBarHeight(contentResolver))
+            addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
         }
     }
 

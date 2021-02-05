@@ -77,7 +77,7 @@ class QRCodeCollectionActivity : BaseActivity() {
                 adapter = mAdapter
                 setRecyclerViewLayoutManager(resources.configuration)
                 addItemDecoration(SpacesItemDecoration(resources.getDimension(R.dimen.cardview_item_margin).toInt()))
-                addPaddingBottom(UiUtils.getNavBarHeight(contentResolver))
+                addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
             }
             srlQrCollection.isRefreshing = true
         }

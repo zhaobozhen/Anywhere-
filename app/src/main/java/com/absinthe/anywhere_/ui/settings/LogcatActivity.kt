@@ -81,7 +81,7 @@ class LogcatActivity : BaseActivity() {
         mBinding.rvLog.apply {
             layoutManager = WrapContentLinearLayoutManager(this@LogcatActivity)
             adapter = mAdapter
-            addPaddingBottom(UiUtils.getNavBarHeight(contentResolver))
+            addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
         }
 
         if (isStartCatching) {
