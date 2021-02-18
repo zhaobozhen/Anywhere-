@@ -46,6 +46,7 @@ class AnywhereApplication : Application() {
         Settings.initMMKV(this)
         Settings.init(this)
         Utility.init(this)
+        Timber.i("isSui = $isSui")
     }
 
     companion object {

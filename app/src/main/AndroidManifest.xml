@@ -12,9 +12,6 @@
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
             tools:ignore="QueryAllPackagesPermission" />
 
-    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
-    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
-
     <application
         android:name=".AnywhereApplication"
         android:allowBackup="true"

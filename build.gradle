@@ -13,7 +13,7 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:4.1.2'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30'
         classpath 'com.iwhys.sdkeditor:plugin:1.1.4'
         classpath 'com.github.heruoxin:Robfuscate:master'   // R obfuscate
@@ -27,7 +27,6 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://dl.bintray.com/absinthe/libraries' }
-        maven { url 'https://dl.bintray.com/rikkaw/Shizuku' }
         maven { url 'https://dl.bintray.com/rikkaw/MaterialPreference' }
         maven { url 'https://dl.bintray.com/heruoxin/icebox' }
         maven { url 'https://maven.aliyun.com/repository/central' }
