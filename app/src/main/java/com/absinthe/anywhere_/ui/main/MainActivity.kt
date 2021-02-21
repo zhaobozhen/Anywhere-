@@ -288,6 +288,7 @@ class MainActivity : BaseActivity() {
         AnywhereApplication.sRepository.allPageEntities.observe(this, {
             if (it.isNotEmpty()) {
                 mBinding.viewPager.apply {
+                    offscreenPageLimit = 2
                     adapter = object : FragmentStateAdapter(this@MainActivity) {
                         override fun getItemCount(): Int {
                             return it.size.coerceAtLeast(1)

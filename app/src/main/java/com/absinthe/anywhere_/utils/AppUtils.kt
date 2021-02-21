@@ -313,7 +313,7 @@ object AppUtils {
             }
             targetIntents.add(intent)
         }
-        
+
         if (targetIntents.isEmpty()) {
             ToastUtil.makeText(R.string.toast_no_mail_app)
         } else {
