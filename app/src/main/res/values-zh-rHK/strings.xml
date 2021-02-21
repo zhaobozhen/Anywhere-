@@ -396,4 +396,5 @@
     <string name="settings_close_after_launch_summary">即用即走，不留痕跡</string>
     <string name="settings_close_after_launch">啟動卡片後關閉 Anywhere-</string>
     <string name="dialog_add_select_shortcut_message">確定要添加所選的卡片到桌面快捷方式?</string>
+    <string name="toast_no_mail_app">您的設備中沒有郵件 app</string>
 </resources>

@@ -90,6 +90,7 @@ public class IzukoService extends BaseAccessibilityService {
             }
             isExecutingFinish = true;
         });
+        workingThread.setName("[IzukoThread]" + mA11yEntity.getApplicationId());
         workingThread.start();
     }
 

@@ -396,4 +396,5 @@
     <string name="settings_deprecated_sc_creating_method">使用废弃的方法创建快捷方式</string>
     <string name="settings_close_after_launch_summary">即用即走，不留痕迹</string>
     <string name="settings_close_after_launch">启动卡片后关闭 Anywhere-</string>
+    <string name="toast_no_mail_app">您的设备中没有邮件 app</string>
 </resources>

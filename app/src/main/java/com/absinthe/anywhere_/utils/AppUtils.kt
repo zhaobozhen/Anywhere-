@@ -313,10 +313,15 @@ object AppUtils {
             }
             targetIntents.add(intent)
         }
-        val chooser = Intent.createChooser(targetIntents.removeAt(0), context.getString(R.string.report_select_mail_app)).apply {
-            putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(arrayOf<Parcelable>()))
+        
+        if (targetIntents.isEmpty()) {
+            ToastUtil.makeText(R.string.toast_no_mail_app)
+        } else {
+            val chooser = Intent.createChooser(targetIntents.removeAt(0), context.getString(R.string.report_select_mail_app)).apply {
+                putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(arrayOf<Parcelable>()))
+            }
+            context.startActivity(chooser)
         }
-        context.startActivity(chooser)
     }
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)

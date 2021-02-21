@@ -298,6 +298,7 @@
     <string name="toast_json_error">JSON data error</string>
     <string name="toast_check_webdav_configuration">Please Check your WebDAV configuration</string>
     <string name="toast_invaild_sid">Invaild SID</string>
+    <string name="toast_no_mail_app">There\'s no mail app on your device</string>
 
     <!--  Dialog  -->
     <string name="dialog_reset_background_confirm_title">Reset</string>

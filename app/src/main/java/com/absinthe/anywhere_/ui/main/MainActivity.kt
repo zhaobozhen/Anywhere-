@@ -42,6 +42,7 @@ import com.absinthe.anywhere_.databinding.ActivityMainBinding
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
+import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.services.BackupIntentService
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.services.overlay.ICollectorService
@@ -552,6 +553,7 @@ class MainActivity : BaseActivity() {
                     }
                     R.id.fab_qr_code_collection -> {
                         startActivity(Intent(this@MainActivity, QRCodeCollectionActivity::class.java))
+                        QRCollection.list //initialization
                         Analytics.trackEvent(EventTag.FAB_QR_CODE_COLLECTION_CLICK)
                     }
                     R.id.fab_cloud_rules -> {
