@@ -3,9 +3,9 @@ package com.absinthe.anywhere_.services.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Looper;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
+import com.absinthe.anywhere_.provider.CoreProvider;
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.UxUtils;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -43,16 +44,24 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         RemoteViewsFactory(Context context, Intent intent) {
             mContext = context;
-            LiveData<List<AnywhereEntity>> liveData = AnywhereApplication.sRepository.getAllAnywhereEntities();
-            List<AnywhereEntity> list = liveData.getValue();
-
-            if (list != null && list.size() > 0) {
-                sList = list;
+            Cursor cursor = context.getContentResolver().query(CoreProvider.Companion.getURI_ANYWHERE_ENTITY(), null, null, null, null);
+            if (cursor == null) {
+                return;
             }
 
-            if(Looper.myLooper() == null){
-                Looper.prepare();
+            sList.clear();
+            while (cursor.moveToNext()) {
+                AnywhereEntity info = AnywhereEntity.Builder();
+                info.setAppName(cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME)));
+                info.setParam1(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1)));
+                info.setParam2(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2)));
+                info.setParam3(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)));
+                info.setType(cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE)));
+
+                sList.add(info);
             }
+
+            cursor.close();
         }
 
         /**
@@ -73,12 +82,25 @@ public class AppRemoteViewsService extends RemoteViewsService {
         @Override
         public void onDataSetChanged() {
             // 需要显示的数据
-            LiveData<List<AnywhereEntity>> liveData = AnywhereApplication.sRepository.getAllAnywhereEntities();
-            List<AnywhereEntity> list = liveData.getValue();
-
-            if (list != null && list.size() > 0) {
-                sList = list;
+            sList.clear();
+            Cursor cursor = context.getContentResolver().query(CoreProvider.Companion.getURI_ANYWHERE_ENTITY(), null, null, null, null);
+            if (cursor == null) {
+                return;
             }
+
+            sList.clear();
+            while (cursor.moveToNext()) {
+                AnywhereEntity info = AnywhereEntity.Builder();
+                info.setAppName(cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME)));
+                info.setParam1(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1)));
+                info.setParam2(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2)));
+                info.setParam3(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)));
+                info.setType(cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE)));
+
+                sList.add(info);
+            }
+
+            cursor.close();
         }
 
         /**

@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.database
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -40,8 +41,14 @@ interface AnywhereDao {
     @get:Query("SELECT * from anywhere_table ORDER BY app_name ASC")
     val allAnywhereEntitiesOrderByNameAsc: LiveData<List<AnywhereEntity>>
 
-    @Query("SELECT * from anywhere_table WHERE id LIKE :id")
+    @Query("SELECT * from anywhere_table WHERE _id LIKE :id")
     fun getEntityById(id: String): AnywhereEntity?
+
+    @Query("SELECT * FROM anywhere_table")
+    fun selectAll(): Cursor?
+
+    @Query("SELECT * FROM anywhere_table WHERE _id LIKE :id")
+    fun selectById(id: Long): Cursor?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPage(pe: PageEntity)

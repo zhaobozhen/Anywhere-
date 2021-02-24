@@ -278,6 +278,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <provider
+            android:name=".provider.CoreProvider"
+            android:authorities="${applicationId}.coreprovider"
+            android:exported="true"
+            android:permission="com.absinthe.anywhere_.permission.PROVIDER" />
 
         <!--    Collector tile service    -->
         <service

@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.model.database;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,55 +19,66 @@ import java.util.Objects;
 @Entity(tableName = "anywhere_table")
 public class AnywhereEntity implements Parcelable {
 
+    public static final String APP_NAME = "app_name";
+    public static final String PARAM_1 = "param_1";
+    public static final String PARAM_2 = "param_2";
+    public static final String PARAM_3 = "param_3";
+    public static final String DESCRIPTION = "description";
+    public static final String TYPE = "type";
+    public static final String CATEGORY = "category";
+    public static final String TIMESTAMP = "time_stamp";
+    public static final String COLOR = "color";
+    public static final String ICON_URI = "iconUri";
+
     @NonNull
     @PrimaryKey
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = BaseColumns._ID)
     @SerializedName("id")
     private String mId;
 
     @NonNull
-    @ColumnInfo(name = "app_name")
-    @SerializedName("app_name")
+    @ColumnInfo(name = APP_NAME)
+    @SerializedName(APP_NAME)
     private String mAppName;
 
     @NonNull
-    @ColumnInfo(name = "param_1")
-    @SerializedName("param_1")
+    @ColumnInfo(name = PARAM_1)
+    @SerializedName(PARAM_1)
     private String mParam1;
 
-    @ColumnInfo(name = "param_2")
-    @SerializedName("param_2")
+    @ColumnInfo(name = PARAM_2)
+    @SerializedName(PARAM_2)
     private String mParam2;
 
-    @ColumnInfo(name = "param_3")
-    @SerializedName("param_3")
+    @ColumnInfo(name = PARAM_3)
+    @SerializedName(PARAM_3)
     private String mParam3;
 
-    @ColumnInfo(name = "description")
-    @SerializedName("description")
+    @ColumnInfo(name = DESCRIPTION)
+    @SerializedName(DESCRIPTION)
     private String mDescription;
 
     @NonNull
-    @ColumnInfo(name = "type")
-    @SerializedName("type")
+    @ColumnInfo(name = TYPE)
+    @SerializedName(TYPE)
     private Integer mType;
 
-    @ColumnInfo(name = "category")
-    @SerializedName("category")
+    @ColumnInfo(name = CATEGORY)
+    @SerializedName(CATEGORY)
     private String mCategory;
 
     @NonNull
-    @ColumnInfo(name = "time_stamp")
-    @SerializedName("time_stamp")
+    @ColumnInfo(name = TIMESTAMP)
+    @SerializedName(TIMESTAMP)
     private String mTimeStamp;
 
     @NonNull
-    @ColumnInfo(name = "color")
-    @SerializedName("color")
+    @ColumnInfo(name = COLOR)
+    @SerializedName(COLOR)
     private Integer mColor;
 
-    @ColumnInfo(name = "iconUri")
-    @SerializedName("iconUri")
+    @ColumnInfo(name = ICON_URI)
+    @SerializedName(ICON_URI)
     private String mIconUri;
 
     @NonNull

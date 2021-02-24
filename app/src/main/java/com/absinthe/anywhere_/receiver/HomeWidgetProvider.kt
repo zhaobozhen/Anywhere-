@@ -22,40 +22,41 @@ class HomeWidgetProvider : AppWidgetProvider() {
      * 每次窗口小部件被更新都调用一次该方法
      */
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds)
         val thisWidget = ComponentName(context, HomeWidgetProvider::class.java)
-
-        // 创建一个 RemoteView
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_home).apply {
-
-            // 把这个 Widget 绑定到 RemoteViewsService
-            val intent = Intent(context, AppRemoteViewsService::class.java).apply {
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[0])
-            }
-
-            // 设置适配器
-            setRemoteAdapter(R.id.lv_list, intent)
-
-            // 设置当显示的 widget_list 为空显示的 View
-            setEmptyView(R.id.lv_list, R.layout.widget_home)
-        }
-
         // 点击列表触发事件
         val clickIntent = Intent(context, HomeWidgetProvider::class.java).apply {
             // 设置 Action，方便在 onReceive 中区别点击事件
             action = CLICK_ACTION
             data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
         }
+        val pendingIntentTemplate = PendingIntent.getBroadcast(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val pendingIntentTemplate = PendingIntent.getBroadcast(
-                context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        remoteViews.setPendingIntentTemplate(R.id.lv_list, pendingIntentTemplate)
+        appWidgetIds.forEach { appWidgetId ->
+            // 创建一个 RemoteView
+            val remoteViews = RemoteViews(context.packageName, R.layout.widget_home).apply {
 
-        // 更新 Widget
-        appWidgetManager.apply {
-            updateAppWidget(thisWidget, remoteViews)
-            notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_list)
+                // 把这个 Widget 绑定到 RemoteViewsService
+                val intent = Intent(context, AppRemoteViewsService::class.java).apply {
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                }
+
+                // 设置适配器
+                setRemoteAdapter(R.id.lv_list, intent)
+
+                // 设置当显示的 widget_list 为空显示的 View
+                setEmptyView(R.id.lv_list, R.layout.widget_home)
+            }
+
+            remoteViews.setPendingIntentTemplate(R.id.lv_list, pendingIntentTemplate)
+
+            // 更新 Widget
+            appWidgetManager.apply {
+                updateAppWidget(thisWidget, remoteViews)
+                notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_list)
+            }
         }
+
+        super.onUpdate(context, appWidgetManager, appWidgetIds)
     }
 
     /**

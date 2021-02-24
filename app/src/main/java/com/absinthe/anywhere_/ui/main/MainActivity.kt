@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.ui.main
 
 import android.annotation.SuppressLint
+import android.app.Fragment
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.*
 import android.widget.ImageButton
+import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.menu.MenuBuilder
@@ -147,6 +149,7 @@ class MainActivity : BaseActivity() {
         initObserver()
         getAnywhereIntent(intent)
         backupIfNeeded()
+        QRCollection.list //initialization
     }
 
     override fun onResume() {
@@ -554,7 +557,6 @@ class MainActivity : BaseActivity() {
                     }
                     R.id.fab_qr_code_collection -> {
                         startActivity(Intent(this@MainActivity, QRCodeCollectionActivity::class.java))
-                        QRCollection.list //initialization
                         Analytics.trackEvent(EventTag.FAB_QR_CODE_COLLECTION_CLICK)
                     }
                     R.id.fab_cloud_rules -> {
