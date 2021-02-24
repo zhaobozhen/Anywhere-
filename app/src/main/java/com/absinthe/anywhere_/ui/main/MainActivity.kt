@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.ui.main
 
 import android.annotation.SuppressLint
-import android.app.Fragment
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -13,7 +12,6 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.*
 import android.widget.ImageButton
-import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.menu.MenuBuilder
@@ -48,7 +46,6 @@ import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.services.BackupIntentService
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.services.overlay.ICollectorService
-import com.absinthe.anywhere_.transformer.CategoryCardTransformer
 import com.absinthe.anywhere_.ui.cloud.CloudRulesActivity
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
@@ -323,7 +320,7 @@ class MainActivity : BaseActivity() {
                         }
                     })
 
-                    setPageTransformer(CategoryCardTransformer())
+//                    setPageTransformer(CategoryCardTransformer())
                     getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
                     isUserInputEnabled = GlobalValues.isPages

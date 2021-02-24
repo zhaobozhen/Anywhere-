@@ -350,6 +350,11 @@ class EditorActivity : BaseActivity() {
     }
 
     private fun startOverlayImpl() {
+        if (!Once.beenDone(OnceTag.OVERLAY_TIP)) {
+            ToastUtil.makeText(R.string.toast_overlay_tip)
+            Once.markDone(OnceTag.OVERLAY_TIP)
+        }
+
         if (isBound) {
             overlayService?.addOverlay(entity)
             ActivityUtils.startHomeActivity()
@@ -357,11 +362,6 @@ class EditorActivity : BaseActivity() {
             applicationContext.bindService(Intent(this, OverlayService::class.java), conn, Context.BIND_AUTO_CREATE)
         }
         finish()
-
-        if (!Once.beenDone(OnceTag.OVERLAY_TIP)) {
-            ToastUtil.makeText(R.string.toast_overlay_tip)
-            Once.markDone(OnceTag.OVERLAY_TIP)
-        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N_MR1)

@@ -9,9 +9,6 @@ import android.net.Uri;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import androidx.lifecycle.LiveData;
-
-import com.absinthe.anywhere_.AnywhereApplication;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
@@ -21,13 +18,15 @@ import com.absinthe.anywhere_.utils.UxUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
 
 public class AppRemoteViewsService extends RemoteViewsService {
 
-    private static List<AnywhereEntity> sList;
+    private List<AnywhereEntity> mList = null;
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
@@ -37,31 +36,34 @@ public class AppRemoteViewsService extends RemoteViewsService {
 
     private class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-        private final Context mContext;
+        private final WeakReference<Context> mContext;
 
         /**
          * 构造函数
          */
         RemoteViewsFactory(Context context, Intent intent) {
-            mContext = context;
-            Cursor cursor = context.getContentResolver().query(CoreProvider.Companion.getURI_ANYWHERE_ENTITY(), null, null, null, null);
-            if (cursor == null) {
-                return;
-            }
+            mContext = new WeakReference<>(context);
+            new Thread(() -> {
+                Cursor cursor = mContext.get().getContentResolver().query(CoreProvider.Companion.getURI_ANYWHERE_ENTITY(), null, null, null, null);
+                if (cursor == null) {
+                    return;
+                }
 
-            sList.clear();
-            while (cursor.moveToNext()) {
-                AnywhereEntity info = AnywhereEntity.Builder();
-                info.setAppName(cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME)));
-                info.setParam1(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1)));
-                info.setParam2(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2)));
-                info.setParam3(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)));
-                info.setType(cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE)));
+                mList = new ArrayList<>();
 
-                sList.add(info);
-            }
+                while (cursor.moveToNext()) {
+                    AnywhereEntity info = AnywhereEntity.Builder();
+                    info.setAppName(cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME)));
+                    info.setParam1(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1)));
+                    info.setParam2(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2)));
+                    info.setParam3(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)));
+                    info.setType(cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE)));
 
-            cursor.close();
+                    mList.add(info);
+                }
+
+                cursor.close();
+            }).start();
         }
 
         /**
@@ -82,25 +84,27 @@ public class AppRemoteViewsService extends RemoteViewsService {
         @Override
         public void onDataSetChanged() {
             // 需要显示的数据
-            sList.clear();
-            Cursor cursor = context.getContentResolver().query(CoreProvider.Companion.getURI_ANYWHERE_ENTITY(), null, null, null, null);
-            if (cursor == null) {
-                return;
-            }
+            new Thread(() -> {
+                Cursor cursor = mContext.get().getContentResolver().query(CoreProvider.Companion.getURI_ANYWHERE_ENTITY(),
+                        null, null, null, null);
+                if (cursor == null) {
+                    return;
+                }
 
-            sList.clear();
-            while (cursor.moveToNext()) {
-                AnywhereEntity info = AnywhereEntity.Builder();
-                info.setAppName(cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME)));
-                info.setParam1(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1)));
-                info.setParam2(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2)));
-                info.setParam3(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)));
-                info.setType(cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE)));
+                mList.clear();
+                while (cursor.moveToNext()) {
+                    AnywhereEntity info = AnywhereEntity.Builder();
+                    info.setAppName(cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME)));
+                    info.setParam1(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1)));
+                    info.setParam2(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2)));
+                    info.setParam3(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)));
+                    info.setType(cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE)));
 
-                sList.add(info);
-            }
+                    mList.add(info);
+                }
 
-            cursor.close();
+                cursor.close();
+            }).start();
         }
 
         /**
@@ -108,9 +112,9 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public void onDestroy() {
-            if (sList != null) {
-                sList.clear();
-                sList = null;
+            if (mList != null) {
+                mList.clear();
+                mList = null;
             }
         }
 
@@ -119,10 +123,10 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public int getCount() {
-            if (sList == null) {
+            if (mList == null) {
                 return 0;
             }
-            return sList.size();
+            return mList.size();
         }
 
         /**
@@ -130,29 +134,27 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public RemoteViews getViewAt(int position) {
-            if (sList == null || position < 0 || position >= sList.size()) {
+            if (mList == null || position < 0 || position >= mList.size()) {
                 return null;
             }
-            String content = sList.get(position).getAppName();
+            String content = mList.get(position).getAppName();
 
             try {
-                if (IceBox.getAppEnabledSetting(mContext, sList.get(position).getParam1()) != 0) {
+                if (IceBox.getAppEnabledSetting(mContext.get(), mList.get(position).getParam1()) != 0) {
                     content = "\u2744" + content;
                 }
             } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
                 Timber.e(e);
             }
 
             // 创建在当前索引位置要显示的View
-            final RemoteViews rv = new RemoteViews(mContext.getPackageName(),
-                    R.layout.item_widget_list);
+            final RemoteViews rv = new RemoteViews(mContext.get().getPackageName(), R.layout.item_widget_list);
 
             // 设置要显示的内容
             rv.setTextViewText(R.id.tv_title, content);
 
             Drawable icon;
-            AnywhereEntity ae = sList.get(position);
+            AnywhereEntity ae = mList.get(position);
 
             if (ae.getIconUri().isEmpty()) {
                 icon = UxUtils.INSTANCE.getAppIcon(AppRemoteViewsService.this, ae);
@@ -160,7 +162,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
                 try {
                     icon = Drawable.createFromStream(getContentResolver().openInputStream(Uri.parse(ae.getIconUri())), null);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Timber.e(e);
                     icon = UxUtils.INSTANCE.getAppIcon(AppRemoteViewsService.this, ae);
                 }
             }

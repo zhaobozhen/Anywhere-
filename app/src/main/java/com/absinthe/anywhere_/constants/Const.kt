@@ -102,7 +102,6 @@ object Const {
     const val INTENT_EXTRA_FROM_TILE = "tile"
 
     const val INTENT_EXTRA_WIDGET_ENTITY = "entity"
-    const val INTENT_EXTRA_WIDGET_ITEM_ID = "item_id"
 
     const val INTENT_EXTRA_APP_NAME = "appName"
     const val INTENT_EXTRA_PKG_NAME = "pkgName"

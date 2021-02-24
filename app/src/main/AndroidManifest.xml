@@ -11,6 +11,7 @@
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
             tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="com.absinthe.anywhere_.provider.READ" />
 
     <application
         android:name=".AnywhereApplication"
@@ -282,7 +283,8 @@
             android:name=".provider.CoreProvider"
             android:authorities="${applicationId}.coreprovider"
             android:exported="true"
-            android:permission="com.absinthe.anywhere_.permission.PROVIDER" />
+            android:readPermission="com.absinthe.anywhere_.provider.READ"
+            android:writePermission="com.absinthe.anywhere_.provider.WRITE" />
 
         <!--    Collector tile service    -->
         <service

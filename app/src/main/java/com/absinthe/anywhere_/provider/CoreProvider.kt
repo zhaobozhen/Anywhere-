@@ -6,6 +6,7 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
+import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.database.AnywhereDao
 import com.absinthe.anywhere_.database.AnywhereRoomDatabase
 
@@ -13,7 +14,7 @@ import com.absinthe.anywhere_.database.AnywhereRoomDatabase
 class CoreProvider : ContentProvider() {
 
     companion object {
-        const val AUTHORITY = "com.absinthe.anywhere_.coreprovider"
+        const val AUTHORITY = "${BuildConfig.APPLICATION_ID}.coreprovider"
         const val AE_TABLE = "anywhere_table"
         const val CODE_AE_DIR = 1
         const val CODE_AE_ITEM = 2
@@ -35,8 +36,7 @@ class CoreProvider : ContentProvider() {
         return if (code == CODE_AE_DIR || code == CODE_AE_ITEM) {
             val context = context ?: return null
             val aeDao: AnywhereDao = AnywhereRoomDatabase.getDatabase(context).anywhereDao()
-            val cursor: Cursor?
-            cursor = if (code == CODE_AE_DIR) {
+            val cursor: Cursor? = if (code == CODE_AE_DIR) {
                 aeDao.selectAll()
             } else {
                 aeDao.selectById(ContentUris.parseId(uri))
@@ -48,7 +48,7 @@ class CoreProvider : ContentProvider() {
         }
     }
 
-    override fun getType(uri: Uri): String? {
+    override fun getType(uri: Uri): String {
         return when (MATCHER.match(uri)) {
             CODE_AE_DIR -> "vnd.android.cursor.dir/$AUTHORITY.$AE_TABLE"
             CODE_AE_ITEM -> "vnd.android.cursor.item/$AUTHORITY.$AE_TABLE"

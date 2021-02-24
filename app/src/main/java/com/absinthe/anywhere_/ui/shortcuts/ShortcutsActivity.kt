@@ -124,21 +124,15 @@ class ShortcutsActivity : BaseActivity() {
                     }
                 }
                 ACTION_START_FROM_WIDGET -> {
-                    intent.getStringExtra(Const.INTENT_EXTRA_WIDGET_ITEM_ID)?.let { id ->
-                        viewModel.allAnywhereEntities.observe(this, { list ->
-                            list.find { findItem ->
-                                findItem.id == id
-                            }?.apply {
-                                Opener.with(this@ShortcutsActivity)
-                                        .load(this)
-                                        .setOpenedListener(object : Opener.OnOpenListener {
-                                            override fun onOpened() {
-                                                shouldFinish = true
-                                            }
-                                        })
-                                        .open()
-                            }
-                        })
+                    intent.getParcelableExtra<AnywhereEntity>(Const.INTENT_EXTRA_WIDGET_ENTITY)?.let { entity ->
+                        Opener.with(this@ShortcutsActivity)
+                            .load(entity)
+                            .setOpenedListener(object : Opener.OnOpenListener {
+                                override fun onOpened() {
+                                    shouldFinish = true
+                                }
+                            })
+                            .open()
                     } ?: let { shouldFinish = true }
                 }
                 Intent.ACTION_CREATE_SHORTCUT -> {
@@ -187,6 +181,7 @@ class ShortcutsActivity : BaseActivity() {
                             object : AnywhereDialogFragment.OnDismissListener {
                                 override fun onDismiss() {
                                     shouldFinish = true
+                                    finish()
                                 }
                             })
                     } ?: { shouldFinish = true }
