@@ -91,7 +91,10 @@ public class AppRemoteViewsService extends RemoteViewsService {
                     return;
                 }
 
-                mList.clear();
+                if (mList != null) {
+                    mList.clear();
+                }
+                mList = new ArrayList<>();
                 while (cursor.moveToNext()) {
                     AnywhereEntity info = AnywhereEntity.Builder();
                     info.setAppName(cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME)));
