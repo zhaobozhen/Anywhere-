@@ -65,7 +65,7 @@ object Settings {
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.MMKV_MIGRATE)) {
             val sp = application.getSharedPreferences(SPUtils.sPName, MODE_PRIVATE)
-            MMKV.mmkvWithID(SPUtils.sPName).importFromSharedPreferences(sp)
+            MMKV.mmkvWithID(SPUtils.sPName)?.importFromSharedPreferences(sp)
             Once.markDone(OnceTag.MMKV_MIGRATE)
         }
     }

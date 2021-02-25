@@ -7,10 +7,11 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
+import java.lang.IllegalStateException
 
 object GlobalValues {
 
-    private val mmkv: MMKV = MMKV.mmkvWithID(SPUtils.sPName)
+    private val mmkv: MMKV = MMKV.mmkvWithID(SPUtils.sPName) ?: throw IllegalStateException("mmkv instance is null")
 
     var sIsDebugMode = false
 

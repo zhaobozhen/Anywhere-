@@ -48,6 +48,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     private var bShizuku = false
     private var bOverlay = false
     private var bPopup = false
+    private var hasCheckedShizuku = false
     private var mWorkingMode: String = Const.WORKING_MODE_URL_SCHEME
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -68,8 +69,10 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
     override fun onResume() {
         super.onResume()
-        if (ShizukuHelper.checkPermission(requireActivity())) {
-            isShizuku.value = java.lang.Boolean.TRUE
+        if (hasCheckedShizuku) {
+            if (ShizukuHelper.checkPermission(requireActivity())) {
+                isShizuku.value = java.lang.Boolean.TRUE
+            }
         }
     }
 
@@ -218,6 +221,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
             CARD_SHIZUKU -> {
                 shizukuBinding.btnAcquirePermission.isEnabled = false
                 shizukuBinding.btnAcquirePermission.setOnClickListener {
+                    hasCheckedShizuku = true
                     isShizuku.value = ShizukuHelper.checkPermission(requireActivity())
                 }
                 if (isAdd) {

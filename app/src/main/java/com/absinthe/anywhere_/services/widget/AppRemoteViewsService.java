@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -13,7 +14,6 @@ import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.model.database.AnywhereEntity;
 import com.absinthe.anywhere_.provider.CoreProvider;
-import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity;
 import com.absinthe.anywhere_.utils.UxUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.catchingnow.icebox.sdk_client.IceBox;
@@ -26,30 +26,34 @@ import timber.log.Timber;
 
 public class AppRemoteViewsService extends RemoteViewsService {
 
-    private List<AnywhereEntity> mList = null;
-
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-
         return new RemoteViewsFactory(this.getApplicationContext(), intent);
     }
 
     private class RemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         private final WeakReference<Context> mContext;
+        private final List<AnywhereEntity> mList = new ArrayList<>();
 
-        /**
-         * 构造函数
-         */
         RemoteViewsFactory(Context context, Intent intent) {
             mContext = new WeakReference<>(context);
+        }
+
+        /**
+         * AppRemoteViewsFactory 调用时执行，这个方法执行时间超过 20 秒会报错
+         * 如果耗时长的任务应该在 onDataSetChanged 或者 getViewAt 中处理
+         */
+        @Override
+        public void onCreate() {
+            // 需要显示的数据
             new Thread(() -> {
                 Cursor cursor = mContext.get().getContentResolver().query(CoreProvider.Companion.getURI_ANYWHERE_ENTITY(), null, null, null, null);
                 if (cursor == null) {
                     return;
                 }
 
-                mList = new ArrayList<>();
+                mList.clear();
 
                 while (cursor.moveToNext()) {
                     AnywhereEntity info = AnywhereEntity.Builder();
@@ -67,17 +71,6 @@ public class AppRemoteViewsService extends RemoteViewsService {
         }
 
         /**
-         * AppRemoteViewsFactory 调用时执行，这个方法执行时间超过 20 秒会报错
-         * 如果耗时长的任务应该在 onDataSetChanged 或者 getViewAt 中处理
-         */
-        @Override
-        public void onCreate() {
-            // 需要显示的数据
-            Intent intent = new Intent(AppRemoteViewsService.this, ShortcutsActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-
-        /**
          * 当调用 notifyAppWidgetViewDataChanged 方法时，触发这个方法
          * 例如：AppRemoteViewsFactory.notifyAppWidgetViewDataChanged();
          */
@@ -91,12 +84,10 @@ public class AppRemoteViewsService extends RemoteViewsService {
                     return;
                 }
 
-                if (mList != null) {
-                    mList.clear();
-                }
-                mList = new ArrayList<>();
+                mList.clear();
                 while (cursor.moveToNext()) {
                     AnywhereEntity info = AnywhereEntity.Builder();
+                    info.setId(cursor.getString(cursor.getColumnIndex(BaseColumns._ID)));
                     info.setAppName(cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME)));
                     info.setParam1(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1)));
                     info.setParam2(cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2)));
@@ -115,10 +106,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public void onDestroy() {
-            if (mList != null) {
-                mList.clear();
-                mList = null;
-            }
+            mList.clear();
         }
 
         /**
@@ -126,9 +114,6 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public int getCount() {
-            if (mList == null) {
-                return 0;
-            }
             return mList.size();
         }
 
@@ -137,7 +122,7 @@ public class AppRemoteViewsService extends RemoteViewsService {
          */
         @Override
         public RemoteViews getViewAt(int position) {
-            if (mList == null || position < 0 || position >= mList.size()) {
+            if (position < 0 || position >= mList.size()) {
                 return null;
             }
             String content = mList.get(position).getAppName();
