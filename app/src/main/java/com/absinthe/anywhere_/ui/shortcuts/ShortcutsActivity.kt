@@ -253,6 +253,6 @@ class ShortcutsActivity : BaseActivity() {
         const val ACTION_START_ENTITY = "START_ENTITY"
         const val ACTION_START_FROM_WIDGET = "START_FROM_WIDGET"
         const val ACTION_START_IMAGE = "START_IMAGE" //Old Scheme
-        const val ACTION_START_DEVICE_CONTROL = "ACTION_START_DEVICE_CONTROL" //Old Scheme
+        const val ACTION_START_DEVICE_CONTROL = "ACTION_START_DEVICE_CONTROL"
     }
 }

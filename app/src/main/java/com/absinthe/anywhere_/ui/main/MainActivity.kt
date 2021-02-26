@@ -100,6 +100,7 @@ class MainActivity : BaseActivity() {
 
     private var isBound = false
     private var isTitleShown = false
+    private var shouldFinish = false
     private var collectorService: ICollectorService? = null
     private var mToggle: ActionBarDrawerToggle? = null
 
@@ -147,26 +148,14 @@ class MainActivity : BaseActivity() {
         initObserver()
         getAnywhereIntent(intent)
         backupIfNeeded()
-
-        if (intent.action == ShortcutsActivity.ACTION_START_DEVICE_CONTROL) {
-            val type = intent.getIntExtra(Const.INTENT_EXTRA_TYPE, -1)
-            val param1 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_1) ?: return
-            val param2 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_2) ?: return
-            val param3 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_3) ?: return
-            val entity = AnywhereEntity.Builder().apply {
-                this.type = type
-                this.param1 = param1
-                this.param2 = param2
-                this.param3 = param3
-            }
-            Opener.with(this)
-                    .load(entity)
-                    .open()
-        }
     }
 
     override fun onResume() {
         super.onResume()
+        if (shouldFinish) {
+            finish()
+            return
+        }
         Settings.setTheme(GlobalValues.darkMode)
         getClipBoardText(this, object : ClipboardUtil.Function {
             override fun invoke(text: String) {
@@ -321,7 +310,7 @@ class MainActivity : BaseActivity() {
                             super.onPageSelected(position)
                             val pos = if (position >= it.size) it.size - 1 else position
                             setsCategory(it[pos].title, pos)
-                            
+
                             if (isTitleShown) {
                                 mBinding.tsTitle.setText(it[pos].title)
                             }
@@ -609,6 +598,25 @@ class MainActivity : BaseActivity() {
         } else if (action == Intent.ACTION_SEND) {
             val sharing = intent.getStringExtra(Intent.EXTRA_TEXT)
             viewModel.setUpUrlScheme(AppTextUtils.parseUrlFromSharingText(sharing))
+        } else if (action == ShortcutsActivity.ACTION_START_DEVICE_CONTROL) {
+            val type = intent.getIntExtra(Const.INTENT_EXTRA_TYPE, -1)
+            val param1 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_1) ?: return
+            val param2 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_2) ?: return
+            val param3 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_3) ?: return
+            val entity = AnywhereEntity.Builder().apply {
+                this.type = type
+                this.param1 = param1
+                this.param2 = param2
+                this.param3 = param3
+            }
+            Opener.with(this)
+                    .load(entity)
+                    .setOpenedListener(object : Opener.OnOpenListener {
+                        override fun onOpened() {
+                            shouldFinish = true
+                        }
+                    })
+                    .open()
         }
     }
 
