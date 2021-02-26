@@ -68,9 +68,10 @@ class AwControlsProviderService : ControlsProviderService() {
          * this Intent will be launched in a bottomsheet. Please design the activity
          * accordingly to fit a more limited space (about 2/3 screen height).
          */
+        var id: String
         var i: Intent
         var pi: PendingIntent
-        var id: String
+        var requestCode = 0
 
         val cursor: Cursor = context.contentResolver.query(URI_ANYWHERE_ENTITY, null, null, null, null)
                 ?: return FlowAdapters.toFlowPublisher(updatePublisher)
@@ -87,7 +88,7 @@ class AwControlsProviderService : ControlsProviderService() {
                     putExtra(Const.INTENT_EXTRA_PARAM_3, cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)))
                     putExtra(Const.INTENT_EXTRA_TYPE, cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE)))
                 }
-                pi = PendingIntent.getActivity(context, 2025, i, PendingIntent.FLAG_UPDATE_CURRENT)
+                pi = PendingIntent.getActivity(context, requestCode++, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 val control =
                         Control.StatefulBuilder(id, pi)
                                 // Required: The name of the control

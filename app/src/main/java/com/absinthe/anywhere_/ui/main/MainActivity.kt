@@ -101,6 +101,7 @@ class MainActivity : BaseActivity() {
     private var isBound = false
     private var isTitleShown = false
     private var shouldFinish = false
+    private var hasResumed = false
     private var collectorService: ICollectorService? = null
     private var mToggle: ActionBarDrawerToggle? = null
 
@@ -152,10 +153,11 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (shouldFinish) {
+        if (shouldFinish && hasResumed) {
             finish()
             return
         }
+        hasResumed = true
         Settings.setTheme(GlobalValues.darkMode)
         getClipBoardText(this, object : ClipboardUtil.Function {
             override fun invoke(text: String) {
