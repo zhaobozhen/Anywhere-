@@ -184,7 +184,27 @@ class ShortcutsActivity : BaseActivity() {
                                     finish()
                                 }
                             })
-                    } ?: { shouldFinish = true }
+                    } ?: run { shouldFinish = true }
+                }
+                ACTION_START_DEVICE_CONTROL -> {
+                    val type = intent.getIntExtra(Const.INTENT_EXTRA_TYPE, -1)
+                    val param1 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_1) ?: return@let
+                    val param2 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_2) ?: return@let
+                    val param3 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_3) ?: return@let
+                    val entity = AnywhereEntity.Builder().apply {
+                        this.type = type
+                        this.param1 = param1
+                        this.param2 = param2
+                        this.param3 = param3
+                    }
+                    Opener.with(this@ShortcutsActivity)
+                            .load(entity)
+                            .setOpenedListener(object : Opener.OnOpenListener {
+                                override fun onOpened() {
+                                    shouldFinish = true
+                                }
+                            })
+                            .open()
                 }
                 Intent.ACTION_VIEW -> {
                     intent.data?.let { uri ->
@@ -233,5 +253,6 @@ class ShortcutsActivity : BaseActivity() {
         const val ACTION_START_ENTITY = "START_ENTITY"
         const val ACTION_START_FROM_WIDGET = "START_FROM_WIDGET"
         const val ACTION_START_IMAGE = "START_IMAGE" //Old Scheme
+        const val ACTION_START_DEVICE_CONTROL = "ACTION_START_DEVICE_CONTROL" //Old Scheme
     }
 }

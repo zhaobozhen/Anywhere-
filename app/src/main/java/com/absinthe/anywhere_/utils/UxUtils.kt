@@ -135,7 +135,7 @@ object UxUtils {
                 it.setBackgroundDrawable(null)
             }
         }
-        UiUtils.setSystemBarTransparent(activity.window)
+        StatusBarUtil.setSystemBarTransparent(activity)
     }
 
     /**

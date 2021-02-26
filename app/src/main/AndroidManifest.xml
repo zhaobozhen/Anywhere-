@@ -260,32 +260,6 @@
             </intent-filter>
         </activity>
 
-        <!--    Shizuku provider    -->
-        <provider
-            android:name="rikka.shizuku.ShizukuProvider"
-            android:authorities="${applicationId}.shizuku"
-            android:enabled="true"
-            android:exported="true"
-            android:multiprocess="false"
-            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
-
-        <!--    File provider    -->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-        <provider
-            android:name=".provider.CoreProvider"
-            android:authorities="${applicationId}.coreprovider"
-            android:exported="true"
-            android:readPermission="com.absinthe.anywhere_.provider.READ"
-            android:writePermission="com.absinthe.anywhere_.provider.WRITE" />
-
         <!--    Collector tile service    -->
         <service
             android:name=".services.tile.CollectorTileService"
@@ -379,6 +353,13 @@
             android:name=".services.BackupIntentService"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+        <!--    Device Control    -->
+        <service android:name=".services.widget.AwControlsProviderService"
+            android:permission="android.permission.BIND_CONTROLS">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlsProviderService" />
+            </intent-filter>
+        </service>
 
         <!--    Home launcher widget click event receiver    -->
         <receiver android:name=".receiver.HomeWidgetProvider">
@@ -408,6 +389,33 @@
 
         <!--    Notification click event receiver    -->
         <receiver android:name=".receiver.NotificationClickReceiver" />
+
+        <!--    Shizuku provider    -->
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+        <!--    File provider    -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <!--    Core Provider    -->
+        <provider
+            android:name=".provider.CoreProvider"
+            android:authorities="${applicationId}.coreprovider"
+            android:exported="true"
+            android:readPermission="com.absinthe.anywhere_.provider.READ"
+            android:writePermission="com.absinthe.anywhere_.provider.WRITE" />
 
         <meta-data
             android:name="android.max_aspect"

@@ -42,7 +42,6 @@ import com.absinthe.anywhere_.databinding.ActivityMainBinding
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
-import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.services.BackupIntentService
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.services.overlay.ICollectorService
@@ -54,10 +53,12 @@ import com.absinthe.anywhere_.ui.list.AppListActivity
 import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
+import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
 import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
 import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
+import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.home.DrawerRecyclerView
@@ -146,7 +147,22 @@ class MainActivity : BaseActivity() {
         initObserver()
         getAnywhereIntent(intent)
         backupIfNeeded()
-        QRCollection.list //initialization
+
+        if (intent.action == ShortcutsActivity.ACTION_START_DEVICE_CONTROL) {
+            val type = intent.getIntExtra(Const.INTENT_EXTRA_TYPE, -1)
+            val param1 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_1) ?: return
+            val param2 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_2) ?: return
+            val param3 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_3) ?: return
+            val entity = AnywhereEntity.Builder().apply {
+                this.type = type
+                this.param1 = param1
+                this.param2 = param2
+                this.param3 = param3
+            }
+            Opener.with(this)
+                    .load(entity)
+                    .open()
+        }
     }
 
     override fun onResume() {
