@@ -33,6 +33,7 @@
     <string name="notification_workflow_content">Waiting for execution</string>
     <string name="help_card_title">Help Docs</string>
     <string name="add">Add</string>
+    <string name="permission_label_provider_read">Allow application to read provider database</string>
 
     <!--  About page  -->
     <string name="slogan">Anywhere- To Where You Want to</string>

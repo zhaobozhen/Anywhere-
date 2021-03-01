@@ -14,7 +14,7 @@ buildscript {
         // in the individual module build.gradle files
 
         classpath 'com.android.tools.build:gradle:4.1.2'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.31'
         classpath 'com.iwhys.sdkeditor:plugin:1.1.4'
         classpath 'com.github.heruoxin:Robfuscate:master'   // R obfuscate
         classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.20' // Resource obfuscate

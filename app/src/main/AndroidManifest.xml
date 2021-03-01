@@ -16,6 +16,11 @@
     <uses-permission android:name="com.catchingnow.icebox.SDK" />
     <uses-permission android:name="com.absinthe.anywhere_.provider.READ" />
 
+    <permission
+            android:name="com.absinthe.anywhere_.provider.READ"
+            android:label="@string/permission_label_provider_read"
+            android:protectionLevel="normal" />
+
     <application
         android:name=".AnywhereApplication"
         android:allowBackup="true"

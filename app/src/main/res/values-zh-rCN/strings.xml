@@ -398,4 +398,5 @@
     <string name="settings_close_after_launch">启动卡片后关闭 Anywhere-</string>
     <string name="toast_no_mail_app">您的设备中没有邮件 app</string>
     <string name="toast_not_choose_defrost_mode">请选择一项解冻模式</string>
+    <string name="permission_label_provider_read">允许应用程序读取内容提供器数据库</string>
 </resources>
