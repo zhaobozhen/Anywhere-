@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils
 
+import android.app.Activity
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -27,6 +28,35 @@ object ToastUtil {
     @JvmStatic
     fun makeText(@StringRes resId: Int) {
         Toasty.show(ActivityStackManager.topActivity!!, resId)
+    }
+
+    /**
+     * make a toast via a string
+     *
+     * @param context context
+     * @param text a string text
+     */
+    fun makeText(context: Context, text: String) {
+        if (context is Activity) {
+            Toasty.show(context, text)
+        } else {
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * make a toast via a resource id
+     *
+     * @param context context
+     * @param resId a string resource id
+     */
+    @JvmStatic
+    fun makeText(context: Context, @StringRes resId: Int) {
+        if (context is Activity) {
+            Toasty.show(context, resId)
+        } else {
+            Toast.makeText(context, resId, Toast.LENGTH_SHORT).show()
+        }
     }
 
     /**

@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.listener.OnAppDefrostListener
+import com.absinthe.anywhere_.utils.ToastUtil
 import com.catchingnow.icebox.sdk_client.IceBox
 import java.net.URISyntaxException
 
@@ -13,7 +15,7 @@ object URLSchemeHandler {
     @Throws(Exception::class)
     fun parse(context: Context, url: String, packageName: String? = null, action: () -> Unit = {}) {
         if (!packageName.isNullOrEmpty() && IceBox.getAppEnabledSetting(context, packageName) != 0) {
-            DefrostHandler.defrost(context, packageName, object : OnAppDefrostListener {
+            val result = DefrostHandler.defrost(context, packageName, object : OnAppDefrostListener {
                 override fun onAppDefrost() {
                     try {
                         context.startActivity(handleIntent(url))
@@ -23,6 +25,9 @@ object URLSchemeHandler {
                     }
                 }
             })
+            if (!result) {
+                ToastUtil.makeText(context, R.string.toast_not_choose_defrost_mode)
+            }
         } else {
             try {
                 context.startActivity(handleIntent(url))

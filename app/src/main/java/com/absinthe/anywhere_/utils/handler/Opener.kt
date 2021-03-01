@@ -391,7 +391,7 @@ object Opener {
                     IzukoService.getInstance()?.setA11yEntity(a11yEntity)
 
                     if (IceBox.getAppEnabledSetting(context, a11yEntity.applicationId) != 0) {
-                        DefrostHandler.defrost(context, a11yEntity.applicationId, object : OnAppDefrostListener {
+                        val result = DefrostHandler.defrost(context, a11yEntity.applicationId, object : OnAppDefrostListener {
                             override fun onAppDefrost() {
                                 context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
                                     it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -399,6 +399,9 @@ object Opener {
                                 }
                             }
                         })
+                        if (!result) {
+                            ToastUtil.makeText(context, R.string.toast_not_choose_defrost_mode)
+                        }
                     } else {
                         context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
                             it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -424,11 +427,14 @@ object Opener {
         } else {
             try {
                 if (IceBox.getAppEnabledSetting(context, packageName) != 0) {
-                    DefrostHandler.defrost(context, packageName, object : OnAppDefrostListener {
+                    val result =  DefrostHandler.defrost(context, packageName, object : OnAppDefrostListener {
                         override fun onAppDefrost() {
                             CommandUtils.execCmd(cmd)
                         }
                     })
+                    if (!result) {
+                        ToastUtil.makeText(context, R.string.toast_not_choose_defrost_mode)
+                    }
                 } else {
                     CommandUtils.execCmd(cmd)
                 }

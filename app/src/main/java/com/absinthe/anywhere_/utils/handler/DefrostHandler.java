@@ -38,8 +38,9 @@ public class DefrostHandler {
         return defrostWithRoot(packageName, listener);
       case Const.DEFROST_MODE_SHIZUKU:
         return defrostWithShizuku(packageName, listener);
+      default:
+        return false;
     }
-    return false;
   }
 
   private static boolean defrostWithDelegatedScopeManager(@NonNull Context context,
@@ -57,7 +58,6 @@ public class DefrostHandler {
         .getSystemService(Context.DEVICE_POLICY_SERVICE);
 
     if (devicePolicyManager != null) {
-      //noinspection ConstantConditions
       Observable
           .create((ObservableOnSubscribe<Boolean>) emitter -> emitter.onNext(devicePolicyManager.setApplicationHidden(null, packageName, false)))
           .subscribeOn(Schedulers.io())
