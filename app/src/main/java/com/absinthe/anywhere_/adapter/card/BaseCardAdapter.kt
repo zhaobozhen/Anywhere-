@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.ViewGroup
@@ -41,9 +42,7 @@ import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -119,41 +118,42 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
 
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
-                        UxUtils.setCardUseIconColor(itemView.cardBackground, UxUtils.getAppIcon(context, item)) { color ->
-                            if (color != 0) {
-                                itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
-                                itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
-                                normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                        GlobalScope.launch {
+                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item)) { color ->
                                 item.color = color
 
                                 if (shouldUpdateColorInfo(context, item)) {
                                     AnywhereApplication.sRepository.update(item)
                                 } else {
-                                    itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
-                                    itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
-                                    normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                    itemView.cardBackground.post {
+                                        itemView.cardBackground.background = ColorDrawable(color)
+                                        itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                        normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                    }
                                 }
-                            } else {
-                                itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
-                                normalView?.content?.description?.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
                             }
                         }
+                        itemView.cardBackground.setImageDrawable(null)
                     } else {
-                        itemView.rootView.backgroundTintList = ColorStateList.valueOf(item.color)
-                        itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
-                        normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                        itemView.cardBackground.post {
+                            itemView.cardBackground.background = ColorDrawable(item.color)
+                            itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                            normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                        }
                     }
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
-                        UxUtils.setCardUseIconColor(itemView.cardBackground, UxUtils.getAppIcon(context, item)) { color ->
-                            item.color = color
-                            if (shouldUpdateColorInfo(context, item)) {
-                                AnywhereApplication.sRepository.update(item)
-                            } else {
-                                itemView.cardBackground.post {
-                                    UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, color)
-                                    itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
-                                    normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                        GlobalScope.launch {
+                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item)) { color ->
+                                item.color = color
+                                if (shouldUpdateColorInfo(context, item)) {
+                                    AnywhereApplication.sRepository.update(item)
+                                } else {
+                                    itemView.cardBackground.post {
+                                        UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, color)
+                                        itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                        normalView?.content?.description?.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                    }
                                 }
                             }
                         }
@@ -172,17 +172,19 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
             LAYOUT_MODE_MINIMUM -> {
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
-                        UxUtils.setCardUseIconColor(itemView.cardBackground, UxUtils.getAppIcon(context, item)) { color ->
-                            if (color != 0) {
-                                itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
-                                itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
-                                item.color = color
+                        GlobalScope.launch {
+                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item)) { color ->
+                                if (color != 0) {
+                                    itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
+                                    itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
+                                    item.color = color
 
-                                if (shouldUpdateColorInfo(context, item)) {
-                                    AnywhereApplication.sRepository.update(item)
+                                    if (shouldUpdateColorInfo(context, item)) {
+                                        AnywhereApplication.sRepository.update(item)
+                                    }
+                                } else {
+                                    itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
                                 }
-                            } else {
-                                itemView.appName.setTextColor(ContextCompat.getColor(context, R.color.textColorNormal))
                             }
                         }
                     } else {
@@ -191,18 +193,20 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                     }
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
-                        UxUtils.setCardUseIconColor(itemView.cardBackground, UxUtils.getAppIcon(context, item)) { color ->
-                            item.color = color
-                            if (shouldUpdateColorInfo(context, item)) {
-                                AnywhereApplication.sRepository.update(item)
-                            }
+                        GlobalScope.launch {
+                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item)) { color ->
+                                item.color = color
+                                if (shouldUpdateColorInfo(context, item)) {
+                                    AnywhereApplication.sRepository.update(item)
+                                }
 
-                            if (color == 0) {
-                                itemView.cardBackground.setImageDrawable(null)
-                            } else {
-                                itemView.cardBackground.post {
-                                    UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)
-                                    itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                                if (color == 0) {
+                                    itemView.cardBackground.setImageDrawable(null)
+                                } else {
+                                    itemView.cardBackground.post {
+                                        UxUtils.createLinearGradientBitmap(context, itemView.cardBackground, item.color)
+                                        itemView.appName.setTextColor(if (UxUtils.isLightColor(item.color)) Color.BLACK else Color.WHITE)
+                                    }
                                 }
                             }
                         }

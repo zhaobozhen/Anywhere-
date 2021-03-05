@@ -50,6 +50,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 
@@ -251,16 +254,17 @@ object UxUtils {
      * @param drawable icon drawable
      * @param action notify when Palette finished
      */
-    fun setCardUseIconColor(cardBackgroundView: View, drawable: Drawable, action: (color: Int) -> Unit) {
-        val bitmap = ConvertUtils.drawable2Bitmap(drawable) ?: return
+    suspend fun setCardUseIconColor(drawable: Drawable, action: (color: Int) -> Unit) {
+        coroutineScope {
+            val bitmap = ConvertUtils.drawable2Bitmap(drawable) ?: return@coroutineScope
+            val palette = Palette.from(bitmap).generate()
 
-        Palette.from(bitmap).generate { p: Palette? ->
-            if (p != null) {
-                var color = p.getVibrantColor(Color.TRANSPARENT)
+            withContext(Dispatchers.Main) {
+                var color = palette.getVibrantColor(Color.TRANSPARENT)
                 if (color == Color.TRANSPARENT) {
-                    color = p.getDominantColor(Color.TRANSPARENT)
+                    color = palette.getDominantColor(Color.TRANSPARENT)
                 }
-                cardBackgroundView.post { action(color) }
+                action(color)
             }
         }
     }

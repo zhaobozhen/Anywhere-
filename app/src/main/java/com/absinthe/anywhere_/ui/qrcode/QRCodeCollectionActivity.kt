@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class QRCodeCollectionActivity : BaseActivity() {
 
     private lateinit var binding: ActivityQrcodeCollectionBinding
-    private var mAdapter = BaseCardAdapter(LAYOUT_MODE_MEDIUM)
+    private val mAdapter by lazy { BaseCardAdapter(LAYOUT_MODE_MEDIUM) }
 
     override fun setViewBinding() {
         isPaddingToolbar = true
