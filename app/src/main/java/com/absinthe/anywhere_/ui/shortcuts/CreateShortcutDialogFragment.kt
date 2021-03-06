@@ -15,13 +15,14 @@ import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.CreateShortcutDialogBuilder
+import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : AnywhereDialogFragment() {
     private lateinit var mBuilder: CreateShortcutDialogBuilder
-    private val mIcon: Drawable = UxUtils.getAppIcon(Utils.getApp(), mEntity)
+    private val mIcon: Drawable = UxUtils.getAppIcon(Utils.getApp(), mEntity, 45.dp)
     private val mName: String = mEntity.appName
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

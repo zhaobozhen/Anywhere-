@@ -18,6 +18,7 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
+import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.Utils
 
 object ShortcutsUtils {
@@ -45,7 +46,7 @@ object ShortcutsUtils {
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)
-                .setIcon(Icon.createWithBitmap(UxUtils.getAppIcon(Utils.getApp(), ae).toBitmap()))
+                .setIcon(Icon.createWithBitmap(UxUtils.getAppIcon(Utils.getApp(), ae, 45.dp).toBitmap()))
                 .setIntent(intent)
                 .build()
         if (SHORTCUT_MANAGER!!.dynamicShortcuts.size <= 3) {
@@ -79,7 +80,7 @@ object ShortcutsUtils {
                 ContextCompat.getDrawable(Utils.getApp(), R.drawable.ic_green_dot)!!.toBitmap()
             }
         } else {
-            UxUtils.getAppIcon(Utils.getApp(), ae).toBitmap()
+            UxUtils.getAppIcon(Utils.getApp(), ae, 45.dp).toBitmap()
         }
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
                 .setShortLabel(ae.appName)

@@ -1,9 +1,8 @@
 package com.absinthe.anywhere_.adapter.card
 
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.widget.ImageView
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
+import com.absinthe.libraries.utils.extensions.dp
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
@@ -12,12 +11,7 @@ class AdvancedCardListAdapter : BaseQuickAdapter<AdvancedCardItem, BaseViewHolde
     override fun convert(holder: BaseViewHolder, item: AdvancedCardItem) {
         holder.setText(R.id.tv_title, item.title)
 
-        holder.getView<ImageView>(R.id.iv_icon).apply {
-            setImageResource(item.iconRes)
-            imageTintList = ColorStateList.valueOf(Color.parseColor("#66FFFFFF"))
-            backgroundTintList = ColorStateList.valueOf(context.getColor(item.backTint))
-        }
-
+        holder.setImageDrawable(R.id.iv_icon, CardTypeIconGenerator.getAdvancedIcon(context, item.type, 45.dp))
         holder.itemView.setOnClickListener(item.listener)
     }
 }

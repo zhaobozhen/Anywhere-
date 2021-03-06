@@ -35,6 +35,7 @@ import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.view.card.*
+import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -119,7 +120,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
                         GlobalScope.launch {
-                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item)) { color ->
+                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 45.dp)) { color ->
                                 item.color = color
 
                                 if (shouldUpdateColorInfo(context, item)) {
@@ -144,7 +145,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
                         GlobalScope.launch {
-                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item)) { color ->
+                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 45.dp)) { color ->
                                 item.color = color
                                 if (shouldUpdateColorInfo(context, item)) {
                                     AnywhereApplication.sRepository.update(item)
@@ -173,7 +174,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
                         GlobalScope.launch {
-                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item)) { color ->
+                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 32.dp)) { color ->
                                 if (color != 0) {
                                     itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
                                     itemView.appName.setTextColor(if (UxUtils.isLightColor(color)) Color.BLACK else Color.WHITE)
@@ -194,7 +195,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
                         GlobalScope.launch {
-                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item)) { color ->
+                            UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 32.dp)) { color ->
                                 item.color = color
                                 if (shouldUpdateColorInfo(context, item)) {
                                     AnywhereApplication.sRepository.update(item)
@@ -224,7 +225,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
 
         if (item.iconUri.isEmpty()) {
             Glide.with(context)
-                    .load(UxUtils.getAppIcon(context, item))
+                    .load(UxUtils.getAppIcon(context, item, 45.dp))
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into(itemView.icon)
         } else {
@@ -397,9 +398,9 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 entity = data[index]
                 withContext(Dispatchers.Main) {
                     if (atLeastO()) {
-                        ShortcutsUtils.addPinnedShortcut(entity, UxUtils.getAppIcon(Utils.getApp(), entity), entity.appName)
+                        ShortcutsUtils.addPinnedShortcut(entity, UxUtils.getAppIcon(Utils.getApp(), entity, 45.dp), entity.appName)
                     } else {
-                        ShortcutsUtils.addHomeShortcutPreO(entity, UxUtils.getAppIcon(Utils.getApp(), entity), entity.appName)
+                        ShortcutsUtils.addHomeShortcutPreO(entity, UxUtils.getAppIcon(Utils.getApp(), entity, 45.dp), entity.appName)
                     }
                 }
 

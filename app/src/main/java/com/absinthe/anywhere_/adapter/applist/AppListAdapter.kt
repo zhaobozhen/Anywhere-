@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.UxUtils
+import com.absinthe.libraries.utils.extensions.dp
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
@@ -44,7 +45,7 @@ class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(
 
             }
             MODE_CARD_LIST -> {
-                holder.setImageDrawable(R.id.iv_app_icon, UxUtils.getAppIcon(context, item))
+                holder.setImageDrawable(R.id.iv_app_icon, UxUtils.getAppIcon(context, item, 45.dp))
                 holder.setText(R.id.tv_pkg_name, item.className)
             }
             MODE_ICON_PACK -> {

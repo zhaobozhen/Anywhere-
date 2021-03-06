@@ -64,7 +64,7 @@ object UxUtils {
      * @param context for get manager
      * @param item    for get package name
      */
-    fun getAppIcon(context: Context, item: AnywhereEntity): Drawable {
+    fun getAppIcon(context: Context, item: AnywhereEntity, size: Int): Drawable {
         val packageName: String
         return when (item.type) {
             AnywhereType.Card.URL_SCHEME -> {
@@ -74,15 +74,15 @@ object UxUtils {
                     item.packageName
                 }
                 getAppIcon(context, packageName)
-                        ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type)
+                        ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type, size)
             }
             AnywhereType.Card.ACTIVITY, AnywhereType.Card.QR_CODE -> getAppIcon(context, item.packageName)
-                    ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type)
-            else -> CardTypeIconGenerator.getAdvancedIcon(context, item.type)
+                    ?: CardTypeIconGenerator.getAdvancedIcon(context, item.type, size)
+            else -> CardTypeIconGenerator.getAdvancedIcon(context, item.type, size)
         }
     }
 
-    fun getAppIcon(context: Context, item: AppListBean): Drawable {
+    fun getAppIcon(context: Context, item: AppListBean, size: Int): Drawable {
         val ae = AnywhereEntity.Builder()
         if (item.type == AnywhereType.Card.URL_SCHEME || item.type == AnywhereType.Card.IMAGE || item.type == AnywhereType.Card.SHELL) {
             ae.param1 = item.className
@@ -92,7 +92,7 @@ object UxUtils {
             ae.param2 = item.className
         }
         ae.type = item.type
-        return getAppIcon(context, ae)
+        return getAppIcon(context, ae, size)
     }
 
     fun getAppIcon(context: Context, packageName: String): Drawable? {

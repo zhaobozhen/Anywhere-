@@ -42,15 +42,15 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private fun initView() {
         val cardList = listOf(
-                AdvancedCardItem(R.string.btn_url_scheme, R.drawable.ic_url_scheme, R.color.material_blue_300, getOpeningEditorListener(AnywhereType.Card.URL_SCHEME)),
-                AdvancedCardItem(R.string.btn_activity, R.drawable.ic_card_activity, R.color.material_red_300, getOpeningEditorListener(AnywhereType.Card.ACTIVITY)),
-                AdvancedCardItem(R.string.btn_add_image, R.drawable.ic_card_image, R.color.material_green_300, getOpeningEditorListener(AnywhereType.Card.IMAGE)),
-                AdvancedCardItem(R.string.btn_add_shell, R.drawable.ic_card_shell, R.color.material_pink_300, getOpeningEditorListener(AnywhereType.Card.SHELL)),
-                AdvancedCardItem(R.string.btn_add_switch_shell, R.drawable.ic_card_switch, R.color.material_purple_300, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),
-                AdvancedCardItem(R.string.btn_add_file, R.drawable.ic_card_file, R.color.material_cyan_300, getOpeningEditorListener(AnywhereType.Card.FILE)),
-                AdvancedCardItem(R.string.btn_add_broadcast, R.drawable.ic_card_broadcast, R.color.material_lime_300, getOpeningEditorListener(AnywhereType.Card.BROADCAST)),
-                AdvancedCardItem(R.string.btn_add_accessibility, R.drawable.ic_card_accessibility, R.color.material_indigo_300, getOpeningEditorListener(AnywhereType.Card.ACCESSIBILITY)),
-                AdvancedCardItem(R.string.btn_add_workflow, R.drawable.ic_card_workflow, R.color.material_orange_300, getOpeningEditorListener(AnywhereType.Card.WORKFLOW)),
+                AdvancedCardItem(R.string.btn_url_scheme, AnywhereType.Card.URL_SCHEME, getOpeningEditorListener(AnywhereType.Card.URL_SCHEME)),
+                AdvancedCardItem(R.string.btn_activity, AnywhereType.Card.ACTIVITY, getOpeningEditorListener(AnywhereType.Card.ACTIVITY)),
+                AdvancedCardItem(R.string.btn_add_image, AnywhereType.Card.IMAGE, getOpeningEditorListener(AnywhereType.Card.IMAGE)),
+                AdvancedCardItem(R.string.btn_add_shell, AnywhereType.Card.SHELL, getOpeningEditorListener(AnywhereType.Card.SHELL)),
+                AdvancedCardItem(R.string.btn_add_switch_shell, AnywhereType.Card.SWITCH_SHELL, getOpeningEditorListener(AnywhereType.Card.SWITCH_SHELL)),
+                AdvancedCardItem(R.string.btn_add_file, AnywhereType.Card.FILE, getOpeningEditorListener(AnywhereType.Card.FILE)),
+                AdvancedCardItem(R.string.btn_add_broadcast, AnywhereType.Card.BROADCAST, getOpeningEditorListener(AnywhereType.Card.BROADCAST)),
+                AdvancedCardItem(R.string.btn_add_accessibility, AnywhereType.Card.ACCESSIBILITY, getOpeningEditorListener(AnywhereType.Card.ACCESSIBILITY)),
+                AdvancedCardItem(R.string.btn_add_workflow, AnywhereType.Card.WORKFLOW, getOpeningEditorListener(AnywhereType.Card.WORKFLOW)),
         )
         mBuilder.adapter.setList(cardList.toMutableList())
     }

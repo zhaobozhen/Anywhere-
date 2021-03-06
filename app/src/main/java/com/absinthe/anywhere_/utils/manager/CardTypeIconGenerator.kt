@@ -1,38 +1,43 @@
 package com.absinthe.anywhere_.utils.manager
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.view.ViewGroup
-import android.widget.ImageView
+import android.graphics.drawable.LayerDrawable
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
-import com.absinthe.libraries.utils.extensions.dp
 
 object CardTypeIconGenerator {
 
     private val COLORS = listOf(
-            R.color.material_blue_300,
-            R.color.material_red_300,
-            0,
-            R.color.material_green_300,
-            R.color.material_pink_300,
-            R.color.material_deep_purple_300,
-            R.color.material_cyan_300,
-            R.color.material_lime_300,
-            R.color.material_indigo_300,
-            R.color.material_deep_orange_300,
-            R.color.material_amber_300,
+        R.color.material_blue_300,
+        R.color.material_red_300,
+        0,
+        R.color.material_green_300,
+        R.color.material_pink_300,
+        R.color.material_deep_purple_300,
+        R.color.material_cyan_300,
+        R.color.material_lime_300,
+        R.color.material_indigo_300,
+        R.color.material_deep_orange_300,
+        R.color.material_amber_300,
     )
 
-    fun getAdvancedIcon(context: Context, type: Int): Drawable {
-        val iv = ImageView(context).apply {
-            layoutParams = ViewGroup.LayoutParams(45.dp, 45.dp)
-            setImageResource(getIconRes(type))
-            setBackgroundResource(R.drawable.bg_circle)
-            backgroundTintList = ColorStateList.valueOf(context.getColor(COLORS[type]))
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun getAdvancedIcon(context: Context, type: Int, size: Int): Drawable {
+        val foreDrawable = context.getDrawable(getIconRes(type))?.apply {
+            setTintList(ColorStateList.valueOf(Color.parseColor("#66FFFFFF")))
         }
-        return iv.drawable
+        val backDrawable = context.getDrawable(R.drawable.bg_circle)?.apply {
+            setTintList(ColorStateList.valueOf(context.getColor(COLORS[type])))
+        }
+        return LayerDrawable(listOf(backDrawable, foreDrawable).toTypedArray()).apply {
+            val inset = size / 4
+            setLayerInset(1, inset, inset, inset, inset)
+            setBounds(0, 0, size, size)
+        }
     }
 
     private fun getIconRes(type: Int): Int {

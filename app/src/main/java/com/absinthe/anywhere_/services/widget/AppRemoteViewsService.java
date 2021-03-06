@@ -160,13 +160,13 @@ public class AppRemoteViewsService extends RemoteViewsService {
             Drawable icon;
 
             if (ae.getIconUri().isEmpty()) {
-                icon = UxUtils.INSTANCE.getAppIcon(AppRemoteViewsService.this, ae);
+                icon = UxUtils.INSTANCE.getAppIcon(AppRemoteViewsService.this, ae, ConvertUtils.dp2px(45));
             } else {
                 try {
                     icon = Drawable.createFromStream(getContentResolver().openInputStream(Uri.parse(ae.getIconUri())), null);
                 } catch (Exception e) {
                     Timber.e(e);
-                    icon = UxUtils.INSTANCE.getAppIcon(AppRemoteViewsService.this, ae);
+                    icon = UxUtils.INSTANCE.getAppIcon(AppRemoteViewsService.this, ae, ConvertUtils.dp2px(45));
                 }
             }
 

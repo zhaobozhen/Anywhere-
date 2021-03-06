@@ -2,7 +2,6 @@ package com.absinthe.anywhere_.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.lifecycle.lifecycleScope
 import com.absinthe.anywhere_.AnywhereApplication
@@ -16,8 +15,10 @@ import com.absinthe.anywhere_.model.cloud.RuleEntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CipherUtils
+import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
+import com.absinthe.libraries.utils.extensions.dp
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,9 +63,8 @@ class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
                         if (context == null) {
                             return
                         }
-                        val image = ContextCompat.getDrawable(requireContext(), AnywhereType.Card.TYPE_ICON_RES_MAP[it.type] ?: R.drawable.ic_card_activity)
+                        binding.ivType.setImageDrawable(CardTypeIconGenerator.getAdvancedIcon(requireContext(), it.type, 36.dp))
                         binding.tvType.text = getString(AnywhereType.Card.TYPE_STRINGRES_MAP[it.type] ?: R.string.btn_activity)
-                        binding.tvType.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)
                         binding.tvNeedRoot.isGone = !AppUtils.isAnywhereEntityNeedRoot(it)
                     }
                     binding.btnAdd.setOnClickListener {

@@ -10,6 +10,7 @@ import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder
+import com.absinthe.libraries.utils.extensions.dp
 import timber.log.Timber
 
 @SuppressLint("ViewConstructor")
@@ -18,7 +19,7 @@ class OverlayView(context: Context, private val binder: IOverlayService, windowL
     var entity: AnywhereEntity = AnywhereEntity.Builder()
         set(value) {
             field = value
-            mBuilder.ivIcon.setImageDrawable(UxUtils.getAppIcon(context, value))
+            mBuilder.ivIcon.setImageDrawable(UxUtils.getAppIcon(context, value, 65.dp))
             mBuilder.tvName.text = value.appName
         }
 

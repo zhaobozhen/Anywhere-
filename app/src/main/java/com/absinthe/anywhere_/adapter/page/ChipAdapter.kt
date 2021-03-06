@@ -5,6 +5,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.utils.UxUtils
+import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.Utils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -24,7 +25,7 @@ class ChipAdapter internal constructor(category: String) : BaseQuickAdapter<Anyw
         val chip: Chip = holder.getView(R.id.chip)
         chip.apply {
             text = item.appName
-            chipIcon = UxUtils.getAppIcon(Utils.getApp(), item)
+            chipIcon = UxUtils.getAppIcon(Utils.getApp(), item, 16.dp)
         }
     }
 }

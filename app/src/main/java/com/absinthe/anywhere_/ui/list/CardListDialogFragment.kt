@@ -12,6 +12,7 @@ import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.CardListDialogBuilder
+import com.absinthe.libraries.utils.extensions.dp
 import java.util.*
 
 class CardListDialogFragment : AnywhereDialogFragment() {
@@ -59,7 +60,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                                 packageName =  ae.param2,
                                 className =  ae.param1,
                                 icon =  UxUtils.getAppIcon(requireContext(), ae.param2)
-                                        ?: CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type),
+                                        ?: CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type, 45.dp),
                                 type =  ae.type)
                         )
                     } else {
@@ -69,7 +70,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                                 packageName =  ae.param1,
                                 className =  ae.param2,
                                 icon =  UxUtils.getAppIcon(requireContext(), ae.param1)
-                                        ?: CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type),
+                                        ?: CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type, 45.dp),
                                 type =  ae.type)
                         )
                     }
