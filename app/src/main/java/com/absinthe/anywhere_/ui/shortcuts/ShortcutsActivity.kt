@@ -104,6 +104,7 @@ class ShortcutsActivity : BaseActivity() {
                                         .setOpenedListener(object : Opener.OnOpenListener {
                                             override fun onOpened() {
                                                 shouldFinish = true
+                                                finish()
                                             }
                                         })
                                         .open()
