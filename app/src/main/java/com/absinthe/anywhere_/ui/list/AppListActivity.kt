@@ -125,7 +125,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
     override fun initView() {
         super.initView()
         binding.srlAppList.apply {
-            setProgressBackgroundColorSchemeResource(R.color.colorPrimary)
+            setProgressBackgroundColorSchemeResource(R.color.green_done)
             setColorSchemeColors(Color.WHITE)
             setOnRefreshListener { initData(isShowSystemApp) }
         }
