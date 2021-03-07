@@ -3,6 +3,7 @@ package com.absinthe.anywhere_.adapter.applist
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.libraries.utils.extensions.dp
@@ -49,7 +50,11 @@ class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(
                 holder.setText(R.id.tv_pkg_name, item.className)
             }
             MODE_ICON_PACK -> {
-                holder.setImageDrawable(R.id.iv_app_icon, UxUtils.getAppIcon(context, item.packageName))
+                if (item.packageName == Const.DEFAULT_ICON_PACK) {
+                    holder.setImageDrawable(R.id.iv_app_icon, UxUtils.getAppIcon(context, context.packageName))
+                } else {
+                    holder.setImageDrawable(R.id.iv_app_icon, UxUtils.getAppIcon(context, item.packageName))
+                }
                 holder.setText(R.id.tv_pkg_name, item.packageName)
             }
         }
