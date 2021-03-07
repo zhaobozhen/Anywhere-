@@ -23,15 +23,14 @@ import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding
+import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.libraries.utils.extensions.addPaddingBottom
 import com.absinthe.libraries.utils.extensions.logd
-import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import kotlinx.coroutines.Dispatchers
@@ -102,7 +101,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
         mBinding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppDetailActivity)
             adapter = mAdapter
-            addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
+            addSystemBarPaddingAsync(addStatusBarPadding = false)
         }
     }
 

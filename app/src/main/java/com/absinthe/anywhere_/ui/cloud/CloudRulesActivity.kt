@@ -8,10 +8,9 @@ import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.api.ApiManager
 import com.absinthe.anywhere_.api.GitHubApi
 import com.absinthe.anywhere_.databinding.ActivityCloudRulesBinding
+import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.cloud.GiteeApiContentBean
 import com.absinthe.anywhere_.utils.manager.DialogManager
-import com.absinthe.libraries.utils.extensions.addPaddingBottom
-import com.absinthe.libraries.utils.utils.UiUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,7 +45,7 @@ class CloudRulesActivity : BaseActivity() {
         binding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@CloudRulesActivity)
             adapter = mAdapter
-            addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
+            addSystemBarPaddingAsync(addStatusBarPadding = false)
             addItemDecoration(DividerItemDecoration(this@CloudRulesActivity, DividerItemDecoration.VERTICAL))
         }
         mAdapter.setOnItemClickListener { _, _, position ->

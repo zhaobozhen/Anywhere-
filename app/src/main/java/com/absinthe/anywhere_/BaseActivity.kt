@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.libraries.utils.extensions.paddingTopCompat
+import com.absinthe.libraries.utils.manager.SystemBarManager
 import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.BarUtils
 import timber.log.Timber
@@ -43,6 +44,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         reference = WeakReference(this)
+        SystemBarManager.measureSystemBar(window)
         ActivityStackManager.addActivity(reference)
         setViewBinding()
         initView()

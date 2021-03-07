@@ -12,6 +12,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivitySettingsBinding
+import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.AppUtils
@@ -19,8 +20,6 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.libraries.utils.extensions.paddingBottomCompat
-import com.absinthe.libraries.utils.utils.UiUtils
 import moe.shizuku.preference.ListPreference
 import moe.shizuku.preference.Preference
 import moe.shizuku.preference.PreferenceFragment
@@ -210,7 +209,7 @@ class SettingsActivity : BaseActivity() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            listView.paddingBottomCompat = UiUtils.getNavBarHeight(requireActivity().windowManager)
+            listView.addSystemBarPaddingAsync(addStatusBarPadding = false)
         }
 
         override fun onCreateItemDecoration(): DividerDecoration {

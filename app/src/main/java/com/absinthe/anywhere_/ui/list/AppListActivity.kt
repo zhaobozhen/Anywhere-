@@ -25,14 +25,15 @@ import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding
+import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
-import com.absinthe.libraries.utils.extensions.addPaddingBottom
 import com.absinthe.libraries.utils.extensions.dp
+import com.absinthe.libraries.utils.manager.SystemBarManager
 import com.absinthe.libraries.utils.utils.UiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -130,7 +131,9 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             setOnRefreshListener { initData(isShowSystemApp) }
         }
         binding.extendedFab.apply {
-            (layoutParams as CoordinatorLayout.LayoutParams).setMargins(0, 0, 16.dp, 16.dp + UiUtils.getNavBarHeight(windowManager))
+            post {
+                (layoutParams as CoordinatorLayout.LayoutParams).setMargins(0, 0, 16.dp, 16.dp + SystemBarManager.navigationBarSize)
+            }
 
             setOnClickListener {
                 val ae = AnywhereEntity.Builder().apply {
@@ -168,7 +171,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         binding.rvAppList.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppListActivity)
             adapter = mAdapter
-            addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
+            addSystemBarPaddingAsync(addStatusBarPadding = false)
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

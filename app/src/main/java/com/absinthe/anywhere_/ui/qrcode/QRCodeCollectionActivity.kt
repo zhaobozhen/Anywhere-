@@ -15,9 +15,8 @@ import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutMana
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.ActivityQrcodeCollectionBinding
 import com.absinthe.anywhere_.databinding.CardQrCollectionTipBinding
+import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.manager.QRCollection
-import com.absinthe.libraries.utils.extensions.addPaddingBottom
-import com.absinthe.libraries.utils.utils.UiUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import jonathanfinerty.once.Once
@@ -77,7 +76,7 @@ class QRCodeCollectionActivity : BaseActivity() {
                 adapter = mAdapter
                 setRecyclerViewLayoutManager(resources.configuration)
                 addItemDecoration(SpacesItemDecoration(resources.getDimension(R.dimen.cardview_item_margin).toInt()))
-                addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
+                addSystemBarPaddingAsync(addStatusBarPadding = false)
             }
             srlQrCollection.isRefreshing = true
         }

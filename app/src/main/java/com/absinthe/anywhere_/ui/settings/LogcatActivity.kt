@@ -11,13 +11,12 @@ import com.absinthe.anywhere_.adapter.log.LogDiffCallback
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityLogcatBinding
+import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.viewholder.LogModel
 import com.absinthe.anywhere_.utils.AppUtils.sendLogcat
 import com.absinthe.anywhere_.utils.AppUtils.startLogcat
 import com.absinthe.anywhere_.utils.NotifyUtils
 import com.absinthe.anywhere_.utils.manager.LogRecorder
-import com.absinthe.libraries.utils.extensions.addPaddingBottom
-import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.NotificationUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -81,7 +80,7 @@ class LogcatActivity : BaseActivity() {
         mBinding.rvLog.apply {
             layoutManager = WrapContentLinearLayoutManager(this@LogcatActivity)
             adapter = mAdapter
-            addPaddingBottom(UiUtils.getNavBarHeight(windowManager))
+            addSystemBarPaddingAsync(addStatusBarPadding = false)
         }
 
         if (isStartCatching) {

@@ -28,7 +28,6 @@ allprojects {
         jcenter()
         maven { url 'https://dl.bintray.com/absinthe/libraries' }
         maven { url 'https://dl.bintray.com/rikkaw/MaterialPreference' }
-        maven { url 'https://dl.bintray.com/heruoxin/icebox' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/google' }
