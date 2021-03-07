@@ -73,6 +73,15 @@ android {
             path file('CMakeLists.txt')
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/**'
+        exclude 'okhttp3/**'
+        exclude 'kotlin/**'
+        exclude 'org/**'
+        exclude '**.properties'
+        exclude 'DebugProbesKt.bin'
+    }
 }
 
 repositories {
@@ -90,6 +99,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation(name: 'color-picker', ext: 'aar')
     implementation(name: 'IceBox-SDK-1.0.5', ext: 'aar')
 
@@ -117,13 +127,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:${lifecycle_version}"
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.palette:palette-ktx:1.0.0'
-    implementation 'androidx.core:core-ktx:1.5.0-beta02'
-
     implementation 'androidx.browser:browser:1.3.0'
-    implementation 'androidx.collection:collection-ktx:1.1.0'
-    implementation 'androidx.activity:activity-ktx:1.2.0'
-    implementation 'androidx.fragment:fragment-ktx:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
@@ -131,11 +135,18 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0-beta02'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
 
+    //KTX
+    implementation 'androidx.collection:collection-ktx:1.1.0'
+    implementation 'androidx.activity:activity-ktx:1.2.0'
+    implementation 'androidx.fragment:fragment-ktx:1.3.0'
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+    implementation 'androidx.core:core-ktx:1.5.0-beta02'
+
     //Google
     implementation 'com.google.android.material:material:1.3.0'
 
     //Function
-    def shizuku_version = '11.0.1'
+    def shizuku_version = '11.0.2'
     // required by Shizuku and Sui
     implementation "rikka.shizuku:api:$shizuku_version"
     // required by Shizuku
