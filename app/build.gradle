@@ -7,15 +7,6 @@ apply plugin: 'io.michaelrocks.paranoid'
 apply from: 'and_res_guard.gradle'
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('android-key.jks')
-            storePassword System.getenv("KSTOREPWD")
-            keyAlias = System.getenv("KEYALIAS")
-            keyPassword System.getenv("KEYPWD")
-        }
-    }
-
     compileSdkVersion 30
     buildToolsVersion '30.0.3'
     ndkVersion "22.0.7026061" //"21.3.6528147"
@@ -56,7 +47,6 @@ android {
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
-            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("boolean", "BETA", 'false')
         }
