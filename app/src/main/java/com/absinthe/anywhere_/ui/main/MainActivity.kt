@@ -160,14 +160,19 @@ class MainActivity : BaseActivity() {
         }
         hasResumed = true
         Settings.setTheme(GlobalValues.darkMode)
-        getClipBoardText(this, object : ClipboardUtil.Function {
-            override fun invoke(text: String) {
-                if (text.contains(URLManager.ANYWHERE_SCHEME)) {
-                    processUri(text.toUri())
-                    clearClipboard(this@MainActivity)
+
+        if (GlobalValues.shouldListenClipBoard) {
+            getClipBoardText(this, object : ClipboardUtil.Function {
+                override fun invoke(text: String) {
+                    if (text.contains(URLManager.ANYWHERE_SCHEME)) {
+                        processUri(text.toUri())
+                        clearClipboard(this@MainActivity)
+                    }
                 }
-            }
-        })
+            })
+        } else {
+            GlobalValues.shouldListenClipBoard = true
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

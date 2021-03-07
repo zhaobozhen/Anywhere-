@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import com.absinthe.anywhere_.R
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
@@ -24,8 +25,8 @@ class CardSharingDialogFragment : AnywhereDialogFragment() {
                 .setPositiveButton(R.string.dialog_copy) { _: DialogInterface?, _: Int ->
                     val cm = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val mClipData = ClipData.newPlainText("Label", text)
-
                     cm.setPrimaryClip(mClipData)
+                    GlobalValues.shouldListenClipBoard = false
                     ToastUtil.makeText(R.string.toast_copied)
                 }
                 .create()

@@ -26,8 +26,7 @@ android {
         resConfigs "en", "zh-rCN", "zh-rHK", "zh-rTW"
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments += ["room.schemaLocation":
-                                      "$projectDir/schemas".toString()]
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
     }
