@@ -13,9 +13,11 @@ import android.service.controls.DeviceTypes
 import android.service.controls.actions.BooleanAction
 import android.service.controls.actions.ControlAction
 import androidx.annotation.RequiresApi
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.provider.CoreProvider.Companion.URI_ANYWHERE_ENTITY
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.main.MainActivity
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
 import io.reactivex.Flowable
@@ -72,6 +74,7 @@ class AwControlsProviderService : ControlsProviderService() {
         var i: Intent
         var pi: PendingIntent
         var requestCode = 0
+        var type: Int
 
         val cursor: Cursor = context.contentResolver.query(URI_ANYWHERE_ENTITY, null, null, null, null)
                 ?: return FlowAdapters.toFlowPublisher(updatePublisher)
@@ -80,15 +83,21 @@ class AwControlsProviderService : ControlsProviderService() {
             id = cursor.getString(cursor.getColumnIndex(BaseColumns._ID))
 
             if (controlIds.contains(id)) {
+                type = cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE))
                 i = Intent(context, MainActivity::class.java).apply {
                     action = ShortcutsActivity.ACTION_START_DEVICE_CONTROL
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     putExtra(Const.INTENT_EXTRA_PARAM_1, cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1)))
                     putExtra(Const.INTENT_EXTRA_PARAM_2, cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2)))
                     putExtra(Const.INTENT_EXTRA_PARAM_3, cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)))
-                    putExtra(Const.INTENT_EXTRA_TYPE, cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE)))
+                    putExtra(Const.INTENT_EXTRA_TYPE, type)
                 }
                 pi = PendingIntent.getActivity(context, requestCode++, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+                val status = if (type == AnywhereType.Card.SWITCH_SHELL && cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)) == SWITCH_OFF) {
+                    Control.STATUS_DISABLED
+                } else {
+                    Control.STATUS_OK
+                }
                 val control =
                         Control.StatefulBuilder(id, pi)
                                 // Required: The name of the control
@@ -98,7 +107,7 @@ class AwControlsProviderService : ControlsProviderService() {
                                 // Required: Type of device, i.e., thermostat, light, switch
                                 .setDeviceType((DeviceTypes.TYPE_AC_HEATER..DeviceTypes.TYPE_ROUTINE).random())
                                 // Required: Current status of the device
-                                .setStatus(Control.STATUS_OK) // For example, Control.STATUS_OK
+                                .setStatus(status) // For example, Control.STATUS_OK
                                 .build()
 
                 updatePublisher.onNext(control)

@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.adapter.page
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutManager
 import com.absinthe.anywhere_.utils.handler.Opener
@@ -30,7 +31,17 @@ class PageProvider : BaseNodeProvider() {
         recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL)
 
         adapter.setOnItemClickListener { _, _, position ->
-            Opener.with(context).load(adapter.getItem(position)).open()
+            Opener
+                .with(context)
+                .load(adapter.getItem(position))
+                .setOpenedListener(object : Opener.OnOpenListener {
+                    override fun onOpened() {
+                        if (context is BaseActivity) {
+                            (context as BaseActivity).shouldFinishOnResume = true
+                        }
+                    }
+                })
+                .open()
         }
         recyclerView.adapter = adapter
     }
