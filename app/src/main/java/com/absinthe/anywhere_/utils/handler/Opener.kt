@@ -379,7 +379,9 @@ object Opener {
             AnywhereType.Card.ACCESSIBILITY -> {
                 if (!QRCollection.checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
                     val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        if (context !is Activity) {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
                     }
                     context.startActivity(intent)
                     ToastUtil.Toasty.show(context, R.string.toast_grant_accessibility)
@@ -394,7 +396,9 @@ object Opener {
                         val result = DefrostHandler.defrost(context, a11yEntity.applicationId, object : OnAppDefrostListener {
                             override fun onAppDefrost() {
                                 context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
-                                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                    if (context !is Activity) {
+                                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                    }
                                     context.startActivity(it)
                                 }
                             }
@@ -404,7 +408,9 @@ object Opener {
                         }
                     } else {
                         context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
-                            it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            if (context !is Activity) {
+                                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
                             context.startActivity(it)
                         }
                     }

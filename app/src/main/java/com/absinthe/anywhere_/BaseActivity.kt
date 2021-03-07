@@ -24,6 +24,7 @@ import java.lang.ref.WeakReference
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
 
+    var shouldFinishOnResume = false
     protected var isPaddingToolbar: Boolean = false
 
     protected var mToolbar: Toolbar? = null
@@ -45,6 +46,13 @@ abstract class BaseActivity : AppCompatActivity() {
         ActivityStackManager.addActivity(reference)
         setViewBinding()
         initView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (shouldFinishOnResume) {
+            finish()
+        }
     }
 
     override fun onDestroy() {
