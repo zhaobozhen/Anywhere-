@@ -59,6 +59,7 @@ import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
 import com.absinthe.anywhere_.utils.ClipboardUtil.getClipBoardText
 import com.absinthe.anywhere_.utils.handler.Opener
+import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.home.DrawerRecyclerView
@@ -291,6 +292,7 @@ class MainActivity : BaseActivity() {
         mBinding.fullDraggableContainer.shouldEnableDrawer = GlobalValues.isPages
 
         initFab()
+        CardTypeIconGenerator
 
         AnywhereApplication.sRepository.allPageEntities.observe(this, {
             if (it.isNotEmpty()) {
