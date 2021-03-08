@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.setup
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -285,6 +286,22 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
             }
             else -> return
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (grantResults[0] == PERMISSION_GRANTED) {
+            if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    delay(1500)
+
+                    withContext(Dispatchers.Main) {
+                        if (ShizukuHelper.checkPermission(requireActivity())) {
+                            isShizuku.value = java.lang.Boolean.TRUE
+                        }
+                    }
+                }
+            }
         }
     }
 
