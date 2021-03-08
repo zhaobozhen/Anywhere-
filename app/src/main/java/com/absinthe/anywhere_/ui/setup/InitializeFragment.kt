@@ -219,7 +219,6 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
                 }
             }
             CARD_SHIZUKU -> {
-                shizukuBinding.btnAcquirePermission.isEnabled = false
                 shizukuBinding.btnAcquirePermission.setOnClickListener {
                     hasCheckedShizuku = true
                     isShizuku.value = ShizukuHelper.checkPermission(requireActivity())
