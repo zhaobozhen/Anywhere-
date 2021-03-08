@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.setup
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -28,7 +29,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rikka.shizuku.Shizuku
+import rikka.shizuku.ShizukuProvider
 import timber.log.Timber
+
 
 class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
@@ -51,12 +55,15 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     private var hasCheckedShizuku = false
     private var mWorkingMode: String = Const.WORKING_MODE_URL_SCHEME
 
+    private val shizukuPermissionListener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult -> onRequestPermissionsResult(requestCode, grantResult) }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragmentInitializeBinding.inflate(inflater, container, false)
         rootBinding = CardAcquireRootPermissionBinding.inflate(inflater, container, false)
         shizukuBinding = CardAcquireShizukuPermissionBinding.inflate(inflater, container, false)
         overlayBinding = CardAcquireOverlayPermissionBinding.inflate(inflater, container, false)
         popupBinding = CardAcquirePopupPermissionBinding.inflate(inflater, container, false)
+        Shizuku.addRequestPermissionResultListener(shizukuPermissionListener)
         initView()
 
         return mBinding.root
@@ -71,9 +78,14 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         super.onResume()
         if (hasCheckedShizuku) {
             if (ShizukuHelper.checkPermission(requireActivity())) {
-                isShizuku.value = java.lang.Boolean.TRUE
+                isShizuku.value = true
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Shizuku.removeRequestPermissionResultListener(shizukuPermissionListener)
     }
 
     private fun initView() {
@@ -297,12 +309,30 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
 
                 withContext(Dispatchers.Main) {
                     if (ShizukuHelper.checkPermission(requireActivity())) {
-                        isShizuku.value = java.lang.Boolean.TRUE
+                        isShizuku.value = true
                     }
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun onRequestPermissionsResult(requestCode: Int, grantResult: Int) {
+        if (grantResult == PERMISSION_GRANTED) {
+            if (requestCode == Const.REQUEST_CODE_SHIZUKU_PERMISSION) {
+                if (ShizukuHelper.checkPermission(requireActivity())) {
+                    isShizuku.value = true
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        for (perm in permissions) {
+            if (ShizukuProvider.PERMISSION == perm) {
+                onRequestPermissionsResult(requestCode, grantResults[0])
+            }
+        }
     }
 
     companion object {
@@ -312,11 +342,10 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         private const val CARD_POPUP = 4
 
         const val ROOT_PERM = 1.shl(0)
-        const val SHIZUKU_CHECK_PERM = 1.shl(1)
-        const val SHIZUKU_PERM = 1.shl(2)
-        const val OVERLAY_PERM = 1.shl(3)
-        const val POPUP_PERM = 1.shl(4)
-        const val SHIZUKU_GROUP_PERM = SHIZUKU_PERM or SHIZUKU_CHECK_PERM
+        const val SHIZUKU_PERM = 1.shl(1)
+        const val OVERLAY_PERM = 1.shl(2)
+        const val POPUP_PERM = 1.shl(3)
+        const val SHIZUKU_GROUP_PERM = SHIZUKU_PERM
 
         fun newInstance(): InitializeFragment {
             return InitializeFragment()
