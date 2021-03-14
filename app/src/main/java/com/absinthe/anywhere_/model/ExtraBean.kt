@@ -21,6 +21,7 @@ data class ExtraBean(
         @SerializedName("data") val data: String,
         @SerializedName("action") val action: String,
         @SerializedName("category") val category: String = "",
+        @SerializedName("package") val pkg: String = "",
         @SerializedName("extras") val extras: List<ExtraItem>
 ) {
     override fun toString(): String {

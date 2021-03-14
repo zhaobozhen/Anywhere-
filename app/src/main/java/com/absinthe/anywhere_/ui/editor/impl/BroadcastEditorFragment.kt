@@ -115,6 +115,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
             }
             AnywhereApplication.sRepository.update(doneItem)
         } else {
+            doneItem.id = System.currentTimeMillis().toString()
             AnywhereApplication.sRepository.insert(doneItem)
         }
 
