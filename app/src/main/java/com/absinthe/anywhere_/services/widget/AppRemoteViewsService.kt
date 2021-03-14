@@ -32,7 +32,7 @@ class AppRemoteViewsService : RemoteViewsService() {
     inner class RemoteViewsFactory internal constructor(context: Context, intent: Intent?) :
         RemoteViewsService.RemoteViewsFactory {
         private val mContext: WeakReference<Context> = WeakReference(context)
-        private val mList: MutableList<AnywhereEntity> = ArrayList()
+        private val mList: MutableList<AnywhereEntity> = mutableListOf()
 
         /**
          * AppRemoteViewsFactory 调用时执行，这个方法执行时间超过 20 秒会报错
@@ -56,6 +56,7 @@ class AppRemoteViewsService : RemoteViewsService() {
                 }
 
                 mList.clear()
+                val tempList = mutableListOf<AnywhereEntity>()
                 while (cursor.moveToNext()) {
                     val info = AnywhereEntity.Builder()
                     info.id = cursor.getString(cursor.getColumnIndex(BaseColumns._ID))
@@ -64,10 +65,11 @@ class AppRemoteViewsService : RemoteViewsService() {
                     info.param2 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2))
                     info.param3 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3))
                     info.type = cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE))
-                    mList.add(info)
+                    tempList.add(info)
                 }
                 cursor.close()
-                mList.sortByDescending { it.timeStamp }
+                tempList.sortByDescending { it.id }
+                mList.addAll(tempList)
                 updateWidget(mContext.get()!!)
             }
         }
@@ -90,6 +92,7 @@ class AppRemoteViewsService : RemoteViewsService() {
                     return@launch
                 }
                 mList.clear()
+                val tempList = mutableListOf<AnywhereEntity>()
                 while (cursor.moveToNext()) {
                     val info = AnywhereEntity.Builder()
                     info.id = cursor.getString(cursor.getColumnIndex(BaseColumns._ID))
@@ -98,10 +101,11 @@ class AppRemoteViewsService : RemoteViewsService() {
                     info.param2 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2))
                     info.param3 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3))
                     info.type = cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE))
-                    mList.add(info)
+                    tempList.add(info)
                 }
                 cursor.close()
-                mList.sortByDescending { it.timeStamp }
+                tempList.sortByDescending { it.id }
+                mList.addAll(tempList)
             }
         }
 
