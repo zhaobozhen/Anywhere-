@@ -399,4 +399,6 @@
     <string name="toast_no_mail_app">您的设备中没有邮件 app</string>
     <string name="toast_not_choose_defrost_mode">请选择一项解冻模式</string>
     <string name="permission_label_provider_read">允许应用程序读取内容提供器数据库</string>
+    <string name="bsd_text_input_layout_intent_package_label">包名（选填）</string>
+    <string name="bsd_text_input_layout_br_package_helper_text">指定一个包名用来向指定应用发送广播</string>
 </resources>

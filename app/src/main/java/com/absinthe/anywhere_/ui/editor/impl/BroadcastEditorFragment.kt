@@ -58,6 +58,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
             binding.apply {
                 tietAppName.setText(it.appName)
                 tietDescription.setText(it.description)
+                tietIntentPackage.setText(it.param2)
                 rvExtras.apply {
                     adapter = this@BroadcastEditorFragment.adapter
                 }
@@ -79,6 +80,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
                     extras = extras
             )
             param1 = Gson().toJson(extraBean)
+            param2 = binding.tietIntentPackage.text.toString()
         }
         Opener.with(requireContext()).load(doneItem).open()
     }
@@ -100,6 +102,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
                     extras = extras
             )
             param1 = Gson().toJson(extraBean)
+            param2 = binding.tietIntentPackage.text.toString()
         }
 
         if (super.doneEdit()) return true

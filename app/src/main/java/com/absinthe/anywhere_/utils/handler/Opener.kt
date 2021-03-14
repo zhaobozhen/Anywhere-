@@ -364,6 +364,11 @@ object Opener {
                         }
                     }
 
+                    val intentPackage = item.param2
+                    if (intentPackage.isNotBlank()) {
+                        intent.setPackage(intentPackage)
+                    }
+
                     context.sendBroadcast(intent)
                 } ?: let {
                     ToastUtil.makeText(R.string.toast_json_error)
