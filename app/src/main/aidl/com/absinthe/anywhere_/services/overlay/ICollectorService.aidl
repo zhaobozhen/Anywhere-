@@ -6,4 +6,6 @@ package com.absinthe.anywhere_.services.overlay;
 interface ICollectorService {
     void startCollector();
     void stopCollector();
+    void startCoordinator();
+    void stopCoordinator(in int x, in int y);
 }

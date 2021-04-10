@@ -377,9 +377,9 @@
     <string name="bsd_text_input_layout_content_hint">内容</string>
     <string name="bsd_text_input_layout_content_activity_hint">内容的 Activity</string>
     <string name="bsd_a11y_menu_click_text">点击文本</string>
-    <string name="bsd_a11y_menu_click_view_id">长按文本</string>
+    <string name="bsd_a11y_menu_click_view_id">点击 View ID</string>
     <string name="bsd_a11y_menu_long_press_view_id">长按 View ID</string>
-    <string name="bsd_a11y_menu_long_press_text">点击 View ID</string>
+    <string name="bsd_a11y_menu_long_press_text">长按文本</string>
     <string name="bsd_a11y_contains">包含</string>
     <string name="bsd_text_input_layout_application_id_helper_text">输入或选择启动的应用程序</string>
     <string name="bsd_text_input_layout_entry_activity_helper_text">输入或选择启动的 Activity</string>
@@ -402,4 +402,7 @@
     <string name="bsd_text_input_layout_intent_package_label">包名（选填）</string>
     <string name="bsd_text_input_layout_br_package_helper_text">指定一个包名用来向指定应用发送广播</string>
     <string name="bsd_text_input_layout_content_helper_text_view_id">输入响应的 View ID</string>
+    <string name="bsd_a11y_menu_click_coord">点击坐标</string>
+    <string name="bsd_a11y_menu_long_press_coord">长按坐标</string>
+    <string name="bsd_text_input_layout_content_helper_text_coord">输入坐标</string>
 </resources>

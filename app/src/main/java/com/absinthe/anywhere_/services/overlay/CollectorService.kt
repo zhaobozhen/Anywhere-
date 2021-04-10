@@ -30,6 +30,14 @@ class CollectorService : Service() {
         override fun stopCollector() {
             stopCollectorInternal()
         }
+
+        override fun startCoordinator() {
+            TODO("Not yet implemented")
+        }
+
+        override fun stopCoordinator(x: Int, y: Int) {
+            TODO("Not yet implemented")
+        }
     }
     private val mCollectorWindowManager by lazy { CollectorWindowManager(applicationContext, binder) }
 

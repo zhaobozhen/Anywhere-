@@ -11,7 +11,12 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.a11y.A11yActionBean
 import com.absinthe.anywhere_.a11y.A11yEntity
+import com.absinthe.anywhere_.a11y.A11yType
 import com.absinthe.anywhere_.adapter.a11y.A11yAdapter
+import com.absinthe.anywhere_.adapter.a11y.bean.A11yBaseBean
+import com.absinthe.anywhere_.adapter.a11y.bean.A11yCoordBean
+import com.absinthe.anywhere_.adapter.a11y.bean.A11yTextBean
+import com.absinthe.anywhere_.adapter.a11y.bean.A11yViewIdBean
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorA11yBinding
@@ -24,6 +29,7 @@ import com.absinthe.anywhere_.utils.handler.Opener
 import com.blankj.utilcode.util.ActivityUtils
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import java.lang.IllegalArgumentException
 
 class A11yEditorFragment : BaseEditorFragment() {
 
@@ -31,12 +37,23 @@ class A11yEditorFragment : BaseEditorFragment() {
     private val adapter = A11yAdapter()
 
     private val nodeEditMenu by lazy {
-        listOf(
+        if (AppUtils.atLeastN()) {
+            listOf(
                 requireContext().getString(R.string.bsd_a11y_menu_click_text),
-                requireContext().getString(R.string.bsd_a11y_menu_long_press_text),
                 requireContext().getString(R.string.bsd_a11y_menu_click_view_id),
-                requireContext().getString(R.string.bsd_a11y_menu_long_press_view_id)
-        )
+                requireContext().getString(R.string.bsd_a11y_menu_long_press_text),
+                requireContext().getString(R.string.bsd_a11y_menu_long_press_view_id),
+                requireContext().getString(R.string.bsd_a11y_menu_click_coord),
+                requireContext().getString(R.string.bsd_a11y_menu_long_press_coord),
+            )
+        } else {
+            listOf(
+                requireContext().getString(R.string.bsd_a11y_menu_click_text),
+                requireContext().getString(R.string.bsd_a11y_menu_click_view_id),
+                requireContext().getString(R.string.bsd_a11y_menu_long_press_text),
+                requireContext().getString(R.string.bsd_a11y_menu_long_press_view_id),
+            )
+        }
     }
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
@@ -57,7 +74,16 @@ class A11yEditorFragment : BaseEditorFragment() {
                 a11yEntity?.let {
                     tietApplicationId.setText(a11yEntity.applicationId)
                     tietEntryActivity.setText(a11yEntity.entryActivity)
-                    adapter.setList(a11yEntity.actions)
+
+                    val actionList = mutableListOf<A11yBaseBean>()
+                    for (action in a11yEntity.actions) {
+                        when(action.type) {
+                            A11yType.TEXT, A11yType.LONG_PRESS_TEXT -> actionList.add(A11yTextBean(action))
+                            A11yType.VIEW_ID, A11yType.LONG_PRESS_VIEW_ID -> actionList.add(A11yViewIdBean(action))
+                            A11yType.COORDINATE, A11yType.LONG_PRESS_COORDINATE -> actionList.add(A11yCoordBean(action))
+                        }
+                    }
+                    adapter.setList(actionList)
                 }
             }
 
@@ -68,7 +94,15 @@ class A11yEditorFragment : BaseEditorFragment() {
             }
 
             if (extra != null) {
-                adapter.setList(extra.actions)
+                val actionList = mutableListOf<A11yBaseBean>()
+                for (action in extra.actions) {
+                    when(action.type) {
+                        A11yType.TEXT, A11yType.LONG_PRESS_TEXT -> actionList.add(A11yTextBean(action))
+                        A11yType.VIEW_ID, A11yType.LONG_PRESS_VIEW_ID -> actionList.add(A11yViewIdBean(action))
+                        A11yType.COORDINATE, A11yType.LONG_PRESS_COORDINATE -> actionList.add(A11yCoordBean(action))
+                    }
+                }
+                adapter.setList(actionList)
             }
         }
 
@@ -80,10 +114,15 @@ class A11yEditorFragment : BaseEditorFragment() {
             }
             btnAddNode.setOnClickListener {
                 AlertDialog.Builder(requireContext())
-                        .setItems(nodeEditMenu.toTypedArray()) { _, which ->
-                            adapter.addData(A11yActionBean(type = which))
-                        }
-                        .show()
+                    .setItems(nodeEditMenu.toTypedArray()) { _, which ->
+                        adapter.addData(when(which) {
+                            A11yType.TEXT, A11yType.LONG_PRESS_TEXT -> A11yTextBean(A11yActionBean(type = which))
+                            A11yType.VIEW_ID, A11yType.LONG_PRESS_VIEW_ID -> A11yViewIdBean(A11yActionBean(type = which))
+                            A11yType.COORDINATE, A11yType.LONG_PRESS_COORDINATE -> A11yCoordBean(A11yActionBean(type = which))
+                            else -> throw IllegalArgumentException("wrong a11y type")
+                        })
+                    }
+                    .show()
             }
             tilApplicationId.setEndIconOnClickListener {
                 startActivityForResult(Intent(requireContext(), AppListActivity::class.java).apply {
@@ -91,20 +130,23 @@ class A11yEditorFragment : BaseEditorFragment() {
                 }, Const.REQUEST_CODE_APP_LIST_SELECT)
             }
             tilEntryActivity.setEndIconOnClickListener {
-                startActivityForResult(Intent(requireContext(), AppDetailActivity::class.java).apply {
-                    if (tietApplicationId.text?.isNotBlank() == true) {
-                        putExtra(Const.INTENT_EXTRA_APP_NAME, com.blankj.utilcode.util.AppUtils.getAppName(tietApplicationId.text.toString()))
-                        putExtra(Const.INTENT_EXTRA_PKG_NAME, tietApplicationId.text.toString())
-                    }
-                    putExtra(EXTRA_APP_DETAIL_ENTRY_MODE, MODE_SELECT)
-                }, Const.REQUEST_CODE_APP_DETAIL_SELECT)
+                startActivityForResult(
+                    Intent(
+                        requireContext(),
+                        AppDetailActivity::class.java
+                    ).apply {
+                        if (tietApplicationId.text?.isNotBlank() == true) {
+                            putExtra(
+                                Const.INTENT_EXTRA_APP_NAME,
+                                com.blankj.utilcode.util.AppUtils.getAppName(tietApplicationId.text.toString())
+                            )
+                            putExtra(Const.INTENT_EXTRA_PKG_NAME, tietApplicationId.text.toString())
+                        }
+                        putExtra(EXTRA_APP_DETAIL_ENTRY_MODE, MODE_SELECT)
+                    }, Const.REQUEST_CODE_APP_DETAIL_SELECT
+                )
             }
             adapter.draggableModule.isDragEnabled = true
-            adapter.setOnItemChildClickListener { _, view, position ->
-                if (view.id == R.id.ib_remove) {
-                    adapter.removeAt(position)
-                }
-            }
         }
     }
 
@@ -116,7 +158,7 @@ class A11yEditorFragment : BaseEditorFragment() {
             val a11yEntity = A11yEntity().apply {
                 applicationId = binding.tietApplicationId.text.toString()
                 entryActivity = binding.tietEntryActivity.text.toString()
-                actions = adapter.data
+                actions = (adapter.data as MutableList<A11yBaseBean>).map { it.actionBean }
             }
             param1 = Gson().toJson(a11yEntity)
         }
@@ -144,10 +186,10 @@ class A11yEditorFragment : BaseEditorFragment() {
             val a11yEntity = A11yEntity().apply {
                 applicationId = binding.tietApplicationId.text.toString()
                 entryActivity = binding.tietEntryActivity.text.toString()
-                actions = adapter.data
+                actions = (adapter.data as MutableList<A11yBaseBean>).map { it.actionBean }
             }
             param1 = Gson().toJson(a11yEntity)
-            param2 = adapter.data.sumOf { it.delay }.toString()
+            param2 = (adapter.data as MutableList<A11yBaseBean>).map { it.actionBean }.sumOf { it.delay }.toString()
         }
 
         if (super.doneEdit()) return true

@@ -121,6 +121,7 @@
     <string name="bsd_text_input_layout_entry_activity_helper_text">Input or select the Activity to start</string>
     <string name="bsd_text_input_layout_content_helper_text">Input the responded content</string>
     <string name="bsd_text_input_layout_content_helper_text_view_id">Input the responded View ID</string>
+    <string name="bsd_text_input_layout_content_helper_text_coord">Input the coordinate</string>
     <string name="bsd_text_input_layout_content_activity_helper_text">Bind the activity where the content located, if it is in the same activity as the previous item, no need to fill in</string>
 
     <string name="bsd_default">Default</string>
@@ -138,9 +139,11 @@
     <string name="bsd_workflow_btn_add_a11y_node">Add accessibility node</string>
 
     <string name="bsd_a11y_menu_click_text">Click Text</string>
-    <string name="bsd_a11y_menu_click_view_id">Long-press Text</string>
-    <string name="bsd_a11y_menu_long_press_text">Click View ID</string>
+    <string name="bsd_a11y_menu_click_view_id">Click View ID</string>
+    <string name="bsd_a11y_menu_click_coord">Click coordinates</string>
+    <string name="bsd_a11y_menu_long_press_text">Long-press Text</string>
     <string name="bsd_a11y_menu_long_press_view_id">Long-press View ID</string>
+    <string name="bsd_a11y_menu_long_press_coord">Long-press coordinates</string>
     <string name="bsd_a11y_contains">Contains</string>
 
     <!--  AppBarMenu  -->

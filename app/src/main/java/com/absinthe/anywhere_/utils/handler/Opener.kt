@@ -426,16 +426,48 @@ object Opener {
 
                                 when(action.type) {
                                     A11yType.TEXT -> {
-                                        withText(action.content).findFirst()?.tryClick()
+                                        if (action.contains) {
+                                            containsText(action.content)
+                                        } else {
+                                            withText(action.content)
+                                        }.findFirst()?.tryClick()
                                     }
                                     A11yType.VIEW_ID -> {
                                         withId(action.content).findFirst()?.tryClick()
                                     }
                                     A11yType.LONG_PRESS_TEXT -> {
-                                        withText(action.content).findFirst()?.tryLongClick()
+                                        if (action.contains) {
+                                            containsText(action.content)
+                                        } else {
+                                            withText(action.content)
+                                        }.findFirst()?.tryLongClick()
                                     }
                                     A11yType.LONG_PRESS_VIEW_ID -> {
                                         withId(action.content).findFirst()?.tryLongClick()
+                                    }
+                                    A11yType.COORDINATE -> {
+                                        val xy = action.content.trim().split(",")
+                                        if (xy.size == 2) {
+                                            val x = xy[0].toIntOrNull()
+                                            val y = xy[1].toIntOrNull()
+                                            if (x != null && y != null) {
+                                                if (AppUtils.atLeastN()) {
+                                                    click(x, y)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    A11yType.LONG_PRESS_COORDINATE -> {
+                                        val xy = action.content.trim().split(",")
+                                        if (xy.size == 2) {
+                                            val x = xy[0].toIntOrNull()
+                                            val y = xy[1].toIntOrNull()
+                                            if (x != null && y != null) {
+                                                if (AppUtils.atLeastN()) {
+                                                    longClick(x, y)
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
