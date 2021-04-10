@@ -82,7 +82,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
 
             add(Category(getString(R.string.open_source_licenses)))
             add(License("Kotlin", "JetBrains", License.APACHE_2, "https://github.com/JetBrains/kotlin"))
-            add(License("Shizuku", "Rikka", License.APACHE_2, "https://github.com/RikkaApps/Shizuku"))
+            add(License("Shizuku-API", "Rikka", License.MIT, "https://github.com/RikkaApps/Shizuku-API"))
             add(License("Sui", "RikkaApps", License.GPL_V3, "https://github.com/RikkaApps/Sui"))
             add(License("FreeReflection", "tiann", License.MIT, "https://github.com/tiann/FreeReflection"))
             add(License("libsu", "topjohnwu", License.APACHE_2, "https://github.com/topjohnwu/libsu"))

@@ -70,8 +70,8 @@ object NotifyUtils {
                 context.getText(R.string.notification_channel_workflow),
                 NotificationUtils.IMPORTANCE_LOW)
         NotificationUtils.notify(WORKFLOW_NOTIFICATION_ID, channelConfig) { param: NotificationCompat.Builder ->
-            param.setContentTitle(context.getString(R.string.notification_backup_title))
-                    .setContentText(context.getString(R.string.notification_backup_content))
+            param.setContentTitle(context.getString(R.string.notification_workflow_title))
+                    .setContentText(context.getString(R.string.notification_workflow_content))
                     .setSmallIcon(R.drawable.ic_card_workflow)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))

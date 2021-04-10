@@ -2,8 +2,10 @@ package com.absinthe.anywhere_
 
 import android.app.Application
 import android.content.Context
+import cn.vove7.andro_accessibility_api.AccessibilityApi
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.Settings
+import com.absinthe.anywhere_.services.IzukoService
 import com.absinthe.anywhere_.utils.manager.IzukoHelper.checkSignature
 import com.absinthe.anywhere_.utils.manager.PoliceMan
 import com.absinthe.anywhere_.utils.timber.ReleaseTree
@@ -36,6 +38,11 @@ class AnywhereApplication : Application() {
         PoliceMan.checkApplicationClass(this)
         PoliceMan.checkPMProxy(this)
         sRepository = AnywhereRepository(this)
+
+        AccessibilityApi.apply {
+            BASE_SERVICE_CLS = IzukoService::class.java
+            GESTURE_SERVICE_CLS = IzukoService::class.java
+        }
     }
 
     override fun attachBaseContext(base: Context) {

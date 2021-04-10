@@ -1,10 +1,8 @@
 package com.absinthe.anywhere_.model.manager
 
-import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.content.Intent
 import android.view.accessibility.AccessibilityManager
-import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.a11y.A11yActionBean
 import com.absinthe.anywhere_.a11y.A11yEntity
@@ -70,27 +68,6 @@ object QRCollection {
 
     private fun getContext(): Context {
         return context.get()!!
-    }
-
-    /**
-     * Check 当前辅助服务是否启用
-     *
-     * @return 是否启用
-     */
-    fun checkAccessibilityEnabled(): Boolean {
-        val serviceName: String = if (BuildConfig.DEBUG) {
-            "com.absinthe.anywhere_.debug/com.absinthe.anywhere_.services.IzukoService"
-        } else {
-            "com.absinthe.anywhere_/.services.IzukoService"
-        }
-        val accessibilityServices: List<AccessibilityServiceInfo> = accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_SPOKEN)
-
-        for (info in accessibilityServices) {
-            if (info.id == serviceName) {
-                return true
-            }
-        }
-        return false
     }
 
     /**

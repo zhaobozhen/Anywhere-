@@ -30,7 +30,6 @@ import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.libraries.utils.extensions.logd
 import com.blankj.utilcode.util.ActivityUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +60,6 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
         super.onCreate(savedInstanceState)
 
         intent?.let {
-            logd("this")
             mToolbar?.title = it.getStringExtra(Const.INTENT_EXTRA_APP_NAME)
             initRecyclerView()
             it.getStringExtra(Const.INTENT_EXTRA_PKG_NAME)?.let { packageName ->

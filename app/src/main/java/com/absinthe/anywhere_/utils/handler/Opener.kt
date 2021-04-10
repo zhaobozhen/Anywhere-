@@ -7,12 +7,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.FileUriExposedException
-import android.provider.Settings
 import androidx.core.net.toUri
+import cn.vove7.andro_accessibility_api.AppScope
+import cn.vove7.andro_accessibility_api.api.waitForPage
+import cn.vove7.andro_accessibility_api.api.withId
+import cn.vove7.andro_accessibility_api.api.withText
+import cn.vove7.andro_accessibility_api.utils.NeedAccessibilityException
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.a11y.A11yEntity
+import com.absinthe.anywhere_.a11y.A11yType
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
@@ -20,7 +25,6 @@ import com.absinthe.anywhere_.listener.OnAppDefrostListener
 import com.absinthe.anywhere_.model.*
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.QRCollection
-import com.absinthe.anywhere_.services.IzukoService
 import com.absinthe.anywhere_.services.WorkflowIntentService
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
@@ -41,6 +45,9 @@ import com.blankj.utilcode.util.IntentUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
@@ -382,44 +389,61 @@ object Opener {
                 listener?.onOpened()
             }
             AnywhereType.Card.ACCESSIBILITY -> {
-                if (!QRCollection.checkAccessibilityEnabled() || IzukoService.getInstance() == null) {
-                    val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
-                        if (context !is Activity) {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        }
-                    }
-                    context.startActivity(intent)
-                    ToastUtil.Toasty.show(context, R.string.toast_grant_accessibility)
-                    return
-                }
-
                 try {
                     val a11yEntity = Gson().fromJson(item.param1, A11yEntity::class.java)
-                    IzukoService.getInstance()?.setA11yEntity(a11yEntity)
+
+                    fun action() {
+                        GlobalScope.launch {
+                            var result = waitForPage(AppScope(a11yEntity.applicationId, a11yEntity.entryActivity))
+                            if (!result) {
+                                ToastUtil.Toasty.show(context, "Timeout for waiting page")
+                                return@launch
+                            }
+                            for (action in a11yEntity.actions) {
+                                if (action.activityId.isNotEmpty()) {
+                                    result = waitForPage(AppScope(a11yEntity.applicationId, action.activityId))
+                                    if (!result) {
+                                        ToastUtil.Toasty.show(context, "Timeout for waiting page")
+                                        return@launch
+                                    }
+                                }
+
+                                delay(action.delay)
+
+                                when(action.type) {
+                                    A11yType.TEXT -> {
+                                        withText(action.content).tryClick()
+                                    }
+                                    A11yType.VIEW_ID -> {
+                                        withId(action.content).tryClick()
+                                    }
+                                    A11yType.LONG_PRESS_TEXT -> {
+                                        withText(action.content).tryLongClick()
+                                    }
+                                    A11yType.LONG_PRESS_VIEW_ID -> {
+                                        withId(action.content).tryLongClick()
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                     if (IceBox.getAppEnabledSetting(context, a11yEntity.applicationId) != 0) {
                         val result = DefrostHandler.defrost(context, a11yEntity.applicationId, object : OnAppDefrostListener {
                             override fun onAppDefrost() {
-                                context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
-                                    if (context !is Activity) {
-                                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                    }
-                                    context.startActivity(it)
-                                }
+                                action()
                             }
                         })
                         if (!result) {
                             ToastUtil.makeText(context, R.string.toast_not_choose_defrost_mode)
                         }
                     } else {
-                        context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
-                            if (context !is Activity) {
-                                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            }
-                            context.startActivity(it)
-                        }
+                        action()
                     }
                     listener?.onOpened()
+                } catch (e: NeedAccessibilityException) {
+                    Timber.e(e)
+                    ToastUtil.Toasty.show(context, R.string.toast_grant_accessibility)
                 } catch (e: Exception) {
                     Timber.e(e)
                     listener?.onOpened()
