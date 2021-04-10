@@ -67,32 +67,35 @@ object ToastUtil {
      */
     object Toasty {
 
-        fun show(context: Context, message: String) {
-            show(context, message, Toast.LENGTH_SHORT)
+        fun show(context: Context, message: String, defaultStyle: Boolean = false) {
+            show(context, message, Toast.LENGTH_SHORT, defaultStyle)
         }
 
-        fun show(context: Context, @StringRes res: Int) {
-            show(context, context.getString(res), Toast.LENGTH_SHORT)
+        fun show(context: Context, @StringRes res: Int, defaultStyle: Boolean = false) {
+            show(context, context.getString(res), Toast.LENGTH_SHORT, defaultStyle)
         }
 
-        fun showLong(context: Context, message: String) {
-            show(context, message, Toast.LENGTH_LONG)
+        fun showLong(context: Context, message: String, defaultStyle: Boolean = false) {
+            show(context, message, Toast.LENGTH_LONG, defaultStyle)
         }
 
-        fun showLong(context: Context, @StringRes res: Int) {
-            show(context, context.getString(res), Toast.LENGTH_LONG)
+        fun showLong(context: Context, @StringRes res: Int, defaultStyle: Boolean = false) {
+            show(context, context.getString(res), Toast.LENGTH_LONG, defaultStyle)
         }
 
-        private fun show(context: Context, message: String, duration: Int) {
-            val view = LayoutToastBinding.inflate(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as @NotNull LayoutInflater)
+        private fun show(context: Context, message: String, duration: Int, defaultStyle: Boolean = false) {
+            if (defaultStyle) {
+                Toast.makeText(context, message, duration).show()
+            } else {
+                val view = LayoutToastBinding.inflate(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as @NotNull LayoutInflater)
+                view.message.text = message
 
-            view.message.text = message
-
-            Toast(context).apply {
-                setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM, 0, 200)
-                this.duration = duration
-                this.view = view.root
-            }.show()
+                Toast(context).apply {
+                    setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM, 0, 200)
+                    this.duration = duration
+                    this.view = view.root
+                }.show()
+            }
         }
     }
 }

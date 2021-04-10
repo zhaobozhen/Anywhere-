@@ -119,7 +119,8 @@
     <string name="bsd_text_input_layout_file_helper_text">Secure file path obtained by Content Provider</string>
     <string name="bsd_text_input_layout_application_id_helper_text">Input or select the application to start</string>
     <string name="bsd_text_input_layout_entry_activity_helper_text">Input or select the Activity to start</string>
-    <string name="bsd_text_input_layout_content_helper_text">Input the responsed content</string>
+    <string name="bsd_text_input_layout_content_helper_text">Input the responded content</string>
+    <string name="bsd_text_input_layout_content_helper_text_view_id">Input the responded View ID</string>
     <string name="bsd_text_input_layout_content_activity_helper_text">Bind the activity where the content located, if it is in the same activity as the previous item, no need to fill in</string>
 
     <string name="bsd_default">Default</string>

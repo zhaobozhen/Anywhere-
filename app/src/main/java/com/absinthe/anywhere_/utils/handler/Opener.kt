@@ -9,9 +9,7 @@ import android.content.pm.PackageManager
 import android.os.FileUriExposedException
 import androidx.core.net.toUri
 import cn.vove7.andro_accessibility_api.AppScope
-import cn.vove7.andro_accessibility_api.api.waitForPage
-import cn.vove7.andro_accessibility_api.api.withId
-import cn.vove7.andro_accessibility_api.api.withText
+import cn.vove7.andro_accessibility_api.api.*
 import cn.vove7.andro_accessibility_api.utils.NeedAccessibilityException
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
@@ -45,9 +43,7 @@ import com.blankj.utilcode.util.IntentUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
@@ -390,38 +386,56 @@ object Opener {
             }
             AnywhereType.Card.ACCESSIBILITY -> {
                 try {
+                    requireBaseAccessibility()
+                    requireGestureAccessibility()
+
                     val a11yEntity = Gson().fromJson(item.param1, A11yEntity::class.java)
 
                     fun action() {
                         GlobalScope.launch {
+                            context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
+                                if (context !is Activity) {
+                                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                }
+                                context.startActivity(it)
+                            }
+
                             var result = waitForPage(AppScope(a11yEntity.applicationId, a11yEntity.entryActivity))
+                            var currentActivity = a11yEntity.entryActivity
                             if (!result) {
-                                ToastUtil.Toasty.show(context, "Timeout for waiting page")
+                                withContext(Dispatchers.Main) {
+                                    ToastUtil.Toasty.show(context, "Timeout for waiting entry page", defaultStyle = true)
+                                }
                                 return@launch
                             }
                             for (action in a11yEntity.actions) {
                                 if (action.activityId.isNotEmpty()) {
+                                    currentActivity = action.activityId
                                     result = waitForPage(AppScope(a11yEntity.applicationId, action.activityId))
-                                    if (!result) {
-                                        ToastUtil.Toasty.show(context, "Timeout for waiting page")
-                                        return@launch
+                                } else {
+                                    result = waitForPage(AppScope(a11yEntity.applicationId, currentActivity))
+                                }
+                                if (!result) {
+                                    withContext(Dispatchers.Main) {
+                                        ToastUtil.Toasty.show(context, "Timeout for waiting page", defaultStyle = true)
                                     }
+                                    return@launch
                                 }
 
                                 delay(action.delay)
 
                                 when(action.type) {
                                     A11yType.TEXT -> {
-                                        withText(action.content).tryClick()
+                                        withText(action.content).findFirst()?.tryClick()
                                     }
                                     A11yType.VIEW_ID -> {
-                                        withId(action.content).tryClick()
+                                        withId(action.content).findFirst()?.tryClick()
                                     }
                                     A11yType.LONG_PRESS_TEXT -> {
-                                        withText(action.content).tryLongClick()
+                                        withText(action.content).findFirst()?.tryLongClick()
                                     }
                                     A11yType.LONG_PRESS_VIEW_ID -> {
-                                        withId(action.content).tryLongClick()
+                                        withId(action.content).findFirst()?.tryLongClick()
                                     }
                                 }
                             }

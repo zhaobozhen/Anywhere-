@@ -401,4 +401,5 @@
     <string name="permission_label_provider_read">允許應用程式讀取內容提供器數據庫</string>
     <string name="bsd_text_input_layout_intent_package_label">包名（選填）</string>
     <string name="bsd_text_input_layout_br_package_helper_text">指定一個包名用來向指定應用發送廣播</string>
+    <string name="bsd_text_input_layout_content_helper_text_view_id">輸入響應的 View ID</string>
 </resources>
