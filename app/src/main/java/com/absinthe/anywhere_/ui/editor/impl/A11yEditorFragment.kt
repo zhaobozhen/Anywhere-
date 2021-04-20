@@ -158,7 +158,7 @@ class A11yEditorFragment : BaseEditorFragment() {
             val a11yEntity = A11yEntity().apply {
                 applicationId = binding.tietApplicationId.text.toString()
                 entryActivity = binding.tietEntryActivity.text.toString()
-                actions = (adapter.data as MutableList<A11yBaseBean>).map { it.actionBean }
+                actions = adapter.data.map { it.actionBean }
             }
             param1 = Gson().toJson(a11yEntity)
         }
@@ -186,10 +186,10 @@ class A11yEditorFragment : BaseEditorFragment() {
             val a11yEntity = A11yEntity().apply {
                 applicationId = binding.tietApplicationId.text.toString()
                 entryActivity = binding.tietEntryActivity.text.toString()
-                actions = (adapter.data as MutableList<A11yBaseBean>).map { it.actionBean }
+                actions = adapter.data.map { it.actionBean }
             }
             param1 = Gson().toJson(a11yEntity)
-            param2 = (adapter.data as MutableList<A11yBaseBean>).map { it.actionBean }.sumOf { it.delay }.toString()
+            param2 = adapter.data.map { it.actionBean }.sumOf { it.delay }.toString()
         }
 
         if (super.doneEdit()) return true
