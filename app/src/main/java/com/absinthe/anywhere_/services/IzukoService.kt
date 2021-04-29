@@ -9,18 +9,6 @@ class IzukoService : AccessibilityApi() {
 
     override val enableListenAppScope = true
 
-    override fun onCreate() {
-        baseService = this
-        gestureService = this
-        super.onCreate()
-    }
-
-    override fun onDestroy() {
-        baseService = null
-        gestureService = null
-        super.onDestroy()
-    }
-
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         Timber.e("onAccessibilityEvent $currentScope")
         super.onAccessibilityEvent(event)

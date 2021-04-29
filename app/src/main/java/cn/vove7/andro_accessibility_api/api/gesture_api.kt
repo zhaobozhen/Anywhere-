@@ -14,6 +14,7 @@ import cn.vove7.andro_accessibility_api.AccessibilityApi
 import cn.vove7.andro_accessibility_api.utils.NeedAccessibilityException
 import cn.vove7.andro_accessibility_api.utils.ResultBox
 import cn.vove7.andro_accessibility_api.utils.ScreenAdapter
+import timber.log.Timber
 
 /**
  * 手势api
@@ -176,6 +177,7 @@ private fun doGestures(
     description: GestureDescription,
     onCancel: Function0<Unit>?
 ): Boolean {
+    Timber.d("doGesture: %s", description)
     // 主线程不指定Handler
     val handler = if (Looper.myLooper() == Looper.getMainLooper()) null
     else HandlerThread("ges").let {
