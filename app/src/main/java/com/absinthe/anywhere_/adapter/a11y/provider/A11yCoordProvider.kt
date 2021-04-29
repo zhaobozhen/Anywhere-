@@ -1,5 +1,10 @@
 package com.absinthe.anywhere_.adapter.a11y.provider
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.IBinder
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -9,16 +14,44 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.a11y.A11yType
 import com.absinthe.anywhere_.adapter.a11y.TYPE_COORD
 import com.absinthe.anywhere_.adapter.a11y.bean.A11yBaseBean
-import com.absinthe.anywhere_.utils.ToastUtil
+import com.absinthe.anywhere_.services.overlay.CollectorService
+import com.absinthe.anywhere_.services.overlay.ICollectorListener
+import com.absinthe.anywhere_.services.overlay.ICollectorService
+import com.blankj.utilcode.util.ActivityUtils
 import com.chad.library.adapter.base.provider.BaseItemProvider
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.textfield.TextInputEditText
-import java.lang.IllegalArgumentException
 
 class A11yCoordProvider : BaseItemProvider<A11yBaseBean>() {
 
     override val itemViewType: Int = TYPE_COORD
     override val layoutId: Int = R.layout.item_a11y_coord
+
+    private var isBound = false
+    private var currentPosition = -1
+    private var collectorService: ICollectorService? = null
+    private val collectorListener = object : ICollectorListener.Stub() {
+        override fun onCoordinatorSelected(x: Int, y: Int) {
+            getAdapter()?.let {
+                it.data[currentPosition].actionBean.content = "$x,$y"
+            }
+        }
+    }
+    private val conn = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound = false
+            collectorService = null
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            isBound = true
+            collectorService = ICollectorService.Stub.asInterface(service)
+            collectorService?.registerCollectorListener(collectorListener)
+            collectorService?.startCoordinator()
+            ActivityUtils.startHomeActivity()
+        }
+
+    }
 
     init {
         addChildClickViewIds(R.id.ib_remove)
@@ -47,6 +80,23 @@ class A11yCoordProvider : BaseItemProvider<A11yBaseBean>() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
                     item.actionBean.activityId = s.toString()
+                }
+            })
+        }
+        helper.getView<TextInputEditText>(R.id.tiet_text).apply {
+            setText(item.actionBean.content)
+            addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    item.actionBean.content = s.toString()
                 }
             })
         }
@@ -83,7 +133,13 @@ class A11yCoordProvider : BaseItemProvider<A11yBaseBean>() {
         if (view.id == R.id.ib_remove) {
             getAdapter()?.remove(data)
         } else if (view.id == R.id.btn_select) {
-            ToastUtil.Toasty.show(context, "TODO")
+            if (isBound) {
+                collectorService?.startCoordinator()
+                ActivityUtils.startHomeActivity()
+            } else {
+                currentPosition = position
+                context.bindService(Intent(context, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
+            }
         }
     }
 }

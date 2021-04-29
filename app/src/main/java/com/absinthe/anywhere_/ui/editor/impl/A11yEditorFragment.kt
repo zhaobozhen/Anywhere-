@@ -1,6 +1,9 @@
 package com.absinthe.anywhere_.ui.editor.impl
 
+import android.content.ComponentName
 import android.content.Intent
+import android.content.ServiceConnection
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +24,7 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorA11yBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.services.overlay.ICollectorService
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.ui.list.*
 import com.absinthe.anywhere_.utils.AppUtils
@@ -118,7 +122,7 @@ class A11yEditorFragment : BaseEditorFragment() {
                         adapter.addData(when(which) {
                             A11yType.TEXT, A11yType.LONG_PRESS_TEXT -> A11yTextBean(A11yActionBean(type = which))
                             A11yType.VIEW_ID, A11yType.LONG_PRESS_VIEW_ID -> A11yViewIdBean(A11yActionBean(type = which))
-                            A11yType.COORDINATE, A11yType.LONG_PRESS_COORDINATE -> A11yCoordBean(A11yActionBean(type = which))
+                            A11yType.COORDINATE, A11yType.LONG_PRESS_COORDINATE -> A11yCoordBean(A11yActionBean(type = which, content = "0,0"))
                             else -> throw IllegalArgumentException("wrong a11y type")
                         })
                     }
