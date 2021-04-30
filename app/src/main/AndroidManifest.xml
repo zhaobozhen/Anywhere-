@@ -261,6 +261,7 @@
             android:name=".ui.editor.EditorActivity"
             android:label="@string/card_editor_title"
             android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />

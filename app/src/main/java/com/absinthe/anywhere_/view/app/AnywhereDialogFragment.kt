@@ -28,7 +28,6 @@ open class AnywhereDialogFragment : DialogFragment() {
             DialogStack.pop()
         }
         mListener?.onDismiss()
-
     }
 
     protected fun setWrapOnDismissListener(listener: OnDismissListener?) {

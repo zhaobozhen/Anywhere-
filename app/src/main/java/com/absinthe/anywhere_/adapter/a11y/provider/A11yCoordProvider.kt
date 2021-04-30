@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter.a11y.provider
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -29,12 +30,15 @@ class A11yCoordProvider : BaseItemProvider<A11yBaseBean>() {
 
     private var isBound = false
     private var currentPosition = -1
+    private var textView: TextView? = null
     private var collectorService: ICollectorService? = null
     private val collectorListener = object : ICollectorListener.Stub() {
+        @SuppressLint("SetTextI18n")
         override fun onCoordinatorSelected(x: Int, y: Int) {
             getAdapter()?.let {
-                it.data[currentPosition].actionBean.content = "$x,$y"
+                it.data[currentPosition].actionBean.content = "$x, $y"
             }
+            textView?.text = "$x, $y"
         }
     }
     private val conn = object : ServiceConnection {
@@ -48,7 +52,9 @@ class A11yCoordProvider : BaseItemProvider<A11yBaseBean>() {
             collectorService = ICollectorService.Stub.asInterface(service)
             collectorService?.registerCollectorListener(collectorListener)
             collectorService?.startCoordinator()
-            ActivityUtils.startHomeActivity()
+            getAdapter()?.let {
+                ActivityUtils.startLauncherActivity(it.data[currentPosition].actionBean.pkgName)
+            }
         }
 
     }
@@ -133,11 +139,13 @@ class A11yCoordProvider : BaseItemProvider<A11yBaseBean>() {
         if (view.id == R.id.ib_remove) {
             getAdapter()?.remove(data)
         } else if (view.id == R.id.btn_select) {
+            currentPosition = position
+            textView = helper.getView<TextInputEditText>(R.id.tiet_text)
+
             if (isBound) {
                 collectorService?.startCoordinator()
-                ActivityUtils.startHomeActivity()
+                ActivityUtils.startLauncherActivity(data.actionBean.pkgName)
             } else {
-                currentPosition = position
                 context.bindService(Intent(context, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
             }
         }

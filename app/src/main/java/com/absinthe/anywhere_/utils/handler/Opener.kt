@@ -427,9 +427,9 @@ object Opener {
                                 when(action.type) {
                                     A11yType.TEXT -> {
                                         if (action.contains) {
-                                            containsText(action.content)
+                                            containsText(*(action.content.split("|").toTypedArray()))
                                         } else {
-                                            withText(action.content)
+                                            withText(*(action.content.split("|").toTypedArray()))
                                         }.findFirst()?.tryClick()
                                     }
                                     A11yType.VIEW_ID -> {
@@ -437,9 +437,9 @@ object Opener {
                                     }
                                     A11yType.LONG_PRESS_TEXT -> {
                                         if (action.contains) {
-                                            containsText(action.content)
+                                            containsText(*(action.content.split("|").toTypedArray()))
                                         } else {
-                                            withText(action.content)
+                                            withText(*(action.content.split("|").toTypedArray()))
                                         }.findFirst()?.tryLongClick()
                                     }
                                     A11yType.LONG_PRESS_VIEW_ID -> {
@@ -448,8 +448,8 @@ object Opener {
                                     A11yType.COORDINATE -> {
                                         val xy = action.content.trim().split(",")
                                         if (xy.size == 2) {
-                                            val x = 1006
-                                            val y = 164
+                                            val x = xy[0].toIntOrNull()
+                                            val y = xy[1].toIntOrNull()
                                             if (x != null && y != null) {
                                                 if (AppUtils.atLeastN()) {
                                                     click(x, y)

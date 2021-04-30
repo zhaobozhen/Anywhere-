@@ -148,9 +148,9 @@ object QRCollection {
                         applicationId = pkgName
                         entryActivity = clsName
                         actions = listOf(
-                                A11yActionBean(A11yType.TEXT, "我|Me", "", 300L),
-                                A11yActionBean(A11yType.TEXT, "支付|WeChat Pay", "", 800L),
-                                A11yActionBean(A11yType.TEXT, "收付款|Money", "", 0L),
+                                A11yActionBean(A11yType.TEXT, content = "我|Me", activityId = "", delay = 300L),
+                                A11yActionBean(A11yType.TEXT, content = "支付|WeChat Pay", activityId = "", delay = 800L),
+                                A11yActionBean(A11yType.TEXT, content = "收付款|Money", activityId = "com.tencent.mm.plugin.mall.ui.MallIndexUIv2", delay = 0L),
                         )
                     }
                     val entity = AnywhereEntity.Builder().apply {
@@ -212,10 +212,10 @@ object QRCollection {
                         applicationId = pkgName
                         entryActivity = clsName
                         actions = listOf(
-                                A11yActionBean(A11yType.TEXT, "我|Me", "", 300L),
-                                A11yActionBean(A11yType.TEXT, "支付|WeChat Pay", "", 800L),
-                                A11yActionBean(A11yType.TEXT, "收付款|Money", "", 800L),
-                                A11yActionBean(A11yType.TEXT, "二维码收款|Receive Money", "", 0L, "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI"),
+                                A11yActionBean(A11yType.TEXT, content = "我|Me", activityId = "", delay = 300L),
+                                A11yActionBean(A11yType.TEXT, content = "支付|WeChat Pay", activityId = "", delay = 800L),
+                                A11yActionBean(A11yType.TEXT, content = "收付款|Money", activityId = "com.tencent.mm.plugin.mall.ui.MallIndexUIv2", delay = 800L),
+                                A11yActionBean(A11yType.TEXT, content = "二维码收款|Receive Money", activityId = "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI", delay = 0L),
                         )
                     }
                     val entity = AnywhereEntity.Builder().apply {
@@ -441,9 +441,9 @@ object QRCollection {
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
                     val list = mutableListOf(
-                            A11yActionBean(A11yType.TEXT, "知道了", "", 200L),
-                            A11yActionBean(A11yType.TEXT, "跳过", "", 300L),
-                            A11yActionBean(A11yType.TEXT, "收款码", "", 0L)
+                            A11yActionBean(A11yType.TEXT, content = "知道了", activityId = "", delay = 200L),
+                            A11yActionBean(A11yType.TEXT, content = "跳过", activityId = "", delay = 300L),
+                            A11yActionBean(A11yType.TEXT, content = "收款码", activityId = "", delay = 0L)
                     )
 
                     val a11yEntity = A11yEntity().apply {

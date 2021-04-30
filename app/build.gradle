@@ -15,8 +15,8 @@ android {
         applicationId "com.absinthe.anywhere_"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2020200
-        versionName "2.2.2"
+        versionCode 2020300
+        versionName "2.2.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Anywhere-"]

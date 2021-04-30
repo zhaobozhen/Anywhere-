@@ -196,6 +196,12 @@ object GlobalValues {
             mmkv.encode(Const.PREF_DEPRECATED_SC_CREATING_METHOD, value)
         }
 
+    var showSystemApps
+        get() = mmkv.decodeBool(Const.PREF_SHOW_SYSTEM_APPS, false)
+        set(value) {
+            mmkv.encode(Const.PREF_SHOW_SYSTEM_APPS, value)
+        }
+
     val info: CharSequence
         get() {
             val sb = StringBuilder()
