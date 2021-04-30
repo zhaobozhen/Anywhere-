@@ -130,6 +130,10 @@ object StorageUtils {
                 entity.category = GlobalValues.category
 
                 AnywhereApplication.sRepository.insert(entity)
+
+                withContext(Dispatchers.Main) {
+                    ToastUtil.makeText(context.getString(R.string.toast_restore_success))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 withContext(Dispatchers.Main) {

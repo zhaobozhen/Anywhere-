@@ -40,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/bsd_item_margin_vertical"
                 android:layout_marginEnd="8dp"
-                android:hint="0, 0"
                 app:errorEnabled="true"
                 app:helperText="@string/bsd_text_input_layout_content_helper_text_coord"
                 app:helperTextEnabled="true"
