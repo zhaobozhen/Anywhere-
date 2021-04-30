@@ -120,9 +120,9 @@ class A11yEditorFragment : BaseEditorFragment() {
                 AlertDialog.Builder(requireContext())
                     .setItems(nodeEditMenu.toTypedArray()) { _, which ->
                         adapter.addData(when(which) {
-                            A11yType.TEXT, A11yType.LONG_PRESS_TEXT -> A11yTextBean(A11yActionBean(type = which))
-                            A11yType.VIEW_ID, A11yType.LONG_PRESS_VIEW_ID -> A11yViewIdBean(A11yActionBean(type = which))
-                            A11yType.COORDINATE, A11yType.LONG_PRESS_COORDINATE -> A11yCoordBean(A11yActionBean(type = which, content = "0,0"))
+                            A11yType.TEXT, A11yType.LONG_PRESS_TEXT -> A11yTextBean(A11yActionBean(type = which, pkgName = tietApplicationId.text.toString()))
+                            A11yType.VIEW_ID, A11yType.LONG_PRESS_VIEW_ID -> A11yViewIdBean(A11yActionBean(type = which, pkgName = tietApplicationId.text.toString()))
+                            A11yType.COORDINATE, A11yType.LONG_PRESS_COORDINATE -> A11yCoordBean(A11yActionBean(type = which, content = "0,0", pkgName = tietApplicationId.text.toString()))
                             else -> throw IllegalArgumentException("wrong a11y type")
                         })
                     }

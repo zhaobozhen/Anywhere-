@@ -73,8 +73,8 @@ class CoordinatorView(context: Context) : AViewGroup(context) {
 
                 // 移动悬浮窗
                 targetView.apply {
-                    x = (x + tranX.toInt()).coerceAtLeast(0f).coerceAtMost(measuredWidth.toFloat())
-                    y = (y + tranY.toInt()).coerceAtLeast(0f).coerceAtMost(measuredHeight.toFloat())
+                    x = (x + tranX.toInt()).coerceAtLeast(0f).coerceAtMost((this@CoordinatorView.measuredWidth - measuredWidth).toFloat())
+                    y = (y + tranY.toInt()).coerceAtLeast(0f).coerceAtMost((this@CoordinatorView.measuredHeight - measuredHeight).toFloat())
                 }
                 //记录当前坐标作为下一次计算的上一次移动的位置坐标
                 lastX = nowX

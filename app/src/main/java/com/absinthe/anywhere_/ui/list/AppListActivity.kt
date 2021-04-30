@@ -24,6 +24,7 @@ import com.absinthe.anywhere_.adapter.applist.MODE_APP_LIST
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding
 import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -49,7 +50,6 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityAppListBinding
     private var mItems = mutableListOf<AppListBean>()
-    private var isShowSystemApp = false
     private var initDataJob: Job? = null
     private var isDataInit = false
     private val mAdapter: AppListAdapter = AppListAdapter(MODE_APP_LIST)
@@ -67,7 +67,6 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isShowSystemApp = false
         initRecyclerView()
         initData()
     }
@@ -105,7 +104,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.show_system_app) {
-            isShowSystemApp = if (item.title.toString() == getString(R.string.menu_show_system_app)) {
+            GlobalValues.showSystemApps = if (item.title.toString() == getString(R.string.menu_show_system_app)) {
                 item.setTitle(R.string.menu_hide_system_app)
                 true
             } else {
@@ -118,7 +117,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                     setSpan(ForegroundColorSpan(Color.WHITE), 0, item.title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 }
             }
-            initData(isShowSystemApp)
+            initData(GlobalValues.showSystemApps)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -128,7 +127,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
         binding.srlAppList.apply {
             setProgressBackgroundColorSchemeResource(R.color.green_done)
             setColorSchemeColors(Color.WHITE)
-            setOnRefreshListener { initData(isShowSystemApp) }
+            setOnRefreshListener { initData(GlobalValues.showSystemApps) }
         }
         binding.extendedFab.apply {
             post {

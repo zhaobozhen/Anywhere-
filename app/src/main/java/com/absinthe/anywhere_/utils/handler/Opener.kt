@@ -448,8 +448,8 @@ object Opener {
                                     A11yType.COORDINATE -> {
                                         val xy = action.content.trim().split(",")
                                         if (xy.size == 2) {
-                                            val x = 1006
-                                            val y = 164
+                                            val x = xy[0].toIntOrNull()
+                                            val y = xy[1].toIntOrNull()
                                             if (x != null && y != null) {
                                                 if (AppUtils.atLeastN()) {
                                                     click(x, y)

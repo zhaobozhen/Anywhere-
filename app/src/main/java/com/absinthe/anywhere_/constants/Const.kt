@@ -63,6 +63,7 @@ object Const {
     const val PREF_TILE_ONE_ACTIVE = "tileOneActive"
     const val PREF_TILE_TWO_ACTIVE = "tileTwoActive"
     const val PREF_TILE_THREE_ACTIVE = "tileThreeActive"
+    const val PREF_SHOW_SYSTEM_APPS = "showSystemApps"
 
     const val WORKING_MODE_URL_SCHEME = "url_scheme"
     const val WORKING_MODE_ROOT = "root"
