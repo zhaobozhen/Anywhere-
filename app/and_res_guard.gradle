@@ -25,10 +25,10 @@ andResGuard {
             "*.jpeg",
             "*.gif"
     ]
-    sevenzip {
-        artifact = 'com.tencent.mm:SevenZip:1.2.20'
+    //sevenzip {
+        //artifact = 'com.tencent.mm:SevenZip:1.2.20'
         //path = "/usr/local/bin/7za"
-    }
+    //}
 
     /**
      * Optional: if finalApkBackupPath is null, AndResGuard will overwrite final apk

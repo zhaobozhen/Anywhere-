@@ -4,15 +4,17 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivitySettingsBinding
-import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.AppUtils
@@ -20,14 +22,17 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
-import moe.shizuku.preference.ListPreference
-import moe.shizuku.preference.Preference
-import moe.shizuku.preference.PreferenceFragment
-import moe.shizuku.preference.SwitchPreference
+import rikka.preference.SimpleMenuPreference
 
 class SettingsActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivitySettingsBinding
+
+    companion object {
+        init {
+            SimpleMenuPreference.setLightFixEnabled(true)
+        }
+    }
 
     override fun setViewBinding() {
         isPaddingToolbar = true
@@ -39,19 +44,19 @@ class SettingsActivity : BaseActivity() {
         mToolbar = mBinding.toolbar.toolbar
     }
 
-    class SettingsFragment : PreferenceFragment() {
+    class SettingsFragment : PreferenceFragmentCompat() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.settings, rootKey)
 
             //Normal
-            (findPreference(Const.PREF_WORKING_MODE) as ListPreference).apply {
+            findPreference<ListPreference>(Const.PREF_WORKING_MODE)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.workingMode = newValue as String
                     true
                 }
             }
-            (findPreference(Const.PREF_CLOSE_AFTER_LAUNCH) as SwitchPreference).apply {
+            findPreference<SwitchPreference>(Const.PREF_CLOSE_AFTER_LAUNCH)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.closeAfterLaunch = newValue as Boolean
                     true
@@ -59,7 +64,7 @@ class SettingsActivity : BaseActivity() {
             }
 
             //View
-            (findPreference(Const.PREF_CHANGE_BACKGROUND) as Preference).apply {
+            findPreference<Preference>(Const.PREF_CHANGE_BACKGROUND)?.apply {
                 setOnPreferenceClickListener {
                     try {
                         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
@@ -81,13 +86,13 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            (findPreference(Const.PREF_RESET_BACKGROUND) as Preference).apply {
+            findPreference<Preference>(Const.PREF_RESET_BACKGROUND)?.apply {
                 setOnPreferenceClickListener {
                     DialogManager.showResetBackgroundDialog(requireActivity())
                     true
                 }
             }
-            (findPreference(Const.PREF_DARK_MODE) as ListPreference).apply {
+            findPreference<ListPreference>(Const.PREF_DARK_MODE)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     if (newValue.toString() == Const.DARK_MODE_AUTO) {
                         DialogManager.showDarkModeTimePickerDialog(requireActivity() as BaseActivity)
@@ -98,28 +103,28 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            (findPreference(Const.PREF_CARD_MODE) as ListPreference).apply {
+            findPreference<ListPreference>(Const.PREF_CARD_MODE)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.cardMode = newValue.toString()
                     GlobalValues.cardModeLiveData.value = newValue
                     true
                 }
             }
-            (findPreference(Const.PREF_CARD_BACKGROUND) as ListPreference).apply {
+            findPreference<ListPreference>(Const.PREF_CARD_BACKGROUND)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.sCardBackgroundMode = newValue.toString()
                     GlobalValues.cardModeLiveData.value = newValue
                     true
                 }
             }
-            (findPreference(Const.PREF_MD2_TOOLBAR) as SwitchPreference).apply {
+            findPreference<SwitchPreference>(Const.PREF_MD2_TOOLBAR)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isMd2Toolbar = newValue as Boolean
                     AppUtils.restart()
                     true
                 }
             }
-            (findPreference(Const.PREF_ICON_PACK) as Preference).apply {
+            findPreference<Preference>(Const.PREF_ICON_PACK)?.apply {
                 setOnPreferenceClickListener {
                     DialogManager.showIconPackChoosingDialog(requireActivity() as BaseActivity)
                     true
@@ -127,14 +132,14 @@ class SettingsActivity : BaseActivity() {
             }
 
             //Advanced
-            (findPreference(Const.PREF_PAGES) as SwitchPreference).apply {
+            findPreference<SwitchPreference>(Const.PREF_PAGES)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isPages = newValue as Boolean
                     AppUtils.restart()
                     true
                 }
             }
-            (findPreference(Const.PREF_CLEAR_SHORTCUTS) as Preference).apply {
+            findPreference<Preference>(Const.PREF_CLEAR_SHORTCUTS)?.apply {
                 if (!AppUtils.atLeastNMR1()) {
                     isVisible = false
                 } else {
@@ -144,12 +149,12 @@ class SettingsActivity : BaseActivity() {
                     }
                 }
             }
-            (findPreference(Const.PREF_TILES) as Preference).apply {
+            findPreference<Preference>(Const.PREF_TILES)?.apply {
                 if (!AppUtils.atLeastN()) {
                     isVisible = false
                 }
             }
-            (findPreference(Const.PREF_COLLECTOR_PLUS) as SwitchPreference).apply {
+            findPreference<SwitchPreference>(Const.PREF_COLLECTOR_PLUS)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isCollectorPlus = newValue as Boolean
                     if (newValue) {
@@ -158,13 +163,13 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            (findPreference(Const.PREF_EXCLUDE_FROM_RECENT) as SwitchPreference).apply {
+            findPreference<SwitchPreference>(Const.PREF_EXCLUDE_FROM_RECENT)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isExcludeFromRecent = newValue as Boolean
                     true
                 }
             }
-            (findPreference(Const.PREF_SHOW_SHELL_RESULT_MODE) as ListPreference).apply {
+            findPreference<ListPreference>(Const.PREF_SHOW_SHELL_RESULT_MODE)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.showShellResultMode = newValue as String
                     true
@@ -172,7 +177,7 @@ class SettingsActivity : BaseActivity() {
             }
 
             //Others
-            (findPreference(Const.PREF_HELP) as Preference).apply {
+            findPreference<Preference>(Const.PREF_HELP)?.apply {
                 setOnPreferenceClickListener {
                     try {
                         CustomTabsIntent.Builder().build().apply {
@@ -188,7 +193,7 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-            (findPreference(Const.PREF_BETA) as Preference).apply {
+            findPreference<Preference>(Const.PREF_BETA)?.apply {
                 setOnPreferenceClickListener {
                     try {
                         CustomTabsIntent.Builder().build().apply {
@@ -205,15 +210,6 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
-        }
-
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-            listView.addSystemBarPaddingAsync(addStatusBarPadding = false)
-        }
-
-        override fun onCreateItemDecoration(): DividerDecoration {
-            return CategoryDivideDividerDecoration()
         }
     }
 

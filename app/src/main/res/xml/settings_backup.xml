@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress ALL -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <moe.shizuku.preference.PreferenceCategory
+    <PreferenceCategory
         app:key="cloudBackupCategory"
         app:title="@string/settings_backup_cloud_category">
 
@@ -35,7 +33,7 @@
             app:key="webdavRestore"
             app:title="@string/settings_backup_webdav_restore_title"/>
 
-    </moe.shizuku.preference.PreferenceCategory>
+    </PreferenceCategory>
 
     <PreferenceCategory
         app:key="backupCategory"
@@ -63,7 +61,7 @@
 
     </PreferenceCategory>
 
-    <moe.shizuku.preference.PreferenceCategory
+    <PreferenceCategory
         app:key="restoreCategory"
         app:title="@string/settings_restore">
 
@@ -79,6 +77,6 @@
             app:summary="@string/settings_backup_apply_summary"
             app:icon="@drawable/ic_apply_restore"/>
 
-    </moe.shizuku.preference.PreferenceCategory>
+    </PreferenceCategory>
 
 </PreferenceScreen>

@@ -83,7 +83,7 @@ fun compareSimilarity(str1: String, str2: String, ignoreCase: Boolean = true): F
             dif[i][j] = arrayOf(
                 dif[i - 1][j - 1] + temp, dif[i][j - 1] + 1,
                 dif[i - 1][j] + 1
-            ).min()!!
+            ).minOrNull()!!
         }
     }
     return 1 - dif[len1][len2].toFloat() / max(s1.length, s2.length)

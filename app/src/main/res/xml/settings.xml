@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress ALL -->
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <moe.shizuku.preference.PreferenceCategory
+    <PreferenceCategory
         app:key="normalCategory"
         app:title="@string/settings_category_normal">
 
-        <SimpleMenuPreference
+        <rikka.preference.SimpleMenuPreference
             app:key="workingMode"
             app:title="@string/settings_working_mode"
             app:summary="%s"
@@ -45,7 +44,7 @@
             app:summary="@string/settings_close_after_launch_summary"
             app:icon="@drawable/ic_rocket" />
 
-    </moe.shizuku.preference.PreferenceCategory>
+    </PreferenceCategory>
 
     <PreferenceCategory
         app:key="viewCategory"
@@ -63,7 +62,7 @@
             app:summary="@string/settings_reset_background_summary"
             app:icon="@drawable/ic_reset"/>
 
-        <SimpleMenuPreference
+        <rikka.preference.SimpleMenuPreference
             app:key="darkMode"
             app:title="@string/settings_dark_mode"
             app:summary="%s"
@@ -72,7 +71,7 @@
             app:entryValues="@array/list_dark_mode_value"
             app:defaultValue="off"/>
 
-        <SimpleMenuPreference
+        <rikka.preference.SimpleMenuPreference
             app:key="cardMode"
             app:title="@string/settings_card_mode"
             app:summary="%s"
@@ -81,7 +80,7 @@
             app:entries="@array/list_card_mode"
             app:entryValues="@array/list_card_mode_value"/>
 
-        <SimpleMenuPreference
+        <rikka.preference.SimpleMenuPreference
             app:key="cardBackgroundMode"
             app:title="@string/settings_card_background"
             app:icon="@drawable/ic_color"
@@ -151,7 +150,7 @@
             app:icon="@drawable/ic_visibility_off"
             app:defaultValue="false" />
 
-        <SimpleMenuPreference
+        <rikka.preference.SimpleMenuPreference
             app:key="showShellResultMode"
             app:title="@string/settings_show_shell_result"
             app:summary="%s"
@@ -173,7 +172,7 @@
 
     </PreferenceCategory>
 
-    <moe.shizuku.preference.PreferenceCategory
+    <PreferenceCategory
         app:key="othersCategory"
         app:title="@string/settings_category_others">
 
@@ -213,6 +212,6 @@
 
         </Preference>
 
-    </moe.shizuku.preference.PreferenceCategory>
+    </PreferenceCategory>
 
 </PreferenceScreen>

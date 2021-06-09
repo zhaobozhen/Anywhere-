@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.text.HtmlCompat
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
@@ -20,18 +23,15 @@ import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
 import com.google.android.material.snackbar.Snackbar
-import moe.shizuku.preference.Preference
-import moe.shizuku.preference.PreferenceFragment
-import moe.shizuku.preference.SwitchPreference
 
 const val BACKUP_TIP_VERSION = "2.0.0"
 
-class BackupFragment : PreferenceFragment() {
+class BackupFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_backup, rootKey)
 
-        (findPreference(Const.PREF_WEBDAV_HOST) as Preference).apply {
+        findPreference<Preference>(Const.PREF_WEBDAV_HOST)?.apply {
             setOnPreferenceChangeListener { preference, newValue ->
                 GlobalValues.webdavHost = newValue.toString()
                 preference.summary = newValue.toString()
@@ -39,7 +39,7 @@ class BackupFragment : PreferenceFragment() {
             }
             summary = GlobalValues.webdavHost
         }
-        (findPreference(Const.PREF_WEBDAV_USERNAME) as Preference).apply {
+        findPreference<Preference>(Const.PREF_WEBDAV_USERNAME)?.apply {
             setOnPreferenceChangeListener { preference, newValue ->
                 GlobalValues.webdavUsername = newValue.toString()
                 preference.summary = newValue.toString()
@@ -48,7 +48,7 @@ class BackupFragment : PreferenceFragment() {
             summary = GlobalValues.webdavUsername
             isIconSpaceReserved = true
         }
-        (findPreference(Const.PREF_WEBDAV_PASSWORD) as Preference).apply {
+        findPreference<Preference>(Const.PREF_WEBDAV_PASSWORD)?.apply {
             setOnPreferenceChangeListener { preference, newValue ->
                 GlobalValues.webdavPassword = newValue.toString()
                 preference.summary = getPWString(newValue.toString())
@@ -57,7 +57,7 @@ class BackupFragment : PreferenceFragment() {
             summary = getPWString(GlobalValues.webdavPassword)
             isIconSpaceReserved = true
         }
-        findPreference(Const.PREF_WEBDAV_BACKUP)?.apply {
+        findPreference<Preference>(Const.PREF_WEBDAV_BACKUP)?.apply {
             setOnPreferenceClickListener {
                 if (GlobalValues.webdavHost.isEmpty() ||
                         GlobalValues.webdavUsername.isEmpty() ||
@@ -70,14 +70,14 @@ class BackupFragment : PreferenceFragment() {
             }
             isIconSpaceReserved = true
         }
-        (findPreference(Const.PREF_WEBDAV_AUTO_BACKUP) as SwitchPreference).apply {
+        findPreference<SwitchPreference>(Const.PREF_WEBDAV_AUTO_BACKUP)?.apply {
             setOnPreferenceChangeListener { _, newValue ->
                 GlobalValues.isAutoBackup = newValue as Boolean
                 true
             }
             isIconSpaceReserved = true
         }
-        (findPreference(Const.PREF_WEBDAV_RESTORE) as Preference).apply {
+        findPreference<Preference>(Const.PREF_WEBDAV_RESTORE)?.apply {
             setOnPreferenceClickListener {
                 if (GlobalValues.webdavHost.isEmpty() ||
                         GlobalValues.webdavUsername.isEmpty() ||
@@ -90,7 +90,7 @@ class BackupFragment : PreferenceFragment() {
             }
             isIconSpaceReserved = true
         }
-        (findPreference(Const.PREF_BACKUP) as Preference).apply {
+        findPreference<Preference>(Const.PREF_BACKUP)?.apply {
             setOnPreferenceClickListener {
                 if (isExternalStorageWritable) {
                     createFile(requireActivity() as BaseActivity, "*/*",
@@ -101,7 +101,7 @@ class BackupFragment : PreferenceFragment() {
                 true
             }
         }
-        (findPreference(Const.PREF_RESTORE) as Preference).apply {
+        findPreference<Preference>(Const.PREF_RESTORE)?.apply {
             setOnPreferenceClickListener {
                 val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
@@ -111,7 +111,7 @@ class BackupFragment : PreferenceFragment() {
                 true
             }
         }
-        (findPreference(Const.PREF_BACKUP_SHARE) as Preference).apply {
+        findPreference<Preference>(Const.PREF_BACKUP_SHARE)?.apply {
             setOnPreferenceClickListener {
                 exportAnywhereEntityJsonString()?.let { content ->
                     CipherUtils.encrypt(content)?.let {
@@ -122,16 +122,16 @@ class BackupFragment : PreferenceFragment() {
                 true
             }
         }
-        (findPreference(Const.PREF_RESTORE_APPLY) as Preference).apply {
+        findPreference<Preference>(Const.PREF_RESTORE_APPLY)?.apply {
             setOnPreferenceClickListener {
                 showRestoreApplyDialog(requireActivity() as BaseActivity)
                 true
             }
         }
-        (findPreference("backupTip") as Preference).apply {
+        findPreference<Preference>("backupTip")?.apply {
             summary = getBackupTip()
         }
-        (findPreference("backupTip2") as Preference).apply {
+        findPreference<Preference>("backupTip2")?.apply {
             summary = HtmlCompat.fromHtml(getString(R.string.settings_backup_tip2), HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
     }
@@ -139,10 +139,6 @@ class BackupFragment : PreferenceFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listView.addSystemBarPaddingAsync(addStatusBarPadding = false)
-    }
-
-    override fun onCreateItemDecoration(): DividerDecoration {
-        return CategoryDivideDividerDecoration()
     }
 
     private fun getBackupTip(): CharSequence {

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress ALL -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <moe.shizuku.preference.PreferenceCategory
+    <PreferenceCategory
         app:key="normalCategory"
         app:title="@string/settings_category_normal">
 
@@ -28,6 +26,6 @@
             app:icon="@drawable/ic_deprecate_icon"
             app:defaultValue="false" />
 
-    </moe.shizuku.preference.PreferenceCategory>
+    </PreferenceCategory>
 
 </PreferenceScreen>
