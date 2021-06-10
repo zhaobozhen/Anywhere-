@@ -63,6 +63,15 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                                         ?: CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type, 45.dp),
                                 type =  ae.type)
                         )
+                    } else if (ae.type == AnywhereType.Card.ACCESSIBILITY || ae.type == AnywhereType.Card.WORKFLOW) {
+                        listBeans.add(AppListBean(
+                            id = ae.id,
+                            appName =  ae.appName,
+                            packageName =  ae.param2,
+                            className =  ae.description,
+                            icon =  CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type, 45.dp),
+                            type =  ae.type)
+                        )
                     } else {
                         listBeans.add(AppListBean(
                                 id = ae.id,
