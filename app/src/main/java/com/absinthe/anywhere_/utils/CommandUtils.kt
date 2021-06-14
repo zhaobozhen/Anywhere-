@@ -150,12 +150,11 @@ object CommandUtils {
      */
     private fun execRootCmd(cmd: String): String {
         Timber.i(cmd)
-        val result: String
 
-        result = try {
+        val result: String = try {
             ShellManager.exec(cmd)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e)
             CommandResult.RESULT_ROOT_PERM_ERROR
         }
 

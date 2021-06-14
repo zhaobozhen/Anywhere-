@@ -10,6 +10,7 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.provider.CoreProvider.Companion.URI_ANYWHERE_ENTITY
 import com.absinthe.anywhere_.utils.AppUtils.updateWidget
@@ -68,7 +69,13 @@ class AppRemoteViewsService : RemoteViewsService() {
                     tempList.add(info)
                 }
                 cursor.close()
-                tempList.sortByDescending { it.id }
+                when (GlobalValues.sortMode) {
+                    Const.SORT_MODE_TIME_ASC -> tempList.sortBy { it.timeStamp }
+                    Const.SORT_MODE_NAME_ASC -> tempList.sortBy { it.appName }
+                    Const.SORT_MODE_NAME_DESC -> tempList.sortByDescending { it.appName }
+                    Const.SORT_MODE_TIME_DESC -> tempList.sortByDescending { it.timeStamp }
+                    else -> tempList.sortByDescending { it.id }
+                }
                 mList.addAll(tempList)
                 mContext.get()?.let { updateWidget(it) }
             }
@@ -104,6 +111,13 @@ class AppRemoteViewsService : RemoteViewsService() {
                     tempList.add(info)
                 }
                 cursor.close()
+                when (GlobalValues.sortMode) {
+                    Const.SORT_MODE_TIME_ASC -> tempList.sortBy { it.timeStamp }
+                    Const.SORT_MODE_NAME_ASC -> tempList.sortBy { it.appName }
+                    Const.SORT_MODE_NAME_DESC -> tempList.sortByDescending { it.appName }
+                    Const.SORT_MODE_TIME_DESC -> tempList.sortByDescending { it.timeStamp }
+                    else -> tempList.sortByDescending { it.id }
+                }
                 tempList.sortByDescending { it.id }
                 mList.addAll(tempList)
             }
@@ -143,7 +157,8 @@ class AppRemoteViewsService : RemoteViewsService() {
             }
 
             // 创建在当前索引位置要显示的View
-            val rv = RemoteViews(mContext.get()!!.packageName, R.layout.item_widget_list)
+            val context = mContext.get() ?: return null
+            val rv = RemoteViews(context.packageName, R.layout.item_widget_list)
 
             // 设置要显示的内容
             rv.setTextViewText(R.id.tv_title, content)
