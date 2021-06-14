@@ -69,12 +69,14 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Const.REQUEST_CODE_IMAGE_CAPTURE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
-                data.data?.let {
-                    Glide.with(this@CreateShortcutDialogFragment)
-                            .load(it)
+                data.data?.let { uri ->
+                    activity?.let {
+                        Glide.with(it.applicationContext)
+                            .load(uri)
                             .transition(DrawableTransitionOptions.withCrossFade())
                             .into(mBuilder.ivIcon)
-                    AppUtils.takePersistableUriPermission(requireContext(), it, data)
+                    }
+                    AppUtils.takePersistableUriPermission(requireContext(), uri, data)
                 }
             }
             super.onActivityResult(requestCode, resultCode, data)

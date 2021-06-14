@@ -688,7 +688,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun loadBackground(url: String) {
-        Glide.with(this)
+        Glide.with(applicationContext)
                 .load(url)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

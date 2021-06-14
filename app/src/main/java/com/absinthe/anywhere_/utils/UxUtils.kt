@@ -169,7 +169,7 @@ object UxUtils {
             return
         }
 
-        Glide.with(activity)
+        Glide.with(activity.applicationContext)
                 .asBitmap()
                 .load(Uri.parse(backgroundUri))
                 .into(object : CustomTarget<Bitmap?>() {
@@ -344,7 +344,7 @@ object UxUtils {
         val rectF = RectF(0f, 0f, bgBitmap.width.toFloat(), bgBitmap.height.toFloat())
 
         canvas.drawRect(rectF, paint)
-        Glide.with(context)
+        Glide.with(context.applicationContext)
                 .load(bgBitmap)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)

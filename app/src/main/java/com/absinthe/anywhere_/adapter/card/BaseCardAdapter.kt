@@ -232,12 +232,12 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
         }
 
         if (item.iconUri.isEmpty()) {
-            Glide.with(context)
+            Glide.with(context.applicationContext)
                     .load(UxUtils.getAppIcon(context, item, 45.dp))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(itemView.icon)
         } else {
-            Glide.with(context)
+            Glide.with(context.applicationContext)
                     .load(item.iconUri)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into(itemView.icon)
