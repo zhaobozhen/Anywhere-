@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
 import rikka.preference.SimpleMenuPreference
+import timber.log.Timber
 
 class SettingsActivity : BaseActivity() {
 
@@ -191,11 +192,15 @@ class SettingsActivity : BaseActivity() {
                             launchUrl(requireActivity(), URLManager.DOCUMENT_PAGE.toUri())
                         }
                     } catch (e: ActivityNotFoundException) {
-                        e.printStackTrace()
-                        val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data = URLManager.DOCUMENT_PAGE.toUri()
+                        Timber.e(e)
+                        try {
+                            val intent = Intent(Intent.ACTION_VIEW).apply {
+                                data = URLManager.DOCUMENT_PAGE.toUri()
+                            }
+                            requireActivity().startActivity(intent)
+                        } catch (e: ActivityNotFoundException) {
+                            ToastUtil.makeText(R.string.toast_no_react_url)
                         }
-                        requireActivity().startActivity(intent)
                     }
                     true
                 }
@@ -207,7 +212,7 @@ class SettingsActivity : BaseActivity() {
                             launchUrl(requireActivity(), URLManager.BETA_DISTRIBUTE_URL.toUri())
                         }
                     } catch (e: ActivityNotFoundException) {
-                        e.printStackTrace()
+                        Timber.e(e)
                         try {
                             URLSchemeHandler.parse(requireActivity(), URLManager.BETA_DISTRIBUTE_URL)
                         } catch (e: ActivityNotFoundException) {

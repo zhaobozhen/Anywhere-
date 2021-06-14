@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.FileUriExposedException
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import cn.vove7.andro_accessibility_api.AppScope
 import cn.vove7.andro_accessibility_api.api.*
@@ -296,7 +297,9 @@ object Opener {
             }
             AnywhereType.Card.SHELL -> {
                 val result = CommandUtils.execAdbCmd(item.param1)
-                DialogManager.showShellResultDialog(context, result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
+                (if (context is AppCompatActivity) context else ActivityStackManager.topActivity)?.let {
+                    DialogManager.showShellResultDialog(it, result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
+                }
             }
             AnywhereType.Card.SWITCH_SHELL -> {
                 openByCommand(context, getItemCommand(item), item.packageName)

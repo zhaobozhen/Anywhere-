@@ -45,7 +45,7 @@ object ShortcutsUtils {
         }
 
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
-                .setShortLabel(ae.appName)
+                .setShortLabel(ae.appName.ifEmpty { " " })
                 .setIcon(Icon.createWithBitmap(UxUtils.getAppIcon(Utils.getApp(), ae, 45.dp).toBitmap()))
                 .setIntent(intent)
                 .build()
@@ -83,7 +83,7 @@ object ShortcutsUtils {
             UxUtils.getAppIcon(Utils.getApp(), ae, 45.dp).toBitmap()
         }
         val info = ShortcutInfo.Builder(Utils.getApp(), ae.id)
-                .setShortLabel(ae.appName)
+                .setShortLabel(ae.appName.ifEmpty { " " })
                 .setIcon(Icon.createWithBitmap(icon))
                 .setIntent(intent)
                 .build()
