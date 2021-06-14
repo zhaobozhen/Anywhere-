@@ -13,11 +13,10 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.tile.TileCardAdapter
 import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityTileSettingsBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
-import com.absinthe.anywhere_.utils.SPUtils.getString
-import com.absinthe.anywhere_.utils.SPUtils.putString
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
 import com.absinthe.libraries.utils.extensions.dp
@@ -72,8 +71,8 @@ open class TileSettingsActivity : BaseActivity() {
                                     tileLabel = Const.PREF_TILE_THREE_LABEL
                                 }
                             }
-                            putString(this@TileSettingsActivity, tile, mList[which].id)
-                            putString(this@TileSettingsActivity, tileLabel, mList[which].appName)
+                            GlobalValues.mmkv.encode(tile, mList[which].id)
+                            GlobalValues.mmkv.encode(tileLabel, mList[which].appName)
                             dismiss()
                         }
                     })
@@ -115,10 +114,10 @@ open class TileSettingsActivity : BaseActivity() {
     }
 
     private fun loadImpl(flag: String) {
-        if (getString(this, flag).isEmpty()) {
+        if (GlobalValues.mmkv.decodeString(flag).isNullOrEmpty()) {
             mAdapter.addData(initCard())
         } else {
-            val id = getString(this, flag)
+            val id = GlobalValues.mmkv.decodeString(flag)
             mList.find { it.id == id }?.let {
                 mAdapter.addData(initCard(it))
             } ?: let {

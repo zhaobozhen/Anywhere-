@@ -2,6 +2,7 @@ package com.absinthe.anywhere_
 
 import android.app.Application
 import android.content.Context
+import android.os.Build
 import cn.vove7.andro_accessibility_api.AccessibilityApi
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.Settings
@@ -16,7 +17,7 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import io.michaelrocks.paranoid.Obfuscate
 import jonathanfinerty.once.Once
-import me.weishu.reflection.Reflection
+import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.sui.Sui
 import timber.log.Timber
 
@@ -48,7 +49,10 @@ class AnywhereApplication : Application() {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
 
-        Reflection.unseal(base)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            HiddenApiBypass.addHiddenApiExemptions("L")
+        }
+
         Once.initialise(this)
         Settings.initMMKV(this)
         Settings.init(this)

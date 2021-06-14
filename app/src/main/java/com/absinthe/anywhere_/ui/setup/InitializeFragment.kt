@@ -15,7 +15,6 @@ import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.*
 import com.absinthe.anywhere_.ui.main.MainActivity
 import com.absinthe.anywhere_.utils.AppUtils
-import com.absinthe.anywhere_.utils.SPUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.ShellManager
@@ -128,7 +127,6 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.toolbar_initialize_done) {
             GlobalValues.workingMode = mWorkingMode
-            SPUtils.putString(requireContext(), Const.PREF_WORKING_MODE, mWorkingMode)
 
             var flag = false
             val allPerm = allPerm.value ?: 0

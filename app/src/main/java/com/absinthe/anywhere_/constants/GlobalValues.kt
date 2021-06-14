@@ -11,7 +11,7 @@ import java.lang.IllegalStateException
 
 object GlobalValues {
 
-    private val mmkv: MMKV = MMKV.mmkvWithID(SPUtils.sPName) ?: throw IllegalStateException("mmkv instance is null")
+    val mmkv: MMKV = MMKV.mmkvWithID(SPUtils.sPName) ?: throw IllegalStateException("mmkv instance is null")
 
     var sIsDebugMode = false
     var shouldListenClipBoard = true
