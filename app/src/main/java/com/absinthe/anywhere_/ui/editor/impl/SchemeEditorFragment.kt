@@ -23,6 +23,7 @@ import jonathanfinerty.once.Once
 class SchemeEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorUrlSchemeBinding
+    override var execWithRoot: Boolean = false
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorUrlSchemeBinding.inflate(inflater, container, false)
@@ -61,6 +62,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
         val doneItem = AnywhereEntity(item).apply {
             param1 = binding.tietUrlScheme.text.toString()
             param3 = binding.tietDynamicParams.text.toString()
+            execWithRoot = this@SchemeEditorFragment.execWithRoot
         }
         context?.let {
             Opener.with(it).load(doneItem).open()

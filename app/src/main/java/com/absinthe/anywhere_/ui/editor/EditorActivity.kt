@@ -182,6 +182,21 @@ class EditorActivity : BaseActivity() {
                 }
             })
         }
+
+        when(entity.type) {
+            AnywhereType.Card.ACCESSIBILITY, AnywhereType.Card.FILE,
+            AnywhereType.Card.IMAGE, AnywhereType.Card.QR_CODE,
+            AnywhereType.Card.WORKFLOW, AnywhereType.Card.SWITCH_SHELL -> {
+                binding.rootToggle.isGone = true
+            }
+            else -> {
+                binding.rootToggle.isGone = false
+                binding.rootToggle.isChecked = entity.execWithRoot
+                binding.rootToggle.setOnCheckedChangeListener { _, isChecked ->
+                    editor.execWithRoot = isChecked
+                }
+            }
+        }
     }
 
     private fun initTransition() {

@@ -405,4 +405,6 @@
     <string name="bsd_a11y_menu_click_coord">点击坐标</string>
     <string name="bsd_a11y_menu_long_press_coord">长按坐标</string>
     <string name="bsd_text_input_layout_content_helper_text_coord">输入坐标</string>
+    <string name="none">无</string>
+    <string name="bsd_exec_with_root">使用 root 执行</string>
 </resources>

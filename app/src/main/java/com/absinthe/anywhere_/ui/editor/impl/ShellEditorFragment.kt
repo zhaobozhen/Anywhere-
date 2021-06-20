@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.utils.handler.Opener
 class ShellEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorShellBinding
+    override var execWithRoot: Boolean = false
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorShellBinding.inflate(inflater, container, false)
@@ -36,6 +37,7 @@ class ShellEditorFragment : BaseEditorFragment() {
 
         val doneItem = AnywhereEntity(item).apply {
             param1 = binding.etShellContent.text.toString()
+            execWithRoot = this@ShellEditorFragment.execWithRoot
         }
         Opener.with(requireContext()).load(doneItem).open()
     }

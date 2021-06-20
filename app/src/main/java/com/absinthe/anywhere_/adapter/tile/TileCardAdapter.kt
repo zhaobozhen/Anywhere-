@@ -14,7 +14,7 @@ class TileCardAdapter : BaseQuickAdapter<AppListBean?, BaseViewHolder>(R.layout.
     }
 
     override fun convert(holder: BaseViewHolder, item: AppListBean?) {
-        holder.setText(R.id.tv_title, "Tile ${holder.layoutPosition}")
+        holder.setText(R.id.tv_title, "Tile ${holder.layoutPosition + 1}")
 
         item?.let {
             holder.apply {

@@ -31,7 +31,7 @@ open class TileSettingsActivity : BaseActivity() {
 
     private lateinit var mBinding: ActivityTileSettingsBinding
     private var mAdapter: TileCardAdapter = TileCardAdapter()
-    private var mList: List<AnywhereEntity> = ArrayList()
+    private var mList: MutableList<AnywhereEntity> = mutableListOf()
 
     override fun setViewBinding() {
         isPaddingToolbar = true
@@ -84,7 +84,8 @@ open class TileSettingsActivity : BaseActivity() {
             }
         }
         AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
-            mList = it
+            mList = it.toMutableList()
+            mList.add(0, AnywhereEntity.Builder())
             load()
         }
     }

@@ -14,8 +14,6 @@ import com.absinthe.anywhere_.constants.AnywhereType;
 import com.absinthe.anywhere_.constants.GlobalValues;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Objects;
-
 @Entity(tableName = "anywhere_table")
 public class AnywhereEntity implements Parcelable {
 
@@ -29,6 +27,7 @@ public class AnywhereEntity implements Parcelable {
     public static final String TIMESTAMP = "time_stamp";
     public static final String COLOR = "color";
     public static final String ICON_URI = "iconUri";
+    public static final String EXEC_WITH_ROOT = "execWithRoot";
 
     @NonNull
     @PrimaryKey
@@ -81,6 +80,85 @@ public class AnywhereEntity implements Parcelable {
     @SerializedName(ICON_URI)
     private String mIconUri;
 
+    @ColumnInfo(name = EXEC_WITH_ROOT)
+    @SerializedName(EXEC_WITH_ROOT)
+    private Boolean mExecWithRoot;
+
+
+    public AnywhereEntity(AnywhereEntity ae) {
+        mId = ae.getId();
+        mAppName = ae.getAppName();
+        mParam1 = ae.getParam1();
+        mParam2 = ae.getParam2();
+        mParam3 = ae.getParam3();
+        mDescription = ae.getDescription();
+        mType = ae.getType();
+        mCategory = ae.getCategory();
+        mTimeStamp = ae.getTimeStamp();
+        mColor = ae.getColor();
+        mIconUri = ae.getIconUri();
+        mExecWithRoot = ae.getExecWithRoot();
+    }
+
+    protected AnywhereEntity(Parcel in) {
+        mId = in.readString();
+        mAppName = in.readString();
+        mParam1 = in.readString();
+        mParam2 = in.readString();
+        mParam3 = in.readString();
+        mDescription = in.readString();
+        if (in.readByte() == 0) {
+            mType = 0;
+        } else {
+            mType = in.readInt();
+        }
+        mCategory = in.readString();
+        mTimeStamp = in.readString();
+        if (in.readByte() == 0) {
+            mColor = 0;
+        } else {
+            mColor = in.readInt();
+        }
+        mIconUri = in.readString();
+        byte tmpMExecWithRoot = in.readByte();
+        mExecWithRoot = tmpMExecWithRoot == 0 ? null : tmpMExecWithRoot == 1;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mAppName);
+        dest.writeString(mParam1);
+        dest.writeString(mParam2);
+        dest.writeString(mParam3);
+        dest.writeString(mDescription);
+        dest.writeByte((byte) 1);
+        dest.writeInt(mType);
+        dest.writeString(mCategory);
+        dest.writeString(mTimeStamp);
+        dest.writeByte((byte) 1);
+        dest.writeInt(mColor);
+        dest.writeString(mIconUri);
+        dest.writeByte((byte) (mExecWithRoot == null ? 0 : mExecWithRoot ? 1 : 2));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AnywhereEntity> CREATOR = new Creator<AnywhereEntity>() {
+        @Override
+        public AnywhereEntity createFromParcel(Parcel in) {
+            return new AnywhereEntity(in);
+        }
+
+        @Override
+        public AnywhereEntity[] newArray(int size) {
+            return new AnywhereEntity[size];
+        }
+    };
+
     @NonNull
     public static AnywhereEntity Builder() {
         String time = String.valueOf(System.currentTimeMillis());
@@ -95,13 +173,14 @@ public class AnywhereEntity implements Parcelable {
                 GlobalValues.INSTANCE.getCategory(),
                 time,
                 0,
-                "");
+                "",
+                false);
     }
 
     public AnywhereEntity(@NonNull String id, @NonNull String appName, @NonNull String param1,
                           String param2, String param3, String description,
                           @NonNull Integer type, String category, @NonNull String timeStamp,
-                          @NonNull Integer color, String iconUri) {
+                          @NonNull Integer color, String iconUri, Boolean execWithRoot) {
         mId = id;
         mAppName = appName;
         mParam1 = param1;
@@ -113,6 +192,7 @@ public class AnywhereEntity implements Parcelable {
         mTimeStamp = timeStamp;
         mColor = color;
         mIconUri = iconUri;
+        mExecWithRoot = execWithRoot;
 
         if (param2 == null) {
             mParam2 = "";
@@ -139,34 +219,6 @@ public class AnywhereEntity implements Parcelable {
         entity.setCategory("");
         entity.setIconUri("");
         return entity;
-    }
-
-    public AnywhereEntity(AnywhereEntity ae) {
-        mId = ae.getId();
-        mAppName = ae.getAppName();
-        mParam1 = ae.getParam1();
-        mParam2 = ae.getParam2();
-        mParam3 = ae.getParam3();
-        mDescription = ae.getDescription();
-        mType = ae.getType();
-        mCategory = ae.getCategory();
-        mTimeStamp = ae.getTimeStamp();
-        mColor = ae.getColor();
-        mIconUri = ae.getIconUri();
-    }
-
-    private AnywhereEntity(Parcel in) {
-        mId = Objects.requireNonNull(in.readString());
-        mAppName = Objects.requireNonNull(in.readString());
-        mParam1 = Objects.requireNonNull(in.readString());
-        mParam2 = in.readString();
-        mParam3 = in.readString();
-        mDescription = in.readString();
-        mType = in.readInt();
-        mCategory = in.readString();
-        mTimeStamp = Objects.requireNonNull(in.readString());
-        mColor = in.readInt();
-        mIconUri = in.readString();
     }
 
     @NonNull
@@ -267,6 +319,14 @@ public class AnywhereEntity implements Parcelable {
         this.mIconUri = mIconUri;
     }
 
+    public Boolean getExecWithRoot() {
+        return mExecWithRoot;
+    }
+
+    public void setExecWithRoot(Boolean mExecWithRoot) {
+        this.mExecWithRoot = mExecWithRoot;
+    }
+
     public String getPackageName() {
         switch (mType) {
             case AnywhereType.Card.URL_SCHEME:
@@ -278,39 +338,6 @@ public class AnywhereEntity implements Parcelable {
                 return "";
         }
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mId);
-        dest.writeString(mAppName);
-        dest.writeString(mParam1);
-        dest.writeString(mParam2);
-        dest.writeString(mParam3);
-        dest.writeString(mDescription);
-        dest.writeInt(mType);
-        dest.writeString(mCategory);
-        dest.writeString(mTimeStamp);
-        dest.writeInt(mColor);
-        dest.writeString(mIconUri);
-    }
-
-    public static final Parcelable.Creator<AnywhereEntity> CREATOR = new Parcelable.Creator<AnywhereEntity>() {
-
-        @Override
-        public AnywhereEntity createFromParcel(Parcel source) {
-            return new AnywhereEntity(source);
-        }
-
-        @Override
-        public AnywhereEntity[] newArray(int size) {
-            return new AnywhereEntity[size];
-        }
-    };
 
     @NonNull
     @Override
@@ -324,7 +351,8 @@ public class AnywhereEntity implements Parcelable {
                 "type=" + mType + ", " +
                 "category=" + mCategory + ", " +
                 "timeStamp=" + mTimeStamp + ", " +
-                "color=" + mCategory;
+                "color=" + mColor + ", " +
+                "execWithRoot=" + mExecWithRoot;
     }
 
     @Override
@@ -339,7 +367,8 @@ public class AnywhereEntity implements Parcelable {
                     mType.equals(((AnywhereEntity) obj).mType) &&
                     mCategory.equals(((AnywhereEntity) obj).mCategory) &&
                     mTimeStamp.equals(((AnywhereEntity) obj).mTimeStamp) &&
-                    mColor.equals(((AnywhereEntity) obj).mColor);
+                    mColor.equals(((AnywhereEntity) obj).mColor) &&
+                    mExecWithRoot.equals(((AnywhereEntity) obj).mExecWithRoot);
         } else {
             return false;
         }

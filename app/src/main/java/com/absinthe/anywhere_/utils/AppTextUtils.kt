@@ -95,6 +95,24 @@ object AppTextUtils {
                 cmd.append(AnywhereType.Prefix.IMAGE_PREFIX)
                         .append(item.param1)
             }
+            AnywhereType.Card.BROADCAST -> {
+                val packageName = item.param2
+                val extras: ExtraBean? = try {
+                    Gson().fromJson(item.param1, ExtraBean::class.java)
+                } catch (e: JsonSyntaxException) {
+                    null
+                }
+
+                cmd.append(Const.CMD_START_BROADCAST_FORMAT)
+
+                if (packageName.isNotBlank()) {
+                    cmd.append(" ").append("-n ").append(packageName)
+                }
+
+                extras?.let {
+                    cmd.append(" ").append(it.toString())
+                }
+            }
         }
 
         Timber.d(cmd.toString())

@@ -34,6 +34,7 @@
     <string name="help_card_title">Help Docs</string>
     <string name="add">Add</string>
     <string name="permission_label_provider_read">Allow application to read provider database</string>
+    <string name="none">None</string>
 
     <!--  About page  -->
     <string name="slogan">Anywhere- To Where You Want to</string>
@@ -145,6 +146,8 @@
     <string name="bsd_a11y_menu_long_press_view_id">Long-press View ID</string>
     <string name="bsd_a11y_menu_long_press_coord">Long-press coordinates</string>
     <string name="bsd_a11y_contains">Contains</string>
+
+    <string name="bsd_exec_with_root">Execute with root</string>
 
     <!--  AppBarMenu  -->
     <string name="menu_sort">Sort</string>

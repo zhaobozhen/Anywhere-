@@ -14,6 +14,7 @@ abstract class BaseEditorFragment : Fragment(), IEditor {
     protected val isEditMode by lazy { requireArguments().getBoolean(EXTRA_EDIT_MODE) }
     protected val isFromWorkflow by lazy { requireArguments().getBoolean(EXTRA_FROM_WORKFLOW) }
     protected var doneItem: AnywhereEntity = AnywhereEntity.Builder()
+    abstract override var execWithRoot: Boolean
 
     protected abstract fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View
     protected abstract fun initView()
@@ -25,6 +26,7 @@ abstract class BaseEditorFragment : Fragment(), IEditor {
     }
 
     override fun doneEdit(): Boolean {
+        doneItem.execWithRoot = execWithRoot
         return if (isFromWorkflow) {
             EditorActivity.workflowResultItem.value = doneItem
             true

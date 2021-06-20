@@ -23,6 +23,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorBroadcastBinding
     private val adapter = ExtrasAdapter()
+    override var execWithRoot: Boolean = false
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorBroadcastBinding.inflate(inflater, container, false)
@@ -81,6 +82,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
             )
             param1 = Gson().toJson(extraBean)
             param2 = binding.tietIntentPackage.text.toString()
+            execWithRoot = this@BroadcastEditorFragment.execWithRoot
         }
         Opener.with(requireContext()).load(doneItem).open()
     }

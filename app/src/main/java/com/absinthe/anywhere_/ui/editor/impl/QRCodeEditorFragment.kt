@@ -17,6 +17,7 @@ import com.absinthe.anywhere_.utils.handler.Opener
 class QRCodeEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorQrCodeBinding
+    override var execWithRoot: Boolean = false
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorQrCodeBinding.inflate(inflater, container, false)

@@ -1,9 +1,6 @@
 package com.absinthe.anywhere_.ui.editor.impl
 
-import android.content.ComponentName
 import android.content.Intent
-import android.content.ServiceConnection
-import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +21,6 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorA11yBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
-import com.absinthe.anywhere_.services.overlay.ICollectorService
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.ui.list.*
 import com.absinthe.anywhere_.utils.AppUtils
@@ -33,12 +29,12 @@ import com.absinthe.anywhere_.utils.handler.Opener
 import com.blankj.utilcode.util.ActivityUtils
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import java.lang.IllegalArgumentException
 
 class A11yEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorA11yBinding
     private val adapter = A11yAdapter()
+    override var execWithRoot: Boolean = false
 
     private val nodeEditMenu by lazy {
         if (AppUtils.atLeastN()) {

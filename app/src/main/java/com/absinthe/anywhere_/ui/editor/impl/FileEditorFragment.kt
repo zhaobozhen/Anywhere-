@@ -23,6 +23,7 @@ import com.absinthe.anywhere_.utils.ToastUtil
 class FileEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorFileBinding
+    override var execWithRoot: Boolean = false
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorFileBinding.inflate(inflater, container, false)

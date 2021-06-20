@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.ViewFlipper
 import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.viewholder.AppListBean
@@ -50,7 +51,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                 setDisplayPlaceholder(true)
             } else {
                 setDisplayPlaceholder(false)
-                listBeans.add(AppListBean(id = "-1", type = AnywhereType.Card.NOT_CARD,
+                listBeans.add(AppListBean(id = "-1", appName = getString(R.string.none), type = AnywhereType.Card.NOT_CARD,
                     icon = CardTypeIconGenerator.getAdvancedIcon(requireContext(), AnywhereType.Card.NOT_CARD, 45.dp))
                 )
                 for (ae in it) {

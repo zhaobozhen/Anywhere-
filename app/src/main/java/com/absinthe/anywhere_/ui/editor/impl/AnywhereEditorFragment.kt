@@ -25,6 +25,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorAnywhereBinding
     private val adapter = ExtrasAdapter()
+    override var execWithRoot: Boolean = false
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorAnywhereBinding.inflate(inflater, container, false)
@@ -108,6 +109,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
                     extras = extras
             )
             param3 = Gson().toJson(extraBean)
+            execWithRoot = this@AnywhereEditorFragment.execWithRoot
         }
         Opener.with(requireContext()).load(doneItem).open()
     }

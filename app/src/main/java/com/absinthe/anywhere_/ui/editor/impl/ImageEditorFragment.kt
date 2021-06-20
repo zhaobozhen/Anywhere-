@@ -31,6 +31,7 @@ import com.google.android.material.shape.CornerFamily
 class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
 
     private lateinit var binding: EditorImageBinding
+    override var execWithRoot: Boolean = false
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorImageBinding.inflate(inflater, container, false)

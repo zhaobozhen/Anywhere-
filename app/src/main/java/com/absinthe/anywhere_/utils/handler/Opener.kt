@@ -91,10 +91,15 @@ object Opener {
     @Throws(NullPointerException::class)
     fun open() {
         context?.get()?.let {
-            if (type == TYPE_ENTITY) {
-                openFromEntity(it)
-            } else if (type == TYPE_CMD) {
+            if (type == TYPE_CMD) {
                 openFromCommand(it)
+            } else if (type == TYPE_ENTITY) {
+                if (item?.execWithRoot == true) {
+                    command = getItemCommand(item!!)
+                    openFromCommand(it)
+                } else {
+                    openFromEntity(it)
+                }
             }
         } ?: let {
             throw NullPointerException("Got a null context instance from Opener.")
@@ -111,12 +116,14 @@ object Opener {
     }
 
     private fun openFromEntity(context: Context) {
+        Timber.d("openFromEntity")
         item?.let {
             openAnywhereEntity(context, it)
         }
     }
 
     private fun openFromCommand(context: Context) {
+        Timber.d("openFromCommand")
         command?.let {
             when {
                 it.startsWith(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX) -> {

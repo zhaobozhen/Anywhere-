@@ -25,7 +25,12 @@ data class ExtraBean(
 ) {
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append("-a ").append(action).append(" -d ").append(data)
+        if (action.isNotBlank()) {
+            sb.append("-a ").append(action)
+        }
+        if (data.isNotBlank()) {
+            sb.append(" -d ").append(data)
+        }
 
         for (extra in extras) {
             sb.append(" ").append(extra.toString())
