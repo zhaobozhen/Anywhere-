@@ -33,7 +33,7 @@ class AppRemoteViewsService : RemoteViewsService() {
     inner class RemoteViewsFactory internal constructor(context: Context, intent: Intent?) :
         RemoteViewsService.RemoteViewsFactory {
         private val mContext: WeakReference<Context> = WeakReference(context)
-        private val mList: MutableList<AnywhereEntity> = Collections.synchronizedList(listOf())
+        private val mList: MutableList<AnywhereEntity> = Collections.synchronizedList(mutableListOf<AnywhereEntity>())
 
         /**
          * AppRemoteViewsFactory 调用时执行，这个方法执行时间超过 20 秒会报错

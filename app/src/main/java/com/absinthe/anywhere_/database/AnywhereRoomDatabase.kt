@@ -128,7 +128,7 @@ abstract class AnywhereRoomDatabase : RoomDatabase() {
         }
         private val MIGRATION_10_11: Migration = object : Migration(10, 11) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE anywhere_table ADD COLUMN execWithRoot INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE anywhere_table ADD COLUMN execWithRoot INTEGER NOT NULL")
             }
         }
     }
