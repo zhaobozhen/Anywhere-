@@ -23,9 +23,9 @@ import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.services.tile.TILE_LABEL
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
-import com.absinthe.libraries.utils.extensions.addPaddingBottom
 import com.absinthe.libraries.utils.extensions.dp
 import com.chad.library.adapter.base.BaseQuickAdapter
+
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 open class TileSettingsActivity : BaseActivity() {
@@ -66,21 +66,19 @@ open class TileSettingsActivity : BaseActivity() {
                             val tileLabel = "TileService${position + 1}${TILE_LABEL}"
                             val appListBean = mList[which]
 
-                            if (appListBean.type == AnywhereType.Card.NOT_CARD) {
+                            val state = if (appListBean.type == AnywhereType.Card.NOT_CARD) {
                                 GlobalValues.mmkv.removeValueForKey(tile)
                                 GlobalValues.mmkv.removeValueForKey(tileLabel)
-                                packageManager.setComponentEnabledSetting(
-                                    ComponentName(this@TileSettingsActivity, "$packageName.services.tile.$tile"),
-                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
-                                )
+                                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT
                             } else {
                                 GlobalValues.mmkv.encode(tile, appListBean.id)
                                 GlobalValues.mmkv.encode(tileLabel, appListBean.appName)
-                                packageManager.setComponentEnabledSetting(
-                                    ComponentName(this@TileSettingsActivity, "$packageName.services.tile.$tile"),
-                                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
-                                )
+                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
                             }
+                            application.packageManager.setComponentEnabledSetting(
+                                ComponentName(application.packageName, "${application.packageName}.services.tile.$tile"),
+                                state, PackageManager.DONT_KILL_APP
+                            )
                             dismiss()
                         }
                     })

@@ -300,7 +300,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/ic_android"
-            android:label="One"
+            android:label="Tile1"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -313,7 +313,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/ic_android"
-            android:label="Two"
+            android:label="Tile2"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -326,7 +326,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/ic_android"
-            android:label="Three"
+            android:label="Tile3"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -339,7 +339,7 @@
                 android:enabled="false"
                 android:exported="true"
                 android:icon="@drawable/ic_android"
-                android:label="Three"
+                android:label="Tile4"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -352,7 +352,7 @@
                 android:enabled="false"
                 android:exported="true"
                 android:icon="@drawable/ic_android"
-                android:label="Three"
+                android:label="Tile5"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -365,7 +365,7 @@
                 android:enabled="false"
                 android:exported="true"
                 android:icon="@drawable/ic_android"
-                android:label="Three"
+                android:label="Tile6"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -378,7 +378,7 @@
                 android:enabled="false"
                 android:exported="true"
                 android:icon="@drawable/ic_android"
-                android:label="Three"
+                android:label="Tile7"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
