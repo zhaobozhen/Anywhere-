@@ -17,12 +17,13 @@ import com.absinthe.anywhere_.adapter.tile.TileCardAdapter
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityTileSettingsBinding
+import com.absinthe.anywhere_.extension.addSystemBarPadding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
-import com.absinthe.anywhere_.services.tile.BaseTileService
 import com.absinthe.anywhere_.services.tile.TILE_LABEL
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
+import com.absinthe.libraries.utils.extensions.addPaddingBottom
 import com.absinthe.libraries.utils.extensions.dp
 import com.chad.library.adapter.base.BaseQuickAdapter
 
@@ -49,6 +50,9 @@ open class TileSettingsActivity : BaseActivity() {
             rvTiles.apply {
                 layoutManager = LinearLayoutManager(this@TileSettingsActivity)
                 adapter = mAdapter
+                clipChildren = false
+                clipToPadding = false
+                addSystemBarPadding(addStatusBarPadding = false)
             }
         }
 
@@ -66,15 +70,15 @@ open class TileSettingsActivity : BaseActivity() {
                                 GlobalValues.mmkv.removeValueForKey(tile)
                                 GlobalValues.mmkv.removeValueForKey(tileLabel)
                                 packageManager.setComponentEnabledSetting(
-                                    ComponentName(this@TileSettingsActivity, BaseTileService::class.java.name.replace(BaseTileService::class.java.simpleName, tile)),
-                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0
+                                    ComponentName(this@TileSettingsActivity, "$packageName.services.tile.$tile"),
+                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
                                 )
                             } else {
                                 GlobalValues.mmkv.encode(tile, appListBean.id)
                                 GlobalValues.mmkv.encode(tileLabel, appListBean.appName)
                                 packageManager.setComponentEnabledSetting(
-                                    ComponentName(this@TileSettingsActivity, BaseTileService::class.java.name.replace(BaseTileService::class.java.simpleName, tile)),
-                                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0
+                                    ComponentName(this@TileSettingsActivity, "$packageName.services.tile.$tile"),
+                                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
                                 )
                             }
                             dismiss()

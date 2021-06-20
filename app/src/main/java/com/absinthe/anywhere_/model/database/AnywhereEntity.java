@@ -80,6 +80,7 @@ public class AnywhereEntity implements Parcelable {
     @SerializedName(ICON_URI)
     private String mIconUri;
 
+    @NonNull
     @ColumnInfo(name = EXEC_WITH_ROOT)
     @SerializedName(EXEC_WITH_ROOT)
     private Boolean mExecWithRoot;
@@ -121,7 +122,7 @@ public class AnywhereEntity implements Parcelable {
         }
         mIconUri = in.readString();
         byte tmpMExecWithRoot = in.readByte();
-        mExecWithRoot = tmpMExecWithRoot == 0 ? null : tmpMExecWithRoot == 1;
+        mExecWithRoot = tmpMExecWithRoot == 1;
     }
 
     @Override
@@ -139,7 +140,7 @@ public class AnywhereEntity implements Parcelable {
         dest.writeByte((byte) 1);
         dest.writeInt(mColor);
         dest.writeString(mIconUri);
-        dest.writeByte((byte) (mExecWithRoot == null ? 0 : mExecWithRoot ? 1 : 2));
+        dest.writeByte((byte) (mExecWithRoot ? 1 : 0));
     }
 
     @Override
@@ -180,7 +181,7 @@ public class AnywhereEntity implements Parcelable {
     public AnywhereEntity(@NonNull String id, @NonNull String appName, @NonNull String param1,
                           String param2, String param3, String description,
                           @NonNull Integer type, String category, @NonNull String timeStamp,
-                          @NonNull Integer color, String iconUri, Boolean execWithRoot) {
+                          @NonNull Integer color, String iconUri, @NonNull Boolean execWithRoot) {
         mId = id;
         mAppName = appName;
         mParam1 = param1;
