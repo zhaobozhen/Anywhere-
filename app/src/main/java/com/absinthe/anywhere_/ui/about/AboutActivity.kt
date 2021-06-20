@@ -84,7 +84,6 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(License("Kotlin", "JetBrains", License.APACHE_2, "https://github.com/JetBrains/kotlin"))
             add(License("Shizuku-API", "Rikka", License.MIT, "https://github.com/RikkaApps/Shizuku-API"))
             add(License("Sui", "RikkaApps", License.GPL_V3, "https://github.com/RikkaApps/Sui"))
-            add(License("FreeReflection", "tiann", License.MIT, "https://github.com/tiann/FreeReflection"))
             add(License("libsu", "topjohnwu", License.APACHE_2, "https://github.com/topjohnwu/libsu"))
             add(License("MultiType", "drakeet", License.APACHE_2, "https://github.com/drakeet/MultiType"))
             add(License("about-page", "drakeet", License.APACHE_2, "https://github.com/drakeet/about-page"))
@@ -112,7 +111,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
             add(License("android-target-tooltip", "sephiroth74", License.MIT, "https://github.com/sephiroth74/android-target-tooltip"))
             add(License("AndroidUtilCode", "Blankj", License.APACHE_2, "https://github.com/Blankj/AndroidUtilCode"))
             add(License("MMKV", "Tencent", "BSD 3-Clause License", "https://github.com/Tencent/MMKV"))
-
+            add(License("AndroidHiddenApiBypass", "LSPosed", License.APACHE_2, "https://github.com/LSPosed/AndroidHiddenApiBypass"))
         }
 
         RecommendationLoaderDelegate.attach(this, items.size, GsonJsonConverter())
