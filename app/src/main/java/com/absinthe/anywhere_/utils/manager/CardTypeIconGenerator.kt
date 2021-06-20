@@ -31,7 +31,12 @@ object CardTypeIconGenerator {
             setTintList(ColorStateList.valueOf(Color.parseColor("#66FFFFFF")))
         }
         val backDrawable = context.getDrawable(R.drawable.bg_circle)?.apply {
-            setTintList(ColorStateList.valueOf(context.getColor(COLORS[type])))
+            val colorRes = if (type == AnywhereType.Card.NOT_CARD) {
+                context.getColor(R.color.material_blue_grey_300)
+            } else {
+                context.getColor(COLORS[type])
+            }
+            setTintList(ColorStateList.valueOf(colorRes))
         }
         return LayerDrawable(listOf(backDrawable, foreDrawable).toTypedArray()).apply {
             val inset = size / 4
@@ -42,6 +47,7 @@ object CardTypeIconGenerator {
 
     private fun getIconRes(type: Int): Int {
         return when (type) {
+            AnywhereType.Card.NOT_CARD -> R.drawable.ic_card_no
             AnywhereType.Card.URL_SCHEME -> R.drawable.ic_url_scheme
             AnywhereType.Card.ACTIVITY -> R.drawable.ic_card_activity
             AnywhereType.Card.QR_CODE -> R.drawable.ic_qr_code

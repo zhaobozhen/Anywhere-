@@ -50,6 +50,9 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                 setDisplayPlaceholder(true)
             } else {
                 setDisplayPlaceholder(false)
+                listBeans.add(AppListBean(id = "-1", type = AnywhereType.Card.NOT_CARD,
+                    icon = CardTypeIconGenerator.getAdvancedIcon(requireContext(), AnywhereType.Card.NOT_CARD, 45.dp))
+                )
                 for (ae in it) {
                     if (ae.type == AnywhereType.Card.URL_SCHEME
                             || ae.type == AnywhereType.Card.IMAGE

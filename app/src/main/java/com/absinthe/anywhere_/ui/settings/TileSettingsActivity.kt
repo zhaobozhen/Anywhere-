@@ -1,5 +1,7 @@
 package com.absinthe.anywhere_.ui.settings
 
+import android.content.ComponentName
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -12,11 +14,13 @@ import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.tile.TileCardAdapter
-import com.absinthe.anywhere_.constants.Const
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityTileSettingsBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
+import com.absinthe.anywhere_.services.tile.BaseTileService
+import com.absinthe.anywhere_.services.tile.TILE_LABEL
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
 import com.absinthe.libraries.utils.extensions.dp
@@ -54,25 +58,25 @@ open class TileSettingsActivity : BaseActivity() {
                     setOnItemClickListener(object : AppListAdapter.OnAppItemClickListener {
                         override fun onClick(bean: AppListBean, which: Int) {
                             mAdapter.setData(position, bean)
-                            var tile = ""
-                            var tileLabel = ""
+                            val tile = "TileService${position + 1}"
+                            val tileLabel = "TileService${position + 1}${TILE_LABEL}"
+                            val appListBean = mList[which]
 
-                            when (position) {
-                                0 -> {
-                                    tile = Const.PREF_TILE_ONE
-                                    tileLabel = Const.PREF_TILE_ONE_LABEL
-                                }
-                                1 -> {
-                                    tile = Const.PREF_TILE_TWO
-                                    tileLabel = Const.PREF_TILE_TWO_LABEL
-                                }
-                                2 -> {
-                                    tile = Const.PREF_TILE_THREE
-                                    tileLabel = Const.PREF_TILE_THREE_LABEL
-                                }
+                            if (appListBean.type == AnywhereType.Card.NOT_CARD) {
+                                GlobalValues.mmkv.removeValueForKey(tile)
+                                GlobalValues.mmkv.removeValueForKey(tileLabel)
+                                packageManager.setComponentEnabledSetting(
+                                    ComponentName(this@TileSettingsActivity, BaseTileService::class.java.name.replace(BaseTileService::class.java.simpleName, tile)),
+                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0
+                                )
+                            } else {
+                                GlobalValues.mmkv.encode(tile, appListBean.id)
+                                GlobalValues.mmkv.encode(tileLabel, appListBean.appName)
+                                packageManager.setComponentEnabledSetting(
+                                    ComponentName(this@TileSettingsActivity, BaseTileService::class.java.name.replace(BaseTileService::class.java.simpleName, tile)),
+                                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0
+                                )
                             }
-                            GlobalValues.mmkv.encode(tile, mList[which].id)
-                            GlobalValues.mmkv.encode(tileLabel, mList[which].appName)
                             dismiss()
                         }
                     })
@@ -108,9 +112,9 @@ open class TileSettingsActivity : BaseActivity() {
     }
 
     private fun load() {
-        loadImpl(Const.PREF_TILE_ONE)
-        loadImpl(Const.PREF_TILE_TWO)
-        loadImpl(Const.PREF_TILE_THREE)
+        (1..7).forEach {
+            loadImpl("TileService$it")
+        }
     }
 
     private fun loadImpl(flag: String) {

@@ -7,6 +7,7 @@ import io.michaelrocks.paranoid.Obfuscate
 object AnywhereType {
 
     object Card {
+        const val NOT_CARD = -1
         const val URL_SCHEME = 0
         const val ACTIVITY = 1
         const val MINI_PROGRAM = 2

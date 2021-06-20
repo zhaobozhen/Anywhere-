@@ -122,3 +122,8 @@
     private static *** mmkvLogImp(...);
     private static *** onContentChangedByOuterProcess(***);
 }
+
+# OkHttp
+-dontwarn org.conscrypt.**
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
