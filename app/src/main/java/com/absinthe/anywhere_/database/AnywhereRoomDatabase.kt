@@ -128,7 +128,16 @@ abstract class AnywhereRoomDatabase : RoomDatabase() {
         }
         private val MIGRATION_10_11: Migration = object : Migration(10, 11) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE anywhere_table ADD COLUMN execWithRoot INTEGER NOT NULL")
+                // Create the new table
+                database.execSQL(
+                    "CREATE TABLE anywhere_new (_id TEXT NOT NULL, app_name TEXT NOT NULL, param_1 TEXT NOT NULL, param_2 TEXT, param_3 TEXT, description TEXT, type INTEGER NOT NULL DEFAULT 0, category TEXT, time_stamp TEXT NOT NULL, color INTEGER NOT NULL DEFAULT 0, iconUri TEXT, execWithRoot INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(_id))")
+                // Copy the data
+                database.execSQL(
+                    "INSERT INTO anywhere_new (_id, app_name, param_1, param_2, param_3, description, type, category, time_stamp, color, iconUri, execWithRoot) SELECT id, app_name, param_1, param_2, param_3, description, type, category, time_stamp, color, iconUri, 0 FROM anywhere_table")
+                // Remove the old table
+                database.execSQL("DROP TABLE anywhere_table")
+                // Change the table name to the correct one
+                database.execSQL("ALTER TABLE anywhere_new RENAME TO anywhere_table")
             }
         }
     }
