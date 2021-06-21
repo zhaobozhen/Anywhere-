@@ -38,7 +38,8 @@ class BackupIntentService : JobIntentService() {
             val hostDir = GlobalValues.webdavHost + URLManager.BACKUP_DIR
 
             if (!sardine.exists(hostDir)) {
-                sardine.createDirectory(hostDir)
+                sardine.createDirectory("Anywhere-")
+                sardine.createDirectory("Backup")
             }
 
             val backupName = "Anywhere-Backups-${AppTextUtils.webDavFormatDate}-${BuildConfig.VERSION_NAME}.awbackups"
