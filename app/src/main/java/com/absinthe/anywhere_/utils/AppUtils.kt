@@ -410,6 +410,7 @@ object AppUtils {
                     ae.param2
                 }
                 !isActivityExported(Utils.getApp(), ComponentName(ae.param1, clsName))
+                //Todo app not installed
             }
             AnywhereType.Card.SHELL -> {
                 true

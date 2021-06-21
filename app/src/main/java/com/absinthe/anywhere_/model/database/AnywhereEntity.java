@@ -85,6 +85,21 @@ public class AnywhereEntity implements Parcelable {
     @SerializedName(EXEC_WITH_ROOT)
     private Boolean mExecWithRoot;
 
+    public AnywhereEntity() {
+        String time = String.valueOf(System.currentTimeMillis());
+        mId = time;
+        mAppName = "";
+        mParam1 = "";
+        mParam2 = "";
+        mParam3 = "";
+        mDescription = "";
+        mType = AnywhereType.Card.NOT_CARD;
+        mCategory = GlobalValues.INSTANCE.getCategory();
+        mTimeStamp = time;
+        mColor = 0;
+        mIconUri = "";
+        mExecWithRoot = false;
+    }
 
     public AnywhereEntity(AnywhereEntity ae) {
         mId = ae.getId();
