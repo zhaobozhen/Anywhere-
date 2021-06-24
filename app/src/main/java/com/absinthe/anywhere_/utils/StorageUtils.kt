@@ -104,9 +104,9 @@ object StorageUtils {
 
                 for (ae in backupBean.anywhereList) {
                     if (!pageList.any { it.title == ae.category }) {
-                        val category = ae.category.ifEmpty { AnywhereType.Category.DEFAULT_CATEGORY }
+                        val category = ae.category.orEmpty().ifEmpty { AnywhereType.Category.DEFAULT_CATEGORY }
                         pageList.add(
-                                PageEntity.Builder().apply {
+                                PageEntity().apply {
                                     title = category
                                     priority = AnywhereApplication.sRepository.allPageEntities.value?.size ?: 0
                                 }

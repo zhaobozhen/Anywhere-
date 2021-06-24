@@ -1,9 +1,7 @@
 package com.absinthe.anywhere_.constants
 
 import com.absinthe.anywhere_.R
-import io.michaelrocks.paranoid.Obfuscate
 
-@Obfuscate
 object AnywhereType {
 
     object Card {

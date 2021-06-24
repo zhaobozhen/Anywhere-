@@ -20,7 +20,6 @@ import com.absinthe.anywhere_.adapter.a11y.bean.A11yViewIdBean
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorA11yBinding
-import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.ui.list.*
 import com.absinthe.anywhere_.utils.AppUtils
@@ -151,7 +150,7 @@ class A11yEditorFragment : BaseEditorFragment() {
     }
 
     override fun tryRunning() {
-        val ae = AnywhereEntity(item).apply {
+        val ae = item.copy().apply {
             appName = binding.tietAppName.text.toString()
             description = binding.tietDescription.text.toString()
 
@@ -179,7 +178,7 @@ class A11yEditorFragment : BaseEditorFragment() {
             return false
         }
 
-        doneItem = AnywhereEntity(item).apply {
+        doneItem = item.copy().apply {
             appName = binding.tietAppName.text.toString()
             description = binding.tietDescription.text.toString()
 

@@ -9,7 +9,6 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.EditorUrlSchemeBinding
-import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
@@ -46,7 +45,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
             binding.tietUrlScheme.setText(it.param1)
             binding.tietDescription.setText(it.description)
 
-            if (it.param3.isNotBlank()) {
+            if (!it.param3.isNullOrBlank()) {
                 binding.tietDynamicParams.setText(it.param3)
             }
         }
@@ -59,7 +58,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
             return
         }
 
-        val doneItem = AnywhereEntity(item).apply {
+        val doneItem = item.copy().apply {
             param1 = binding.tietUrlScheme.text.toString()
             param3 = binding.tietDynamicParams.text.toString()
             execWithRoot = this@SchemeEditorFragment.execWithRoot
@@ -82,7 +81,7 @@ class SchemeEditorFragment : BaseEditorFragment() {
             return false
         }
 
-        doneItem = AnywhereEntity(item).apply {
+        doneItem = item.copy().apply {
             appName = binding.tietAppName.text.toString()
             param1 = binding.tietUrlScheme.text.toString()
             param2 = AppUtils.getPackageNameByScheme(requireContext(), binding.tietUrlScheme.text.toString())

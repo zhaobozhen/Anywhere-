@@ -16,7 +16,6 @@ import com.absinthe.anywhere_.adapter.workflow.FlowStepAdapter
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorWorkflowBinding
-import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.ui.dialog.EXTRA_FROM_WORKFLOW
@@ -139,7 +138,7 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
     }
 
     override fun tryRunning() {
-        val ae = AnywhereEntity(item).apply {
+        val ae = item.copy().apply {
             appName = binding.tietAppName.text.toString()
             description = binding.tietDescription.text.toString()
 
@@ -155,7 +154,7 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
             return false
         }
 
-        doneItem = AnywhereEntity(item).apply {
+        doneItem = item.copy().apply {
             appName = binding.tietAppName.text.toString()
             description = binding.tietDescription.text.toString()
 

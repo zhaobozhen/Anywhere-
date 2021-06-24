@@ -1,8 +1,5 @@
 package com.absinthe.anywhere_.constants
 
-import io.michaelrocks.paranoid.Obfuscate
-
-@Obfuscate
 object Const {
 
     const val SP_NAME = "com.absinthe.anywhere__preferences"

@@ -26,9 +26,7 @@ import com.drakeet.about.extension.RecommendationLoaderDelegate
 import com.drakeet.about.extension.provided.GsonJsonConverter
 import com.drakeet.about.provided.GlideImageLoader
 import com.google.android.material.appbar.AppBarLayout
-import io.michaelrocks.paranoid.Obfuscate
 
-@Obfuscate
 class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
 
     private var mClickCount = 0

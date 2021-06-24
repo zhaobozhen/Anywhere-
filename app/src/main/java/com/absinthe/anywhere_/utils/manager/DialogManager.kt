@@ -251,13 +251,13 @@ object DialogManager {
                 .lightnessSliderOnly()
                 .showColorEdit(true)
                 .setPositiveButton(context.getString(R.string.dialog_delete_positive_button)) { _: DialogInterface?, i: Int, _: Array<Int?>? ->
-                    AnywhereApplication.sRepository.update(AnywhereEntity(item).apply {
+                    AnywhereApplication.sRepository.update(item.copy().apply {
                         color = i
                     })
                     builder.setDismissParent(true)
                 }
                 .setNeutralButton(context.getString(R.string.btn_reset_color)) { _: DialogInterface?, _: Int ->
-                    AnywhereApplication.sRepository.update(AnywhereEntity(item).apply {
+                    AnywhereApplication.sRepository.update(item.copy().apply {
                         color = 0
                     })
                     builder.setDismissParent(true)

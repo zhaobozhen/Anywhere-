@@ -7,7 +7,6 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorShellBinding
-import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
@@ -35,7 +34,7 @@ class ShellEditorFragment : BaseEditorFragment() {
             return
         }
 
-        val doneItem = AnywhereEntity(item).apply {
+        val doneItem = item.copy().apply {
             param1 = binding.etShellContent.text.toString()
             execWithRoot = this@ShellEditorFragment.execWithRoot
         }
@@ -52,7 +51,7 @@ class ShellEditorFragment : BaseEditorFragment() {
             return false
         }
 
-        doneItem = AnywhereEntity(item).apply {
+        doneItem = item.copy().apply {
             appName = binding.tietAppName.text.toString()
             param1 = binding.etShellContent.text.toString()
             description = binding.tietDescription.text.toString()

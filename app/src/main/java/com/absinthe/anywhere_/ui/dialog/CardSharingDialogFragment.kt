@@ -17,7 +17,7 @@ const val EXTRA_SHARING_TEXT = "EXTRA_SHARING_TEXT"
 
 class CardSharingDialogFragment : AnywhereDialogFragment() {
 
-    private val text by lazy { arguments?.getString(EXTRA_SHARING_TEXT) ?: "" }
+    private val text by lazy { arguments?.getString(EXTRA_SHARING_TEXT).orEmpty() }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AnywhereDialogBuilder(requireContext()).setView(CardSharingBuilder(requireActivity(), text).root)

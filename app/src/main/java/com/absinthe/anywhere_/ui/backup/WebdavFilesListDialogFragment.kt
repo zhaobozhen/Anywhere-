@@ -15,13 +15,11 @@ import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.Utils
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
-import io.michaelrocks.paranoid.Obfuscate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@Obfuscate
 class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
 
     private lateinit var binding: LayoutWebdavRestoreBinding

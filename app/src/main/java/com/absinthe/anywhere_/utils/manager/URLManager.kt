@@ -2,14 +2,12 @@ package com.absinthe.anywhere_.utils.manager
 
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.libraries.me.Absinthe
-import io.michaelrocks.paranoid.Obfuscate
 
 /**
  * URL Manager
  *
  * All URLs in App.
  */
-@Obfuscate
 object URLManager {
     //General
     const val DOCUMENT_PAGE = "https://absinthe.life/Anywhere-Docs/"

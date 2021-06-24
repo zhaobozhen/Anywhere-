@@ -47,7 +47,6 @@ import com.blankj.utilcode.util.PermissionUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
-import io.michaelrocks.paranoid.Obfuscate
 import jonathanfinerty.once.Once
 
 const val EXTRA_ENTITY = "EXTRA_ENTITY"
@@ -57,7 +56,6 @@ const val ACTION_EDITOR = "com.absinthe.anywhere_.intent.action.EDITOR"
 const val EXTRA_PACKAGE_NAME = "EXTRA_PACKAGE_NAME"
 const val EXTRA_CLASS_NAME = "EXTRA_CLASS_NAME"
 
-@Obfuscate
 class EditorActivity : BaseActivity() {
 
     private lateinit var binding: ActivityEditorBinding
@@ -99,7 +97,7 @@ class EditorActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         if (intent.action == ACTION_EDITOR) {
-            entity = AnywhereEntity.Builder().apply {
+            entity = AnywhereEntity().apply {
                     type = AnywhereType.Card.ACTIVITY
                     appName = com.blankj.utilcode.util.AppUtils.getAppName(intent.getStringExtra(EXTRA_PACKAGE_NAME))
                     param1 = intent.getStringExtra(EXTRA_PACKAGE_NAME).toString()
@@ -291,7 +289,7 @@ class EditorActivity : BaseActivity() {
                     R.id.custom_icon -> {
                         setDocumentResultListener(object : OnDocumentResultListener {
                             override fun onResult(uri: Uri) {
-                                val ae = AnywhereEntity(entity).apply {
+                                val ae = entity.copy().apply {
                                     iconUri = uri.toString()
                                 }
                                 AnywhereApplication.sRepository.update(ae)
@@ -312,7 +310,7 @@ class EditorActivity : BaseActivity() {
                         }
                     }
                     R.id.restore_icon -> {
-                        val ae = AnywhereEntity(entity).apply {
+                        val ae = entity.copy().apply {
                             iconUri = ""
                         }
                         AnywhereApplication.sRepository.update(ae)
@@ -339,7 +337,7 @@ class EditorActivity : BaseActivity() {
                 }
             }
 
-            menu.findItem(R.id.restore_icon)?.isVisible = entity.iconUri.isNotEmpty()
+            menu.findItem(R.id.restore_icon)?.isVisible = !entity.iconUri.isNullOrEmpty()
             menu.findItem(R.id.share_card)?.isVisible = entity.type != AnywhereType.Card.IMAGE && entity.type != AnywhereType.Card.FILE
 
             invalidate()

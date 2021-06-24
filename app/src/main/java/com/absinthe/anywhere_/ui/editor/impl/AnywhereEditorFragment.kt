@@ -12,7 +12,6 @@ import com.absinthe.anywhere_.databinding.EditorAnywhereBinding
 import com.absinthe.anywhere_.databinding.LayoutHeaderExtrasBinding
 import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.TYPE_STRING
-import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
@@ -72,7 +71,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
                     tietIntentData.setText(data)
                     adapter.setList(extras)
                 }
-                if (it.param2.startsWith(it.param1) || it.param2.startsWith(".")) {
+                if (it.param2?.startsWith(it.param1) == true || it.param2?.startsWith(".") == true) {
                     tilClassName.setEndIconOnClickListener {
                         if (!tietClassName.text.isNullOrBlank() && !tietPackageName.text.isNullOrBlank()) {
                             if (tietClassName.text.toString().startsWith(tietPackageName.text.toString())) {
@@ -95,7 +94,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
             return
         }
 
-        val doneItem = AnywhereEntity(item).apply {
+        val doneItem = item.copy().apply {
             param1 = binding.tietPackageName.text.toString()
             param2 = if (binding.tietClassName.text.isNullOrBlank()) {
                 ActivityUtils.getLauncherActivity(param1)
@@ -124,7 +123,7 @@ class AnywhereEditorFragment : BaseEditorFragment() {
             return false
         }
 
-        doneItem = AnywhereEntity(item).apply {
+        doneItem = item.copy().apply {
             appName = binding.tietAppName.text.toString()
             param1 = binding.tietPackageName.text.toString()
             param2 = binding.tietClassName.text.toString()

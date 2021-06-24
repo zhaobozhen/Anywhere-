@@ -17,7 +17,6 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorImageBinding
 import com.absinthe.anywhere_.listener.OnDocumentResultListener
-import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils
@@ -106,7 +105,7 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
             return false
         }
 
-        doneItem = AnywhereEntity(item).apply {
+        doneItem = item.copy().apply {
             appName = binding.tietAppName.text.toString()
             param1 = binding.tietUrl.text.toString()
             description = binding.tietDescription.text.toString()

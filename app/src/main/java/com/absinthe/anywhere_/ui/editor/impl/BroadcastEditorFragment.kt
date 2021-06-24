@@ -11,7 +11,6 @@ import com.absinthe.anywhere_.databinding.EditorBroadcastBinding
 import com.absinthe.anywhere_.databinding.LayoutHeaderExtrasBinding
 import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.TYPE_STRING
-import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
@@ -73,7 +72,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
     }
 
     override fun tryRunning() {
-        val doneItem = AnywhereEntity(item).apply {
+        val doneItem = item.copy().apply {
             val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
             val extraBean = ExtraBean(
                     action = binding.tietIntentAction.text.toString(),
@@ -93,7 +92,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
             return false
         }
 
-        doneItem = AnywhereEntity(item).apply {
+        doneItem = item.copy().apply {
             appName = binding.tietAppName.text.toString()
             description = binding.tietDescription.text.toString()
 

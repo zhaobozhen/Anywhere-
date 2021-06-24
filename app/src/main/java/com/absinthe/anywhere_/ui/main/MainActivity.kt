@@ -511,7 +511,7 @@ class MainActivity : BaseActivity() {
             AnywhereApplication.sRepository.allPageEntities.removeObserver(mObserver)
 
             if (pageEntities.isEmpty() && !isPageInit) {
-                val pe = PageEntity.Builder().apply {
+                val pe = PageEntity().apply {
                     title = GlobalValues.category
                     priority = 1
                 }
@@ -585,7 +585,7 @@ class MainActivity : BaseActivity() {
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_TIP)) {
             showFirstTip(mBinding.fab)
 
-            viewModel.insert(AnywhereEntity.Builder().apply {
+            viewModel.insert(AnywhereEntity().apply {
                 appName = getString(R.string.help_card_title)
                 type = AnywhereType.Card.URL_SCHEME
                 param1 = URLManager.DOCUMENT_PAGE
@@ -613,7 +613,7 @@ class MainActivity : BaseActivity() {
             val param1 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_1) ?: return
             val param2 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_2) ?: return
             val param3 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_3) ?: return
-            val entity = AnywhereEntity.Builder().apply {
+            val entity = AnywhereEntity().apply {
                 this.type = type
                 this.param1 = param1
                 this.param2 = param2
@@ -632,9 +632,9 @@ class MainActivity : BaseActivity() {
 
     private fun processUri(uri: Uri) {
         if (uri.host == URLManager.URL_HOST) {
-            val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1) ?: ""
-            val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2) ?: ""
-            val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3) ?: ""
+            val param1 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_1).orEmpty()
+            val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2).orEmpty()
+            val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3).orEmpty()
             val type = uri.getQueryParameter(Const.INTENT_EXTRA_TYPE) ?: return
 
             when (type.toInt()) {
@@ -642,8 +642,8 @@ class MainActivity : BaseActivity() {
                     viewModel.setUpUrlScheme(param1)
                 }
                 AnywhereType.Card.ACTIVITY -> {
-                    val appName = AppUtils.getAppName(param1) ?: ""
-                    val ae = AnywhereEntity.Builder().apply {
+                    val appName = AppUtils.getAppName(param1).orEmpty()
+                    val ae = AnywhereEntity().apply {
                         this.appName = appName
                         this.param1 = param1
                         this.param2 = param2
@@ -656,7 +656,7 @@ class MainActivity : BaseActivity() {
                     })
                 }
                 AnywhereType.Card.SHELL -> {
-                    val ae = AnywhereEntity.Builder().apply {
+                    val ae = AnywhereEntity().apply {
                         this.appName = AnywhereType.Card.NEW_TITLE_MAP[AnywhereType.Card.SHELL]!!
                         this.param1 = param1
                         this.param2 = param2

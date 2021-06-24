@@ -237,7 +237,7 @@
     <string name="settings_backup_share_summary">Copy &amp; share your Anywhere-</string>
     <string name="settings_backup_restore_summary">Select a <b>*.awbackups</b> suffix file to import Anywhere- cards</string>
     <string name="settings_backup_apply_summary">Apply shared Anywhere- configurations</string>
-    <string name="settings_backup_tip"><![CDATA[Starting from version <b>%s</b>, the structure of data backup has changed, and backup files before version <b>%s</b> will not be available! Please backup a new file again.]]></string>
+    <string name="settings_backup_tip" formatted="true"><![CDATA[Starting from version <b>%s</b>, the structure of data backup has changed, and backup files before version <b>%s</b> will not be available! Please backup a new file again.]]></string>
     <string name="settings_backup_tip2"><![CDATA[<b>Image cards</b> and <b>File cards</b> will not be backed up.]]></string>
 
     <string name="settings_backup_cloud_category">Cloud Backup</string>

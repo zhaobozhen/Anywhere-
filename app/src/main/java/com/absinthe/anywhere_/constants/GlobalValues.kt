@@ -87,19 +87,19 @@ object GlobalValues {
         }
 
     var actionBarType
-        get() = mmkv.decodeString(Const.PREF_ACTION_BAR_TYPE, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_ACTION_BAR_TYPE, "").orEmpty()
         set(value) {
             mmkv.encode(Const.PREF_ACTION_BAR_TYPE, value)
         }
 
     var darkMode
-        get() = mmkv.decodeString(Const.PREF_DARK_MODE, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_DARK_MODE, "").orEmpty()
         set(value) {
             mmkv.encode(Const.PREF_DARK_MODE, value)
         }
 
     var backgroundUri
-        get() = mmkv.decodeString(Const.PREF_CHANGE_BACKGROUND, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_CHANGE_BACKGROUND, "").orEmpty()
         set(value) {
             mmkv.encode(Const.PREF_CHANGE_BACKGROUND, value)
         }
@@ -111,13 +111,13 @@ object GlobalValues {
         }
 
     var sortMode
-        get() = mmkv.decodeString(Const.PREF_SORT_MODE, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_SORT_MODE, "").orEmpty()
         set(value) {
             mmkv.encode(Const.PREF_SORT_MODE, value)
         }
 
     var iconPack
-        get() = mmkv.decodeString(Const.PREF_ICON_PACK, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_ICON_PACK, "").orEmpty()
         set(value) {
             mmkv.encode(Const.PREF_ICON_PACK, value)
         }
@@ -130,25 +130,25 @@ object GlobalValues {
         }
 
     var defrostMode
-        get() = mmkv.decodeString(Const.PREF_DEFROST_MODE, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_DEFROST_MODE, "").orEmpty()
         set(value) {
             mmkv.encode(Const.PREF_DEFROST_MODE, value)
         }
 
     var webdavHost
-        get() = mmkv.decodeString(Const.PREF_WEBDAV_HOST, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_WEBDAV_HOST, "").orEmpty()
         set(value) {
             mmkv.encode(Const.PREF_WEBDAV_HOST, value)
         }
 
     var webdavUsername
-        get() = mmkv.decodeString(Const.PREF_WEBDAV_USERNAME, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_WEBDAV_USERNAME, "").orEmpty()
         set(value) {
             mmkv.encode(Const.PREF_WEBDAV_USERNAME, value)
         }
 
     var webdavPassword
-        get() = mmkv.decodeString(Const.PREF_WEBDAV_PASSWORD, "") ?: ""
+        get() = mmkv.decodeString(Const.PREF_WEBDAV_PASSWORD, "").orEmpty()
         set(value) {
             mmkv.encode(Const.PREF_WEBDAV_PASSWORD, value)
         }

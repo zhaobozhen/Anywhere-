@@ -142,7 +142,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             }
 
             setOnClickListener {
-                val ae = AnywhereEntity.Builder().apply {
+                val ae = AnywhereEntity().apply {
                     appName = AnywhereType.Card.NEW_TITLE_MAP[AnywhereType.Card.ACTIVITY]!!
                     type = AnywhereType.Card.ACTIVITY
                 }

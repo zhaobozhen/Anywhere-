@@ -4,9 +4,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import io.michaelrocks.paranoid.Obfuscate
 
-@Obfuscate
 class TileCardAdapter : BaseQuickAdapter<AppListBean?, BaseViewHolder>(R.layout.card_tile) {
 
     init {

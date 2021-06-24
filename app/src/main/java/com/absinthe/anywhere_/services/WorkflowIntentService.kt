@@ -14,7 +14,6 @@ import com.absinthe.anywhere_.utils.handler.Opener
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import java.lang.NumberFormatException
 
 class WorkflowIntentService : JobIntentService() {
 
@@ -41,7 +40,7 @@ class WorkflowIntentService : JobIntentService() {
                 list.forEach {
                     it.entity?.let { anywhereEntity ->
                         val a11yDelay = if (anywhereEntity.type == AnywhereType.Card.ACCESSIBILITY) {
-                            try { anywhereEntity.param2.toInt() } catch (e: NumberFormatException) { 0 }
+                            try { anywhereEntity.param2?.toInt() ?: 0 } catch (e: NumberFormatException) { 0 }
                         } else {
                             0
                         }

@@ -1,14 +1,14 @@
-import java.nio.charset.Charset
 import java.nio.file.Paths
 import com.android.build.api.variant.impl.ApplicationVariantImpl
+import com.android.build.api.component.analytics.AnalyticsEnabledApplicationVariant
 import com.android.build.gradle.internal.dsl.BuildType
 
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    id("kotlin-parcelize")
     id("sdk-editor")
-    id("io.michaelrocks.paranoid")
 }
 
 val verName = "2.2.5"
@@ -68,7 +68,9 @@ android {
     }
 
     androidComponents.onVariants { v ->
-        val variant = v as ApplicationVariantImpl
+        val variant: ApplicationVariantImpl =
+            if (v is ApplicationVariantImpl) v
+            else (v as AnalyticsEnabledApplicationVariant).delegate as ApplicationVariantImpl
         variant.outputs.forEach {
             it.outputFileName.set("Anywhere-${verName}-${verCode}-${variant.name}.apk")
         }
@@ -143,10 +145,10 @@ tasks.whenTaskAdded {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 
-    implementation(group = "", name = "color-picker", ext = "aar")
-    implementation(group = "", name = "IceBox-SDK-1.0.5", ext = "aar")
+    implementation(files("libs/color-picker.aar"))
+    implementation(files("libs/IceBox-SDK-1.0.5.aar"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
@@ -158,19 +160,19 @@ dependencies {
     implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
     //Android X
-    val room_version = "2.3.0"
-    implementation("androidx.room:room-runtime:${room_version}")
-    implementation("androidx.room:room-ktx:${room_version}")
+    val roomVersion = "2.3.0"
+    implementation("androidx.room:room-runtime:${roomVersion}")
+    implementation("androidx.room:room-ktx:${roomVersion}")
     kapt("org.xerial:sqlite-jdbc:3.34.0") //Work around on Apple Silicon
-    kapt("androidx.room:room-compiler:${room_version}")
-    androidTestImplementation("androidx.room:room-testing:${room_version}")
+    kapt("androidx.room:room-compiler:${roomVersion}")
+    androidTestImplementation("androidx.room:room-testing:${roomVersion}")
 
-    val lifecycle_version = "2.3.1"
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${lifecycle_version}")
-    implementation("androidx.lifecycle:lifecycle-common-java8:${lifecycle_version}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle_version}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${lifecycle_version}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:${lifecycle_version}")
+    val lifecycleVersion = "2.3.1"
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${lifecycleVersion}")
+    implementation("androidx.lifecycle:lifecycle-common-java8:${lifecycleVersion}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycleVersion}")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${lifecycleVersion}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:${lifecycleVersion}")
 
     implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("androidx.browser:browser:1.3.0")
@@ -193,11 +195,11 @@ dependencies {
     implementation("com.google.android.material:material:1.3.0")
 
     //Function
-    val shizuku_version = "11.0.3"
+    val shizukuVersion = "11.0.3"
     // required by Shizuku and Sui
-    implementation("dev.rikka.shizuku:api:$shizuku_version")
+    implementation("dev.rikka.shizuku:api:$shizukuVersion")
     // required by Shizuku
-    implementation("dev.rikka.shizuku:provider:$shizuku_version")
+    implementation("dev.rikka.shizuku:provider:$shizukuVersion")
 
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")

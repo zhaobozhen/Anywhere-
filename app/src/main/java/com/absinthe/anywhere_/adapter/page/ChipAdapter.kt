@@ -16,7 +16,7 @@ class ChipAdapter internal constructor(category: String) : BaseQuickAdapter<Anyw
     init {
         AnywhereApplication.sRepository.allAnywhereEntities.value?.let { list ->
             for (item in list) {
-                setList(list.filter { it.category == category || (it.category.isEmpty() && category == AnywhereType.Category.DEFAULT_CATEGORY) })
+                setList(list.filter { it.category == category || (it.category.isNullOrEmpty() && category == AnywhereType.Category.DEFAULT_CATEGORY) })
             }
         }
     }

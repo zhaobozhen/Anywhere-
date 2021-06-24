@@ -1,8 +1,5 @@
 package com.absinthe.anywhere_.constants
 
-import io.michaelrocks.paranoid.Obfuscate
-
-@Obfuscate
 object OnceTag {
     const val FIRST_GUIDE = "fabGuide"
     const val FAB_TIP = "fabTip"

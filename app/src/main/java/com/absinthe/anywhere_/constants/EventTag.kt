@@ -1,8 +1,5 @@
 package com.absinthe.anywhere_.constants
 
-import io.michaelrocks.paranoid.Obfuscate
-
-@Obfuscate
 object EventTag {
     const val FAB_ACTIVITY_LIST_CLICK = "Fab Activity List clicked"
     const val FAB_QR_CODE_COLLECTION_CLICK = "Fab QRCode Collection clicked"

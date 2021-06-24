@@ -15,13 +15,11 @@ import com.absinthe.libraries.utils.utils.Utility
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
-import io.michaelrocks.paranoid.Obfuscate
 import jonathanfinerty.once.Once
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.sui.Sui
 import timber.log.Timber
 
-@Obfuscate
 class AnywhereApplication : Application() {
 
     override fun onCreate() {

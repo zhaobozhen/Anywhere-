@@ -93,7 +93,7 @@ object AppUtils {
             apkTempPackageName = if (android.text.TextUtils.isEmpty(item.param2)) {
                 getPackageNameByScheme(context, item.param1)
             } else {
-                item.param2
+                item.param2.orEmpty()
             }
             return try {
                 IceBox.getAppEnabledSetting(context, apkTempPackageName) != 0 //0 means available
@@ -404,12 +404,12 @@ object AppUtils {
     fun isAnywhereEntityNeedRoot(ae: AnywhereEntity): Boolean {
         return when(ae.type) {
             AnywhereType.Card.ACTIVITY -> {
-                val clsName = if (ae.param2.startsWith(".")) {
+                val clsName = if (ae.param2.orEmpty().startsWith(".")) {
                     ae.param1 + ae.param2
                 } else {
                     ae.param2
                 }
-                !isActivityExported(Utils.getApp(), ComponentName(ae.param1, clsName))
+                !isActivityExported(Utils.getApp(), ComponentName(ae.param1, clsName.orEmpty()))
                 //Todo app not installed
             }
             AnywhereType.Card.SHELL -> {

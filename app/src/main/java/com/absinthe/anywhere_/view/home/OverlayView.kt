@@ -16,7 +16,7 @@ import timber.log.Timber
 @SuppressLint("ViewConstructor")
 class OverlayView(context: Context, private val binder: IOverlayService, windowLayoutParams: WindowManager.LayoutParams) : LinearLayout(context) {
 
-    var entity: AnywhereEntity = AnywhereEntity.Builder()
+    var entity: AnywhereEntity = AnywhereEntity()
         set(value) {
             field = value
             mBuilder.ivIcon.setImageDrawable(UxUtils.getAppIcon(context, value, 65.dp))

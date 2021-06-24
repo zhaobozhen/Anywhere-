@@ -59,13 +59,14 @@ class AppRemoteViewsService : RemoteViewsService() {
                 mList.clear()
                 val tempList = mutableListOf<AnywhereEntity>()
                 while (cursor.moveToNext()) {
-                    val info = AnywhereEntity.Builder()
-                    info.id = cursor.getString(cursor.getColumnIndex(BaseColumns._ID))
-                    info.appName = cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME))
-                    info.param1 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1))
-                    info.param2 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2))
-                    info.param3 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3))
-                    info.type = cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE))
+                    val info = AnywhereEntity().apply {
+                        id = cursor.getString(cursor.getColumnIndex(BaseColumns._ID))
+                        appName = cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME))
+                        param1 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1))
+                        param2 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2))
+                        param3 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3))
+                        type = cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE))
+                    }
                     tempList.add(info)
                 }
                 cursor.close()
@@ -101,13 +102,14 @@ class AppRemoteViewsService : RemoteViewsService() {
                 mList.clear()
                 val tempList = mutableListOf<AnywhereEntity>()
                 while (cursor.moveToNext()) {
-                    val info = AnywhereEntity.Builder()
-                    info.id = cursor.getString(cursor.getColumnIndex(BaseColumns._ID))
-                    info.appName = cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME))
-                    info.param1 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1))
-                    info.param2 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2))
-                    info.param3 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3))
-                    info.type = cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE))
+                    val info = AnywhereEntity().apply {
+                        id = cursor.getString(cursor.getColumnIndex(BaseColumns._ID))
+                        appName = cursor.getString(cursor.getColumnIndex(AnywhereEntity.APP_NAME))
+                        param1 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_1))
+                        param2 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2))
+                        param3 = cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3))
+                        type = cursor.getInt(cursor.getColumnIndex(AnywhereEntity.TYPE))
+                    }
                     tempList.add(info)
                 }
                 cursor.close()
@@ -162,7 +164,7 @@ class AppRemoteViewsService : RemoteViewsService() {
 
             // 设置要显示的内容
             rv.setTextViewText(R.id.tv_title, content)
-            val icon: Drawable? = if (ae.iconUri.isEmpty()) {
+            val icon: Drawable? = if (ae.iconUri.isNullOrEmpty()) {
                 getAppIcon(this@AppRemoteViewsService, ae, ConvertUtils.dp2px(45f))
             } else {
                 try {

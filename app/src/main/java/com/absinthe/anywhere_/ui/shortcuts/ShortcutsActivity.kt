@@ -186,7 +186,7 @@ class ShortcutsActivity : BaseActivity() {
                     val param1 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_1) ?: return@let
                     val param2 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_2) ?: return@let
                     val param3 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_3) ?: return@let
-                    val entity = AnywhereEntity.Builder().apply {
+                    val entity = AnywhereEntity().apply {
                         this.type = type
                         this.param1 = param1
                         this.param2 = param2

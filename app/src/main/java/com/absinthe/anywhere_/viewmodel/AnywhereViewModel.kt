@@ -73,7 +73,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
 
     fun setUpUrlScheme(url: String = "") {
         val context = ActivityStackManager.topActivity!! as Context
-        val ae = AnywhereEntity.Builder().apply {
+        val ae = AnywhereEntity().apply {
             appName = AnywhereType.Card.NEW_TITLE_MAP[AnywhereType.Card.URL_SCHEME]!!
             param1 = url
             type = AnywhereType.Card.URL_SCHEME
@@ -144,7 +144,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
 
     fun addPage() {
         mRepository.allPageEntities.value?.let { pages ->
-            val pe = PageEntity.Builder().apply {
+            val pe = PageEntity().apply {
                 if (pages.isNotEmpty()) {
                     var count = 1
                     var t = "Page " + (pages.size + count++)
@@ -175,9 +175,9 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
 
                 //Transform extras to new structure
                 if (entity.type == AnywhereType.Card.ACTIVITY) {
-                    if (entity.param3.isNotEmpty()) {
+                    if (!entity.param3.isNullOrEmpty()) {
                         val extraList = mutableListOf<ExtraBean.ExtraItem>()
-                        for (eachLine in entity.param3.split("\n")) {
+                        for (eachLine in entity.param3.orEmpty().split("\n")) {
                             val splits = eachLine.split(" ")
                             if (splits.size == 3) {
                                 extraList.add(ExtraBean.ExtraItem(splits[0], splits[1], splits[2]))

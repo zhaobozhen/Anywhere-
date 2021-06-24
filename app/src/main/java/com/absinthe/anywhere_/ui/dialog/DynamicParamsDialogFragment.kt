@@ -10,7 +10,7 @@ import com.absinthe.anywhere_.viewbuilder.entity.DynamicParamsDialogBuilder
 
 class DynamicParamsDialogFragment : AnywhereDialogFragment() {
 
-    private val text by lazy { arguments?.getString(EXTRA_SHARING_TEXT) ?: "" }
+    private val text by lazy { arguments?.getString(EXTRA_SHARING_TEXT).orEmpty() }
     private lateinit var mBuilder: DynamicParamsDialogBuilder
     private var mListener: OnParamsInputListener? = null
 

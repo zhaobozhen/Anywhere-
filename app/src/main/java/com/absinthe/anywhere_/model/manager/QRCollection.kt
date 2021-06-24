@@ -76,7 +76,7 @@ object QRCollection {
     private val wechatScan: QREntity
         get() {
             val pkgName = "com.tencent.mm"
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = wechatScanId
                 appName = "微信扫码"
                 param1 = pkgName
@@ -109,7 +109,7 @@ object QRCollection {
             val pkgName = "com.tencent.mm"
             val clsName = ".plugin.offline.ui.WalletOfflineCoinPurseUI"
             val cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName)
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = wechatPayId
                 appName = "微信付款码"
                 param1 = pkgName
@@ -134,7 +134,7 @@ object QRCollection {
         get() {
             val pkgName = "com.tencent.mm"
             val clsName = "com.tencent.mm.ui.LauncherUI"
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = wechatPayAcsId
                 appName = "微信付款码"
                 param1 = pkgName
@@ -153,7 +153,7 @@ object QRCollection {
                                 A11yActionBean(A11yType.TEXT, content = "收付款|Money", activityId = "com.tencent.mm.plugin.mall.ui.MallIndexUIv2", delay = 0L),
                         )
                     }
-                    val entity = AnywhereEntity.Builder().apply {
+                    val entity = AnywhereEntity().apply {
                         type = AnywhereType.Card.ACCESSIBILITY
                         param1 = Gson().toJson(a11yEntity)
                     }
@@ -173,7 +173,7 @@ object QRCollection {
             val pkgName = "com.tencent.mm"
             val clsName = ".plugin.collect.ui.CollectMainUI"
             val cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName)
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = wechatCollectId
                 appName = "微信收款码"
                 param1 = pkgName
@@ -198,7 +198,7 @@ object QRCollection {
         get() {
             val pkgName = "com.tencent.mm"
             val clsName = "com.tencent.mm.ui.LauncherUI"
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = wechatCollectAcsId
                 appName = "微信收款码"
                 param1 = pkgName
@@ -218,7 +218,7 @@ object QRCollection {
                                 A11yActionBean(A11yType.TEXT, content = "二维码收款|Receive Money", activityId = "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI", delay = 0L),
                         )
                     }
-                    val entity = AnywhereEntity.Builder().apply {
+                    val entity = AnywhereEntity().apply {
                         type = AnywhereType.Card.ACCESSIBILITY
                         param1 = Gson().toJson(a11yEntity)
                     }
@@ -237,7 +237,7 @@ object QRCollection {
         get() {
             val urlScheme = "alipayqr://platformapi/startapp?saId=10000007"
             val pkgName = "com.eg.android.AlipayGphone"
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = alipayScanId
                 appName = "支付宝扫码"
                 param1 = pkgName
@@ -265,7 +265,7 @@ object QRCollection {
         get() {
             val urlScheme = "alipays://platformapi/startapp?appId=20000056"
             val pkgName = "com.eg.android.AlipayGphone"
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = alipayPayId
                 appName = "支付宝付款码"
                 param1 = pkgName
@@ -294,7 +294,7 @@ object QRCollection {
         get() {
             val urlScheme = "alipayqr://platformapi/startapp?saId=200011235"
             val pkgName = "com.eg.android.AlipayGphone"
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = alipayBusId
                 appName = "支付宝公交码"
                 param1 = pkgName
@@ -322,7 +322,7 @@ object QRCollection {
         get() {
             val urlScheme = "alipays://platformapi/startapp?appId=20000123"
             val pkgName = "com.eg.android.AlipayGphone"
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = alipayCollectId
                 appName = "支付宝收款码"
                 param1 = pkgName
@@ -351,7 +351,7 @@ object QRCollection {
             val pkgName = "com.tencent.mobileqq"
             val clsName = "com.tencent.biz.qrcode.activity.ScannerActivity"
             val cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, clsName)
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = qqScanId
                 appName = "QQ 扫码"
                 param1 = pkgName
@@ -372,7 +372,7 @@ object QRCollection {
     private fun genUnionPay(id: String, text: String): QREntity {
         val pkgName = "com.unionpay"
         val clsName = "com.unionpay.activity.UPActivityWelcome"
-        list.add(AnywhereEntity.Builder().apply {
+        list.add(AnywhereEntity().apply {
             this.id = id
             appName = "云闪付${text}"
             param1 = pkgName
@@ -393,7 +393,7 @@ object QRCollection {
                         action = Intent.ACTION_VIEW,
                         extras = emptyList()
                 )
-                val entity = AnywhereEntity.Builder().apply {
+                val entity = AnywhereEntity().apply {
                     type = AnywhereType.Card.ACTIVITY
                     param1 = pkgName
                     param2 = clsName
@@ -431,7 +431,7 @@ object QRCollection {
         get() {
             val pkgName = "com.unionpay"
             val clsName = "com.unionpay.activity.UPActivityMain"
-            list.add(AnywhereEntity.Builder().apply {
+            list.add(AnywhereEntity().apply {
                 id = unionpayCollectId
                 appName = "云闪付收款码"
                 param1 = pkgName
@@ -451,7 +451,7 @@ object QRCollection {
                         entryActivity = clsName
                         actions = list
                     }
-                    val entity = AnywhereEntity.Builder().apply {
+                    val entity = AnywhereEntity().apply {
                         type = AnywhereType.Card.ACCESSIBILITY
                         param1 = Gson().toJson(a11yEntity)
                     }

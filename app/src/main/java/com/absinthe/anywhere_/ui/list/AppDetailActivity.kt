@@ -74,7 +74,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
             val item = mAdapter.getItem(position)
 
             if (entryMode == MODE_NORMAL) {
-                val ae = AnywhereEntity.Builder().apply {
+                val ae = AnywhereEntity().apply {
                     appName = item.appName
                     param1 = item.packageName
                     param2 = item.className.removePrefix(item.packageName)

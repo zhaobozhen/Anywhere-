@@ -87,7 +87,7 @@ open class TileSettingsActivity : BaseActivity() {
         }
         AnywhereApplication.sRepository.allAnywhereEntities.value?.let {
             mList = it.toMutableList()
-            mList.add(0, AnywhereEntity.Builder())
+            mList.add(0, AnywhereEntity())
             load()
         }
     }
@@ -108,7 +108,7 @@ open class TileSettingsActivity : BaseActivity() {
                 id = item.param1,
                 appName = item.appName,
                 packageName = item.param1,
-                className = item.param2,
+                className = item.param2.orEmpty(),
                 icon = UxUtils.getAppIcon(this@TileSettingsActivity, item, 45.dp),
                 type = -1
         )

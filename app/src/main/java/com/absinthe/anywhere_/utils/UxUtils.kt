@@ -83,7 +83,7 @@ object UxUtils {
     }
 
     fun getAppIcon(context: Context, item: AppListBean, size: Int): Drawable {
-        val ae = AnywhereEntity.Builder()
+        val ae = AnywhereEntity()
         if (item.type == AnywhereType.Card.URL_SCHEME || item.type == AnywhereType.Card.IMAGE || item.type == AnywhereType.Card.SHELL) {
             ae.param1 = item.className
             ae.param2 = item.packageName

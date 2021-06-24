@@ -54,10 +54,10 @@ object AppTextUtils {
                     null
                 }
 
-                if (className.startsWith(".")) {
+                if (className.orEmpty().startsWith(".")) {
                     className = packageName + className
                 }
-                className = className.replace("\$", "\\$")
+                className = className.orEmpty().replace("\$", "\\$")
                 cmd.append(String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, packageName, className))
 
                 extras?.let {
@@ -67,7 +67,7 @@ object AppTextUtils {
             AnywhereType.Card.URL_SCHEME -> {
                 val urlScheme = item.param1
 
-                if (item.param3.isNotBlank()) {
+                if (!item.param3.isNullOrBlank()) {
                     cmd.append(String.format(AnywhereType.Prefix.DYNAMIC_PARAMS_PREFIX_FORMAT, item.param3))
                 }
                 if (workingMode == Const.WORKING_MODE_URL_SCHEME) {
@@ -105,7 +105,7 @@ object AppTextUtils {
 
                 cmd.append(Const.CMD_START_BROADCAST_FORMAT)
 
-                if (packageName.isNotBlank()) {
+                if (!packageName.isNullOrBlank()) {
                     cmd.append(" ").append("-n ").append(packageName)
                 }
 

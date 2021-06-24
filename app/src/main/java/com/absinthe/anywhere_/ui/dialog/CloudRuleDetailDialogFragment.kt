@@ -33,7 +33,7 @@ const val EXTRA_URL = "EXTRA_URL"
 
 class CloudRuleDetailDialogFragment : AnywhereDialogFragment() {
 
-    private val url by lazy { arguments?.getString(EXTRA_URL) ?: "" }
+    private val url by lazy { arguments?.getString(EXTRA_URL).orEmpty() }
     private var entity: AnywhereEntity? = null
     private lateinit var binding: LayoutCloudRuleDetailBinding
 

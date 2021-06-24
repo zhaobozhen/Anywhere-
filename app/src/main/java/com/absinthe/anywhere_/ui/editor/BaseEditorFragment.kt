@@ -10,10 +10,10 @@ import com.absinthe.anywhere_.ui.dialog.EXTRA_FROM_WORKFLOW
 
 abstract class BaseEditorFragment : Fragment(), IEditor {
 
-    protected val item by lazy { requireArguments().getParcelable(EXTRA_ENTITY) as? AnywhereEntity ?: AnywhereEntity.Builder() }
+    protected val item by lazy { requireArguments().getParcelable(EXTRA_ENTITY) as? AnywhereEntity ?: AnywhereEntity() }
     protected val isEditMode by lazy { requireArguments().getBoolean(EXTRA_EDIT_MODE) }
     protected val isFromWorkflow by lazy { requireArguments().getBoolean(EXTRA_FROM_WORKFLOW) }
-    protected var doneItem: AnywhereEntity = AnywhereEntity.Builder()
+    protected var doneItem: AnywhereEntity = AnywhereEntity()
     abstract override var execWithRoot: Boolean
 
     protected abstract fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View

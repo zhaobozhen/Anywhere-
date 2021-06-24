@@ -145,7 +145,7 @@ object Opener {
                 val qrId = if (context is QRCodeCollectionActivity) {
                     item.id
                 } else {
-                    item.param2
+                    item.param2.orEmpty()
                 }
                 QRCollection.getQREntity(qrId)?.launch()
                 listener?.onOpened()
@@ -160,14 +160,14 @@ object Opener {
                 }
             }
             AnywhereType.Card.ACTIVITY -> {
-                val className = if (item.param2.startsWith(".")) {
+                val className = if (item.param2.orEmpty().startsWith(".")) {
                     item.param1 + item.param2
                 } else {
                     item.param2
                 }
 
                 when {
-                    item.param2.isBlank() || isActivityExported(context, ComponentName(item.param1, className)) -> {
+                    item.param2.isNullOrBlank() || isActivityExported(context, ComponentName(item.param1, className.orEmpty())) -> {
                         val extraBean: ExtraBean? = try {
                             Gson().fromJson(item.param3, ExtraBean::class.java)
                         } catch (e: JsonSyntaxException) {
@@ -179,7 +179,7 @@ object Opener {
                             extraBean.action
                         }
 
-                        val intent = if (item.param2.isBlank()) {
+                        val intent = if (item.param2.isNullOrBlank()) {
                             IntentUtils.getLaunchAppIntent(item.param1)?.apply {
                                 if (context !is Activity) {
                                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -193,7 +193,7 @@ object Opener {
                             }
                         } else {
                             Intent(action).apply {
-                                component = ComponentName(item.param1, className)
+                                component = ComponentName(item.param1, className.orEmpty())
                                 if (context !is Activity) {
                                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 }
@@ -258,9 +258,9 @@ object Opener {
                 }
             }
             AnywhereType.Card.URL_SCHEME -> {
-                if (item.param3.isNotEmpty()) {
+                if (!item.param3.isNullOrEmpty()) {
                     ActivityStackManager.topActivity?.let {
-                        DialogManager.showDynamicParamsDialog(it, item.param3, object : OnParamsInputListener {
+                        DialogManager.showDynamicParamsDialog(it, item.param3.orEmpty(), object : OnParamsInputListener {
                             override fun onFinish(text: String?) {
                                 try {
                                     URLSchemeHandler.parse(context, item.param1 + text, item.param2) {
@@ -310,7 +310,7 @@ object Opener {
             }
             AnywhereType.Card.SWITCH_SHELL -> {
                 openByCommand(context, getItemCommand(item), item.packageName)
-                val ae = AnywhereEntity(item).apply {
+                val ae = item.copy().apply {
                     param3 = if (param3 == SWITCH_OFF) SWITCH_ON else SWITCH_OFF
                 }
                 AnywhereApplication.sRepository.update(ae)
@@ -378,7 +378,7 @@ object Opener {
                     }
 
                     val intentPackage = item.param2
-                    if (intentPackage.isNotBlank()) {
+                    if (!intentPackage.isNullOrBlank()) {
                         intent.setPackage(intentPackage)
                     }
 

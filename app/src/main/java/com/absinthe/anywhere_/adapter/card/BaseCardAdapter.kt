@@ -90,7 +90,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
             LAYOUT_MODE_LARGE -> {
                 val normalView = itemView as CardItemView<NormalItemView>
 
-                normalView.content.description.isGone = item.description.isEmpty()
+                normalView.content.description.isGone = item.description.isNullOrEmpty()
                 normalView.content.param1.isGone = item.type == AnywhereType.Card.QR_CODE
                         || item.type == AnywhereType.Card.IMAGE
                         || item.type == AnywhereType.Card.BROADCAST
@@ -119,7 +119,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
 
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
-                        if (!item.packageName.isNullOrEmpty()) {
+                        if (item.packageName.isNotEmpty()) {
                             GlobalScope.launch {
                                 UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 45.dp)) { color ->
                                     item.color = color
@@ -146,7 +146,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                     }
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
-                        if (!item.packageName.isNullOrEmpty()) {
+                        if (item.packageName.isNotEmpty()) {
                             GlobalScope.launch {
                                 UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 45.dp)) { color ->
                                     item.color = color
@@ -177,7 +177,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
             LAYOUT_MODE_MINIMUM -> {
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
-                        if (!item.packageName.isNullOrEmpty()) {
+                        if (item.packageName.isNotEmpty()) {
                             GlobalScope.launch {
                                 UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 32.dp)) { color ->
                                     if (color != 0) {
@@ -200,7 +200,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                     }
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
-                        if (!item.packageName.isNullOrEmpty()) {
+                        if (item.packageName.isNotEmpty()) {
                             GlobalScope.launch {
                                 UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 32.dp)) { color ->
                                     item.color = color
@@ -231,7 +231,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
             }
         }
 
-        if (item.iconUri.isEmpty()) {
+        if (item.iconUri.isNullOrEmpty()) {
             Glide.with(context.applicationContext)
                     .load(UxUtils.getAppIcon(context, item, 45.dp))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)

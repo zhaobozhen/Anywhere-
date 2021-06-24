@@ -222,7 +222,7 @@ class CategoryCardFragment : Fragment() {
         adapter.setDiffNewData(
                 if (GlobalValues.isPages) {
                     if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
-                        list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
+                        list.filter { it.category.isNullOrEmpty() || it.category == this.category }.toMutableList()
                     } else {
                         list.filter { it.category == this.category }.toMutableList()
                     }
@@ -250,7 +250,7 @@ class CategoryCardFragment : Fragment() {
         AnywhereApplication.sRepository.allAnywhereEntities.value?.let { list ->
             adapter.setDiffNewData(
                     if (category == AnywhereType.Category.DEFAULT_CATEGORY) {
-                        list.filter { it.category.isEmpty() || it.category == this.category }.toMutableList()
+                        list.filter { it.category.isNullOrEmpty() || it.category == this.category }.toMutableList()
                     } else {
                         list.filter { it.category == this.category }.toMutableList()
                     }

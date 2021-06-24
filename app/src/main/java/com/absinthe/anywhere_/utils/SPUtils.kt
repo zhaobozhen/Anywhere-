@@ -21,6 +21,6 @@ object SPUtils {
 
     fun getString(context: Context, key: String?, defaultValue: String? = ""): String {
         val sp = context.getSharedPreferences(sPName, Context.MODE_PRIVATE)
-        return sp.getString(key, defaultValue) ?: ""
+        return sp.getString(key, defaultValue).orEmpty()
     }
 }

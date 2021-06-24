@@ -19,12 +19,10 @@ import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewbuilder.entity.AdvancedCardSelectDialogBuilder
 import com.microsoft.appcenter.analytics.Analytics
-import io.michaelrocks.paranoid.Obfuscate
 import java.lang.ref.WeakReference
 
 const val EXTRA_FROM_WORKFLOW = "EXTRA_FROM_WORKFLOW"
 
-@Obfuscate
 class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private lateinit var mBuilder: AdvancedCardSelectDialogBuilder
@@ -57,7 +55,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
 
     private fun getOpeningEditorListener(type: Int): View.OnClickListener {
         return View.OnClickListener {
-            val ae = AnywhereEntity.Builder().apply {
+            val ae = AnywhereEntity().apply {
                 this.type = type
                 appName = AnywhereType.Card.NEW_TITLE_MAP[type] ?: "New Card"
             }

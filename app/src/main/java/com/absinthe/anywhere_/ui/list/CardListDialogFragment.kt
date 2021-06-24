@@ -61,9 +61,9 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                         listBeans.add(AppListBean(
                                 id = ae.id,
                                 appName =  ae.appName,
-                                packageName =  ae.param2,
+                                packageName =  ae.param2.orEmpty(),
                                 className =  ae.param1,
-                                icon =  UxUtils.getAppIcon(requireContext(), ae.param2)
+                                icon =  UxUtils.getAppIcon(requireContext(), ae.param2.orEmpty())
                                         ?: CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type, 45.dp),
                                 type =  ae.type)
                         )
@@ -71,8 +71,8 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                         listBeans.add(AppListBean(
                             id = ae.id,
                             appName =  ae.appName,
-                            packageName =  ae.param2,
-                            className =  ae.description,
+                            packageName =  ae.param2.orEmpty(),
+                            className =  ae.description.orEmpty(),
                             icon =  CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type, 45.dp),
                             type =  ae.type)
                         )
@@ -81,7 +81,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
                                 id = ae.id,
                                 appName =  ae.appName,
                                 packageName =  ae.param1,
-                                className =  ae.param2,
+                                className =  ae.param2.orEmpty(),
                                 icon =  UxUtils.getAppIcon(requireContext(), ae.param1)
                                         ?: CardTypeIconGenerator.getAdvancedIcon(requireContext(), ae.type, 45.dp),
                                 type =  ae.type)

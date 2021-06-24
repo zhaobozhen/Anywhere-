@@ -29,7 +29,7 @@ object PoliceMan {
             mPMField.isAccessible = true
             val mPM: Any? = mPMField.get(packageManager)
             // 取得类名
-            currentPMName = mPM?.javaClass?.name ?: ""
+            currentPMName = mPM?.javaClass?.name.orEmpty()
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
