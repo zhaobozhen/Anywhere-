@@ -17,7 +17,7 @@ val verCode = 2020503
 android {
     compileSdk = 30
     buildToolsVersion = "30.0.3"
-    ndkVersion = "22.1.7171670"
+    ndkVersion = "21.4.7075529"
 
     defaultConfig {
         applicationId = "com.absinthe.anywhere_"
