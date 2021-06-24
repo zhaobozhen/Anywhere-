@@ -78,11 +78,11 @@ android {
 
     dependenciesInfo.includeInApk = false
 
-    externalNativeBuild {
-        cmake {
-            path = file("CMakeLists.txt")
-        }
-    }
+//    externalNativeBuild {
+//        cmake {
+//            path = file("CMakeLists.txt")
+//        }
+//    }
 
     packagingOptions {
         resources {
@@ -99,12 +99,15 @@ android {
         isAbortOnError = true
         isCheckReleaseBuilds = false
     }
+
+    sourceSets {
+        named("main") {
+            jniLibs.srcDir("libs")
+        }
+    }
 }
 
 repositories {
-    flatDir {
-        dirs = setOf(file("lib"))
-    }
     mavenCentral()
 }
 
@@ -138,11 +141,11 @@ val optimizeReleaseRes = task("optimizeReleaseRes").doLast {
     }
 }
 
-tasks.whenTaskAdded {
-    if (name == "shrinkReleaseRes") {
-        finalizedBy(optimizeReleaseRes)
-    }
-}
+//tasks.whenTaskAdded {
+//    if (name == "shrinkReleaseRes") {
+//        finalizedBy(optimizeReleaseRes)
+//    }
+//}
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
