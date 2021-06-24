@@ -27,7 +27,7 @@ import com.flask.colorpicker.slider.AlphaSlider;
 import com.flask.colorpicker.slider.LightnessSlider;
 import com.iwhys.classeditor.domain.ReplaceClass;
 
-@ReplaceClass("com.github.QuadFlask:colorpicker:0.0.15")
+@ReplaceClass("colorpicker:0.0.15")
 public class ColorPickerDialogBuilder {
     private AnywhereDialogBuilder builder;
     private LinearLayout pickerContainer;
