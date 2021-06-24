@@ -546,7 +546,6 @@ class MainActivity : BaseActivity() {
         build(this, mBinding.fab)
         mBinding.fab.apply {
             mainFab.transitionName = "item_container"
-            setOnClickListener { post { requestFocus() } }
             setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
                 when (actionItem.id) {
                     R.id.fab_advanced -> showAdvancedCardSelectDialog(this@MainActivity)

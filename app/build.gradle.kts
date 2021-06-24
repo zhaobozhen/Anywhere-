@@ -1,7 +1,7 @@
-import java.nio.file.Paths
-import com.android.build.api.variant.impl.ApplicationVariantImpl
 import com.android.build.api.component.analytics.AnalyticsEnabledApplicationVariant
+import com.android.build.api.variant.impl.ApplicationVariantImpl
 import com.android.build.gradle.internal.dsl.BuildType
+import java.nio.file.Paths
 
 plugins {
     id("com.android.application")
@@ -209,12 +209,12 @@ dependencies {
 
     implementation("com.google.code.gson:gson:2.8.7")
     implementation("com.google.zxing:core:3.4.1")
-    implementation("com.blankj:utilcodex:1.30.4")
+    implementation("com.blankj:utilcodex:1.30.6")
     implementation("com.tencent:mmkv-static:1.2.9")
     implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6")
     implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
     implementation("com.github.topjohnwu.libsu:core:3.1.1")
-    implementation("com.thegrizzlylabs.sardine-android:sardine-android:0.7")
+    implementation("com.github.thegrizzlylabs:sardine-android:0.8")
     implementation("com.jonathanfinerty.once:once:1.3.0")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:2.0")
 
@@ -224,6 +224,7 @@ dependencies {
     implementation("com.drakeet.multitype:multitype:4.3.0")
     implementation("com.leinardi.android:speed-dial:3.2.0")
     implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
+    implementation("me.zhanghai.android.fastscroll:library:1.1.7")
 
     implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
 

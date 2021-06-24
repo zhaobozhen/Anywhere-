@@ -2,12 +2,9 @@ package com.absinthe.anywhere_.ui.settings
 
 import android.content.ComponentName
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
@@ -22,6 +19,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.services.tile.TILE_LABEL
 import com.absinthe.anywhere_.utils.UxUtils
+import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
 import com.absinthe.libraries.utils.extensions.dp
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -94,12 +92,10 @@ open class TileSettingsActivity : BaseActivity() {
 
     private fun initCard(): AppListBean {
         return AppListBean(
-                id = packageName,
-                appName = getString(R.string.app_name),
-                packageName = packageName,
-                className = localClassName,
-                icon = ContextCompat.getDrawable(this, R.mipmap.ic_launcher) ?: ColorDrawable(Color.TRANSPARENT),
-                type = -1
+            id = "-1",
+            appName = getString(R.string.none),
+            type = AnywhereType.Card.NOT_CARD,
+            icon = CardTypeIconGenerator.getAdvancedIcon(this, AnywhereType.Card.NOT_CARD, 45.dp)
         )
     }
 

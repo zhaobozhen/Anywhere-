@@ -35,6 +35,7 @@ import com.catchingnow.icebox.sdk_client.IceBox
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 const val EXTRA_APP_DETAIL_ENTRY_MODE = "EXTRA_APP_DETAIL_ENTRY_MODE"
 
@@ -100,6 +101,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
             layoutManager = WrapContentLinearLayoutManager(this@AppDetailActivity)
             adapter = mAdapter
             addSystemBarPaddingAsync(addStatusBarPadding = false)
+            FastScrollerBuilder(this).useMd2Style().build()
         }
     }
 

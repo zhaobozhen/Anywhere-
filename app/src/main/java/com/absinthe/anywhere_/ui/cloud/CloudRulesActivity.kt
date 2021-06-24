@@ -11,6 +11,7 @@ import com.absinthe.anywhere_.databinding.ActivityCloudRulesBinding
 import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.cloud.GiteeApiContentBean
 import com.absinthe.anywhere_.utils.manager.DialogManager
+import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,6 +48,7 @@ class CloudRulesActivity : BaseActivity() {
             adapter = mAdapter
             addSystemBarPaddingAsync(addStatusBarPadding = false)
             addItemDecoration(DividerItemDecoration(this@CloudRulesActivity, DividerItemDecoration.VERTICAL))
+            FastScrollerBuilder(this).useMd2Style().build()
         }
         mAdapter.setOnItemClickListener { _, _, position ->
             DialogManager.showCloudRuleDialog(this@CloudRulesActivity, mAdapter.data[position].download_url!!)

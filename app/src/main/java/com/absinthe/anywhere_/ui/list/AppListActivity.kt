@@ -40,6 +40,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 const val EXTRA_APP_LIST_ENTRY_MODE = "EXTRA_APP_LIST_ENTRY_MODE"
 const val EXTRA_PACKAGE_NAME = "EXTRA_PACKAGE_NAME"
@@ -190,6 +191,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
                     }
                 }
             })
+            FastScrollerBuilder(this).useMd2Style().build()
         }
     }
 

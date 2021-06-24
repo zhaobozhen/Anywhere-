@@ -9,13 +9,14 @@ import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.libraries.utils.extensions.dp
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import me.zhanghai.android.fastscroll.PopupTextProvider
 
 const val MODE_APP_LIST = 0
 const val MODE_APP_DETAIL = 1
 const val MODE_ICON_PACK = 2
 const val MODE_CARD_LIST = 3
 
-class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(R.layout.item_app_list) {
+class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(R.layout.item_app_list), PopupTextProvider {
 
     private var mListener: OnAppItemClickListener? = null
     private val mMode: Int = mode
@@ -76,5 +77,9 @@ class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(
 
     interface OnAppItemClickListener {
         fun onClick(bean: AppListBean, which: Int)
+    }
+
+    override fun getPopupText(position: Int): String {
+        return data[position].appName.ifEmpty { " " }.first().toString()
     }
 }
