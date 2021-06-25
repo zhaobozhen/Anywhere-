@@ -215,7 +215,7 @@ dependencies {
     implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
     implementation("com.github.topjohnwu.libsu:core:3.1.1")
     implementation("com.github.thegrizzlylabs:sardine-android:0.8")
-    implementation("com.jonathanfinerty.once:once:1.3.0")
+    implementation("com.jonathanfinerty.once:once:1.3.1")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:2.0")
 
     //UX
