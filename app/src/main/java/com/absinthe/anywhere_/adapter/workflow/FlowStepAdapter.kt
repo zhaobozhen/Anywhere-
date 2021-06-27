@@ -6,7 +6,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
-import com.absinthe.anywhere_.adapter.ItemTouchCallBack
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.chad.library.adapter.base.BaseQuickAdapter
