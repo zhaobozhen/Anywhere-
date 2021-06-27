@@ -25,7 +25,6 @@ android {
         targetSdk = 30
         versionCode = verCode
         versionName = verName
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders["appName"] = "Anywhere-"
         ndk {
