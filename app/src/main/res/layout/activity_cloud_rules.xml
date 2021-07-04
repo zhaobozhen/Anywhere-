@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.google.android.material.appbar.AppBarLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        app:consumeSystemWindowsInsets="start|end"
+        app:edgeToEdge="true"
+        app:fitsSystemWindowsInsets="start|end"
+        tools:context="com.absinthe.anywhere_.ui.cloud.CloudRulesActivity">
 
-        <include
+    <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:hideAnimationBehavior="outward"
+            android:layout_marginTop="?actionBarSize"
+            app:layout_fitsSystemWindowsInsets="top" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/srl_app_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_app_list"
+    <rikka.widget.borderview.BorderRecyclerView
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:scrollbars="none" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:paddingTop="?actionBarSize"
+            android:scrollbars="none"
+            app:borderBottomVisibility="never"
+            app:borderTopDrawable="@null"
+            app:borderTopVisibility="whenTop"
+            app:fitsSystemWindowsInsets="bottom|top" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

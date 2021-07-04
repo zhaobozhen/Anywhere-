@@ -554,7 +554,7 @@ object Opener {
         val param = newCommand.substring(0, splitIndex)
         newCommand = newCommand.substring(splitIndex + 1)
 
-        DialogManager.showDynamicParamsDialog((context as BaseActivity), param, object : OnParamsInputListener {
+        DialogManager.showDynamicParamsDialog((context as BaseActivity<*>), param, object : OnParamsInputListener {
             override fun onFinish(text: String?) {
                 openByCommand(context, newCommand + text, getPkgNameByCommand(newCommand))
                 listener?.onOpened()

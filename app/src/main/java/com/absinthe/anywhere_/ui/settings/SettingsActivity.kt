@@ -4,19 +4,17 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivitySettingsBinding
-import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.AppUtils
@@ -24,35 +22,17 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
-import rikka.preference.SimpleMenuPreference
 import timber.log.Timber
 
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
 
-    private lateinit var mBinding: ActivitySettingsBinding
+    override fun setViewBinding() = ActivitySettingsBinding.inflate(layoutInflater)
 
-    companion object {
-        init {
-            SimpleMenuPreference.setLightFixEnabled(true)
-        }
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
 
-    override fun setViewBinding() {
-        isPaddingToolbar = true
-        mBinding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
-    }
-
-    override fun setToolbar() {
-        mToolbar = mBinding.toolbar.toolbar
-    }
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     class SettingsFragment : PreferenceFragmentCompat() {
-
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-            listView.addSystemBarPaddingAsync(addStatusBarPadding = false)
-        }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.settings, rootKey)
@@ -80,7 +60,7 @@ class SettingsActivity : BaseActivity() {
                             type = "image/*"
                         }
                         requireActivity().startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
-                        (requireActivity() as BaseActivity).setDocumentResultListener(object : OnDocumentResultListener {
+                        (requireActivity() as SettingsActivity).setDocumentResultListener(object : OnDocumentResultListener {
                             override fun onResult(uri: Uri) {
                                 GlobalValues.backgroundUri = uri.toString()
                                 GlobalValues.clearActionBarType()
@@ -103,7 +83,7 @@ class SettingsActivity : BaseActivity() {
             findPreference<ListPreference>(Const.PREF_DARK_MODE)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     if (newValue.toString() == Const.DARK_MODE_AUTO) {
-                        DialogManager.showDarkModeTimePickerDialog(requireActivity() as BaseActivity)
+                        DialogManager.showDarkModeTimePickerDialog(requireActivity() as SettingsActivity)
                     } else {
                         Settings.setTheme(newValue.toString())
                         GlobalValues.darkMode = newValue.toString()
@@ -134,7 +114,7 @@ class SettingsActivity : BaseActivity() {
             }
             findPreference<Preference>(Const.PREF_ICON_PACK)?.apply {
                 setOnPreferenceClickListener {
-                    DialogManager.showIconPackChoosingDialog(requireActivity() as BaseActivity)
+                    DialogManager.showIconPackChoosingDialog(requireActivity() as SettingsActivity)
                     true
                 }
             }
@@ -166,7 +146,7 @@ class SettingsActivity : BaseActivity() {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalValues.isCollectorPlus = newValue as Boolean
                     if (newValue) {
-                        DialogManager.showIntervalSetupDialog(requireActivity() as BaseActivity)
+                        DialogManager.showIntervalSetupDialog(requireActivity() as SettingsActivity)
                     }
                     true
                 }

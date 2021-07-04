@@ -3,6 +3,7 @@ package com.absinthe.anywhere_
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import cn.vove7.andro_accessibility_api.AccessibilityApi
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.Settings
@@ -17,6 +18,7 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import jonathanfinerty.once.Once
 import org.lsposed.hiddenapibypass.HiddenApiBypass
+import rikka.material.app.DayNightDelegate
 import rikka.sui.Sui
 import timber.log.Timber
 
@@ -37,6 +39,8 @@ class AnywhereApplication : Application() {
         PoliceMan.checkApplicationClass(this)
         PoliceMan.checkPMProxy(this)
         sRepository = AnywhereRepository(this)
+        DayNightDelegate.setApplicationContext(this)
+//        DayNightDelegate.setDefaultNightMode(DayNightDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         AccessibilityApi.apply {
             BASE_SERVICE_CLS = IzukoService::class.java

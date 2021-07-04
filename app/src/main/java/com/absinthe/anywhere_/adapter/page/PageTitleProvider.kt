@@ -70,7 +70,7 @@ class PageTitleProvider : BaseNodeProvider() {
         val node = data as PageTitleNode
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.rename_page -> DialogManager.showRenameDialog(context as BaseActivity, node.title)
+                R.id.rename_page -> DialogManager.showRenameDialog(context as BaseActivity<*>, node.title)
                 R.id.delete_page -> DialogManager.showDeletePageDialog(context, node.title, false) {
                     getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
                     AnywhereApplication.sRepository.allPageEntities.value?.let { list ->

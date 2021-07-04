@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
-import com.absinthe.anywhere_.BaseActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
@@ -33,7 +33,7 @@ import com.google.gson.Gson
 import com.microsoft.appcenter.analytics.Analytics
 import timber.log.Timber
 
-class ShortcutsActivity : BaseActivity() {
+class ShortcutsActivity : AppCompatActivity() {
 
     private var isBound = false
     private var collectorService: ICollectorService? = null
@@ -73,10 +73,6 @@ class ShortcutsActivity : BaseActivity() {
             finish()
         }
     }
-
-    override fun initView() {}
-    override fun setViewBinding() {}
-    override fun setToolbar() {}
 
     private fun handleIntent(intent: Intent) {
         intent.action?.let {

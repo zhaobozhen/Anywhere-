@@ -96,9 +96,9 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
                     AlertDialog.Builder(requireContext())
                             .setItems(nodeCreateMenu.toTypedArray()) { _, which ->
                                 when(which) {
-                                    0 -> DialogManager.showAdvancedCardSelectDialog(requireActivity() as BaseActivity, true)
+                                    0 -> DialogManager.showAdvancedCardSelectDialog(requireActivity() as BaseActivity<*>, true)
                                     1 -> {
-                                        DialogManager.showCardListDialog(requireActivity() as BaseActivity).apply {
+                                        DialogManager.showCardListDialog(requireActivity() as BaseActivity<*>).apply {
                                             setOnItemClickListener(object : AppListAdapter.OnAppItemClickListener {
                                                 override fun onClick(bean: AppListBean, which: Int) {
                                                     lifecycleScope.launch(Dispatchers.IO) {

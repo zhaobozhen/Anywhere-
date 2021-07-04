@@ -61,7 +61,7 @@ class AdvancedCardSelectDialogFragment : AnywhereDialogFragment() {
             }
 
             val options = ActivityOptions.makeSceneTransitionAnimation(
-                    weakContext.get() as BaseActivity,
+                    weakContext.get() as BaseActivity<*>,
                     it,
                     requireContext().getString(R.string.trans_item_container)
             )

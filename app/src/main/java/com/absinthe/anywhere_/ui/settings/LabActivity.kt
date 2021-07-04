@@ -3,7 +3,7 @@ package com.absinthe.anywhere_.ui.settings
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
@@ -13,27 +13,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import rikka.preference.SimpleMenuPreference
 
-class LabActivity : BaseActivity() {
+class LabActivity : AppBarActivity<ActivityLabBinding>() {
 
-    private lateinit var mBinding: ActivityLabBinding
+    override fun setViewBinding() = ActivityLabBinding.inflate(layoutInflater)
 
-    companion object {
-        init {
-            SimpleMenuPreference.setLightFixEnabled(true)
-        }
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
 
-    override fun setViewBinding() {
-        isPaddingToolbar = true
-        mBinding = ActivityLabBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
-    }
-
-    override fun setToolbar() {
-        mToolbar = mBinding.toolbar.toolbar
-    }
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     class LabFragment : PreferenceFragmentCompat() {
 

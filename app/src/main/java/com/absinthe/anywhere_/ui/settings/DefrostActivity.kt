@@ -11,7 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.defrost.DefrostAdapter
 import com.absinthe.anywhere_.adapter.defrost.DefrostItem
@@ -25,24 +25,19 @@ import com.blankj.utilcode.util.AppUtils
 import com.catchingnow.delegatedscopeclient.DSMClient
 import com.catchingnow.icebox.sdk_client.IceBox
 
-class DefrostActivity : BaseActivity() {
+class DefrostActivity : AppBarActivity<ActivityDefrostBinding>() {
 
-    private lateinit var mBinding: ActivityDefrostBinding
     private var mAdapter = DefrostAdapter()
     private lateinit var mList: List<DefrostItem>
 
-    override fun setViewBinding() {
-        mBinding = ActivityDefrostBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
-    }
+    override fun setViewBinding() = ActivityDefrostBinding.inflate(layoutInflater)
 
-    override fun setToolbar() {
-        mToolbar = mBinding.toolbar.toolbar
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
+
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initData()
 
@@ -82,7 +77,7 @@ class DefrostActivity : BaseActivity() {
                 }
             }
         }
-        mBinding.recyclerView.apply {
+        binding.recyclerView.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(this@DefrostActivity)
         }
@@ -91,12 +86,12 @@ class DefrostActivity : BaseActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (grantResults.isEmpty()) return
 
-        if (requestCode == Const.REQUEST_CODE_ICEBOX && grantResults[0] == Activity.RESULT_OK) {
-            mAdapter.notifyDataSetChanged()
-        } else if (requestCode == Const.REQUEST_CODE_DSM && grantResults[0] == Activity.RESULT_OK) {
-            mAdapter.notifyDataSetChanged()
-        } else if (requestCode == Const.REQUEST_CODE_DPM && grantResults[0] == Activity.RESULT_OK) {
-            mAdapter.notifyDataSetChanged()
+        if (grantResults[0] == Activity.RESULT_OK) {
+            if (requestCode == Const.REQUEST_CODE_ICEBOX ||
+                requestCode == Const.REQUEST_CODE_DSM ||
+                requestCode == Const.REQUEST_CODE_DPM) {
+                mAdapter.notifyDataSetChanged()
+            }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

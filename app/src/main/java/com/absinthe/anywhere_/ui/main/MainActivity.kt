@@ -39,7 +39,6 @@ import com.absinthe.anywhere_.adapter.page.PageTitleProvider
 import com.absinthe.anywhere_.constants.*
 import com.absinthe.anywhere_.constants.GlobalValues.setsCategory
 import com.absinthe.anywhere_.databinding.ActivityMainBinding
-import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
 import com.absinthe.anywhere_.services.BackupIntentService
@@ -69,7 +68,6 @@ import com.absinthe.libraries.utils.extensions.dp
 import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.BarUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -91,10 +89,9 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel by viewModels<AnywhereViewModel>()
-    private lateinit var mBinding: ActivityMainBinding
     private lateinit var mDrawerRecyclerView: DrawerRecyclerView
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mObserver: Observer<List<PageEntity>?>
@@ -121,16 +118,7 @@ class MainActivity : BaseActivity() {
 
     }
 
-    override fun setViewBinding() {
-        isPaddingToolbar = !GlobalValues.isMd2Toolbar
-        mBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
-    }
-
-    override fun setToolbar() {
-        mToolbar = mBinding.toolbar
-        mToolbar?.title = ""
-    }
+    override fun setViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -146,7 +134,6 @@ class MainActivity : BaseActivity() {
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
 
         super.onCreate(savedInstanceState)
-
         initObserver()
         getAnywhereIntent(intent)
         backupIfNeeded()
@@ -159,7 +146,7 @@ class MainActivity : BaseActivity() {
             return
         }
         hasResumed = true
-        Settings.setTheme(GlobalValues.darkMode)
+//        Settings.setTheme(GlobalValues.darkMode)
 
         if (GlobalValues.shouldListenClipBoard) {
             getClipBoardText(this, object : ClipboardUtil.Function {
@@ -225,11 +212,11 @@ class MainActivity : BaseActivity() {
                         R.id.sort_by_name_desc -> GlobalValues.sortMode = Const.SORT_MODE_NAME_DESC
                         R.id.sort_by_name_asc -> GlobalValues.sortMode = Const.SORT_MODE_NAME_ASC
                         R.id.sort -> {
-                            mBinding.viewPager.isUserInputEnabled = false
+                            binding.viewPager.isUserInputEnabled = false
                             CategoryCardFragment.currentReference?.get()?.sort()
                         }
                         R.id.multi_select -> {
-                            mBinding.viewPager.isUserInputEnabled = false
+                            binding.viewPager.isUserInputEnabled = false
                             CategoryCardFragment.currentReference?.get()?.multiSelect()
                         }
                     }
@@ -245,7 +232,7 @@ class MainActivity : BaseActivity() {
             }
             R.id.toolbar_done -> {
                 CategoryCardFragment.currentReference?.get()?.editDone()
-                mBinding.viewPager.isUserInputEnabled = true
+                binding.viewPager.isUserInputEnabled = true
             }
             R.id.toolbar_delete -> {
                 CategoryCardFragment.currentReference?.get()?.deleteSelected()
@@ -265,11 +252,11 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         when {
-            mBinding.drawer.isDrawerVisible(GravityCompat.START) -> {
-                mBinding.drawer.closeDrawer(GravityCompat.START)
+            binding.drawer.isDrawerVisible(GravityCompat.START) -> {
+                binding.drawer.closeDrawer(GravityCompat.START)
             }
-            mBinding.fab.isOpen -> {
-                mBinding.fab.close()
+            binding.fab.isOpen -> {
+                binding.fab.close()
             }
             else -> {
                 backupIfNeeded()
@@ -284,24 +271,25 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
-        super.initView()
-
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.toolbar.title = ""
         GlobalValues.backgroundUri.apply {
             if (isNotEmpty()) {
                 loadBackground(this)
-                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, mBinding.tsTitle)
+                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, binding.tsTitle)
                 UxUtils.setActionBarTransparent(this@MainActivity)
             }
         }
-        mBinding.tsTitle.setText(UxUtils.getToolbarTitle())
-        mBinding.fullDraggableContainer.shouldEnableDrawer = GlobalValues.isPages
+        binding.tsTitle.setText(UxUtils.getToolbarTitle())
+        binding.fullDraggableContainer.shouldEnableDrawer = GlobalValues.isPages
 
         initFab()
         CardTypeIconGenerator
 
         AnywhereApplication.sRepository.allPageEntities.observe(this, {
             if (it.isNotEmpty()) {
-                mBinding.viewPager.apply {
+                binding.viewPager.apply {
                     offscreenPageLimit = 2
                     adapter = object : FragmentStateAdapter(this@MainActivity) {
                         override fun getItemCount(): Int {
@@ -321,15 +309,15 @@ class MainActivity : BaseActivity() {
                             setsCategory(it[pos].title, pos)
 
                             if (isTitleShown) {
-                                mBinding.tsTitle.setText(it[pos].title)
+                                binding.tsTitle.setText(it[pos].title)
                             }
                         }
                     })
 
                     registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                         override fun onPageScrollStateChanged(state: Int) {
-                            if (mBinding.fab.isOpen) {
-                                mBinding.fab.close()
+                            if (binding.fab.isOpen) {
+                                binding.fab.close()
                             }
                         }
                     })
@@ -351,15 +339,15 @@ class MainActivity : BaseActivity() {
             val marginHorizontal = resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
             val marginVertical = resources.getDimension(R.dimen.toolbar_margin_vertical).toInt()
 
-            val newLayoutParams = mBinding.toolbar.layoutParams as AppBarLayout.LayoutParams
+            val newLayoutParams = binding.toolbar.layoutParams as AppBarLayout.LayoutParams
             newLayoutParams.apply {
                 rightMargin = marginHorizontal
                 leftMargin = newLayoutParams.rightMargin
-                topMargin = BarUtils.getStatusBarHeight()
+                topMargin = marginVertical
                 bottomMargin = marginVertical
                 height = 55.dp
             }
-            mBinding.toolbar.apply {
+            binding.toolbar.apply {
                 layoutParams = newLayoutParams
                 contentInsetStartWithNavigation = 0
                 UxUtils.drawMd2Toolbar(this, 3)
@@ -368,7 +356,7 @@ class MainActivity : BaseActivity() {
 
         supportActionBar?.let {
             if (GlobalValues.isPages) {
-                mToggle = ActionBarDrawerToggle(this, mBinding.drawer, mBinding.toolbar,
+                mToggle = ActionBarDrawerToggle(this, binding.drawer, binding.toolbar,
                         R.string.drawer_open, R.string.drawer_close)
 
                 if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_DARK) {
@@ -378,13 +366,13 @@ class MainActivity : BaseActivity() {
                 }
 
                 it.setDisplayHomeAsUpEnabled(true)
-                mBinding.drawer.addDrawerListener(mToggle!!)
+                binding.drawer.addDrawerListener(mToggle!!)
                 mToggle!!.syncState()
-                AnywhereApplication.sRepository.allAnywhereEntities.observe(this, { initDrawer(mBinding.drawer) })
+                AnywhereApplication.sRepository.allAnywhereEntities.observe(this, { initDrawer(binding.drawer) })
             } else {
                 it.setHomeButtonEnabled(false)
                 it.setDisplayHomeAsUpEnabled(false)
-                mBinding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                binding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
         }
 
@@ -393,7 +381,7 @@ class MainActivity : BaseActivity() {
                 delay(2000)
 
                 withContext(Dispatchers.Main) {
-                    mBinding.tsTitle.setText(GlobalValues.category)
+                    binding.tsTitle.setText(GlobalValues.category)
                     isTitleShown = true
                 }
             }
@@ -419,7 +407,7 @@ class MainActivity : BaseActivity() {
                     (adapter.getItem(position) as PageTitleNode?)?.let { titleNode ->
                         AnywhereApplication.sRepository.allPageEntities.value?.find { it.title == titleNode.title }?.let { pe ->
                             try {
-                                mBinding.viewPager.setCurrentItem(AnywhereApplication.sRepository.allPageEntities.value!!.indexOf(pe), true)
+                                binding.viewPager.setCurrentItem(AnywhereApplication.sRepository.allPageEntities.value!!.indexOf(pe), true)
                                 setsCategory(pe.title, position)
                             } catch (e: Exception) {
                                 e.printStackTrace()
@@ -533,18 +521,18 @@ class MainActivity : BaseActivity() {
 
             if (s.isNotEmpty()) {
                 loadBackground(GlobalValues.backgroundUri)
-                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, mBinding.tsTitle)
+                UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, binding.tsTitle)
                 UxUtils.setActionBarTransparent(this)
             }
         })
         viewModel.shouldShowFab.observe(this, {
-            mBinding.fab.isVisible = it
+            binding.fab.isVisible = it
         })
     }
 
     private fun initFab() {
-        build(this, mBinding.fab)
-        mBinding.fab.apply {
+        build(this, binding.fab)
+        binding.fab.apply {
             mainFab.transitionName = "item_container"
             setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
                 when (actionItem.id) {
@@ -582,7 +570,7 @@ class MainActivity : BaseActivity() {
         }
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FAB_TIP)) {
-            showFirstTip(mBinding.fab)
+            showFirstTip(binding.fab)
 
             viewModel.insert(AnywhereEntity().apply {
                 appName = getString(R.string.help_card_title)
@@ -692,7 +680,7 @@ class MainActivity : BaseActivity() {
                 .load(url)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(mBinding.ivBack)
+                .into(binding.ivBack)
     }
 
     private fun showFirstTip(target: View) {

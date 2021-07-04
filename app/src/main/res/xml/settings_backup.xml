@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         app:key="cloudBackupCategory"
@@ -16,8 +17,7 @@
 
         <EditTextPreference
             app:key="webdavPassword"
-            app:dialogLayout="@layout/layout_webdav_password"
-            app:title="@string/settings_backup_webdav_password_title" />
+            app:title="@string/settings_backup_webdav_password_title"/>
 
         <Preference
             app:key="webdavBackup"

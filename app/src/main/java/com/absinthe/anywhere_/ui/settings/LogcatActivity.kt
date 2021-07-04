@@ -3,7 +3,7 @@ package com.absinthe.anywhere_.ui.settings
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.lifecycleScope
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.log.LogAdapter
@@ -26,20 +26,15 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 
-class LogcatActivity : BaseActivity() {
+class LogcatActivity : AppBarActivity<ActivityLogcatBinding>() {
 
-    private lateinit var mBinding: ActivityLogcatBinding
     private var mAdapter: LogAdapter = LogAdapter()
 
-    override fun setViewBinding() {
-        isPaddingToolbar = true
-        mBinding = ActivityLogcatBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
-    }
+    override fun setViewBinding() = ActivityLogcatBinding.inflate(layoutInflater)
 
-    override fun setToolbar() {
-        mToolbar = mBinding.toolbar.toolbar
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
+
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     override fun onDestroy() {
         GlobalValues.sIsDebugMode = false
@@ -47,8 +42,6 @@ class LogcatActivity : BaseActivity() {
     }
 
     override fun initView() {
-        super.initView()
-
         if (!BuildConfig.DEBUG) {
             finish()
             return
@@ -77,26 +70,26 @@ class LogcatActivity : BaseActivity() {
             }
         }
 
-        mBinding.rvLog.apply {
+        binding.rvLog.apply {
             layoutManager = WrapContentLinearLayoutManager(this@LogcatActivity)
             adapter = mAdapter
             addSystemBarPaddingAsync(addStatusBarPadding = false)
         }
 
         if (isStartCatching) {
-            mBinding.btnCollect.text = getText(R.string.btn_stop_catch_log)
+            binding.btnCollect.text = getText(R.string.btn_stop_catch_log)
         } else {
-            mBinding.btnCollect.text = getText(R.string.btn_start_catch_log)
+            binding.btnCollect.text = getText(R.string.btn_start_catch_log)
         }
-        mBinding.btnCollect.setOnClickListener {
+        binding.btnCollect.setOnClickListener {
             if (isStartCatching) {
-                mBinding.btnCollect.text = getText(R.string.btn_start_catch_log)
+                binding.btnCollect.text = getText(R.string.btn_start_catch_log)
                 isStartCatching = false
                 LogRecorder.getInstance().stop()
                 NotificationUtils.cancel(NotifyUtils.LOGCAT_NOTIFICATION_ID)
                 initData(true)
             } else {
-                mBinding.btnCollect.text = getText(R.string.btn_stop_catch_log)
+                binding.btnCollect.text = getText(R.string.btn_stop_catch_log)
                 isStartCatching = true
                 startLogcat(this@LogcatActivity)
             }

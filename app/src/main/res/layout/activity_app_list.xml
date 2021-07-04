@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.absinthe.anywhere_.ui.list.AppListActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/srl_app_list"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fitsSystemWindows="false"
+        app:consumeSystemWindowsInsets="start|end"
+        app:edgeToEdge="true"
+        app:fitsSystemWindowsInsets="start|end"
+        tools:context="com.absinthe.anywhere_.ui.list.AppListActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_app_list"
+    <include android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:hideAnimationBehavior="outward"
+            android:layout_marginTop="?actionBarSize"
+            app:layout_fitsSystemWindowsInsets="top" />
+
+    <rikka.widget.borderview.BorderRecyclerView
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:scrollbars="none" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:paddingTop="?actionBarSize"
+            android:scrollbars="none"
+            app:borderBottomVisibility="never"
+            app:borderTopDrawable="@null"
+            app:borderTopVisibility="whenTop"
+            app:fitsSystemWindowsInsets="bottom|top" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extended_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:backgroundTint="@color/green_done"
-        android:text="@string/menu_add_manually"
-        app:icon="@drawable/ic_add"
-        tools:ignore="RtlHardcoded" />
+            android:id="@+id/extended_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:backgroundTint="@color/green_done"
+            android:text="@string/menu_add_manually"
+            app:icon="@drawable/ic_add"
+            tools:ignore="RtlHardcoded" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

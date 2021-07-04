@@ -30,7 +30,7 @@ object Settings {
 
     fun init(context: Context) {
         setLogger()
-        setTheme(GlobalValues.darkMode)
+//        setTheme(GlobalValues.darkMode)
         initIconPackManager(context)
     }
 

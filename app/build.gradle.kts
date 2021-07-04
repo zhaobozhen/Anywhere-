@@ -146,6 +146,10 @@ val optimizeReleaseRes = task("optimizeReleaseRes").doLast {
 //    }
 //}
 
+configurations.all {
+    exclude(group = "androidx.appcompat", module = "appcompat")
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 
@@ -154,8 +158,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
-    implementation("com.github.zhaobozhen.libraries:me:1.0.1")
-    implementation("com.github.zhaobozhen.libraries:utils:1.0.1")
+    implementation("com.github.zhaobozhen.libraries:me:1.0.2")
+    implementation("com.github.zhaobozhen.libraries:utils:1.0.2")
 
     val appCenterSdkVersion = "4.2.0"
     implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
@@ -176,7 +180,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:${lifecycleVersion}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:${lifecycleVersion}")
 
-    implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("androidx.browser:browser:1.3.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
@@ -194,15 +197,9 @@ dependencies {
     implementation("androidx.core:core-ktx:1.7.0-alpha01")
 
     //Google
-    implementation("com.google.android.material:material:1.3.0")
+    implementation("com.google.android.material:material:1.4.0")
 
     //Function
-    val shizukuVersion = "11.0.3"
-    // required by Shizuku and Sui
-    implementation("dev.rikka.shizuku:api:$shizukuVersion")
-    // required by Shizuku
-    implementation("dev.rikka.shizuku:provider:$shizukuVersion")
-
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
@@ -225,7 +222,19 @@ dependencies {
     implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
     implementation("me.zhanghai.android.fastscroll:library:1.1.7")
 
+    val shizukuVersion = "11.0.3"
+    // required by Shizuku and Sui
+    implementation("dev.rikka.shizuku:api:$shizukuVersion")
+    // required by Shizuku
+    implementation("dev.rikka.shizuku:provider:$shizukuVersion")
+
+    implementation("dev.rikka.rikkax.appcompat:appcompat:1.2.0-rc01")
+    implementation("dev.rikka.rikkax.core:core:1.3.2")
+    implementation("dev.rikka.rikkax.material:material:1.6.5")
+    implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.2.2")
+    implementation("dev.rikka.rikkax.widget:borderview:1.0.1")
     implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
+    implementation("dev.rikka.rikkax.insets:insets:1.1.0")
 
     //Network
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
@@ -242,5 +251,5 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
     androidTestImplementation("androidx.test:runner:1.4.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }

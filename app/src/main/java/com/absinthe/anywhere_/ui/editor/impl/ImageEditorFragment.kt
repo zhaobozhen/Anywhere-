@@ -85,7 +85,7 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
 
         requireActivity().invalidateOptionsMenu()
 
-        (requireActivity() as BaseActivity).setDocumentResultListener(object : OnDocumentResultListener {
+        (requireActivity() as BaseActivity<*>).setDocumentResultListener(object : OnDocumentResultListener {
             override fun onResult(uri: Uri) {
                 loadImage(uri.toString())
                 binding.tietUrl.setText(uri.toString())

@@ -84,7 +84,7 @@ class BackupFragment : PreferenceFragmentCompat() {
                         GlobalValues.webdavPassword.isEmpty()) {
                     Snackbar.make(listView, R.string.toast_check_webdav_configuration, Snackbar.LENGTH_LONG).show()
                 } else {
-                    DialogManager.showWebdavRestoreDialog(requireActivity() as BaseActivity)
+                    DialogManager.showWebdavRestoreDialog(requireActivity() as BaseActivity<*>)
                 }
                 true
             }
@@ -93,7 +93,7 @@ class BackupFragment : PreferenceFragmentCompat() {
         findPreference<Preference>(Const.PREF_BACKUP)?.apply {
             setOnPreferenceClickListener {
                 if (isExternalStorageWritable) {
-                    createFile(requireActivity() as BaseActivity, "*/*",
+                    createFile(requireActivity() as BaseActivity<*>, "*/*",
                             "Anywhere-Backups-" + AppTextUtils.currentFormatDate + ".awbackups")
                 } else {
                     ToastUtil.makeText(R.string.toast_check_device_storage_state)
@@ -124,7 +124,7 @@ class BackupFragment : PreferenceFragmentCompat() {
         }
         findPreference<Preference>(Const.PREF_RESTORE_APPLY)?.apply {
             setOnPreferenceClickListener {
-                showRestoreApplyDialog(requireActivity() as BaseActivity)
+                showRestoreApplyDialog(requireActivity() as BaseActivity<*>)
                 true
             }
         }

@@ -2,11 +2,10 @@ package com.absinthe.anywhere_.utils.manager
 
 import android.app.Activity
 import android.os.Process
-import com.absinthe.anywhere_.BaseActivity
+import androidx.appcompat.app.AppCompatActivity
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
-import kotlin.NoSuchElementException
 
 object ActivityStackManager {
     /***
@@ -17,7 +16,7 @@ object ActivityStackManager {
     /**
      * Activity Stack
      */
-    private var stack: Stack<WeakReference<BaseActivity>> = Stack()
+    private var stack: Stack<WeakReference<AppCompatActivity>> = Stack()
 
     /***
      * Size of Activities
@@ -31,7 +30,7 @@ object ActivityStackManager {
     /**
      * Add Activity to stack
      */
-    fun addActivity(activity: WeakReference<BaseActivity>) {
+    fun addActivity(activity: WeakReference<AppCompatActivity>) {
         stack.add(activity)
     }
 
@@ -40,7 +39,7 @@ object ActivityStackManager {
      *
      * @param activity Weak Reference of Activity
      */
-    fun removeActivity(activity: WeakReference<BaseActivity>) {
+    fun removeActivity(activity: WeakReference<AppCompatActivity>) {
         stack.remove(activity)
     }
 
@@ -49,7 +48,7 @@ object ActivityStackManager {
      *
      * @return Activity
      */
-    val topActivity: BaseActivity?
+    val topActivity: AppCompatActivity?
         get() {
             return try {
                 stack.lastElement().get()
@@ -64,8 +63,8 @@ object ActivityStackManager {
      * @param cls Activity class
      * @return Activity
      */
-    fun getActivity(cls: Class<*>): BaseActivity? {
-        var returnActivity: BaseActivity?
+    fun getActivity(cls: Class<*>): AppCompatActivity? {
+        var returnActivity: AppCompatActivity?
         for (activity in stack) {
             activity.get()?.let {
                 if (it.javaClass == cls) {
@@ -95,7 +94,7 @@ object ActivityStackManager {
      *
      * @param activity Activity want to kill
      */
-    private fun killActivity(activity: WeakReference<BaseActivity>) {
+    private fun killActivity(activity: WeakReference<AppCompatActivity>) {
         try {
             val iterator = stack.iterator()
             while (iterator.hasNext()) {

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.Window
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.SpacesItemDecoration
 import com.absinthe.anywhere_.adapter.card.BaseCardAdapter
@@ -15,28 +15,23 @@ import com.absinthe.anywhere_.adapter.manager.WrapContentStaggeredGridLayoutMana
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.ActivityQrcodeCollectionBinding
 import com.absinthe.anywhere_.databinding.CardQrCollectionTipBinding
-import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import jonathanfinerty.once.Once
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import rikka.widget.borderview.BorderView
 
-class QRCodeCollectionActivity : BaseActivity() {
+class QRCodeCollectionActivity : AppBarActivity<ActivityQrcodeCollectionBinding>() {
 
-    private lateinit var binding: ActivityQrcodeCollectionBinding
     private val mAdapter by lazy { BaseCardAdapter(LAYOUT_MODE_MEDIUM) }
 
-    override fun setViewBinding() {
-        isPaddingToolbar = true
-        binding = ActivityQrcodeCollectionBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
+    override fun setViewBinding() = ActivityQrcodeCollectionBinding.inflate(layoutInflater)
 
-    override fun setToolbar() {
-        mToolbar = binding.toolbar.toolbar
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
+
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.apply {
@@ -61,24 +56,26 @@ class QRCodeCollectionActivity : BaseActivity() {
         super.initView()
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.QR_COLLECTION_TIP)) {
-            val tipBinding = CardQrCollectionTipBinding.inflate(
-                    layoutInflater, binding.llContainer, false)
+            val tipBinding = CardQrCollectionTipBinding.inflate(layoutInflater)
 
-            binding.llContainer.addView(tipBinding.root, 0)
+            mAdapter.addHeaderView(tipBinding.root)
 
             tipBinding.btnOk.setOnClickListener {
-                binding.llContainer.removeView(tipBinding.root)
+                mAdapter.removeHeaderView(tipBinding.root)
                 Once.markDone(OnceTag.QR_COLLECTION_TIP)
             }
         }
         binding.apply {
-            recyclerView.apply {
+            list.apply {
                 adapter = mAdapter
                 setRecyclerViewLayoutManager(resources.configuration)
                 addItemDecoration(SpacesItemDecoration(resources.getDimension(R.dimen.cardview_item_margin).toInt()))
-                addSystemBarPaddingAsync(addStatusBarPadding = false)
+                borderVisibilityChangedListener =
+                    BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
+                        appBar?.setRaised(!top)
+                    }
             }
-            srlQrCollection.isRefreshing = true
+            progressHorizontal.show()
         }
 
         mAdapter.setOnItemClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int -> mAdapter.clickItem(view, position) }
@@ -86,16 +83,12 @@ class QRCodeCollectionActivity : BaseActivity() {
 
         lifecycleScope.launch(Dispatchers.Main) {
             mAdapter.setList(QRCollection.list)
-
-            binding.srlQrCollection.apply {
-                isRefreshing = false
-                isEnabled = false
-            }
+            binding.progressHorizontal.hide()
         }
     }
 
     private fun setRecyclerViewLayoutManager(configuration: Configuration) {
-        binding.recyclerView.layoutManager = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        binding.list.layoutManager = if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             WrapContentStaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
         } else {
             WrapContentStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)

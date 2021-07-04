@@ -16,7 +16,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.applist.AppListDiffCallback
@@ -26,7 +26,6 @@ import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityAppListBinding
-import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
@@ -41,30 +40,26 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
+import rikka.widget.borderview.BorderView
 
 const val EXTRA_APP_LIST_ENTRY_MODE = "EXTRA_APP_LIST_ENTRY_MODE"
 const val EXTRA_PACKAGE_NAME = "EXTRA_PACKAGE_NAME"
 const val MODE_NORMAL = 0
 const val MODE_SELECT = 1
 
-class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
+class AppListActivity : AppBarActivity<ActivityAppListBinding>(), SearchView.OnQueryTextListener {
 
-    private lateinit var binding: ActivityAppListBinding
     private var mItems = mutableListOf<AppListBean>()
     private var initDataJob: Job? = null
     private var isDataInit = false
     private val mAdapter: AppListAdapter = AppListAdapter(MODE_APP_LIST)
     private val entryMode by lazy { intent.getIntExtra(EXTRA_APP_LIST_ENTRY_MODE, MODE_NORMAL) }
 
-    override fun setViewBinding() {
-        isPaddingToolbar = true
-        binding = ActivityAppListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
+    override fun setViewBinding() = ActivityAppListBinding.inflate(layoutInflater)
 
-    override fun setToolbar() {
-        mToolbar = binding.toolbar.toolbar
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
+
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,11 +127,6 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     override fun initView() {
         super.initView()
-        binding.srlAppList.apply {
-            setProgressBackgroundColorSchemeResource(R.color.green_done)
-            setColorSchemeColors(Color.WHITE)
-            setOnRefreshListener { initData(GlobalValues.showSystemApps) }
-        }
         binding.extendedFab.apply {
             post {
                 (layoutParams as CoordinatorLayout.LayoutParams).setMargins(0, 0, 16.dp, 16.dp + SystemBarManager.navigationBarSize)
@@ -175,10 +165,13 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
             }
         }
 
-        binding.rvAppList.apply {
+        binding.list.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppListActivity)
             adapter = mAdapter
-            addSystemBarPaddingAsync(addStatusBarPadding = false)
+            borderVisibilityChangedListener =
+                BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
+                    appBar?.setRaised(!top)
+                }
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -197,7 +190,7 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
     private fun initData(showSystem: Boolean = GlobalValues.showSystemApps) {
         initDataJob?.cancel()
-        binding.srlAppList.isRefreshing = true
+        binding.progressHorizontal.show()
 
         initDataJob = lifecycleScope.launch(Dispatchers.IO) {
             mItems = getAppList(packageManager, showSystem).toMutableList()
@@ -205,8 +198,8 @@ class AppListActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
             withContext(Dispatchers.Main) {
                 mAdapter.setDiffNewData(mItems)
-                binding.srlAppList.isRefreshing = false
-                binding.toolbar.toolbar.menu?.findItem(R.id.search)?.isVisible = true
+                binding.progressHorizontal.hide()
+                getToolBar().menu?.findItem(R.id.search)?.isVisible = true
             }
         }
     }

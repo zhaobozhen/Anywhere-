@@ -1,41 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        app:consumeSystemWindowsInsets="start|end"
+        app:edgeToEdge="true"
+        app:fitsSystemWindowsInsets="start|end"
+        tools:context="com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity">
 
     <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/srl_qr_collection"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:hideAnimationBehavior="outward"
+            android:layout_marginTop="?actionBarSize"
+            app:layout_fitsSystemWindowsInsets="top" />
 
-        <LinearLayout
-            android:id="@+id/ll_container"
+    <rikka.widget.borderview.BorderRecyclerView
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
+            android:clipToPadding="false"
+            android:paddingTop="?actionBarSize"
+            android:scrollbars="none"
+            app:borderBottomVisibility="never"
+            app:borderTopDrawable="@null"
+            app:borderTopVisibility="whenTop"
+            app:fitsSystemWindowsInsets="bottom|top" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:paddingTop="16dp"
-                android:scrollbars="vertical" />
-
-        </LinearLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

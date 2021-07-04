@@ -36,8 +36,8 @@ class PageProvider : BaseNodeProvider() {
                 .load(adapter.getItem(position))
                 .setOpenedListener(object : Opener.OnOpenListener {
                     override fun onOpened() {
-                        if (context is BaseActivity) {
-                            (context as BaseActivity).shouldFinishOnResume = true
+                        if (context is BaseActivity<*>) {
+                            (context as BaseActivity<*>).shouldFinishOnResume = true
                         }
                     }
                 })

@@ -3,50 +3,51 @@ package com.absinthe.anywhere_
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.FileUriExposedException
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.viewbinding.ViewBinding
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.listener.OnDocumentResultListener
-import com.absinthe.anywhere_.ui.main.MainActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
-import com.absinthe.libraries.utils.extensions.paddingTopCompat
 import com.absinthe.libraries.utils.manager.SystemBarManager
 import com.absinthe.libraries.utils.utils.UiUtils
-import com.blankj.utilcode.util.BarUtils
+import rikka.material.app.MaterialActivity
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
-@SuppressLint("Registered")
-abstract class BaseActivity : AppCompatActivity() {
+@SuppressLint("Registered, MissingSuperCall")
+abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
 
     var shouldFinishOnResume = false
-    protected var isPaddingToolbar: Boolean = false
 
-    protected var mToolbar: Toolbar? = null
     private var mListener: OnDocumentResultListener? = null
-    private lateinit var reference: WeakReference<BaseActivity>
+    private lateinit var reference: WeakReference<AppCompatActivity>
 
-    protected abstract fun setViewBinding()
-    protected abstract fun setToolbar()
+    protected lateinit var binding: T
+    protected lateinit var root: View
+
+    protected abstract fun setViewBinding(): T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate")
-        if (GlobalValues.backgroundUri.isEmpty() || this !is MainActivity) {
-            UiUtils.setSystemBarStyle(window)
-        }
+        window.decorView.post { UiUtils.setSystemBarStyle(window) }
 
         super.onCreate(savedInstanceState)
 
         reference = WeakReference(this)
         SystemBarManager.measureSystemBar(window)
         ActivityStackManager.addActivity(reference)
-        setViewBinding()
+
+        binding = setViewBinding()
+        root = binding.root
+        setContentView(root)
         initView()
     }
 
@@ -62,13 +63,16 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    protected open fun initView() {
-        setToolbar()
-        if (isPaddingToolbar) {
-            mToolbar?.paddingTopCompat = BarUtils.getStatusBarHeight()
-        }
-        setSupportActionBar(mToolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    override fun shouldApplyTranslucentSystemBars(): Boolean {
+        return true
+    }
+
+    override fun computeUserThemeKey(): String {
+        return ""
+    }
+
+    override fun onApplyUserThemeResource(theme: Resources.Theme, isDecorView: Boolean) {
+        theme.applyStyle(R.style.ThemeOverlay, true)
     }
 
     fun setDocumentResultListener(listener: OnDocumentResultListener?) {
@@ -115,4 +119,6 @@ abstract class BaseActivity : AppCompatActivity() {
             super.finish()
         }
     }
+
+    protected open fun initView() { }
 }

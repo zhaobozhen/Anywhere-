@@ -56,9 +56,8 @@ const val ACTION_EDITOR = "com.absinthe.anywhere_.intent.action.EDITOR"
 const val EXTRA_PACKAGE_NAME = "EXTRA_PACKAGE_NAME"
 const val EXTRA_CLASS_NAME = "EXTRA_CLASS_NAME"
 
-class EditorActivity : BaseActivity() {
+class EditorActivity : BaseActivity<ActivityEditorBinding>() {
 
-    private lateinit var binding: ActivityEditorBinding
     private lateinit var bottomDrawerBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var editor: IEditor
     private lateinit var entity: AnywhereEntity
@@ -83,19 +82,10 @@ class EditorActivity : BaseActivity() {
 
     }
 
-    override fun setViewBinding() {
-        binding = ActivityEditorBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
-
-    override fun setToolbar() {
-        mToolbar = binding.bar
-    }
+    override fun setViewBinding() = ActivityEditorBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initTransition()
-        super.onCreate(savedInstanceState)
-
         if (intent.action == ACTION_EDITOR) {
             entity = AnywhereEntity().apply {
                     type = AnywhereType.Card.ACTIVITY
@@ -112,7 +102,8 @@ class EditorActivity : BaseActivity() {
             }
         }
 
-        initViews()
+        super.onCreate(savedInstanceState)
+
         setUpBottomDrawer()
     }
 
@@ -136,9 +127,9 @@ class EditorActivity : BaseActivity() {
         return true
     }
 
-    private fun initViews() {
-        super.initView()
-
+    override fun initView() {
+        setSupportActionBar(binding.bar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         if (isEditMode) {
             binding.tvOpenUrl.apply {
                 isVisible = true

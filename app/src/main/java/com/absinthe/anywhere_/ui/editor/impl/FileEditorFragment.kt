@@ -53,7 +53,7 @@ class FileEditorFragment : BaseEditorFragment() {
         }
         requireActivity().invalidateOptionsMenu()
 
-        (requireActivity() as BaseActivity).setDocumentResultListener(object : OnDocumentResultListener {
+        (requireActivity() as BaseActivity<*>).setDocumentResultListener(object : OnDocumentResultListener {
             override fun onResult(uri: Uri) {
                 binding.tietUrl.setText(uri.toString())
             }

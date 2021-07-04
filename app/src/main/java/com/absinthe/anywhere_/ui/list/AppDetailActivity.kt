@@ -6,7 +6,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -14,7 +13,7 @@ import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.applist.AppListDiffCallback
@@ -23,7 +22,6 @@ import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityAppDetailBinding
-import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
@@ -36,32 +34,28 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
+import rikka.widget.borderview.BorderView
 
 const val EXTRA_APP_DETAIL_ENTRY_MODE = "EXTRA_APP_DETAIL_ENTRY_MODE"
 
-class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
+class AppDetailActivity : AppBarActivity<ActivityAppDetailBinding>(), SearchView.OnQueryTextListener {
 
-    private lateinit var mBinding: ActivityAppDetailBinding
     private var mAdapter: AppListAdapter = AppListAdapter(MODE_APP_DETAIL)
     private var isDataInit = false
     private val mItems = mutableListOf<AppListBean>()
     private val entryMode by lazy { intent.getIntExtra(EXTRA_APP_DETAIL_ENTRY_MODE, MODE_NORMAL) }
 
-    override fun setViewBinding() {
-        isPaddingToolbar = true
-        mBinding = ActivityAppDetailBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
-    }
+    override fun setViewBinding() = ActivityAppDetailBinding.inflate(layoutInflater)
 
-    override fun setToolbar() {
-        mToolbar = mBinding.toolbar.toolbar
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
+
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         intent?.let {
-            mToolbar?.title = it.getStringExtra(Const.INTENT_EXTRA_APP_NAME)
+            getToolBar().title = it.getStringExtra(Const.INTENT_EXTRA_APP_NAME)
             initRecyclerView()
             it.getStringExtra(Const.INTENT_EXTRA_PKG_NAME)?.let { packageName ->
                 initData(packageName)
@@ -93,24 +87,20 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                 finish()
             }
         }
-        mBinding.srlAppDetail.apply {
-            setProgressBackgroundColorSchemeResource(R.color.colorPrimary)
-            setColorSchemeColors(Color.WHITE)
-        }
-        mBinding.rvAppList.apply {
+        binding.list.apply {
             layoutManager = WrapContentLinearLayoutManager(this@AppDetailActivity)
             adapter = mAdapter
-            addSystemBarPaddingAsync(addStatusBarPadding = false)
+            borderVisibilityChangedListener =
+                BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
+                    appBar?.setRaised(!top)
+                }
             FastScrollerBuilder(this).useMd2Style().build()
         }
     }
 
     private fun initData(pkgName: String) {
 
-        mBinding.srlAppDetail.apply {
-            isEnabled = true
-            isRefreshing = true
-        }
+        binding.progressHorizontal.show()
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {
@@ -169,7 +159,7 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
 
             withContext(Dispatchers.Main) {
                 if (mItems.isEmpty()) {
-                    mBinding.vfContainer.displayedChild = 1
+                    binding.vfContainer.displayedChild = 1
                 } else {
                     val launchActivity = ActivityUtils.getLauncherActivity(mItems[0].packageName)
                     mItems.find { it.className == launchActivity }?.let {
@@ -177,14 +167,10 @@ class AppDetailActivity : BaseActivity(), SearchView.OnQueryTextListener {
                     }
 
                     mAdapter.setDiffNewData(mItems)
-                    mBinding.vfContainer.displayedChild = 0
+                    binding.vfContainer.displayedChild = 0
                 }
 
-                mBinding.srlAppDetail.apply {
-                    isEnabled = false
-                    isRefreshing = false
-                    mBinding.toolbar.toolbar.menu?.findItem(R.id.search)?.isVisible = true
-                }
+                binding.progressHorizontal.hide()
             }
         }
     }

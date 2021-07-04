@@ -3,7 +3,7 @@ package com.absinthe.anywhere_.ui.backup
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.lifecycleScope
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.databinding.ActivityBackupBinding
@@ -17,19 +17,13 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 
-class BackupActivity : BaseActivity() {
+class BackupActivity : AppBarActivity<ActivityBackupBinding>() {
 
-    private lateinit var mBinding: ActivityBackupBinding
+    override fun setViewBinding() = ActivityBackupBinding.inflate(layoutInflater)
 
-    override fun setViewBinding() {
-        isPaddingToolbar = true
-        mBinding = ActivityBackupBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
 
-    override fun setToolbar() {
-        mToolbar = mBinding.toolbar.toolbar
-    }
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -7,7 +7,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.absinthe.anywhere_.AnywhereApplication
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.applist.AppListAdapter
 import com.absinthe.anywhere_.adapter.tile.TileCardAdapter
@@ -26,25 +26,20 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-open class TileSettingsActivity : BaseActivity() {
+open class TileSettingsActivity : AppBarActivity<ActivityTileSettingsBinding>() {
 
-    private lateinit var mBinding: ActivityTileSettingsBinding
     private var mAdapter: TileCardAdapter = TileCardAdapter()
     private var mList: MutableList<AnywhereEntity> = mutableListOf()
 
-    override fun setViewBinding() {
-        isPaddingToolbar = true
-        mBinding = ActivityTileSettingsBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
-    }
+    override fun setViewBinding() = ActivityTileSettingsBinding.inflate(layoutInflater)
 
-    override fun setToolbar() {
-        mToolbar = mBinding.toolbar
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
+
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     override fun initView() {
         super.initView()
-        mBinding.apply {
+        binding.apply {
             rvTiles.apply {
                 layoutManager = LinearLayoutManager(this@TileSettingsActivity)
                 adapter = mAdapter

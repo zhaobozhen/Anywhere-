@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.absinthe.anywhere_.ui.list.AppDetailActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:background="@null"
-        android:layout_height="wrap_content">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/srl_app_detail"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fitsSystemWindows="false"
+        app:consumeSystemWindowsInsets="start|end"
+        app:edgeToEdge="true"
+        app:fitsSystemWindowsInsets="start|end"
+        tools:context="com.absinthe.anywhere_.ui.list.AppDetailActivity">
 
-        <ViewFlipper
+    <include android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:hideAnimationBehavior="outward"
+            android:layout_marginTop="?actionBarSize"
+            app:layout_fitsSystemWindowsInsets="top" />
+
+    <ViewFlipper
             android:id="@+id/vf_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_app_list"
+        <rikka.widget.borderview.BorderRecyclerView
+                android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:scrollbars="none" />
+                android:paddingTop="?actionBarSize"
+                android:scrollbars="none"
+                app:borderBottomVisibility="never"
+                app:borderTopDrawable="@null"
+                app:borderTopVisibility="whenTop"
+                app:fitsSystemWindowsInsets="bottom|top" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
+            <TextView
                     android:id="@+id/tv_empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -51,7 +56,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/activity_list_empty_subtitle"
@@ -61,10 +66,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_empty" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ViewFlipper>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </ViewFlipper>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

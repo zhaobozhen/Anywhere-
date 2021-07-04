@@ -12,7 +12,6 @@ import com.catchingnow.delegatedscopeclient.DSMClient
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.radiobutton.MaterialRadioButton
 
 class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.item_defrost_mode) {
@@ -24,7 +23,7 @@ class DefrostAdapter : BaseQuickAdapter<DefrostItem, BaseViewHolder>(R.layout.it
     }
 
     override fun convert(holder: BaseViewHolder, item: DefrostItem) {
-        val button: MaterialButton = holder.getView(R.id.button)
+        val button: TextView = holder.getView(R.id.button)
         val radio: MaterialRadioButton = holder.getView(R.id.radio)
         val addition: TextView = holder.getView(R.id.tv_addition)
 

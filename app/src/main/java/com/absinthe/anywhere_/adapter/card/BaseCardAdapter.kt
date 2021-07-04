@@ -296,8 +296,8 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                         .setOpenedListener(object :Opener.OnOpenListener{
                             override fun onOpened() {
                                 if (GlobalValues.closeAfterLaunch) {
-                                    if (context is BaseActivity) {
-                                        (context as BaseActivity).shouldFinishOnResume = true
+                                    if (context is BaseActivity<*>) {
+                                        (context as BaseActivity<*>).shouldFinishOnResume = true
                                     }
                                 }
                             }
@@ -339,7 +339,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
 
                 if (GlobalValues.editorEntryAnim) {
                     val options = ActivityOptions.makeSceneTransitionAnimation(
-                            context as BaseActivity,
+                            context as BaseActivity<*>,
                             v,
                             context.getString(R.string.trans_item_container)
                     )

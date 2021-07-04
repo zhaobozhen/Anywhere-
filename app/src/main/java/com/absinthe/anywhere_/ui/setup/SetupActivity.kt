@@ -1,23 +1,17 @@
 package com.absinthe.anywhere_.ui.setup
 
 import android.os.Bundle
-import com.absinthe.anywhere_.BaseActivity
+import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.databinding.ActivitySetupBinding
 
-class SetupActivity : BaseActivity() {
+class SetupActivity : AppBarActivity<ActivitySetupBinding>() {
 
-    private lateinit var binding: ActivitySetupBinding
+    override fun setViewBinding() = ActivitySetupBinding.inflate(layoutInflater)
 
-    override fun setViewBinding() {
-        isPaddingToolbar = true
-        binding = ActivitySetupBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
+    override fun getToolBar() = binding.toolbar.toolbar
 
-    override fun setToolbar() {
-        mToolbar = binding.toolbar.toolbar
-    }
+    override fun getAppBarLayout() = binding.toolbar.appbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
