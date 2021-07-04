@@ -4,12 +4,16 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
+import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
@@ -22,6 +26,11 @@ import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
+import rikka.material.app.DayNightDelegate
+import rikka.preference.SimpleMenuPreference
+import rikka.recyclerview.fixEdgeEffect
+import rikka.widget.borderview.BorderRecyclerView
+import rikka.widget.borderview.BorderView
 import timber.log.Timber
 
 class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
@@ -33,6 +42,12 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
     override fun getAppBarLayout() = binding.toolbar.appbar
 
     class SettingsFragment : PreferenceFragmentCompat() {
+
+        companion object {
+            init {
+                SimpleMenuPreference.setLightFixEnabled(true)
+            }
+        }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.settings, rootKey)
@@ -85,8 +100,9 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
                     if (newValue.toString() == Const.DARK_MODE_AUTO) {
                         DialogManager.showDarkModeTimePickerDialog(requireActivity() as SettingsActivity)
                     } else {
-                        Settings.setTheme(newValue.toString())
                         GlobalValues.darkMode = newValue.toString()
+                        DayNightDelegate.setDefaultNightMode(Settings.getTheme())
+                        requireActivity().recreate()
                     }
                     true
                 }
@@ -202,6 +218,24 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
                     true
                 }
             }
+        }
+
+        override fun onCreateRecyclerView(inflater: LayoutInflater, parent: ViewGroup, savedInstanceState: Bundle?): RecyclerView {
+            val recyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState) as BorderRecyclerView
+            recyclerView.fixEdgeEffect()
+            recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            recyclerView.isVerticalScrollBarEnabled = false
+
+            val lp = recyclerView.layoutParams
+            if (lp is FrameLayout.LayoutParams) {
+                lp.rightMargin = recyclerView.context.resources.getDimension(rikka.material.R.dimen.rd_activity_horizontal_margin).toInt()
+                lp.leftMargin = lp.rightMargin
+            }
+
+            recyclerView.borderViewDelegate.borderVisibilityChangedListener =
+                BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean -> (activity as SettingsActivity?)?.appBar?.setRaised(!top) }
+
+            return recyclerView
         }
     }
 

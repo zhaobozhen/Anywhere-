@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.view.settings.ObservableTimePickerDialog
 import com.absinthe.anywhere_.view.settings.ObservableTimePickerDialog.OnCancelledListener
 import com.absinthe.anywhere_.viewbuilder.entity.TimePickerBuilder
 import com.google.android.material.button.MaterialButton
+import rikka.material.app.DayNightDelegate
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -67,8 +68,8 @@ class TimePickerDialogFragment : AnywhereDialogFragment() {
                     try {
                         format.parse(mBuilder.btnStart.text.toString())?.time?.let { GlobalValues.autoDarkModeStart = it }
                         format.parse(mBuilder.btnEnd.text.toString())?.time?.let { GlobalValues.autoDarkModeEnd = it }
-                        Settings.setTheme(Const.DARK_MODE_AUTO)
                         GlobalValues.darkMode = Const.DARK_MODE_AUTO
+                        DayNightDelegate.setDefaultNightMode(Settings.getTheme())
                     } catch (e: ParseException) {
                         e.printStackTrace()
                     }

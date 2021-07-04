@@ -14,7 +14,6 @@ import com.absinthe.anywhere_.adapter.tile.TileCardAdapter
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityTileSettingsBinding
-import com.absinthe.anywhere_.extension.addSystemBarPadding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.services.tile.TILE_LABEL
@@ -23,6 +22,7 @@ import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCardListDialog
 import com.absinthe.libraries.utils.extensions.dp
 import com.chad.library.adapter.base.BaseQuickAdapter
+import rikka.widget.borderview.BorderView
 
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -40,12 +40,13 @@ open class TileSettingsActivity : AppBarActivity<ActivityTileSettingsBinding>() 
     override fun initView() {
         super.initView()
         binding.apply {
-            rvTiles.apply {
+            list.apply {
                 layoutManager = LinearLayoutManager(this@TileSettingsActivity)
                 adapter = mAdapter
-                clipChildren = false
-                clipToPadding = false
-                addSystemBarPadding(addStatusBarPadding = false)
+                borderVisibilityChangedListener =
+                    BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
+                        appBar?.setRaised(!top)
+                    }
             }
         }
 

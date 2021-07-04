@@ -30,17 +30,17 @@ object Settings {
 
     fun init(context: Context) {
         setLogger()
-//        setTheme(GlobalValues.darkMode)
         initIconPackManager(context)
     }
 
-    fun setTheme(mode: String) {
-        when (mode) {
-            Const.DARK_MODE_OFF, "" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            Const.DARK_MODE_ON -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            Const.DARK_MODE_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            Const.DARK_MODE_BATTERY -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-            Const.DARK_MODE_AUTO -> AppCompatDelegate.setDefaultNightMode(UxUtils.getAutoDarkMode())
+    fun getTheme(): Int {
+        return when (GlobalValues.darkMode) {
+            Const.DARK_MODE_OFF, "" -> AppCompatDelegate.MODE_NIGHT_NO
+            Const.DARK_MODE_ON -> AppCompatDelegate.MODE_NIGHT_YES
+            Const.DARK_MODE_SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            Const.DARK_MODE_BATTERY -> AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+            Const.DARK_MODE_AUTO -> UxUtils.getAutoDarkMode()
+            else -> AppCompatDelegate.MODE_NIGHT_NO
         }
     }
 

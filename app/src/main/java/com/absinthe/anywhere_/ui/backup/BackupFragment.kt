@@ -2,16 +2,18 @@ package com.absinthe.anywhere_.ui.backup
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.core.text.HtmlCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
+import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.CipherUtils
 import com.absinthe.anywhere_.utils.StorageUtils
@@ -23,6 +25,9 @@ import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.DialogManager.showBackupShareDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRestoreApplyDialog
 import com.google.android.material.snackbar.Snackbar
+import rikka.recyclerview.fixEdgeEffect
+import rikka.widget.borderview.BorderRecyclerView
+import rikka.widget.borderview.BorderView
 
 const val BACKUP_TIP_VERSION = "2.0.0"
 
@@ -136,9 +141,22 @@ class BackupFragment : PreferenceFragmentCompat() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        listView.addSystemBarPaddingAsync(addStatusBarPadding = false)
+    override fun onCreateRecyclerView(inflater: LayoutInflater, parent: ViewGroup, savedInstanceState: Bundle?): RecyclerView {
+        val recyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState) as BorderRecyclerView
+        recyclerView.fixEdgeEffect()
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        recyclerView.isVerticalScrollBarEnabled = false
+
+        val lp = recyclerView.layoutParams
+        if (lp is FrameLayout.LayoutParams) {
+            lp.rightMargin = recyclerView.context.resources.getDimension(rikka.material.R.dimen.rd_activity_horizontal_margin).toInt()
+            lp.leftMargin = lp.rightMargin
+        }
+
+        recyclerView.borderViewDelegate.borderVisibilityChangedListener =
+            BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean -> (activity as BackupActivity?)?.appBar?.setRaised(!top) }
+
+        return recyclerView
     }
 
     private fun getBackupTip(): CharSequence {

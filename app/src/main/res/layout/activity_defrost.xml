@@ -14,12 +14,16 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+    <rikka.widget.borderview.BorderRecyclerView
+            android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:overScrollMode="never"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="?actionBarSize"
+            android:scrollbars="none"
+            app:borderBottomVisibility="never"
+            app:borderTopDrawable="@null"
+            app:borderTopVisibility="whenTop"
+            app:fitsSystemWindowsInsets="bottom|top" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

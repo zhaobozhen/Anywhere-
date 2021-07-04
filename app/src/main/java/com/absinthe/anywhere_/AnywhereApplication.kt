@@ -3,7 +3,6 @@ package com.absinthe.anywhere_
 import android.app.Application
 import android.content.Context
 import android.os.Build
-import androidx.appcompat.app.AppCompatDelegate
 import cn.vove7.andro_accessibility_api.AccessibilityApi
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.Settings
@@ -40,7 +39,7 @@ class AnywhereApplication : Application() {
         PoliceMan.checkPMProxy(this)
         sRepository = AnywhereRepository(this)
         DayNightDelegate.setApplicationContext(this)
-//        DayNightDelegate.setDefaultNightMode(DayNightDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        DayNightDelegate.setDefaultNightMode(Settings.getTheme())
 
         AccessibilityApi.apply {
             BASE_SERVICE_CLS = IzukoService::class.java

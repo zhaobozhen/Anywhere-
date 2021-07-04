@@ -186,7 +186,6 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.1.0-alpha01")
     implementation("androidx.annotation:annotation:1.3.0-alpha01")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
     implementation("androidx.preference:preference-ktx:1.1.1")
 
     //KTX

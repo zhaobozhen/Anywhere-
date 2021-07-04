@@ -24,6 +24,7 @@ import com.absinthe.libraries.utils.utils.XiaomiUtilities
 import com.blankj.utilcode.util.AppUtils
 import com.catchingnow.delegatedscopeclient.DSMClient
 import com.catchingnow.icebox.sdk_client.IceBox
+import rikka.widget.borderview.BorderView
 
 class DefrostActivity : AppBarActivity<ActivityDefrostBinding>() {
 
@@ -77,9 +78,13 @@ class DefrostActivity : AppBarActivity<ActivityDefrostBinding>() {
                 }
             }
         }
-        binding.recyclerView.apply {
+        binding.list.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(this@DefrostActivity)
+            borderVisibilityChangedListener =
+                BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
+                    appBar?.setRaised(!top)
+                }
         }
     }
 

@@ -15,7 +15,6 @@
         <item name="toolbarStyle">@style/Widget.Material.Toolbar</item>
 
         <item name="appBarStyle">@style/Widget.AppBar.Surface.Raisable</item>
-        <item name="preferenceTheme">@style/ThemeOverlay.Preference</item>
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
         <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
         <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
@@ -25,14 +24,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowSplashscreenContent" tools:targetApi="o">@drawable/splash_drawable</item>
-        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
         <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
-
-        <item name="android:contextPopupMenuStyle" tools:targetApi="n">@style/Widget.MaterialComponents.PopupMenu.ContextMenu</item>
-        <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
-        <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
     </style>
 
     <style name="Theme.Light" parent="Base.AppTheme.Light" />
@@ -49,7 +43,6 @@
         <item name="toolbarStyle">@style/Widget.Material.Toolbar</item>
 
         <item name="appBarStyle">@style/Widget.AppBar.Surface.Raisable</item>
-        <item name="preferenceTheme">@style/ThemeOverlay.Preference</item>
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
         <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
         <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
@@ -59,14 +52,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowSplashscreenContent" tools:targetApi="o">@drawable/splash_drawable</item>
-        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
         <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
-
-        <item name="android:contextPopupMenuStyle" tools:targetApi="n">@style/Widget.MaterialComponents.PopupMenu.ContextMenu</item>
-        <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
-        <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
     </style>
 
     <style name="Theme" parent="Base.AppTheme" />

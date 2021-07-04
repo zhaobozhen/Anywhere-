@@ -16,7 +16,6 @@ import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
-import com.absinthe.libraries.utils.manager.SystemBarManager
 import com.absinthe.libraries.utils.utils.UiUtils
 import rikka.material.app.MaterialActivity
 import timber.log.Timber
@@ -37,17 +36,15 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate")
-        window.decorView.post { UiUtils.setSystemBarStyle(window) }
-
         super.onCreate(savedInstanceState)
 
         reference = WeakReference(this)
-        SystemBarManager.measureSystemBar(window)
         ActivityStackManager.addActivity(reference)
 
         binding = setViewBinding()
         root = binding.root
         setContentView(root)
+        window.decorView.post { UiUtils.setSystemBarStyle(window) }
         initView()
     }
 
@@ -68,7 +65,7 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
     }
 
     override fun computeUserThemeKey(): String {
-        return ""
+        return GlobalValues.darkMode
     }
 
     override fun onApplyUserThemeResource(theme: Resources.Theme, isDecorView: Boolean) {
