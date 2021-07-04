@@ -4,11 +4,7 @@ import android.animation.LayoutTransition
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
@@ -34,7 +30,6 @@ import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
 import com.absinthe.libraries.utils.extensions.dp
 import com.absinthe.libraries.utils.manager.SystemBarManager
-import com.absinthe.libraries.utils.utils.UiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -91,11 +86,6 @@ class AppListActivity : AppBarActivity<ActivityAppListBinding>(), SearchView.OnQ
                     R.string.menu_show_system_app
                 }
             )
-            if (UiUtils.isDarkMode()) {
-                title = SpannableStringBuilder(title).apply {
-                    setSpan(ForegroundColorSpan(Color.WHITE), 0, title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                }
-            }
         }
 
         if (!isDataInit) {
@@ -115,11 +105,6 @@ class AppListActivity : AppBarActivity<ActivityAppListBinding>(), SearchView.OnQ
                 false
             }
 
-            if (UiUtils.isDarkMode()) {
-                item.title = SpannableStringBuilder(item.title).apply {
-                    setSpan(ForegroundColorSpan(Color.WHITE), 0, item.title.length - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                }
-            }
             initData(GlobalValues.showSystemApps)
         }
         return super.onOptionsItemSelected(item)
