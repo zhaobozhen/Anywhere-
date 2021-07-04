@@ -165,7 +165,7 @@ dependencies {
     val roomVersion = "2.3.0"
     implementation("androidx.room:room-runtime:${roomVersion}")
     implementation("androidx.room:room-ktx:${roomVersion}")
-    kapt("org.xerial:sqlite-jdbc:3.34.0") //Work around on Apple Silicon
+    kapt("org.xerial:sqlite-jdbc:3.36.0.1") //Work around on Apple Silicon
     kapt("androidx.room:room-compiler:${roomVersion}")
     androidTestImplementation("androidx.room:room-testing:${roomVersion}")
 
@@ -191,7 +191,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.2.3")
     implementation("androidx.fragment:fragment-ktx:1.3.5")
     implementation("androidx.palette:palette-ktx:1.0.0")
-    implementation("androidx.core:core-ktx:1.6.0-rc01")
+    implementation("androidx.core:core-ktx:1.7.0-alpha01")
 
     //Google
     implementation("com.google.android.material:material:1.3.0")
@@ -209,7 +209,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.7")
     implementation("com.google.zxing:core:3.4.1")
     implementation("com.blankj:utilcodex:1.30.6")
-    implementation("com.tencent:mmkv-static:1.2.9")
+    implementation("com.tencent:mmkv-static:1.2.10")
     implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6")
     implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
     implementation("com.github.topjohnwu.libsu:core:3.1.1")
@@ -241,6 +241,6 @@ dependencies {
     //Debug
     testImplementation("junit:junit:4.13.2")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
-    androidTestImplementation("androidx.test:runner:1.3.0")
+    androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 }

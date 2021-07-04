@@ -19,6 +19,7 @@ import com.absinthe.anywhere_.services.overlay.ICollectorService
 import com.absinthe.anywhere_.services.tile.TILE_ACTIVE_STATE
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.utils.AppUtils.openNewURLScheme
+import com.absinthe.anywhere_.utils.CommandUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
@@ -240,6 +241,9 @@ class ShortcutsActivity : BaseActivity() {
                 }
                 else -> shouldFinish = true
             }
+        }
+        if (intent.getBooleanExtra(Const.INTENT_EXTRA_EMULATE_BACK_PRESS, false)) {
+            CommandUtils.execAdbCmd(Const.CMD_BACK_PRESS)
         }
     }
 

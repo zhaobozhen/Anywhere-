@@ -63,6 +63,11 @@ object Opener {
 
     fun with(context: Context): Opener {
         this.context = WeakReference(context)
+        type = TYPE_NONE
+        item = null
+        command = null
+        listener = null
+        extraItem = null
         return this
     }
 
@@ -91,14 +96,17 @@ object Opener {
     @Throws(NullPointerException::class)
     fun open() {
         context?.get()?.let {
-            if (type == TYPE_CMD) {
-                openFromCommand(it)
-            } else if (type == TYPE_ENTITY) {
-                if (item?.execWithRoot == true) {
-                    command = getItemCommand(item!!)
+            when(type) {
+                TYPE_CMD ->{
                     openFromCommand(it)
-                } else {
-                    openFromEntity(it)
+                }
+                TYPE_ENTITY -> {
+                    if (item?.execWithRoot == true) {
+                        command = getItemCommand(item!!)
+                        openFromCommand(it)
+                    } else {
+                        openFromEntity(it)
+                    }
                 }
             }
         } ?: let {

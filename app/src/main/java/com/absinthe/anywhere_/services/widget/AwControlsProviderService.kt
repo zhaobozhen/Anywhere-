@@ -91,6 +91,7 @@ class AwControlsProviderService : ControlsProviderService() {
                     putExtra(Const.INTENT_EXTRA_PARAM_2, cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_2)))
                     putExtra(Const.INTENT_EXTRA_PARAM_3, cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)))
                     putExtra(Const.INTENT_EXTRA_TYPE, type)
+                    putExtra(Const.INTENT_EXTRA_EMULATE_BACK_PRESS, true)
                 }
                 pi = PendingIntent.getActivity(context, requestCode++, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 val status = if (type == AnywhereType.Card.SWITCH_SHELL && cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)) == SWITCH_OFF) {

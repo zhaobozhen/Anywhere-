@@ -89,6 +89,7 @@ object Const {
     const val INTENT_EXTRA_OPEN_SHORT_ID = "sid"
     const val INTENT_EXTRA_DYNAMIC_PARAM = "dynamic"
     const val INTENT_EXTRA_FROM_TILE = "tile"
+    const val INTENT_EXTRA_EMULATE_BACK_PRESS = "emulateBack"
 
     const val INTENT_EXTRA_WIDGET_ENTITY = "entity"
 
@@ -100,6 +101,7 @@ object Const {
     const val CMD_OPEN_URL_SCHEME_FORMAT = "am start -a android.intent.action.VIEW -d %s"
     const val CMD_OPEN_ACTIVITY_FORMAT = "am start -n %s/%s"
     const val CMD_START_BROADCAST_FORMAT = "am broadcast"
+    const val CMD_BACK_PRESS = "input keyevent 4"
 
     const val REQUEST_CODE_SHIZUKU_PERMISSION = 1001
     const val REQUEST_CODE_GO_TO_MIUI_PERM_MANAGER = 1002
