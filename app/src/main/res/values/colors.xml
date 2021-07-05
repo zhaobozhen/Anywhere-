@@ -14,7 +14,7 @@
     <color name="shadowHeavy">#22444444</color>
     <color name="exported_background">#334AC382</color>
     <color name="launcher_activity_background">#3303A9F4</color>
-    <color name="appColorDark">#B1B8DF</color>
+    <color name="appColorDark">@color/material_green_A700</color>
 
     <!--  DayNight colors  -->
     <color name="textColorNormal">#FF000000</color>

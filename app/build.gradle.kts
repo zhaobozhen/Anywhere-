@@ -215,7 +215,7 @@ dependencies {
     implementation("com.drakeet.about:about:2.4.1")
     implementation("com.drakeet.about:about-extension:2.4.1")
     implementation("com.drakeet.multitype:multitype:4.3.0")
-    implementation("com.leinardi.android:speed-dial:3.2.0")
+    implementation("com.leinardi.android:speed-dial:3.1.1")
     implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
     implementation("me.zhanghai.android.fastscroll:library:1.1.7")
 
