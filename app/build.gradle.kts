@@ -11,8 +11,8 @@ plugins {
     id("sdk-editor")
 }
 
-val verName = "2.2.5"
-val verCode = 2020503
+val verName = "2.3.0"
+val verCode = 2030000
 
 android {
     compileSdk = 30
@@ -140,11 +140,11 @@ val optimizeReleaseRes = task("optimizeReleaseRes").doLast {
     }
 }
 
-//tasks.whenTaskAdded {
-//    if (name == "shrinkReleaseRes") {
-//        finalizedBy(optimizeReleaseRes)
-//    }
-//}
+tasks.whenTaskAdded {
+    if (name == "shrinkReleaseRes") {
+        finalizedBy(optimizeReleaseRes)
+    }
+}
 
 configurations.all {
     exclude(group = "androidx.appcompat", module = "appcompat")
@@ -155,6 +155,7 @@ dependencies {
 
     implementation(files("libs/color-picker.aar"))
     implementation(files("libs/IceBox-SDK-1.0.5.aar"))
+    implementation(files("libs/speed-dial-3.1.1.aar"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
@@ -215,7 +216,6 @@ dependencies {
     implementation("com.drakeet.about:about:2.4.1")
     implementation("com.drakeet.about:about-extension:2.4.1")
     implementation("com.drakeet.multitype:multitype:4.3.0")
-    implementation("com.leinardi.android:speed-dial:3.1.1")
     implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
     implementation("me.zhanghai.android.fastscroll:library:1.1.7")
 

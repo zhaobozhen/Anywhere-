@@ -11,7 +11,6 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -22,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.children
 import androidx.palette.graphics.Palette
+import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
@@ -37,12 +37,10 @@ import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.AppUtils.getPackageNameByScheme
-import com.absinthe.anywhere_.utils.StatusBarUtil.clearLightStatusBarAndNavigationBar
 import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.ShadowHelper
 import com.absinthe.anywhere_.view.home.TextSwitcherView
 import com.absinthe.libraries.utils.extensions.dp
-import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
@@ -157,12 +155,13 @@ object UxUtils {
      *
      * @param activity Activity for use Glide
      */
-    fun setAdaptiveToolbarTitleColor(activity: AppCompatActivity, textSwitcher: TextSwitcherView) {
+    fun setAdaptiveToolbarTitleColor(activity: BaseActivity<*>, textSwitcher: TextSwitcherView) {
+        val title = getToolbarTitle()
+
         if (backgroundUri.isEmpty()) {
             return
         }
 
-        val title = getToolbarTitle()
         if (actionBarType.isNotEmpty()) {
             setTopWidgetColor(activity, textSwitcher, actionBarType, title)
             return
@@ -202,11 +201,11 @@ object UxUtils {
      * @param type      dark or light
      * @param title     action bar title
      */
-    private fun setTopWidgetColor(activity: AppCompatActivity, textSwitcher: TextSwitcherView, type: String, title: String) {
+    private fun setTopWidgetColor(activity: BaseActivity<*>, textSwitcher: TextSwitcherView, type: String, title: String) {
         var newType = type
 
         if (backgroundUri.isEmpty()) {
-            newType = if (UiUtils.isDarkMode()) {
+            newType = if (activity.isNightMode()) {
                 Const.ACTION_BAR_TYPE_LIGHT
             } else {
                 Const.ACTION_BAR_TYPE_DARK
@@ -214,9 +213,11 @@ object UxUtils {
         }
         if (newType == Const.ACTION_BAR_TYPE_DARK || newType.isEmpty()) {
             Timber.d("Dark-")
-            val span = if (UiUtils.isDarkMode() && backgroundUri.isEmpty()) {
+            val span = if (activity.isNightMode() && backgroundUri.isEmpty()) {
+                textSwitcher.textColor = Color.WHITE
                 ForegroundColorSpan(Color.WHITE)
             } else {
+                textSwitcher.textColor = Color.BLACK
                 ForegroundColorSpan(Color.BLACK)
             }
             textSwitcher.setText(SpannableString(title).apply {
@@ -225,8 +226,6 @@ object UxUtils {
 
             actionBarType = Const.ACTION_BAR_TYPE_DARK
             activity.invalidateOptionsMenu()
-            activity.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or
-                    activity.window.decorView.systemUiVisibility
 
             if (backgroundUri.isNotEmpty() || isPages) {
                 setActionBarTransparent(activity)
@@ -242,14 +241,12 @@ object UxUtils {
             actionBarType = Const.ACTION_BAR_TYPE_LIGHT
 
             activity.invalidateOptionsMenu()
-            clearLightStatusBarAndNavigationBar(activity.window.decorView)
         }
     }
 
     /**
      * Make the card use icon's color
      *
-     * @param cardBackgroundView     card view
      * @param drawable icon drawable
      * @param action notify when Palette finished
      */

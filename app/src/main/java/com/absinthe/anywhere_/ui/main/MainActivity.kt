@@ -64,7 +64,6 @@ import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.absinthe.libraries.utils.extensions.dp
-import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
 import com.bumptech.glide.Glide
@@ -144,7 +143,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             return
         }
         hasResumed = true
-//        Settings.setTheme(GlobalValues.darkMode)
 
         if (GlobalValues.shouldListenClipBoard) {
             getClipBoardText(this, object : ClipboardUtil.Function {
@@ -173,7 +171,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_LIGHT
-                || (UiUtils.isDarkMode() && GlobalValues.backgroundUri.isEmpty())) {
+                || (isNightMode() && GlobalValues.backgroundUri.isEmpty())) {
             UxUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_LIGHT)
         } else {
             UxUtils.tintToolbarIcon(this, menu, mToggle, Const.ACTION_BAR_TYPE_DARK)

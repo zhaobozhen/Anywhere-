@@ -3,6 +3,7 @@ package com.absinthe.anywhere_
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
@@ -130,4 +131,10 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
     }
 
     protected open fun initView() { }
+
+    fun isNightMode(): Boolean {
+        return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES > 0
+    }
+
+
 }

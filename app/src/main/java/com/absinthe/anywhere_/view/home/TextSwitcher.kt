@@ -14,7 +14,6 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import android.widget.ViewSwitcher
 import com.absinthe.anywhere_.R
-import com.absinthe.libraries.utils.utils.UiUtils
 
 /**
  * <pre>
@@ -24,7 +23,7 @@ import com.absinthe.libraries.utils.utils.UiUtils
  */
 class TextSwitcherView : TextSwitcher, ViewSwitcher.ViewFactory {
 
-    var textColor = if (UiUtils.isDarkMode()) Color.WHITE else Color.BLACK
+    var textColor: Int = Color.WHITE
 
     constructor(context: Context?) : super(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
@@ -35,6 +34,7 @@ class TextSwitcherView : TextSwitcher, ViewSwitcher.ViewFactory {
         setFactory(this)
         this.setInAnimation(context, R.anim.anim_text_switcher_in)
         this.setOutAnimation(context, R.anim.anim_text_switcher_out)
+        textColor = context.getColor(R.color.textColorNormal)
     }
 
     override fun makeView(): View {
