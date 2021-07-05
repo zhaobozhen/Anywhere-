@@ -29,4 +29,16 @@ class FadingEdgeRecyclerView : RecyclerView {
     override fun getBottomPaddingOffset(): Int {
         return if (clipToPadding) 0 else paddingBottom
     }
+
+    override fun getBottomFadingEdgeStrength(): Float {
+        return 0f
+    }
+
+    override fun hasOverlappingRendering(): Boolean {
+        return true
+    }
+
+    override fun onSetAlpha(alpha: Int): Boolean {
+        return false
+    }
 }

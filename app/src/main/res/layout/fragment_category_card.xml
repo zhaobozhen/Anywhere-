@@ -11,7 +11,7 @@
             android:overScrollMode="never"
             android:requiresFadingEdge="vertical"
             android:fadingEdge="vertical"
-            android:fadingEdgeLength="6dp"
+            android:fadingEdgeLength="16dp"
             android:paddingTop="@dimen/cardview_margin_parent_horizontal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

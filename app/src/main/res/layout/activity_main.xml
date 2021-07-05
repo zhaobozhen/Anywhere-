@@ -20,7 +20,9 @@
     <androidx.drawerlayout.widget.DrawerLayout
             android:id="@+id/drawer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false"
+            app:fitsSystemWindowsInsets="top">
 
         <com.absinthe.anywhere_.view.home.FullDraggableContainer
                 android:id="@+id/full_draggable_container"

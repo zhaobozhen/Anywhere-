@@ -183,7 +183,7 @@ dependencies {
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     implementation("androidx.viewpager2:viewpager2:1.1.0-alpha01")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.preference:preference-ktx:1.1.1")
+    implementation("androidx.drawerlayout:drawerlayout:1.1.1")
 
     //KTX
     implementation("androidx.collection:collection-ktx:1.1.0")
@@ -191,6 +191,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.3.5")
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("androidx.core:core-ktx:1.6.0")
+    implementation("androidx.preference:preference-ktx:1.1.1")
 
     //Google
     implementation("com.google.android.material:material:1.4.0")
