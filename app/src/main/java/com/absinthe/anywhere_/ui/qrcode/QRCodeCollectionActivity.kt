@@ -29,9 +29,9 @@ class QRCodeCollectionActivity : AppBarActivity<ActivityQrcodeCollectionBinding>
 
     override fun setViewBinding() = ActivityQrcodeCollectionBinding.inflate(layoutInflater)
 
-    override fun getToolBar() = binding.toolbar.toolbar
+    override fun getToolBar() = binding.toolbar.toolBar
 
-    override fun getAppBarLayout() = binding.toolbar.appbar
+    override fun getAppBarLayout() = binding.toolbar.appBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.apply {

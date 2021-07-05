@@ -33,9 +33,9 @@ class DefrostActivity : AppBarActivity<ActivityDefrostBinding>() {
 
     override fun setViewBinding() = ActivityDefrostBinding.inflate(layoutInflater)
 
-    override fun getToolBar() = binding.toolbar.toolbar
+    override fun getToolBar() = binding.toolbar.toolBar
 
-    override fun getAppBarLayout() = binding.toolbar.appbar
+    override fun getAppBarLayout() = binding.toolbar.appBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

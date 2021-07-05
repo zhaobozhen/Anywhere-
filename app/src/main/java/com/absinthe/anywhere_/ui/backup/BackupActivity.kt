@@ -21,9 +21,9 @@ class BackupActivity : AppBarActivity<ActivityBackupBinding>() {
 
     override fun setViewBinding() = ActivityBackupBinding.inflate(layoutInflater)
 
-    override fun getToolBar() = binding.toolbar.toolbar
+    override fun getToolBar() = binding.toolbar.toolBar
 
-    override fun getAppBarLayout() = binding.toolbar.appbar
+    override fun getAppBarLayout() = binding.toolbar.appBar
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

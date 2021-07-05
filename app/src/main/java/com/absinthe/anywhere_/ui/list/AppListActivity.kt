@@ -52,9 +52,9 @@ class AppListActivity : AppBarActivity<ActivityAppListBinding>(), SearchView.OnQ
 
     override fun setViewBinding() = ActivityAppListBinding.inflate(layoutInflater)
 
-    override fun getToolBar() = binding.toolbar.toolbar
+    override fun getToolBar() = binding.toolbar.toolBar
 
-    override fun getAppBarLayout() = binding.toolbar.appbar
+    override fun getAppBarLayout() = binding.toolbar.appBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

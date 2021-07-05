@@ -25,9 +25,9 @@ class LabActivity : AppBarActivity<ActivityLabBinding>() {
 
     override fun setViewBinding() = ActivityLabBinding.inflate(layoutInflater)
 
-    override fun getToolBar() = binding.toolbar.toolbar
+    override fun getToolBar() = binding.toolbar.toolBar
 
-    override fun getAppBarLayout() = binding.toolbar.appbar
+    override fun getAppBarLayout() = binding.toolbar.appBar
 
     class LabFragment : PreferenceFragmentCompat() {
 

@@ -37,9 +37,9 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
 
     override fun setViewBinding() = ActivitySettingsBinding.inflate(layoutInflater)
 
-    override fun getToolBar() = binding.toolbar.toolbar
+    override fun getToolBar() = binding.toolbar.toolBar
 
-    override fun getAppBarLayout() = binding.toolbar.appbar
+    override fun getAppBarLayout() = binding.toolbar.appBar
 
     class SettingsFragment : PreferenceFragmentCompat() {
 

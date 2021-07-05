@@ -33,9 +33,9 @@ open class TileSettingsActivity : AppBarActivity<ActivityTileSettingsBinding>() 
 
     override fun setViewBinding() = ActivityTileSettingsBinding.inflate(layoutInflater)
 
-    override fun getToolBar() = binding.toolbar.toolbar
+    override fun getToolBar() = binding.toolbar.toolBar
 
-    override fun getAppBarLayout() = binding.toolbar.appbar
+    override fun getAppBarLayout() = binding.toolbar.appBar
 
     override fun initView() {
         super.initView()
