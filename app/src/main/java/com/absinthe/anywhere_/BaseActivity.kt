@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.FileUriExposedException
 import android.view.MenuItem
@@ -16,10 +18,10 @@ import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
-import com.absinthe.libraries.utils.utils.UiUtils
 import rikka.material.app.MaterialActivity
 import timber.log.Timber
 import java.lang.ref.WeakReference
+
 
 @SuppressLint("Registered, MissingSuperCall")
 abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
@@ -44,7 +46,6 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
         binding = setViewBinding()
         root = binding.root
         setContentView(root)
-        window.decorView.post { UiUtils.setSystemBarStyle(window) }
         initView()
     }
 
@@ -70,6 +71,17 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
 
     override fun onApplyUserThemeResource(theme: Resources.Theme, isDecorView: Boolean) {
         theme.applyStyle(R.style.ThemeOverlay, true)
+    }
+
+    override fun onApplyTranslucentSystemBars() {
+        super.onApplyTranslucentSystemBars()
+        window.statusBarColor = Color.TRANSPARENT
+        window.decorView.post {
+            window.navigationBarColor = Color.TRANSPARENT
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                window.isNavigationBarContrastEnforced = false
+            }
+        }
     }
 
     fun setDocumentResultListener(listener: OnDocumentResultListener?) {

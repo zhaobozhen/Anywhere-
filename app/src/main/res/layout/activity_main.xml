@@ -21,13 +21,13 @@
             android:id="@+id/drawer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="false"
-            app:fitsSystemWindowsInsets="top">
+            android:fitsSystemWindows="true">
 
         <com.absinthe.anywhere_.view.home.FullDraggableContainer
                 android:id="@+id/full_draggable_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:layout_width="match_parent"
@@ -97,12 +97,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:maxWidth="500dp">
+                android:maxWidth="500dp"
+                app:insetForeground="@null">
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:fitsSystemWindows="false">
 
                 <include layout="@layout/layout_nav_header" />
 

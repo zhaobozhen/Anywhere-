@@ -138,7 +138,6 @@ object UxUtils {
                 it.setBackgroundDrawable(null)
             }
         }
-        StatusBarUtil.setSystemBarTransparent(activity)
     }
 
     /**

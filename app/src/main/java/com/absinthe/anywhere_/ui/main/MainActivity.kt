@@ -61,7 +61,6 @@ import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.DialogManager.showAdvancedCardSelectDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
-import com.absinthe.anywhere_.view.home.DrawerRecyclerView
 import com.absinthe.anywhere_.view.home.FabBuilder.build
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
 import com.absinthe.libraries.utils.extensions.dp
@@ -92,7 +91,6 @@ import java.util.*
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel by viewModels<AnywhereViewModel>()
-    private lateinit var mDrawerRecyclerView: DrawerRecyclerView
     private lateinit var mItemTouchHelper: ItemTouchHelper
     private lateinit var mObserver: Observer<List<PageEntity>?>
 
@@ -389,7 +387,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun initDrawer(drawer: DrawerLayout) {
-        mDrawerRecyclerView = drawer.findViewById(R.id.rv_pages)
+        binding.drawer.setStatusBarBackground(null)
         val adapter = PageListAdapter()
         val touchCallBack = ItemTouchCallBack().apply {
             setOnItemTouchListener(adapter)
@@ -422,7 +420,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             pageEntities?.let { setupDrawerData(adapter, it) }
         })
 
-        mDrawerRecyclerView.apply {
+        binding.rvPages.apply {
             this.adapter = adapter
             layoutManager = WrapContentLinearLayoutManager(this@MainActivity)
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
@@ -444,8 +442,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
 
             PageTitleProvider.isEditMode = true
-            mDrawerRecyclerView.isEditMode = true
-            mItemTouchHelper.attachToRecyclerView(mDrawerRecyclerView)
+            binding.rvPages.isEditMode = true
+            mItemTouchHelper.attachToRecyclerView(binding.rvPages)
 
             ibAdd.visibility = View.GONE
             ibPageSort.visibility = View.GONE
@@ -454,7 +452,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         ibDone.setOnClickListener {
             ibDone.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             PageTitleProvider.isEditMode = false
-            mDrawerRecyclerView.isEditMode = false
+            binding.rvPages.isEditMode = false
             mItemTouchHelper.attachToRecyclerView(null)
 
             ibAdd.visibility = View.VISIBLE
