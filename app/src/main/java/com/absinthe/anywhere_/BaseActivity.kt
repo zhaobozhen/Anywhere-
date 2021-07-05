@@ -35,7 +35,7 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
     protected lateinit var binding: T
     protected lateinit var root: View
 
-    protected abstract fun setViewBinding(): T
+    protected abstract fun setViewBinding(): T?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate")
@@ -44,9 +44,11 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
         reference = WeakReference(this)
         ActivityStackManager.addActivity(reference)
 
-        binding = setViewBinding()
-        root = binding.root
-        setContentView(root)
+        setViewBinding()?.let {
+            binding = it
+            root = binding.root
+            setContentView(root)
+        }
         initView()
     }
 

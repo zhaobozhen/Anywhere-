@@ -6,7 +6,8 @@ import android.os.Bundle
 import android.os.IBinder
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
+import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
@@ -33,7 +34,7 @@ import com.google.gson.Gson
 import com.microsoft.appcenter.analytics.Analytics
 import timber.log.Timber
 
-class ShortcutsActivity : AppCompatActivity() {
+class ShortcutsActivity : BaseActivity<ViewBinding>() {
 
     private var isBound = false
     private var collectorService: ICollectorService? = null
@@ -53,6 +54,8 @@ class ShortcutsActivity : AppCompatActivity() {
 
     }
     private val viewModel by viewModels<AnywhereViewModel>()
+
+    override fun setViewBinding(): Nothing? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
