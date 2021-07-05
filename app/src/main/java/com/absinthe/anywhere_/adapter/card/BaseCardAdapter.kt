@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
@@ -43,7 +44,10 @@ import com.catchingnow.icebox.sdk_client.IceBox
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 const val ADAPTER_MODE_NORMAL = 0
 const val ADAPTER_MODE_SORT = 1
@@ -56,7 +60,7 @@ const val LAYOUT_MODE_MINIMUM = 3
 
 const val SNOW_FLAKE_EMOJI = "\u2744"
 
-class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(0), ItemTouchCallBack.OnItemTouchListener {
+class BaseCardAdapter(private val layoutMode: Int, private val lifecycleCoroutineScope: LifecycleCoroutineScope) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(0), ItemTouchCallBack.OnItemTouchListener {
 
     var mode = ADAPTER_MODE_NORMAL
     private val selectedIndex = mutableListOf<Int>()
@@ -120,7 +124,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
                         if (item.packageName.isNotEmpty()) {
-                            GlobalScope.launch {
+                            lifecycleCoroutineScope.launch {
                                 UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 45.dp)) { color ->
                                     item.color = color
 
@@ -147,7 +151,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
                         if (item.packageName.isNotEmpty()) {
-                            GlobalScope.launch {
+                            lifecycleCoroutineScope.launch {
                                 UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 45.dp)) { color ->
                                     item.color = color
                                     if (shouldUpdateColorInfo(context, item)) {
@@ -178,7 +182,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_PURE) {
                     if (item.color == 0) {
                         if (item.packageName.isNotEmpty()) {
-                            GlobalScope.launch {
+                            lifecycleCoroutineScope.launch {
                                 UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 32.dp)) { color ->
                                     if (color != 0) {
                                         itemView.rootView.backgroundTintList = ColorStateList.valueOf(color)
@@ -201,7 +205,7 @@ class BaseCardAdapter(private val layoutMode: Int) : BaseQuickAdapter<AnywhereEn
                 } else if (GlobalValues.sCardBackgroundMode == Const.CARD_BG_MODE_GRADIENT) {
                     if (item.color == 0) {
                         if (item.packageName.isNotEmpty()) {
-                            GlobalScope.launch {
+                            lifecycleCoroutineScope.launch {
                                 UxUtils.setCardUseIconColor(UxUtils.getAppIcon(context, item, 32.dp)) { color ->
                                     item.color = color
                                     if (shouldUpdateColorInfo(context, item)) {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -164,20 +165,20 @@ class CategoryCardFragment : Fragment() {
         when(GlobalValues.cardMode) {
             Const.PREF_CARD_MODE_LARGE -> {
                 decoration = SpacesItemDecoration(resources.getDimension(R.dimen.cardview_margin_parent_horizontal).toInt() / 2)
-                adapter = BaseCardAdapter(LAYOUT_MODE_LARGE)
+                adapter = BaseCardAdapter(LAYOUT_MODE_LARGE, lifecycleScope)
             }
             Const.PREF_CARD_MODE_MEDIUM -> {
-                adapter = BaseCardAdapter(LAYOUT_MODE_MEDIUM)
+                adapter = BaseCardAdapter(LAYOUT_MODE_MEDIUM, lifecycleScope)
             }
             Const.PREF_CARD_MODE_SMALL -> {
-                adapter = BaseCardAdapter(LAYOUT_MODE_SMALL)
+                adapter = BaseCardAdapter(LAYOUT_MODE_SMALL, lifecycleScope)
             }
             Const.PREF_CARD_MODE_MINIMUM -> {
                 decoration = SpacesItemDecoration(resources.getDimension(R.dimen.cardview_margin_parent_horizontal).toInt() / 2)
-                adapter = BaseCardAdapter(LAYOUT_MODE_MINIMUM)
+                adapter = BaseCardAdapter(LAYOUT_MODE_MINIMUM, lifecycleScope)
             }
             else -> {
-                adapter = BaseCardAdapter(LAYOUT_MODE_MEDIUM)
+                adapter = BaseCardAdapter(LAYOUT_MODE_MEDIUM, lifecycleScope)
             }
         }
 

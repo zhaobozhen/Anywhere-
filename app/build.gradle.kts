@@ -140,11 +140,11 @@ val optimizeReleaseRes = task("optimizeReleaseRes").doLast {
     }
 }
 
-tasks.whenTaskAdded {
-    if (name == "shrinkReleaseRes") {
-        finalizedBy(optimizeReleaseRes)
-    }
-}
+//tasks.whenTaskAdded {
+//    if (name == "shrinkReleaseRes") {
+//        finalizedBy(optimizeReleaseRes)
+//    }
+//}
 
 configurations.all {
     exclude(group = "androidx.appcompat", module = "appcompat")
@@ -156,6 +156,7 @@ dependencies {
     implementation(files("libs/color-picker.aar"))
     implementation(files("libs/IceBox-SDK-1.0.5.aar"))
     implementation(files("libs/speed-dial-3.1.1.aar"))
+//    implementation(files("libs/blurkit-1.1.1.aar"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 

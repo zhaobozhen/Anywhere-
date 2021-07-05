@@ -25,7 +25,7 @@ import rikka.widget.borderview.BorderView
 
 class QRCodeCollectionActivity : AppBarActivity<ActivityQrcodeCollectionBinding>() {
 
-    private val mAdapter by lazy { BaseCardAdapter(LAYOUT_MODE_MEDIUM) }
+    private val mAdapter by lazy { BaseCardAdapter(LAYOUT_MODE_MEDIUM, lifecycleScope) }
 
     override fun setViewBinding() = ActivityQrcodeCollectionBinding.inflate(layoutInflater)
 
