@@ -2,10 +2,12 @@ package com.absinthe.anywhere_.ui.backup
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.text.HtmlCompat
+import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
@@ -53,11 +55,14 @@ class BackupFragment : PreferenceFragmentCompat() {
             summary = GlobalValues.webdavUsername
             isIconSpaceReserved = true
         }
-        findPreference<Preference>(Const.PREF_WEBDAV_PASSWORD)?.apply {
+        findPreference<EditTextPreference>(Const.PREF_WEBDAV_PASSWORD)?.apply {
             setOnPreferenceChangeListener { preference, newValue ->
                 GlobalValues.webdavPassword = newValue.toString()
                 preference.summary = getPWString(newValue.toString())
                 true
+            }
+            setOnBindEditTextListener {
+                it.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
             summary = getPWString(GlobalValues.webdavPassword)
             isIconSpaceReserved = true

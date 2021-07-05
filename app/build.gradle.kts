@@ -151,7 +151,7 @@ configurations.all {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(files("libs/color-picker.aar"))
     implementation(files("libs/IceBox-SDK-1.0.5.aar"))
