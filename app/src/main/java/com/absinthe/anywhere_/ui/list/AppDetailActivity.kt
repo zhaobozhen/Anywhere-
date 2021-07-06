@@ -41,7 +41,7 @@ const val EXTRA_APP_DETAIL_ENTRY_MODE = "EXTRA_APP_DETAIL_ENTRY_MODE"
 class AppDetailActivity : AppBarActivity<ActivityAppDetailBinding>(), SearchView.OnQueryTextListener {
 
     private var mAdapter: AppListAdapter = AppListAdapter(MODE_APP_DETAIL)
-    private var isDataInit = false
+    private var isListReady = false
     private val mItems = mutableListOf<AppListBean>()
     private val entryMode by lazy { intent.getIntExtra(EXTRA_APP_DETAIL_ENTRY_MODE, MODE_NORMAL) }
 
@@ -150,27 +150,28 @@ class AppDetailActivity : AppBarActivity<ActivityAppDetailBinding>(), SearchView
                     }
                 }
                 mItems.sortByDescending { it.isExported }
-                isDataInit = true
+                getToolBar().menu?.findItem(R.id.search)?.isVisible = true
             } catch (exception: PackageManager.NameNotFoundException) {
                 exception.printStackTrace()
             } catch (exception: RuntimeException) {
                 exception.printStackTrace()
             }
 
+            val launchActivity = ActivityUtils.getLauncherActivity(mItems[0].packageName)
+            mItems.find { it.className == launchActivity }?.let {
+                it.isLaunchActivity = true
+            }
+
             withContext(Dispatchers.Main) {
                 if (mItems.isEmpty()) {
                     binding.vfContainer.displayedChild = 1
                 } else {
-                    val launchActivity = ActivityUtils.getLauncherActivity(mItems[0].packageName)
-                    mItems.find { it.className == launchActivity }?.let {
-                        it.isLaunchActivity = true
+                    mAdapter.setDiffNewData(mItems) {
+                        isListReady = true
+                        binding.progressHorizontal.hide()
                     }
-
-                    mAdapter.setDiffNewData(mItems)
                     binding.vfContainer.displayedChild = 0
                 }
-
-                binding.progressHorizontal.hide()
             }
         }
     }
@@ -190,7 +191,7 @@ class AppDetailActivity : AppBarActivity<ActivityAppDetailBinding>(), SearchView
             setOnQueryTextListener(this@AppDetailActivity)
         }
 
-        if (!isDataInit) {
+        if (!isListReady) {
             menu.findItem(R.id.search).isVisible = false
         }
 
