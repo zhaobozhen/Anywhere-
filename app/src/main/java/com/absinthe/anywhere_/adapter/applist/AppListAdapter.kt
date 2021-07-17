@@ -18,7 +18,6 @@ const val MODE_CARD_LIST = 3
 
 class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(R.layout.item_app_list), PopupTextProvider {
 
-    private var mListener: OnAppItemClickListener? = null
     private val mMode: Int = mode
 
     override fun convert(holder: BaseViewHolder, item: AppListBean) {
@@ -69,10 +68,6 @@ class AppListAdapter(mode: Int) : BaseQuickAdapter<AppListBean, BaseViewHolder>(
             MODE_ICON_PACK -> data[position].packageName.hashCode().toLong()
             else -> super.getItemId(position)
         }
-    }
-
-    fun setOnAppItemClickListener(listener: OnAppItemClickListener?) {
-        mListener = listener
     }
 
     interface OnAppItemClickListener {

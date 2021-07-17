@@ -22,10 +22,7 @@ class CardListDialogFragment : AnywhereDialogFragment() {
     private var mListener: AppListAdapter.OnAppItemClickListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mBuilder = CardListDialogBuilder(requireContext()).apply {
-            setOnItemClickListener(mListener)
-        }
-
+        mBuilder = CardListDialogBuilder(requireContext())
         val builder = AnywhereDialogBuilder(requireContext())
         initView()
 

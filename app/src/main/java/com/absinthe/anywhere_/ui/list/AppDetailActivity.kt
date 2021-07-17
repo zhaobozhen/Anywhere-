@@ -150,27 +150,30 @@ class AppDetailActivity : AppBarActivity<ActivityAppDetailBinding>(), SearchView
                     }
                 }
                 mItems.sortByDescending { it.isExported }
-                getToolBar().menu?.findItem(R.id.search)?.isVisible = true
             } catch (exception: PackageManager.NameNotFoundException) {
                 exception.printStackTrace()
             } catch (exception: RuntimeException) {
                 exception.printStackTrace()
             }
 
-            val launchActivity = ActivityUtils.getLauncherActivity(mItems[0].packageName)
-            mItems.find { it.className == launchActivity }?.let {
-                it.isLaunchActivity = true
-            }
-
-            withContext(Dispatchers.Main) {
-                if (mItems.isEmpty()) {
+            if (mItems.isEmpty()) {
+                withContext(Dispatchers.Main) {
                     binding.vfContainer.displayedChild = 1
-                } else {
+                    binding.progressHorizontal.hide()
+                }
+            } else {
+                val launchActivity = ActivityUtils.getLauncherActivity(mItems[0].packageName)
+                mItems.find { it.className == launchActivity }?.let {
+                    it.isLaunchActivity = true
+                }
+                withContext(Dispatchers.Main) {
                     mAdapter.setDiffNewData(mItems) {
                         isListReady = true
+                        getToolBar().menu?.findItem(R.id.search)?.isVisible = true
+                        invalidateOptionsMenu()
                         binding.progressHorizontal.hide()
+                        binding.vfContainer.displayedChild = 0
                     }
-                    binding.vfContainer.displayedChild = 0
                 }
             }
         }
@@ -181,9 +184,9 @@ class AppDetailActivity : AppBarActivity<ActivityAppDetailBinding>(), SearchView
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
-        searchView.findViewById<LinearLayout>(androidx.appcompat.R.id.search_bar)?.layoutTransition = LayoutTransition()
 
         searchView.apply {
+            findViewById<LinearLayout>(androidx.appcompat.R.id.search_bar)?.layoutTransition = LayoutTransition()
             isSubmitButtonEnabled = true // Display "Start search" button
             isQueryRefinementEnabled = true
             setIconifiedByDefault(false)
@@ -193,6 +196,7 @@ class AppDetailActivity : AppBarActivity<ActivityAppDetailBinding>(), SearchView
 
         if (!isListReady) {
             menu.findItem(R.id.search).isVisible = false
+            invalidateOptionsMenu()
         }
 
         return true

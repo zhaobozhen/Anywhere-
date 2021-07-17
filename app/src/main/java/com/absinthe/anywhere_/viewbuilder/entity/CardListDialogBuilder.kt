@@ -51,10 +51,6 @@ class CardListDialogBuilder(context: Context) : ViewBuilder(context) {
         addView(tvEmpty)
     }
 
-    fun setOnItemClickListener(listener: AppListAdapter.OnAppItemClickListener?) {
-        mAdapter.setOnAppItemClickListener(listener)
-    }
-
     companion object {
         const val VF_LIST = 0
         const val VF_EMPTY = 1
