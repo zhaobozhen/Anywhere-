@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Handler
+import android.os.HandlerThread
 import android.provider.BaseColumns
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
@@ -17,9 +19,6 @@ import com.absinthe.anywhere_.utils.AppUtils.updateWidget
 import com.absinthe.anywhere_.utils.UxUtils.getAppIcon
 import com.blankj.utilcode.util.ConvertUtils
 import com.catchingnow.icebox.sdk_client.IceBox
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
@@ -27,13 +26,16 @@ import java.util.*
 class AppRemoteViewsService : RemoteViewsService() {
 
     override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
-        return RemoteViewsFactory(this.applicationContext, intent)
+        Timber.d("intent = $intent")
+        return RemoteViewsFactory(this.applicationContext)
     }
 
-    inner class RemoteViewsFactory internal constructor(context: Context, intent: Intent?) :
+    inner class RemoteViewsFactory internal constructor(context: Context) :
         RemoteViewsService.RemoteViewsFactory {
         private val mContext: WeakReference<Context> = WeakReference(context)
         private val mList: MutableList<AnywhereEntity> = Collections.synchronizedList(mutableListOf<AnywhereEntity>())
+        private val mWorkerHandler by lazy { Handler(mHandlerThread.looper) }
+        private lateinit var mHandlerThread: HandlerThread
 
         /**
          * AppRemoteViewsFactory 调用时执行，这个方法执行时间超过 20 秒会报错
@@ -41,9 +43,10 @@ class AppRemoteViewsService : RemoteViewsService() {
          */
         override fun onCreate() {
             Timber.d("onCreate")
-
+            mHandlerThread = HandlerThread("RemoteViewsFactory")
+            mHandlerThread.start()
             // 需要显示的数据
-            GlobalScope.launch(Dispatchers.IO) {
+            mWorkerHandler.post {
                 val cursor = mContext.get()!!.contentResolver.query(
                     URI_ANYWHERE_ENTITY,
                     null,
@@ -53,7 +56,7 @@ class AppRemoteViewsService : RemoteViewsService() {
                 )
                 if (cursor == null) {
                     Timber.d("cursor == null")
-                    return@launch
+                    return@post
                 }
 
                 mList.clear()
@@ -90,14 +93,14 @@ class AppRemoteViewsService : RemoteViewsService() {
             Timber.d("onDataSetChanged")
 
             // 需要显示的数据
-            GlobalScope.launch(Dispatchers.IO) {
+            mWorkerHandler.post {
                 val cursor = mContext.get()!!.contentResolver.query(
                     URI_ANYWHERE_ENTITY,
                     null, null, null, null
                 )
                 if (cursor == null) {
                     Timber.d("cursor == null")
-                    return@launch
+                    return@post
                 }
                 mList.clear()
                 val tempList = mutableListOf<AnywhereEntity>()
@@ -131,6 +134,7 @@ class AppRemoteViewsService : RemoteViewsService() {
         override fun onDestroy() {
             Timber.d("onDestroy")
             mList.clear()
+            mHandlerThread.quitSafely()
         }
 
         /**
