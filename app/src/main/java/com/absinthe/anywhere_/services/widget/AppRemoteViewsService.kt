@@ -149,7 +149,7 @@ class AppRemoteViewsService : RemoteViewsService() {
          * 创建并且填充，在指定索引位置显示的 View
          */
         override fun getViewAt(position: Int): RemoteViews? {
-            if (mList.isEmpty() || position < 0 || position >= mList.size) {
+            if (mList.isEmpty() || position < 0 || position >= mList.size || mContext.get() == null) {
                 return null
             }
             val ae = mList[position]

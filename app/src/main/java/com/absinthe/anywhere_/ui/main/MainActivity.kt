@@ -278,7 +278,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
         binding.tsTitle.setText(UxUtils.getToolbarTitle())
-        binding.fullDraggableContainer.shouldEnableDrawer = GlobalValues.isPages
+        binding.fullDraggableContainer.setEnableDrawer(GlobalValues.isPages)
 
         initFab()
         CardTypeIconGenerator

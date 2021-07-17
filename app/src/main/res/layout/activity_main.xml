@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <com.absinthe.anywhere_.view.home.FullDraggableContainer
+        <com.absinthe.anywhere_.view.home.CustomFullDraggableContainer
                 android:id="@+id/full_draggable_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -89,7 +89,7 @@
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        </com.absinthe.anywhere_.view.home.FullDraggableContainer>
+        </com.absinthe.anywhere_.view.home.CustomFullDraggableContainer>
 
         <com.google.android.material.navigation.NavigationView
                 android:layout_width="wrap_content"
