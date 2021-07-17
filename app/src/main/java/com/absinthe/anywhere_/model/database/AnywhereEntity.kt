@@ -8,8 +8,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
 @Keep
 @Parcelize
@@ -19,36 +21,47 @@ data class AnywhereEntity(
     @ColumnInfo(name = BaseColumns._ID)
     var id: String = System.currentTimeMillis().toString(),
 
+    @SerializedName(APP_NAME)
     @ColumnInfo(name = APP_NAME)
     var appName: String = "",
 
+    @SerializedName(PARAM_1)
     @ColumnInfo(name = PARAM_1)
     var param1: String = "",
 
+    @SerializedName(PARAM_2)
     @ColumnInfo(name = PARAM_2)
     var param2: String? = "",
 
+    @SerializedName(PARAM_3)
     @ColumnInfo(name = PARAM_3)
     var param3: String? = "",
 
+    @SerializedName(DESCRIPTION)
     @ColumnInfo(name = DESCRIPTION)
     var description: String? = "",
 
+    @SerializedName(TYPE)
     @ColumnInfo(name = TYPE)
     var type: Int = AnywhereType.Card.NOT_CARD,
 
+    @SerializedName(CATEGORY)
     @ColumnInfo(name = CATEGORY)
     var category: String? = GlobalValues.category,
 
+    @SerializedName(TIME_STAMP)
     @ColumnInfo(name = TIME_STAMP)
     var timeStamp: String = id,
 
+    @SerializedName(COLOR)
     @ColumnInfo(name = COLOR)
     var color: Int = 0,
 
+    @SerializedName(ICON_URI)
     @ColumnInfo(name = ICON_URI)
     var iconUri: String? = "",
 
+    @SerializedName(EXEC_WITH_ROOT)
     @ColumnInfo(name = EXEC_WITH_ROOT)
     var execWithRoot: Boolean = false,
 ) : Parcelable {
