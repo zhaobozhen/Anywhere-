@@ -29,7 +29,7 @@ object NotifyUtils {
                 context.getText(R.string.notification_channel_logcat),
                 NotificationUtils.IMPORTANCE_DEFAULT)
         val intent = Intent(context, NotificationClickReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         NotificationUtils.notify(LOGCAT_NOTIFICATION_ID, channelConfig) { param: NotificationCompat.Builder ->
             param.setContentTitle(context.getString(R.string.notification_logcat_title))
                     .setContentText(context.getString(R.string.notification_logcat_content))

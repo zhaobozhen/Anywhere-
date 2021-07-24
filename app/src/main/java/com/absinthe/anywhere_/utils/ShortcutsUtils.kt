@@ -131,7 +131,7 @@ object ShortcutsUtils {
             // Configure the intent so that your app's broadcast receiver gets
             // the callback successfully.For details, see PendingIntent.getBroadcast().
             val successCallback = PendingIntent.getBroadcast(Utils.getApp(),  /* request code */0,
-                    pinnedShortcutCallbackIntent,  /* flags */0)
+                    pinnedShortcutCallbackIntent,  PendingIntent.FLAG_IMMUTABLE)
             SHORTCUT_MANAGER.requestPinShortcut(pinShortcutInfo,
                     successCallback.intentSender)
             ToastUtil.makeText(R.string.toast_try_to_add_pinned_shortcut)

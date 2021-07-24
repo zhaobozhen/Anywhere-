@@ -38,7 +38,7 @@ class AwControlsProviderService : ControlsProviderService() {
         val pi =
                 PendingIntent.getActivity(
                         context, 2025, i,
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
         val controls = mutableListOf<Control>()
         val cursor: Cursor = context.contentResolver.query(URI_ANYWHERE_ENTITY, null, null, null, null)

@@ -29,7 +29,8 @@ class HomeWidgetProvider : AppWidgetProvider() {
             action = CLICK_ACTION
             data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
         }
-        val pendingIntentTemplate = PendingIntent.getBroadcast(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntentTemplate = PendingIntent.getBroadcast(context, 0, clickIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         appWidgetIds.forEach { appWidgetId ->
             // 创建一个 RemoteView

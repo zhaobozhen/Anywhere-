@@ -15,14 +15,14 @@ val verName = "2.3.1"
 val verCode = 2030100
 
 android {
-    compileSdk = 30
-    buildToolsVersion = "30.0.3"
+    compileSdk = 31
+    buildToolsVersion = "31.0.0"
     ndkVersion = "21.4.7075529"
 
     defaultConfig {
         applicationId = "com.absinthe.anywhere_"
         minSdk = 23
-        targetSdk = 30
+        targetSdk = 31
         versionCode = verCode
         versionName = verName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
