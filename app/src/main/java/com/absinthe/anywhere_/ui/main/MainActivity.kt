@@ -538,7 +538,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         Analytics.trackEvent(EventTag.FAB_ACTIVITY_LIST_CLICK)
                     }
                     R.id.fab_collector -> {
-                        viewModel.startCollector(object : AnywhereViewModel.OnStartCollectorListener {
+                        viewModel.startCollector(this@MainActivity, object : AnywhereViewModel.OnStartCollectorListener {
                             override fun onStart() {
                                 if (isBound) {
                                     collectorService?.startCollector()
@@ -590,7 +590,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         } else if (action == Intent.ACTION_SEND) {
             val sharing = intent.getStringExtra(Intent.EXTRA_TEXT)
-            viewModel.setUpUrlScheme(AppTextUtils.parseUrlFromSharingText(sharing))
+            viewModel.setUpUrlScheme(this, AppTextUtils.parseUrlFromSharingText(sharing))
         } else if (action == ShortcutsActivity.ACTION_START_DEVICE_CONTROL) {
             val type = intent.getIntExtra(Const.INTENT_EXTRA_TYPE, -1)
             val param1 = intent.getStringExtra(Const.INTENT_EXTRA_PARAM_1) ?: return
@@ -622,10 +622,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
             when (type.toInt()) {
                 AnywhereType.Card.URL_SCHEME -> {
-                    viewModel.setUpUrlScheme(param1)
+                    viewModel.setUpUrlScheme(this, param1)
                 }
                 AnywhereType.Card.ACTIVITY -> {
-                    val appName = AppUtils.getAppName(param1).orEmpty()
+                    val appName = AppUtils.getAppName(param1)
                     val ae = AnywhereEntity().apply {
                         this.appName = appName
                         this.param1 = param1

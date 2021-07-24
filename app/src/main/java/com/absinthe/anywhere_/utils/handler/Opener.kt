@@ -7,12 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.FileUriExposedException
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import cn.vove7.andro_accessibility_api.AppScope
 import cn.vove7.andro_accessibility_api.api.*
 import cn.vove7.andro_accessibility_api.utils.NeedAccessibilityException
 import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.AwContextWrapper
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.a11y.A11yEntity
@@ -312,9 +312,7 @@ object Opener {
             }
             AnywhereType.Card.SHELL -> {
                 val result = CommandUtils.execAdbCmd(item.param1)
-                (if (context is AppCompatActivity) context else ActivityStackManager.topActivity)?.let {
-                    DialogManager.showShellResultDialog(it, result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
-                }
+                DialogManager.showShellResultDialog(AwContextWrapper(context), result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
             }
             AnywhereType.Card.SWITCH_SHELL -> {
                 openByCommand(context, getItemCommand(item), item.packageName)

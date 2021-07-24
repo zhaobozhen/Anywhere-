@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.*
 import android.widget.LinearLayout
+import com.absinthe.anywhere_.AwContextWrapper
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.IOverlayService
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.handler.Opener
-import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder
 import com.absinthe.libraries.utils.extensions.dp
 import timber.log.Timber
@@ -46,10 +46,7 @@ class OverlayView(context: Context, private val binder: IOverlayService, windowL
         mBuilder = OverlayBuilder(context, this)
 
         mBuilder.ivIcon.setOnClickListener {
-            //Fix crash: The style on this component requires your app theme to be Theme.AppCompat
-            ActivityStackManager.topActivity?.let {
-                Opener.with(it).load(entity).open()
-            }
+            Opener.with(AwContextWrapper(context)).load(entity).open()
         }
         mBuilder.ivIcon.setOnTouchListener(object : OnTouchListener {
             //Last x, y position = 0f

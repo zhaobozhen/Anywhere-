@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.viewmodel
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -23,7 +24,6 @@ import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.ShellManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper
 import com.blankj.utilcode.util.DeviceUtils
@@ -71,8 +71,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun setUpUrlScheme(url: String = "") {
-        val context = ActivityStackManager.topActivity!! as Context
+    fun setUpUrlScheme(context: Context, url: String = "") {
         val ae = AnywhereEntity().apply {
             appName = AnywhereType.Card.NEW_TITLE_MAP[AnywhereType.Card.URL_SCHEME]!!
             param1 = url
@@ -84,9 +83,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
         })
     }
 
-    fun startCollector(listener: OnStartCollectorListener) {
-        val activity = ActivityStackManager.topActivity!!
-
+    fun startCollector(activity: Activity, listener: OnStartCollectorListener) {
         when (GlobalValues.workingMode) {
             Const.WORKING_MODE_URL_SCHEME -> {
                 ToastUtil.makeText(R.string.toast_works_on_root_or_shizuku)
