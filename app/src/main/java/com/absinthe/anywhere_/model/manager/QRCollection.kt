@@ -13,6 +13,7 @@ import com.absinthe.anywhere_.listener.OnQRLaunchedListener
 import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.QREntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.blankj.utilcode.util.Utils
@@ -32,6 +33,7 @@ object QRCollection {
     private const val wechatPayAcsId = "wechatPayAcs"
     private const val wechatCollectId = "wechatCollect"
     private const val wechatCollectAcsId = "wechatCollectAcs"
+    private const val wechatMyQrCodeId = "wechatMyQrCode"
     private const val alipayScanId = "alipayScan"
     private const val alipayPayId = "alipayPay"
     private const val alipayBusId = "alipayBus"
@@ -48,9 +50,10 @@ object QRCollection {
         map = HashMap()
         map[wechatScanId] = wechatScan
         map[wechatPayId] = wechatPay
-        map[wechatPayAcsId] = wechatPayAcs
+        map[wechatPayAcsId] = wechatPay
         map[wechatCollectId] = wechatCollect
         map[wechatCollectAcsId] = wechatCollectAcs
+        map[wechatMyQrCodeId] = wechatMyQrCode
         map[alipayScanId] = alipayScan
         map[alipayPayId] = alipayPay
         map[alipayBusId] = alipayBus
@@ -86,12 +89,11 @@ object QRCollection {
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
                     try {
-                        val intent = getContext().packageManager.getLaunchIntentForPackage(pkgName)
-                        if (intent != null) {
-                            intent.putExtra("LauncherUI.From.Scaner.Shortcut", true)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            getContext().startActivity(intent)
+                        val intent = Intent("com.tencent.mm.action.BIZSHORTCUT").apply {
+                            putExtra("LauncherUI.Shortcut.LaunchType", "launch_type_scan_qrcode")
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
                         }
+                        getContext().startActivity(intent)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -107,61 +109,27 @@ object QRCollection {
     private val wechatPay: QREntity
         get() {
             val pkgName = "com.tencent.mm"
-            val clsName = ".plugin.offline.ui.WalletOfflineCoinPurseUI"
-            val cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName)
             list.add(AnywhereEntity().apply {
                 id = wechatPayId
                 appName = "微信付款码"
                 param1 = pkgName
-                param2 = clsName
-                description = getContext().getString(R.string.desc_need_root)
+                description = getContext().getString(R.string.desc_work_at_any_mode)
                 type = AnywhereType.Card.QR_CODE
             })
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
-                    Opener.with(getContext()).load(cmd).openWithPackageName(pkgName)
+                    try {
+                        val intent = Intent("com.tencent.mm.action.BIZSHORTCUT").apply {
+                            putExtra("LauncherUI.Shortcut.LaunchType", "launch_type_offline_wallet")
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                        getContext().startActivity(intent)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }).apply {
                 this.pkgName = pkgName
-                this.clsName = clsName
-            }
-        }
-
-    /**
-     * Wechat pay page Accessibility
-     */
-    private val wechatPayAcs: QREntity
-        get() {
-            val pkgName = "com.tencent.mm"
-            val clsName = "com.tencent.mm.ui.LauncherUI"
-            list.add(AnywhereEntity().apply {
-                id = wechatPayAcsId
-                appName = "微信付款码"
-                param1 = pkgName
-                param2 = clsName
-                description = getContext().getString(R.string.desc_need_accessibility)
-                type = AnywhereType.Card.QR_CODE
-            })
-            return QREntity(object : OnQRLaunchedListener {
-                override fun onLaunched() {
-                    val a11yEntity = A11yEntity().apply {
-                        applicationId = pkgName
-                        entryActivity = clsName
-                        actions = listOf(
-                                A11yActionBean(A11yType.TEXT, content = "我|Me", activityId = "", delay = 300L),
-                                A11yActionBean(A11yType.TEXT, content = "支付|WeChat Pay", activityId = "", delay = 800L),
-                                A11yActionBean(A11yType.TEXT, content = "收付款|Money", activityId = "com.tencent.mm.plugin.mall.ui.MallIndexUIv2", delay = 0L),
-                        )
-                    }
-                    val entity = AnywhereEntity().apply {
-                        type = AnywhereType.Card.ACCESSIBILITY
-                        param1 = Gson().toJson(a11yEntity)
-                    }
-                    Opener.with(getContext()).load(entity).open()
-                }
-            }).apply {
-                this.pkgName = pkgName
-                this.clsName = clsName
             }
         }
 
@@ -208,25 +176,71 @@ object QRCollection {
             })
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
+                    val gson = Gson()
                     val a11yEntity = A11yEntity().apply {
                         applicationId = pkgName
                         entryActivity = clsName
                         actions = listOf(
-                                A11yActionBean(A11yType.TEXT, content = "我|Me", activityId = "", delay = 300L),
-                                A11yActionBean(A11yType.TEXT, content = "支付|WeChat Pay", activityId = "", delay = 800L),
-                                A11yActionBean(A11yType.TEXT, content = "收付款|Money", activityId = "com.tencent.mm.plugin.mall.ui.MallIndexUIv2", delay = 800L),
-                                A11yActionBean(A11yType.TEXT, content = "二维码收款|Receive Money", activityId = "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI", delay = 0L),
+                            A11yActionBean(A11yType.TEXT, content = "二维码收款|Receive Money", activityId = "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI", delay = 0L),
                         )
                     }
-                    val entity = AnywhereEntity().apply {
-                        type = AnywhereType.Card.ACCESSIBILITY
-                        param1 = Gson().toJson(a11yEntity)
-                    }
-                    Opener.with(getContext()).load(entity).open()
+                    val ae = AnywhereEntity(
+                        type = AnywhereType.Card.WORKFLOW,
+                        param1 = gson.toJson(
+                            listOf(
+                                FlowStepBean(
+                                    entity = AnywhereEntity(
+                                        type = AnywhereType.Card.URL_SCHEME,
+                                        param1 = "android-app://com.tencent.mm/#Intent;action=com.tencent.mm.action.BIZSHORTCUT;launchFlags=0x4000000;S.LauncherUI.Shortcut.LaunchType=launch_type_offline_wallet;end\'"
+                                    ),
+                                    delay = 0
+                                ),
+                                FlowStepBean(
+                                    entity = AnywhereEntity(
+                                        type = AnywhereType.Card.ACCESSIBILITY,
+                                        param1 = gson.toJson(a11yEntity)
+                                    ),
+                                    delay = 1500
+                                )
+                            )
+                        )
+                    )
+
+                    Opener.with(getContext()).load(ae).open()
                 }
             }).apply {
                 this.pkgName = pkgName
                 this.clsName = clsName
+            }
+        }
+
+    /**
+     * Wechat my qrcode page
+     */
+    private val wechatMyQrCode: QREntity
+        get() {
+            val pkgName = "com.tencent.mm"
+            list.add(AnywhereEntity().apply {
+                id = wechatMyQrCodeId
+                appName = "微信二维码名片"
+                param1 = pkgName
+                description = getContext().getString(R.string.desc_work_at_any_mode)
+                type = AnywhereType.Card.QR_CODE
+            })
+            return QREntity(object : OnQRLaunchedListener {
+                override fun onLaunched() {
+                    try {
+                        val intent = Intent("com.tencent.mm.action.BIZSHORTCUT").apply {
+                            putExtra("LauncherUI.Shortcut.LaunchType", "launch_type_my_qrcode")
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                        getContext().startActivity(intent)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }).apply {
+                this.pkgName = pkgName
             }
         }
 
@@ -349,7 +363,7 @@ object QRCollection {
     private val qqScan: QREntity
         get() {
             val pkgName = "com.tencent.mobileqq"
-            val clsName = "com.tencent.biz.qrcode.activity.ScannerActivity"
+            val clsName = "com.tencent.mobileqq.olympic.activity.ScanTorchActivity"
             val cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, clsName)
             list.add(AnywhereEntity().apply {
                 id = qqScanId
