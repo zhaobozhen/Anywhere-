@@ -1,12 +1,20 @@
 package com.absinthe.anywhere_.ui.cloud
 
+import android.animation.LayoutTransition
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.widget.LinearLayout
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.absinthe.anywhere_.AppBarActivity
+import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.cloud.CloudRulesAdapter
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.api.ApiManager
 import com.absinthe.anywhere_.api.GitHubApi
+import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityCloudRulesBinding
 import com.absinthe.anywhere_.model.cloud.GiteeApiContentBean
 import com.absinthe.anywhere_.utils.manager.DialogManager
@@ -19,9 +27,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rikka.widget.borderview.BorderView
 import timber.log.Timber
 
-class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>() {
+class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(), SearchView.OnQueryTextListener {
 
     private val mAdapter = CloudRulesAdapter()
+    private var mList = mutableListOf<GiteeApiContentBean>()
+    private var isListReady = false
 
     override fun setViewBinding() = ActivityCloudRulesBinding.inflate(layoutInflater)
 
@@ -50,6 +60,51 @@ class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.app_list_menu, menu)
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+        val showSystemApp = menu.findItem(R.id.show_system_app)
+        searchView.findViewById<LinearLayout>(androidx.appcompat.R.id.search_bar)?.layoutTransition = LayoutTransition()
+
+        searchView.apply {
+            isQueryRefinementEnabled = true
+            setIconifiedByDefault(false)
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            setOnQueryTextListener(this@CloudRulesActivity)
+        }
+
+        // Bug of DayNight lib
+        showSystemApp?.apply {
+            setTitle(
+                if (GlobalValues.showSystemApps) {
+                    R.string.menu_hide_system_app
+                } else {
+                    R.string.menu_show_system_app
+                }
+            )
+        }
+
+        if (!isListReady) {
+            menu.findItem(R.id.search).isVisible = false
+        }
+
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        val filter = mList.filter {
+            it.name.contains(newText, ignoreCase = true)
+        }
+        mAdapter.setDiffNewData(filter.toMutableList())
+        return false
+    }
+
     private fun requestRules() {
         binding.progressHorizontal.show()
         val retrofit = Retrofit.Builder()
@@ -63,8 +118,10 @@ class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>() {
                 val list = response.body()
                 list?.let {
                     mAdapter.setList(it.filter { content -> content.type == "file" })
+                    mList = mAdapter.data
                 }
                 binding.progressHorizontal.hide()
+                isListReady = true
             }
 
             override fun onFailure(call: Call<List<GiteeApiContentBean>>, t: Throwable) {
