@@ -61,7 +61,7 @@ class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(), SearchVi
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.app_list_menu, menu)
+        menuInflater.inflate(R.menu.cloud_rules_menu, menu)
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
@@ -120,6 +120,7 @@ class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(), SearchVi
                     mAdapter.setList(it.filter { content -> content.type == "file" })
                     mList = mAdapter.data
                 }
+                getToolBar().menu?.findItem(R.id.search)?.isVisible = true
                 binding.progressHorizontal.hide()
                 isListReady = true
             }
