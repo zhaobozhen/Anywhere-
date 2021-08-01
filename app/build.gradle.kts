@@ -12,7 +12,7 @@ plugins {
 }
 
 val verName = "2.3.2"
-val verCode = 2030200
+val verCode = 2030201
 
 android {
     compileSdk = 31
@@ -154,7 +154,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(files("libs/color-picker.aar"))
-    implementation(files("libs/IceBox-SDK-1.0.5.aar"))
+    implementation(files("libs/IceBox-SDK-1.0.6.aar"))
     implementation(files("libs/speed-dial-3.1.1.aar"))
 //    implementation(files("libs/blurkit-1.1.1.aar"))
 

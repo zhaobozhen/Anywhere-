@@ -16,6 +16,7 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.widget.AppRemoteViewsService
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
+import com.absinthe.anywhere_.utils.FlagDelegate
 
 class HomeWidgetProvider : AppWidgetProvider() {
     /**
@@ -30,7 +31,7 @@ class HomeWidgetProvider : AppWidgetProvider() {
             data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
         }
         val pendingIntentTemplate = PendingIntent.getBroadcast(context, 0, clickIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.FLAG_UPDATE_CURRENT or FlagDelegate.PENDING_INTENT_FLAG_MUTABLE)
 
         appWidgetIds.forEach { appWidgetId ->
             // 创建一个 RemoteView

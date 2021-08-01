@@ -13,7 +13,6 @@
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="moe.shizuku.manager.permission.API_V23" />
     <uses-permission android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
-    <uses-permission android:name="com.catchingnow.icebox.SDK" />
     <uses-permission android:name="${applicationId}.provider.READ" />
 
     <permission
@@ -493,14 +492,6 @@
         <receiver
                 android:name=".receiver.NotificationClickReceiver"
                 android:exported="false">
-        </receiver>
-        <receiver
-                android:name="com.catchingnow.icebox.sdk_client.StateReceiver"
-                android:exported="true"
-                tools:replace="exported">
-            <intent-filter>
-                <action android:name="com.catchingnow.icebox.SDK_STATE" />
-            </intent-filter>
         </receiver>
 
         <!--    Shizuku provider    -->

@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.provider.CoreProvider.Companion.URI_ANYWHERE_ENTIT
 import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.main.MainActivity
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
+import com.absinthe.anywhere_.utils.FlagDelegate
 import io.reactivex.Flowable
 import io.reactivex.processors.ReplayProcessor
 import org.reactivestreams.FlowAdapters
@@ -38,7 +39,7 @@ class AwControlsProviderService : ControlsProviderService() {
         val pi =
                 PendingIntent.getActivity(
                         context, 2025, i,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_UPDATE_CURRENT or FlagDelegate.PENDING_INTENT_FLAG_MUTABLE
                 )
         val controls = mutableListOf<Control>()
         val cursor: Cursor = context.contentResolver.query(URI_ANYWHERE_ENTITY, null, null, null, null)
@@ -93,7 +94,7 @@ class AwControlsProviderService : ControlsProviderService() {
                     putExtra(Const.INTENT_EXTRA_TYPE, type)
                     putExtra(Const.INTENT_EXTRA_EMULATE_BACK_PRESS, true)
                 }
-                pi = PendingIntent.getActivity(context, requestCode++, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+                pi = PendingIntent.getActivity(context, requestCode++, i, PendingIntent.FLAG_UPDATE_CURRENT or FlagDelegate.PENDING_INTENT_FLAG_MUTABLE)
                 val status = if (type == AnywhereType.Card.SWITCH_SHELL && cursor.getString(cursor.getColumnIndex(AnywhereEntity.PARAM_3)) == SWITCH_OFF) {
                     Control.STATUS_DISABLED
                 } else {
