@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.cloud.CloudRulesAdapter
+import com.absinthe.anywhere_.adapter.cloud.CloudRulesDiffCallback
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.api.ApiManager
 import com.absinthe.anywhere_.api.GitHubApi
@@ -55,13 +56,16 @@ class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(), SearchVi
             addItemDecoration(DividerItemDecoration(this@CloudRulesActivity, DividerItemDecoration.VERTICAL))
             FastScrollerBuilder(this).useMd2Style().build()
         }
-        mAdapter.setOnItemClickListener { _, _, position ->
-            DialogManager.showCloudRuleDialog(this@CloudRulesActivity, mAdapter.data[position].download_url!!)
+        mAdapter.apply {
+            setDiffCallback(CloudRulesDiffCallback())
+            setOnItemClickListener { _, _, position ->
+                DialogManager.showCloudRuleDialog(this@CloudRulesActivity, mAdapter.data[position].download_url!!)
+            }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.app_list_menu, menu)
+        menuInflater.inflate(R.menu.cloud_rules_menu, menu)
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
@@ -117,9 +121,11 @@ class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(), SearchVi
             override fun onResponse(call: Call<List<GiteeApiContentBean>>, response: Response<List<GiteeApiContentBean>>) {
                 val list = response.body()
                 list?.let {
-                    mAdapter.setList(it.filter { content -> content.type == "file" })
-                    mList = mAdapter.data
+                    val filterList = it.filter { content -> content.type == "file" }
+                    mAdapter.setList(filterList)
+                    mList = filterList.toMutableList()
                 }
+                getToolBar().menu?.findItem(R.id.search)?.isVisible = true
                 binding.progressHorizontal.hide()
                 isListReady = true
             }

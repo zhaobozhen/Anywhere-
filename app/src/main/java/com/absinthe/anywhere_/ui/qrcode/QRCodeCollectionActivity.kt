@@ -82,7 +82,7 @@ class QRCodeCollectionActivity : AppBarActivity<ActivityQrcodeCollectionBinding>
         mAdapter.setOnItemLongClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int -> mAdapter.longClickItem(view, position, isEditMode = false) }
 
         lifecycleScope.launch(Dispatchers.Main) {
-            mAdapter.setList(QRCollection.list)
+            mAdapter.setList(QRCollection.entitySet)
             binding.progressHorizontal.hide()
         }
     }

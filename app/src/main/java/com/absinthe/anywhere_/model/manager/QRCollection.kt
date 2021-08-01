@@ -23,7 +23,7 @@ import java.util.*
 
 object QRCollection {
 
-    val list = mutableListOf<AnywhereEntity>()
+    val entitySet = mutableSetOf<AnywhereEntity>()
     private val context = WeakReference<Context>(Utils.getApp())
     private val accessibilityManager: AccessibilityManager
     private val map: HashMap<String, QREntity>
@@ -79,7 +79,7 @@ object QRCollection {
     private val wechatScan: QREntity
         get() {
             val pkgName = "com.tencent.mm"
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = wechatScanId
                 appName = "微信扫码"
                 param1 = pkgName
@@ -109,7 +109,7 @@ object QRCollection {
     private val wechatPay: QREntity
         get() {
             val pkgName = "com.tencent.mm"
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = wechatPayId
                 appName = "微信付款码"
                 param1 = pkgName
@@ -141,7 +141,7 @@ object QRCollection {
             val pkgName = "com.tencent.mm"
             val clsName = ".plugin.collect.ui.CollectMainUI"
             val cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, pkgName + clsName)
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = wechatCollectId
                 appName = "微信收款码"
                 param1 = pkgName
@@ -166,7 +166,7 @@ object QRCollection {
         get() {
             val pkgName = "com.tencent.mm"
             val clsName = "com.tencent.mm.ui.LauncherUI"
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = wechatCollectAcsId
                 appName = "微信收款码"
                 param1 = pkgName
@@ -220,7 +220,7 @@ object QRCollection {
     private val wechatMyQrCode: QREntity
         get() {
             val pkgName = "com.tencent.mm"
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = wechatMyQrCodeId
                 appName = "微信二维码名片"
                 param1 = pkgName
@@ -251,7 +251,7 @@ object QRCollection {
         get() {
             val urlScheme = "alipayqr://platformapi/startapp?saId=10000007"
             val pkgName = "com.eg.android.AlipayGphone"
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = alipayScanId
                 appName = "支付宝扫码"
                 param1 = pkgName
@@ -279,7 +279,7 @@ object QRCollection {
         get() {
             val urlScheme = "alipays://platformapi/startapp?appId=20000056"
             val pkgName = "com.eg.android.AlipayGphone"
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = alipayPayId
                 appName = "支付宝付款码"
                 param1 = pkgName
@@ -308,7 +308,7 @@ object QRCollection {
         get() {
             val urlScheme = "alipayqr://platformapi/startapp?saId=200011235"
             val pkgName = "com.eg.android.AlipayGphone"
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = alipayBusId
                 appName = "支付宝公交码"
                 param1 = pkgName
@@ -336,7 +336,7 @@ object QRCollection {
         get() {
             val urlScheme = "alipays://platformapi/startapp?appId=20000123"
             val pkgName = "com.eg.android.AlipayGphone"
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = alipayCollectId
                 appName = "支付宝收款码"
                 param1 = pkgName
@@ -365,7 +365,7 @@ object QRCollection {
             val pkgName = "com.tencent.mobileqq"
             val clsName = "com.tencent.mobileqq.olympic.activity.ScanTorchActivity"
             val cmd = String.format(Const.CMD_OPEN_ACTIVITY_FORMAT, pkgName, clsName)
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = qqScanId
                 appName = "QQ 扫码"
                 param1 = pkgName
@@ -386,7 +386,7 @@ object QRCollection {
     private fun genUnionPay(id: String, text: String): QREntity {
         val pkgName = "com.unionpay"
         val clsName = "com.unionpay.activity.UPActivityWelcome"
-        list.add(AnywhereEntity().apply {
+        entitySet.add(AnywhereEntity().apply {
             this.id = id
             appName = "云闪付${text}"
             param1 = pkgName
@@ -445,7 +445,7 @@ object QRCollection {
         get() {
             val pkgName = "com.unionpay"
             val clsName = "com.unionpay.activity.UPActivityMain"
-            list.add(AnywhereEntity().apply {
+            entitySet.add(AnywhereEntity().apply {
                 id = unionpayCollectId
                 appName = "云闪付收款码"
                 param1 = pkgName

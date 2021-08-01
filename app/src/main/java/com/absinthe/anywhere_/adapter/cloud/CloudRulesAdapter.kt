@@ -21,4 +21,11 @@ class CloudRulesAdapter : BaseQuickAdapter<GiteeApiContentBean, BaseViewHolder>(
         return data[position].name.ifEmpty { " " }.first().toString()
     }
 
+    override fun getItemId(position: Int): Long {
+        return try {
+            data[position].url.hashCode().toLong()
+        } catch (e: Exception) {
+            super.getItemId(position)
+        }
+    }
 }
