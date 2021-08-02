@@ -97,6 +97,7 @@ class EditorActivity : BaseActivity<ActivityEditorBinding>() {
             (intent.getParcelableExtra(EXTRA_ENTITY) as? AnywhereEntity)?.let {
                 entity = it
             } ?: run {
+                super.onCreate(savedInstanceState)
                 finish()
                 return
             }
