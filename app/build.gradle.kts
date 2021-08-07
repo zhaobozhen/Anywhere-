@@ -11,8 +11,8 @@ plugins {
     id("sdk-editor")
 }
 
-val verName = "2.3.2"
-val verCode = 2030202
+val verName = "2.3.3"
+val verCode = 2030300
 
 android {
     compileSdk = 31
