@@ -19,6 +19,7 @@ import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.services.overlay.ICollectorListener
 import com.absinthe.anywhere_.services.overlay.ICollectorService
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.PermissionUtils
 import com.chad.library.adapter.base.provider.BaseItemProvider
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.textfield.TextInputEditText
@@ -53,7 +54,9 @@ class A11yCoordProvider : BaseItemProvider<A11yBaseBean>() {
             collectorService?.registerCollectorListener(collectorListener)
             collectorService?.startCoordinator()
             getAdapter()?.let {
-                ActivityUtils.startLauncherActivity(it.data[currentPosition].actionBean.pkgName)
+                if (PermissionUtils.isGrantedDrawOverlays()) {
+                    ActivityUtils.startLauncherActivity(it.data[currentPosition].actionBean.pkgName)
+                }
             }
         }
 
@@ -144,7 +147,9 @@ class A11yCoordProvider : BaseItemProvider<A11yBaseBean>() {
 
             if (isBound) {
                 collectorService?.startCoordinator()
-                ActivityUtils.startLauncherActivity(data.actionBean.pkgName)
+                if (PermissionUtils.isGrantedDrawOverlays()) {
+                    ActivityUtils.startLauncherActivity(data.actionBean.pkgName)
+                }
             } else {
                 context.bindService(Intent(context, CollectorService::class.java), conn, Context.BIND_AUTO_CREATE)
             }

@@ -36,13 +36,13 @@ class BackupActivity : AppBarActivity<ActivityBackupBinding>() {
                             encrypt(content)?.let { encrypted ->
                                 os.write(encrypted.toByteArray())
                                 os.close()
-                                ToastUtil.makeText(getString(R.string.toast_backup_success))
+                                ToastUtil.makeText(this, getString(R.string.toast_backup_success))
                             }
                         }
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    ToastUtil.makeText(getString(R.string.toast_runtime_error))
+                    ToastUtil.makeText(this, getString(R.string.toast_runtime_error))
                 }
             }
         } else if (requestCode == Const.REQUEST_CODE_RESTORE_BACKUPS && resultCode == Activity.RESULT_OK) {

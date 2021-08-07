@@ -4,9 +4,9 @@ import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+
 import androidx.annotation.NonNull;
 
-import com.absinthe.anywhere_.AwContextWrapper;
 import com.absinthe.anywhere_.R;
 import com.absinthe.anywhere_.constants.Const;
 import com.absinthe.anywhere_.constants.GlobalValues;
@@ -17,11 +17,13 @@ import com.absinthe.anywhere_.utils.ToastUtil;
 import com.blankj.utilcode.util.AppUtils;
 import com.catchingnow.delegatedscopeclient.DSMClient;
 import com.catchingnow.icebox.sdk_client.IceBox;
+
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import java.util.List;
 
 public class DefrostHandler {
 
@@ -89,7 +91,7 @@ public class DefrostHandler {
         IceBox.setAppEnabledSettings(context, true, packageName);
       } catch (IllegalArgumentException | SecurityException e) {
         new Handler(Looper.getMainLooper())
-            .post(() -> ToastUtil.INSTANCE.makeText(new AwContextWrapper(context), "IceBox SDK error"));
+            .post(() -> ToastUtil.INSTANCE.makeText(context, "IceBox SDK error"));
       }
       new Handler(Looper.getMainLooper()).post(listener::onAppDefrost);
     });

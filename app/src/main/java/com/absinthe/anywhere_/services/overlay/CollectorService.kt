@@ -85,7 +85,7 @@ class CollectorService : Service() {
         super.onDestroy()
     }
 
-    private fun startCollectorInternal() {
+    private fun startCollectorInternal(): Boolean {
         if (!PermissionUtils.isGrantedDrawOverlays()) {
             ToastUtil.Toasty.show(this,
                     if (AppUtils.atLeastR()) {
@@ -102,8 +102,10 @@ class CollectorService : Service() {
 
                 override fun onDenied() {}
             })
+            return false
         } else {
             startCollectorImpl()
+            return true
         }
     }
 
@@ -125,7 +127,7 @@ class CollectorService : Service() {
         Toast.makeText(this, R.string.toast_collector_opened, Toast.LENGTH_SHORT).show()
     }
 
-    private fun startCoordinatorInternal() {
+    private fun startCoordinatorInternal(): Boolean {
         if (!PermissionUtils.isGrantedDrawOverlays()) {
             ToastUtil.Toasty.show(this,
                 if (AppUtils.atLeastR()) {
@@ -142,8 +144,10 @@ class CollectorService : Service() {
 
                 override fun onDenied() {}
             })
+            return false
         } else {
             startCoordinatorImpl()
+            return true
         }
     }
 

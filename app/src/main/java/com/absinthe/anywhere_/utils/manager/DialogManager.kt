@@ -5,10 +5,13 @@ import android.content.*
 import android.os.Build
 import android.os.Bundle
 import android.text.Spanned
+import android.view.ContextThemeWrapper
+import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.AwContextWrapper
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
@@ -280,19 +283,36 @@ object DialogManager {
                     result
                 }
 
-                AnywhereDialogBuilder(context)
+                val ctx = if (context is ContextThemeWrapper) {
+                    context
+                } else {
+                    AwContextWrapper(context)
+                }
+
+                val dialog = AnywhereDialogBuilder(ctx)
                         .setTitle(R.string.dialog_shell_result_title)
                         .setMessage(parsedResult)
                         .setPositiveButton(R.string.dialog_close_button, posListener)
                         .setNeutralButton(R.string.dialog_copy) { _, _ ->
                             ClipboardUtil.put(context, "$parsedResult")
                             ToastUtil.makeText(R.string.toast_copied)
+                            cancelListener?.onCancel(null)
                         }
                         .setOnCancelListener(cancelListener)
-                        .apply {
-                            (this as AnywhereDialogBuilder).setMessageSelectable(true)
+                        .also {
+                            (it as AnywhereDialogBuilder).setMessageSelectable(true)
                         }
-                        .show()
+                        .create()
+                if (context !is ContextThemeWrapper) {
+                    dialog.window?.setType(
+                        if (AppUtils.atLeastO()) {
+                            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                        } else {
+                            WindowManager.LayoutParams.TYPE_PHONE
+                        }
+                    )
+                }
+                dialog.show()
             }
             else -> {
                 posListener?.onClick(null, 0)

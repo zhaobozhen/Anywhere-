@@ -7,12 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.FileUriExposedException
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import cn.vove7.andro_accessibility_api.AppScope
 import cn.vove7.andro_accessibility_api.api.*
 import cn.vove7.andro_accessibility_api.utils.NeedAccessibilityException
 import com.absinthe.anywhere_.AnywhereApplication
-import com.absinthe.anywhere_.AwContextWrapper
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.a11y.A11yEntity
@@ -159,13 +159,16 @@ object Opener {
                 listener?.onOpened()
             }
             AnywhereType.Card.IMAGE -> {
-                ActivityStackManager.topActivity?.let {
-                    DialogManager.showImageDialog(it, item.param1, object : AnywhereDialogFragment.OnDismissListener {
-                        override fun onDismiss() {
-                            listener?.onOpened()
-                        }
-                    })
+                val ctx = if (context is AppCompatActivity) {
+                    context
+                } else {
+                    ActivityStackManager.topActivity?: return
                 }
+                DialogManager.showImageDialog(ctx, item.param1, object : AnywhereDialogFragment.OnDismissListener {
+                    override fun onDismiss() {
+                        listener?.onOpened()
+                    }
+                })
             }
             AnywhereType.Card.ACTIVITY -> {
                 val className = if (item.param2.orEmpty().startsWith(".")) {
@@ -267,31 +270,34 @@ object Opener {
             }
             AnywhereType.Card.URL_SCHEME -> {
                 if (!item.param3.isNullOrEmpty()) {
-                    ActivityStackManager.topActivity?.let {
-                        DialogManager.showDynamicParamsDialog(it, item.param3.orEmpty(), object : OnParamsInputListener {
-                            override fun onFinish(text: String?) {
-                                try {
-                                    URLSchemeHandler.parse(context, item.param1 + text, item.param2) {
-                                        listener?.onOpened()
-                                    }
-                                } catch (e: Exception) {
-                                    Timber.e(e)
-                                    if (e is ActivityNotFoundException) {
-                                        ToastUtil.makeText(R.string.toast_no_react_url)
-                                    } else if (AppUtils.atLeastN()) {
-                                        if (e is FileUriExposedException) {
-                                            ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                                        }
-                                    }
+                    val ctx = if (context is AppCompatActivity) {
+                        context
+                    } else {
+                        ActivityStackManager.topActivity?: return
+                    }
+                    DialogManager.showDynamicParamsDialog(ctx, item.param3.orEmpty(), object : OnParamsInputListener {
+                        override fun onFinish(text: String?) {
+                            try {
+                                URLSchemeHandler.parse(context, item.param1 + text, item.param2) {
                                     listener?.onOpened()
                                 }
-                            }
-
-                            override fun onCancel() {
+                            } catch (e: Exception) {
+                                Timber.e(e)
+                                if (e is ActivityNotFoundException) {
+                                    ToastUtil.makeText(R.string.toast_no_react_url)
+                                } else if (AppUtils.atLeastN()) {
+                                    if (e is FileUriExposedException) {
+                                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
+                                    }
+                                }
                                 listener?.onOpened()
                             }
-                        })
-                    }
+                        }
+
+                        override fun onCancel() {
+                            listener?.onOpened()
+                        }
+                    })
                 } else {
                     try {
                         URLSchemeHandler.parse(context, item.param1, item.param2) {
@@ -312,7 +318,7 @@ object Opener {
             }
             AnywhereType.Card.SHELL -> {
                 val result = CommandUtils.execAdbCmd(item.param1)
-                DialogManager.showShellResultDialog(AwContextWrapper(context), result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
+                DialogManager.showShellResultDialog(context, result, { _, _ -> listener?.onOpened() }, { listener?.onOpened() })
             }
             AnywhereType.Card.SWITCH_SHELL -> {
                 openByCommand(context, getItemCommand(item), item.packageName)
@@ -420,7 +426,7 @@ object Opener {
                             var currentActivity = a11yEntity.entryActivity
                             if (!result) {
                                 withContext(Dispatchers.Main) {
-                                    ToastUtil.Toasty.show(context, "Timeout for waiting entry page", defaultStyle = true)
+                                    ToastUtil.Toasty.show(context, "Timeout for waiting entry page")
                                 }
                                 return@launch
                             }
@@ -433,7 +439,7 @@ object Opener {
                                 }
                                 if (!result) {
                                     withContext(Dispatchers.Main) {
-                                        ToastUtil.Toasty.show(context, "Timeout for waiting page", defaultStyle = true)
+                                        ToastUtil.Toasty.show(context, "Timeout for waiting page")
                                     }
                                     return@launch
                                 }

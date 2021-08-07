@@ -1,34 +1,22 @@
 package com.absinthe.anywhere_.utils
 
-import android.app.Activity
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.view.ContextThemeWrapper
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.annotation.StringRes
-import com.absinthe.anywhere_.databinding.LayoutToastBinding
-import com.absinthe.anywhere_.utils.manager.ActivityStackManager
-import org.jetbrains.annotations.NotNull
+import com.absinthe.anywhere_.AwContextWrapper
+import com.absinthe.anywhere_.view.app.ToastView
+import com.blankj.utilcode.util.Utils
+import java.lang.ref.WeakReference
 
 object ToastUtil {
-    /**
-     * make a toast via a string
-     *
-     * @param text a string text
-     */
-    fun makeText(text: String) {
-        Toasty.show(ActivityStackManager.topActivity!!, text)
-    }
 
-    /**
-     * make a toast via a resource id
-     *
-     * @param resId a string resource id
-     */
-    @JvmStatic
-    fun makeText(@StringRes resId: Int) {
-        Toasty.show(ActivityStackManager.topActivity!!, resId)
-    }
+    private val contextWrapper by lazy { AwContextWrapper(Utils.getApp()) }
+    private val handler = Handler(Looper.getMainLooper())
+    private var toast: WeakReference<Toast?>? = null
 
     /**
      * make a toast via a string
@@ -37,10 +25,10 @@ object ToastUtil {
      * @param text a string text
      */
     fun makeText(context: Context, text: String) {
-        if (context is Activity) {
+        if (Looper.getMainLooper().thread === Thread.currentThread()) {
             Toasty.show(context, text)
         } else {
-            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+            handler.post { Toasty.show(context, text) }
         }
     }
 
@@ -50,13 +38,18 @@ object ToastUtil {
      * @param context context
      * @param resId a string resource id
      */
-    @JvmStatic
     fun makeText(context: Context, @StringRes resId: Int) {
-        if (context is Activity) {
-            Toasty.show(context, resId)
-        } else {
-            Toast.makeText(context, resId, Toast.LENGTH_SHORT).show()
-        }
+        makeText(context, context.getString(resId))
+    }
+
+    @JvmStatic
+    fun makeText(text: String) {
+        makeText(contextWrapper, text)
+    }
+
+    @JvmStatic
+    fun makeText(@StringRes resId: Int) {
+        makeText(contextWrapper, resId)
     }
 
     /**
@@ -67,33 +60,46 @@ object ToastUtil {
      */
     object Toasty {
 
-        fun show(context: Context, message: String, defaultStyle: Boolean = false) {
-            show(context, message, Toast.LENGTH_SHORT, defaultStyle)
+        fun show(context: Context, message: String) {
+            show(context, message, Toast.LENGTH_SHORT)
         }
 
-        fun show(context: Context, @StringRes res: Int, defaultStyle: Boolean = false) {
-            show(context, context.getString(res), Toast.LENGTH_SHORT, defaultStyle)
+        fun show(context: Context, @StringRes res: Int) {
+            show(context, context.getString(res), Toast.LENGTH_SHORT)
         }
 
-        fun showLong(context: Context, message: String, defaultStyle: Boolean = false) {
-            show(context, message, Toast.LENGTH_LONG, defaultStyle)
+        fun showLong(context: Context, message: String) {
+            show(context, message, Toast.LENGTH_LONG)
         }
 
-        fun showLong(context: Context, @StringRes res: Int, defaultStyle: Boolean = false) {
-            show(context, context.getString(res), Toast.LENGTH_LONG, defaultStyle)
+        fun showLong(context: Context, @StringRes res: Int) {
+            show(context, context.getString(res), Toast.LENGTH_LONG)
         }
 
-        private fun show(context: Context, message: String, duration: Int, defaultStyle: Boolean = false) {
-            if (defaultStyle) {
-                Toast.makeText(context, message, duration).show()
+        private fun show(context: Context, message: String, duration: Int) {
+            toast?.get()?.cancel()
+            toast = null
+
+            if (AppUtils.atLeastR() && context !is ContextThemeWrapper) {
+                Toast(context).also {
+                    it.duration = duration
+                    it.setText(message)
+                    toast = WeakReference(it)
+                }.show()
             } else {
-                val view = LayoutToastBinding.inflate(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as @NotNull LayoutInflater)
-                view.message.text = message
-
-                Toast(context).apply {
-                    setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM, 0, 200)
-                    this.duration = duration
-                    this.view = view.root
+                val ctx = if (context is ContextThemeWrapper) {
+                    context
+                } else {
+                    contextWrapper
+                }
+                val view = ToastView(ctx).also {
+                    it.message.text = message
+                }
+                Toast(ctx).also {
+                    it.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM, 0, 200)
+                    it.duration = duration
+                    it.view = view
+                    toast = WeakReference(it)
                 }.show()
             }
         }

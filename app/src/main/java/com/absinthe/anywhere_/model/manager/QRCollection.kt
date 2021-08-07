@@ -89,11 +89,12 @@ object QRCollection {
             return QREntity(object : OnQRLaunchedListener {
                 override fun onLaunched() {
                     try {
-                        val intent = Intent("com.tencent.mm.action.BIZSHORTCUT").apply {
-                            putExtra("LauncherUI.Shortcut.LaunchType", "launch_type_scan_qrcode")
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        val intent = getContext().packageManager.getLaunchIntentForPackage(pkgName)
+                        if (intent != null) {
+                            intent.putExtra("LauncherUI.From.Scaner.Shortcut", true)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            getContext().startActivity(intent)
                         }
-                        getContext().startActivity(intent)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }

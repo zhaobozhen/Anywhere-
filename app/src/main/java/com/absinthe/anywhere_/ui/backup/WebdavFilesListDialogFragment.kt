@@ -16,7 +16,6 @@ import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.Utils
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -65,25 +64,25 @@ class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
         } catch (e: Exception) {
             e.printStackTrace()
             withContext(Dispatchers.Main) {
-                ToastUtil.makeText("Failed getting files: $e")
+                activity?.let { ToastUtil.makeText(it, "Failed getting files: $e") }
                 dismiss()
             }
         }
     }
 
-    private fun applyBackupFile(url: String) = GlobalScope.launch(Dispatchers.IO) {
+    private fun applyBackupFile(url: String) = lifecycleScope.launch(Dispatchers.IO) {
         sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
-        sardine.get(url)?.let {
-            val result = ConvertUtils.inputStream2String(it, "UTF-8")
+        sardine.get(url)?.let { input ->
+            val result = ConvertUtils.inputStream2String(input, "UTF-8")
             result?.apply {
                 withContext(Dispatchers.IO) {
                     StorageUtils.restoreFromJson(Utils.getApp(), this@apply)
                 }
             } ?: withContext(Dispatchers.Main) {
-                ToastUtil.makeText("JSON content error")
+                activity?.let { ToastUtil.makeText(it, "JSON content error") }
             }
         } ?: withContext(Dispatchers.Main) {
-            ToastUtil.makeText("Input Stream error")
+            activity?.let { ToastUtil.makeText(it, "Input Stream error") }
         }
     }
 }
