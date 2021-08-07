@@ -463,9 +463,11 @@ object Opener {
                                     }
                                     A11yType.COORDINATE -> {
                                         val xy = action.content.trim().split(",")
+
                                         if (xy.size == 2) {
-                                            val x = xy[0].toIntOrNull()
-                                            val y = xy[1].toIntOrNull()
+                                            val x = xy[0].trim().toIntOrNull()
+                                            val y = xy[1].trim().toIntOrNull()
+
                                             if (x != null && y != null) {
                                                 if (AppUtils.atLeastN()) {
                                                     click(x, y)
@@ -476,8 +478,8 @@ object Opener {
                                     A11yType.LONG_PRESS_COORDINATE -> {
                                         val xy = action.content.trim().split(",")
                                         if (xy.size == 2) {
-                                            val x = xy[0].toIntOrNull()
-                                            val y = xy[1].toIntOrNull()
+                                            val x = xy[0].trim().toIntOrNull()
+                                            val y = xy[1].trim().toIntOrNull()
                                             if (x != null && y != null) {
                                                 if (AppUtils.atLeastN()) {
                                                     longClick(x, y)
