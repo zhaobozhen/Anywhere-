@@ -26,7 +26,6 @@ import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.ui.editor.EXTRA_EDIT_MODE
 import com.absinthe.anywhere_.ui.editor.EXTRA_ENTITY
 import com.absinthe.anywhere_.ui.editor.EditorActivity
-import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.AppUtils.getAppList
 import com.absinthe.libraries.utils.extensions.dp
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +33,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
-import rikka.insets.setInitialMargin
 import rikka.widget.borderview.BorderView
 
 const val EXTRA_APP_LIST_ENTRY_MODE = "EXTRA_APP_LIST_ENTRY_MODE"
@@ -114,12 +112,8 @@ class AppListActivity : AppBarActivity<ActivityAppListBinding>(), SearchView.OnQ
         super.initView()
         binding.extendedFab.apply {
             post {
-                val marginBottom = if (!AppUtils.atLeastR()) {
-                    window.decorView.rootWindowInsets?.systemWindowInsetBottom ?: 0
-                } else {
-                    16.dp
-                }
-                setInitialMargin(0, 0, 16.dp, marginBottom)
+                translationY = -((window.decorView.rootWindowInsets?.systemWindowInsetBottom ?: 0) + 16.dp).toFloat()
+                translationX = -16.dp.toFloat()
             }
             setOnClickListener {
                 val ae = AnywhereEntity().apply {

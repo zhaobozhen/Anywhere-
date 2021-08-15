@@ -29,7 +29,9 @@
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="false"
+                    app:fitsSystemWindowsInsets="top">
 
                 <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/view_pager"
@@ -44,8 +46,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         app:elevation="0dp"
-                        style="?appBarStyle"
-                        app:fitsSystemWindowsInsets="top">
+                        style="?appBarStyle">
 
                     <androidx.appcompat.widget.Toolbar
                             android:id="@+id/toolbar"
@@ -78,7 +79,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
                         android:clipToPadding="false"
-                        android:fitsSystemWindows="true"
                         android:padding="16dp"
                         app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
                         app:sdMainFabClosedBackgroundColor="@color/fabBackgroundColor"

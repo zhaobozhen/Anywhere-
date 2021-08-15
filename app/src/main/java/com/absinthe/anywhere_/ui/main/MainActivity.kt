@@ -530,6 +530,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         build(this, binding.fab)
         binding.fab.apply {
             mainFab.transitionName = "item_container"
+            translationY = -16.dp.toFloat()
             setOnActionSelectedListener { actionItem: SpeedDialActionItem ->
                 when (actionItem.id) {
                     R.id.fab_advanced -> showAdvancedCardSelectDialog(this@MainActivity)
