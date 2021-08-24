@@ -202,7 +202,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
-    implementation("com.google.code.gson:gson:2.8.7")
+    implementation("com.google.code.gson:gson:2.8.8")
     implementation("com.google.zxing:core:3.4.1")
     implementation("com.blankj:utilcodex:1.30.6")
     implementation("com.tencent:mmkv-static:1.2.10")
@@ -229,7 +229,7 @@ dependencies {
 
     implementation("dev.rikka.rikkax.appcompat:appcompat:1.2.0-rc01")
     implementation("dev.rikka.rikkax.core:core:1.3.2")
-    implementation("dev.rikka.rikkax.material:material:1.6.5")
+    implementation("dev.rikka.rikkax.material:material:1.6.6")
     implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.2.2")
     implementation("dev.rikka.rikkax.widget:borderview:1.0.1")
     implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
