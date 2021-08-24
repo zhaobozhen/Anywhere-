@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:fitsSystemWindows="false"
+  android:paddingTop="30dp">
+
+  <TextView
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="false"
-    android:paddingTop="30dp">
+    android:layout_marginStart="15dp"
+    android:text="@string/drawer_title"
+    android:textAppearance="?attr/textAppearanceBody1"
+    android:textColor="@color/textColorNormal"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:text="@string/drawer_title"
-        android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="@color/textColorNormal"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+  <ImageButton
+    android:id="@+id/ib_done"
+    android:layout_width="@dimen/bsd_tool_size"
+    android:layout_height="@dimen/bsd_tool_size"
+    android:layout_margin="5dp"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:contentDescription="@string/anywhere_more_todo"
+    android:tint="@color/textColorNormal"
+    android:tooltipText="@string/menu_done"
+    android:visibility="gone"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/ib_sort_page"
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@drawable/ic_done"
+    tools:targetApi="o" />
 
-    <ImageButton
-        android:id="@+id/ib_done"
-        android:layout_width="@dimen/bsd_tool_size"
-        android:layout_height="@dimen/bsd_tool_size"
-        android:layout_margin="5dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/anywhere_more_todo"
-        android:tint="@color/textColorNormal"
-        android:tooltipText="@string/menu_done"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ib_sort_page"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_done"
-        tools:targetApi="o" />
+  <ImageButton
+    android:id="@+id/ib_sort_page"
+    android:layout_width="@dimen/bsd_tool_size"
+    android:layout_height="@dimen/bsd_tool_size"
+    android:layout_margin="5dp"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:contentDescription="@string/anywhere_more_todo"
+    android:tint="@color/textColorNormal"
+    android:tooltipText="@string/menu_sort_page"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/ib_add"
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@drawable/ic_sort"
+    tools:targetApi="o" />
 
-    <ImageButton
-        android:id="@+id/ib_sort_page"
-        android:layout_width="@dimen/bsd_tool_size"
-        android:layout_height="@dimen/bsd_tool_size"
-        android:layout_margin="5dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/anywhere_more_todo"
-        android:tint="@color/textColorNormal"
-        android:tooltipText="@string/menu_sort_page"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ib_add"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_sort"
-        tools:targetApi="o" />
-
-    <ImageButton
-        android:id="@+id/ib_add"
-        android:layout_width="@dimen/bsd_tool_size"
-        android:layout_height="@dimen/bsd_tool_size"
-        android:layout_margin="5dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/anywhere_more_todo"
-        android:tint="@color/textColorNormal"
-        android:tooltipText="@string/drawer_tool_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_add"
-        tools:targetApi="o" />
+  <ImageButton
+    android:id="@+id/ib_add"
+    android:layout_width="@dimen/bsd_tool_size"
+    android:layout_height="@dimen/bsd_tool_size"
+    android:layout_margin="5dp"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:contentDescription="@string/anywhere_more_todo"
+    android:tint="@color/textColorNormal"
+    android:tooltipText="@string/drawer_tool_add"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@drawable/ic_add"
+    tools:targetApi="o" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,12 +9,12 @@ import retrofit2.http.Path
 
 interface GitHubApi {
 
-    @GET("contents/rules")
-    fun requestAllContents(): Call<List<GitHubApiContentBean>>
+  @GET("contents/rules")
+  fun requestAllContents(): Call<List<GitHubApiContentBean>>
 
-    @GET("contents/rules")
-    fun requestGiteeAllContents(): Call<List<GiteeApiContentBean>>
+  @GET("contents/rules")
+  fun requestGiteeAllContents(): Call<List<GiteeApiContentBean>>
 
-    @GET("{path}")
-    fun requestEntity(@Path("path") path: String): Call<RuleEntity>
+  @GET("{path}")
+  fun requestEntity(@Path("path") path: String): Call<RuleEntity>
 }

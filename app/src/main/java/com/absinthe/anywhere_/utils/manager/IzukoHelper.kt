@@ -5,13 +5,13 @@ import androidx.annotation.Keep
 @Keep
 object IzukoHelper {
 
-    init {
-        System.loadLibrary("izuko")
-    }
+  init {
+    System.loadLibrary("izuko")
+  }
 
-    val cipherKey: String
-        external get
+  val cipherKey: String
+    external get
 
-    external fun checkSignature()
+  external fun checkSignature()
 
 }

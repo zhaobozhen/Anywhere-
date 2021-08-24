@@ -7,17 +7,17 @@ import androidx.viewbinding.ViewBinding
 import rikka.material.widget.AppBarLayout
 
 abstract class AppBarActivity<T : ViewBinding> : BaseActivity<T>() {
-    protected abstract fun getToolBar(): Toolbar
-    protected abstract fun getAppBarLayout(): AppBarLayout
+  protected abstract fun getToolBar(): Toolbar
+  protected abstract fun getAppBarLayout(): AppBarLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initAppBar()
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    initAppBar()
+  }
 
-    private fun initAppBar() {
-        setAppBar(getAppBarLayout(), getToolBar())
-        (root as ViewGroup).bringChildToFront(getAppBarLayout())
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
+  private fun initAppBar() {
+    setAppBar(getAppBarLayout(), getToolBar())
+    (root as ViewGroup).bringChildToFront(getAppBarLayout())
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+  }
 }

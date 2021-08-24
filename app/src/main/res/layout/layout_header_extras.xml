@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:gravity="center_vertical"
+  android:orientation="horizontal"
+  android:paddingVertical="@dimen/bsd_item_margin_vertical">
+
+  <TextView
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingVertical="@dimen/bsd_item_margin_vertical">
+    android:text="@string/bsd_text_input_layout_intent_extra_label" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bsd_text_input_layout_intent_extra_label" />
-
-    <ImageButton
-        android:id="@+id/ib_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:importantForAccessibility="no"
-        android:src="@drawable/ic_add"
-        android:tint="@color/textColorNormal"
-        android:tooltipText="@string/add"
-        tools:targetApi="o" />
+  <ImageButton
+    android:id="@+id/ib_add"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:importantForAccessibility="no"
+    android:src="@drawable/ic_add"
+    android:tint="@color/textColorNormal"
+    android:tooltipText="@string/add"
+    tools:targetApi="o" />
 
 </LinearLayout>

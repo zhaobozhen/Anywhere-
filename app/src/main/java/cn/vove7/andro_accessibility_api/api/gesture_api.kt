@@ -21,10 +21,10 @@ import timber.log.Timber
  */
 
 private val gestureService: AccessibilityService
-    get() = if (AccessibilityApi.isGestureServiceEnable
-        && Build.VERSION.SDK_INT > Build.VERSION_CODES.N
-    ) AccessibilityApi.gestureService!!
-    else throw NeedAccessibilityException("高级无障碍服务未开启 或 系统低于 Android N")
+  get() = if (AccessibilityApi.isGestureServiceEnable
+    && Build.VERSION.SDK_INT > Build.VERSION_CODES.N
+  ) AccessibilityApi.gestureService!!
+  else throw NeedAccessibilityException("高级无障碍服务未开启 或 系统低于 Android N")
 
 /**
  * 设置屏幕相对坐标
@@ -42,12 +42,12 @@ fun setScreenSize(width: Int, height: Int) = ScreenAdapter.setScreenSize(width, 
  */
 @RequiresApi(Build.VERSION_CODES.N)
 fun gesture(
-    duration: Long,
-    points: Array<Pair<Int, Int>>,
-    onCancel: Function0<Unit>? = null
+  duration: Long,
+  points: Array<Pair<Int, Int>>,
+  onCancel: Function0<Unit>? = null
 ): Boolean {
-    val path = pointsToPath(points)
-    return playGestures(listOf(GestureDescription.StrokeDescription(path, 0, duration)), onCancel)
+  val path = pointsToPath(points)
+  return playGestures(listOf(GestureDescription.StrokeDescription(path, 0, duration)), onCancel)
 }
 
 /**
@@ -59,10 +59,10 @@ fun gesture(
  */
 @RequiresApi(Build.VERSION_CODES.N)
 fun gesture(
-    duration: Long, path: Path,
-    onCancel: Function0<Unit>? = null
+  duration: Long, path: Path,
+  onCancel: Function0<Unit>? = null
 ): Boolean {
-    return playGestures(listOf(GestureDescription.StrokeDescription(path, 0, duration)), onCancel)
+  return playGestures(listOf(GestureDescription.StrokeDescription(path, 0, duration)), onCancel)
 }
 
 /**
@@ -74,16 +74,16 @@ fun gesture(
  */
 @RequiresApi(Build.VERSION_CODES.N)
 fun gesture(
-    duration: Long, paths: Array<Path>,
-    onCancel: Function0<Unit>? = null
+  duration: Long, paths: Array<Path>,
+  onCancel: Function0<Unit>? = null
 ): Boolean {
-    if (gestureService == null) {
-        return false
-    }
-    return playGestures(
-        paths.map { GestureDescription.StrokeDescription(it, 0, duration) },
-        onCancel
-    )
+  if (gestureService == null) {
+    return false
+  }
+  return playGestures(
+    paths.map { GestureDescription.StrokeDescription(it, 0, duration) },
+    onCancel
+  )
 }
 
 /**
@@ -93,12 +93,12 @@ fun gesture(
  */
 @RequiresApi(api = Build.VERSION_CODES.N)
 fun gestureAsync(
-    duration: Long,
-    points: Array<Pair<Int, Int>>
+  duration: Long,
+  points: Array<Pair<Int, Int>>
 ) {
-    gestureService ?: return
-    val path = pointsToPath(points)
-    doGesturesAsync(listOf(GestureDescription.StrokeDescription(path, 0, duration)))
+  gestureService
+  val path = pointsToPath(points)
+  doGesturesAsync(listOf(GestureDescription.StrokeDescription(path, 0, duration)))
 }
 
 /**
@@ -108,15 +108,15 @@ fun gestureAsync(
  */
 @RequiresApi(Build.VERSION_CODES.N)
 fun gestures(
-    duration: Long, ppss: Array<Array<Pair<Int, Int>>>,
-    onCancel: Function0<Unit>? = null
+  duration: Long, ppss: Array<Array<Pair<Int, Int>>>,
+  onCancel: Function0<Unit>? = null
 ): Boolean {
-    gestureService ?: return false
-    val list = mutableListOf<GestureDescription.StrokeDescription>()
-    ppss.forEach {
-        list.add(GestureDescription.StrokeDescription(pointsToPath(it), 0, duration))
-    }
-    return playGestures(list, onCancel)
+  gestureService
+  val list = mutableListOf<GestureDescription.StrokeDescription>()
+  ppss.forEach {
+    list.add(GestureDescription.StrokeDescription(pointsToPath(it), 0, duration))
+  }
+  return playGestures(list, onCancel)
 }
 
 /**
@@ -126,12 +126,12 @@ fun gestures(
  */
 @RequiresApi(Build.VERSION_CODES.N)
 fun gesturesAsync(duration: Long, ppss: Array<Array<Pair<Int, Int>>>) {
-    gestureService ?: return
-    val list = mutableListOf<GestureDescription.StrokeDescription>()
-    ppss.forEach {
-        list.add(GestureDescription.StrokeDescription(pointsToPath(it), 0, duration))
-    }
-    doGesturesAsync(list)
+  gestureService
+  val list = mutableListOf<GestureDescription.StrokeDescription>()
+  ppss.forEach {
+    list.add(GestureDescription.StrokeDescription(pointsToPath(it), 0, duration))
+  }
+  doGesturesAsync(list)
 }
 
 /**
@@ -141,14 +141,14 @@ fun gesturesAsync(duration: Long, ppss: Array<Array<Pair<Int, Int>>>) {
  */
 @RequiresApi(api = Build.VERSION_CODES.N)
 fun playGestures(
-    strokeList: List<GestureDescription.StrokeDescription>,
-    onCancel: Function0<Unit>? = null
+  strokeList: List<GestureDescription.StrokeDescription>,
+  onCancel: Function0<Unit>? = null
 ): Boolean {
-    val builder = GestureDescription.Builder()
-    for (stroke in strokeList) {
-        builder.addStroke(stroke)
-    }
-    return doGestures(builder.build(), onCancel)
+  val builder = GestureDescription.Builder()
+  for (stroke in strokeList) {
+    builder.addStroke(stroke)
+  }
+  return doGestures(builder.build(), onCancel)
 }
 
 /**
@@ -157,14 +157,14 @@ fun playGestures(
  * @return Path
  */
 private fun pointsToPath(points: Array<Pair<Int, Int>>): Path {
-    val path = Path()
-    if (points.isEmpty()) return path
-    path.moveTo(ScreenAdapter.scaleX(points[0].first), ScreenAdapter.scaleY(points[0].second))
+  val path = Path()
+  if (points.isEmpty()) return path
+  path.moveTo(ScreenAdapter.scaleX(points[0].first), ScreenAdapter.scaleY(points[0].second))
 
-    for (i in 1 until points.size) {
-        path.lineTo(ScreenAdapter.scaleX(points[i].first), ScreenAdapter.scaleY(points[i].second))
-    }
-    return path
+  for (i in 1 until points.size) {
+    path.lineTo(ScreenAdapter.scaleX(points[i].first), ScreenAdapter.scaleY(points[i].second))
+  }
+  return path
 }
 
 /**
@@ -174,38 +174,38 @@ private fun pointsToPath(points: Array<Pair<Int, Int>>): Path {
  */
 @RequiresApi(api = Build.VERSION_CODES.N)
 private fun doGestures(
-    description: GestureDescription,
-    onCancel: Function0<Unit>?
+  description: GestureDescription,
+  onCancel: Function0<Unit>?
 ): Boolean {
-    Timber.d("doGesture: %s", description)
-    // 主线程不指定Handler
-    val handler = if (Looper.myLooper() == Looper.getMainLooper()) null
-    else HandlerThread("ges").let {
-        it.start()
-        Handler(it.looper)
-    }
-    val result = ResultBox(false)
-    gestureService.dispatchGesture(
-        description,
-        object : AccessibilityService.GestureResultCallback() {
-            override fun onCompleted(gestureDescription: GestureDescription) {
-                result.setAndNotify(true)
-            }
+  Timber.d("doGesture: %s", description)
+  // 主线程不指定Handler
+  val handler = if (Looper.myLooper() == Looper.getMainLooper()) null
+  else HandlerThread("ges").let {
+    it.start()
+    Handler(it.looper)
+  }
+  val result = ResultBox(false)
+  gestureService.dispatchGesture(
+    description,
+    object : AccessibilityService.GestureResultCallback() {
+      override fun onCompleted(gestureDescription: GestureDescription) {
+        result.setAndNotify(true)
+      }
 
-            override fun onCancelled(gestureDescription: GestureDescription) {
-                onCancel?.invoke()
-                result.setAndNotify(false)
-            }
-        }, handler
-    ).also {
-        if (!it) {
-            return false
-        }
+      override fun onCancelled(gestureDescription: GestureDescription) {
+        onCancel?.invoke()
+        result.setAndNotify(false)
+      }
+    }, handler
+  ).also {
+    if (!it) {
+      return false
     }
-    return (result.blockedGet() ?: false).also {
-        //结束 HanderThread
-        handler?.looper?.quitSafely()
-    }
+  }
+  return (result.blockedGet() ?: false).also {
+    //结束 HanderThread
+    handler?.looper?.quitSafely()
+  }
 }
 
 /**
@@ -214,16 +214,16 @@ private fun doGestures(
  */
 @RequiresApi(api = Build.VERSION_CODES.N)
 fun doGesturesAsync(strokeList: List<GestureDescription.StrokeDescription>) {
-    val builder = GestureDescription.Builder()
-    for (stroke in strokeList) {
-        builder.addStroke(stroke)
-    }
-    gestureService?.dispatchGesture(builder.build(), null, null)
+  val builder = GestureDescription.Builder()
+  for (stroke in strokeList) {
+    builder.addStroke(stroke)
+  }
+  gestureService.dispatchGesture(builder.build(), null, null)
 }
 
 @RequiresApi(Build.VERSION_CODES.N)
 fun click(x: Int, y: Int): Boolean =
-    pressWithTime(x, y, ViewConfiguration.getTapTimeout() + 50)
+  pressWithTime(x, y, ViewConfiguration.getTapTimeout() + 50)
 
 /**
  *
@@ -234,7 +234,7 @@ fun click(x: Int, y: Int): Boolean =
  */
 @RequiresApi(Build.VERSION_CODES.N)
 fun pressWithTime(x: Int, y: Int, delay: Int): Boolean {
-    return gesture(delay.toLong(), arrayOf(Pair(x, y)))
+  return gesture(delay.toLong(), arrayOf(Pair(x, y)))
 }
 
 /**
@@ -245,7 +245,7 @@ fun pressWithTime(x: Int, y: Int, delay: Int): Boolean {
  */
 @RequiresApi(Build.VERSION_CODES.N)
 fun longClick(x: Int, y: Int) = pressWithTime(
-    x, y, (ViewConfiguration.getLongPressTimeout() + 200)
+  x, y, (ViewConfiguration.getLongPressTimeout() + 200)
 )
 
 /**
@@ -259,26 +259,26 @@ fun longClick(x: Int, y: Int) = pressWithTime(
  */
 @RequiresApi(Build.VERSION_CODES.N)
 fun swipe(x1: Int, y1: Int, x2: Int, y2: Int, dur: Int): Boolean =
-    gesture(
-        dur.toLong(), arrayOf(
-            Pair(x1, y1),
-            Pair(x2, y2)
-        )
+  gesture(
+    dur.toLong(), arrayOf(
+      Pair(x1, y1),
+      Pair(x2, y2)
     )
+  )
 
 @RequiresApi(Build.VERSION_CODES.N)
 fun scrollUp(): Boolean {
-    val mtop = (ScreenAdapter.relHeight * 0.1).toInt()
-    val mBottom = (ScreenAdapter.relHeight * 0.85).toInt()
-    val xCenter = (ScreenAdapter.relWidth * 0.5).toInt()
+  val mtop = (ScreenAdapter.relHeight * 0.1).toInt()
+  val mBottom = (ScreenAdapter.relHeight * 0.85).toInt()
+  val xCenter = (ScreenAdapter.relWidth * 0.5).toInt()
 
-    return swipe(xCenter, mBottom, xCenter, mtop, 400)
+  return swipe(xCenter, mBottom, xCenter, mtop, 400)
 }
 
 @RequiresApi(Build.VERSION_CODES.N)
 fun scrollDown(): Boolean {
-    val mtop = (ScreenAdapter.relHeight * 0.15).toInt()
-    val mBottom = (ScreenAdapter.relHeight * 0.9).toInt()
-    val xCenter = (ScreenAdapter.relWidth * 0.5).toInt()
-    return swipe(xCenter, mtop, xCenter, mBottom, 400)
+  val mtop = (ScreenAdapter.relHeight * 0.15).toInt()
+  val mBottom = (ScreenAdapter.relHeight * 0.9).toInt()
+  val xCenter = (ScreenAdapter.relWidth * 0.5).toInt()
+  return swipe(xCenter, mtop, xCenter, mBottom, 400)
 }

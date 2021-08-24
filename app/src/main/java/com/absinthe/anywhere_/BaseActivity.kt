@@ -27,116 +27,116 @@ import java.lang.ref.WeakReference
 @SuppressLint("Registered, MissingSuperCall")
 abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
 
-    var shouldFinishOnResume = false
+  var shouldFinishOnResume = false
 
-    private var mListener: OnDocumentResultListener? = null
-    private lateinit var reference: WeakReference<AppCompatActivity>
+  private var mListener: OnDocumentResultListener? = null
+  private lateinit var reference: WeakReference<AppCompatActivity>
 
-    protected lateinit var binding: T
-    protected lateinit var root: View
+  protected lateinit var binding: T
+  protected lateinit var root: View
 
-    protected abstract fun setViewBinding(): T?
+  protected abstract fun setViewBinding(): T?
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Timber.i("onCreate")
-        super.onCreate(savedInstanceState)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    Timber.i("onCreate")
+    super.onCreate(savedInstanceState)
 
-        reference = WeakReference(this)
-        ActivityStackManager.addActivity(reference)
+    reference = WeakReference(this)
+    ActivityStackManager.addActivity(reference)
 
-        setViewBinding()?.let {
-            binding = it
-            root = binding.root
-            setContentView(root)
-        }
-        initView()
+    setViewBinding()?.let {
+      binding = it
+      root = binding.root
+      setContentView(root)
     }
+    initView()
+  }
 
-    override fun onResume() {
-        super.onResume()
-        if (shouldFinishOnResume) {
-            finish()
-        }
+  override fun onResume() {
+    super.onResume()
+    if (shouldFinishOnResume) {
+      finish()
     }
+  }
 
-    override fun onDestroy() {
-        ActivityStackManager.removeActivity(reference)
-        super.onDestroy()
+  override fun onDestroy() {
+    ActivityStackManager.removeActivity(reference)
+    super.onDestroy()
+  }
+
+  override fun shouldApplyTranslucentSystemBars(): Boolean {
+    return true
+  }
+
+  override fun computeUserThemeKey(): String {
+    return GlobalValues.darkMode
+  }
+
+  override fun onApplyUserThemeResource(theme: Resources.Theme, isDecorView: Boolean) {
+    theme.applyStyle(R.style.ThemeOverlay, true)
+  }
+
+  override fun onApplyTranslucentSystemBars() {
+    super.onApplyTranslucentSystemBars()
+    window.statusBarColor = Color.TRANSPARENT
+    window.decorView.post {
+      window.navigationBarColor = Color.TRANSPARENT
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        window.isNavigationBarContrastEnforced = false
+      }
     }
+  }
 
-    override fun shouldApplyTranslucentSystemBars(): Boolean {
-        return true
+  fun setDocumentResultListener(listener: OnDocumentResultListener?) {
+    mListener = listener
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    if (item.itemId == android.R.id.home) {
+      onBackPressed()
     }
+    return super.onOptionsItemSelected(item)
+  }
 
-    override fun computeUserThemeKey(): String {
-        return GlobalValues.darkMode
-    }
-
-    override fun onApplyUserThemeResource(theme: Resources.Theme, isDecorView: Boolean) {
-        theme.applyStyle(R.style.ThemeOverlay, true)
-    }
-
-    override fun onApplyTranslucentSystemBars() {
-        super.onApplyTranslucentSystemBars()
-        window.statusBarColor = Color.TRANSPARENT
-        window.decorView.post {
-            window.navigationBarColor = Color.TRANSPARENT
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                window.isNavigationBarContrastEnforced = false
-            }
-        }
-    }
-
-    fun setDocumentResultListener(listener: OnDocumentResultListener?) {
-        mListener = listener
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == Const.REQUEST_CODE_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if (requestCode == Const.REQUEST_CODE_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+      try {
+        data?.data?.let {
+          mListener?.onResult(it)
+          if (it.toString().contains("file://")) {
+            ToastUtil.makeText(R.string.toast_file_uri_exposed)
+          } else {
             try {
-                data?.data?.let {
-                    mListener?.onResult(it)
-                    if (it.toString().contains("file://")) {
-                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                    } else {
-                        try {
-                            AppUtils.takePersistableUriPermission(this, it, data)
-                        } catch (e: RuntimeException) {
-                            ToastUtil.makeText(R.string.toast_runtime_error)
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                if (AppUtils.atLeastN()) {
-                    if (e is FileUriExposedException) {
-                        ToastUtil.makeText(R.string.toast_file_uri_exposed)
-                    }
-                }
+              AppUtils.takePersistableUriPermission(this, it, data)
+            } catch (e: RuntimeException) {
+              ToastUtil.makeText(R.string.toast_runtime_error)
             }
+          }
         }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun finish() {
-        if (GlobalValues.isExcludeFromRecent) {
-            finishAndRemoveTask()
-        } else {
-            super.finish()
+      } catch (e: Exception) {
+        if (AppUtils.atLeastN()) {
+          if (e is FileUriExposedException) {
+            ToastUtil.makeText(R.string.toast_file_uri_exposed)
+          }
         }
+      }
     }
+    super.onActivityResult(requestCode, resultCode, data)
+  }
 
-    protected open fun initView() { }
-
-    fun isNightMode(): Boolean {
-        return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES > 0
+  override fun finish() {
+    if (GlobalValues.isExcludeFromRecent) {
+      finishAndRemoveTask()
+    } else {
+      super.finish()
     }
+  }
+
+  protected open fun initView() {}
+
+  fun isNightMode(): Boolean {
+    return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES > 0
+  }
 
 
 }

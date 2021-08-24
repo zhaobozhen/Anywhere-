@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-        app:key="normalCategory"
-        app:title="@string/settings_category_normal">
+  <PreferenceCategory
+    app:key="normalCategory"
+    app:title="@string/settings_category_normal">
 
-        <SwitchPreference
-            app:key="transparentIcon"
-            app:title="@string/settings_transparent_icon_title"
-            app:summary="@string/settings_transparent_icon_summary"
-            app:icon="@drawable/ic_transparent_icon"
-            app:defaultValue="false" />
+    <SwitchPreference
+      app:defaultValue="false"
+      app:icon="@drawable/ic_transparent_icon"
+      app:key="transparentIcon"
+      app:summary="@string/settings_transparent_icon_summary"
+      app:title="@string/settings_transparent_icon_title" />
 
-        <SwitchPreference
-            app:key="editorEntryAnim"
-            app:title="@string/settings_editor_entry_animation"
-            app:summary="@string/settings_editor_entry_animation_summary"
-            app:icon="@drawable/ic_animation"
-            app:defaultValue="false" />
+    <SwitchPreference
+      app:defaultValue="false"
+      app:icon="@drawable/ic_animation"
+      app:key="editorEntryAnim"
+      app:summary="@string/settings_editor_entry_animation_summary"
+      app:title="@string/settings_editor_entry_animation" />
 
-        <SwitchPreference
-            app:key="deprecatedScCreatingMethod"
-            app:title="@string/settings_deprecated_sc_creating_method"
-            app:summary="@string/settings_deprecated_sc_creating_method_summary"
-            app:icon="@drawable/ic_deprecate_icon"
-            app:defaultValue="false" />
+    <SwitchPreference
+      app:defaultValue="false"
+      app:icon="@drawable/ic_deprecate_icon"
+      app:key="deprecatedScCreatingMethod"
+      app:summary="@string/settings_deprecated_sc_creating_method_summary"
+      app:title="@string/settings_deprecated_sc_creating_method" />
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
 </PreferenceScreen>

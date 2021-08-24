@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tile_card"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/tile_card"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_margin="@dimen/cardview_spacing"
+  android:clickable="false"
+  app:cardElevation="3dp">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/cardview_spacing"
-    android:clickable="false"
-    app:cardElevation="3dp">
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+      android:id="@+id/tv_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/cardview_item_margin"
+      android:layout_marginTop="@dimen/cardview_item_margin"
+      android:textAppearance="?attr/textAppearanceHeadline6"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="Tile" />
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/cardview_item_margin"
-            android:layout_marginTop="@dimen/cardview_item_margin"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Tile" />
+    <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/iv_app_icon"
+      android:layout_width="@dimen/app_icon_size"
+      android:layout_height="@dimen/app_icon_size"
+      android:layout_marginStart="@dimen/cardview_item_margin"
+      android:layout_marginTop="@dimen/cardview_item_margin"
+      app:backgroundTint="@color/material_on_surface_emphasis_medium"
+      app:backgroundTintMode="add"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_app_icon"
-            android:layout_width="@dimen/app_icon_size"
-            android:layout_height="@dimen/app_icon_size"
-            android:layout_marginStart="@dimen/cardview_item_margin"
-            android:layout_marginTop="@dimen/cardview_item_margin"
-            app:backgroundTint="@color/material_on_surface_emphasis_medium"
-            app:backgroundTintMode="add"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+    <TextView
+      android:id="@+id/tv_app_name"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/cardview_item_margin"
+      android:layout_marginEnd="@dimen/cardview_item_margin"
+      android:textAppearance="?attr/textAppearanceListItem"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/iv_app_icon"
+      app:layout_constraintTop_toTopOf="@+id/iv_app_icon"
+      tools:text="AppName" />
 
-        <TextView
-            android:id="@+id/tv_app_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/cardview_item_margin"
-            android:layout_marginEnd="@dimen/cardview_item_margin"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_app_icon"
-            app:layout_constraintTop_toTopOf="@+id/iv_app_icon"
-            tools:text="AppName" />
+    <TextView
+      android:id="@+id/tv_param_1"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="4dp"
+      android:layout_marginEnd="@dimen/cardview_item_margin"
+      android:textAppearance="?attr/textAppearanceListItemSecondary"
+      android:textStyle="italic"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="@+id/tv_app_name"
+      app:layout_constraintTop_toBottomOf="@+id/tv_app_name"
+      tools:text="Param1" />
 
-        <TextView
-            android:id="@+id/tv_param_1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="@dimen/cardview_item_margin"
-            android:textAppearance="?attr/textAppearanceListItemSecondary"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_app_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_app_name"
-            tools:text="Param1" />
+    <TextView
+      android:id="@+id/tv_param_2"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="@dimen/cardview_item_margin"
+      android:textAppearance="?attr/textAppearanceListItemSecondary"
+      android:textStyle="italic"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="@+id/tv_param_1"
+      app:layout_constraintTop_toBottomOf="@+id/tv_param_1"
+      tools:text="Param2" />
 
-        <TextView
-            android:id="@+id/tv_param_2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/cardview_item_margin"
-            android:textAppearance="?attr/textAppearanceListItemSecondary"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_param_1"
-            app:layout_constraintTop_toBottomOf="@+id/tv_param_1"
-            tools:text="Param2" />
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/btn_select"
+      style="?attr/borderlessButtonStyle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/btn_tile_select"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tv_param_2" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_select"
-            style="?attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_tile_select"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_param_2" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

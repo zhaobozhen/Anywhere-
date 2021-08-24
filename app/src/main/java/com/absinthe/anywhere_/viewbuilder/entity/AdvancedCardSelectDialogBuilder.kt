@@ -11,23 +11,27 @@ import com.absinthe.anywhere_.viewbuilder.ViewBuilder
 
 class AdvancedCardSelectDialogBuilder(context: Context) : ViewBuilder(context) {
 
-    private val rvList: RecyclerView
-    val adapter = AdvancedCardListAdapter()
+  private val rvList: RecyclerView
+  val adapter = AdvancedCardListAdapter()
 
-    init {
-        root = LinearLayout(context).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT)
-            orientation = LinearLayout.VERTICAL
-        }
-        rvList = RecyclerView(context).apply {
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            layoutManager = WrapContentStaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-            overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-            adapter = this@AdvancedCardSelectDialogBuilder.adapter
-            addItemDecoration(SpacesItemDecoration(5))
-        }
-        addView(rvList)
+  init {
+    root = LinearLayout(context).apply {
+      layoutParams = LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT
+      )
+      orientation = LinearLayout.VERTICAL
     }
+    rvList = RecyclerView(context).apply {
+      layoutParams = LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT
+      )
+      layoutManager = WrapContentStaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+      overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+      adapter = this@AdvancedCardSelectDialogBuilder.adapter
+      addItemDecoration(SpacesItemDecoration(5))
+    }
+    addView(rvList)
+  }
 }

@@ -36,164 +36,164 @@ import java.util.*
 
 class AnywhereViewModel(application: Application) : AndroidViewModel(application) {
 
-    val allAnywhereEntities: LiveData<List<AnywhereEntity>>
-    var shouldShowFab: MutableLiveData<Boolean> = MutableLiveData()
-    var background: MutableLiveData<String> = MutableLiveData()
-        private set
+  val allAnywhereEntities: LiveData<List<AnywhereEntity>>
+  var shouldShowFab: MutableLiveData<Boolean> = MutableLiveData()
+  var background: MutableLiveData<String> = MutableLiveData()
+    private set
 
-    private val mRepository: AnywhereRepository = AnywhereApplication.sRepository
+  private val mRepository: AnywhereRepository = AnywhereApplication.sRepository
 
-    init {
-        allAnywhereEntities = mRepository.allAnywhereEntities
+  init {
+    allAnywhereEntities = mRepository.allAnywhereEntities
+  }
+
+  fun insert(ae: AnywhereEntity) {
+    mRepository.insert(ae)
+  }
+
+  fun update(ae: AnywhereEntity) {
+    mRepository.update(ae)
+  }
+
+  fun delete(ae: AnywhereEntity) {
+    mRepository.delete(ae)
+  }
+
+  fun getEntity(title: String): PageTitleNode {
+    val pageNodeList: MutableList<BaseNode> = ArrayList()
+
+    pageNodeList.add(PageNode().apply {
+      this.title = title
+    })
+
+    return PageTitleNode(pageNodeList, title).apply {
+      isExpanded = (title == GlobalValues.category)
     }
+  }
 
-    fun insert(ae: AnywhereEntity) {
-        mRepository.insert(ae)
+  fun setUpUrlScheme(context: Context, url: String = "") {
+    val ae = AnywhereEntity().apply {
+      appName = AnywhereType.Card.NEW_TITLE_MAP[AnywhereType.Card.URL_SCHEME]!!
+      param1 = url
+      type = AnywhereType.Card.URL_SCHEME
     }
+    context.startActivity(Intent(context, EditorActivity::class.java).apply {
+      putExtra(EXTRA_ENTITY, ae)
+      putExtra(EXTRA_EDIT_MODE, false)
+    })
+  }
 
-    fun update(ae: AnywhereEntity) {
-        mRepository.update(ae)
-    }
-
-    fun delete(ae: AnywhereEntity) {
-        mRepository.delete(ae)
-    }
-
-    fun getEntity(title: String): PageTitleNode {
-        val pageNodeList: MutableList<BaseNode> = ArrayList()
-
-        pageNodeList.add(PageNode().apply {
-            this.title = title
-        })
-
-        return PageTitleNode(pageNodeList, title).apply {
-            isExpanded = (title == GlobalValues.category)
-        }
-    }
-
-    fun setUpUrlScheme(context: Context, url: String = "") {
-        val ae = AnywhereEntity().apply {
-            appName = AnywhereType.Card.NEW_TITLE_MAP[AnywhereType.Card.URL_SCHEME]!!
-            param1 = url
-            type = AnywhereType.Card.URL_SCHEME
-        }
-        context.startActivity(Intent(context, EditorActivity::class.java).apply {
-            putExtra(EXTRA_ENTITY, ae)
-            putExtra(EXTRA_EDIT_MODE, false)
-        })
-    }
-
-    fun startCollector(activity: Activity, listener: OnStartCollectorListener) {
-        when (GlobalValues.workingMode) {
-            Const.WORKING_MODE_URL_SCHEME -> {
-                ToastUtil.makeText(R.string.toast_works_on_root_or_shizuku)
+  fun startCollector(activity: Activity, listener: OnStartCollectorListener) {
+    when (GlobalValues.workingMode) {
+      Const.WORKING_MODE_URL_SCHEME -> {
+        ToastUtil.makeText(R.string.toast_works_on_root_or_shizuku)
+      }
+      Const.WORKING_MODE_SHIZUKU -> {
+        if (PermissionUtils.isGrantedDrawOverlays()) {
+          if (ShizukuHelper.checkPermission(activity)) {
+            listener.onStart()
+          }
+        } else {
+          if (AppUtils.atLeastR()) {
+            ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
+          }
+          PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
+            override fun onGranted() {
+              if (ShizukuHelper.checkPermission(activity)) {
+                listener.onStart()
+              }
             }
-            Const.WORKING_MODE_SHIZUKU -> {
-                if (PermissionUtils.isGrantedDrawOverlays()) {
-                    if (ShizukuHelper.checkPermission(activity)) {
-                        listener.onStart()
-                    }
-                } else {
-                    if (AppUtils.atLeastR()) {
-                        ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
-                    }
-                    PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
-                        override fun onGranted() {
-                            if (ShizukuHelper.checkPermission(activity)) {
-                                listener.onStart()
-                            }
-                        }
 
-                        override fun onDenied() {}
-                    })
-                }
-            }
-            Const.WORKING_MODE_ROOT -> {
-                if (PermissionUtils.isGrantedDrawOverlays()) {
-                    if (Shell.rootAccess()) {
-                        listener.onStart()
-                    } else {
-                        Timber.d("ROOT permission denied.")
-                        ToastUtil.makeText(R.string.toast_root_permission_denied)
-                        ShellManager.acquireRoot()
-                    }
-                } else {
-                    if (AppUtils.atLeastR()) {
-                        ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
-                    }
-                    PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
-                        override fun onGranted() {
-                            if (DeviceUtils.isDeviceRooted()) {
-                                listener.onStart()
-                            } else {
-                                Timber.d("ROOT permission denied.")
-                                ToastUtil.makeText(R.string.toast_root_permission_denied)
-                                ShellManager.acquireRoot()
-                            }
-                        }
-
-                        override fun onDenied() {}
-                    })
-                }
-            }
+            override fun onDenied() {}
+          })
         }
-    }
-
-    fun addPage() {
-        mRepository.allPageEntities.value?.let { pages ->
-            val pe = PageEntity().apply {
-                if (pages.isNotEmpty()) {
-                    var count = 1
-                    var t = "Page " + (pages.size + count++)
-                    while (pages.any { it.title == t }) {
-                        t = "Page " + (pages.size + count++)
-                    }
-                    title = t
-                    priority = pages.size + 1
-                } else {
-                    title = AnywhereType.Category.DEFAULT_CATEGORY
-                    priority = 1
-                }
-                type = AnywhereType.Page.CARD_PAGE
+      }
+      Const.WORKING_MODE_ROOT -> {
+        if (PermissionUtils.isGrantedDrawOverlays()) {
+          if (Shell.rootAccess()) {
+            listener.onStart()
+          } else {
+            Timber.d("ROOT permission denied.")
+            ToastUtil.makeText(R.string.toast_root_permission_denied)
+            ShellManager.acquireRoot()
+          }
+        } else {
+          if (AppUtils.atLeastR()) {
+            ToastUtil.makeText(R.string.toast_overlay_choose_anywhere)
+          }
+          PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
+            override fun onGranted() {
+              if (DeviceUtils.isDeviceRooted()) {
+                listener.onStart()
+              } else {
+                Timber.d("ROOT permission denied.")
+                ToastUtil.makeText(R.string.toast_root_permission_denied)
+                ShellManager.acquireRoot()
+              }
             }
-            mRepository.insertPage(pe)
+
+            override fun onDenied() {}
+          })
         }
+      }
     }
+  }
 
-    fun convertAnywhereTypeV2() {
-        allAnywhereEntities.value?.let {
-            val shortcutsList = mutableListOf<String>()
-            for (entity in it) {
-                //Remove shortcut and exported type from entity's type
-                if (entity.type % 100 / 10 == 1) {
-                    shortcutsList.add(entity.id)
-                }
-                entity.type = entity.type % 10
+  fun addPage() {
+    mRepository.allPageEntities.value?.let { pages ->
+      val pe = PageEntity().apply {
+        if (pages.isNotEmpty()) {
+          var count = 1
+          var t = "Page " + (pages.size + count++)
+          while (pages.any { it.title == t }) {
+            t = "Page " + (pages.size + count++)
+          }
+          title = t
+          priority = pages.size + 1
+        } else {
+          title = AnywhereType.Category.DEFAULT_CATEGORY
+          priority = 1
+        }
+        type = AnywhereType.Page.CARD_PAGE
+      }
+      mRepository.insertPage(pe)
+    }
+  }
 
-                //Transform extras to new structure
-                if (entity.type == AnywhereType.Card.ACTIVITY) {
-                    if (!entity.param3.isNullOrEmpty()) {
-                        val extraList = mutableListOf<ExtraBean.ExtraItem>()
-                        for (eachLine in entity.param3.orEmpty().split("\n")) {
-                            val splits = eachLine.split(" ")
-                            if (splits.size == 3) {
-                                extraList.add(ExtraBean.ExtraItem(splits[0], splits[1], splits[2]))
-                            }
-                        }
-                        entity.param3 = Gson().toJson(ExtraBean("", "", "", extraList), ExtraBean::class.java)
-                    }
-                }
+  fun convertAnywhereTypeV2() {
+    allAnywhereEntities.value?.let {
+      val shortcutsList = mutableListOf<String>()
+      for (entity in it) {
+        //Remove shortcut and exported type from entity's type
+        if (entity.type % 100 / 10 == 1) {
+          shortcutsList.add(entity.id)
+        }
+        entity.type = entity.type % 10
 
-                AnywhereApplication.sRepository.update(entity)
-                if (AppUtils.atLeastNMR1()) {
-                    ShortcutsUtils.updateShortcut(entity)
-                }
+        //Transform extras to new structure
+        if (entity.type == AnywhereType.Card.ACTIVITY) {
+          if (!entity.param3.isNullOrEmpty()) {
+            val extraList = mutableListOf<ExtraBean.ExtraItem>()
+            for (eachLine in entity.param3.orEmpty().split("\n")) {
+              val splits = eachLine.split(" ")
+              if (splits.size == 3) {
+                extraList.add(ExtraBean.ExtraItem(splits[0], splits[1], splits[2]))
+              }
             }
-            GlobalValues.shortcutsList = shortcutsList
+            entity.param3 = Gson().toJson(ExtraBean("", "", "", extraList), ExtraBean::class.java)
+          }
         }
-    }
 
-    interface OnStartCollectorListener {
-        fun onStart()
+        AnywhereApplication.sRepository.update(entity)
+        if (AppUtils.atLeastNMR1()) {
+          ShortcutsUtils.updateShortcut(entity)
+        }
+      }
+      GlobalValues.shortcutsList = shortcutsList
     }
+  }
+
+  interface OnStartCollectorListener {
+    fun onStart()
+  }
 }

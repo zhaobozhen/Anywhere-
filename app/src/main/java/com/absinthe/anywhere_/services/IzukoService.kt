@@ -7,22 +7,22 @@ import timber.log.Timber
 
 class IzukoService : AccessibilityApi() {
 
-    override val enableListenAppScope = true
+  override val enableListenAppScope = true
 
-    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        Timber.e("onAccessibilityEvent $currentScope")
-        super.onAccessibilityEvent(event)
-    }
+  override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+    Timber.e("onAccessibilityEvent $currentScope")
+    super.onAccessibilityEvent(event)
+  }
 
-    override fun onPageUpdate(currentScope: AppScope) {
-        super.onPageUpdate(currentScope)
-        if (baseService == null) {
-            baseService = this
-        }
-        if (gestureService == null) {
-            gestureService = this
-        }
-        Timber.e("onPageUpdate $currentScope")
+  override fun onPageUpdate(currentScope: AppScope) {
+    super.onPageUpdate(currentScope)
+    if (baseService == null) {
+      baseService = this
     }
+    if (gestureService == null) {
+      gestureService = this
+    }
+    Timber.e("onPageUpdate $currentScope")
+  }
 
 }

@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF8BC34A</color>
-    <color name="colorPrimaryDark">#FF8BC34A</color>
-    <color name="colorAccent">#FF4AC382</color>
+  <color name="colorPrimary">#FF8BC34A</color>
+  <color name="colorPrimaryDark">#FF8BC34A</color>
+  <color name="colorAccent">#FF4AC382</color>
 
-    <color name="transparent">#00000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="black">#FF000000</color>
-    <color name="gray">#FFECECEC</color>
-    <color name="gray_ripple">#FFBBBBBB</color>
-    <color name="green_done">#FF4AC382</color>
-    <color name="shadowLight">#FFBBBBBB</color>
-    <color name="shadowHeavy">#22444444</color>
-    <color name="exported_background">#334AC382</color>
-    <color name="launcher_activity_background">#3303A9F4</color>
-    <color name="appColorDark">@color/material_green_A700</color>
+  <color name="transparent">#00000000</color>
+  <color name="white">#FFFFFFFF</color>
+  <color name="black">#FF000000</color>
+  <color name="gray">#FFECECEC</color>
+  <color name="gray_ripple">#FFBBBBBB</color>
+  <color name="green_done">#FF4AC382</color>
+  <color name="shadowLight">#FFBBBBBB</color>
+  <color name="shadowHeavy">#22444444</color>
+  <color name="exported_background">#334AC382</color>
+  <color name="launcher_activity_background">#3303A9F4</color>
+  <color name="appColorDark">@color/material_green_A700</color>
 
-    <!--  DayNight colors  -->
-    <color name="textColorNormal">#FF000000</color>
-    <color name="toolbarColorNormal">#FF000000</color>
-    <color name="navigationColorNormal">#FFFFFFFF</color>
-    <color name="divider">#15000000</color>
-    <color name="widgetPrimaryColor">#FFFFFFFF</color>
-    <color name="widgetSecondaryColor">#FFDDDDDD</color>
-    <color name="widgetThirdlyColor">#FFBBBBBB</color>
-    <color name="aboutHeader">#FF8BC34A</color>
-    <color name="renge">#FFAB373A</color>
+  <!--  DayNight colors  -->
+  <color name="textColorNormal">#FF000000</color>
+  <color name="toolbarColorNormal">#FF000000</color>
+  <color name="navigationColorNormal">#FFFFFFFF</color>
+  <color name="divider">#15000000</color>
+  <color name="widgetPrimaryColor">#FFFFFFFF</color>
+  <color name="widgetSecondaryColor">#FFDDDDDD</color>
+  <color name="widgetThirdlyColor">#FFBBBBBB</color>
+  <color name="aboutHeader">#FF8BC34A</color>
+  <color name="renge">#FFAB373A</color>
 
-    <!--  Fab  -->
-    <color name="fabBackgroundColor">#FF03A9F4</color>
-    <color name="fabIconColor">#FFFFFFFF</color>
+  <!--  Fab  -->
+  <color name="fabBackgroundColor">#FF03A9F4</color>
+  <color name="fabIconColor">#FFFFFFFF</color>
 
-    <!--  Shell  -->
-    <color name="shellBackground">#FF444444</color>
-    <color name="shellText">#FFECECEC</color>
+  <!--  Shell  -->
+  <color name="shellBackground">#FF444444</color>
+  <color name="shellText">#FFECECEC</color>
 
 </resources>

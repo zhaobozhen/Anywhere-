@@ -1,127 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:fitsSystemWindows="false"
+  app:consumeSystemWindowsInsets="start|end"
+  app:edgeToEdge="true"
+  app:fitsSystemWindowsInsets="start|end"
+  tools:context=".ui.main.MainActivity">
+
+  <ImageView
+    android:id="@+id/iv_back"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/background_todo"
+    android:scaleType="centerCrop" />
+
+  <androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.absinthe.anywhere_.view.home.CustomFullDraggableContainer
+      android:id="@+id/full_draggable_container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="false"
-        app:consumeSystemWindowsInsets="start|end"
-        app:edgeToEdge="true"
-        app:fitsSystemWindowsInsets="start|end"
-        tools:context=".ui.main.MainActivity">
+        app:fitsSystemWindowsInsets="top">
 
-    <ImageView
-            android:id="@+id/iv_back"
+        <androidx.viewpager2.widget.ViewPager2
+          android:id="@+id/view_pager"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          app:layout_behavior="@string/appbar_scrolling_view_behavior"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <com.google.android.material.appbar.AppBarLayout
+          style="?appBarStyle"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@null"
+          app:elevation="0dp">
+
+          <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/background_todo"
-            android:scaleType="centerCrop" />
-
-    <androidx.drawerlayout.widget.DrawerLayout
-            android:id="@+id/drawer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <com.absinthe.anywhere_.view.home.CustomFullDraggableContainer
-                android:id="@+id/full_draggable_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="false"
-                    app:fitsSystemWindowsInsets="top">
-
-                <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/view_pager"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-                <com.google.android.material.appbar.AppBarLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        app:elevation="0dp"
-                        style="?appBarStyle">
-
-                    <androidx.appcompat.widget.Toolbar
-                            android:id="@+id/toolbar"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:elevation="3dp"
-                            android:minHeight="?attr/actionBarSize"
-                            android:theme="?attr/actionBarTheme"
-                            android:translationZ="3dp">
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                            <com.absinthe.anywhere_.view.home.TextSwitcherView
-                                    android:id="@+id/ts_title"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical" />
-
-                        </LinearLayout>
-
-                    </androidx.appcompat.widget.Toolbar>
-
-                </com.google.android.material.appbar.AppBarLayout>
-
-                <com.leinardi.android.speeddial.SpeedDialView
-                        android:id="@+id/fab"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end"
-                        android:clipToPadding="false"
-                        android:padding="16dp"
-                        app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
-                        app:sdMainFabClosedBackgroundColor="@color/fabBackgroundColor"
-                        app:sdMainFabClosedIconColor="@color/fabIconColor"
-                        app:sdMainFabClosedSrc="@drawable/ic_add"
-                        app:sdMainFabOpenedBackgroundColor="@color/fabBackgroundColor"
-                        app:sdMainFabOpenedIconColor="@color/fabIconColor" />
-
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        </com.absinthe.anywhere_.view.home.CustomFullDraggableContainer>
-
-        <com.google.android.material.navigation.NavigationView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:maxWidth="500dp"
-                app:insetForeground="@null">
+            android:layout_height="wrap_content"
+            android:elevation="3dp"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:translationZ="3dp">
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:fitsSystemWindows="false">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-                <include layout="@layout/layout_nav_header" />
-
-                <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fillViewport="true">
-
-                    <com.absinthe.anywhere_.view.home.DrawerRecyclerView
-                            android:id="@+id/rv_pages"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                </ScrollView>
+              <com.absinthe.anywhere_.view.home.TextSwitcherView
+                android:id="@+id/ts_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
 
             </LinearLayout>
 
-        </com.google.android.material.navigation.NavigationView>
+          </androidx.appcompat.widget.Toolbar>
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.leinardi.android.speeddial.SpeedDialView
+          android:id="@+id/fab"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="bottom|end"
+          android:clipToPadding="false"
+          android:padding="16dp"
+          app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
+          app:sdMainFabClosedBackgroundColor="@color/fabBackgroundColor"
+          app:sdMainFabClosedIconColor="@color/fabIconColor"
+          app:sdMainFabClosedSrc="@drawable/ic_add"
+          app:sdMainFabOpenedBackgroundColor="@color/fabBackgroundColor"
+          app:sdMainFabOpenedIconColor="@color/fabIconColor" />
+
+      </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </com.absinthe.anywhere_.view.home.CustomFullDraggableContainer>
+
+    <com.google.android.material.navigation.NavigationView
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_gravity="start"
+      android:maxWidth="500dp"
+      app:insetForeground="@null">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_nav_header" />
+
+        <ScrollView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:fillViewport="true">
+
+          <com.absinthe.anywhere_.view.home.DrawerRecyclerView
+            android:id="@+id/rv_pages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        </ScrollView>
+
+      </LinearLayout>
+
+    </com.google.android.material.navigation.NavigationView>
+
+  </androidx.drawerlayout.widget.DrawerLayout>
 
 </FrameLayout>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
 
-    <item
-        android:id="@+id/trying_run"
-        android:icon="@drawable/ic_play"
-        android:title="@string/menu_trying_run"
-        app:showAsAction="always"
-        tools:ignore="AlwaysShowAction" />
+  <item
+    android:id="@+id/trying_run"
+    android:icon="@drawable/ic_play"
+    android:title="@string/menu_trying_run"
+    app:showAsAction="always"
+    tools:ignore="AlwaysShowAction" />
 
 </menu>

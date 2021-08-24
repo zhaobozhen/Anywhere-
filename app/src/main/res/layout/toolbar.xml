@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rikka.material.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        style="?appBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+<rikka.material.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/app_bar"
+  style="?appBarStyle"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:fitsSystemWindows="true">
 
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tool_bar"
-            style="?actionBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null" />
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/tool_bar"
+    style="?actionBarStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null" />
 
 </rikka.material.widget.AppBarLayout>

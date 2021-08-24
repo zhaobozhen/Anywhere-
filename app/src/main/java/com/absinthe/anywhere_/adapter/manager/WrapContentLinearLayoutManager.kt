@@ -8,15 +8,19 @@ import timber.log.Timber
 
 class WrapContentLinearLayoutManager : LinearLayoutManager {
 
-    constructor(context: Context?) : super(context)
+  constructor(context: Context?) : super(context)
 
-    constructor(context: Context?, @RecyclerView.Orientation orientation: Int) : super(context, orientation, false)
+  constructor(context: Context?, @RecyclerView.Orientation orientation: Int) : super(
+    context,
+    orientation,
+    false
+  )
 
-    override fun onLayoutChildren(recycler: Recycler, state: RecyclerView.State) {
-        try {
-            super.onLayoutChildren(recycler, state)
-        } catch (e: IndexOutOfBoundsException) {
-            Timber.e("encounter an IOOBE in RecyclerView")
-        }
+  override fun onLayoutChildren(recycler: Recycler, state: RecyclerView.State) {
+    try {
+      super.onLayoutChildren(recycler, state)
+    } catch (e: IndexOutOfBoundsException) {
+      Timber.e("encounter an IOOBE in RecyclerView")
     }
+  }
 }

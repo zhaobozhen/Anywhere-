@@ -6,25 +6,25 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class AnywhereBottomSheetDialog(context: Context) : BottomSheetDialog(context) {
 
-    var isPush = false
-    private var isDismissParent = false
+  var isPush = false
+  private var isDismissParent = false
 
-    override fun show() {
-        super.show()
+  override fun show() {
+    super.show()
 
-        setOnDismissListener {
-            DialogStack.pop()
-            if (isDismissParent) {
-                DialogStack.pop()
-            }
-        }
-        if (!isPush) {
-            DialogStack.push(this)
-            isPush = true
-        }
+    setOnDismissListener {
+      DialogStack.pop()
+      if (isDismissParent) {
+        DialogStack.pop()
+      }
     }
-
-    fun setDismissParent(dismissParent: Boolean) {
-        isDismissParent = dismissParent
+    if (!isPush) {
+      DialogStack.push(this)
+      isPush = true
     }
+  }
+
+  fun setDismissParent(dismissParent: Boolean) {
+    isDismissParent = dismissParent
+  }
 }

@@ -28,112 +28,125 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rikka.widget.borderview.BorderView
 import timber.log.Timber
 
-class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(), SearchView.OnQueryTextListener {
+class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(),
+  SearchView.OnQueryTextListener {
 
-    private val mAdapter = CloudRulesAdapter()
-    private var mList = mutableListOf<GiteeApiContentBean>()
-    private var isListReady = false
+  private val mAdapter = CloudRulesAdapter()
+  private var mList = mutableListOf<GiteeApiContentBean>()
+  private var isListReady = false
 
-    override fun setViewBinding() = ActivityCloudRulesBinding.inflate(layoutInflater)
+  override fun setViewBinding() = ActivityCloudRulesBinding.inflate(layoutInflater)
 
-    override fun getToolBar() = binding.toolbar.toolBar
+  override fun getToolBar() = binding.toolbar.toolBar
 
-    override fun getAppBarLayout() = binding.toolbar.appBar
+  override fun getAppBarLayout() = binding.toolbar.appBar
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requestRules()
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    requestRules()
+  }
+
+  override fun initView() {
+    binding.list.apply {
+      layoutManager = WrapContentLinearLayoutManager(this@CloudRulesActivity)
+      adapter = mAdapter
+      borderVisibilityChangedListener =
+        BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
+          appBar?.setRaised(!top)
+        }
+      addItemDecoration(
+        DividerItemDecoration(
+          this@CloudRulesActivity,
+          DividerItemDecoration.VERTICAL
+        )
+      )
+      FastScrollerBuilder(this).useMd2Style().build()
+    }
+    mAdapter.apply {
+      setDiffCallback(CloudRulesDiffCallback())
+      setOnItemClickListener { _, _, position ->
+        DialogManager.showCloudRuleDialog(
+          this@CloudRulesActivity,
+          mAdapter.data[position].download_url!!
+        )
+      }
+    }
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    menuInflater.inflate(R.menu.cloud_rules_menu, menu)
+
+    val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+    val searchView = menu.findItem(R.id.search).actionView as SearchView
+    val showSystemApp = menu.findItem(R.id.show_system_app)
+    searchView.findViewById<LinearLayout>(androidx.appcompat.R.id.search_bar)?.layoutTransition =
+      LayoutTransition()
+
+    searchView.apply {
+      isQueryRefinementEnabled = true
+      setIconifiedByDefault(false)
+      setSearchableInfo(searchManager.getSearchableInfo(componentName))
+      setOnQueryTextListener(this@CloudRulesActivity)
     }
 
-    override fun initView() {
-        binding.list.apply {
-            layoutManager = WrapContentLinearLayoutManager(this@CloudRulesActivity)
-            adapter = mAdapter
-            borderVisibilityChangedListener =
-                BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
-                    appBar?.setRaised(!top)
-                }
-            addItemDecoration(DividerItemDecoration(this@CloudRulesActivity, DividerItemDecoration.VERTICAL))
-            FastScrollerBuilder(this).useMd2Style().build()
+    // Bug of DayNight lib
+    showSystemApp?.apply {
+      setTitle(
+        if (GlobalValues.showSystemApps) {
+          R.string.menu_hide_system_app
+        } else {
+          R.string.menu_show_system_app
         }
-        mAdapter.apply {
-            setDiffCallback(CloudRulesDiffCallback())
-            setOnItemClickListener { _, _, position ->
-                DialogManager.showCloudRuleDialog(this@CloudRulesActivity, mAdapter.data[position].download_url!!)
-            }
-        }
+      )
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.cloud_rules_menu, menu)
-
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu.findItem(R.id.search).actionView as SearchView
-        val showSystemApp = menu.findItem(R.id.show_system_app)
-        searchView.findViewById<LinearLayout>(androidx.appcompat.R.id.search_bar)?.layoutTransition = LayoutTransition()
-
-        searchView.apply {
-            isQueryRefinementEnabled = true
-            setIconifiedByDefault(false)
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-            setOnQueryTextListener(this@CloudRulesActivity)
-        }
-
-        // Bug of DayNight lib
-        showSystemApp?.apply {
-            setTitle(
-                if (GlobalValues.showSystemApps) {
-                    R.string.menu_hide_system_app
-                } else {
-                    R.string.menu_show_system_app
-                }
-            )
-        }
-
-        if (!isListReady) {
-            menu.findItem(R.id.search).isVisible = false
-        }
-
-        return true
+    if (!isListReady) {
+      menu.findItem(R.id.search).isVisible = false
     }
 
-    override fun onQueryTextSubmit(query: String): Boolean {
-        return false
-    }
+    return true
+  }
 
-    override fun onQueryTextChange(newText: String): Boolean {
-        val filter = mList.filter {
-            it.name.contains(newText, ignoreCase = true)
+  override fun onQueryTextSubmit(query: String): Boolean {
+    return false
+  }
+
+  override fun onQueryTextChange(newText: String): Boolean {
+    val filter = mList.filter {
+      it.name.contains(newText, ignoreCase = true)
+    }
+    mAdapter.setDiffNewData(filter.toMutableList())
+    return false
+  }
+
+  private fun requestRules() {
+    binding.progressHorizontal.show()
+    val retrofit = Retrofit.Builder()
+      .baseUrl(ApiManager.GITEE_RULES_REPO)
+      .addConverterFactory(GsonConverterFactory.create())
+      .build()
+    val request = retrofit.create(GitHubApi::class.java)
+    val task = request.requestGiteeAllContents()
+    task.enqueue(object : Callback<List<GiteeApiContentBean>> {
+      override fun onResponse(
+        call: Call<List<GiteeApiContentBean>>,
+        response: Response<List<GiteeApiContentBean>>
+      ) {
+        val list = response.body()
+        list?.let {
+          val filterList = it.filter { content -> content.type == "file" }
+          mAdapter.setList(filterList)
+          mList = filterList.toMutableList()
         }
-        mAdapter.setDiffNewData(filter.toMutableList())
-        return false
-    }
+        getToolBar().menu?.findItem(R.id.search)?.isVisible = true
+        binding.progressHorizontal.hide()
+        isListReady = true
+      }
 
-    private fun requestRules() {
-        binding.progressHorizontal.show()
-        val retrofit = Retrofit.Builder()
-                .baseUrl(ApiManager.GITEE_RULES_REPO)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val request = retrofit.create(GitHubApi::class.java)
-        val task = request.requestGiteeAllContents()
-        task.enqueue(object : Callback<List<GiteeApiContentBean>> {
-            override fun onResponse(call: Call<List<GiteeApiContentBean>>, response: Response<List<GiteeApiContentBean>>) {
-                val list = response.body()
-                list?.let {
-                    val filterList = it.filter { content -> content.type == "file" }
-                    mAdapter.setList(filterList)
-                    mList = filterList.toMutableList()
-                }
-                getToolBar().menu?.findItem(R.id.search)?.isVisible = true
-                binding.progressHorizontal.hide()
-                isListReady = true
-            }
-
-            override fun onFailure(call: Call<List<GiteeApiContentBean>>, t: Throwable) {
-                Timber.e(t)
-                binding.progressHorizontal.hide()
-            }
-        })
-    }
+      override fun onFailure(call: Call<List<GiteeApiContentBean>>, t: Throwable) {
+        Timber.e(t)
+        binding.progressHorizontal.hide()
+      }
+    })
+  }
 }

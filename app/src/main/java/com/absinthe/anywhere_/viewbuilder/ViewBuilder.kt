@@ -13,26 +13,26 @@ import android.view.ViewGroup
  */
 open class ViewBuilder : IViewBuilder {
 
-    lateinit var root: ViewGroup
-        protected set
-    protected var mContext: Context
+  lateinit var root: ViewGroup
+    protected set
+  protected var mContext: Context
 
-    val Number.dp: Int get() = (toInt() * Resources.getSystem().displayMetrics.density).toInt()
+  val Number.dp: Int get() = (toInt() * Resources.getSystem().displayMetrics.density).toInt()
 
-    protected constructor(context: Context) {
-        mContext = context
-    }
+  protected constructor(context: Context) {
+    mContext = context
+  }
 
-    protected constructor(context: Context, viewGroup: ViewGroup) {
-        mContext = context
-        root = viewGroup
-    }
+  protected constructor(context: Context, viewGroup: ViewGroup) {
+    mContext = context
+    root = viewGroup
+  }
 
-    override fun addView(view: View) {
-        root.addView(view)
-    }
+  override fun addView(view: View) {
+    root.addView(view)
+  }
 
-    override fun removeView(view: View) {
-        root.removeView(view)
-    }
+  override fun removeView(view: View) {
+    root.removeView(view)
+  }
 }

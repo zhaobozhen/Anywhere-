@@ -11,15 +11,15 @@ import cn.vove7.andro_accessibility_api.viewnode.ViewNode
  * 2018/10/14
  */
 class ScreenTextFinder(startNode: ViewNode? = null) : ViewFinder(startNode) {
-    var isWeb = false
+  var isWeb = false
 
-    override fun findCondition(node: AccessibilityNodeInfo): Boolean {
-        if (node.className?.endsWith("WebView", ignoreCase = true) == true) {
-            isWeb = true
-            return false
-        }
-        return node.childCount == 0 && (node.text != null && node.text.trim() != "")
-                || (isWeb && node.contentDescription ?: "" != "")
+  override fun findCondition(node: AccessibilityNodeInfo): Boolean {
+    if (node.className?.endsWith("WebView", ignoreCase = true) == true) {
+      isWeb = true
+      return false
     }
+    return node.childCount == 0 && (node.text != null && node.text.trim() != "")
+      || (isWeb && node.contentDescription ?: "" != "")
+  }
 
 }

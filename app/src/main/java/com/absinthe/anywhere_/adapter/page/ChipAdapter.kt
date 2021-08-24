@@ -11,21 +11,22 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.chip.Chip
 
-class ChipAdapter internal constructor(category: String) : BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(R.layout.item_chip) {
+class ChipAdapter internal constructor(category: String) :
+  BaseQuickAdapter<AnywhereEntity, BaseViewHolder>(R.layout.item_chip) {
 
-    init {
-        AnywhereApplication.sRepository.allAnywhereEntities.value?.let { list ->
-            for (item in list) {
-                setList(list.filter { it.category == category || (it.category.isNullOrEmpty() && category == AnywhereType.Category.DEFAULT_CATEGORY) })
-            }
-        }
+  init {
+    AnywhereApplication.sRepository.allAnywhereEntities.value?.let { list ->
+      for (item in list) {
+        setList(list.filter { it.category == category || (it.category.isNullOrEmpty() && category == AnywhereType.Category.DEFAULT_CATEGORY) })
+      }
     }
+  }
 
-    override fun convert(holder: BaseViewHolder, item: AnywhereEntity) {
-        val chip: Chip = holder.getView(R.id.chip)
-        chip.apply {
-            text = item.appName
-            chipIcon = UxUtils.getAppIcon(Utils.getApp(), item, 16.dp)
-        }
+  override fun convert(holder: BaseViewHolder, item: AnywhereEntity) {
+    val chip: Chip = holder.getView(R.id.chip)
+    chip.apply {
+      text = item.appName
+      chipIcon = UxUtils.getAppIcon(Utils.getApp(), item, 16.dp)
     }
+  }
 }

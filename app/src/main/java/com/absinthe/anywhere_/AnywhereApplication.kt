@@ -23,46 +23,48 @@ import timber.log.Timber
 
 class AnywhereApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
+  override fun onCreate() {
+    super.onCreate()
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(ThreadAwareDebugTree())
-        } else {
-            checkSignature()
-            Timber.plant(ReleaseTree())
-            AppCenter.start(this, "ec71d412-5886-4a99-89a7-805436b91671",
-                    Analytics::class.java, Crashes::class.java)
-        }
-
-        PoliceMan.checkApplicationClass(this)
-        PoliceMan.checkPMProxy(this)
-        sRepository = AnywhereRepository(this)
-        DayNightDelegate.setApplicationContext(this)
-        DayNightDelegate.setDefaultNightMode(Settings.getTheme())
-
-        AccessibilityApi.apply {
-            BASE_SERVICE_CLS = IzukoService::class.java
-            GESTURE_SERVICE_CLS = IzukoService::class.java
-        }
+    if (BuildConfig.DEBUG) {
+      Timber.plant(ThreadAwareDebugTree())
+    } else {
+      checkSignature()
+      Timber.plant(ReleaseTree())
+      AppCenter.start(
+        this, "ec71d412-5886-4a99-89a7-805436b91671",
+        Analytics::class.java, Crashes::class.java
+      )
     }
 
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
+    PoliceMan.checkApplicationClass(this)
+    PoliceMan.checkPMProxy(this)
+    sRepository = AnywhereRepository(this)
+    DayNightDelegate.setApplicationContext(this)
+    DayNightDelegate.setDefaultNightMode(Settings.getTheme())
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            HiddenApiBypass.addHiddenApiExemptions("L")
-        }
+    AccessibilityApi.apply {
+      BASE_SERVICE_CLS = IzukoService::class.java
+      GESTURE_SERVICE_CLS = IzukoService::class.java
+    }
+  }
 
-        Once.initialise(this)
-        Settings.initMMKV(this)
-        Settings.init(this)
-        Utility.init(this)
-        Timber.i("isSui = $isSui")
+  override fun attachBaseContext(base: Context) {
+    super.attachBaseContext(base)
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+      HiddenApiBypass.addHiddenApiExemptions("L")
     }
 
-    companion object {
-        lateinit var sRepository: AnywhereRepository
-        val isSui = Sui.init(BuildConfig.APPLICATION_ID)
-    }
+    Once.initialise(this)
+    Settings.initMMKV(this)
+    Settings.init(this)
+    Utility.init(this)
+    Timber.i("isSui = $isSui")
+  }
+
+  companion object {
+    lateinit var sRepository: AnywhereRepository
+    val isSui = Sui.init(BuildConfig.APPLICATION_ID)
+  }
 }

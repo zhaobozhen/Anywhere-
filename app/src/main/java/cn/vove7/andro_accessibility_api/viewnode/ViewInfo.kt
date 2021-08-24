@@ -11,16 +11,16 @@ import android.graphics.Rect
  * 2018/11/1
  */
 class ViewInfo(
-        val text: CharSequence?,
-        val desc:CharSequence?,
-        val type: CharSequence?,
-        val boundsInParent: Rect,
-        val boundsInScreen: Rect,
+  val text: CharSequence?,
+  val desc: CharSequence?,
+  val type: CharSequence?,
+  val boundsInParent: Rect,
+  val boundsInScreen: Rect,
 //        val clickable: Boolean,
-        val image: Bitmap? = null
+  val image: Bitmap? = null
 //        val canPopup: Boolean
 ) {
-    override fun toString(): String {
-        return "$text\t$type\t$boundsInScreen\t$desc"
-    }
+  override fun toString(): String {
+    return "$text\t$type\t$boundsInScreen\t$desc"
+  }
 }

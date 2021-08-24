@@ -8,11 +8,11 @@ import com.absinthe.anywhere_.utils.manager.LogRecorder
 
 class NotificationClickReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
-        LogRecorder.getInstance().stop()
-        LogcatActivity.isStartCatching = false
-        val newIntent = Intent(context, LogcatActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(newIntent)
-    }
+  override fun onReceive(context: Context, intent: Intent) {
+    LogRecorder.getInstance().stop()
+    LogcatActivity.isStartCatching = false
+    val newIntent = Intent(context, LogcatActivity::class.java)
+      .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    context.startActivity(newIntent)
+  }
 }

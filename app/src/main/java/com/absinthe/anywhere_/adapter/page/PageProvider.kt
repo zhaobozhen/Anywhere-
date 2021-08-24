@@ -12,37 +12,38 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
 class PageProvider : BaseNodeProvider() {
 
-    override val itemViewType: Int
-        get() = 2
+  override val itemViewType: Int
+    get() = 2
 
-    override val layoutId: Int
-        get() = R.layout.item_page
+  override val layoutId: Int
+    get() = R.layout.item_page
 
-    override fun convert(helper: BaseViewHolder, item: BaseNode) {
-        val title = (item as PageNode).title
-        val recyclerView = helper.getView<RecyclerView>(R.id.rv_chip)
-        val adapter = ChipAdapter(title)
+  override fun convert(helper: BaseViewHolder, item: BaseNode) {
+    val title = (item as PageNode).title
+    val recyclerView = helper.getView<RecyclerView>(R.id.rv_chip)
+    val adapter = ChipAdapter(title)
 
-        val spanCount = when {
-            adapter.itemCount == 0 -> 1
-            adapter.itemCount <= 3 -> adapter.itemCount
-            else -> 3
-        }
-        recyclerView.layoutManager = WrapContentStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL)
-
-        adapter.setOnItemClickListener { _, _, position ->
-            Opener
-                .with(context)
-                .load(adapter.getItem(position))
-                .setOpenedListener(object : Opener.OnOpenListener {
-                    override fun onOpened() {
-                        if (context is BaseActivity<*>) {
-                            (context as BaseActivity<*>).shouldFinishOnResume = true
-                        }
-                    }
-                })
-                .open()
-        }
-        recyclerView.adapter = adapter
+    val spanCount = when {
+      adapter.itemCount == 0 -> 1
+      adapter.itemCount <= 3 -> adapter.itemCount
+      else -> 3
     }
+    recyclerView.layoutManager =
+      WrapContentStaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL)
+
+    adapter.setOnItemClickListener { _, _, position ->
+      Opener
+        .with(context)
+        .load(adapter.getItem(position))
+        .setOpenedListener(object : Opener.OnOpenListener {
+          override fun onOpened() {
+            if (context is BaseActivity<*>) {
+              (context as BaseActivity<*>).shouldFinishOnResume = true
+            }
+          }
+        })
+        .open()
+    }
+    recyclerView.adapter = adapter
+  }
 }

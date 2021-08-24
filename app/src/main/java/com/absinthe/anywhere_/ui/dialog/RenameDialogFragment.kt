@@ -14,30 +14,36 @@ import com.absinthe.anywhere_.viewbuilder.entity.RenameDialogBuilder
 
 class RenameDialogFragment : AnywhereDialogFragment() {
 
-    private val title by lazy { arguments?.getString(EXTRA_SHARING_TEXT).orEmpty() }
-    private lateinit var mBuilder: RenameDialogBuilder
+  private val title by lazy { arguments?.getString(EXTRA_SHARING_TEXT).orEmpty() }
+  private lateinit var mBuilder: RenameDialogBuilder
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mBuilder = RenameDialogBuilder(requireContext()).apply {
-            etName.apply {
-                setText(title)
-                requestFocus()
+  override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    mBuilder = RenameDialogBuilder(requireContext()).apply {
+      etName.apply {
+        setText(title)
+        requestFocus()
 
-                doOnMainThreadIdle({
-                    val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputManager.showSoftInput(this, 0)
-                })
-            }
-        }
-
-        return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root)
-                .setTitle(R.string.dialog_rename_title)
-                .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int -> renameTitle(title, mBuilder.etName.text.toString()) }
-                .setNegativeButton(android.R.string.cancel, null)
-                .create()
+        doOnMainThreadIdle({
+          val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+          inputManager.showSoftInput(this, 0)
+        })
+      }
     }
 
-    val text: String
-        get() = mBuilder.etName.text.toString()
+    return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root)
+      .setTitle(R.string.dialog_rename_title)
+      .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
+        renameTitle(
+          title,
+          mBuilder.etName.text.toString()
+        )
+      }
+      .setNegativeButton(android.R.string.cancel, null)
+      .create()
+  }
+
+  val text: String
+    get() = mBuilder.etName.text.toString()
 
 }

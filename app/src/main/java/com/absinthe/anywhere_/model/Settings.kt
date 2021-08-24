@@ -19,54 +19,54 @@ import java.util.*
 
 object Settings {
 
-    var iconPackManager: IconPackManager = IconPackManager()
-    var iconPack: IconPack? = null
+  var iconPackManager: IconPackManager = IconPackManager()
+  var iconPack: IconPack? = null
 
-    val date: String by lazy {
-        val date = Date()
-        val dateFormat = SimpleDateFormat("MM-dd", Locale.CHINA)
-        dateFormat.format(date)
+  val date: String by lazy {
+    val date = Date()
+    val dateFormat = SimpleDateFormat("MM-dd", Locale.CHINA)
+    dateFormat.format(date)
+  }
+
+  fun init(context: Context) {
+    setLogger()
+    initIconPackManager(context)
+  }
+
+  fun getTheme(): Int {
+    return when (GlobalValues.darkMode) {
+      Const.DARK_MODE_OFF, "" -> AppCompatDelegate.MODE_NIGHT_NO
+      Const.DARK_MODE_ON -> AppCompatDelegate.MODE_NIGHT_YES
+      Const.DARK_MODE_SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+      Const.DARK_MODE_BATTERY -> AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+      Const.DARK_MODE_AUTO -> UxUtils.getAutoDarkMode()
+      else -> AppCompatDelegate.MODE_NIGHT_NO
     }
+  }
 
-    fun init(context: Context) {
-        setLogger()
-        initIconPackManager(context)
+  fun setLogger() {
+    GlobalValues.sIsDebugMode = BuildConfig.DEBUG or GlobalValues.sIsDebugMode
+  }
+
+  fun initIconPackManager(context: Context) {
+    iconPackManager.setContext(context)
+    val hashMap = iconPackManager.getAvailableIconPacks(true)
+
+    for ((key, value) in hashMap) {
+      if (key == GlobalValues.iconPack) {
+        iconPack = value
+        break
+      }
     }
+  }
 
-    fun getTheme(): Int {
-        return when (GlobalValues.darkMode) {
-            Const.DARK_MODE_OFF, "" -> AppCompatDelegate.MODE_NIGHT_NO
-            Const.DARK_MODE_ON -> AppCompatDelegate.MODE_NIGHT_YES
-            Const.DARK_MODE_SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            Const.DARK_MODE_BATTERY -> AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-            Const.DARK_MODE_AUTO -> UxUtils.getAutoDarkMode()
-            else -> AppCompatDelegate.MODE_NIGHT_NO
-        }
+  fun initMMKV(application: AnywhereApplication) {
+    MMKV.initialize(application)
+
+    if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.MMKV_MIGRATE)) {
+      val sp = application.getSharedPreferences(SPUtils.sPName, MODE_PRIVATE)
+      MMKV.mmkvWithID(SPUtils.sPName)?.importFromSharedPreferences(sp)
+      Once.markDone(OnceTag.MMKV_MIGRATE)
     }
-
-    fun setLogger() {
-        GlobalValues.sIsDebugMode = BuildConfig.DEBUG or GlobalValues.sIsDebugMode
-    }
-
-    fun initIconPackManager(context: Context) {
-        iconPackManager.setContext(context)
-        val hashMap = iconPackManager.getAvailableIconPacks(true)
-
-        for ((key, value) in hashMap) {
-            if (key == GlobalValues.iconPack) {
-                iconPack = value
-                break
-            }
-        }
-    }
-
-    fun initMMKV(application: AnywhereApplication) {
-        MMKV.initialize(application)
-
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.MMKV_MIGRATE)) {
-            val sp = application.getSharedPreferences(SPUtils.sPName, MODE_PRIVATE)
-            MMKV.mmkvWithID(SPUtils.sPName)?.importFromSharedPreferences(sp)
-            Once.markDone(OnceTag.MMKV_MIGRATE)
-        }
-    }
+  }
 }

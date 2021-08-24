@@ -1,217 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-        app:key="normalCategory"
-        app:title="@string/settings_category_normal">
+  <PreferenceCategory
+    app:key="normalCategory"
+    app:title="@string/settings_category_normal">
 
-        <rikka.preference.SimpleMenuPreference
-            app:key="workingMode"
-            app:title="@string/settings_working_mode"
-            app:summary="%s"
-            app:icon="@drawable/ic_working_mode"
-            app:defaultValue="url_scheme"
-            app:entries="@array/list_working_mode"
-            app:entryValues="@array/list_working_mode_value"/>
+    <rikka.preference.SimpleMenuPreference
+      app:defaultValue="url_scheme"
+      app:entries="@array/list_working_mode"
+      app:entryValues="@array/list_working_mode_value"
+      app:icon="@drawable/ic_working_mode"
+      app:key="workingMode"
+      app:summary="%s"
+      app:title="@string/settings_working_mode" />
 
-        <Preference
-            app:key="defrostMode"
-            app:title="@string/title_activity_defrost"
-            app:summary="@string/settings_defrost_mode_summary"
-            app:icon="@drawable/ic_snowflake">
+    <Preference
+      app:icon="@drawable/ic_snowflake"
+      app:key="defrostMode"
+      app:summary="@string/settings_defrost_mode_summary"
+      app:title="@string/title_activity_defrost">
 
-            <intent
-                android:targetPackage="@string/application_id"
-                android:targetClass="com.absinthe.anywhere_.ui.settings.DefrostActivity"/>
-        </Preference>
+      <intent
+        android:targetClass="com.absinthe.anywhere_.ui.settings.DefrostActivity"
+        android:targetPackage="@string/application_id" />
+    </Preference>
 
-        <Preference
-            app:key="backupAndRestore"
-            app:title="@string/settings_backup_and_restore"
-            app:summary="@string/settings_backup_summary"
-            app:icon="@drawable/ic_backup_and_restore">
+    <Preference
+      app:icon="@drawable/ic_backup_and_restore"
+      app:key="backupAndRestore"
+      app:summary="@string/settings_backup_summary"
+      app:title="@string/settings_backup_and_restore">
 
-            <intent
-                android:targetPackage="@string/application_id"
-                android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"/>
+      <intent
+        android:targetClass="com.absinthe.anywhere_.ui.backup.BackupActivity"
+        android:targetPackage="@string/application_id" />
 
-        </Preference>
+    </Preference>
 
-        <SwitchPreference
-            app:key="closeAfterLaunch"
-            app:title="@string/settings_close_after_launch"
-            app:summary="@string/settings_close_after_launch_summary"
-            app:icon="@drawable/ic_rocket" />
+    <SwitchPreference
+      app:icon="@drawable/ic_rocket"
+      app:key="closeAfterLaunch"
+      app:summary="@string/settings_close_after_launch_summary"
+      app:title="@string/settings_close_after_launch" />
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
-    <PreferenceCategory
-        app:key="viewCategory"
-        app:title="@string/settings_category_view">
+  <PreferenceCategory
+    app:key="viewCategory"
+    app:title="@string/settings_category_view">
 
-        <Preference
-            app:key="changeBackground"
-            app:title="@string/settings_change_background"
-            app:summary="@string/settings_change_background_summary"
-            app:icon="@drawable/ic_change_bg"/>
+    <Preference
+      app:icon="@drawable/ic_change_bg"
+      app:key="changeBackground"
+      app:summary="@string/settings_change_background_summary"
+      app:title="@string/settings_change_background" />
 
-        <Preference
-            app:key="resetBackground"
-            app:title="@string/settings_reset_background"
-            app:summary="@string/settings_reset_background_summary"
-            app:icon="@drawable/ic_reset"/>
+    <Preference
+      app:icon="@drawable/ic_reset"
+      app:key="resetBackground"
+      app:summary="@string/settings_reset_background_summary"
+      app:title="@string/settings_reset_background" />
 
-        <rikka.preference.SimpleMenuPreference
-            app:key="darkMode"
-            app:title="@string/settings_dark_mode"
-            app:summary="%s"
-            app:icon="@drawable/ic_dark_mode"
-            app:entries="@array/list_dark_mode"
-            app:entryValues="@array/list_dark_mode_value"
-            app:defaultValue="off"/>
+    <rikka.preference.SimpleMenuPreference
+      app:defaultValue="off"
+      app:entries="@array/list_dark_mode"
+      app:entryValues="@array/list_dark_mode_value"
+      app:icon="@drawable/ic_dark_mode"
+      app:key="darkMode"
+      app:summary="%s"
+      app:title="@string/settings_dark_mode" />
 
-        <rikka.preference.SimpleMenuPreference
-            app:key="cardMode"
-            app:title="@string/settings_card_mode"
-            app:summary="%s"
-            app:icon="@drawable/ic_stream_card"
-            app:defaultValue="medium"
-            app:entries="@array/list_card_mode"
-            app:entryValues="@array/list_card_mode_value"/>
+    <rikka.preference.SimpleMenuPreference
+      app:defaultValue="medium"
+      app:entries="@array/list_card_mode"
+      app:entryValues="@array/list_card_mode_value"
+      app:icon="@drawable/ic_stream_card"
+      app:key="cardMode"
+      app:summary="%s"
+      app:title="@string/settings_card_mode" />
 
-        <rikka.preference.SimpleMenuPreference
-            app:key="cardBackgroundMode"
-            app:title="@string/settings_card_background"
-            app:icon="@drawable/ic_color"
-            app:summary="%s"
-            app:entries="@array/list_card_bg"
-            app:entryValues="@array/list_card_bg_value"
-            app:defaultValue="off"/>
+    <rikka.preference.SimpleMenuPreference
+      app:defaultValue="off"
+      app:entries="@array/list_card_bg"
+      app:entryValues="@array/list_card_bg_value"
+      app:icon="@drawable/ic_color"
+      app:key="cardBackgroundMode"
+      app:summary="%s"
+      app:title="@string/settings_card_background" />
 
-        <SwitchPreference
-            app:key="md2Toolbar"
-            app:title="@string/settings_md2_toolbar_title"
-            app:summary="@string/settings_md2_toolbar_summary"
-            app:icon="@drawable/ic_material" />
+    <SwitchPreference
+      app:icon="@drawable/ic_material"
+      app:key="md2Toolbar"
+      app:summary="@string/settings_md2_toolbar_summary"
+      app:title="@string/settings_md2_toolbar_title" />
 
-        <Preference
-            app:key="iconPack"
-            app:title="@string/settings_icon_pack"
-            app:summary="@string/settings_icon_pack_summary"
-            app:icon="@drawable/ic_icon_pack"/>
+    <Preference
+      app:icon="@drawable/ic_icon_pack"
+      app:key="iconPack"
+      app:summary="@string/settings_icon_pack_summary"
+      app:title="@string/settings_icon_pack" />
 
-<!--        <Preference-->
-<!--            app:key="cardLayout"-->
-<!--            app:title="@string/settings_card_layout"-->
-<!--            app:summary="@string/settings_card_layout_summary"-->
-<!--            android:icon="@drawable/ic_card_layout"/>-->
+    <!--        <Preference-->
+    <!--            app:key="cardLayout"-->
+    <!--            app:title="@string/settings_card_layout"-->
+    <!--            app:summary="@string/settings_card_layout_summary"-->
+    <!--            android:icon="@drawable/ic_card_layout"/>-->
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
-    <PreferenceCategory
-        app:key="advancedCategory"
-        app:title="@string/settings_category_advanced">
+  <PreferenceCategory
+    app:key="advancedCategory"
+    app:title="@string/settings_category_advanced">
 
-        <SwitchPreference
-            app:key="pages"
-            app:title="@string/settings_pages_title"
-            app:summary="@string/settings_pages_summary"
-            app:icon="@drawable/ic_pages" />
+    <SwitchPreference
+      app:icon="@drawable/ic_pages"
+      app:key="pages"
+      app:summary="@string/settings_pages_summary"
+      app:title="@string/settings_pages_title" />
 
-        <Preference
-            app:key="clearShortcuts"
-            app:title="@string/settings_clear_shortcuts"
-            app:summary="@string/settings_clear_shortcuts_summary"
-            app:icon="@drawable/ic_clear_shortcuts"/>
+    <Preference
+      app:icon="@drawable/ic_clear_shortcuts"
+      app:key="clearShortcuts"
+      app:summary="@string/settings_clear_shortcuts_summary"
+      app:title="@string/settings_clear_shortcuts" />
 
-        <Preference
-            app:key="tiles"
-            app:title="@string/settings_tiles"
-            app:summary="@string/settings_tiles_summary"
-            app:icon="@drawable/ic_android">
+    <Preference
+      app:icon="@drawable/ic_android"
+      app:key="tiles"
+      app:summary="@string/settings_tiles_summary"
+      app:title="@string/settings_tiles">
 
-            <intent
-                android:targetPackage="@string/application_id"
-                android:targetClass="com.absinthe.anywhere_.ui.settings.TileSettingsActivity"/>
-        </Preference>
+      <intent
+        android:targetClass="com.absinthe.anywhere_.ui.settings.TileSettingsActivity"
+        android:targetPackage="@string/application_id" />
+    </Preference>
 
-        <SwitchPreference
-            app:key="collectorPlus"
-            app:title="@string/settings_collector_plus"
-            app:summary="@string/settings_collector_plus_summary"
-            app:icon="@drawable/ic_plus_circle"
-            app:defaultValue="false" />
+    <SwitchPreference
+      app:defaultValue="false"
+      app:icon="@drawable/ic_plus_circle"
+      app:key="collectorPlus"
+      app:summary="@string/settings_collector_plus_summary"
+      app:title="@string/settings_collector_plus" />
 
-        <SwitchPreference
-            app:key="excludeFromRecent"
-            app:title="@string/settings_exclude_from_recent"
-            app:summary="@string/settings_exclude_from_recent_summary"
-            app:icon="@drawable/ic_visibility_off"
-            app:defaultValue="false" />
+    <SwitchPreference
+      app:defaultValue="false"
+      app:icon="@drawable/ic_visibility_off"
+      app:key="excludeFromRecent"
+      app:summary="@string/settings_exclude_from_recent_summary"
+      app:title="@string/settings_exclude_from_recent" />
 
-        <rikka.preference.SimpleMenuPreference
-            app:key="showShellResultMode"
-            app:title="@string/settings_show_shell_result"
-            app:summary="%s"
-            app:icon="@drawable/ic_code_setting"
-            app:entries="@array/list_shell_result"
-            app:entryValues="@array/list_shell_result_value"
-            app:defaultValue="off"/>
+    <rikka.preference.SimpleMenuPreference
+      app:defaultValue="off"
+      app:entries="@array/list_shell_result"
+      app:entryValues="@array/list_shell_result_value"
+      app:icon="@drawable/ic_code_setting"
+      app:key="showShellResultMode"
+      app:summary="%s"
+      app:title="@string/settings_show_shell_result" />
 
-        <Preference
-            app:key="lab"
-            app:title="@string/settings_lab"
-            app:summary="@string/settings_lab_summary"
-            app:icon="@drawable/ic_lab">
+    <Preference
+      app:icon="@drawable/ic_lab"
+      app:key="lab"
+      app:summary="@string/settings_lab_summary"
+      app:title="@string/settings_lab">
 
-            <intent
-                android:targetPackage="@string/application_id"
-                android:targetClass="com.absinthe.anywhere_.ui.settings.LabActivity"/>
-        </Preference>
+      <intent
+        android:targetClass="com.absinthe.anywhere_.ui.settings.LabActivity"
+        android:targetPackage="@string/application_id" />
+    </Preference>
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
-    <PreferenceCategory
-        app:key="othersCategory"
-        app:title="@string/settings_category_others">
+  <PreferenceCategory
+    app:key="othersCategory"
+    app:title="@string/settings_category_others">
 
-<!--        <Preference-->
-<!--            app:key="logcat"-->
-<!--            app:title="@string/logcat"-->
-<!--            app:summary="@string/settings_logcat_summary"-->
-<!--            app:icon="@drawable/ic_cat">-->
+    <!--        <Preference-->
+    <!--            app:key="logcat"-->
+    <!--            app:title="@string/logcat"-->
+    <!--            app:summary="@string/settings_logcat_summary"-->
+    <!--            app:icon="@drawable/ic_cat">-->
 
-<!--            <intent-->
-<!--                android:targetPackage="@string/application_id"-->
-<!--                android:targetClass="com.absinthe.anywhere_.ui.settings.LogcatActivity"/>-->
+    <!--            <intent-->
+    <!--                android:targetPackage="@string/application_id"-->
+    <!--                android:targetClass="com.absinthe.anywhere_.ui.settings.LogcatActivity"/>-->
 
-<!--        </Preference>-->
+    <!--        </Preference>-->
 
-        <Preference
-            app:key="help"
-            app:title="@string/settings_help"
-            app:summary="@string/settings_help_summary"
-            app:icon="@drawable/ic_help_outline"/>
+    <Preference
+      app:icon="@drawable/ic_help_outline"
+      app:key="help"
+      app:summary="@string/settings_help_summary"
+      app:title="@string/settings_help" />
 
-        <Preference
-            app:key="beta"
-            app:title="@string/settings_beta"
-            app:summary="@string/settings_beta_summary"
-            app:icon="@drawable/ic_beta"/>
+    <Preference
+      app:icon="@drawable/ic_beta"
+      app:key="beta"
+      app:summary="@string/settings_beta_summary"
+      app:title="@string/settings_beta" />
 
-        <Preference
-            app:key="about"
-            app:title="@string/settings_about"
-            app:summary="@string/settings_about_summary"
-            app:icon="@drawable/ic_logo_24dp">
+    <Preference
+      app:icon="@drawable/ic_logo_24dp"
+      app:key="about"
+      app:summary="@string/settings_about_summary"
+      app:title="@string/settings_about">
 
-            <intent
-                android:targetPackage="@string/application_id"
-                android:targetClass="com.absinthe.anywhere_.ui.about.AboutActivity"/>
+      <intent
+        android:targetClass="com.absinthe.anywhere_.ui.about.AboutActivity"
+        android:targetPackage="@string/application_id" />
 
-        </Preference>
+    </Preference>
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
 </PreferenceScreen>

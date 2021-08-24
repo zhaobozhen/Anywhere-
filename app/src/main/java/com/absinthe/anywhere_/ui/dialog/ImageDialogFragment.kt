@@ -12,34 +12,34 @@ import kotlinx.coroutines.launch
 
 class ImageDialogFragment : AnywhereDialogFragment {
 
-    private lateinit var mBuilder: ImageDialogBuilder
-    private var mUri: String? = null
+  private lateinit var mBuilder: ImageDialogBuilder
+  private var mUri: String? = null
 
-    constructor()
+  constructor()
 
-    constructor(uri: String, listener: OnDismissListener? = null) {
-        mUri = uri
+  constructor(uri: String, listener: OnDismissListener? = null) {
+    mUri = uri
 
-        setWrapOnDismissListener(listener)
+    setWrapOnDismissListener(listener)
+  }
+
+  override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    mBuilder = ImageDialogBuilder(requireContext())
+    return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root).create()
+  }
+
+  override fun onStart() {
+    super.onStart()
+    initView()
+  }
+
+  private fun initView() {
+    lifecycleScope.launch(Dispatchers.Main) {
+      activity?.let {
+        Glide.with(it.applicationContext)
+          .load(mUri)
+          .into(mBuilder.image)
+      }
     }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mBuilder = ImageDialogBuilder(requireContext())
-        return AnywhereDialogBuilder(requireContext()).setView(mBuilder.root).create()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initView()
-    }
-
-    private fun initView() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            activity?.let {
-                Glide.with(it.applicationContext)
-                    .load(mUri)
-                    .into(mBuilder.image)
-            }
-        }
-    }
+  }
 }

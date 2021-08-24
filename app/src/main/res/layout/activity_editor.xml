@@ -1,83 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/coordinator_layout"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/coordinator_layout"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="?android:colorBackground"
+  android:fitsSystemWindows="false"
+  app:consumeSystemWindowsInsets="start|end"
+  app:edgeToEdge="true"
+  app:fitsSystemWindowsInsets="start|end"
+  app:layout_fitsSystemWindowsInsets="top"
+  tools:context=".ui.editor.EditorActivity">
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/tv_open_url"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:colorBackground"
-        android:fitsSystemWindows="false"
-        app:consumeSystemWindowsInsets="start|end"
-        app:edgeToEdge="true"
-        app:fitsSystemWindowsInsets="start|end"
-        app:layout_fitsSystemWindowsInsets="top"
-        tools:context=".ui.editor.EditorActivity">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/bsd_edit_text_margin_horizontal"
+        android:layout_marginTop="@dimen/bsd_margin_vertical"
+        android:lineSpacingExtra="5dp" />
 
-    <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+      <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/root_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/bsd_edit_text_margin_horizontal"
+        android:text="@string/bsd_exec_with_root" />
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+      <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-            <TextView
-                    android:id="@+id/tv_open_url"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/bsd_edit_text_margin_horizontal"
-                    android:layout_marginTop="@dimen/bsd_margin_vertical"
-                    android:lineSpacingExtra="5dp" />
+    </LinearLayout>
 
-            <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/root_toggle"
-                    android:layout_marginHorizontal="@dimen/bsd_edit_text_margin_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bsd_exec_with_root" />
+  </ScrollView>
 
-            <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fragment_container_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+  <com.google.android.material.bottomappbar.BottomAppBar
+    android:id="@+id/bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:fitsSystemWindows="true"
+    app:fabAlignmentMode="end"
+    app:navigationIcon="@drawable/ic_menu" />
 
-        </LinearLayout>
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:importantForAccessibility="no"
+    android:text="@string/bsd_btn_done"
+    android:transitionName="@string/trans_background"
+    app:layout_anchor="@id/bar"
+    app:srcCompat="@drawable/ic_done_solid" />
 
-    </ScrollView>
+  <FrameLayout
+    android:id="@+id/bottom_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="16dp"
+    app:behavior_hideable="true"
+    app:layout_behavior="@string/bottom_sheet_behavior">
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:fitsSystemWindows="true"
-            app:fabAlignmentMode="end"
-            app:navigationIcon="@drawable/ic_menu" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bsd_btn_done"
-            android:transitionName="@string/trans_background"
-            app:layout_anchor="@id/bar"
-            app:srcCompat="@drawable/ic_done_solid"
-            android:importantForAccessibility="no" />
-
-    <FrameLayout
-            android:id="@+id/bottom_drawer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="16dp"
-            app:behavior_hideable="true"
-            app:layout_behavior="@string/bottom_sheet_behavior">
-
-        <com.google.android.material.navigation.NavigationView
-                android:id="@+id/navigation_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:menu="@menu/editor_menu" />
-    </FrameLayout>
+    <com.google.android.material.navigation.NavigationView
+      android:id="@+id/navigation_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:menu="@menu/editor_menu" />
+  </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

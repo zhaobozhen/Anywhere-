@@ -26,63 +26,63 @@ import timber.log.Timber
  */
 object ShizukuHelper {
 
-    fun checkPermission(activity: Activity): Boolean {
-        val code = Const.REQUEST_CODE_SHIZUKU_PERMISSION
-        try {
-            return if (!Shizuku.isPreV11() && Shizuku.getVersion() >= 11) {
-                // Sui and Shizuku >= 11 use self-implemented permission
-                when {
-                    Shizuku.checkSelfPermission() == PERMISSION_GRANTED -> {
-                        true
-                    }
-                    Shizuku.shouldShowRequestPermissionRationale() -> {
-                        ToastUtil.makeText("User denied permission")
-                        false
-                    }
-                    else -> {
-                        Shizuku.requestPermission(code)
-                        false
-                    }
-                }
-            } else {
-                // Shizuku < 11 uses runtime permission
-                when {
-                    checkSelfPermission(activity, ShizukuProvider.PERMISSION) == PERMISSION_GRANTED -> {
-                        true
-                    }
-                    shouldShowRequestPermissionRationale(activity, ShizukuProvider.PERMISSION) -> {
-                        ToastUtil.makeText("User denied permission")
-                        false
-                    }
-                    else -> {
-                        if (XiaomiUtilities.isMIUI()) {
-                            showPermissionDialog(activity)
-                        } else {
-                            requestPermissions(activity, arrayOf(ShizukuProvider.PERMISSION), code)
-                        }
-                        false
-                    }
-                }
-            }
-        } catch (e: Throwable) {
-            Timber.e(e)
+  fun checkPermission(activity: Activity): Boolean {
+    val code = Const.REQUEST_CODE_SHIZUKU_PERMISSION
+    try {
+      return if (!Shizuku.isPreV11() && Shizuku.getVersion() >= 11) {
+        // Sui and Shizuku >= 11 use self-implemented permission
+        when {
+          Shizuku.checkSelfPermission() == PERMISSION_GRANTED -> {
+            true
+          }
+          Shizuku.shouldShowRequestPermissionRationale() -> {
+            ToastUtil.makeText("User denied permission")
+            false
+          }
+          else -> {
+            Shizuku.requestPermission(code)
+            false
+          }
         }
-        return false
+      } else {
+        // Shizuku < 11 uses runtime permission
+        when {
+          checkSelfPermission(activity, ShizukuProvider.PERMISSION) == PERMISSION_GRANTED -> {
+            true
+          }
+          shouldShowRequestPermissionRationale(activity, ShizukuProvider.PERMISSION) -> {
+            ToastUtil.makeText("User denied permission")
+            false
+          }
+          else -> {
+            if (XiaomiUtilities.isMIUI()) {
+              showPermissionDialog(activity)
+            } else {
+              requestPermissions(activity, arrayOf(ShizukuProvider.PERMISSION), code)
+            }
+            false
+          }
+        }
+      }
+    } catch (e: Throwable) {
+      Timber.e(e)
     }
+    return false
+  }
 
-    private fun showPermissionDialog(activity: Activity, fragment: Fragment? = null) {
-        showGotoShizukuManagerDialog(activity) {
-            val intent = IntentUtils.getLaunchAppIntent("moe.shizuku.privileged.api")
-            if (intent != null) {
-                if (fragment != null) {
-                    fragment.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
-                } else {
-                    activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
-                }
-            } else {
-                ToastUtil.makeText(R.string.toast_not_install_shizuku)
-                URLSchemeHandler.parse(activity, URLManager.SHIZUKU_MARKET_URL)
-            }
+  private fun showPermissionDialog(activity: Activity, fragment: Fragment? = null) {
+    showGotoShizukuManagerDialog(activity) {
+      val intent = IntentUtils.getLaunchAppIntent("moe.shizuku.privileged.api")
+      if (intent != null) {
+        if (fragment != null) {
+          fragment.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
+        } else {
+          activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
         }
+      } else {
+        ToastUtil.makeText(R.string.toast_not_install_shizuku)
+        URLSchemeHandler.parse(activity, URLManager.SHIZUKU_MARKET_URL)
+      }
     }
+  }
 }

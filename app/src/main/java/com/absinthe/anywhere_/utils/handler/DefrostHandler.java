@@ -28,7 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 public class DefrostHandler {
 
   public static boolean defrost(@NonNull Context context, @NonNull String packageName,
-      OnAppDefrostListener listener) {
+                                OnAppDefrostListener listener) {
     ToastUtil.makeText(R.string.toast_defrosting);
 
     switch (GlobalValues.INSTANCE.getDefrostMode()) {
@@ -48,7 +48,7 @@ public class DefrostHandler {
   }
 
   private static boolean defrostWithDelegatedScopeManager(@NonNull Context context,
-      @NonNull String packageName, OnAppDefrostListener listener) {
+                                                          @NonNull String packageName, OnAppDefrostListener listener) {
 
     if (DSMClient.getOwnerSDKVersion(context) < DSMClient.SDK_VERSION) {
       return false;
@@ -59,15 +59,15 @@ public class DefrostHandler {
     }
 
     DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context
-        .getSystemService(Context.DEVICE_POLICY_SERVICE);
+      .getSystemService(Context.DEVICE_POLICY_SERVICE);
 
     if (devicePolicyManager != null) {
       Observable
-          .create((ObservableOnSubscribe<Boolean>) emitter -> emitter.onNext(devicePolicyManager.setApplicationHidden(null, packageName, false)))
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(aBoolean -> listener.onAppDefrost())
-          .dispose();
+        .create((ObservableOnSubscribe<Boolean>) emitter -> emitter.onNext(devicePolicyManager.setApplicationHidden(null, packageName, false)))
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(aBoolean -> listener.onAppDefrost())
+        .dispose();
     } else {
       return false;
     }
@@ -76,7 +76,7 @@ public class DefrostHandler {
   }
 
   private static boolean defrostWithIceBoxSDK(@NonNull Context context, @NonNull String packageName,
-      OnAppDefrostListener listener) {
+                                              OnAppDefrostListener listener) {
     if (AppUtils.getAppInfo("com.catchingnow.icebox") == null) {
       return false;
     }
@@ -91,7 +91,7 @@ public class DefrostHandler {
         IceBox.setAppEnabledSettings(context, true, packageName);
       } catch (IllegalArgumentException | SecurityException e) {
         new Handler(Looper.getMainLooper())
-            .post(() -> ToastUtil.INSTANCE.makeText(context, "IceBox SDK error"));
+          .post(() -> ToastUtil.INSTANCE.makeText(context, "IceBox SDK error"));
       }
       new Handler(Looper.getMainLooper()).post(listener::onAppDefrost);
     });
@@ -100,15 +100,15 @@ public class DefrostHandler {
   }
 
   private static boolean defrostWithDevicePolicyManager(@NonNull Context context,
-      @NonNull String packageName, OnAppDefrostListener listener) {
+                                                        @NonNull String packageName, OnAppDefrostListener listener) {
     DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context
-        .getSystemService(Context.DEVICE_POLICY_SERVICE);
+      .getSystemService(Context.DEVICE_POLICY_SERVICE);
 
     if (devicePolicyManager != null && devicePolicyManager
-        .isAdminActive(AdminReceiver.Companion.getComponentName())) {
+      .isAdminActive(AdminReceiver.Companion.getComponentName())) {
       new Handler().post(() -> {
         devicePolicyManager
-            .setApplicationHidden(AdminReceiver.Companion.getComponentName(), packageName, false);
+          .setApplicationHidden(AdminReceiver.Companion.getComponentName(), packageName, false);
         new Handler(Looper.getMainLooper()).post(listener::onAppDefrost);
       });
     } else {
@@ -119,17 +119,17 @@ public class DefrostHandler {
   }
 
   private static boolean defrostWithRoot(@NonNull String packageName,
-      OnAppDefrostListener listener) {
+                                         OnAppDefrostListener listener) {
     return defrostWithAbd(packageName, listener);
   }
 
   private static boolean defrostWithShizuku(@NonNull String packageName,
-      OnAppDefrostListener listener) {
+                                            OnAppDefrostListener listener) {
     return defrostWithAbd(packageName, listener);
   }
 
   private static boolean defrostWithAbd(@NonNull String packageName,
-      OnAppDefrostListener listener) {
+                                        OnAppDefrostListener listener) {
     String cmd = "pm enable " + packageName;
     String result = CommandUtils.execAdbCmd(cmd);
 

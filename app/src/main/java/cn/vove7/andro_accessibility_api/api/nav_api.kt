@@ -22,7 +22,7 @@ fun home(): Boolean = AccessibilityApi.baseService?.home() ?: false
 fun powerDialog(): Boolean = AccessibilityApi.baseService?.powerDialog() ?: false
 
 fun pullNotificationBar(): Boolean =
-    AccessibilityApi.baseService?.notificationBar() ?: false
+  AccessibilityApi.baseService?.notificationBar() ?: false
 
 fun quickSettings(): Boolean = AccessibilityApi.baseService?.quickSettings() ?: false
 
@@ -38,17 +38,17 @@ fun screenShot(): Boolean = AccessibilityApi.baseService?.screenShot() ?: false
 fun splitScreen(): Boolean = AccessibilityApi.baseService?.splitScreen() ?: false
 
 fun waitForApp(pkg: String, waitTime: Long = 30000): Boolean {
-    if (!AccessibilityApi.isBaseServiceEnable) {
-        return false
-    }
-    return waitForPage(AppScope(pkg, ""), waitTime)
+  if (!AccessibilityApi.isBaseServiceEnable) {
+    return false
+  }
+  return waitForPage(AppScope(pkg, ""), waitTime)
 }
 
 fun waitForPage(scope: AppScope, waitTime: Long = 30000): Boolean {
-    return whileWaitTime(min(waitTime, 30000)) {
-        if (AccessibilityApi.currentScope == scope) true else {
-            sleep(100)
-            null
-        }
-    } ?: false
+  return whileWaitTime(min(waitTime, 30000)) {
+    if (AccessibilityApi.currentScope == scope) true else {
+      sleep(100)
+      null
+    }
+  } ?: false
 }

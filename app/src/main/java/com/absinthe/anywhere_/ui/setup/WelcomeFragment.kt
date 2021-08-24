@@ -10,26 +10,28 @@ import com.absinthe.anywhere_.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val binding = FragmentWelcomeBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
+  override fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
+    val binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+    setHasOptionsMenu(true)
 
-        binding.btnWelcomeStart.setOnClickListener {
-            requireActivity().supportFragmentManager
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
-                    .replace(R.id.fragment_container_view, InitializeFragment.newInstance())
-                    .commitNow()
-        }
-
-        return binding.root
+    binding.btnWelcomeStart.setOnClickListener {
+      requireActivity().supportFragmentManager
+        .beginTransaction()
+        .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out)
+        .replace(R.id.fragment_container_view, InitializeFragment.newInstance())
+        .commitNow()
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(): WelcomeFragment {
-            return WelcomeFragment()
-        }
+    return binding.root
+  }
+
+  companion object {
+    @JvmStatic
+    fun newInstance(): WelcomeFragment {
+      return WelcomeFragment()
     }
+  }
 }

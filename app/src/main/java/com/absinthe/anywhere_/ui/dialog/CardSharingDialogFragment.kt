@@ -17,19 +17,24 @@ const val EXTRA_SHARING_TEXT = "EXTRA_SHARING_TEXT"
 
 class CardSharingDialogFragment : AnywhereDialogFragment() {
 
-    private val text by lazy { arguments?.getString(EXTRA_SHARING_TEXT).orEmpty() }
+  private val text by lazy { arguments?.getString(EXTRA_SHARING_TEXT).orEmpty() }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AnywhereDialogBuilder(requireContext()).setView(CardSharingBuilder(requireActivity(), text).root)
-                .setTitle(R.string.menu_share_card)
-                .setPositiveButton(R.string.dialog_copy) { _: DialogInterface?, _: Int ->
-                    val cm = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val mClipData = ClipData.newPlainText("Label", text)
-                    cm.setPrimaryClip(mClipData)
-                    GlobalValues.shouldListenClipBoard = false
-                    ToastUtil.makeText(R.string.toast_copied)
-                }
-                .create()
-    }
+  override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    return AnywhereDialogBuilder(requireContext()).setView(
+      CardSharingBuilder(
+        requireActivity(),
+        text
+      ).root
+    )
+      .setTitle(R.string.menu_share_card)
+      .setPositiveButton(R.string.dialog_copy) { _: DialogInterface?, _: Int ->
+        val cm = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val mClipData = ClipData.newPlainText("Label", text)
+        cm.setPrimaryClip(mClipData)
+        GlobalValues.shouldListenClipBoard = false
+        ToastUtil.makeText(R.string.toast_copied)
+      }
+      .create()
+  }
 
 }

@@ -8,19 +8,19 @@ package cn.vove7.andro_accessibility_api
  * @constructor
  */
 data class AppScope(
-    var packageName: String,
-    var pageName: String
+  var packageName: String,
+  var pageName: String
 ) {
-    override fun equals(that: Any?): Boolean {
-        if (that == null || that !is AppScope) return false
+  override fun equals(that: Any?): Boolean {
+    if (that == null || that !is AppScope) return false
 
-        return packageName.startsWith(that.packageName) &&
-                pageName.isEmpty() || that.pageName.isEmpty() ||
-                pageName.endsWith("." + that.pageName) ||
-                pageName.endsWith("$" + that.pageName) ||
-                that.pageName.endsWith(".$pageName") ||
-                that.pageName.endsWith("$$pageName") ||
-                (packageName == that.packageName && pageName == that.pageName)
+    return packageName.startsWith(that.packageName) &&
+      pageName.isEmpty() || that.pageName.isEmpty() ||
+      pageName.endsWith("." + that.pageName) ||
+      pageName.endsWith("$" + that.pageName) ||
+      that.pageName.endsWith(".$pageName") ||
+      that.pageName.endsWith("$$pageName") ||
+      (packageName == that.packageName && pageName == that.pageName)
 
-    }
+  }
 }

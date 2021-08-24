@@ -21,68 +21,68 @@ import kotlinx.coroutines.withContext
 
 class WebdavFilesListDialogFragment : AnywhereDialogFragment() {
 
-    private lateinit var binding: LayoutWebdavRestoreBinding
-    private val adapter = WebdavRestoreAdapter()
-    private val sardine = OkHttpSardine()
-    private val hostDir = GlobalValues.webdavHost + URLManager.BACKUP_DIR
+  private lateinit var binding: LayoutWebdavRestoreBinding
+  private val adapter = WebdavRestoreAdapter()
+  private val sardine = OkHttpSardine()
+  private val hostDir = GlobalValues.webdavHost + URLManager.BACKUP_DIR
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = LayoutWebdavRestoreBinding.inflate(layoutInflater)
-        initView()
+  override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    binding = LayoutWebdavRestoreBinding.inflate(layoutInflater)
+    initView()
 
-        return AnywhereDialogBuilder(requireContext()).setView(binding.root)
-                .setTitle(R.string.dialog_webdav_restore_title)
-                .create()
+    return AnywhereDialogBuilder(requireContext()).setView(binding.root)
+      .setTitle(R.string.dialog_webdav_restore_title)
+      .create()
+  }
+
+  private fun initView() {
+    adapter.apply {
+      setOnItemClickListener { _, _, position ->
+        applyBackupFile(hostDir + data[position].displayName)
+        dismiss()
+      }
     }
 
-    private fun initView() {
-        adapter.apply {
-            setOnItemClickListener { _, _, position ->
-                applyBackupFile(hostDir + data[position].displayName)
-                dismiss()
-            }
+    binding.rvList.adapter = adapter
+    binding.root.displayedChild = 0
+    initData()
+  }
+
+  private fun initData() = lifecycleScope.launch(Dispatchers.IO) {
+    sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
+
+    try {
+      if (!sardine.exists(hostDir)) {
+        return@launch
+      }
+
+      val list = sardine.list(hostDir)
+      withContext(Dispatchers.Main) {
+        adapter.setList(list.filter { !it.isDirectory }.sortedByDescending { it.displayName })
+        binding.root.displayedChild = 1
+      }
+    } catch (e: Exception) {
+      e.printStackTrace()
+      withContext(Dispatchers.Main) {
+        activity?.let { ToastUtil.makeText(it, "Failed getting files: $e") }
+        dismiss()
+      }
+    }
+  }
+
+  private fun applyBackupFile(url: String) = lifecycleScope.launch(Dispatchers.IO) {
+    sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
+    sardine.get(url)?.let { input ->
+      val result = ConvertUtils.inputStream2String(input, "UTF-8")
+      result?.apply {
+        withContext(Dispatchers.IO) {
+          StorageUtils.restoreFromJson(Utils.getApp(), this@apply)
         }
-
-        binding.rvList.adapter = adapter
-        binding.root.displayedChild = 0
-        initData()
+      } ?: withContext(Dispatchers.Main) {
+        activity?.let { ToastUtil.makeText(it, "JSON content error") }
+      }
+    } ?: withContext(Dispatchers.Main) {
+      activity?.let { ToastUtil.makeText(it, "Input Stream error") }
     }
-
-    private fun initData() = lifecycleScope.launch(Dispatchers.IO) {
-        sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
-
-        try {
-            if (!sardine.exists(hostDir)) {
-                return@launch
-            }
-
-            val list = sardine.list(hostDir)
-            withContext(Dispatchers.Main) {
-                adapter.setList(list.filter { !it.isDirectory }.sortedByDescending { it.displayName })
-                binding.root.displayedChild = 1
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            withContext(Dispatchers.Main) {
-                activity?.let { ToastUtil.makeText(it, "Failed getting files: $e") }
-                dismiss()
-            }
-        }
-    }
-
-    private fun applyBackupFile(url: String) = lifecycleScope.launch(Dispatchers.IO) {
-        sardine.setCredentials(GlobalValues.webdavUsername, GlobalValues.webdavPassword)
-        sardine.get(url)?.let { input ->
-            val result = ConvertUtils.inputStream2String(input, "UTF-8")
-            result?.apply {
-                withContext(Dispatchers.IO) {
-                    StorageUtils.restoreFromJson(Utils.getApp(), this@apply)
-                }
-            } ?: withContext(Dispatchers.Main) {
-                activity?.let { ToastUtil.makeText(it, "JSON content error") }
-            }
-        } ?: withContext(Dispatchers.Main) {
-            activity?.let { ToastUtil.makeText(it, "Input Stream error") }
-        }
-    }
+  }
 }

@@ -20,162 +20,170 @@ import timber.log.Timber
 
 class CollectorService : Service() {
 
-    private val listenerList = RemoteCallbackList<ICollectorListener>()
-    private val binder = object : ICollectorService.Stub() {
+  private val listenerList = RemoteCallbackList<ICollectorListener>()
+  private val binder = object : ICollectorService.Stub() {
 
-        override fun startCollector() {
-            startCollectorInternal()
-        }
-
-        override fun stopCollector() {
-            stopCollectorInternal()
-        }
-
-        override fun startCoordinator() {
-            startCoordinatorInternal()
-        }
-
-        override fun stopCoordinator(x: Int, y: Int) {
-            stopCoordinatorInternal(x, y)
-        }
-
-        override fun registerCollectorListener(listener: ICollectorListener?) {
-            listener?.let { listenerList.register(listener) }
-        }
-
-        override fun unregisterCollectorListener(listener: ICollectorListener?) {
-            listenerList.unregister(listener)
-        }
-    }
-    private val mCollectorWindowManager by lazy { CollectorWindowManager(applicationContext, binder) }
-    private val mCoordinatorWindowManager by lazy { CoordinatorWindowManager(applicationContext, binder) }
-
-    private val mHandler = Handler(Looper.myLooper()!!)
-    private val getCurrentInfoTask: Runnable = object : Runnable {
-        override fun run() {
-            Timber.d("getCurrentInfoTask#run")
-            val result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY)
-
-            if (result == CommandResult.RESULT_NULL ||
-                    result == CommandResult.RESULT_ROOT_PERM_ERROR ||
-                    result == CommandResult.RESULT_SHIZUKU_PERM_ERROR) {
-                Thread.currentThread().interrupt()
-            } else {
-                AppTextUtils.processResultString(result)?.let {
-                    mCollectorWindowManager.setInfo(it[0], it[1])
-                }
-            }
-
-            mHandler.postDelayed(this, dumpInterval.toLong())
-        }
-    }
-    private var isSendingBroadcast = false
-
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        return START_NOT_STICKY
+    override fun startCollector() {
+      startCollectorInternal()
     }
 
-    override fun onBind(intent: Intent): IBinder {
-        return binder
+    override fun stopCollector() {
+      stopCollectorInternal()
     }
 
-    override fun onDestroy() {
-        Timber.d("CollectorService onDestroy.")
-        mHandler.removeCallbacks(getCurrentInfoTask)
-        super.onDestroy()
+    override fun startCoordinator() {
+      startCoordinatorInternal()
     }
 
-    private fun startCollectorInternal(): Boolean {
-        if (!PermissionUtils.isGrantedDrawOverlays()) {
-            ToastUtil.Toasty.show(this,
-                    if (AppUtils.atLeastR()) {
-                        R.string.toast_overlay_choose_anywhere
-                    } else {
-                        R.string.toast_permission_overlap
-                    }
-            )
+    override fun stopCoordinator(x: Int, y: Int) {
+      stopCoordinatorInternal(x, y)
+    }
 
-            PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
-                override fun onGranted() {
-                    startCollectorImpl()
-                }
+    override fun registerCollectorListener(listener: ICollectorListener?) {
+      listener?.let { listenerList.register(listener) }
+    }
 
-                override fun onDenied() {}
-            })
-            return false
+    override fun unregisterCollectorListener(listener: ICollectorListener?) {
+      listenerList.unregister(listener)
+    }
+  }
+  private val mCollectorWindowManager by lazy { CollectorWindowManager(applicationContext, binder) }
+  private val mCoordinatorWindowManager by lazy {
+    CoordinatorWindowManager(
+      applicationContext,
+      binder
+    )
+  }
+
+  private val mHandler = Handler(Looper.myLooper()!!)
+  private val getCurrentInfoTask: Runnable = object : Runnable {
+    override fun run() {
+      Timber.d("getCurrentInfoTask#run")
+      val result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY)
+
+      if (result == CommandResult.RESULT_NULL ||
+        result == CommandResult.RESULT_ROOT_PERM_ERROR ||
+        result == CommandResult.RESULT_SHIZUKU_PERM_ERROR
+      ) {
+        Thread.currentThread().interrupt()
+      } else {
+        AppTextUtils.processResultString(result)?.let {
+          mCollectorWindowManager.setInfo(it[0], it[1])
+        }
+      }
+
+      mHandler.postDelayed(this, dumpInterval.toLong())
+    }
+  }
+  private var isSendingBroadcast = false
+
+  override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    return START_NOT_STICKY
+  }
+
+  override fun onBind(intent: Intent): IBinder {
+    return binder
+  }
+
+  override fun onDestroy() {
+    Timber.d("CollectorService onDestroy.")
+    mHandler.removeCallbacks(getCurrentInfoTask)
+    super.onDestroy()
+  }
+
+  private fun startCollectorInternal(): Boolean {
+    if (!PermissionUtils.isGrantedDrawOverlays()) {
+      ToastUtil.Toasty.show(
+        this,
+        if (AppUtils.atLeastR()) {
+          R.string.toast_overlay_choose_anywhere
         } else {
-            startCollectorImpl()
-            return true
+          R.string.toast_permission_overlap
         }
-    }
+      )
 
-    private fun stopCollectorInternal() {
-        if (isCollectorPlus) {
-            mHandler.removeCallbacks(getCurrentInfoTask)
-        }
-        mCollectorWindowManager.removeView()
-        stopSelf()
-    }
-
-    private fun startCollectorImpl() {
-        mCollectorWindowManager.addView()
-
-        if (isCollectorPlus) {
-            mHandler.post(getCurrentInfoTask)
+      PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
+        override fun onGranted() {
+          startCollectorImpl()
         }
 
-        Toast.makeText(this, R.string.toast_collector_opened, Toast.LENGTH_SHORT).show()
+        override fun onDenied() {}
+      })
+      return false
+    } else {
+      startCollectorImpl()
+      return true
+    }
+  }
+
+  private fun stopCollectorInternal() {
+    if (isCollectorPlus) {
+      mHandler.removeCallbacks(getCurrentInfoTask)
+    }
+    mCollectorWindowManager.removeView()
+    stopSelf()
+  }
+
+  private fun startCollectorImpl() {
+    mCollectorWindowManager.addView()
+
+    if (isCollectorPlus) {
+      mHandler.post(getCurrentInfoTask)
     }
 
-    private fun startCoordinatorInternal(): Boolean {
-        if (!PermissionUtils.isGrantedDrawOverlays()) {
-            ToastUtil.Toasty.show(this,
-                if (AppUtils.atLeastR()) {
-                    R.string.toast_overlay_choose_anywhere
-                } else {
-                    R.string.toast_permission_overlap
-                }
-            )
+    Toast.makeText(this, R.string.toast_collector_opened, Toast.LENGTH_SHORT).show()
+  }
 
-            PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
-                override fun onGranted() {
-                    startCoordinatorImpl()
-                }
-
-                override fun onDenied() {}
-            })
-            return false
+  private fun startCoordinatorInternal(): Boolean {
+    if (!PermissionUtils.isGrantedDrawOverlays()) {
+      ToastUtil.Toasty.show(
+        this,
+        if (AppUtils.atLeastR()) {
+          R.string.toast_overlay_choose_anywhere
         } else {
-            startCoordinatorImpl()
-            return true
+          R.string.toast_permission_overlap
         }
-    }
+      )
 
-    private fun startCoordinatorImpl() {
-        mCoordinatorWindowManager.addView()
-    }
-
-    private fun stopCoordinatorInternal(x: Int, y: Int) {
-        notifyCoordinatorSelected(x, y)
-        mCoordinatorWindowManager.removeView()
-        stopSelf()
-    }
-
-    private fun notifyCoordinatorSelected(x: Int, y: Int) {
-        if (!isSendingBroadcast) {
-            isSendingBroadcast = true
-            Timber.i("notifyFinished start")
-            val count = listenerList.beginBroadcast()
-            for (i in 0 until count) {
-                try {
-                    Timber.i("notifyFinished $i")
-                    listenerList.getBroadcastItem(i).onCoordinatorSelected(x, y)
-                } catch (e: RemoteException) {
-                    Timber.e(e)
-                }
-            }
-            listenerList.finishBroadcast()
-            isSendingBroadcast = false
+      PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
+        override fun onGranted() {
+          startCoordinatorImpl()
         }
+
+        override fun onDenied() {}
+      })
+      return false
+    } else {
+      startCoordinatorImpl()
+      return true
     }
+  }
+
+  private fun startCoordinatorImpl() {
+    mCoordinatorWindowManager.addView()
+  }
+
+  private fun stopCoordinatorInternal(x: Int, y: Int) {
+    notifyCoordinatorSelected(x, y)
+    mCoordinatorWindowManager.removeView()
+    stopSelf()
+  }
+
+  private fun notifyCoordinatorSelected(x: Int, y: Int) {
+    if (!isSendingBroadcast) {
+      isSendingBroadcast = true
+      Timber.i("notifyFinished start")
+      val count = listenerList.beginBroadcast()
+      for (i in 0 until count) {
+        try {
+          Timber.i("notifyFinished $i")
+          listenerList.getBroadcastItem(i).onCoordinatorSelected(x, y)
+        } catch (e: RemoteException) {
+          Timber.e(e)
+        }
+      }
+      listenerList.finishBroadcast()
+      isSendingBroadcast = false
+    }
+  }
 }

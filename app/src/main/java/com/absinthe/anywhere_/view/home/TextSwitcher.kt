@@ -23,37 +23,37 @@ import com.absinthe.anywhere_.R
  */
 class TextSwitcherView : TextSwitcher, ViewSwitcher.ViewFactory {
 
-    var textColor: Int = Color.WHITE
+  var textColor: Int = Color.WHITE
 
-    constructor(context: Context?) : super(context, null)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        init()
-    }
+  constructor(context: Context?) : super(context, null)
+  constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+    init()
+  }
 
-    private fun init() {
-        setFactory(this)
-        this.setInAnimation(context, R.anim.anim_text_switcher_in)
-        this.setOutAnimation(context, R.anim.anim_text_switcher_out)
-        textColor = context.getColor(R.color.textColorNormal)
-    }
+  private fun init() {
+    setFactory(this)
+    this.setInAnimation(context, R.anim.anim_text_switcher_in)
+    this.setOutAnimation(context, R.anim.anim_text_switcher_out)
+    textColor = context.getColor(R.color.textColorNormal)
+  }
 
-    override fun makeView(): View {
-        return TextView(context).apply {
-            layoutParams = LayoutParams(
-                    LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT
-            )
-            gravity = Gravity.START or Gravity.CENTER
-            setTypeface(null, Typeface.BOLD)
-            setTextColor(textColor)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
-        }
+  override fun makeView(): View {
+    return TextView(context).apply {
+      layoutParams = LayoutParams(
+        LayoutParams.MATCH_PARENT,
+        LayoutParams.MATCH_PARENT
+      )
+      gravity = Gravity.START or Gravity.CENTER
+      setTypeface(null, Typeface.BOLD)
+      setTextColor(textColor)
+      setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
     }
+  }
 
-    override fun setText(text: CharSequence) {
-        val span = ForegroundColorSpan(textColor)
-        super.setText(SpannableString(text).apply {
-            setSpan(span, 0, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        })
-    }
+  override fun setText(text: CharSequence) {
+    val span = ForegroundColorSpan(textColor)
+    super.setText(SpannableString(text).apply {
+      setSpan(span, 0, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    })
+  }
 }

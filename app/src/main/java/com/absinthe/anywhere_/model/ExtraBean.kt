@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.model
 
 import com.google.gson.annotations.SerializedName
-import java.lang.StringBuilder
 
 const val TYPE_STRING = "--es"
 const val TYPE_BOOLEAN = "--ez"
@@ -18,33 +17,33 @@ const val TYPE_FLOAT_LABEL = "Float"
 const val TYPE_URI_LABEL = "Uri"
 
 data class ExtraBean(
-        @SerializedName("data") val data: String,
-        @SerializedName("action") val action: String,
-        @SerializedName("category") val category: String = "",
-        @SerializedName("extras") val extras: List<ExtraItem>
+  @SerializedName("data") val data: String,
+  @SerializedName("action") val action: String,
+  @SerializedName("category") val category: String = "",
+  @SerializedName("extras") val extras: List<ExtraItem>
 ) {
+  override fun toString(): String {
+    val sb = StringBuilder()
+    if (action.isNotBlank()) {
+      sb.append("-a ").append(action)
+    }
+    if (data.isNotBlank()) {
+      sb.append(" -d ").append(data)
+    }
+
+    for (extra in extras) {
+      sb.append(" ").append(extra.toString())
+    }
+    return sb.toString()
+  }
+
+  data class ExtraItem(
+    @SerializedName("type") var type: String,
+    @SerializedName("key") var key: String,
+    @SerializedName("value") var value: String
+  ) {
     override fun toString(): String {
-        val sb = StringBuilder()
-        if (action.isNotBlank()) {
-            sb.append("-a ").append(action)
-        }
-        if (data.isNotBlank()) {
-            sb.append(" -d ").append(data)
-        }
-
-        for (extra in extras) {
-            sb.append(" ").append(extra.toString())
-        }
-        return sb.toString()
+      return "$type \"$key\" \"$value\""
     }
-
-    data class ExtraItem(
-            @SerializedName("type") var type: String,
-            @SerializedName("key") var key: String,
-            @SerializedName("value") var value: String
-    ) {
-        override fun toString(): String {
-            return "$type \"$key\" \"$value\""
-        }
-    }
+  }
 }

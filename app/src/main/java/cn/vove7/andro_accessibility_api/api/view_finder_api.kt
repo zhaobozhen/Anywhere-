@@ -19,23 +19,23 @@ import cn.vove7.andro_accessibility_api.viewnode.ViewNode
 
 
 fun requireBaseAccessibility() {
-    AccessibilityApi.requireBaseAccessibility()
+  AccessibilityApi.requireBaseAccessibility()
 }
 
 fun waitBaseAccessibility(waitMillis: Long = 30000) {
-    AccessibilityApi.waitAccessibility(waitMillis, AccessibilityApi.BASE_SERVICE_CLS)
+  AccessibilityApi.waitAccessibility(waitMillis, AccessibilityApi.BASE_SERVICE_CLS)
 }
 
 fun requireGestureAccessibility() {
-    AccessibilityApi.requireGestureAccessibility()
+  AccessibilityApi.requireGestureAccessibility()
 }
 
 fun waitGestureAccessibility(waitMillis: Long = 30000) {
-    AccessibilityApi.waitAccessibility(waitMillis, AccessibilityApi.GESTURE_SERVICE_CLS)
+  AccessibilityApi.waitAccessibility(waitMillis, AccessibilityApi.GESTURE_SERVICE_CLS)
 }
 
 fun waitAccessibility(waitMillis: Long = 30000, cls: Class<*>): Boolean {
-    return AccessibilityApi.waitAccessibility(waitMillis, cls)
+  return AccessibilityApi.waitAccessibility(waitMillis, cls)
 }
 
 /**
@@ -44,9 +44,9 @@ fun waitAccessibility(waitMillis: Long = 30000, cls: Class<*>): Boolean {
  * @return ViewFindBuilder
  */
 fun withId(id: String): ViewFindBuilder {
-    return ViewFindBuilder().apply {
-        id(id)
-    }
+  return ViewFindBuilder().apply {
+    id(id)
+  }
 }
 
 /**
@@ -55,9 +55,9 @@ fun withId(id: String): ViewFindBuilder {
  * @return ViewFindBuilder
  */
 fun withText(vararg text: String): ViewFindBuilder {
-    return ViewFindBuilder().apply {
-        equalsText(*text)
-    }
+  return ViewFindBuilder().apply {
+    equalsText(*text)
+  }
 }
 
 /**
@@ -70,9 +70,9 @@ fun withText(vararg text: String): ViewFindBuilder {
  * @return ViewFindBuilder
  */
 fun withType(vararg types: String): ViewFindBuilder {
-    return ViewFindBuilder().apply {
-        this.type(*types)
-    }
+  return ViewFindBuilder().apply {
+    this.type(*types)
+  }
 }
 
 /**
@@ -81,15 +81,15 @@ fun withType(vararg types: String): ViewFindBuilder {
  * @return ViewFindBuilder
  */
 fun withDesc(vararg desc: String): ViewFindBuilder {
-    return ViewFindBuilder().apply {
-        this.desc(*desc)
-    }
+  return ViewFindBuilder().apply {
+    this.desc(*desc)
+  }
 }
 
 fun editor(): ViewFindBuilder {
-    return ViewFindBuilder().apply {
-        this.editable(true)
-    }
+  return ViewFindBuilder().apply {
+    this.editable(true)
+  }
 }
 
 /**
@@ -98,9 +98,9 @@ fun editor(): ViewFindBuilder {
  * @return ViewFindBuilder
  */
 fun withDepths(depths: Array<Int>): ViewFindBuilder {
-    return ViewFindBuilder().apply {
-        this.depths(depths)
-    }
+  return ViewFindBuilder().apply {
+    this.depths(depths)
+  }
 }
 
 /**
@@ -109,10 +109,10 @@ fun withDepths(depths: Array<Int>): ViewFindBuilder {
  * @return ViewFindBuilder
  */
 fun containsText(vararg text: String): ViewFindBuilder {
-    return ViewFindBuilder().apply {
-        viewFinderX.addViewTextCondition(*text)
-        viewFinderX.textMatchMode = ViewFinderWithMultiCondition.TEXT_MATCH_MODE_CONTAIN
-    }
+  return ViewFindBuilder().apply {
+    viewFinderX.addViewTextCondition(*text)
+    viewFinderX.textMatchMode = ViewFinderWithMultiCondition.TEXT_MATCH_MODE_CONTAIN
+  }
 }
 
 
@@ -122,10 +122,10 @@ fun containsText(vararg text: String): ViewFindBuilder {
  * @return ViewFindBuilder
  */
 fun matchesText(vararg regs: String): ViewFindBuilder {
-    return ViewFindBuilder().apply {
-        viewFinderX.addViewTextCondition(*regs)
-        viewFinderX.textMatchMode = ViewFinderWithMultiCondition.TEXT_MATCH_MODE_REGEX
-    }
+  return ViewFindBuilder().apply {
+    viewFinderX.addViewTextCondition(*regs)
+    viewFinderX.textMatchMode = ViewFinderWithMultiCondition.TEXT_MATCH_MODE_REGEX
+  }
 }
 
 /**
@@ -133,53 +133,53 @@ fun matchesText(vararg regs: String): ViewFindBuilder {
  * @param out PrintStream
  */
 fun printLayoutInfo(includeInvisible: Boolean = true) {
-    requireBaseAccessibility()
-    AccessibilityApi.baseService!!.rootNodeOfAllWindows.printWithChild(0, 0, includeInvisible)
+  requireBaseAccessibility()
+  AccessibilityApi.baseService!!.rootNodeOfAllWindows.printWithChild(0, 0, includeInvisible)
 }
 
 private fun ViewNode.printWithChild(
-    index: Int,
-    dep: Int,
-    includeInvisible: Boolean
+  index: Int,
+  dep: Int,
+  includeInvisible: Boolean
 ) {
-    if (!includeInvisible && !isVisibleToUser) {
-        Log.w("ViewNode", "*" * dep + "[$index] " + "InVisible")
-        return
-    }
-    if (isVisibleToUser) {
-        Log.d("ViewNode", "*" * dep + "[$index] " + toString())
-    } else {
-        Log.w("ViewNode", "*" * dep + "[$index] " + toString())
-    }
-    children.forEachIndexed { i, it ->
-        it.printWithChild(i, dep + 1, includeInvisible)
-    }
+  if (!includeInvisible && !isVisibleToUser) {
+    Log.w("ViewNode", "*" * dep + "[$index] " + "InVisible")
+    return
+  }
+  if (isVisibleToUser) {
+    Log.d("ViewNode", "*" * dep + "[$index] " + toString())
+  } else {
+    Log.w("ViewNode", "*" * dep + "[$index] " + toString())
+  }
+  children.forEachIndexed { i, it ->
+    it.printWithChild(i, dep + 1, includeInvisible)
+  }
 }
 
 fun findWith(
-    includeInvisible: Boolean = false,
-    predicate: (AccessibilityNodeInfo) -> Boolean
+  includeInvisible: Boolean = false,
+  predicate: (AccessibilityNodeInfo) -> Boolean
 ): ViewNode? {
-    return CustomViewFinder(predicate = predicate).findFirst(includeInvisible)
+  return CustomViewFinder(predicate = predicate).findFirst(includeInvisible)
 }
 
 fun findAllWith(
-    includeInvisible: Boolean = false,
-    predicate: (AccessibilityNodeInfo) -> Boolean
+  includeInvisible: Boolean = false,
+  predicate: (AccessibilityNodeInfo) -> Boolean
 ): Array<ViewNode> {
-    return CustomViewFinder(predicate = predicate).findAll(includeInvisible)
+  return CustomViewFinder(predicate = predicate).findAll(includeInvisible)
 }
 
 fun ViewNode.findWith(
-    includeInvisible: Boolean = false,
-    predicate: (AccessibilityNodeInfo) -> Boolean
+  includeInvisible: Boolean = false,
+  predicate: (AccessibilityNodeInfo) -> Boolean
 ): ViewNode? {
-    return CustomViewFinder(this, predicate).findFirst(includeInvisible)
+  return CustomViewFinder(this, predicate).findFirst(includeInvisible)
 }
 
 fun ViewNode.findAllWith(
-    includeInvisible: Boolean = false,
-    predicate: (AccessibilityNodeInfo) -> Boolean
+  includeInvisible: Boolean = false,
+  predicate: (AccessibilityNodeInfo) -> Boolean
 ): Array<ViewNode> {
-    return CustomViewFinder(this, predicate = predicate).findAll(includeInvisible)
+  return CustomViewFinder(this, predicate = predicate).findAll(includeInvisible)
 }

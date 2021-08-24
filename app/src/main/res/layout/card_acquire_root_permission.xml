@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cv_acquire_root_permission"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/cv_acquire_root_permission"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_margin="@dimen/cardview_margin"
+  android:elevation="@dimen/cardview_elevation"
+  app:layout_constraintTop_toTopOf="parent">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/cardview_margin"
-    android:elevation="@dimen/cardview_elevation"
-    app:layout_constraintTop_toTopOf="parent">
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ImageView
+      android:id="@+id/done"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/cardview_item_margin"
+      android:layout_marginEnd="@dimen/cardview_item_margin"
+      android:background="@drawable/ic_done"
+      android:backgroundTint="@color/green_done"
+      android:contentDescription="@string/initialize_done_todo"
+      android:visibility="invisible"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/done"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/cardview_item_margin"
-            android:layout_marginEnd="@dimen/cardview_item_margin"
-            android:background="@drawable/ic_done"
-            android:backgroundTint="@color/green_done"
-            android:contentDescription="@string/initialize_done_todo"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+      android:id="@+id/title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/cardview_item_margin"
+      android:layout_marginTop="@dimen/cardview_item_margin"
+      android:text="@string/title_acquire_root_permission"
+      android:textAppearance="?attr/textAppearanceHeadline6"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:ignore="RelativeOverlap" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/cardview_item_margin"
-            android:layout_marginTop="@dimen/cardview_item_margin"
-            android:text="@string/title_acquire_root_permission"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RelativeOverlap" />
+    <TextView
+      android:id="@+id/subtitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/cardview_item_margin"
+      android:text="@string/subtitle_acquire_root_permission"
+      android:textAppearance="?attr/textAppearanceSubtitle1"
+      android:textStyle="italic"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/title" />
 
-        <TextView
-            android:id="@+id/subtitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/cardview_item_margin"
-            android:text="@string/subtitle_acquire_root_permission"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
-            android:textStyle="italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+    <Button
+      android:id="@+id/btn_acquire_root_permission"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/cardview_item_margin"
+      android:text="@string/btn_acquire_permission"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
-        <Button
-            android:id="@+id/btn_acquire_root_permission"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/cardview_item_margin"
-            android:text="@string/btn_acquire_permission"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subtitle" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

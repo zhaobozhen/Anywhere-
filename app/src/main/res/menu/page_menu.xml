@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/rename_page"
-        android:title="@string/menu_rename"
-        android:icon="@drawable/ic_edit"/>
+  <item
+    android:id="@+id/rename_page"
+    android:icon="@drawable/ic_edit"
+    android:title="@string/menu_rename" />
 
-    <item
-        android:id="@+id/delete_page"
-        android:title="@string/menu_delete_page"
-        android:icon="@drawable/ic_delete"/>
+  <item
+    android:id="@+id/delete_page"
+    android:icon="@drawable/ic_delete"
+    android:title="@string/menu_delete_page" />
 
-    <item
-        android:id="@+id/delete_page_and_item"
-        android:title="@string/menu_delete_page_and_item"
-        android:icon="@drawable/ic_delete_forever"/>
+  <item
+    android:id="@+id/delete_page_and_item"
+    android:icon="@drawable/ic_delete_forever"
+    android:title="@string/menu_delete_page_and_item" />
 
 </menu>

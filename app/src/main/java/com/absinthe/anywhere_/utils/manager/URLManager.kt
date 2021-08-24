@@ -9,19 +9,20 @@ import com.absinthe.libraries.me.Absinthe
  * All URLs in App.
  */
 object URLManager {
-    //General
-    const val DOCUMENT_PAGE = "https://absinthe.life/Anywhere-Docs/"
-    const val SHIZUKU_MARKET_URL = Absinthe.MARKET_DETAIL_SCHEME + "moe.shizuku.privileged.api"
-    const val SHORTCUT_COMMUNITY_PAGE = "https://sharecuts.cn/apps/"
-    const val BETA_DISTRIBUTE_URL = "https://install.appcenter.ms/users/zhaobozhen2025-gmail.com/apps/anywhere/distribution_groups/public"
-    const val ANYWHERE_MARKET_URL = Absinthe.MARKET_DETAIL_SCHEME + BuildConfig.APPLICATION_ID
+  //General
+  const val DOCUMENT_PAGE = "https://absinthe.life/Anywhere-Docs/"
+  const val SHIZUKU_MARKET_URL = Absinthe.MARKET_DETAIL_SCHEME + "moe.shizuku.privileged.api"
+  const val SHORTCUT_COMMUNITY_PAGE = "https://sharecuts.cn/apps/"
+  const val BETA_DISTRIBUTE_URL =
+    "https://install.appcenter.ms/users/zhaobozhen2025-gmail.com/apps/anywhere/distribution_groups/public"
+  const val ANYWHERE_MARKET_URL = Absinthe.MARKET_DETAIL_SCHEME + BuildConfig.APPLICATION_ID
 
-    //Scheme
-    const val ANYWHERE_SCHEME = "anywhere://"
-    const val URL_HOST = "url"
-    const val OPEN_HOST = "open"
-    const val CARD_SHARING_HOST = "share"
+  //Scheme
+  const val ANYWHERE_SCHEME = "anywhere://"
+  const val URL_HOST = "url"
+  const val OPEN_HOST = "open"
+  const val CARD_SHARING_HOST = "share"
 
-    //WebDAV
-    const val BACKUP_DIR = "Anywhere-/Backup/"
+  //WebDAV
+  const val BACKUP_DIR = "Anywhere-/Backup/"
 }

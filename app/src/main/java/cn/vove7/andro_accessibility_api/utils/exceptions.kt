@@ -14,7 +14,7 @@ import cn.vove7.andro_accessibility_api.viewfinder.ViewFinder
  * 视图搜索失败异常
  */
 class ViewNodeNotFoundException(finder: ViewFinder) : Exception(
-    "ViewNodeNotFound: $finder"
+  "ViewNodeNotFound: $finder"
 )
 
 /**
@@ -24,7 +24,7 @@ class ViewNodeNotFoundException(finder: ViewFinder) : Exception(
 open class NeedAccessibilityException(name: String?) : RuntimeException("无障碍服务未运行: $name")
 
 class NeedBaseAccessibilityException :
-    NeedAccessibilityException(AccessibilityApi.BASE_SERVICE_CLS.name)
+  NeedAccessibilityException(AccessibilityApi.BASE_SERVICE_CLS.name)
 
 class NeedGestureAccessibilityException :
-    NeedAccessibilityException(AccessibilityApi.GESTURE_SERVICE_CLS.name)
+  NeedAccessibilityException(AccessibilityApi.GESTURE_SERVICE_CLS.name)

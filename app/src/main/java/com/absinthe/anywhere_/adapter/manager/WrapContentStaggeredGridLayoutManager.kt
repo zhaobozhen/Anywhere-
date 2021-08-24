@@ -5,21 +5,22 @@ import androidx.recyclerview.widget.RecyclerView.Recycler
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import timber.log.Timber
 
-class WrapContentStaggeredGridLayoutManager(spanCount: Int, orientation: Int) : StaggeredGridLayoutManager(spanCount, orientation) {
+class WrapContentStaggeredGridLayoutManager(spanCount: Int, orientation: Int) :
+  StaggeredGridLayoutManager(spanCount, orientation) {
 
-    override fun onLayoutChildren(recycler: Recycler, state: RecyclerView.State) {
-        try {
-            super.onLayoutChildren(recycler, state)
-        } catch (e: IndexOutOfBoundsException) {
-            Timber.e("encounter an IOOBE in RecyclerView")
-        }
+  override fun onLayoutChildren(recycler: Recycler, state: RecyclerView.State) {
+    try {
+      super.onLayoutChildren(recycler, state)
+    } catch (e: IndexOutOfBoundsException) {
+      Timber.e("encounter an IOOBE in RecyclerView")
     }
+  }
 
-    override fun onItemsChanged(recyclerView: RecyclerView) {
-        try {
-            super.onItemsChanged(recyclerView)
-        } catch (e: IndexOutOfBoundsException) {
-            Timber.e("encounter an IOOBE in RecyclerView")
-        }
+  override fun onItemsChanged(recyclerView: RecyclerView) {
+    try {
+      super.onItemsChanged(recyclerView)
+    } catch (e: IndexOutOfBoundsException) {
+      Timber.e("encounter an IOOBE in RecyclerView")
     }
+  }
 }

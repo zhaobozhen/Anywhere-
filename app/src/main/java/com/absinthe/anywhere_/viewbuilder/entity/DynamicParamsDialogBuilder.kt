@@ -11,60 +11,63 @@ import timber.log.Timber
 
 class DynamicParamsDialogBuilder(context: Context) : ViewBuilder(context) {
 
-    private val paramsMap: MutableMap<String, EditText> = mutableMapOf()
+  private val paramsMap: MutableMap<String, EditText> = mutableMapOf()
 
-    init {
-        root = LinearLayout(context).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT)
+  init {
+    root = LinearLayout(context).apply {
+      layoutParams = LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT
+      )
 
-            val padding = context.resources.getDimension(R.dimen.bsd_edit_text_margin_horizontal).toInt()
-            setPadding(padding, 0, padding, 0)
-            orientation = LinearLayout.VERTICAL
-        }
+      val padding = context.resources.getDimension(R.dimen.bsd_edit_text_margin_horizontal).toInt()
+      setPadding(padding, 0, padding, 0)
+      orientation = LinearLayout.VERTICAL
+    }
+  }
+
+  fun setParams(paramString: String) {
+    Timber.d(paramString)
+    val params = paramString.split("&").toTypedArray()
+
+    for (para in params) {
+      val editText = EditText(mContext).apply {
+        layoutParams = LinearLayout.LayoutParams(
+          LinearLayout.LayoutParams.MATCH_PARENT,
+          LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        isSingleLine = true
+        hint = para
+      }
+
+      addView(editText)
+      paramsMap[para] = editText
+    }
+    paramsMap[params[0]]?.apply {
+      requestFocus()
+
+      doOnMainThreadIdle({
+        val inputManager =
+          context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.showSoftInput(this, 0)
+      })
     }
 
-    fun setParams(paramString: String) {
-        Timber.d(paramString)
-        val params = paramString.split("&").toTypedArray()
+  }
 
-        for (para in params) {
-            val editText = EditText(mContext).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT)
-                isSingleLine = true
-                hint = para
-            }
+  val inputParams: String
+    get() {
+      val sb = StringBuilder().apply {
+        append("?")
 
-            addView(editText)
-            paramsMap[para] = editText
-        }
-        paramsMap[params[0]]?.apply {
-            requestFocus()
-
-            doOnMainThreadIdle({
-                val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputManager.showSoftInput(this, 0)
-            })
+        for (iterator in paramsMap) {
+          append("${iterator.key}=${iterator.value.text}&")
         }
 
+        removeSuffix("&")
+      }
+
+      Timber.d(sb.toString())
+      return sb.toString()
     }
-
-    val inputParams: String
-        get() {
-            val sb = StringBuilder().apply {
-                append("?")
-
-                for (iterator in paramsMap) {
-                    append("${iterator.key}=${iterator.value.text}&")
-                }
-
-                removeSuffix("&")
-            }
-
-            Timber.d(sb.toString())
-            return sb.toString()
-        }
 }

@@ -10,8 +10,8 @@ import cn.vove7.andro_accessibility_api.viewnode.ViewNode
  * @author Vove
  */
 class CustomViewFinder(
-    node: ViewNode? = null,
-    val predicate: (AccessibilityNodeInfo) -> Boolean
+  node: ViewNode? = null,
+  val predicate: (AccessibilityNodeInfo) -> Boolean
 ) : ViewFinder(node) {
-    override fun findCondition(node: AccessibilityNodeInfo): Boolean = predicate(node)
+  override fun findCondition(node: AccessibilityNodeInfo): Boolean = predicate(node)
 }

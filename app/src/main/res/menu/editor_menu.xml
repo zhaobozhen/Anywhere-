@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/add_shortcuts"
-        android:title="@string/dialog_add_shortcut_title"
-        android:icon="@drawable/ic_add_shortcut" />
+  <item
+    android:id="@+id/add_shortcuts"
+    android:icon="@drawable/ic_add_shortcut"
+    android:title="@string/dialog_add_shortcut_title" />
 
-    <item
-        android:id="@+id/add_home_shortcuts"
-        android:title="@string/dialog_add_home_shortcut_title"
-        android:icon="@drawable/ic_add_home_shortcuts"/>
+  <item
+    android:id="@+id/add_home_shortcuts"
+    android:icon="@drawable/ic_add_home_shortcuts"
+    android:title="@string/dialog_add_home_shortcut_title" />
 
-    <item
-        android:id="@+id/delete"
-        android:title="@string/dialog_delete_title"
-        android:icon="@drawable/ic_delete"/>
+  <item
+    android:id="@+id/delete"
+    android:icon="@drawable/ic_delete"
+    android:title="@string/dialog_delete_title" />
 
-    <item
-        android:id="@+id/move_to_page"
-        android:title="@string/menu_move_to_page"
-        android:icon="@drawable/ic_move" />
+  <item
+    android:id="@+id/move_to_page"
+    android:icon="@drawable/ic_move"
+    android:title="@string/menu_move_to_page" />
 
-    <item
-        android:id="@+id/custom_color"
-        android:title="@string/menu_custom_color"
-        android:icon="@drawable/ic_color_lens" />
+  <item
+    android:id="@+id/custom_color"
+    android:icon="@drawable/ic_color_lens"
+    android:title="@string/menu_custom_color" />
 
-    <item
-        android:id="@+id/share_card"
-        android:title="@string/menu_share_card"
-        android:icon="@drawable/ic_share" />
+  <item
+    android:id="@+id/share_card"
+    android:icon="@drawable/ic_share"
+    android:title="@string/menu_share_card" />
 
-    <item
-        android:id="@+id/custom_icon"
-        android:title="@string/menu_custom_icon"
-        android:icon="@drawable/ic_brush" />
+  <item
+    android:id="@+id/custom_icon"
+    android:icon="@drawable/ic_brush"
+    android:title="@string/menu_custom_icon" />
 
-    <item
-        android:id="@+id/restore_icon"
-        android:title="@string/menu_restore_icon"
-        android:icon="@drawable/ic_reset" />
+  <item
+    android:id="@+id/restore_icon"
+    android:icon="@drawable/ic_reset"
+    android:title="@string/menu_restore_icon" />
 
-    <item
-        android:id="@+id/share_to_cloud"
-        android:title="@string/menu_share_to_cloud"
-        android:icon="@drawable/ic_cloud_backup" />
+  <item
+    android:id="@+id/share_to_cloud"
+    android:icon="@drawable/ic_cloud_backup"
+    android:title="@string/menu_share_to_cloud" />
 
 </menu>

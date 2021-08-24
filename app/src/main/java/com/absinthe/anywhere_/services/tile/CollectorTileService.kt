@@ -14,26 +14,30 @@ import com.absinthe.anywhere_.services.overlay.ICollectorService
 @RequiresApi(api = Build.VERSION_CODES.N)
 class CollectorTileService : TileService() {
 
-    private var collectorBinder: ICollectorService? = null
-    private var connection: ServiceConnection = object : ServiceConnection {
-        override fun onServiceDisconnected(name: ComponentName?) {
-            collectorBinder = null
-        }
-
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            collectorBinder = ICollectorService.Stub.asInterface(service)
-            collectorBinder?.startCollector()
-        }
+  private var collectorBinder: ICollectorService? = null
+  private var connection: ServiceConnection = object : ServiceConnection {
+    override fun onServiceDisconnected(name: ComponentName?) {
+      collectorBinder = null
     }
 
-    override fun onClick() {
-        qsTile?.let {
-            if (collectorBinder == null) {
-                bindService(Intent(this, CollectorService::class.java), connection, Context.BIND_AUTO_CREATE)
-            } else {
-                collectorBinder?.startCollector()
-            }
-            sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        }
+    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+      collectorBinder = ICollectorService.Stub.asInterface(service)
+      collectorBinder?.startCollector()
     }
+  }
+
+  override fun onClick() {
+    qsTile?.let {
+      if (collectorBinder == null) {
+        bindService(
+          Intent(this, CollectorService::class.java),
+          connection,
+          Context.BIND_AUTO_CREATE
+        )
+      } else {
+        collectorBinder?.startCollector()
+      }
+      sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+    }
+  }
 }

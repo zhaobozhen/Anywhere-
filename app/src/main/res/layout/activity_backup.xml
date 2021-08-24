@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="false"
-        app:consumeSystemWindowsInsets="start|end"
-        app:edgeToEdge="true"
-        app:fitsSystemWindowsInsets="start|end"
-        tools:context="com.absinthe.anywhere_.ui.backup.BackupActivity">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:fitsSystemWindows="false"
+  app:consumeSystemWindowsInsets="start|end"
+  app:edgeToEdge="true"
+  app:fitsSystemWindowsInsets="start|end"
+  tools:context="com.absinthe.anywhere_.ui.backup.BackupActivity">
 
-    <include android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+  <include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar" />
 
-    <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_container_view"
-            android:name="com.absinthe.anywhere_.ui.backup.BackupFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+  <androidx.fragment.app.FragmentContainerView
+    android:id="@+id/fragment_container_view"
+    android:name="com.absinthe.anywhere_.ui.backup.BackupFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

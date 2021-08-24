@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-        app:key="cloudBackupCategory"
-        app:title="@string/settings_backup_cloud_category">
+  <PreferenceCategory
+    app:key="cloudBackupCategory"
+    app:title="@string/settings_backup_cloud_category">
 
-        <EditTextPreference
-            app:key="webdavHost"
-            app:title="@string/settings_backup_webdav_host_title"
-            app:icon="@drawable/ic_cloud_backup"/>
+    <EditTextPreference
+      app:icon="@drawable/ic_cloud_backup"
+      app:key="webdavHost"
+      app:title="@string/settings_backup_webdav_host_title" />
 
-        <EditTextPreference
-            app:key="webdavUsername"
-            app:title="@string/settings_backup_webdav_username_title"/>
+    <EditTextPreference
+      app:key="webdavUsername"
+      app:title="@string/settings_backup_webdav_username_title" />
 
-        <EditTextPreference
-            app:key="webdavPassword"
-            app:title="@string/settings_backup_webdav_password_title"/>
+    <EditTextPreference
+      app:key="webdavPassword"
+      app:title="@string/settings_backup_webdav_password_title" />
 
-        <Preference
-            app:key="webdavBackup"
-            app:title="@string/settings_backup_webdav_backup_title"/>
+    <Preference
+      app:key="webdavBackup"
+      app:title="@string/settings_backup_webdav_backup_title" />
 
-        <SwitchPreference
-            app:key="webdavAutoBackup"
-            app:title="@string/settings_backup_webdav_auto_backup_title"
-            app:summary="@string/settings_backup_webdav_auto_backup_summary"
-            app:defaultValue="false" />
+    <SwitchPreference
+      app:defaultValue="false"
+      app:key="webdavAutoBackup"
+      app:summary="@string/settings_backup_webdav_auto_backup_summary"
+      app:title="@string/settings_backup_webdav_auto_backup_title" />
 
-        <Preference
-            app:key="webdavRestore"
-            app:title="@string/settings_backup_webdav_restore_title"/>
+    <Preference
+      app:key="webdavRestore"
+      app:title="@string/settings_backup_webdav_restore_title" />
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
-    <PreferenceCategory
-        app:key="backupCategory"
-        app:title="@string/settings_backup">
+  <PreferenceCategory
+    app:key="backupCategory"
+    app:title="@string/settings_backup">
 
-        <Preference
-            app:key="backup"
-            app:title="@string/settings_backup_backup_title"
-            app:summary="@string/settings_backup_backup_summary"
-            app:icon="@drawable/ic_backup"/>
+    <Preference
+      app:icon="@drawable/ic_backup"
+      app:key="backup"
+      app:summary="@string/settings_backup_backup_summary"
+      app:title="@string/settings_backup_backup_title" />
 
-        <Preference
-            app:key="backupShare"
-            app:title="@string/settings_backup_share_title"
-            app:summary="@string/settings_backup_share_summary"
-            app:icon="@drawable/ic_share"/>
+    <Preference
+      app:icon="@drawable/ic_share"
+      app:key="backupShare"
+      app:summary="@string/settings_backup_share_summary"
+      app:title="@string/settings_backup_share_title" />
 
-        <Preference
-            app:key="backupTip"
-            app:icon="@drawable/ic_alert"/>
+    <Preference
+      app:icon="@drawable/ic_alert"
+      app:key="backupTip" />
 
-        <Preference
-            app:key="backupTip2"
-            app:icon="@drawable/ic_alert"/>
+    <Preference
+      app:icon="@drawable/ic_alert"
+      app:key="backupTip2" />
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
-    <PreferenceCategory
-        app:key="restoreCategory"
-        app:title="@string/settings_restore">
+  <PreferenceCategory
+    app:key="restoreCategory"
+    app:title="@string/settings_restore">
 
-        <Preference
-            app:key="restore"
-            app:title="@string/settings_backup_restore_title"
-            app:summary="@string/settings_backup_restore_summary"
-            app:icon="@drawable/ic_restore"/>
+    <Preference
+      app:icon="@drawable/ic_restore"
+      app:key="restore"
+      app:summary="@string/settings_backup_restore_summary"
+      app:title="@string/settings_backup_restore_title" />
 
-        <Preference
-            app:key="restoreApply"
-            app:title="@string/settings_backup_apply_title"
-            app:summary="@string/settings_backup_apply_summary"
-            app:icon="@drawable/ic_apply_restore"/>
+    <Preference
+      app:icon="@drawable/ic_apply_restore"
+      app:key="restoreApply"
+      app:summary="@string/settings_backup_apply_summary"
+      app:title="@string/settings_backup_apply_title" />
 
-    </PreferenceCategory>
+  </PreferenceCategory>
 
 </PreferenceScreen>
