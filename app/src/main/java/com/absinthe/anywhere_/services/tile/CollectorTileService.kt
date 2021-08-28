@@ -10,6 +10,7 @@ import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.services.overlay.CollectorService
 import com.absinthe.anywhere_.services.overlay.ICollectorService
+import com.absinthe.anywhere_.utils.AppUtils
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 class CollectorTileService : TileService() {
@@ -37,7 +38,10 @@ class CollectorTileService : TileService() {
       } else {
         collectorBinder?.startCollector()
       }
-      sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+
+      if (!AppUtils.atLeastS()) {
+        sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+      }
     }
   }
 }

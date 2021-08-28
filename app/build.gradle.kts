@@ -221,7 +221,7 @@ dependencies {
     implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
     implementation("me.zhanghai.android.fastscroll:library:1.1.7")
 
-    val shizukuVersion = "11.0.3"
+    val shizukuVersion = "12.0.0"
     // required by Shizuku and Sui
     implementation("dev.rikka.shizuku:api:$shizukuVersion")
     // required by Shizuku

@@ -438,7 +438,11 @@ object Opener {
                 if (context !is Activity) {
                   it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 }
-                context.startActivity(it)
+                try {
+                  context.startActivity(it)
+                } catch (e: Exception) {
+                  ToastUtil.Toasty.show(context, R.string.toast_security_exception)
+                }
               }
 
               var result = waitForPage(AppScope(a11yEntity.applicationId, a11yEntity.entryActivity))
