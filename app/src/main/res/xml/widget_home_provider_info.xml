@@ -3,9 +3,7 @@
   android:initialLayout="@layout/widget_home"
   android:minWidth="110dp"
   android:minHeight="110dp"
-  android:minResizeWidth="110dp"
-  android:minResizeHeight="110dp"
   android:previewImage="@drawable/pic_widget_preview"
-  android:resizeMode="horizontal|vertical"
+  android:resizeMode="none"
   android:updatePeriodMillis="0"
   android:widgetCategory="home_screen" />

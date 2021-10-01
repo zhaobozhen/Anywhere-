@@ -158,12 +158,12 @@ dependencies {
     implementation(files("libs/speed-dial-3.1.1.aar"))
 //    implementation(files("libs/blurkit-1.1.1.aar"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2-native-mt")
 
     implementation("com.github.zhaobozhen.libraries:me:1.0.2")
     implementation("com.github.zhaobozhen.libraries:utils:1.0.2")
 
-    val appCenterSdkVersion = "4.2.0"
+    val appCenterSdkVersion = "4.3.1"
     implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
     implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
@@ -181,7 +181,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycleVersion}")
 
     implementation("androidx.browser:browser:1.3.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.1")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
@@ -228,7 +228,7 @@ dependencies {
     implementation("dev.rikka.shizuku:provider:$shizukuVersion")
 
     implementation("dev.rikka.rikkax.appcompat:appcompat:1.2.0-rc01")
-    implementation("dev.rikka.rikkax.core:core:1.3.2")
+    implementation("dev.rikka.rikkax.core:core:1.3.3")
     implementation("dev.rikka.rikkax.material:material:1.6.6")
     implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.2.2")
     implementation("dev.rikka.rikkax.widget:borderview:1.0.1")

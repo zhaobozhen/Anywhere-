@@ -71,8 +71,6 @@ class HomeWidgetProvider : AppWidgetProvider() {
    * 接收窗口小部件点击时发送的广播
    */
   override fun onReceive(context: Context, intent: Intent) {
-    super.onReceive(context, intent)
-
     if (CLICK_ACTION == intent.action) {
       val newIntent = Intent(context, ShortcutsActivity::class.java).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -89,6 +87,12 @@ class HomeWidgetProvider : AppWidgetProvider() {
         }
         context.startActivity(newIntent)
       }
+    }
+
+    if ("miui.appwidget.action.APPWIDGET_UPDATE" == intent.action) {
+      onUpdate(context, AppWidgetManager.getInstance(context), IntArray(0))
+    } else {
+      super.onReceive(context, intent)
     }
   }
 
