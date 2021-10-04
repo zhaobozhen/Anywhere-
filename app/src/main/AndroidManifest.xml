@@ -276,9 +276,7 @@
     <activity
       android:name=".ui.editor.EditorActivity"
       android:exported="true"
-      android:label="@string/card_editor_title"
-      android:launchMode="singleTask"
-      android:windowSoftInputMode="adjustResize">
+      android:label="@string/card_editor_title">
       <intent-filter>
         <category android:name="android.intent.category.DEFAULT" />
         <action android:name="com.absinthe.anywhere_.intent.action.EDITOR" />

@@ -10,12 +10,12 @@
   app:consumeSystemWindowsInsets="start|end"
   app:edgeToEdge="true"
   app:fitsSystemWindowsInsets="start|end"
-  app:layout_fitsSystemWindowsInsets="top"
   tools:context=".ui.editor.EditorActivity">
 
   <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
       android:layout_width="match_parent"
