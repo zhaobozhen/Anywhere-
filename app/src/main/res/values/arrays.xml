@@ -42,6 +42,7 @@
     <item>Long</item>
     <item>Bool</item>
     <item>Float</item>
+    <item>Double</item>
     <item>Uri</item>
   </string-array>
 

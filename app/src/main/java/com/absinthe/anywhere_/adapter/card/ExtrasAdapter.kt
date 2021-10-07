@@ -67,7 +67,7 @@ class ExtrasAdapter : BaseQuickAdapter<ExtraBean.ExtraItem, BaseViewHolder>(R.la
 
   companion object {
     val TYPE_LIST = listOf(
-      TYPE_STRING, TYPE_INT, TYPE_LONG, TYPE_BOOLEAN, TYPE_FLOAT, TYPE_URI
+      TYPE_STRING, TYPE_INT, TYPE_LONG, TYPE_BOOLEAN, TYPE_FLOAT, TYPE_DOUBLE, TYPE_URI
     )
   }
 }

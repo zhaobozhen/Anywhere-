@@ -261,6 +261,15 @@ object Opener {
                       intent.putExtra(extra.key, value)
                     }
                   }
+                  TYPE_DOUBLE, TYPE_DOUBLE_LABEL -> {
+                    try {
+                      extra.value.toDouble()
+                    } catch (ignore: NumberFormatException) {
+                      null
+                    }?.let { value ->
+                      intent.putExtra(extra.key, value)
+                    }
+                  }
                 }
               }
             }
@@ -401,6 +410,7 @@ object Opener {
                 TYPE_INT, TYPE_INT_LABEL -> intent.putExtra(extra.key, extra.value.toInt())
                 TYPE_LONG, TYPE_LONG_LABEL -> intent.putExtra(extra.key, extra.value.toLong())
                 TYPE_FLOAT, TYPE_FLOAT_LABEL -> intent.putExtra(extra.key, extra.value.toFloat())
+                TYPE_DOUBLE, TYPE_DOUBLE_LABEL -> intent.putExtra(extra.key, extra.value.toDouble())
                 TYPE_URI, TYPE_URI_LABEL -> intent.putExtra(extra.key, extra.value.toUri())
               }
             } catch (e: NumberFormatException) {
