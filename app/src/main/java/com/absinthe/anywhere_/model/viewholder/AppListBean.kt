@@ -9,7 +9,7 @@ data class AppListBean(
   val appName: String = "",
   val packageName: String = "",
   val className: String = "",
-  val icon: Drawable = ColorDrawable(Color.TRANSPARENT),
+  var icon: Drawable = ColorDrawable(Color.TRANSPARENT),
   val type: Int,
   val isExported: Boolean = false,
   var isLaunchActivity: Boolean = false

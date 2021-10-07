@@ -1,6 +1,8 @@
 package com.absinthe.anywhere_.services.tile
 
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
@@ -8,6 +10,9 @@ import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
+import com.absinthe.anywhere_.utils.AppUtils
+import timber.log.Timber
+import java.io.File
 
 const val TILE_LABEL = "Label"
 const val TILE_ACTIVE_STATE = "ActiveState"
@@ -30,6 +35,16 @@ abstract class BaseTileService : TileService() {
       }
       it.state = if (prefGlobalValues) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
 
+      val iconFile = File(
+        filesDir,
+        "tiles${File.separator}icon${File.separator}${javaClass.simpleName}"
+      )
+      Timber.d("sasa: exist=${iconFile.exists()}, ${iconFile.path}")
+      val icon = BitmapFactory.decodeFile(iconFile.path)
+      if (icon != null) {
+        it.icon = Icon.createWithBitmap(icon)
+      }
+
       it.updateTile()
     }
   }
@@ -46,7 +61,9 @@ abstract class BaseTileService : TileService() {
     if (id?.isNotEmpty() == true) {
       startActivity(intent)
     }
-    sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+    if (!AppUtils.atLeastS()) {
+      sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+    }
     qsTile?.updateTile()
   }
 }

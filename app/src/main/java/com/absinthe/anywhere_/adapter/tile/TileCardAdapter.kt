@@ -9,6 +9,7 @@ class TileCardAdapter : BaseQuickAdapter<AppListBean?, BaseViewHolder>(R.layout.
 
   init {
     addChildClickViewIds(R.id.btn_select)
+    addChildClickViewIds(R.id.iv_app_icon)
   }
 
   override fun convert(holder: BaseViewHolder, item: AppListBean?) {
