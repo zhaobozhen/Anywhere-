@@ -88,6 +88,7 @@ object Const {
   const val INTENT_EXTRA_SHORTCUTS_ID = "shortcutsId"
   const val INTENT_EXTRA_OPEN_SHORT_ID = "sid"
   const val INTENT_EXTRA_DYNAMIC_PARAM = "dynamic"
+  const val INTENT_EXTRA_DYNAMICS_PARAM = "dynamics"
   const val INTENT_EXTRA_FROM_TILE = "tile"
   const val INTENT_EXTRA_EMULATE_BACK_PRESS = "emulateBack"
 
