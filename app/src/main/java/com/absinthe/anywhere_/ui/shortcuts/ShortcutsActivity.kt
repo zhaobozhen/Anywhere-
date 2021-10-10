@@ -215,6 +215,17 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                                     } catch (ignore: Exception) {
                                     }
                                 }
+                          var dynamicParams: Array<ExtraBean.ExtraItem>? = null
+                          uri.getQueryParameter(Const.INTENT_EXTRA_DYNAMICS_PARAM)
+                            ?.let { dynamics ->
+                              try {
+                                dynamicParams = Gson().fromJson(
+                                  dynamics,
+                                  Array<ExtraBean.ExtraItem>::class.java
+                                )
+                              } catch (ignore: Exception) {
+                              }
+                            }
                             uri.getQueryParameter(Const.INTENT_EXTRA_OPEN_SHORT_ID)?.let { sid ->
                                 viewModel.allAnywhereEntities.observe(this, { list ->
                                     list.find { findItem ->
@@ -223,6 +234,7 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                                         Opener.with(this@ShortcutsActivity)
                                             .load(this)
                                             .setDynamicExtra(dynamicParam)
+                                            .setDynamicExtras(dynamicParams)
                                             .setOpenedListener(object : Opener.OnOpenListener {
                                                 override fun onOpened() {
                                                     shouldFinish = true

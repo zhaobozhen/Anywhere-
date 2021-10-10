@@ -60,6 +60,7 @@ object Opener {
   private var command: String? = null
   private var type: Int = TYPE_NONE
   private var extraItem: ExtraBean.ExtraItem? = null
+  private var extraItems: Array<ExtraBean.ExtraItem>? = null
 
   fun with(context: Context): Opener {
     this.context = WeakReference(context)
@@ -68,6 +69,7 @@ object Opener {
     command = null
     listener = null
     extraItem = null
+    extraItems = null
     return this
   }
 
@@ -85,6 +87,11 @@ object Opener {
 
   fun setDynamicExtra(item: ExtraBean.ExtraItem?): Opener {
     extraItem = item
+    return this
+  }
+
+  fun setDynamicExtras(items: Array<ExtraBean.ExtraItem>?): Opener {
+    extraItems = items
     return this
   }
 
@@ -224,6 +231,12 @@ object Opener {
               val extras = it.extras.toMutableList()
               extraItem?.let { extra ->
                 extras.add(extra)
+              }
+
+              extraItems?.let { items ->
+                for (extra in items){
+                  extras.add(extra)
+                }
               }
 
               for (extra in extras) {
@@ -397,6 +410,12 @@ object Opener {
           val extras = extraBean.extras.toMutableList()
           extraItem?.let { extra ->
             extras.add(extra)
+          }
+
+          extraItems?.let { items ->
+            for (extra in items){
+              extras.add(extra)
+            }
           }
 
           for (extra in extras) {
