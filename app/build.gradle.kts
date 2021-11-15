@@ -11,8 +11,8 @@ plugins {
     id("sdk-editor")
 }
 
-val verName = "2.3.5"
-val verCode = 2030500
+val verName = "2.3.6"
+val verCode = 2030600
 
 android {
     compileSdk = 31
@@ -235,7 +235,7 @@ dependencies {
     implementation("dev.rikka.rikkax.insets:insets:1.1.0")
 
     //Network
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.2")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okio:okio:3.0.0")
