@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.absinthe.anywhere_.BuildConfig
@@ -19,11 +20,9 @@ import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.libraries.me.Absinthe
-import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.AppUtils
 import com.drakeet.about.*
 import com.drakeet.about.provided.GlideImageLoader
-import com.google.android.material.appbar.AppBarLayout
 
 class AboutActivity : AbsAboutActivity() {
 
