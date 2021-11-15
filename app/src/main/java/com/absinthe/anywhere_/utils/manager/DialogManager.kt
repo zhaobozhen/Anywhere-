@@ -406,7 +406,7 @@ object DialogManager {
   }
 
   fun showCreatePinnedShortcutDialog(activity: AppCompatActivity, ae: AnywhereEntity) {
-    val fragment = CreateShortcutDialogFragment(ae)
+    val fragment = CreateShortcutDialogFragment.newInstance(ae)
     fragment.show(activity.supportFragmentManager, fragment.tag)
   }
 

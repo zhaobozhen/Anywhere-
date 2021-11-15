@@ -22,9 +22,10 @@ import com.blankj.utilcode.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : AnywhereDialogFragment() {
+class CreateShortcutDialogFragment : AnywhereDialogFragment() {
   private lateinit var mBuilder: CreateShortcutDialogBuilder
   private lateinit var imageResultLauncher: ActivityResultLauncher<String>
+  private val mEntity: AnywhereEntity by lazy { arguments?.getParcelable(EXTRA_ENTITY) ?: AnywhereEntity() }
   private val mIcon: Drawable = UxUtils.getAppIcon(Utils.getApp(), mEntity, 45.dp)
   private val mName: String = mEntity.appName
 
@@ -74,6 +75,19 @@ class CreateShortcutDialogFragment(private val mEntity: AnywhereEntity) : Anywhe
         setImageDrawable(mIcon)
         setOnClickListener {
           imageResultLauncher.launch("image/*")
+        }
+      }
+    }
+  }
+
+  companion object {
+
+    const val EXTRA_ENTITY = "EXTRA_ENTITY"
+
+    fun newInstance(entity: AnywhereEntity): CreateShortcutDialogFragment {
+      return CreateShortcutDialogFragment().apply {
+        arguments = Bundle().apply {
+          putParcelable(EXTRA_ENTITY, entity)
         }
       }
     }

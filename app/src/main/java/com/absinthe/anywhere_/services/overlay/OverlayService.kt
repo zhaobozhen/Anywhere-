@@ -13,10 +13,14 @@ class OverlayService : Service() {
 
     override fun addOverlay(entity: AnywhereEntity?) {
       entity?.let {
-        startActivity(Intent(Intent.ACTION_MAIN).apply {
-          this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-          addCategory(Intent.CATEGORY_HOME)
-        })
+        try {
+          startActivity(Intent(Intent.ACTION_MAIN).apply {
+            this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            addCategory(Intent.CATEGORY_HOME)
+          })
+        } catch (e: Exception) {
+          Timber.e(e)
+        }
         windowManager.addView(it)
       }
     }

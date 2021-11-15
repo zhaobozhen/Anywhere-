@@ -29,4 +29,12 @@ class ChipAdapter internal constructor(category: String) :
       chipIcon = UxUtils.getAppIcon(Utils.getApp(), item, 16.dp)
     }
   }
+
+  override fun getItemId(position: Int): Long {
+    return try {
+      data[position].id.hashCode().toLong()
+    } catch (e: Exception) {
+      super.getItemId(position)
+    }
+  }
 }

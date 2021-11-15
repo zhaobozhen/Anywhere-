@@ -463,12 +463,25 @@ object Opener {
 
           fun action() {
             GlobalScope.launch {
-              context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
-                if (context !is Activity) {
-                  it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+              if (a11yEntity.entryActivity.isBlank()) {
+                context.packageManager.getLaunchIntentForPackage(a11yEntity.applicationId)?.let {
+                  if (context !is Activity) {
+                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                  }
+                  try {
+                    context.startActivity(it)
+                  } catch (e: Exception) {
+                    ToastUtil.Toasty.show(context, R.string.toast_security_exception)
+                  }
                 }
+              } else {
                 try {
-                  context.startActivity(it)
+                  context.startActivity(Intent().also {
+                    if (context !is Activity) {
+                      it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    it.component = ComponentName(a11yEntity.applicationId, a11yEntity.entryActivity)
+                  })
                 } catch (e: Exception) {
                   ToastUtil.Toasty.show(context, R.string.toast_security_exception)
                 }

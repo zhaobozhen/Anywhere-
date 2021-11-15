@@ -22,12 +22,10 @@ import com.absinthe.libraries.me.Absinthe
 import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.AppUtils
 import com.drakeet.about.*
-import com.drakeet.about.extension.RecommendationLoaderDelegate
-import com.drakeet.about.extension.provided.GsonJsonConverter
 import com.drakeet.about.provided.GlideImageLoader
 import com.google.android.material.appbar.AppBarLayout
 
-class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
+class AboutActivity : AbsAboutActivity() {
 
   private var mClickCount = 0
   private var mStartTime: Long = 0
@@ -37,7 +35,6 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     super.onCreate(savedInstanceState)
     initView()
     setImageLoader(GlideImageLoader())
-    onRecommendationClickedListener = this
   }
 
   override fun onCreateHeader(icon: ImageView, slogan: TextView, version: TextView) {
@@ -246,8 +243,6 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
         )
       )
     }
-
-    RecommendationLoaderDelegate.attach(this, items.size, GsonJsonConverter())
   }
 
   private fun createDebugListener(): View.OnClickListener {
@@ -296,15 +291,8 @@ class AboutActivity : AbsAboutActivity(), OnRecommendationClickedListener {
     }
   }
 
-  override fun onRecommendationClicked(itemView: View, recommendation: Recommendation): Boolean {
-    return false
-  }
-
   private fun initView() {
-    UiUtils.setSystemBarStyle(window, false)
-
-    val appbar = findViewById<AppBarLayout>(com.drakeet.about.R.id.header_layout)
-    appbar.fitsSystemWindows = true
+    findViewById<Toolbar>(R.id.toolbar)?.background = null
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {

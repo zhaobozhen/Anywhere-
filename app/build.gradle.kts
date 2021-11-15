@@ -175,12 +175,12 @@ dependencies {
     kapt("androidx.room:room-compiler:${roomVersion}")
     androidTestImplementation("androidx.room:room-testing:${roomVersion}")
 
-    val lifecycleVersion = "2.3.1"
+    val lifecycleVersion = "2.4.0"
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:${lifecycleVersion}")
     implementation("androidx.lifecycle:lifecycle-common-java8:${lifecycleVersion}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycleVersion}")
 
-    implementation("androidx.browser:browser:1.3.0")
+    implementation("androidx.browser:browser:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.1")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
@@ -189,10 +189,10 @@ dependencies {
 
     //KTX
     implementation("androidx.collection:collection-ktx:1.1.0")
-    implementation("androidx.activity:activity-ktx:1.3.1")
+    implementation("androidx.activity:activity-ktx:1.4.0")
     implementation("androidx.fragment:fragment-ktx:1.3.6")
     implementation("androidx.palette:palette-ktx:1.0.0")
-    implementation("androidx.core:core-ktx:1.6.0")
+    implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.preference:preference-ktx:1.1.1")
 
     //Google
@@ -202,26 +202,25 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
-    implementation("com.google.code.gson:gson:2.8.8")
+    implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.google.zxing:core:3.4.1")
     implementation("com.blankj:utilcodex:1.30.6")
-    implementation("com.tencent:mmkv-static:1.2.10")
-    implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6")
+    implementation("com.tencent:mmkv-static:1.2.11")
+    implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7")
     implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
-    implementation("com.github.topjohnwu.libsu:core:3.1.1")
+    implementation("com.github.topjohnwu.libsu:core:3.1.2")
     implementation("com.github.thegrizzlylabs:sardine-android:0.8")
     implementation("com.jonathanfinerty.once:once:1.3.1")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:2.0")
 
     //UX
-    implementation("com.drakeet.about:about:2.4.1")
-    implementation("com.drakeet.about:about-extension:2.4.1")
+    implementation("com.drakeet.about:about:2.5.0")
     implementation("com.drakeet.multitype:multitype:4.3.0")
     implementation("com.drakeet.drawer:drawer:1.0.3")
     implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
     implementation("me.zhanghai.android.fastscroll:library:1.1.7")
 
-    val shizukuVersion = "12.0.0"
+    val shizukuVersion = "12.1.0"
     // required by Shizuku and Sui
     implementation("dev.rikka.shizuku:api:$shizukuVersion")
     // required by Shizuku
@@ -231,7 +230,7 @@ dependencies {
     implementation("dev.rikka.rikkax.core:core:1.3.3")
     implementation("dev.rikka.rikkax.material:material:1.6.6")
     implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.2.2")
-    implementation("dev.rikka.rikkax.widget:borderview:1.0.1")
+    implementation("dev.rikka.rikkax.widget:borderview:1.1.0")
     implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
     implementation("dev.rikka.rikkax.insets:insets:1.1.0")
 
@@ -239,7 +238,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okio:okio:2.10.0")
+    implementation("com.squareup.okio:okio:3.0.0")
 
     //Rx
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
