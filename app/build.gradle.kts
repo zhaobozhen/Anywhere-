@@ -15,14 +15,14 @@ val verName = "2.3.6"
 val verCode = 2030600
 
 android {
-    compileSdk = 31
-    buildToolsVersion = "31.0.0"
+    compileSdk = 32
+    buildToolsVersion = "32.0.0"
     ndkVersion = "21.4.7075529"
 
     defaultConfig {
         applicationId = "com.absinthe.anywhere_"
         minSdk = 23
-        targetSdk = 31
+        targetSdk = 32
         versionCode = verCode
         versionName = verName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -163,7 +163,7 @@ dependencies {
     implementation("com.github.zhaobozhen.libraries:me:1.0.2")
     implementation("com.github.zhaobozhen.libraries:utils:1.0.2")
 
-    val appCenterSdkVersion = "4.3.1"
+    val appCenterSdkVersion = "4.4.1"
     implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
     implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
@@ -188,7 +188,7 @@ dependencies {
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
 
     //KTX
-    implementation("androidx.collection:collection-ktx:1.1.0")
+    implementation("androidx.collection:collection-ktx:1.2.0")
     implementation("androidx.activity:activity-ktx:1.4.0")
     implementation("androidx.fragment:fragment-ktx:1.4.0")
     implementation("androidx.palette:palette-ktx:1.0.0")
@@ -211,7 +211,7 @@ dependencies {
     implementation("com.github.topjohnwu.libsu:core:3.1.2")
     implementation("com.github.thegrizzlylabs:sardine-android:0.8")
     implementation("com.jonathanfinerty.once:once:1.3.1")
-    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:2.0")
+    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:3.0")
 
     //UX
     implementation("com.drakeet.about:about:2.5.0")

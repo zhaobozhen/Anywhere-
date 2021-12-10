@@ -77,6 +77,16 @@ object ToastUtil {
     }
 
     private fun show(context: Context, message: String, duration: Int) {
+      if (Looper.myLooper() == Looper.getMainLooper()) {
+        showInternal(context, message, duration)
+      } else {
+        Handler(Looper.getMainLooper()).post {
+          showInternal(context, message, duration)
+        }
+      }
+    }
+
+    private fun showInternal(context: Context, message: String, duration: Int) {
       toast?.get()?.cancel()
       toast = null
 
