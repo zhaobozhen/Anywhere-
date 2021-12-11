@@ -466,7 +466,7 @@
         android:resource="@xml/widget_home_provider_info" />
       <meta-data
         android:name="miuiWidget"
-        android:value="true" />
+        android:value="false" />
       <meta-data
         android:name="miuiWidgetRefreshMinInterval"
         android:value="200000" />

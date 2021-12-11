@@ -34,10 +34,6 @@ class HomeWidgetProvider : AppWidgetProvider() {
       action = CLICK_ACTION
       data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
     }
-    val pendingIntentTemplate = PendingIntent.getBroadcast(
-      context, 0, clickIntent,
-      PendingIntent.FLAG_UPDATE_CURRENT or FlagDelegate.PENDING_INTENT_FLAG_MUTABLE
-    )
 
     appWidgetIds.forEach { appWidgetId ->
       // 创建一个 RemoteView
@@ -46,6 +42,7 @@ class HomeWidgetProvider : AppWidgetProvider() {
         // 把这个 Widget 绑定到 RemoteViewsService
         val intent = Intent(context, AppRemoteViewsService::class.java).apply {
           putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+          data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
         }
 
         // 设置适配器
@@ -53,6 +50,19 @@ class HomeWidgetProvider : AppWidgetProvider() {
 
         // 设置当显示的 widget_list 为空显示的 View
         setEmptyView(R.id.lv_list, R.layout.widget_home)
+      }
+
+      val pendingIntentTemplate: PendingIntent = Intent(
+        context,
+        HomeWidgetProvider::class.java
+      ).run {
+        // 设置 Action，方便在 onReceive 中区别点击事件
+        action = CLICK_ACTION
+        data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
+        PendingIntent.getBroadcast(
+          context, 0, this,
+          PendingIntent.FLAG_UPDATE_CURRENT or FlagDelegate.PENDING_INTENT_FLAG_MUTABLE
+        )
       }
 
       remoteViews.setPendingIntentTemplate(R.id.lv_list, pendingIntentTemplate)

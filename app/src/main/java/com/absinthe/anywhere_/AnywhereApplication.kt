@@ -30,6 +30,8 @@ class AnywhereApplication : Application() {
       Timber.plant(ThreadAwareDebugTree())
     } else {
       checkSignature()
+      PoliceMan.checkApplicationClass(this)
+      PoliceMan.checkPMProxy(this)
       Timber.plant(ReleaseTree())
       AppCenter.start(
         this, "ec71d412-5886-4a99-89a7-805436b91671",
@@ -37,8 +39,6 @@ class AnywhereApplication : Application() {
       )
     }
 
-    PoliceMan.checkApplicationClass(this)
-    PoliceMan.checkPMProxy(this)
     sRepository = AnywhereRepository(this)
     DayNightDelegate.setApplicationContext(this)
     DayNightDelegate.setDefaultNightMode(Settings.getTheme())
@@ -53,18 +53,18 @@ class AnywhereApplication : Application() {
     super.attachBaseContext(base)
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-      HiddenApiBypass.addHiddenApiExemptions("L")
+      HiddenApiBypass.addHiddenApiExemptions("")
     }
 
     Once.initialise(this)
     Settings.initMMKV(this)
     Settings.init(this)
     Utility.init(this)
+    val isSui = Sui.init(BuildConfig.APPLICATION_ID)
     Timber.i("isSui = $isSui")
   }
 
   companion object {
     lateinit var sRepository: AnywhereRepository
-    val isSui = Sui.init(BuildConfig.APPLICATION_ID)
   }
 }

@@ -27,10 +27,10 @@ class AppRemoteViewsService : RemoteViewsService() {
 
   override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
     Timber.d("intent = $intent")
-    return RemoteViewsFactory(this.applicationContext)
+    return RemoteViewsFactory(this.applicationContext, intent)
   }
 
-  inner class RemoteViewsFactory internal constructor(context: Context) :
+  inner class RemoteViewsFactory internal constructor(context: Context, intent: Intent) :
     RemoteViewsService.RemoteViewsFactory {
     private val mContext: WeakReference<Context> = WeakReference(context)
     private val mList: MutableList<AnywhereEntity> =
