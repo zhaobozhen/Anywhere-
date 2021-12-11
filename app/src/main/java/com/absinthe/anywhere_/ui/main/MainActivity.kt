@@ -699,6 +699,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
   private fun loadBackground(url: String) {
     Glide.with(applicationContext)
       .load(url)
+      .override(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
       .transition(DrawableTransitionOptions.withCrossFade())
       .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
       .into(binding.ivBack)
