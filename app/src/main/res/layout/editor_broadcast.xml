@@ -86,7 +86,28 @@
       android:id="@+id/tiet_intent_package"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:importantForAutofill="no" />
+      android:importantForAutofill="no"
+      android:nextFocusForward="@id/tiet_intent_class" />
+
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/til_intent_class"
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/bsd_item_margin_vertical"
+    android:hint="@string/bsd_text_input_layout_br_intent_class_label"
+    app:helperText="@string/bsd_text_input_layout_br_class_helper_text"
+    app:helperTextEnabled="true"
+    app:layout_constraintTop_toBottomOf="@id/til_intent_package">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/tiet_intent_class"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:importantForAutofill="no"
+      android:nextFocusForward="@id/tiet_intent_data" />
 
   </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,7 +120,7 @@
     android:hint="@string/bsd_text_input_layout_intent_data_label"
     app:helperText="@string/bsd_text_input_layout_data_helper_text"
     app:helperTextEnabled="true"
-    app:layout_constraintTop_toBottomOf="@id/til_intent_package">
+    app:layout_constraintTop_toBottomOf="@id/til_intent_class">
 
     <com.google.android.material.textfield.TextInputEditText
       android:id="@+id/tiet_intent_data"

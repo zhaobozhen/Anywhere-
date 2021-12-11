@@ -440,6 +440,10 @@ object Opener {
           val intentPackage = item.param2
           if (!intentPackage.isNullOrBlank()) {
             intent.setPackage(intentPackage)
+
+            if (!item.param3.isNullOrBlank()) {
+              intent.setClassName(intentPackage, item.param3!!)
+            }
           }
 
           context.sendBroadcast(intent)

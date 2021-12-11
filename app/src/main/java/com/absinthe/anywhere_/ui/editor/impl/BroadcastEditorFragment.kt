@@ -20,109 +20,112 @@ import com.google.gson.JsonSyntaxException
 
 class BroadcastEditorFragment : BaseEditorFragment() {
 
-    private lateinit var binding: EditorBroadcastBinding
-    private val adapter = ExtrasAdapter()
-    override var execWithRoot: Boolean = false
+  private lateinit var binding: EditorBroadcastBinding
+  private val adapter = ExtrasAdapter()
+  override var execWithRoot: Boolean = false
 
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
-        binding = EditorBroadcastBinding.inflate(inflater, container, false)
-        return binding.root
+  override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    binding = EditorBroadcastBinding.inflate(inflater, container, false)
+    return binding.root
+  }
+
+  override fun initView() {
+    item.let {
+      val extraBean: ExtraBean? = try {
+        Gson().fromJson(it.param1, ExtraBean::class.java)
+      } catch (e: JsonSyntaxException) {
+        null
+      }
+
+      adapter.apply {
+        animationEnable = true
+        val headerBinding = LayoutHeaderExtrasBinding.inflate(layoutInflater)
+        addHeaderView(headerBinding.root)
+
+        headerBinding.ibAdd.setOnClickListener {
+          val item = ExtraBean.ExtraItem(TYPE_STRING, "", "")
+          addData(0, item)
+        }
+        setOnItemChildClickListener { _, view, position ->
+          if (view.id == R.id.ib_delete) {
+            if (data.size > 0 && position < data.size) {
+              removeAt(position)
+            }
+          }
+        }
+      }
+
+      binding.apply {
+        tietAppName.setText(it.appName)
+        tietDescription.setText(it.description)
+        tietIntentPackage.setText(it.param2)
+        tietIntentClass.setText(it.param3)
+        rvExtras.apply {
+          adapter = this@BroadcastEditorFragment.adapter
+        }
+        extraBean?.apply {
+          tietIntentAction.setText(action)
+          tietIntentData.setText(data)
+          adapter.setList(extras)
+        }
+      }
+    }
+  }
+
+  override fun tryRunning() {
+    val doneItem = item.copy().apply {
+      val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
+      val extraBean = ExtraBean(
+        action = binding.tietIntentAction.text.toString(),
+        data = binding.tietIntentData.text.toString(),
+        extras = extras
+      )
+      param1 = Gson().toJson(extraBean)
+      param2 = binding.tietIntentPackage.text.toString()
+      param3 = binding.tietIntentClass.text.toString()
+      execWithRoot = this@BroadcastEditorFragment.execWithRoot
+    }
+    Opener.with(requireContext()).load(doneItem).open()
+  }
+
+  override fun doneEdit(): Boolean {
+    if (binding.tietAppName.text.isNullOrBlank()) {
+      binding.tilAppName.error = getString(R.string.bsd_error_should_not_empty)
+      return false
     }
 
-    override fun initView() {
-        item.let {
-            val extraBean: ExtraBean? = try {
-                Gson().fromJson(it.param1, ExtraBean::class.java)
-            } catch (e: JsonSyntaxException) {
-                null
-            }
+    doneItem = item.copy().apply {
+      appName = binding.tietAppName.text.toString()
+      description = binding.tietDescription.text.toString()
 
-            adapter.apply {
-                animationEnable = true
-                val headerBinding = LayoutHeaderExtrasBinding.inflate(layoutInflater)
-                addHeaderView(headerBinding.root)
-
-                headerBinding.ibAdd.setOnClickListener {
-                    val item = ExtraBean.ExtraItem(TYPE_STRING, "", "")
-                    addData(0, item)
-                }
-                setOnItemChildClickListener { _, view, position ->
-                    if (view.id == R.id.ib_delete) {
-                        if (data.size > 0 && position < data.size) {
-                            removeAt(position)
-                        }
-                    }
-                }
-            }
-
-            binding.apply {
-                tietAppName.setText(it.appName)
-                tietDescription.setText(it.description)
-                tietIntentPackage.setText(it.param2)
-                rvExtras.apply {
-                    adapter = this@BroadcastEditorFragment.adapter
-                }
-                extraBean?.apply {
-                    tietIntentAction.setText(action)
-                    tietIntentData.setText(data)
-                    adapter.setList(extras)
-                }
-            }
-        }
+      val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
+      val extraBean = ExtraBean(
+        action = binding.tietIntentAction.text.toString(),
+        data = binding.tietIntentData.text.toString(),
+        extras = extras
+      )
+      param1 = Gson().toJson(extraBean)
+      param2 = binding.tietIntentPackage.text.toString()
+      param3 = binding.tietIntentClass.text.toString()
     }
 
-    override fun tryRunning() {
-        val doneItem = item.copy().apply {
-            val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
-            val extraBean = ExtraBean(
-                    action = binding.tietIntentAction.text.toString(),
-                    data = binding.tietIntentData.text.toString(),
-                    extras = extras
-            )
-            param1 = Gson().toJson(extraBean)
-            param2 = binding.tietIntentPackage.text.toString()
-            execWithRoot = this@BroadcastEditorFragment.execWithRoot
+    if (super.doneEdit()) return true
+    if (isEditMode && doneItem == item) return true
+
+    if (isEditMode) {
+      if (doneItem.appName != item.appName) {
+        if (GlobalValues.shortcutsList.contains(doneItem.id)) {
+          if (AppUtils.atLeastNMR1()) {
+            ShortcutsUtils.updateShortcut(doneItem)
+          }
         }
-        Opener.with(requireContext()).load(doneItem).open()
+      }
+      AnywhereApplication.sRepository.update(doneItem)
+    } else {
+      doneItem.id = System.currentTimeMillis().toString()
+      AnywhereApplication.sRepository.insert(doneItem)
     }
 
-    override fun doneEdit(): Boolean {
-        if (binding.tietAppName.text.isNullOrBlank()) {
-            binding.tilAppName.error = getString(R.string.bsd_error_should_not_empty)
-            return false
-        }
-
-        doneItem = item.copy().apply {
-            appName = binding.tietAppName.text.toString()
-            description = binding.tietDescription.text.toString()
-
-            val extras = adapter.data.filter { it.key.isNotBlank() && it.value.isNotBlank() }
-            val extraBean = ExtraBean(
-                    action = binding.tietIntentAction.text.toString(),
-                    data = binding.tietIntentData.text.toString(),
-                    extras = extras
-            )
-            param1 = Gson().toJson(extraBean)
-            param2 = binding.tietIntentPackage.text.toString()
-        }
-
-        if (super.doneEdit()) return true
-        if (isEditMode && doneItem == item) return true
-
-        if (isEditMode) {
-            if (doneItem.appName != item.appName) {
-                if (GlobalValues.shortcutsList.contains(doneItem.id)) {
-                    if (AppUtils.atLeastNMR1()) {
-                        ShortcutsUtils.updateShortcut(doneItem)
-                    }
-                }
-            }
-            AnywhereApplication.sRepository.update(doneItem)
-        } else {
-            doneItem.id = System.currentTimeMillis().toString()
-            AnywhereApplication.sRepository.insert(doneItem)
-        }
-
-        return true
-    }
+    return true
+  }
 }

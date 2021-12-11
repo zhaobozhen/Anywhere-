@@ -98,6 +98,7 @@ object AppTextUtils {
       }
       AnywhereType.Card.BROADCAST -> {
         val packageName = item.param2
+        val className = item.param3
         val extras: ExtraBean? = try {
           Gson().fromJson(item.param1, ExtraBean::class.java)
         } catch (e: JsonSyntaxException) {
@@ -108,6 +109,10 @@ object AppTextUtils {
 
         if (!packageName.isNullOrBlank()) {
           cmd.append(" ").append("-n ").append(packageName)
+
+          if (!className.isNullOrBlank()) {
+            cmd.append("/").append(className.removePrefix(packageName))
+          }
         }
 
         extras?.let {

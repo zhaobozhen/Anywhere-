@@ -412,4 +412,6 @@
   <string name="dialog_title_a11y_announcement">無障礙聲明</string>
   <string name="dialog_deny_button">拒絕</string>
   <string name="dialog_allow_button">允許</string>
+  <string name="bsd_text_input_layout_br_intent_class_label">類名（選填）</string>
+  <string name="bsd_text_input_layout_br_class_helper_text">指定一個類名用來向指定應用發送廣播</string>
 </resources>
