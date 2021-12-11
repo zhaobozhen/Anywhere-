@@ -87,4 +87,9 @@
     <item name="android:windowExitAnimation">@anim/anim_bottom_sheet_slide_down</item>
   </style>
 
+  <style name="Widget.Aw.PopupMenu" parent="Widget.AppCompat.ListView.DropDown">
+    <item name="android:paddingEnd">-16dp</item>
+    <item name="android:clipToPadding">false</item>
+  </style>
+
 </resources>

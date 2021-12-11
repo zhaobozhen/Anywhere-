@@ -13,6 +13,7 @@
     <item name="actionBarStyle">@style/Widget.Material.ActionBar.Surface</item>
     <item name="actionBarTheme">@style/ThemeOverlay.ActionBar</item>
     <item name="toolbarStyle">@style/Widget.Material.Toolbar</item>
+    <item name="dropDownListViewStyle">@style/Widget.Aw.PopupMenu</item>
 
     <item name="appBarStyle">@style/Widget.AppBar.Surface.Raisable</item>
     <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
@@ -42,6 +43,7 @@
     <item name="actionBarStyle">@style/Widget.Material.ActionBar.Surface</item>
     <item name="actionBarTheme">@style/ThemeOverlay.ActionBar</item>
     <item name="toolbarStyle">@style/Widget.Material.Toolbar</item>
+    <item name="dropDownListViewStyle">@style/Widget.Aw.PopupMenu</item>
 
     <item name="appBarStyle">@style/Widget.AppBar.Surface.Raisable</item>
     <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>

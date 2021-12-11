@@ -27,14 +27,6 @@ class HomeWidgetProvider : AppWidgetProvider() {
     appWidgetManager: AppWidgetManager,
     appWidgetIds: IntArray
   ) {
-    val thisWidget = ComponentName(context, HomeWidgetProvider::class.java)
-    // 点击列表触发事件
-    val clickIntent = Intent(context, HomeWidgetProvider::class.java).apply {
-      // 设置 Action，方便在 onReceive 中区别点击事件
-      action = CLICK_ACTION
-      data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
-    }
-
     appWidgetIds.forEach { appWidgetId ->
       // 创建一个 RemoteView
       val remoteViews = RemoteViews(context.packageName, R.layout.widget_home).apply {
@@ -69,7 +61,7 @@ class HomeWidgetProvider : AppWidgetProvider() {
 
       // 更新 Widget
       appWidgetManager.apply {
-        updateAppWidget(thisWidget, remoteViews)
+        updateAppWidget(ComponentName(context, HomeWidgetProvider::class.java), remoteViews)
         notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_list)
       }
     }
@@ -99,11 +91,7 @@ class HomeWidgetProvider : AppWidgetProvider() {
       }
     }
 
-    if ("miui.appwidget.action.APPWIDGET_UPDATE" == intent.action) {
-      onUpdate(context, AppWidgetManager.getInstance(context), IntArray(0))
-    } else {
-      super.onReceive(context, intent)
-    }
+    super.onReceive(context, intent)
   }
 
   /**

@@ -324,19 +324,18 @@ object DialogManager {
     posListener: DialogInterface.OnClickListener? = null,
     cancelListener: DialogInterface.OnCancelListener? = null
   ) {
+    val parsedResult = if (CommandResult.MAP.containsKey(result)) {
+      "[Anywhere- $result] ${CommandResult.MAP[result]}"
+    } else {
+      result
+    }
     when (GlobalValues.showShellResultMode) {
       Const.SHELL_RESULT_TOAST -> {
-        ToastUtil.makeText(R.string.toast_execute_shell_successful)
+        ToastUtil.makeText(parsedResult.orEmpty())
         posListener?.onClick(null, 0)
         return
       }
       Const.SHELL_RESULT_DIALOG -> {
-        val parsedResult = if (CommandResult.MAP.containsKey(result)) {
-          "[Anywhere- $result] ${CommandResult.MAP[result]}"
-        } else {
-          result
-        }
-
         val ctx = if (context is ContextThemeWrapper) {
           context
         } else {

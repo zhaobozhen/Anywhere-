@@ -464,15 +464,6 @@
       <meta-data
         android:name="android.appwidget.provider"
         android:resource="@xml/widget_home_provider_info" />
-      <meta-data
-        android:name="miuiWidget"
-        android:value="false" />
-      <meta-data
-        android:name="miuiWidgetRefreshMinInterval"
-        android:value="200000" />
-      <meta-data
-        android:name="miuiWidgetRefresh"
-        android:value="exposure" />
 
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
