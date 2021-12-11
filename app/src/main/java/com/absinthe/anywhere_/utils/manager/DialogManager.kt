@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.utils.manager
 
 import android.app.Activity
 import android.content.*
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Spanned
@@ -16,6 +17,7 @@ import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.CommandResult
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
@@ -36,6 +38,7 @@ import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.view.home.ColorPickerDialogBuilder
 import com.flask.colorpicker.ColorPickerView
+import jonathanfinerty.once.Once
 
 /**
  * Dialog Manager
@@ -372,6 +375,27 @@ object DialogManager {
         return
       }
     }
+  }
+
+  fun showA11yAnnouncementDialog(context: Activity) {
+    AnywhereDialogBuilder(context)
+      .setTitle(R.string.dialog_title_a11y_announcement)
+      .setMessage(R.string.dialog_title_a11y_announcement_message)
+      .setPositiveButton(R.string.dialog_allow_button) { _, _ ->
+        Once.markDone(OnceTag.A11Y_ANNOUNCEMENT)
+      }
+      .setNegativeButton(R.string.dialog_deny_button) { _, _ ->
+        context.finish()
+      }
+      .setNeutralButton("Source Code") { _, _ ->
+        runCatching {
+          context.startActivity(
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/zhaobozhen/Anywhere-"))
+          )
+        }.onFailure { ToastUtil.Toasty.show(context, R.string.toast_no_react_url) }
+        context.finish()
+      }
+      .show()
   }
 
   fun showMultiSelectCreatingShortcutDialog(context: Context, action: () -> Unit) {

@@ -19,15 +19,18 @@ import com.absinthe.anywhere_.adapter.a11y.bean.A11yTextBean
 import com.absinthe.anywhere_.adapter.a11y.bean.A11yViewIdBean
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.EditorA11yBinding
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.ui.list.*
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.handler.Opener
+import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.blankj.utilcode.util.ActivityUtils
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import jonathanfinerty.once.Once
 
 class A11yEditorFragment : BaseEditorFragment() {
 
@@ -147,6 +150,10 @@ class A11yEditorFragment : BaseEditorFragment() {
             }
             adapter.draggableModule.isDragEnabled = true
         }
+
+      if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.A11Y_ANNOUNCEMENT)) {
+        DialogManager.showA11yAnnouncementDialog(requireActivity())
+      }
     }
 
     override fun tryRunning() {

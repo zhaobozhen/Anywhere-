@@ -408,4 +408,8 @@
     <string name="none">無</string>
     <string name="bsd_exec_with_root">使用 root 執行</string>
     <string name="btn_third_apps_shortcut">其它程式的快捷方式</string>
+    <string name="dialog_title_a11y_announcement_message">Anywhere- 使用無障礙權限來執行一些自動化操作。 Anywhere- 完全開源，並且承諾不會利用無障礙權限損害您的設備，您可以點擊查看源代碼。</string>
+  <string name="dialog_title_a11y_announcement">無障礙聲明</string>
+  <string name="dialog_deny_button">拒絕</string>
+  <string name="dialog_allow_button">允許</string>
 </resources>

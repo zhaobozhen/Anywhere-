@@ -77,6 +77,10 @@
   <string name="dialog_dynamic_params_title">Input Dynamic Params</string>
   <string name="dialog_shell_result_title">Shell Result</string>
   <string name="dialog_add_shortcut_anymore_button">Add anymore</string>
+  <string name="dialog_title_a11y_announcement">Announcement on accessibility</string>
+  <string name="dialog_title_a11y_announcement_message">Anywhere- uses accessibility permissions to perform some automated operations. Anywhere- is completely open source, and promises not to use accessibility permissions to damage your device, you can click to view the source code.</string>
+  <string name="dialog_allow_button">Allow</string>
+  <string name="dialog_deny_button">Allow</string>
 
   <!--  BottomSheetDialog  -->
   <string name="bsd_btn_done">Done</string>
