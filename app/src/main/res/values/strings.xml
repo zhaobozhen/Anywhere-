@@ -371,6 +371,7 @@
   <string name="btn_add_accessibility">Accessibility</string>
   <string name="btn_add_advanced_card">Add Card</string>
   <string name="btn_cloud_rules">Cloud Rules</string>
+  <string name="btn_third_apps_shortcut">Third Apps Shortcuts</string>
 
   <string name="btn_acquire_permission">Grant</string>
   <string name="btn_acquired">Granted</string>

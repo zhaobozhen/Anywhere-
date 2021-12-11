@@ -11,7 +11,7 @@ plugins {
     id("sdk-editor")
 }
 
-val verName = "2.3.6"
+val verName = "2.3.7"
 val verCode = 2030600
 
 android {
@@ -164,7 +164,7 @@ dependencies {
     implementation("com.github.zhaobozhen.libraries:me:1.0.2")
     implementation("com.github.zhaobozhen.libraries:utils:1.0.2")
 
-    val appCenterSdkVersion = "4.4.1"
+  val appCenterSdkVersion = "4.3.1"
     implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
     implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
@@ -205,7 +205,7 @@ dependencies {
 
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.google.zxing:core:3.4.1")
-    implementation("com.blankj:utilcodex:1.30.6")
+    implementation("com.blankj:utilcodex:1.31.0")
     implementation("com.tencent:mmkv-static:1.2.11")
     implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7")
     implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")

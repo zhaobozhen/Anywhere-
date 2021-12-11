@@ -286,20 +286,17 @@
     <!--    Override    -->
     <activity
       android:name="com.blankj.utilcode.util.UtilsTransActivity4MainProcess"
-      android:configChanges="orientation|keyboardHidden|screenSize"
       android:exported="false"
-      android:theme="@style/ActivityTranslucent"
-      android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
       tools:replace="exported" />
 
     <activity
       android:name="com.blankj.utilcode.util.UtilsTransActivity"
-      android:configChanges="orientation|keyboardHidden|screenSize"
       android:exported="false"
-      android:multiprocess="true"
-      android:theme="@style/ActivityTranslucent"
-      android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
       tools:replace="exported" />
+
+    <activity
+      android:name=".ui.shortcuts.ThirdAppsShortcutActivity"
+      android:exported="false" />
 
     <!--    Collector tile service    -->
     <service

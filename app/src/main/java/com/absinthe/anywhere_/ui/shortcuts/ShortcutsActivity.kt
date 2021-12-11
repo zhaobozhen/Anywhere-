@@ -163,7 +163,10 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                                         })
                                         shouldFinish = true
                                     }
-                                    .setOnCancelListener { shouldFinish = true }
+                                    .setOnCancelListener {
+                                      shouldFinish = true
+                                      finish()
+                                    }
                                     .show()
                         }
                     })

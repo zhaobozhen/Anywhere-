@@ -407,4 +407,5 @@
     <string name="bsd_text_input_layout_content_helper_text_coord">输入坐标</string>
     <string name="none">无</string>
     <string name="bsd_exec_with_root">使用 root 执行</string>
+  <string name="btn_third_apps_shortcut">其它应用的快捷方式</string>
 </resources>

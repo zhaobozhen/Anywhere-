@@ -50,5 +50,13 @@ object FabBuilder {
         .setLabelClickable(false)
         .create()
     )
+    fab.addActionItem(
+      SpeedDialActionItem.Builder(R.id.fab_third_apps_shortcut, R.drawable.ic_add_shortcut)
+        .setFabBackgroundColor(Color.WHITE)
+        .setFabImageTintColor(Color.BLACK)
+        .setLabel(context.getString(R.string.btn_third_apps_shortcut))
+        .setLabelClickable(false)
+        .create()
+    )
   }
 }

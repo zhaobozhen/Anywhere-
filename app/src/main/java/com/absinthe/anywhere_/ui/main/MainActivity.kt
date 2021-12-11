@@ -53,6 +53,7 @@ import com.absinthe.anywhere_.ui.qrcode.QRCodeCollectionActivity
 import com.absinthe.anywhere_.ui.settings.SettingsActivity
 import com.absinthe.anywhere_.ui.setup.SetupActivity
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
+import com.absinthe.anywhere_.ui.shortcuts.ThirdAppsShortcutActivity
 import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.CipherUtils.decrypt
 import com.absinthe.anywhere_.utils.ClipboardUtil.clearClipboard
@@ -582,6 +583,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
           R.id.fab_cloud_rules -> {
             startActivity(Intent(this@MainActivity, CloudRulesActivity::class.java))
             Analytics.trackEvent(EventTag.FAB_CLOUD_RULES_CLICK)
+          }
+          R.id.fab_third_apps_shortcut -> {
+            startActivity(Intent(this@MainActivity, ThirdAppsShortcutActivity::class.java))
+            Analytics.trackEvent(EventTag.FAB_THIRD_APPS_SHORTCUT_CLICK)
           }
           else -> return@setOnActionSelectedListener false
         }
