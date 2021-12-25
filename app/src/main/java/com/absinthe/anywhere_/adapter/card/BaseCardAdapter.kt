@@ -303,7 +303,7 @@ class BaseCardAdapter(
   override fun onSwiped(position: Int) { /* Do nothing */
   }
 
-  override fun getItemId(position: Int): Long = data[position].timeStamp.toLong()
+  override fun getItemId(position: Int): Long = data[position].id.toLong()
 
   fun clickItem(v: View, position: Int) {
     try {

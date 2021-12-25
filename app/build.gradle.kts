@@ -159,17 +159,17 @@ dependencies {
     implementation(files("libs/speed-dial-3.1.1.aar"))
 //    implementation(files("libs/blurkit-1.1.1.aar"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2-native-mt")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
     implementation("com.github.zhaobozhen.libraries:me:1.0.2")
     implementation("com.github.zhaobozhen.libraries:utils:1.0.2")
 
-  val appCenterSdkVersion = "4.3.1"
+  val appCenterSdkVersion = "4.4.2"
     implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
     implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
     //Android X
-    val roomVersion = "2.3.0"
+    val roomVersion = "2.4.0"
     implementation("androidx.room:room-runtime:${roomVersion}")
     implementation("androidx.room:room-ktx:${roomVersion}")
     kapt("org.xerial:sqlite-jdbc:3.36.0.1") //Work around on Apple Silicon
@@ -209,7 +209,7 @@ dependencies {
     implementation("com.tencent:mmkv-static:1.2.11")
     implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7")
     implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
-    implementation("com.github.topjohnwu.libsu:core:3.2.0")
+    implementation("com.github.topjohnwu.libsu:core:3.2.1")
     implementation("com.github.thegrizzlylabs:sardine-android:0.8")
     implementation("com.jonathanfinerty.once:once:1.3.1")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:3.0")
