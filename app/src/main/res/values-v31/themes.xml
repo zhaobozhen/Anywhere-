@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <style name="Base.AppTheme.Light" parent="Theme.Material.Light.LightStatusBar">
+    <item name="android:statusBarColor">?android:colorBackground</item>
+
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryVariant">@color/colorPrimary</item>
+    <item name="colorSecondary">@color/colorPrimary</item>
+    <item name="colorSecondaryVariant">@color/colorPrimary</item>
+    <item name="colorOnSecondary">@android:color/white</item>
+
+    <item name="actionBarStyle">@style/Widget.Material.ActionBar.Surface</item>
+    <item name="actionBarTheme">@style/ThemeOverlay.ActionBar</item>
+    <item name="toolbarStyle">@style/Widget.Material.Toolbar</item>
+    <item name="dropDownListViewStyle">@style/Widget.Aw.PopupMenu</item>
+
+    <item name="appBarStyle">@style/Widget.AppBar.Surface.Raisable</item>
+    <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
+    <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
+    <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
+
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:windowSplashscreenContent" tools:targetApi="o">@drawable/splash_drawable
+    </item>
+    <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+    <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
+
+    <item name="android:windowSplashScreenBackground">?android:attr/colorBackground</item>
+    <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_anim_vector</item>
+    <item name="android:windowSplashScreenAnimationDuration">500</item>
+  </style>
+
+  <style name="Theme.Light" parent="Base.AppTheme.Light" />
+
+  <style name="Base.AppTheme" parent="Theme.Material">
+    <item name="colorPrimary">@color/appColorDark</item>
+    <item name="colorPrimaryVariant">@color/appColorDark</item>
+    <item name="colorSecondary">@color/appColorDark</item>
+    <item name="colorSecondaryVariant">@color/appColorDark</item>
+    <item name="colorOnSecondary">@android:color/black</item>
+
+    <item name="actionBarStyle">@style/Widget.Material.ActionBar.Surface</item>
+    <item name="actionBarTheme">@style/ThemeOverlay.ActionBar</item>
+    <item name="toolbarStyle">@style/Widget.Material.Toolbar</item>
+    <item name="dropDownListViewStyle">@style/Widget.Aw.PopupMenu</item>
+
+    <item name="appBarStyle">@style/Widget.AppBar.Surface.Raisable</item>
+    <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
+    <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
+    <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
+
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:windowSplashscreenContent" tools:targetApi="o">@drawable/splash_drawable
+    </item>
+    <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+    <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
+
+    <item name="android:windowSplashScreenBackground">?android:attr/colorBackground</item>
+    <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_anim_vector</item>
+    <item name="android:windowSplashScreenAnimationDuration">500</item>
+  </style>
+</resources>
