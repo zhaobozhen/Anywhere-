@@ -11,6 +11,7 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.children
 import androidx.palette.graphics.Palette
 import com.absinthe.anywhere_.BaseActivity
@@ -41,6 +43,7 @@ import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.ShadowHelper
 import com.absinthe.anywhere_.view.home.TextSwitcherView
 import com.absinthe.libraries.utils.extensions.dp
+import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
@@ -223,6 +226,9 @@ object UxUtils {
         Const.ACTION_BAR_TYPE_DARK
       }
     }
+
+    val wic = WindowInsetsControllerCompat(activity.window, activity.window.decorView)
+
     if (newType == Const.ACTION_BAR_TYPE_DARK || newType.isEmpty()) {
       Timber.d("Dark-")
       val span = if (activity.isNightMode() && backgroundUri.isEmpty()) {
@@ -242,6 +248,7 @@ object UxUtils {
       if (backgroundUri.isNotEmpty() || isPages) {
         setActionBarTransparent(activity)
       }
+      wic.isAppearanceLightStatusBars = true
     } else if (newType == Const.ACTION_BAR_TYPE_LIGHT) {
       Timber.d("Light-")
       val span = ForegroundColorSpan(Color.WHITE)
@@ -253,6 +260,7 @@ object UxUtils {
       actionBarType = Const.ACTION_BAR_TYPE_LIGHT
 
       activity.invalidateOptionsMenu()
+      wic.isAppearanceLightStatusBars = false
     }
   }
 
