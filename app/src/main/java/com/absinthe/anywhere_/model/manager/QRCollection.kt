@@ -15,6 +15,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
+import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.Utils
 import com.google.gson.Gson
 import java.lang.ref.WeakReference
@@ -444,7 +445,7 @@ object QRCollection {
   private val unionpayCollect: QREntity
     get() {
       val pkgName = "com.unionpay"
-      val clsName = "com.unionpay.activity.UPActivityMain"
+      val clsName = "com.unionpay.activity.payment.UPActivityPaymentQrCodeOut"
       entitySet.add(AnywhereEntity().apply {
         id = unionpayCollectId
         appName = "云闪付收款码"
@@ -454,20 +455,33 @@ object QRCollection {
       })
       return QREntity(object : OnQRLaunchedListener {
         override fun onLaunched() {
-          val list = mutableListOf(
-            A11yActionBean(A11yType.TEXT, content = "知道了", activityId = "", delay = 200L),
-            A11yActionBean(A11yType.TEXT, content = "跳过", activityId = "", delay = 300L),
-            A11yActionBean(A11yType.TEXT, content = "收款码", activityId = "", delay = 0L)
-          )
-
           val a11yEntity = A11yEntity().apply {
             applicationId = pkgName
             entryActivity = clsName
-            actions = list
+            actions = listOf(
+              A11yActionBean(A11yType.TEXT, content = "收款", activityId = "", delay = 0L)
+            )
           }
+          val flowStepList = listOf(
+            FlowStepBean(
+              entity = AnywhereEntity().apply {
+                type = AnywhereType.Card.URL_SCHEME
+                param1 = "upwallet://native/codepay"
+                param2 = pkgName
+              },
+              delay = 500L
+            ),
+            FlowStepBean(
+              entity = AnywhereEntity().apply {
+                type = AnywhereType.Card.ACCESSIBILITY
+                param1 = GsonUtils.toJson(a11yEntity)
+              },
+              delay = 0L
+            )
+          )
           val entity = AnywhereEntity().apply {
-            type = AnywhereType.Card.ACCESSIBILITY
-            param1 = Gson().toJson(a11yEntity)
+            type = AnywhereType.Card.WORKFLOW
+            param1 = Gson().toJson(flowStepList)
           }
           Opener.with(getContext()).load(entity).open()
         }
