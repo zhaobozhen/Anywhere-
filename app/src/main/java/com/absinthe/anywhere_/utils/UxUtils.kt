@@ -11,7 +11,6 @@ import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -43,7 +42,6 @@ import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
 import com.absinthe.anywhere_.utils.manager.ShadowHelper
 import com.absinthe.anywhere_.view.home.TextSwitcherView
 import com.absinthe.libraries.utils.extensions.dp
-import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide

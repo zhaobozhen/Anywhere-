@@ -212,7 +212,7 @@ dependencies {
     implementation("com.github.topjohnwu.libsu:core:3.2.1")
     implementation("com.github.thegrizzlylabs:sardine-android:0.8")
     implementation("com.jonathanfinerty.once:once:1.3.1")
-    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:3.0")
+    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.2")
 
     //UX
     implementation("com.drakeet.about:about:2.5.0")
@@ -248,7 +248,7 @@ dependencies {
 
     //Debug
     testImplementation("junit:junit:4.13.2")
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.8.1")
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }

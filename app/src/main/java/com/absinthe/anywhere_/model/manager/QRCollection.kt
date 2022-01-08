@@ -10,7 +10,6 @@ import com.absinthe.anywhere_.a11y.A11yType
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.listener.OnQRLaunchedListener
-import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.QREntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
@@ -400,7 +399,7 @@ object QRCollection {
       description = getContext().getString(R.string.desc_work_at_any_mode)
       type = AnywhereType.Card.QR_CODE
     })
-    val extraData = when (text) {
+    val urlScheme = when (text) {
       "乘车码" -> "upwallet://rn/rnhtmlridingcode"
       "付款码" -> "upwallet://native/codepay"
       "收款码" -> "upwallet://native/codecollect"
@@ -409,16 +408,10 @@ object QRCollection {
     }
     return QREntity(object : OnQRLaunchedListener {
       override fun onLaunched() {
-        val extraBean = ExtraBean(
-          data = extraData,
-          action = Intent.ACTION_VIEW,
-          extras = emptyList()
-        )
         val entity = AnywhereEntity().apply {
-          type = AnywhereType.Card.ACTIVITY
-          param1 = pkgName
-          param2 = clsName
-          param3 = Gson().toJson(extraBean)
+          type = AnywhereType.Card.URL_SCHEME
+          param1 = urlScheme
+          param2 = pkgName
         }
         Opener.with(getContext()).load(entity).open()
       }
