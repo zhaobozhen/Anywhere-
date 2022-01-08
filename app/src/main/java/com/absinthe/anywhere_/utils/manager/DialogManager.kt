@@ -377,7 +377,7 @@ object DialogManager {
     }
   }
 
-  fun showA11yAnnouncementDialog(context: Activity) {
+  fun showA11yAnnouncementDialog(context: Context) {
     AnywhereDialogBuilder(context)
       .setTitle(R.string.dialog_title_a11y_announcement)
       .setMessage(R.string.dialog_title_a11y_announcement_message)
@@ -385,7 +385,7 @@ object DialogManager {
         Once.markDone(OnceTag.A11Y_ANNOUNCEMENT)
       }
       .setNegativeButton(R.string.dialog_deny_button) { _, _ ->
-        context.finish()
+        (context as? Activity)?.finish()
       }
       .setNeutralButton("Source Code") { _, _ ->
         runCatching {
@@ -393,7 +393,7 @@ object DialogManager {
             Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/zhaobozhen/Anywhere-"))
           )
         }.onFailure { ToastUtil.Toasty.show(context, R.string.toast_no_react_url) }
-        context.finish()
+        (context as? Activity)?.finish()
       }
       .show()
   }

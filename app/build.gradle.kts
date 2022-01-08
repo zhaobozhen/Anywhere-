@@ -11,8 +11,8 @@ plugins {
     id("sdk-editor")
 }
 
-val verName = "2.3.7"
-val verCode = 2030700
+val verName = "2.3.8"
+val verCode = 2030800
 
 android {
     compileSdk = 32
@@ -161,8 +161,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
-    implementation("com.github.zhaobozhen.libraries:me:1.0.2")
-    implementation("com.github.zhaobozhen.libraries:utils:1.0.2")
+    implementation("com.github.zhaobozhen.libraries:me:1.0.3")
+    implementation("com.github.zhaobozhen.libraries:utils:1.0.3")
 
   val appCenterSdkVersion = "4.4.2"
     implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")

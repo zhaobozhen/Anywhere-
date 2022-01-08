@@ -13,6 +13,7 @@ import cn.vove7.andro_accessibility_api.AppScope
 import cn.vove7.andro_accessibility_api.api.*
 import cn.vove7.andro_accessibility_api.utils.NeedAccessibilityException
 import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.AwContextWrapper
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.a11y.A11yEntity
@@ -20,6 +21,7 @@ import com.absinthe.anywhere_.a11y.A11yType
 import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.listener.OnAppDefrostListener
 import com.absinthe.anywhere_.model.*
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -44,6 +46,7 @@ import com.blankj.utilcode.util.IntentUtils
 import com.catchingnow.icebox.sdk_client.IceBox
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import jonathanfinerty.once.Once
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -453,12 +456,20 @@ object Opener {
         listener?.onOpened()
       }
       AnywhereType.Card.WORKFLOW -> {
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.A11Y_ANNOUNCEMENT)) {
+          DialogManager.showA11yAnnouncementDialog(AwContextWrapper(context))
+          return
+        }
         WorkflowIntentService.enqueueWork(context, Intent().apply {
           putExtra(EXTRA_ENTITY, item)
         })
         listener?.onOpened()
       }
       AnywhereType.Card.ACCESSIBILITY -> {
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.A11Y_ANNOUNCEMENT)) {
+          DialogManager.showA11yAnnouncementDialog(AwContextWrapper(context))
+          return
+        }
         try {
           requireBaseAccessibility()
           requireGestureAccessibility()
