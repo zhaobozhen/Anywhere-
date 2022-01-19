@@ -12,7 +12,7 @@ plugins {
 }
 
 val verName = "2.3.8"
-val verCode = 2030801
+val verCode = 2030802
 
 android {
     compileSdk = 32
@@ -182,8 +182,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycleVersion}")
 
     implementation("androidx.browser:browser:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.2")
-    implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
@@ -197,7 +197,7 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.1.1")
 
     //Google
-    implementation("com.google.android.material:material:1.4.0")
+    implementation("com.google.android.material:material:1.5.0")
 
     //Function
     implementation("com.github.bumptech.glide:glide:4.12.0")
@@ -227,13 +227,14 @@ dependencies {
     // required by Shizuku
     implementation("dev.rikka.shizuku:provider:$shizukuVersion")
 
-    implementation("dev.rikka.rikkax.appcompat:appcompat:1.2.0-rc01")
+    implementation("dev.rikka.rikkax.appcompat:appcompat:1.4.1")
     implementation("dev.rikka.rikkax.core:core:1.3.3")
     implementation("dev.rikka.rikkax.material:material:1.6.6")
-    implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.2.2")
+    implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.3.1")
     implementation("dev.rikka.rikkax.widget:borderview:1.1.0")
     implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
-    implementation("dev.rikka.rikkax.insets:insets:1.1.0")
+    implementation("dev.rikka.rikkax.insets:insets:1.1.1")
+    implementation("dev.rikka.rikkax.layoutinflater:layoutinflater:1.2.0")
 
     //Network
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
