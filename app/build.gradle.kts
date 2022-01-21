@@ -12,7 +12,7 @@ plugins {
 }
 
 val verName = "2.3.8"
-val verCode = 2030802
+val verCode = 2030803
 
 android {
     compileSdk = 32
@@ -161,8 +161,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
-    implementation("com.github.zhaobozhen.libraries:me:1.0.3")
-    implementation("com.github.zhaobozhen.libraries:utils:1.0.3")
+    implementation("com.github.zhaobozhen.libraries:me:1.0.4")
+    implementation("com.github.zhaobozhen.libraries:utils:1.0.4")
 
   val appCenterSdkVersion = "4.4.2"
     implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
