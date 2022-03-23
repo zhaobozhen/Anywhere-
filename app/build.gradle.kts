@@ -194,7 +194,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.4.1")
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.preference:preference-ktx:1.1.1")
+    implementation("androidx.preference:preference-ktx:1.2.0")
 
     //Google
     implementation("com.google.android.material:material:1.5.0")
