@@ -206,7 +206,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.google.zxing:core:3.4.1")
     implementation("com.blankj:utilcodex:1.31.0")
-    implementation("com.tencent:mmkv-static:1.2.11")
+    implementation("com.tencent:mmkv-static:1.2.12")
     implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7")
     implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
     implementation("com.github.topjohnwu.libsu:core:3.2.1")
