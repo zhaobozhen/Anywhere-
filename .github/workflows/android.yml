@@ -1,40 +1,73 @@
 name: Android CI
 
-on: push
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.idea/**'
+      - '.gitattributes'
+      - '.github/**.json'
+      - '.gitignore'
+      - '.gitmodules'
+      - '**.md'
+      - 'LICENSE'
+      - 'NOTICE'
+  pull_request:
+    paths-ignore:
+      - '.idea/**'
+      - '.gitattributes'
+      - '.github/**.json'
+      - '.gitignore'
+      - '.gitmodules'
+      - '**.md'
+      - 'LICENSE'
+      - 'NOTICE'
 
 jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Check style
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: lintKotlin
+
   build:
+    name: Build
     runs-on: ubuntu-latest
     if: ${{ !startsWith(github.event.head_commit.message, '[skip ci]') }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Setup JDK 11
-        uses: actions/setup-java@v1
+      - uses: actions/setup-java@v3
         with:
-          java-version: 11
-      - name: Cache Gradle
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-app-${{ github.sha }}
-          restore-keys: |
-            gradle-
+          distribution: 'zulu'
+          java-version: 17
       - name: Retrieve version
         run: |
           echo VERSION=$(echo ${{ github.event.head_commit.id }} | head -c 10) >> $GITHUB_ENV
       - name: Build with Gradle
-        run: bash ./gradlew -PappVerName=${{ env.VERSION }} assembleRelease
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: -PappVerName=${{ env.VERSION }} assembleRelease
       - name: Sign Android release
-        if: success()
+        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
         id: sign
         uses: r0adkll/sign-android-release@v1.0.4
         env:
-          BUILD_TOOLS_VERSION: "30.0.3"
+          BUILD_TOOLS_VERSION: "32.0.0"
         with:
           releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
@@ -42,35 +75,50 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
       - name: Upload built apk
-        if: success()
-        uses: actions/upload-artifact@v2
+        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
+        uses: actions/upload-artifact@v3
         with:
           name: snapshot
           path: ${{ steps.sign.outputs.signedReleaseFile }}
       - name: Upload mappings
         if: success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mappings
           path: "app/build/outputs/mapping/release"
-      - name: Send commit to telegram
-        uses: appleboy/telegram-action@master
+      - name: Get apk info
+        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
+        id: apk-info
+        uses: hkusu/apk-info-action@v1
         with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          format: markdown
-          message: |+
-            New push to github!
-            *${{ github.event.head_commit.message }}* by ${{ github.event.head_commit.author.name }}
+          apk-path: ${{ steps.sign.outputs.signedReleaseFile }}
+      - name: Upload mappings with App Center CLI
+        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
+        uses: avocaddo/AppCenter-Github-Action@v1.0.2
+        with:
+          command: appcenter crashes upload-mappings --mapping app/build/outputs/mapping/release/mapping.txt --version-name ${{ steps.apk-info.outputs.version-name }} --version-code ${{ steps.apk-info.outputs.version-code }} --app zhaobozhen2025-gmail.com/Anywhere-
+          token: ${{secrets.APP_CENTER_TOKEN}}
+      - name: Send commit to telegram
+        if: success() && github.repository == 'zhaobozhen/Anywhere-' && github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+        env:
+          CHANNEL_ID: ${{ secrets.TELEGRAM_TO }}
+          BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          FILE: ${{ github.workspace }}/${{ steps.sign.outputs.signedReleaseFile }}
+          COMMIT_MESSAGE: |+
+            New push to github\!
+            ```
+            ${{ github.event.head_commit.message }}
+            ```by `${{ github.event.head_commit.author.name }}`
             See commit detail [here](${{ github.event.head_commit.url }})
             Snapshot apk is attached
-          document: ${{ github.workspace }}/${{ steps.sign.outputs.signedReleaseFile }}
-
+        run: |
+          ESCAPED=`python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))'`
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://release%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D"  -F release="@$FILE"
   skipped:
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.event.head_commit.message, '[skip ci]') }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Send commit to telegram
         uses: appleboy/telegram-action@master
         with:
