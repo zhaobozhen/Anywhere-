@@ -203,7 +203,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kapt("com.github.bumptech.glide:compiler:4.13.1")
 
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.google.zxing:core:3.4.1")
     implementation("com.blankj:utilcodex:1.31.0")
     implementation("com.tencent:mmkv-static:1.2.12")
