@@ -467,7 +467,9 @@ object Opener {
       }
       AnywhereType.Card.ACCESSIBILITY -> {
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.A11Y_ANNOUNCEMENT)) {
-          DialogManager.showA11yAnnouncementDialog(AwContextWrapper(context))
+          if (context is Activity) {
+            DialogManager.showA11yAnnouncementDialog(context)
+          }
           return
         }
         try {

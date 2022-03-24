@@ -153,45 +153,49 @@ class AppRemoteViewsService : RemoteViewsService() {
       if (mList.isEmpty() || position < 0 || position >= mList.size || mContext.get() == null) {
         return null
       }
-      val ae = mList[position]
-      var content = ae.appName
       try {
-        if (IceBox.getAppEnabledSetting(mContext.get(), ae.param1) != 0) {
-          content = "\u2744" + content
-        }
-      } catch (e: PackageManager.NameNotFoundException) {
-        Timber.e(e)
-      }
-
-      // 创建在当前索引位置要显示的View
-      val context = mContext.get() ?: return null
-      val rv = RemoteViews(context.packageName, R.layout.item_widget_list)
-
-      // 设置要显示的内容
-      rv.setTextViewText(R.id.tv_title, content)
-      val icon: Drawable? = if (ae.iconUri.isNullOrEmpty()) {
-        getAppIcon(this@AppRemoteViewsService, ae, ConvertUtils.dp2px(45f))
-      } else {
+        val ae = mList[position]
+        var content = ae.appName
         try {
-          Drawable.createFromStream(
-            contentResolver.openInputStream(Uri.parse(ae.iconUri)),
-            null
-          )
-        } catch (e: Exception) {
+          if (IceBox.getAppEnabledSetting(mContext.get(), ae.param1) != 0) {
+            content = "\u2744" + content
+          }
+        } catch (e: PackageManager.NameNotFoundException) {
           Timber.e(e)
-          getAppIcon(this@AppRemoteViewsService, ae, ConvertUtils.dp2px(45f))
         }
-      }
-      if (icon != null) {
-        rv.setImageViewBitmap(R.id.iv_app_icon, ConvertUtils.drawable2Bitmap(icon))
-      }
 
-      // 填充Intent，填充在AppWidgetProvider中创建的PendingIntent
-      val intent = Intent()
-      // 传入点击行的数据
-      intent.putExtra(Const.INTENT_EXTRA_WIDGET_ENTITY, ae)
-      rv.setOnClickFillInIntent(R.id.rl_item, intent)
-      return rv
+        // 创建在当前索引位置要显示的View
+        val context = mContext.get() ?: return null
+        val rv = RemoteViews(context.packageName, R.layout.item_widget_list)
+
+        // 设置要显示的内容
+        rv.setTextViewText(R.id.tv_title, content)
+        val icon: Drawable? = if (ae.iconUri.isNullOrEmpty()) {
+          getAppIcon(this@AppRemoteViewsService, ae, ConvertUtils.dp2px(45f))
+        } else {
+          try {
+            Drawable.createFromStream(
+              contentResolver.openInputStream(Uri.parse(ae.iconUri)),
+              null
+            )
+          } catch (e: Exception) {
+            Timber.e(e)
+            getAppIcon(this@AppRemoteViewsService, ae, ConvertUtils.dp2px(45f))
+          }
+        }
+        if (icon != null) {
+          rv.setImageViewBitmap(R.id.iv_app_icon, ConvertUtils.drawable2Bitmap(icon))
+        }
+
+        // 填充Intent，填充在AppWidgetProvider中创建的PendingIntent
+        val intent = Intent()
+        // 传入点击行的数据
+        intent.putExtra(Const.INTENT_EXTRA_WIDGET_ENTITY, ae)
+        rv.setOnClickFillInIntent(R.id.rl_item, intent)
+        return rv
+      } catch (e: Exception) {
+        return null
+      }
     }
 
     /**

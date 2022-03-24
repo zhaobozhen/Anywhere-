@@ -15,10 +15,10 @@ object ShellManager {
   }
 
   fun exec(command: String): String {
-    return Shell.su(command).exec().out.toString()
+    return Shell.cmd(command).exec().out.toString()
   }
 
   fun acquireRoot(): Boolean {
-    return Shell.su("").exec().isSuccess
+    return Shell.cmd("su").exec().isSuccess
   }
 }

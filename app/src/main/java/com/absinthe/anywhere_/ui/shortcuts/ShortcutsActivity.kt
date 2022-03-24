@@ -96,26 +96,29 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                 }
                 ACTION_START_ENTITY -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_ID)?.let { id ->
-                        viewModel.allAnywhereEntities.observe(this, { list ->
-                            list.find { findItem ->
-                                findItem.id == id
-                            }?.apply {
-                                Opener.with(this@ShortcutsActivity)
-                                        .load(this)
-                                        .setOpenedListener(object : Opener.OnOpenListener {
-                                            override fun onOpened() {
-                                                shouldFinish = true
-                                                finish()
-                                            }
-                                        })
-                                        .open()
-
-                                val tileExtra = intent.getStringExtra(Const.INTENT_EXTRA_FROM_TILE)
-                                if (tileExtra != null && this.type == AnywhereType.Card.SWITCH_SHELL) {
-                                    GlobalValues.mmkv.encode(tileExtra + TILE_ACTIVE_STATE, this.param3 != SWITCH_OFF)
+                        viewModel.allAnywhereEntities.observe(this) { list ->
+                          list.find { findItem ->
+                            findItem.id == id
+                          }?.apply {
+                            Opener.with(this@ShortcutsActivity)
+                              .load(this)
+                              .setOpenedListener(object : Opener.OnOpenListener {
+                                override fun onOpened() {
+                                  shouldFinish = true
+                                  finish()
                                 }
+                              })
+                              .open()
+
+                            val tileExtra = intent.getStringExtra(Const.INTENT_EXTRA_FROM_TILE)
+                            if (tileExtra != null && this.type == AnywhereType.Card.SWITCH_SHELL) {
+                              GlobalValues.mmkv.encode(
+                                tileExtra + TILE_ACTIVE_STATE,
+                                this.param3 != SWITCH_OFF
+                              )
                             }
-                        })
+                          }
+                        }
                     }
                 }
                 ACTION_START_FROM_WIDGET -> {
@@ -131,45 +134,55 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                     } ?: let { shouldFinish = true }
                 }
                 Intent.ACTION_CREATE_SHORTCUT -> {
-                    viewModel.allAnywhereEntities.observe(this, { anywhereEntities: List<AnywhereEntity>? ->
-                        val arrayAdapter = ArrayAdapter<String>(Utils.getApp(), android.R.layout.select_dialog_singlechoice)
+                    viewModel.allAnywhereEntities.observe(this) { anywhereEntities: List<AnywhereEntity>? ->
+                      val arrayAdapter = ArrayAdapter<String>(
+                        Utils.getApp(),
+                        android.R.layout.select_dialog_singlechoice
+                      )
 
-                        anywhereEntities?.let { entities ->
-                            Timber.d("list = %s", entities)
+                      anywhereEntities?.let { entities ->
+                        Timber.d("list = %s", entities)
 
-                            for (ae in entities) {
-                                arrayAdapter.add(ae.appName)
-                            }
-
-                            AnywhereDialogBuilder(this)
-                                    .setAdapter(arrayAdapter) { _: DialogInterface?, i: Int ->
-                                        val entity = entities[i]
-                                        val shortcutIntent = Intent(this@ShortcutsActivity, ShortcutsActivity::class.java).apply {
-                                            if (entities[i].type == AnywhereType.Card.IMAGE) {
-                                                action = ACTION_START_IMAGE
-                                                putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, entity.param1)
-                                            } else {
-                                                action = ACTION_START_ENTITY
-                                                putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, entity.id)
-                                            }
-                                        }
-
-                                        setResult(Activity.RESULT_OK, Intent().apply {
-                                            putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-                                            putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.shortcut_open))
-                                            putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                                    Intent.ShortcutIconResource.fromContext(
-                                                            this@ShortcutsActivity, R.drawable.ic_shortcut_start_collector))
-                                        })
-                                        shouldFinish = true
-                                    }
-                                    .setOnCancelListener {
-                                      shouldFinish = true
-                                      finish()
-                                    }
-                                    .show()
+                        for (ae in entities) {
+                          arrayAdapter.add(ae.appName)
                         }
-                    })
+
+                        AnywhereDialogBuilder(this)
+                          .setAdapter(arrayAdapter) { _: DialogInterface?, i: Int ->
+                            val entity = entities[i]
+                            val shortcutIntent =
+                              Intent(this@ShortcutsActivity, ShortcutsActivity::class.java).apply {
+                                if (entities[i].type == AnywhereType.Card.IMAGE) {
+                                  action = ACTION_START_IMAGE
+                                  putExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD, entity.param1)
+                                } else {
+                                  action = ACTION_START_ENTITY
+                                  putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, entity.id)
+                                }
+                              }
+
+                            setResult(Activity.RESULT_OK, Intent().apply {
+                              putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+                              putExtra(
+                                Intent.EXTRA_SHORTCUT_NAME,
+                                getString(R.string.shortcut_open)
+                              )
+                              putExtra(
+                                Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                Intent.ShortcutIconResource.fromContext(
+                                  this@ShortcutsActivity, R.drawable.ic_shortcut_start_collector
+                                )
+                              )
+                            })
+                            shouldFinish = true
+                          }
+                          .setOnCancelListener {
+                            shouldFinish = true
+                            finish()
+                          }
+                          .show()
+                      }
+                    }
                 }
                 ACTION_START_IMAGE -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_CMD)?.let { uri ->
@@ -230,25 +243,25 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                               }
                             }
                             uri.getQueryParameter(Const.INTENT_EXTRA_OPEN_SHORT_ID)?.let { sid ->
-                                viewModel.allAnywhereEntities.observe(this, { list ->
-                                    list.find { findItem ->
-                                        findItem.id.endsWith(sid)
-                                    }?.apply {
-                                        Opener.with(this@ShortcutsActivity)
-                                            .load(this)
-                                            .setDynamicExtra(dynamicParam)
-                                            .setDynamicExtras(dynamicParams)
-                                            .setOpenedListener(object : Opener.OnOpenListener {
-                                                override fun onOpened() {
-                                                    shouldFinish = true
-                                                }
-                                            })
-                                            .open()
-                                    } ?: run {
-                                        ToastUtil.makeText(R.string.toast_invaild_sid)
-                                        shouldFinish = true
-                                    }
-                                })
+                                viewModel.allAnywhereEntities.observe(this) { list ->
+                                  list.find { findItem ->
+                                    findItem.id.endsWith(sid)
+                                  }?.apply {
+                                    Opener.with(this@ShortcutsActivity)
+                                      .load(this)
+                                      .setDynamicExtra(dynamicParam)
+                                      .setDynamicExtras(dynamicParams)
+                                      .setOpenedListener(object : Opener.OnOpenListener {
+                                        override fun onOpened() {
+                                          shouldFinish = true
+                                        }
+                                      })
+                                      .open()
+                                  } ?: run {
+                                    ToastUtil.makeText(R.string.toast_invaild_sid)
+                                    shouldFinish = true
+                                  }
+                                }
                             } ?: run { shouldFinish = true }
                         }
                     }
