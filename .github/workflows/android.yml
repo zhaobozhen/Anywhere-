@@ -67,18 +67,6 @@ jobs:
         with:
           name: mappings
           path: "app/build/outputs/mapping/release"
-      - name: Get apk info
-        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
-        id: apk-info
-        uses: hkusu/apk-info-action@v1
-        with:
-          apk-path: ${{ steps.sign.outputs.signedReleaseFile }}
-      - name: Upload mappings with App Center CLI
-        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
-        uses: avocaddo/AppCenter-Github-Action@v1.0.2
-        with:
-          command: appcenter crashes upload-mappings --mapping app/build/outputs/mapping/release/mapping.txt --version-name ${{ steps.apk-info.outputs.version-name }} --version-code ${{ steps.apk-info.outputs.version-code }} --app zhaobozhen2025-gmail.com/Anywhere-
-          token: ${{secrets.APP_CENTER_TOKEN}}
       - name: Send commit to telegram
         if: success() && github.repository == 'zhaobozhen/Anywhere-' && github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
         env:
