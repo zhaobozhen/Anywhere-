@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
-import com.absinthe.anywhere_.utils.AppUtils
 import timber.log.Timber
 import java.io.File
 
@@ -59,10 +58,7 @@ abstract class BaseTileService : TileService() {
     }
 
     if (id?.isNotEmpty() == true) {
-      startActivity(intent)
-    }
-    if (!AppUtils.atLeastS()) {
-      sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+      startActivityAndCollapse(intent)
     }
     qsTile?.updateTile()
   }
