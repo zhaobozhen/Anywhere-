@@ -94,11 +94,6 @@ android {
         }
     }
 
-    lint {
-        isAbortOnError = true
-        isCheckReleaseBuilds = false
-    }
-
     sourceSets {
         named("main") {
             jniLibs.srcDir("libs")
