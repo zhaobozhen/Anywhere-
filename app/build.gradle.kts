@@ -233,7 +233,7 @@ dependencies {
     implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.3.1")
     implementation("dev.rikka.rikkax.widget:borderview:1.1.0")
     implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
-    implementation("dev.rikka.rikkax.insets:insets:1.1.1")
+    implementation("dev.rikka.rikkax.insets:insets:1.2.0")
     implementation("dev.rikka.rikkax.layoutinflater:layoutinflater:1.2.0")
 
     //Network
