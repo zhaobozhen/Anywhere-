@@ -154,7 +154,7 @@ dependencies {
     implementation(files("libs/speed-dial-3.1.1.aar"))
 //    implementation(files("libs/blurkit-1.1.1.aar"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
 
     implementation("com.github.zhaobozhen.libraries:me:1.0.4")
     implementation("com.github.zhaobozhen.libraries:utils:1.0.4")
