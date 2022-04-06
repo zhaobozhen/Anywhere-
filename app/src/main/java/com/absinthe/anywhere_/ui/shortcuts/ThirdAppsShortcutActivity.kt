@@ -44,11 +44,7 @@ class ThirdAppsShortcutActivity : AppBarActivity<ActivityThirdAppsShortcutBindin
 
     val resultLauncher = registerForActivityResult(OpenCreateShortcut()) {
       it?.let {
-        runCatching {
-          startActivity(it)
-        }.onFailure { t ->
-          ToastUtil.Toasty.show(this, t.message ?: "Can not open this activity")
-        }
+        startActivity(it)
       } ?: run {
         Timber.d("resultLauncher: intent is null")
       }
@@ -56,7 +52,11 @@ class ThirdAppsShortcutActivity : AppBarActivity<ActivityThirdAppsShortcutBindin
 
     mAdapter.setOnItemClickListener { _, _, position ->
       val info = mAdapter.data[position]
-      resultLauncher.launch(info)
+      runCatching {
+        resultLauncher.launch(info)
+      }.onFailure {
+        ToastUtil.Toasty.show(this, it.message ?: "Can not open this activity")
+      }
     }
   }
 
