@@ -38,7 +38,7 @@ class LabActivity : AppBarActivity<ActivityLabBinding>() {
                 setOnPreferenceChangeListener { _, newValue ->
                     GlobalScope.launch(Dispatchers.IO) {
                         delay(500)
-                        AppUtils.setTransparentLauncherIcon(requireContext(), newValue as Boolean)
+                        AppUtils.setTransparentLauncherIcon(newValue as Boolean)
                     }
                     true
                 }

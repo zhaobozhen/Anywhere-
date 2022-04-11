@@ -32,6 +32,7 @@ import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 
 const val BUNDLE_CATEGORY = "CATEGORY"
@@ -153,7 +154,10 @@ class CategoryCardFragment : Fragment() {
     DialogManager.showMultiSelectCreatingShortcutDialog(requireContext()) {
       GlobalScope.launch(Dispatchers.IO) {
         adapter.createShortcutSelect()
-        resetSelectState()
+
+        withContext(Dispatchers.Main) {
+          resetSelectState()
+        }
       }
     }
   }

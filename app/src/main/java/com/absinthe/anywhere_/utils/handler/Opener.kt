@@ -13,7 +13,6 @@ import cn.vove7.andro_accessibility_api.AppScope
 import cn.vove7.andro_accessibility_api.api.*
 import cn.vove7.andro_accessibility_api.utils.NeedAccessibilityException
 import com.absinthe.anywhere_.AnywhereApplication
-import com.absinthe.anywhere_.AwContextWrapper
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.a11y.A11yEntity
@@ -457,7 +456,9 @@ object Opener {
       }
       AnywhereType.Card.WORKFLOW -> {
         if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.A11Y_ANNOUNCEMENT)) {
-          DialogManager.showA11yAnnouncementDialog(AwContextWrapper(context))
+          if (context is Activity) {
+            DialogManager.showA11yAnnouncementDialog(context)
+          }
           return
         }
         WorkflowIntentService.enqueueWork(context, Intent().apply {

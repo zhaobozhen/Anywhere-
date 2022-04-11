@@ -150,7 +150,6 @@ object AppTextUtils {
    * @param cmd adb command
    * @return package name
    */
-  @JvmStatic
   fun getPkgNameByCommand(cmd: String): String? {
     return if (cmd.startsWith("am start -n ")) {
       cmd.removePrefix("am start -n ")
@@ -171,14 +170,14 @@ object AppTextUtils {
    * @param url URL Scheme
    * @return package name
    */
-  fun getPkgNameByUrlScheme(url: String): String? {
-    val resolveInfo = Utils.getApp().packageManager
-      .queryIntentActivities(handleIntent(url), PackageManager.MATCH_DEFAULT_ONLY)
-    return if (resolveInfo.size != 0) {
-      resolveInfo[0].activityInfo.packageName
-    } else {
-      null
-    }
+  private fun getPkgNameByUrlScheme(url: String): String? {
+    return runCatching {
+      Utils.getApp().packageManager
+        .queryIntentActivities(
+          handleIntent(url),
+          PackageManager.MATCH_DEFAULT_ONLY
+        )[0].activityInfo.packageName
+    }.getOrNull()
   }
 
   /**

@@ -36,7 +36,6 @@ import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import timber.log.Timber
 import java.io.File
-import java.util.*
 
 object AppUtils {
   /**
@@ -414,7 +413,8 @@ object AppUtils {
     }
   }
 
-  fun setTransparentLauncherIcon(context: Context, flag: Boolean) {
+  fun setTransparentLauncherIcon(flag: Boolean) {
+    val context = Utils.getApp()
     val packageManager = context.packageManager
 
     if (flag) {
