@@ -33,7 +33,6 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ClipboardUtil
 import com.absinthe.anywhere_.utils.ShortcutsUtils
 import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.view.home.ColorPickerDialogBuilder
@@ -199,29 +198,6 @@ object DialogManager {
     AnywhereDialogBuilder(activity)
       .setMessage(R.string.dialog_shortcut_community_tips)
       .setPositiveButton(android.R.string.ok) { _, _ -> action() }
-      .show()
-  }
-
-  fun showCheckShizukuWorkingDialog(context: Context) {
-    AnywhereDialogBuilder(context)
-      .setMessage(R.string.dialog_message_shizuku_not_running)
-      .setPositiveButton(R.string.dialog_delete_positive_button) { _: DialogInterface?, _: Int ->
-        val intent = context.packageManager.getLaunchIntentForPackage("moe.shizuku.privileged.api")
-        if (intent != null) {
-          (context as AppCompatActivity).startActivityForResult(
-            intent,
-            Const.REQUEST_CODE_SHIZUKU_PERMISSION
-          )
-        } else {
-          ToastUtil.makeText(R.string.toast_not_install_shizuku)
-          try {
-            URLSchemeHandler.parse(context, URLManager.SHIZUKU_MARKET_URL)
-          } catch (e: ActivityNotFoundException) {
-            e.printStackTrace()
-            ToastUtil.makeText(R.string.toast_no_react_url)
-          }
-        }
-      }
       .show()
   }
 

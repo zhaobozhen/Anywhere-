@@ -182,7 +182,7 @@ object AppUtils {
    * [UriPermission.getPersistedTime].
    *
    */
-  fun takePersistableUriPermission(context: Context, uri: Uri, intent: Intent) {
+  fun takePersistableUriPermission(context: Context, uri: Uri, intent: Intent = Intent()) {
     val takeFlags = (intent.flags
       and (Intent.FLAG_GRANT_READ_URI_PERMISSION
       or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))

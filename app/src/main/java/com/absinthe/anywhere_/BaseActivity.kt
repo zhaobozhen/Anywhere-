@@ -1,21 +1,20 @@
 package com.absinthe.anywhere_
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.FileUriExposedException
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
-import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
@@ -29,8 +28,9 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
 
   var shouldFinishOnResume = false
 
-  private var mListener: OnDocumentResultListener? = null
+  private var onDocumentResultAction: ((uri: Uri) -> Unit)? = null
   private lateinit var reference: WeakReference<AppCompatActivity>
+  private lateinit var openDocumentResultLauncher: ActivityResultLauncher<Array<String>>
 
   protected lateinit var binding: T
   protected lateinit var root: View
@@ -50,6 +50,29 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
       setContentView(root)
     }
     initView()
+
+    openDocumentResultLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
+      try {
+        it?.let {
+          onDocumentResultAction?.let { act -> act(it) }
+          if (it.toString().contains("file://")) {
+            ToastUtil.makeText(R.string.toast_file_uri_exposed)
+          } else {
+            try {
+              AppUtils.takePersistableUriPermission(this, it)
+            } catch (e: RuntimeException) {
+              ToastUtil.makeText(R.string.toast_runtime_error)
+            }
+          }
+        }
+      } catch (e: Exception) {
+        if (AppUtils.atLeastN()) {
+          if (e is FileUriExposedException) {
+            ToastUtil.makeText(R.string.toast_file_uri_exposed)
+          }
+        }
+      }
+    }
   }
 
   override fun onResume() {
@@ -87,8 +110,8 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
     }
   }
 
-  fun setDocumentResultListener(listener: OnDocumentResultListener?) {
-    mListener = listener
+  fun setDocumentResult(action: ((uri: Uri) -> Unit)?) {
+    onDocumentResultAction = action
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -96,32 +119,6 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
       onBackPressed()
     }
     return super.onOptionsItemSelected(item)
-  }
-
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    if (requestCode == Const.REQUEST_CODE_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-      try {
-        data?.data?.let {
-          mListener?.onResult(it)
-          if (it.toString().contains("file://")) {
-            ToastUtil.makeText(R.string.toast_file_uri_exposed)
-          } else {
-            try {
-              AppUtils.takePersistableUriPermission(this, it, data)
-            } catch (e: RuntimeException) {
-              ToastUtil.makeText(R.string.toast_runtime_error)
-            }
-          }
-        }
-      } catch (e: Exception) {
-        if (AppUtils.atLeastN()) {
-          if (e is FileUriExposedException) {
-            ToastUtil.makeText(R.string.toast_file_uri_exposed)
-          }
-        }
-      }
-    }
-    super.onActivityResult(requestCode, resultCode, data)
   }
 
   override fun finish() {
@@ -137,6 +134,4 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
   fun isNightMode(): Boolean {
     return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES > 0
   }
-
-
 }

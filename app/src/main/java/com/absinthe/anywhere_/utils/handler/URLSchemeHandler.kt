@@ -45,27 +45,9 @@ object URLSchemeHandler {
   }
 
   @Throws(Exception::class)
-  fun parseForResult(activity: Activity, url: String, requestCode: Int) {
-    try {
-      activity.startActivityForResult(handleIntent(url), requestCode)
-    } catch (e: Throwable) {
-      throw e
-    }
-  }
-
-  @Throws(Exception::class)
   fun parse(fragment: Fragment, url: String) {
     try {
       fragment.startActivity(handleIntent(url))
-    } catch (e: Throwable) {
-      throw e
-    }
-  }
-
-  @Throws(Exception::class)
-  fun parseForResult(fragment: Fragment, url: String, requestCode: Int) {
-    try {
-      fragment.startActivityForResult(handleIntent(url), requestCode)
     } catch (e: Throwable) {
       throw e
     }

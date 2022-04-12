@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.*
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
@@ -22,11 +21,9 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
-import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.ActivityEditorBinding
-import com.absinthe.anywhere_.listener.OnDocumentResultListener
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.services.overlay.IOverlayService
@@ -293,23 +290,14 @@ class EditorActivity : BaseActivity<ActivityEditorBinding>() {
             )
           }
           R.id.custom_icon -> {
-            setDocumentResultListener(object : OnDocumentResultListener {
-              override fun onResult(uri: Uri) {
+            try {
+              setDocumentResult {
                 val ae = entity.copy().apply {
-                  iconUri = uri.toString()
+                  iconUri = it.toString()
                 }
                 AnywhereApplication.sRepository.update(ae)
                 onBackPressed()
               }
-
-            })
-
-            try {
-              val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "image/*"
-              }
-              startActivityForResult(intent, Const.REQUEST_CODE_IMAGE_CAPTURE)
             } catch (e: ActivityNotFoundException) {
               e.printStackTrace()
               ToastUtil.makeText(R.string.toast_no_document_app)

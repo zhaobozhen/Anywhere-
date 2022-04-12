@@ -5,7 +5,6 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.fragment.app.Fragment
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -70,15 +69,11 @@ object ShizukuHelper {
     return false
   }
 
-  private fun showPermissionDialog(activity: Activity, fragment: Fragment? = null) {
+  private fun showPermissionDialog(activity: Activity) {
     showGotoShizukuManagerDialog(activity) {
       val intent = IntentUtils.getLaunchAppIntent("moe.shizuku.privileged.api")
       if (intent != null) {
-        if (fragment != null) {
-          fragment.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
-        } else {
-          activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
-        }
+        activity.startActivityForResult(intent, Const.REQUEST_CODE_SHIZUKU_PERMISSION)
       } else {
         ToastUtil.makeText(R.string.toast_not_install_shizuku)
         URLSchemeHandler.parse(activity, URLManager.SHIZUKU_MARKET_URL)

@@ -1,15 +1,11 @@
 package com.absinthe.anywhere_.utils
 
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import android.os.Environment
-import androidx.appcompat.app.AppCompatActivity
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.AnywhereType
-import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.BackupBean
 import com.absinthe.anywhere_.model.database.AnywhereEntity
@@ -34,33 +30,6 @@ object StorageUtils {
       val state = Environment.getExternalStorageState()
       return Environment.MEDIA_MOUNTED == state || Environment.MEDIA_MOUNTED_READ_ONLY == state
     }
-
-  /**
-   * Create a file
-   *
-   * @param activity context
-   * @param mimeType MIME type of the file
-   * @param fileName file name
-   */
-  @JvmStatic
-  fun createFile(activity: AppCompatActivity, mimeType: String, fileName: String) {
-    val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-      // Filter to only show results that can be "opened", such as
-      // a file (as opposed to a list of contacts or timezones).
-      addCategory(Intent.CATEGORY_OPENABLE)
-
-      // Create a file with the requested MIME type.
-      type = mimeType
-      putExtra(Intent.EXTRA_TITLE, fileName)
-    }
-
-    try {
-      activity.startActivityForResult(intent, Const.REQUEST_CODE_WRITE_FILE)
-    } catch (e: ActivityNotFoundException) {
-      e.printStackTrace()
-      ToastUtil.makeText(R.string.toast_no_document_app)
-    }
-  }
 
   /**
    * Export Anywhere- entities to json string
