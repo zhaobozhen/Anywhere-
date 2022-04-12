@@ -68,7 +68,7 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
       findPreference<Preference>(Const.PREF_CHANGE_BACKGROUND)?.apply {
         setOnPreferenceClickListener {
           try {
-            (requireActivity() as SettingsActivity).setDocumentResult {
+            (requireActivity() as SettingsActivity).setDocumentResult("image/*") {
               GlobalValues.backgroundUri = it.toString()
               GlobalValues.clearActionBarType()
               AppUtils.restart()

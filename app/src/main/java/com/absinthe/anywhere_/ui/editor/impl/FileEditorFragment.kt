@@ -33,7 +33,7 @@ class FileEditorFragment : BaseEditorFragment() {
 
     binding.btnSelectFile.setOnClickListener {
       try {
-        (requireContext() as EditorActivity).setDocumentResult {
+        (requireContext() as EditorActivity).setDocumentResult("*/*") {
           binding.tietUrl.setText(it.toString())
         }
       } catch (e: ActivityNotFoundException) {

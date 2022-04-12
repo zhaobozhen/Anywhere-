@@ -53,7 +53,7 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
         .build()
       setOnClickListener {
         try {
-          (requireContext() as EditorActivity).setDocumentResult {
+          (requireContext() as EditorActivity).setDocumentResult("image/*") {
             loadImage(it.toString())
             binding.tietUrl.setText(it.toString())
           }

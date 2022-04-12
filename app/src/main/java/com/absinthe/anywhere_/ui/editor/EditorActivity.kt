@@ -291,7 +291,7 @@ class EditorActivity : BaseActivity<ActivityEditorBinding>() {
           }
           R.id.custom_icon -> {
             try {
-              setDocumentResult {
+              setDocumentResult("image/*") {
                 val ae = entity.copy().apply {
                   iconUri = it.toString()
                 }

@@ -1,6 +1,9 @@
 package com.absinthe.anywhere_
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
@@ -11,7 +14,8 @@ import android.os.FileUriExposedException
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.absinthe.anywhere_.constants.GlobalValues
@@ -51,17 +55,19 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
     }
     initView()
 
-    openDocumentResultLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
+    openDocumentResultLauncher = registerForActivityResult(OpenDocument()) {
       try {
         it?.let {
-          onDocumentResultAction?.let { act -> act(it) }
-          if (it.toString().contains("file://")) {
-            ToastUtil.makeText(R.string.toast_file_uri_exposed)
-          } else {
-            try {
-              AppUtils.takePersistableUriPermission(this, it)
-            } catch (e: RuntimeException) {
-              ToastUtil.makeText(R.string.toast_runtime_error)
+          it.data?.let { uri ->
+            onDocumentResultAction?.invoke(uri)
+            if (uri.toString().contains("file://")) {
+              ToastUtil.makeText(R.string.toast_file_uri_exposed)
+            } else {
+              try {
+                AppUtils.takePersistableUriPermission(this, uri, it)
+              } catch (e: RuntimeException) {
+                ToastUtil.makeText(R.string.toast_runtime_error)
+              }
             }
           }
         }
@@ -110,8 +116,9 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
     }
   }
 
-  fun setDocumentResult(action: ((uri: Uri) -> Unit)?) {
+  fun setDocumentResult(mimeType: String, action: ((uri: Uri) -> Unit)?) {
     onDocumentResultAction = action
+    openDocumentResultLauncher.launch(arrayOf(mimeType))
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -133,5 +140,23 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
 
   fun isNightMode(): Boolean {
     return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES > 0
+  }
+
+  class OpenDocument : ActivityResultContract<Array<String>, Intent?>() {
+    @CallSuper
+    override fun createIntent(context: Context, input: Array<String>): Intent {
+      return Intent(Intent.ACTION_OPEN_DOCUMENT)
+        .putExtra(Intent.EXTRA_MIME_TYPES, input)
+        .setType("*/*")
+    }
+
+    override fun getSynchronousResult(
+      context: Context,
+      input: Array<String>
+    ): SynchronousResult<Intent?>? = null
+
+    override fun parseResult(resultCode: Int, intent: Intent?): Intent? {
+      return intent.takeIf { resultCode == Activity.RESULT_OK }
+    }
   }
 }
