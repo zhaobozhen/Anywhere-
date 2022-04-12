@@ -29,6 +29,9 @@
     <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
     <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
+
+    <item name="bottomSheetHeaderHandlerColor">@color/bottom_sheet_header_handler</item>
+    <item name="bottomSheetHeaderHandlerColorActivated">@color/bottom_sheet_header_handler_activated</item>
   </style>
 
   <style name="Theme.Light" parent="Base.AppTheme.Light" />
@@ -59,6 +62,9 @@
     <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
     <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
+
+    <item name="bottomSheetHeaderHandlerColor">@color/bottom_sheet_header_handler</item>
+    <item name="bottomSheetHeaderHandlerColorActivated">@color/bottom_sheet_header_handler_activated</item>
   </style>
 
   <style name="Theme" parent="Base.AppTheme" />

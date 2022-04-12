@@ -12,6 +12,8 @@
     <color name="widgetSecondaryColor">#FF343434</color>
     <color name="widgetThirdlyColor">#FF565656</color>
     <color name="aboutHeader">#FF121212</color>
+  <color name="bottom_sheet_header_handler">#CCBBBBBB</color>
+  <color name="bottom_sheet_header_handler_activated">#FFFFFFFF</color>
 
     <!--  Shell  -->
     <color name="shellBackground">#FFECECEC</color>

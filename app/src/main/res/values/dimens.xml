@@ -22,6 +22,7 @@
   <dimen name="bsd_item_margin_vertical">5dp</dimen>
   <dimen name="bsd_margin_vertical">20dp</dimen>
   <dimen name="editor_padding_bottom">50dp</dimen>
+  <dimen name="dialog_handler_radius">2dp</dimen>
 
   <!--  MD2 Toolbar  -->
   <dimen name="toolbar_radius_corner">8dp</dimen>

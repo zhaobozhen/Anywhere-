@@ -18,11 +18,12 @@ import com.absinthe.anywhere_.utils.CommandUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.viewbuilder.entity.CollectorBuilder
 import timber.log.Timber
+import java.lang.ref.WeakReference
 
 @SuppressLint("ViewConstructor")
-class CollectorView(context: Context, private val binder: ICollectorService) :
-  LinearLayout(context) {
+class CollectorView(context: Context, binder: ICollectorService) : LinearLayout(context) {
 
+  private val binderRef: WeakReference<ICollectorService> = WeakReference(binder)
   private val mWindowManager: WindowManager =
     context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
   private val mLayoutParams: WindowManager.LayoutParams = CollectorWindowManager.LAYOUT_PARAMS
@@ -50,7 +51,7 @@ class CollectorView(context: Context, private val binder: ICollectorService) :
     mBuilder.ibCollector.setOnClickListener {
       Timber.d("Collector clicked!")
       collectActivity()
-      binder.stopCollector()
+      binderRef.get()?.stopCollector()
       AppUtils.openUrl(context, mPackageName, mClassName, "")
     }
     mBuilder.ibCollector.setOnTouchListener(object : OnTouchListener {

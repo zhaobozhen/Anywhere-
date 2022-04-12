@@ -26,6 +26,8 @@
   <color name="widgetThirdlyColor">#FFBBBBBB</color>
   <color name="aboutHeader">#FF8BC34A</color>
   <color name="renge">#FFAB373A</color>
+  <color name="bottom_sheet_header_handler">#CCDFDFDF</color>
+  <color name="bottom_sheet_header_handler_activated">#CC444444</color>
 
   <!--  Fab  -->
   <color name="fabBackgroundColor">#FF03A9F4</color>

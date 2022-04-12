@@ -32,6 +32,9 @@
     <item name="android:windowSplashScreenBackground">?android:attr/colorBackground</item>
     <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_anim_vector</item>
     <item name="android:windowSplashScreenAnimationDuration">500</item>
+
+    <item name="bottomSheetHeaderHandlerColor">@color/bottom_sheet_header_handler</item>
+    <item name="bottomSheetHeaderHandlerColorActivated">@color/bottom_sheet_header_handler_activated</item>
   </style>
 
   <style name="Theme.Light" parent="Base.AppTheme.Light" />
@@ -66,5 +69,8 @@
     <item name="android:windowSplashScreenBackground">?android:attr/colorBackground</item>
     <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_anim_vector</item>
     <item name="android:windowSplashScreenAnimationDuration">500</item>
+
+    <item name="bottomSheetHeaderHandlerColor">@color/bottom_sheet_header_handler</item>
+    <item name="bottomSheetHeaderHandlerColorActivated">@color/bottom_sheet_header_handler_activated</item>
   </style>
 </resources>

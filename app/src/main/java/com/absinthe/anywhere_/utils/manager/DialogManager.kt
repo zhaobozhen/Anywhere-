@@ -10,6 +10,7 @@ import android.view.ContextThemeWrapper
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.AwContextWrapper
@@ -29,6 +30,7 @@ import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment
 import com.absinthe.anywhere_.ui.settings.IntervalDialogFragment
 import com.absinthe.anywhere_.ui.settings.TimePickerDialogFragment
 import com.absinthe.anywhere_.ui.shortcuts.CreateShortcutDialogFragment
+import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ClipboardUtil
 import com.absinthe.anywhere_.utils.ShortcutsUtils
@@ -321,30 +323,40 @@ object DialogManager {
           AwContextWrapper(context)
         }
 
-        val dialog = AnywhereDialogBuilder(ctx)
-          .setTitle(R.string.dialog_shell_result_title)
-          .setMessage(parsedResult)
-          .setPositiveButton(R.string.dialog_close_button, posListener)
-          .setNeutralButton(R.string.dialog_copy) { _, _ ->
-            ClipboardUtil.put(context, "$parsedResult")
-            ToastUtil.makeText(R.string.toast_copied)
-            cancelListener?.onCancel(null)
+        if (ctx is AppCompatActivity) {
+          ShellResultBottomSheetDialogFragment().apply {
+            arguments = bundleOf(
+              EXTRA_CONTENT to parsedResult,
+              EXTRA_NEED_FINISH_ACTIVITY to (ctx is ShortcutsActivity)
+            )
+            show(ctx.supportFragmentManager, tag)
           }
-          .setOnCancelListener(cancelListener)
-          .also {
-            (it as AnywhereDialogBuilder).setMessageSelectable(true)
-          }
-          .create()
-        if (context !is ContextThemeWrapper) {
-          dialog.window?.setType(
-            if (AppUtils.atLeastO()) {
-              WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            } else {
-              WindowManager.LayoutParams.TYPE_PHONE
+        } else {
+          val dialog = AnywhereDialogBuilder(ctx)
+            .setTitle(R.string.dialog_shell_result_title)
+            .setMessage(parsedResult)
+            .setPositiveButton(R.string.dialog_close_button, posListener)
+            .setNeutralButton(R.string.dialog_copy) { _, _ ->
+              ClipboardUtil.put(context, "$parsedResult")
+              ToastUtil.makeText(R.string.toast_copied)
+              cancelListener?.onCancel(null)
             }
-          )
+            .setOnCancelListener(cancelListener)
+            .also {
+              (it as AnywhereDialogBuilder).setMessageSelectable(true)
+            }
+            .create()
+          if (context !is ContextThemeWrapper) {
+            dialog.window?.setType(
+              if (AppUtils.atLeastO()) {
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+              } else {
+                WindowManager.LayoutParams.TYPE_PHONE
+              }
+            )
+          }
+          dialog.show()
         }
-        dialog.show()
       }
       else -> {
         posListener?.onClick(null, 0)
