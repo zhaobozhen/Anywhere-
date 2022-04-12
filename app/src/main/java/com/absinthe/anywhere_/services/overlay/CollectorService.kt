@@ -14,6 +14,7 @@ import com.absinthe.anywhere_.model.manager.CoordinatorWindowManager
 import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
+import com.absinthe.anywhere_.utils.NotifyUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.blankj.utilcode.util.PermissionUtils
 import timber.log.Timber
@@ -68,14 +69,20 @@ class CollectorService : Service() {
         Thread.currentThread().interrupt()
       } else {
         AppTextUtils.processResultString(result)?.let {
-          mCollectorWindowManager.setInfo(it[0], it[1])
+          if (isCollectorPlus) {
+            mCollectorWindowManager.setInfo(it[0], it[1])
+          }
+          NotifyUtils.updateCollectorNotification(this@CollectorService, it[0], it[1])
         }
       }
 
       mHandler.postDelayed(this, dumpInterval.toLong())
     }
   }
+
   private var isSendingBroadcast = false
+  private var isCollectorRunning = false
+  private var isCoordinatorRunning = false
 
   override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
     return START_NOT_STICKY
@@ -117,19 +124,24 @@ class CollectorService : Service() {
   }
 
   private fun stopCollectorInternal() {
-    if (isCollectorPlus) {
+    if (isCollectorRunning) {
       mHandler.removeCallbacks(getCurrentInfoTask)
+      mCollectorWindowManager.removeView()
+      NotifyUtils.cancelCollectorNotification(this)
+      isCollectorRunning = false
     }
-    mCollectorWindowManager.removeView()
     stopSelf()
   }
 
   private fun startCollectorImpl() {
-    mCollectorWindowManager.addView()
-
-    if (isCollectorPlus) {
-      mHandler.post(getCurrentInfoTask)
+    if (isCollectorRunning) {
+      return
     }
+    isCollectorRunning = true
+    mCollectorWindowManager.addView()
+    mHandler.post(getCurrentInfoTask)
+
+    NotifyUtils.createCollectorNotification(this)
 
     Toast.makeText(this, R.string.toast_collector_opened, Toast.LENGTH_SHORT).show()
   }
@@ -160,12 +172,19 @@ class CollectorService : Service() {
   }
 
   private fun startCoordinatorImpl() {
+    if (isCoordinatorRunning) {
+      return
+    }
+    isCoordinatorRunning = true
     mCoordinatorWindowManager.addView()
   }
 
   private fun stopCoordinatorInternal(x: Int, y: Int) {
-    notifyCoordinatorSelected(x, y)
-    mCoordinatorWindowManager.removeView()
+    if (isCoordinatorRunning) {
+      notifyCoordinatorSelected(x, y)
+      mCoordinatorWindowManager.removeView()
+      isCoordinatorRunning = false
+    }
     stopSelf()
   }
 
