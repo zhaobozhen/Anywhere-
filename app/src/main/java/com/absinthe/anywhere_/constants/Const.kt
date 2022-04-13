@@ -95,7 +95,7 @@ object Const {
   const val INTENT_EXTRA_WIDGET_ENTITY = "entity"
 
   const val INTENT_EXTRA_APP_NAME = "appName"
-  const val INTENT_EXTRA_PKG_NAME = "pkgName"
+  const val INTENT_EXTRA_PKG_NAME = "android.intent.extra.PACKAGE_NAME"
 
   const val CMD_GET_TOP_STACK_ACTIVITY = "dumpsys activity activities | grep mResumedActivity"
   const val CMD_OPEN_URL_SCHEME = "am start -a android.intent.action.VIEW -d "
