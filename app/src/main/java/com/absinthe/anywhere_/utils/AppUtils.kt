@@ -47,17 +47,29 @@ object AppUtils {
    * @param param3  param3
    */
   fun openUrl(context: Context, param1: String, param2: String, param3: String) {
-    val url = (URLManager.ANYWHERE_SCHEME + URLManager.URL_HOST + "?"
-      + "param1=" + param1
-      + "&param2=" + param2
-      + "&param3=" + param3
-      + "&type=" + AnywhereType.Card.ACTIVITY)
+    val url = getUrlByParam(param1, param2, param3)
     URLSchemeHandler.parse(context, url)
   }
 
+  fun getUrlByParam(param1: String, param2: String, param3: String, fromCollector: Boolean = false): String {
+    return Uri.Builder().scheme(URLManager.ANYWHERE_SCHEME_RAW)
+      .authority(URLManager.URL_HOST)
+      .appendQueryParameter("param1", param1)
+      .appendQueryParameter("param2", param2)
+      .appendQueryParameter("param3", param3)
+      .appendQueryParameter("type", AnywhereType.Card.ACTIVITY.toString())
+      .appendQueryParameter("fromCollector", fromCollector.toString())
+      .build()
+      .toString()
+  }
+
   fun openNewURLScheme(context: Context) {
-    val url =
-      URLManager.ANYWHERE_SCHEME + URLManager.URL_HOST + "?param1=&type=${AnywhereType.Card.URL_SCHEME}"
+    val url = Uri.Builder().scheme(URLManager.ANYWHERE_SCHEME_RAW)
+      .authority(URLManager.URL_HOST)
+      .appendQueryParameter("param1", "")
+      .appendQueryParameter("type", AnywhereType.Card.URL_SCHEME.toString())
+      .build()
+      .toString()
     URLSchemeHandler.parse(context, url)
   }
 

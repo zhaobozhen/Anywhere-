@@ -44,4 +44,12 @@ class CollectorTileService : TileService() {
       }
     }
   }
+
+  override fun onStopListening() {
+    super.onStopListening()
+    if (collectorBinder != null) {
+      collectorBinder?.stopCollector()
+      unbindService(connection)
+    }
+  }
 }

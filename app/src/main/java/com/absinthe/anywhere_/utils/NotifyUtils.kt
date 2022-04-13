@@ -1,11 +1,15 @@
 package com.absinthe.anywhere_.utils
 
+import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.AwContextWrapper
 import com.absinthe.anywhere_.R
@@ -46,11 +50,20 @@ object NotifyUtils {
         .setPriority(NotificationCompat.PRIORITY_LOW)
         .setOngoing(true)
         .setAutoCancel(false)
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        param.setCategory(Notification.CATEGORY_NAVIGATION);
+      }
       context.startForeground(COLLECTOR_NOTIFICATION_ID, param.build())
     }
   }
 
   fun updateCollectorNotification(context: Service, pkgName: String, clsName: String) {
+    val intent = Intent().apply {
+      data = Uri.parse(AppUtils.getUrlByParam(pkgName, clsName, "", true))
+    }
+    val pendingIntent = TaskStackBuilder.create(context)
+      .addNextIntentWithParentStack(intent)
+      .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     NotificationUtils.notify(
       COLLECTOR_NOTIFICATION_ID,
       channelConfig
@@ -63,6 +76,7 @@ object NotifyUtils {
         .setPriority(NotificationCompat.PRIORITY_LOW)
         .setOngoing(true)
         .setAutoCancel(false)
+        .setContentIntent(pendingIntent)
     }
   }
 

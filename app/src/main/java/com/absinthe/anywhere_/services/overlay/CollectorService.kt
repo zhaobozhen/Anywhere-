@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.services.overlay
 
 import android.app.Service
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.*
 import android.widget.Toast
 import com.absinthe.anywhere_.R
@@ -95,6 +96,7 @@ class CollectorService : Service() {
   override fun onDestroy() {
     Timber.d("CollectorService onDestroy.")
     mHandler.removeCallbacks(getCurrentInfoTask)
+    stopCollectorInternal()
     super.onDestroy()
   }
 
@@ -131,6 +133,11 @@ class CollectorService : Service() {
       isCollectorRunning = false
     }
     stopSelf()
+
+    if (serviceConnection != null) {
+      applicationContext.unbindService(serviceConnection!!)
+      serviceConnection = null
+    }
   }
 
   private fun startCollectorImpl() {
@@ -204,5 +211,9 @@ class CollectorService : Service() {
       listenerList.finishBroadcast()
       isSendingBroadcast = false
     }
+  }
+
+  companion object {
+    var serviceConnection: ServiceConnection? = null
   }
 }

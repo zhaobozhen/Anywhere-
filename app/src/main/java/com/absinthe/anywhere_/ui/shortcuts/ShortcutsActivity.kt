@@ -40,19 +40,6 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
     private var collectorService: ICollectorService? = null
     private var shouldFinish = false
 
-    private val connection = object : ServiceConnection {
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBound = false
-            collectorService = null
-        }
-
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            isBound = true
-            collectorService = ICollectorService.Stub.asInterface(service)
-            collectorService?.startCollector()
-        }
-
-    }
     private val viewModel by viewModels<AnywhereViewModel>()
 
     override fun setViewBinding(): Nothing? = null
@@ -89,7 +76,20 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                         if (isBound) {
                             collectorService?.startCollector()
                         } else {
-                            applicationContext.bindService(Intent(this, CollectorService::class.java), connection, Context.BIND_AUTO_CREATE)
+                          CollectorService.serviceConnection = object : ServiceConnection {
+                            override fun onServiceDisconnected(name: ComponentName?) {
+                              isBound = false
+                              collectorService = null
+                            }
+
+                            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                              isBound = true
+                              collectorService = ICollectorService.Stub.asInterface(service)
+                              collectorService?.startCollector()
+                            }
+
+                          }
+                            applicationContext.bindService(Intent(this, CollectorService::class.java), CollectorService.serviceConnection!!, Context.BIND_AUTO_CREATE)
                         }
                     }
                     shouldFinish = true

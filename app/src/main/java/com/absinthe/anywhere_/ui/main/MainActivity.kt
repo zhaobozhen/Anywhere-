@@ -286,7 +286,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     initFab()
     CardTypeIconGenerator
 
-    AnywhereApplication.sRepository.allPageEntities.observe(this, {
+    AnywhereApplication.sRepository.allPageEntities.observe(this) {
       if (it.isNotEmpty()) {
         binding.viewPager.apply {
           offscreenPageLimit = 2
@@ -321,7 +321,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
           })
 
-//                    setPageTransformer(CategoryCardTransformer())
           getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
           isUserInputEnabled = GlobalValues.isPages
@@ -332,7 +331,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
           }
         }
       }
-    })
+    }
 
     if (GlobalValues.isMd2Toolbar) {
       val marginHorizontal = resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
@@ -370,8 +369,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.drawer.addDrawerListener(mToggle!!)
         mToggle!!.syncState()
         AnywhereApplication.sRepository.allAnywhereEntities.observe(
-          this,
-          { initDrawer(binding.drawer) })
+          this
+        ) { initDrawer(binding.drawer) }
       } else {
         it.setHomeButtonEnabled(false)
         it.setDisplayHomeAsUpEnabled(false)
@@ -427,10 +426,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     AnywhereApplication.sRepository.allPageEntities.observe(
-      this,
-      { pageEntities: List<PageEntity>? ->
-        pageEntities?.let { setupDrawerData(adapter, it) }
-      })
+      this
+    ) { pageEntities: List<PageEntity>? ->
+      pageEntities?.let { setupDrawerData(adapter, it) }
+    }
 
     binding.rvPages.apply {
       this.adapter = adapter
@@ -520,7 +519,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     AnywhereApplication.sRepository.allPageEntities.observe(this, mObserver)
-    AnywhereApplication.sRepository.allAnywhereEntities.observe(this, {
+    AnywhereApplication.sRepository.allAnywhereEntities.observe(this) {
       if (Once.beenDone(
           Once.THIS_APP_INSTALL,
           OnceTag.FIRST_GUIDE
@@ -529,9 +528,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewModel.convertAnywhereTypeV2()
         Once.markDone(OnceTag.CONVERT_TYPE_TO_V2)
       }
-    })
+    }
 
-    viewModel.background.observe(this, { s: String ->
+    viewModel.background.observe(this) { s: String ->
       GlobalValues.backgroundUri = s
 
       if (s.isNotEmpty()) {
@@ -539,10 +538,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         UxUtils.setAdaptiveToolbarTitleColor(this@MainActivity, binding.tsTitle)
         UxUtils.setActionBarTransparent(this)
       }
-    })
-    viewModel.shouldShowFab.observe(this, {
+    }
+    viewModel.shouldShowFab.observe(this) {
       binding.fab.isVisible = it
-    })
+    }
   }
 
   private fun initFab() {
@@ -649,6 +648,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
       val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2).orEmpty()
       val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3).orEmpty()
       val type = uri.getQueryParameter(Const.INTENT_EXTRA_TYPE) ?: return
+      val fromCollector = runCatching { uri.getQueryParameter("fromCollector").toBoolean() }.getOrDefault(false)
+
+      if (fromCollector) {
+        if (CollectorService.serviceConnection != null) {
+          applicationContext.unbindService(CollectorService.serviceConnection!!)
+          CollectorService.serviceConnection = null
+        }
+      }
 
       when (type.toInt()) {
         AnywhereType.Card.URL_SCHEME -> {

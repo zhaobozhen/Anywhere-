@@ -19,6 +19,7 @@ object URLManager {
 
   //Scheme
   const val ANYWHERE_SCHEME = "anywhere://"
+  const val ANYWHERE_SCHEME_RAW = "anywhere"
   const val URL_HOST = "url"
   const val OPEN_HOST = "open"
   const val CARD_SHARING_HOST = "share"
