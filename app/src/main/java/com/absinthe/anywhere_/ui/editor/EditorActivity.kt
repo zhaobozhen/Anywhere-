@@ -45,6 +45,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import jonathanfinerty.once.Once
+import timber.log.Timber
 
 const val EXTRA_ENTITY = "EXTRA_ENTITY"
 const val EXTRA_EDIT_MODE = "EXTRA_EDIT_MODE"
@@ -155,7 +156,13 @@ class EditorActivity : BaseActivity<ActivityEditorBinding>() {
       binding.tvOpenUrl.isGone = true
     }
 
-    editor = EditorFactory.produce(entity.type)
+    editor = try {
+      EditorFactory.produce(entity.type)
+    } catch (e: IllegalArgumentException) {
+      Timber.e(e)
+      finish()
+      return
+    }
 
     val fragment = editor as BaseEditorFragment
     fragment.apply {

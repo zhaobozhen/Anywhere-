@@ -448,7 +448,11 @@ object Opener {
             }
           }
 
-          context.sendBroadcast(intent)
+          runCatching {
+            context.sendBroadcast(intent)
+          }.onFailure { t ->
+            ToastUtil.makeText(t.toString())
+          }
         } ?: let {
           ToastUtil.makeText(R.string.toast_json_error)
         }
