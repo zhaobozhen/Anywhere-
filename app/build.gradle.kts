@@ -213,7 +213,7 @@ dependencies {
     implementation("com.drakeet.multitype:multitype:4.3.0")
     implementation("com.drakeet.drawer:drawer:1.0.3")
     implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
-    implementation("me.zhanghai.android.fastscroll:library:1.1.7")
+    implementation("me.zhanghai.android.fastscroll:library:1.1.8")
 
     val shizukuVersion = "12.1.0"
     // required by Shizuku and Sui
