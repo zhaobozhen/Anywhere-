@@ -209,7 +209,7 @@ dependencies {
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
 
     //UX
-    implementation("com.drakeet.about:about:2.5.0")
+    implementation("com.drakeet.about:about:2.5.1")
     implementation("com.drakeet.multitype:multitype:4.3.0")
     implementation("com.drakeet.drawer:drawer:1.0.3")
     implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
