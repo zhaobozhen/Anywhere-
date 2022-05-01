@@ -198,7 +198,7 @@ dependencies {
     kapt("com.github.bumptech.glide:compiler:4.13.1")
 
     implementation("com.google.code.gson:gson:2.9.0")
-    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.google.zxing:core:3.5.0")
     implementation("com.blankj:utilcodex:1.31.0")
     implementation("com.tencent:mmkv-static:1.2.13")
     implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7")
