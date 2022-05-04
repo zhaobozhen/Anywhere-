@@ -203,7 +203,7 @@ dependencies {
     implementation("com.tencent:mmkv-static:1.2.13")
     implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7")
     implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
-    implementation("com.github.topjohnwu.libsu:core:5.0.0")
+    implementation("com.github.topjohnwu.libsu:core:5.0.1")
     implementation("com.github.thegrizzlylabs:sardine-android:0.8")
     implementation("com.jonathanfinerty.once:once:1.3.1")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
