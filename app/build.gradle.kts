@@ -194,7 +194,7 @@ dependencies {
     implementation("com.google.android.material:material:1.5.0")
 
     //Function
-    implementation("com.github.bumptech.glide:glide:4.13.1")
+    implementation("com.github.bumptech.glide:glide:4.13.2")
     kapt("com.github.bumptech.glide:compiler:4.13.1")
 
     implementation("com.google.code.gson:gson:2.9.0")
