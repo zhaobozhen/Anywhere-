@@ -195,7 +195,7 @@ dependencies {
 
     //Function
     implementation("com.github.bumptech.glide:glide:4.13.2")
-    kapt("com.github.bumptech.glide:compiler:4.13.1")
+    kapt("com.github.bumptech.glide:compiler:4.13.2")
 
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.google.zxing:core:3.5.0")
