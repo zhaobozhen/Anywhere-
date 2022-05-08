@@ -7,13 +7,21 @@
   android:layout_marginVertical="@dimen/bsd_margin_vertical"
   android:background="@color/transparent">
 
+  <com.google.android.material.checkbox.MaterialCheckBox
+    android:id="@+id/bright_toggle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/bsd_bright_when_displaying_image"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
   <com.google.android.material.button.MaterialButtonToggleGroup
     android:id="@+id/toggle_group"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:checkedButton="@id/btn_local"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/bright_toggle"
     app:selectionRequired="true"
     app:singleSelection="true">
 

@@ -17,7 +17,7 @@ import android.graphics.drawable.Drawable;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.blankj.utilcode.util.Utils;
+import com.absinthe.anywhere_.AnywhereApplication;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -37,7 +37,7 @@ import java.util.Random;
  */
 public class IconPackManager {
 
-  private final Application mContext = Utils.getApp();
+  private final Application mContext = AnywhereApplication.app;
   private HashMap<String, IconPack> iconPacks = null;
 
   public HashMap<String, IconPack> getAvailableIconPacks(boolean forceReload) {

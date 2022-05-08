@@ -11,12 +11,11 @@ plugins {
     id("sdk-editor")
 }
 
-val verName = "2.4.0"
-val verCode = 2040000
+val verName = "2.4.1"
+val verCode = 2040100
 
 android {
     compileSdk = 32
-    buildToolsVersion = "32.0.0"
     ndkVersion = "21.4.7075529"
 
     defaultConfig {

@@ -414,4 +414,5 @@
   <string name="dialog_allow_button">允許</string>
   <string name="bsd_text_input_layout_br_intent_class_label">類名（選填）</string>
   <string name="bsd_text_input_layout_br_class_helper_text">指定一個類名用來向指定應用發送廣播</string>
+    <string name="bsd_bright_when_displaying_image">展示圖片時亮屏</string>
 </resources>

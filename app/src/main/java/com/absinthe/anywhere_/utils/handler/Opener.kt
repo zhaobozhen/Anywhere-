@@ -24,6 +24,8 @@ import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.listener.OnAppDefrostListener
 import com.absinthe.anywhere_.model.*
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.database.isBrightWhenShowImage
+import com.absinthe.anywhere_.model.database.isExecWithRoot
 import com.absinthe.anywhere_.model.manager.QRCollection
 import com.absinthe.anywhere_.services.WorkflowIntentService
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
@@ -110,7 +112,7 @@ object Opener {
           openFromCommand(it)
         }
         TYPE_ENTITY -> {
-          if (item?.execWithRoot == true) {
+          if (item?.isExecWithRoot() == true) {
             command = getItemCommand(item!!)
             openFromCommand(it)
           } else {
@@ -173,14 +175,25 @@ object Opener {
         } else {
           ActivityStackManager.topActivity ?: return
         }
+        Timber.d("ctx: $ctx")
         DialogManager.showImageDialog(
           ctx,
           item.param1,
           object : AnywhereDialogFragment.OnDismissListener {
             override fun onDismiss() {
               listener?.onOpened()
+              if (item.isBrightWhenShowImage()) {
+                ctx.window.attributes = ctx.window.attributes.also {
+                  it.screenBrightness = -1.0f
+                }
+              }
             }
           })
+        if (item.isBrightWhenShowImage()) {
+          ctx.window.attributes = ctx.window.attributes.also {
+            it.screenBrightness = 1.0f
+          }
+        }
       }
       AnywhereType.Card.ACTIVITY -> {
         val className = if (item.param2.orEmpty().startsWith(".")) {
@@ -395,11 +408,7 @@ object Opener {
           null
         }
         extraBean?.let {
-          val action = if (it.action.isNotEmpty()) {
-            it.action
-          } else {
-            Const.DEFAULT_BR_ACTION
-          }
+          val action = it.action.ifEmpty { Const.DEFAULT_BR_ACTION }
           val intent = Intent(action).apply {
             if (context !is Activity) {
               addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

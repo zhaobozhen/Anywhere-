@@ -25,6 +25,7 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.databinding.ActivityEditorBinding
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.model.database.isExecWithRoot
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
 import com.absinthe.anywhere_.services.overlay.IOverlayService
 import com.absinthe.anywhere_.services.overlay.OverlayService
@@ -188,17 +189,16 @@ class EditorActivity : BaseActivity<ActivityEditorBinding>() {
     }
 
     when (entity.type) {
-      AnywhereType.Card.ACCESSIBILITY, AnywhereType.Card.FILE,
-      AnywhereType.Card.IMAGE, AnywhereType.Card.QR_CODE,
-      AnywhereType.Card.WORKFLOW, AnywhereType.Card.SWITCH_SHELL -> {
-        binding.rootToggle.isGone = true
-      }
-      else -> {
-        binding.rootToggle.isGone = false
-        binding.rootToggle.isChecked = entity.execWithRoot
+      AnywhereType.Card.ACTIVITY, AnywhereType.Card.URL_SCHEME,
+      AnywhereType.Card.SHELL, AnywhereType.Card.BROADCAST -> {
+        binding.rootToggle.isVisible = true
+        binding.rootToggle.isChecked = entity.isExecWithRoot()
         binding.rootToggle.setOnCheckedChangeListener { _, isChecked ->
           editor.execWithRoot = isChecked
         }
+      }
+      else -> {
+        binding.rootToggle.isGone = true
       }
     }
   }

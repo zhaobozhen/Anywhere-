@@ -12,6 +12,8 @@ import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.EditorImageBinding
+import com.absinthe.anywhere_.model.database.isBrightWhenShowImage
+import com.absinthe.anywhere_.model.database.setBrightWhenShowImage
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.ui.editor.EditorActivity
 import com.absinthe.anywhere_.utils.AppTextUtils
@@ -22,11 +24,11 @@ import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
 import com.google.android.material.shape.CornerFamily
+import timber.log.Timber
 
 class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
 
   private lateinit var binding: EditorImageBinding
-  override var execWithRoot: Boolean = false
 
   override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
     binding = EditorImageBinding.inflate(inflater, container, false)
@@ -40,6 +42,7 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
       binding.tilUrl.isEnabled = false
     }
 
+    binding.brightToggle.isChecked = item.isBrightWhenShowImage()
     binding.toggleGroup.addOnButtonCheckedListener(this)
     binding.tietAppName.setText(item.appName)
     binding.tietDescription.setText(item.description)
@@ -100,6 +103,7 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
       appName = binding.tietAppName.text.toString()
       param1 = binding.tietUrl.text.toString()
       description = binding.tietDescription.text.toString()
+      setBrightWhenShowImage(binding.brightToggle.isChecked)
     }
 
     if (super.doneEdit()) return true
@@ -113,6 +117,7 @@ class ImageEditorFragment : BaseEditorFragment(), OnButtonCheckedListener {
           }
         }
       }
+      Timber.d("sasa")
       AnywhereApplication.sRepository.update(doneItem)
     } else {
       doneItem.id = System.currentTimeMillis().toString()

@@ -89,4 +89,9 @@ object AnywhereType {
     const val DYNAMIC_PARAMS_PREFIX_FORMAT = "[DYNAMIC_PARAMS %s]"
     const val SHELL_PREFIX = "[ANYWHERE_SHELL]"
   }
+
+  object Flags {
+    const val FLAG_EXEC_WITH_ROOT = 0x01
+    const val FLAG_BRIGHT_WHEN_SHOW_IMAGE = 0x02
+  }
 }

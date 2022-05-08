@@ -154,6 +154,7 @@
   <string name="bsd_a11y_contains">Contains</string>
 
   <string name="bsd_exec_with_root">Execute with root</string>
+  <string name="bsd_bright_when_displaying_image">Bright screen when displaying pictures</string>
 
   <!--  AppBarMenu  -->
   <string name="menu_sort">Sort</string>

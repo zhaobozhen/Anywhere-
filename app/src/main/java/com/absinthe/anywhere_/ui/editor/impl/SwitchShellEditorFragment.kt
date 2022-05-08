@@ -17,7 +17,6 @@ const val SWITCH_ON = "on"
 class SwitchShellEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorSwitchShellBinding
-    override var execWithRoot: Boolean = false
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = EditorSwitchShellBinding.inflate(inflater, container, false)

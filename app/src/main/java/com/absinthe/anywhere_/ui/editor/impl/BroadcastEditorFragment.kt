@@ -11,6 +11,7 @@ import com.absinthe.anywhere_.databinding.EditorBroadcastBinding
 import com.absinthe.anywhere_.databinding.LayoutHeaderExtrasBinding
 import com.absinthe.anywhere_.model.ExtraBean
 import com.absinthe.anywhere_.model.TYPE_STRING
+import com.absinthe.anywhere_.model.database.setExecWithRoot
 import com.absinthe.anywhere_.ui.editor.BaseEditorFragment
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ShortcutsUtils
@@ -22,7 +23,6 @@ class BroadcastEditorFragment : BaseEditorFragment() {
 
   private lateinit var binding: EditorBroadcastBinding
   private val adapter = ExtrasAdapter()
-  override var execWithRoot: Boolean = false
 
   override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
     binding = EditorBroadcastBinding.inflate(inflater, container, false)
@@ -83,7 +83,7 @@ class BroadcastEditorFragment : BaseEditorFragment() {
       param1 = Gson().toJson(extraBean)
       param2 = binding.tietIntentPackage.text.toString()
       param3 = binding.tietIntentClass.text.toString()
-      execWithRoot = this@BroadcastEditorFragment.execWithRoot
+      setExecWithRoot(execWithRoot)
     }
     Opener.with(requireContext()).load(doneItem).open()
   }

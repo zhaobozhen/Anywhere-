@@ -46,7 +46,7 @@ object Settings {
   }
 
   fun initIconPackManager() {
-    iconPack = iconPackManager.getAvailableIconPacks(true).getValue(GlobalValues.iconPack)
+    iconPack = iconPackManager.getAvailableIconPacks(true)[GlobalValues.iconPack]
   }
 
   fun initMMKV(application: AnywhereApplication) {

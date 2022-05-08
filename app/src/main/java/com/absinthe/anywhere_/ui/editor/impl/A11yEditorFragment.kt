@@ -36,7 +36,6 @@ class A11yEditorFragment : BaseEditorFragment() {
 
     private lateinit var binding: EditorA11yBinding
     private val adapter = A11yAdapter()
-    override var execWithRoot: Boolean = false
 
     private val nodeEditMenu by lazy {
         if (AppUtils.atLeastN()) {

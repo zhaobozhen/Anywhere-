@@ -41,7 +41,6 @@ class WorkflowEditorFragment  : BaseEditorFragment() {
     var currentIndex = -1
 
     private lateinit var binding: EditorWorkflowBinding
-    override var execWithRoot: Boolean = false
 
     private val nodeEditMenu by lazy {
         listOf(

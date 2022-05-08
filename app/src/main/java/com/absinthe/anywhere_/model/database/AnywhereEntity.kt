@@ -62,7 +62,7 @@ data class AnywhereEntity(
 
   @SerializedName(EXEC_WITH_ROOT)
   @ColumnInfo(name = EXEC_WITH_ROOT)
-  var execWithRoot: Boolean = false,
+  var flags: Int = 0,
 ) : Parcelable {
 
   @IgnoredOnParcel
@@ -91,5 +91,24 @@ data class AnywhereEntity(
       category = ""
       iconUri = ""
     }
+  }
+}
+
+fun AnywhereEntity.isExecWithRoot() = flags and AnywhereType.Flags.FLAG_EXEC_WITH_ROOT != 0
+fun AnywhereEntity.isBrightWhenShowImage() = flags and AnywhereType.Flags.FLAG_BRIGHT_WHEN_SHOW_IMAGE != 0
+
+fun AnywhereEntity.setExecWithRoot(execWithRoot: Boolean) {
+  flags = if (execWithRoot) {
+    flags or AnywhereType.Flags.FLAG_EXEC_WITH_ROOT
+  } else {
+    flags and AnywhereType.Flags.FLAG_EXEC_WITH_ROOT.inv()
+  }
+}
+
+fun AnywhereEntity.setBrightWhenShowImage(brightWhenShowImage: Boolean) {
+  flags = if (brightWhenShowImage) {
+    flags or AnywhereType.Flags.FLAG_BRIGHT_WHEN_SHOW_IMAGE
+  } else {
+    flags and AnywhereType.Flags.FLAG_BRIGHT_WHEN_SHOW_IMAGE.inv()
   }
 }
