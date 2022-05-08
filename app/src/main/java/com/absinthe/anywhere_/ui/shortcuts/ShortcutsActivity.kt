@@ -38,7 +38,6 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
 
     private var isBound = false
     private var collectorService: ICollectorService? = null
-    private var shouldFinish = false
 
     private val viewModel by viewModels<AnywhereViewModel>()
 
@@ -55,13 +54,6 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleIntent(intent)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (shouldFinish) {
-            finish()
-        }
     }
 
     private fun handleIntent(intent: Intent) {
@@ -92,7 +84,7 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                             applicationContext.bindService(Intent(this, CollectorService::class.java), CollectorService.serviceConnection!!, Context.BIND_AUTO_CREATE)
                         }
                     }
-                    shouldFinish = true
+                    shouldFinishOnResume = true
                 }
                 ACTION_START_ENTITY -> {
                     intent.getStringExtra(Const.INTENT_EXTRA_SHORTCUTS_ID)?.let { id ->
@@ -104,7 +96,7 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                               .load(this)
                               .setOpenedListener(object : Opener.OnOpenListener {
                                 override fun onOpened() {
-                                  shouldFinish = true
+                                  shouldFinishOnResume = true
                                   finish()
                                 }
                               })
@@ -127,11 +119,11 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                             .load(entity)
                             .setOpenedListener(object : Opener.OnOpenListener {
                                 override fun onOpened() {
-                                    shouldFinish = true
+                                    shouldFinishOnResume = true
                                 }
                             })
                             .open()
-                    } ?: let { shouldFinish = true }
+                    } ?: let { shouldFinishOnResume = true }
                 }
                 Intent.ACTION_CREATE_SHORTCUT -> {
                     viewModel.allAnywhereEntities.observe(this) { anywhereEntities: List<AnywhereEntity>? ->
@@ -174,10 +166,10 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                                 )
                               )
                             })
-                            shouldFinish = true
+                            shouldFinishOnResume = true
                           }
                           .setOnCancelListener {
-                            shouldFinish = true
+                            shouldFinishOnResume = true
                             finish()
                           }
                           .show()
@@ -191,11 +183,11 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                             uri,
                             object : AnywhereDialogFragment.OnDismissListener {
                                 override fun onDismiss() {
-                                    shouldFinish = true
+                                    shouldFinishOnResume = true
                                     finish()
                                 }
                             })
-                    } ?: run { shouldFinish = true }
+                    } ?: run { shouldFinishOnResume = true }
                 }
                 ACTION_START_DEVICE_CONTROL -> {
                     val type = intent.getIntExtra(Const.INTENT_EXTRA_TYPE, -1)
@@ -212,7 +204,7 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                             .load(entity)
                             .setOpenedListener(object : Opener.OnOpenListener {
                                 override fun onOpened() {
-                                    shouldFinish = true
+                                    shouldFinishOnResume = true
                                 }
                             })
                             .open()
@@ -253,20 +245,20 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                                       .setDynamicExtras(dynamicParams)
                                       .setOpenedListener(object : Opener.OnOpenListener {
                                         override fun onOpened() {
-                                          shouldFinish = true
+                                          shouldFinishOnResume = true
                                         }
                                       })
                                       .open()
                                   } ?: run {
                                     ToastUtil.makeText(R.string.toast_invaild_sid)
-                                    shouldFinish = true
+                                    shouldFinishOnResume = true
                                   }
                                 }
-                            } ?: run { shouldFinish = true }
+                            } ?: run { shouldFinishOnResume = true }
                         }
                     }
                 }
-                else -> shouldFinish = true
+                else -> shouldFinishOnResume = true
             }
         }
         if (intent.getBooleanExtra(Const.INTENT_EXTRA_EMULATE_BACK_PRESS, false)) {

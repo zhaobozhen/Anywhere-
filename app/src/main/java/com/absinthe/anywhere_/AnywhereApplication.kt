@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_
 
 import android.app.Application
-import android.content.Context
 import android.os.Build
 import cn.vove7.andro_accessibility_api.AccessibilityApi
 import com.absinthe.anywhere_.database.AnywhereRepository
@@ -39,19 +38,6 @@ class AnywhereApplication : Application() {
       )
     }
 
-    sRepository = AnywhereRepository(this)
-    DayNightDelegate.setApplicationContext(this)
-    DayNightDelegate.setDefaultNightMode(Settings.getTheme())
-
-    AccessibilityApi.apply {
-      BASE_SERVICE_CLS = IzukoService::class.java
-      GESTURE_SERVICE_CLS = IzukoService::class.java
-    }
-  }
-
-  override fun attachBaseContext(base: Context) {
-    super.attachBaseContext(base)
-
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
       HiddenApiBypass.addHiddenApiExemptions("")
     }
@@ -60,8 +46,15 @@ class AnywhereApplication : Application() {
     Settings.initMMKV(this)
     Settings.init()
     Utility.init(this)
-    val isSui = Sui.init(BuildConfig.APPLICATION_ID)
-    Timber.i("isSui = $isSui")
+    Sui.init(BuildConfig.APPLICATION_ID)
+    DayNightDelegate.setApplicationContext(this)
+    DayNightDelegate.setDefaultNightMode(Settings.getTheme())
+    sRepository = AnywhereRepository(this)
+
+    AccessibilityApi.apply {
+      BASE_SERVICE_CLS = IzukoService::class.java
+      GESTURE_SERVICE_CLS = IzukoService::class.java
+    }
   }
 
   companion object {
