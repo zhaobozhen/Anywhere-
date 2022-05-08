@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.utils
 
+import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -9,7 +10,6 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
-import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -174,18 +174,6 @@ object AppUtils {
   }
 
   /**
-   * Get device's Android ID
-   *
-   * @param context Context
-   * @return Android ID
-   */
-  fun getAndroidId(context: Context): String {
-    return Settings.System.getString(
-      context.contentResolver, Settings.Secure.ANDROID_ID
-    )
-  }
-
-  /**
    * Take a persistable URI permission grant that has been offered. Once
    * taken, the permission grant will be remembered across device reboots.
    * Only URI permissions granted with
@@ -194,6 +182,7 @@ object AppUtils {
    * [UriPermission.getPersistedTime].
    *
    */
+  @SuppressLint("WrongConstant")
   fun takePersistableUriPermission(context: Context, uri: Uri, intent: Intent) {
     val takeFlags = (intent.flags
       and (Intent.FLAG_GRANT_READ_URI_PERMISSION

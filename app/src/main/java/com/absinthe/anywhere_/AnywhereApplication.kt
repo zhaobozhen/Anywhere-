@@ -58,7 +58,7 @@ class AnywhereApplication : Application() {
 
     Once.initialise(this)
     Settings.initMMKV(this)
-    Settings.init(this)
+    Settings.init()
     Utility.init(this)
     val isSui = Sui.init(BuildConfig.APPLICATION_ID)
     Timber.i("isSui = $isSui")

@@ -1,6 +1,6 @@
 package com.absinthe.anywhere_.utils.manager;
 
-import android.content.Context;
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -16,6 +16,8 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
+
+import com.blankj.utilcode.util.Utils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -35,12 +37,8 @@ import java.util.Random;
  */
 public class IconPackManager {
 
-  private Context mContext;
+  private final Application mContext = Utils.getApp();
   private HashMap<String, IconPack> iconPacks = null;
-
-  public void setContext(Context context) {
-    mContext = context;
-  }
 
   public HashMap<String, IconPack> getAvailableIconPacks(boolean forceReload) {
     if (iconPacks == null || forceReload) {

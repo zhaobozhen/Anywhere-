@@ -86,7 +86,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
@@ -519,16 +518,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     AnywhereApplication.sRepository.allPageEntities.observe(this, mObserver)
-    AnywhereApplication.sRepository.allAnywhereEntities.observe(this) {
-      if (Once.beenDone(
-          Once.THIS_APP_INSTALL,
-          OnceTag.FIRST_GUIDE
-        ) && !Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.CONVERT_TYPE_TO_V2)
-      ) {
-        viewModel.convertAnywhereTypeV2()
-        Once.markDone(OnceTag.CONVERT_TYPE_TO_V2)
-      }
-    }
 
     viewModel.background.observe(this) { s: String ->
       GlobalValues.backgroundUri = s

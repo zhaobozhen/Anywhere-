@@ -1,6 +1,5 @@
 package com.absinthe.anywhere_.model
 
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.appcompat.app.AppCompatDelegate
 import com.absinthe.anywhere_.AnywhereApplication
@@ -8,7 +7,6 @@ import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
-import com.absinthe.anywhere_.utils.SPUtils
 import com.absinthe.anywhere_.utils.UxUtils
 import com.absinthe.anywhere_.utils.manager.IconPackManager
 import com.absinthe.anywhere_.utils.manager.IconPackManager.IconPack
@@ -19,18 +17,17 @@ import java.util.*
 
 object Settings {
 
-  var iconPackManager: IconPackManager = IconPackManager()
+  val iconPackManager by lazy { IconPackManager() }
   var iconPack: IconPack? = null
 
   val date: String by lazy {
-    val date = Date()
     val dateFormat = SimpleDateFormat("MM-dd", Locale.CHINA)
-    dateFormat.format(date)
+    dateFormat.format(Date())
   }
 
-  fun init(context: Context) {
+  fun init() {
     setLogger()
-    initIconPackManager(context)
+    initIconPackManager()
   }
 
   fun getTheme(): Int {
@@ -48,24 +45,16 @@ object Settings {
     GlobalValues.sIsDebugMode = BuildConfig.DEBUG or GlobalValues.sIsDebugMode
   }
 
-  fun initIconPackManager(context: Context) {
-    iconPackManager.setContext(context)
-    val hashMap = iconPackManager.getAvailableIconPacks(true)
-
-    for ((key, value) in hashMap) {
-      if (key == GlobalValues.iconPack) {
-        iconPack = value
-        break
-      }
-    }
+  fun initIconPackManager() {
+    iconPack = iconPackManager.getAvailableIconPacks(true).getValue(GlobalValues.iconPack)
   }
 
   fun initMMKV(application: AnywhereApplication) {
     MMKV.initialize(application)
 
     if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.MMKV_MIGRATE)) {
-      val sp = application.getSharedPreferences(SPUtils.sPName, MODE_PRIVATE)
-      MMKV.mmkvWithID(SPUtils.sPName)?.importFromSharedPreferences(sp)
+      val sp = application.getSharedPreferences(GlobalValues.spName, MODE_PRIVATE)
+      MMKV.mmkvWithID(GlobalValues.spName)?.importFromSharedPreferences(sp)
       Once.markDone(OnceTag.MMKV_MIGRATE)
     }
   }

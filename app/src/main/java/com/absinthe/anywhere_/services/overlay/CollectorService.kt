@@ -19,42 +19,15 @@ import com.absinthe.anywhere_.utils.NotifyUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.blankj.utilcode.util.PermissionUtils
 import timber.log.Timber
+import java.lang.ref.WeakReference
 
 class CollectorService : Service() {
 
   private val listenerList = RemoteCallbackList<ICollectorListener>()
-  private val binder = object : ICollectorService.Stub() {
-
-    override fun startCollector() {
-      startCollectorInternal()
-    }
-
-    override fun stopCollector() {
-      stopCollectorInternal()
-    }
-
-    override fun startCoordinator() {
-      startCoordinatorInternal()
-    }
-
-    override fun stopCoordinator(x: Int, y: Int) {
-      stopCoordinatorInternal(x, y)
-    }
-
-    override fun registerCollectorListener(listener: ICollectorListener?) {
-      listener?.let { listenerList.register(listener) }
-    }
-
-    override fun unregisterCollectorListener(listener: ICollectorListener?) {
-      listenerList.unregister(listener)
-    }
-  }
+  private val binder by lazy { CollectorServiceBinder(WeakReference(this)) }
   private val mCollectorWindowManager by lazy { CollectorWindowManager(applicationContext, binder) }
   private val mCoordinatorWindowManager by lazy {
-    CoordinatorWindowManager(
-      applicationContext,
-      binder
-    )
+    CoordinatorWindowManager(applicationContext, binder)
   }
 
   private val mHandler = Handler(Looper.myLooper()!!)
@@ -210,6 +183,32 @@ class CollectorService : Service() {
       }
       listenerList.finishBroadcast()
       isSendingBroadcast = false
+    }
+  }
+
+  private class CollectorServiceBinder(private val serviceRef: WeakReference<CollectorService>) : ICollectorService.Stub() {
+    override fun startCollector() {
+      serviceRef.get()?.startCollectorInternal()
+    }
+
+    override fun stopCollector() {
+      serviceRef.get()?.stopCollectorInternal()
+    }
+
+    override fun startCoordinator() {
+      serviceRef.get()?.startCoordinatorInternal()
+    }
+
+    override fun stopCoordinator(x: Int, y: Int) {
+      serviceRef.get()?.stopCoordinatorInternal(x, y)
+    }
+
+    override fun registerCollectorListener(listener: ICollectorListener?) {
+      listener?.let { serviceRef.get()?.listenerList?.register(listener) }
+    }
+
+    override fun unregisterCollectorListener(listener: ICollectorListener?) {
+      serviceRef.get()?.listenerList?.unregister(listener)
     }
   }
 

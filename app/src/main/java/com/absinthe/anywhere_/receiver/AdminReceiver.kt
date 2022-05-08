@@ -16,6 +16,7 @@ class AdminReceiver : DeviceAdminReceiver() {
     //设备管理不可用
   }
 
+  @Deprecated("Deprecated in Java")
   override fun onPasswordChanged(context: Context, intent: Intent) {}
 
   companion object {

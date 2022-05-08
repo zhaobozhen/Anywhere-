@@ -2,7 +2,7 @@ package com.absinthe.anywhere_.constants
 
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.MutableLiveData
-import com.absinthe.anywhere_.utils.SPUtils
+import com.absinthe.anywhere_.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -10,8 +10,14 @@ import com.tencent.mmkv.MMKV
 
 object GlobalValues {
 
+  var spName = if (BuildConfig.DEBUG) {
+    Const.SP_NAME_DEBUG
+  } else {
+    Const.SP_NAME
+  }
+
   val mmkv: MMKV =
-    MMKV.mmkvWithID(SPUtils.sPName) ?: throw IllegalStateException("mmkv instance is null")
+    MMKV.mmkvWithID(spName) ?: throw IllegalStateException("mmkv instance is null")
 
   var sIsDebugMode = false
   var shouldListenClipBoard = true

@@ -6,36 +6,16 @@ import android.os.IBinder
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.manager.OverlayWindowManager
 import timber.log.Timber
+import java.lang.ref.WeakReference
 
 class OverlayService : Service() {
 
-  private val binder = object : IOverlayService.Stub() {
-
-    override fun addOverlay(entity: AnywhereEntity?) {
-      entity?.let {
-        try {
-          startActivity(Intent(Intent.ACTION_MAIN).apply {
-            this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            addCategory(Intent.CATEGORY_HOME)
-          })
-        } catch (e: Exception) {
-          Timber.e(e)
-        }
-        windowManager.addView(it)
-      }
-    }
-
-    override fun closeOverlay(entity: AnywhereEntity?) {
-      entity?.let { windowManager.removeView(it) }
-      stopSelf()
-    }
-  }
-  private lateinit var windowManager: OverlayWindowManager
+  private val binder by lazy { OverlayBinder(WeakReference(this)) }
+  private val windowManager by lazy { OverlayWindowManager(applicationContext, binder) }
 
   override fun onCreate() {
     super.onCreate()
     Timber.i("OverlayService onCreate")
-    windowManager = OverlayWindowManager(applicationContext, binder)
   }
 
   override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -53,4 +33,24 @@ class OverlayService : Service() {
     super.onDestroy()
   }
 
+  private class OverlayBinder(private val serviceRef: WeakReference<OverlayService>) : IOverlayService.Stub() {
+    override fun addOverlay(entity: AnywhereEntity?) {
+      entity?.let {
+        try {
+          serviceRef.get()?.startActivity(Intent(Intent.ACTION_MAIN).apply {
+            this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            addCategory(Intent.CATEGORY_HOME)
+          })
+        } catch (e: Exception) {
+          Timber.e(e)
+        }
+        serviceRef.get()?.windowManager?.addView(it)
+      }
+    }
+
+    override fun closeOverlay(entity: AnywhereEntity?) {
+      entity?.let { serviceRef.get()?.windowManager?.removeView(it) }
+      serviceRef.get()?.stopSelf()
+    }
+  }
 }
