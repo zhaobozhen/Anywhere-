@@ -12,7 +12,7 @@ plugins {
 }
 
 val verName = "2.4.1"
-val verCode = 2040100
+val verCode = 2040101
 
 android {
   compileSdk = 32

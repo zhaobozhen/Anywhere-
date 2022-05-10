@@ -7,10 +7,12 @@ import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
+import com.absinthe.anywhere_.AnywhereApplication
+import com.absinthe.anywhere_.constants.AnywhereType
 import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
+import com.absinthe.anywhere_.ui.editor.impl.SWITCH_OFF
 import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
-import timber.log.Timber
 import java.io.File
 
 const val TILE_LABEL = "Label"
@@ -21,8 +23,6 @@ abstract class BaseTileService : TileService() {
 
   private val prefLabel: String = javaClass.simpleName + TILE_LABEL
   private val prefTile: String = javaClass.simpleName
-  private val prefGlobalValues: Boolean =
-    GlobalValues.mmkv.decodeBool(javaClass.simpleName + TILE_ACTIVE_STATE, false)
 
   override fun onStartListening() {
     super.onStartListening()
@@ -32,13 +32,20 @@ abstract class BaseTileService : TileService() {
       if (label?.isNotEmpty() == true) {
         it.label = label
       }
-      it.state = if (prefGlobalValues) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+
+      val id = GlobalValues.mmkv.decodeString(prefTile, "0")
+      AnywhereApplication.sRepository.getEntityById(id.orEmpty())?.let { entity ->
+        if (entity.type == AnywhereType.Card.SWITCH_SHELL) {
+          it.state = if (entity.param3 == SWITCH_OFF) Tile.STATE_INACTIVE else Tile.STATE_ACTIVE
+        } else {
+          it.state = Tile.STATE_INACTIVE
+        }
+      }
 
       val iconFile = File(
         filesDir,
         "tiles${File.separator}icon${File.separator}${javaClass.simpleName}"
       )
-      Timber.d("sasa: exist=${iconFile.exists()}, ${iconFile.path}")
       val icon = BitmapFactory.decodeFile(iconFile.path)
       if (icon != null) {
         it.icon = Icon.createWithBitmap(icon)
