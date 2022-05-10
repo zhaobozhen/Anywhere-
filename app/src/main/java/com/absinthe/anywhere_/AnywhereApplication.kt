@@ -50,6 +50,7 @@ class AnywhereApplication : Application() {
     Sui.init(BuildConfig.APPLICATION_ID)
     DayNightDelegate.setApplicationContext(this)
     DayNightDelegate.setDefaultNightMode(Settings.getTheme())
+    Global.start()
     sRepository = AnywhereRepository(this)
 
     AccessibilityApi.apply {

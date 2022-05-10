@@ -21,21 +21,21 @@ class CollectorTileService : TileService() {
     }
 
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-      collectorBinder = ICollectorService.Stub.asInterface(service)
-      collectorBinder?.startCollector()
+      if (service?.pingBinder() == true) {
+        collectorBinder = ICollectorService.Stub.asInterface(service)
+        collectorBinder?.startCollector()
+      }
     }
   }
 
   override fun onClick() {
     qsTile?.let {
-      if (collectorBinder == null) {
+      collectorBinder?.startCollector() ?: run {
         bindService(
           Intent(this, CollectorService::class.java),
           connection,
           Context.BIND_AUTO_CREATE
         )
-      } else {
-        collectorBinder?.startCollector()
       }
     }
   }
@@ -44,7 +44,7 @@ class CollectorTileService : TileService() {
     super.onStopListening()
     if (collectorBinder != null) {
       collectorBinder?.stopCollector()
-      applicationContext.unbindService(connection)
+      unbindService(connection)
     }
   }
 }

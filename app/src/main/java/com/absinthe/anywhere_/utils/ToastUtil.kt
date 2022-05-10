@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.widget.Toast
 import androidx.annotation.StringRes
 import com.absinthe.anywhere_.AwContextWrapper
+import com.absinthe.anywhere_.compat.ToastCompat
 import com.absinthe.anywhere_.view.app.ToastView
 import com.blankj.utilcode.util.Utils
 import java.lang.ref.WeakReference
@@ -16,7 +17,7 @@ object ToastUtil {
 
   private val contextWrapper by lazy { AwContextWrapper(Utils.getApp()) }
   private val handler = Handler(Looper.getMainLooper())
-  private var toast: WeakReference<Toast?>? = null
+  private var toast: WeakReference<ToastCompat>? = null
 
   /**
    * make a toast via a string
@@ -94,7 +95,7 @@ object ToastUtil {
         Toast(context).also {
           it.duration = duration
           it.setText(message)
-          toast = WeakReference(it)
+          toast = WeakReference(ToastCompat(context, it))
         }.show()
       } else {
         val ctx = if (context is ContextThemeWrapper) {
@@ -109,7 +110,7 @@ object ToastUtil {
           it.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM, 0, 200)
           it.duration = duration
           it.view = view
-          toast = WeakReference(it)
+          toast = WeakReference(ToastCompat(context, it))
         }.show()
       }
     }
