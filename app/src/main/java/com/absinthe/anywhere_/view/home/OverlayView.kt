@@ -2,13 +2,14 @@ package com.absinthe.anywhere_.view.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.*
 import android.widget.LinearLayout
-import com.absinthe.anywhere_.AwContextWrapper
+import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.services.overlay.IOverlayService
+import com.absinthe.anywhere_.ui.shortcuts.ShortcutsActivity
 import com.absinthe.anywhere_.utils.UxUtils
-import com.absinthe.anywhere_.utils.handler.Opener
 import com.absinthe.anywhere_.viewbuilder.entity.OverlayBuilder
 import com.absinthe.libraries.utils.extensions.dp
 import timber.log.Timber
@@ -51,7 +52,12 @@ class OverlayView(
     mBuilder = OverlayBuilder(context, this)
 
     mBuilder.ivIcon.setOnClickListener {
-      Opener.with(AwContextWrapper(context)).load(entity).open()
+      val intent = Intent(context, ShortcutsActivity::class.java).apply {
+        action = ShortcutsActivity.ACTION_START_ENTITY
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        putExtra(Const.INTENT_EXTRA_SHORTCUTS_ID, entity.id)
+      }
+      context.startActivity(intent)
     }
     mBuilder.ivIcon.setOnTouchListener(object : OnTouchListener {
       //Last x, y position = 0f
