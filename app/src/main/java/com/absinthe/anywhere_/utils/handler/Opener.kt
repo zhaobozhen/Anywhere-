@@ -600,16 +600,11 @@ object Opener {
                 })
               }
           } else {
-            try {
-              context.startActivity(Intent().also {
-                if (context !is Activity) {
-                  it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                }
-                it.component = ComponentName(a11yEntity.applicationId, a11yEntity.entryActivity)
-              })
-            } catch (e: Exception) {
-              ToastUtil.Toasty.show(context, R.string.toast_security_exception)
-            }
+            openActivityEntity(context, AnywhereEntity().also {
+              it.type = AnywhereType.Card.ACTIVITY
+              it.param1 = a11yEntity.applicationId
+              it.param2 = a11yEntity.entryActivity
+            })
           }
 
           var result = waitForPage(AppScope(a11yEntity.applicationId, a11yEntity.entryActivity))
