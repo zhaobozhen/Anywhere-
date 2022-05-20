@@ -282,6 +282,9 @@
   <string name="settings_card_mode_small">Small</string>
   <string name="settings_card_mode_minimum">Minimum</string>
 
+  <string name="settings_show_defreezing_toast">Prompt when unfreezing the application</string>
+  <string name="settings_show_defreezing_toast_summary">How many steps does it take to put an elephant in the refrigerator?</string>
+
   <!--  Toast  -->
   <string name="toast_root_permission_denied">Root permission denied</string>
   <string name="toast_open_pop_up_when_background_permission">MIUI ROM should grant the pop-up permission, or may has problems</string>

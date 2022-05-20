@@ -211,6 +211,12 @@ object GlobalValues {
       mmkv.encode(Const.PREF_SHOW_SYSTEM_APPS, value)
     }
 
+  var showDefreezingToast
+    get() = mmkv.decodeBool(Const.PREF_SHOW_DEFREEZING_TOAST, true)
+    set(value) {
+      mmkv.encode(Const.PREF_SHOW_DEFREEZING_TOAST, value)
+    }
+
   val info: CharSequence
     get() {
       val sb = StringBuilder()

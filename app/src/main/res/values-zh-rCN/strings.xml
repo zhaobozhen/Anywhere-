@@ -415,4 +415,6 @@
   <string name="bsd_text_input_layout_br_intent_class_label">类名（选填）</string>
   <string name="bsd_text_input_layout_br_class_helper_text">指定一个类名用来向指定应用发送广播</string>
   <string name="bsd_bright_when_displaying_image">展示图片时亮屏</string>
+  <string name="settings_show_defreezing_toast">解冻应用时提示</string>
+  <string name="settings_show_defreezing_toast_summary">把大象放进冰箱需要几步？</string>
 </resources>

@@ -52,6 +52,7 @@ object Const {
   const val PREF_DEPRECATED_SC_CREATING_METHOD = "deprecatedScCreatingMethod"
   const val PREF_EDITOR_ENTRY_ANIM = "editorEntryAnim"
   const val PREF_SHOW_SYSTEM_APPS = "showSystemApps"
+  const val PREF_SHOW_DEFREEZING_TOAST = "showDefreezingToast"
 
   const val WORKING_MODE_URL_SCHEME = "url_scheme"
   const val WORKING_MODE_ROOT = "root"

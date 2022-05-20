@@ -28,7 +28,9 @@ import io.reactivex.schedulers.Schedulers;
 public class DefrostHandler {
 
   public static boolean defrost(@NonNull Context context, @NonNull String packageName, OnAppDefrostListener listener) {
-    ToastUtil.makeText(R.string.toast_defrosting);
+    if (GlobalValues.INSTANCE.getShowDefreezingToast()) {
+      ToastUtil.makeText(R.string.toast_defrosting);
+    }
 
     switch (GlobalValues.INSTANCE.getDefrostMode()) {
       case Const.DEFROST_MODE_DSM:

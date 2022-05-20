@@ -26,6 +26,13 @@
       app:summary="@string/settings_deprecated_sc_creating_method_summary"
       app:title="@string/settings_deprecated_sc_creating_method" />
 
+    <SwitchPreference
+      app:defaultValue="true"
+      app:icon="@drawable/ic_snowflake"
+      app:key="showDefreezingToast"
+      app:summary="@string/settings_deprecated_sc_creating_method_summary"
+      app:title="@string/settings_show_defreezing_toast" />
+
   </PreferenceCategory>
 
 </PreferenceScreen>
