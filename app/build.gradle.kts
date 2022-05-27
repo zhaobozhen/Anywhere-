@@ -238,7 +238,7 @@ dependencies {
   //Rx
   implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
   implementation("io.reactivex.rxjava2:rxjava:2.2.21")
-  implementation("org.reactivestreams:reactive-streams:1.0.3")
+  implementation("org.reactivestreams:reactive-streams:1.0.4")
 
   //Debug
   testImplementation("junit:junit:4.13.2")
