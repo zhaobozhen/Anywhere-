@@ -144,7 +144,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
     hasResumed = true
 
-    if (GlobalValues.shouldListenClipBoard) {
+    if (GlobalValues.shouldListenClipBoardPref && GlobalValues.shouldListenClipBoard) {
       getClipBoardText(this, object : ClipboardUtil.Function {
         override fun invoke(text: String) {
           if (text.contains(URLManager.ANYWHERE_SCHEME)) {

@@ -217,6 +217,12 @@ object GlobalValues {
       mmkv.encode(Const.PREF_SHOW_DEFREEZING_TOAST, value)
     }
 
+  var shouldListenClipBoardPref
+    get() = mmkv.decodeBool(Const.PREF_LISTEN_CLIP_BOARD, true)
+    set(value) {
+      mmkv.encode(Const.PREF_LISTEN_CLIP_BOARD, value)
+    }
+
   val info: CharSequence
     get() {
       val sb = StringBuilder()

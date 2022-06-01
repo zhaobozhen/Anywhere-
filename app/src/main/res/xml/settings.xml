@@ -150,6 +150,13 @@
       app:summary="@string/settings_exclude_from_recent_summary"
       app:title="@string/settings_exclude_from_recent" />
 
+    <SwitchPreference
+      app:defaultValue="true"
+      app:icon="@drawable/ic_copy"
+      app:key="shouldListenClipBoard"
+      app:summary="@string/settings_auto_detect_rules_summary"
+      app:title="@string/settings_auto_detect_rules" />
+
     <rikka.preference.SimpleMenuPreference
       app:defaultValue="off"
       app:entries="@array/list_shell_result"

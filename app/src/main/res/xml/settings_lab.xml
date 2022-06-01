@@ -30,7 +30,7 @@
       app:defaultValue="true"
       app:icon="@drawable/ic_snowflake"
       app:key="showDefreezingToast"
-      app:summary="@string/settings_deprecated_sc_creating_method_summary"
+      app:summary="@string/settings_show_defreezing_toast_summary"
       app:title="@string/settings_show_defreezing_toast" />
 
   </PreferenceCategory>

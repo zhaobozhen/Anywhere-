@@ -1,9 +1,9 @@
 package com.absinthe.anywhere_.ui.dialog
 
 import android.content.DialogInterface
-import com.absinthe.anywhere_.view.app.BaseBottomSheetViewDialogFragment
-import com.absinthe.anywhere_.view.app.BottomSheetHeaderView
 import com.absinthe.anywhere_.view.card.ShellResultContentView
+import com.absinthe.libraries.utils.base.BaseBottomSheetViewDialogFragment
+import com.absinthe.libraries.utils.view.BottomSheetHeaderView
 
 const val EXTRA_CONTENT = "EXTRA_CONTENT"
 const val EXTRA_NEED_FINISH_ACTIVITY = "EXTRA_NEED_FINISH_ACTIVITY"

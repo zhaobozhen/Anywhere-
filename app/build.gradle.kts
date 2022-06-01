@@ -20,6 +20,7 @@ android {
 
   defaultConfig {
     applicationId = "com.absinthe.anywhere_"
+    namespace = "com.absinthe.anywhere_"
     minSdk = 23
     targetSdk = 32
     versionCode = verCode
@@ -51,7 +52,7 @@ android {
     }
     release {
       isMinifyEnabled = true
-      (this as BuildType).isShrinkResources = true
+      isShrinkResources = true
       proguardFiles(
         getDefaultProguardFile("proguard-android-optimize.txt"),
         "proguard-rules.pro"

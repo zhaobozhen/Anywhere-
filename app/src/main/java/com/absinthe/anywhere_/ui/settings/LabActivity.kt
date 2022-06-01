@@ -57,7 +57,7 @@ class LabActivity : AppBarActivity<ActivityLabBinding>() {
       }
       findPreference<SwitchPreference>(Const.PREF_SHOW_DEFREEZING_TOAST)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
-          GlobalValues.deprecatedScCreatingMethod = newValue as Boolean
+          GlobalValues.showDefreezingToast = newValue as Boolean
           true
         }
       }

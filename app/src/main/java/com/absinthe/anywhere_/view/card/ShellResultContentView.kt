@@ -10,11 +10,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.utils.ClipboardUtil
 import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.view.app.BottomSheetHeaderView
 import com.absinthe.anywhere_.view.app.IHeaderView
 import com.absinthe.libraries.utils.extensions.dp
 import com.absinthe.libraries.utils.extensions.getResourceIdByAttr
 import com.absinthe.libraries.utils.extensions.paddingBottomCompat
+import com.absinthe.libraries.utils.view.BottomSheetHeaderView
 
 class ShellResultContentView(context: Context) : LinearLayout(context), IHeaderView {
 
