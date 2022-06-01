@@ -306,23 +306,24 @@ object Opener {
       item.param2
     }
 
-    when {
-      item.param2.isNullOrBlank() || isActivityExported(
+    if (item.param2.isNullOrBlank() || isActivityExported(
         context,
         ComponentName(item.param1, className.orEmpty())
-      ) -> {
-        val extraBean: ExtraBean? = try {
-          Gson().fromJson(item.param3, ExtraBean::class.java)
-        } catch (e: JsonSyntaxException) {
-          null
-        }
-        val action = if (extraBean == null || extraBean.action.isEmpty()) {
-          Intent.ACTION_VIEW
-        } else {
-          extraBean.action
-        }
+      )
+    ) {
+      val extraBean: ExtraBean? = try {
+        Gson().fromJson(item.param3, ExtraBean::class.java)
+      } catch (e: JsonSyntaxException) {
+        null
+      }
+      val action = if (extraBean == null || extraBean.action.isEmpty()) {
+        Intent.ACTION_VIEW
+      } else {
+        extraBean.action
+      }
 
-        val intent = if (item.param2.isNullOrBlank()) {
+      val intent = if (item.param1.isNotBlank()) {
+        if (item.param2.isNullOrBlank()) {
           IntentUtils.getLaunchAppIntent(item.param1)?.apply {
             if (context !is Activity) {
               addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -342,80 +343,86 @@ object Opener {
             }
           }
         }
-        extraBean?.let {
-          if (it.data.isNotEmpty()) {
-            intent.data = it.data.toUri()
+      } else {
+        Intent(action).apply {
+          if (context !is Activity) {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
           }
+        }
+      }
 
-          val extras = it.extras.toMutableList()
-          extraItem?.let { extra ->
+      extraBean?.let {
+        if (it.data.isNotEmpty()) {
+          intent.data = it.data.toUri()
+        }
+
+        val extras = it.extras.toMutableList()
+        extraItem?.let { extra ->
+          extras.add(extra)
+        }
+
+        extraItems?.let { items ->
+          for (extra in items) {
             extras.add(extra)
           }
+        }
 
-          extraItems?.let { items ->
-            for (extra in items) {
-              extras.add(extra)
+        for (extra in extras) {
+          when (extra.type) {
+            TYPE_STRING, TYPE_STRING_LABEL -> intent.putExtra(extra.key, extra.value)
+            TYPE_BOOLEAN, TYPE_BOOLEAN_LABEL -> intent.putExtra(
+              extra.key,
+              extra.value.toBoolean()
+            )
+            TYPE_URI, TYPE_URI_LABEL -> intent.putExtra(extra.key, extra.value.toUri())
+            TYPE_INT, TYPE_INT_LABEL -> {
+              try {
+                extra.value.toInt()
+              } catch (ignore: NumberFormatException) {
+                null
+              }?.let { value ->
+                intent.putExtra(extra.key, value)
+              }
             }
-          }
-
-          for (extra in extras) {
-            when (extra.type) {
-              TYPE_STRING, TYPE_STRING_LABEL -> intent.putExtra(extra.key, extra.value)
-              TYPE_BOOLEAN, TYPE_BOOLEAN_LABEL -> intent.putExtra(
-                extra.key,
-                extra.value.toBoolean()
-              )
-              TYPE_URI, TYPE_URI_LABEL -> intent.putExtra(extra.key, extra.value.toUri())
-              TYPE_INT, TYPE_INT_LABEL -> {
-                try {
-                  extra.value.toInt()
-                } catch (ignore: NumberFormatException) {
-                  null
-                }?.let { value ->
-                  intent.putExtra(extra.key, value)
-                }
+            TYPE_LONG, TYPE_LONG_LABEL -> {
+              try {
+                extra.value.toLong()
+              } catch (ignore: NumberFormatException) {
+                null
+              }?.let { value ->
+                intent.putExtra(extra.key, value)
               }
-              TYPE_LONG, TYPE_LONG_LABEL -> {
-                try {
-                  extra.value.toLong()
-                } catch (ignore: NumberFormatException) {
-                  null
-                }?.let { value ->
-                  intent.putExtra(extra.key, value)
-                }
+            }
+            TYPE_FLOAT, TYPE_FLOAT_LABEL -> {
+              try {
+                extra.value.toFloat()
+              } catch (ignore: NumberFormatException) {
+                null
+              }?.let { value ->
+                intent.putExtra(extra.key, value)
               }
-              TYPE_FLOAT, TYPE_FLOAT_LABEL -> {
-                try {
-                  extra.value.toFloat()
-                } catch (ignore: NumberFormatException) {
-                  null
-                }?.let { value ->
-                  intent.putExtra(extra.key, value)
-                }
-              }
-              TYPE_DOUBLE, TYPE_DOUBLE_LABEL -> {
-                try {
-                  extra.value.toDouble()
-                } catch (ignore: NumberFormatException) {
-                  null
-                }?.let { value ->
-                  intent.putExtra(extra.key, value)
-                }
+            }
+            TYPE_DOUBLE, TYPE_DOUBLE_LABEL -> {
+              try {
+                extra.value.toDouble()
+              } catch (ignore: NumberFormatException) {
+                null
+              }?.let { value ->
+                intent.putExtra(extra.key, value)
               }
             }
           }
         }
+      }
 
-        try {
-          context.startActivity(intent)
-        } catch (e: Exception) {
-          ToastUtil.makeText(e.toString())
-        }
-        listener?.onOpened()
+      try {
+        context.startActivity(intent)
+      } catch (e: Exception) {
+        ToastUtil.makeText(e.toString())
       }
-      else -> {
-        openByCommand(context, getItemCommand(item), item.packageName)
-      }
+      listener?.onOpened()
+    } else {
+      openByCommand(context, getItemCommand(item), item.packageName)
     }
   }
 
@@ -554,6 +561,7 @@ object Opener {
       runCatching {
         context.sendBroadcast(intent)
       }.onFailure { t ->
+        Timber.e(t)
         ToastUtil.makeText(t.toString())
       }
     } ?: let {

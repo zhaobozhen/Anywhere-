@@ -92,8 +92,16 @@ class AnywhereEditorFragment : BaseEditorFragment() {
 
   override fun tryRunning() {
     if (binding.tietPackageName.text.isNullOrBlank()) {
-      binding.tilPackageName.error = getString(R.string.bsd_error_should_not_empty)
-      return
+      if (binding.tietIntentAction.text.isNullOrBlank()) {
+        binding.tilIntentAction.error = getString(R.string.bsd_error_should_not_empty)
+        return
+      }
+    }
+    if (binding.tietIntentAction.text.isNullOrBlank()) {
+      if (binding.tietPackageName.text.isNullOrBlank()) {
+        binding.tilPackageName.error = getString(R.string.bsd_error_should_not_empty)
+        return
+      }
     }
 
     val doneItem = item.copy().apply {
