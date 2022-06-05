@@ -142,3 +142,6 @@
 -keepclassmembers public class com.google.android.material.bottomsheet.BottomSheetBehavior {
   void setStateInternal(int);
 }
+
+# gson-plugin
+-keep class com.ke.gson.** { *; }

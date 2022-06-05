@@ -128,8 +128,16 @@ class AnywhereEditorFragment : BaseEditorFragment() {
       return false
     }
     if (binding.tietPackageName.text.isNullOrBlank()) {
-      binding.tilPackageName.error = getString(R.string.bsd_error_should_not_empty)
-      return false
+      if (binding.tietIntentAction.text.isNullOrBlank()) {
+        binding.tilIntentAction.error = getString(R.string.bsd_error_should_not_empty)
+        return false
+      }
+    }
+    if (binding.tietIntentAction.text.isNullOrBlank()) {
+      if (binding.tietPackageName.text.isNullOrBlank()) {
+        binding.tilPackageName.error = getString(R.string.bsd_error_should_not_empty)
+        return false
+      }
     }
 
     doneItem = item.copy().apply {

@@ -11,13 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.adapter.cloud.CloudRulesAdapter
-import com.absinthe.anywhere_.adapter.cloud.CloudRulesDiffCallback
 import com.absinthe.anywhere_.adapter.manager.WrapContentLinearLayoutManager
 import com.absinthe.anywhere_.api.ApiManager
-import com.absinthe.anywhere_.api.GitHubApi
+import com.absinthe.anywhere_.api.RuleApi
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.ActivityCloudRulesBinding
-import com.absinthe.anywhere_.model.cloud.GiteeApiContentBean
+import com.absinthe.anywhere_.model.cloud.RuleEntity
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import retrofit2.Call
@@ -32,7 +31,7 @@ class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(),
   SearchView.OnQueryTextListener {
 
   private val mAdapter = CloudRulesAdapter()
-  private var mList = mutableListOf<GiteeApiContentBean>()
+  private var mList = listOf<RuleEntity>()
   private var isListReady = false
 
   override fun setViewBinding() = ActivityCloudRulesBinding.inflate(layoutInflater)
@@ -63,12 +62,8 @@ class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(),
       FastScrollerBuilder(this).useMd2Style().build()
     }
     mAdapter.apply {
-      setDiffCallback(CloudRulesDiffCallback())
       setOnItemClickListener { _, _, position ->
-        DialogManager.showCloudRuleDialog(
-          this@CloudRulesActivity,
-          mAdapter.data[position].download_url!!
-        )
+        DialogManager.showCloudRuleDialog(this@CloudRulesActivity, mAdapter.data[position])
       }
     }
   }
@@ -122,28 +117,24 @@ class CloudRulesActivity : AppBarActivity<ActivityCloudRulesBinding>(),
   private fun requestRules() {
     binding.progressHorizontal.show()
     val retrofit = Retrofit.Builder()
-      .baseUrl(ApiManager.GITEE_RULES_REPO)
+      .baseUrl(ApiManager.GITLAB_RULES_RAW_URL)
       .addConverterFactory(GsonConverterFactory.create())
       .build()
-    val request = retrofit.create(GitHubApi::class.java)
-    val task = request.requestGiteeAllContents()
-    task.enqueue(object : Callback<List<GiteeApiContentBean>> {
-      override fun onResponse(
-        call: Call<List<GiteeApiContentBean>>,
-        response: Response<List<GiteeApiContentBean>>
-      ) {
+    val request = retrofit.create(RuleApi::class.java)
+    val task = request.requestAllRules()
+    task.enqueue(object : Callback<List<RuleEntity>> {
+      override fun onResponse(call: Call<List<RuleEntity>>, response: Response<List<RuleEntity>>) {
         val list = response.body()
         list?.let {
-          val filterList = it.filter { content -> content.type == "file" }
-          mAdapter.setList(filterList)
-          mList = filterList.toMutableList()
+          mAdapter.setList(list)
+          mList = list
         }
         getToolBar().menu?.findItem(R.id.search)?.isVisible = true
         binding.progressHorizontal.hide()
         isListReady = true
       }
 
-      override fun onFailure(call: Call<List<GiteeApiContentBean>>, t: Throwable) {
+      override fun onFailure(call: Call<List<RuleEntity>>, t: Throwable) {
         Timber.e(t)
         binding.progressHorizontal.hide()
       }

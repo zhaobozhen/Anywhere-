@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.constants.OnceTag
 import com.absinthe.anywhere_.model.Settings
+import com.absinthe.anywhere_.model.cloud.RuleEntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
 import com.absinthe.anywhere_.ui.backup.WebdavFilesListDialogFragment
@@ -487,10 +488,10 @@ object DialogManager {
     dialog.show(activity.supportFragmentManager, dialog.tag)
   }
 
-  fun showCloudRuleDialog(activity: AppCompatActivity, url: String) {
+  fun showCloudRuleDialog(activity: AppCompatActivity, entity: RuleEntity) {
     val dialogFragment = CloudRuleDetailDialogFragment().apply {
       arguments = Bundle().apply {
-        putString(EXTRA_URL, url)
+        putParcelable(EXTRA_ENTITY, entity)
       }
     }
     dialogFragment.show(activity.supportFragmentManager, dialogFragment.tag)

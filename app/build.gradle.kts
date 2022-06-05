@@ -1,12 +1,12 @@
 import com.android.build.api.component.analytics.AnalyticsEnabledApplicationVariant
 import com.android.build.api.variant.impl.ApplicationVariantImpl
-import com.android.build.gradle.internal.dsl.BuildType
 import java.nio.file.Paths
 
 plugins {
   id("com.android.application")
   kotlin("android")
   kotlin("kapt")
+  id("com.ke.gson.plugin")
   id("kotlin-parcelize")
   id("sdk-editor")
 }
