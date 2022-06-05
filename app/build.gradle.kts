@@ -5,7 +5,7 @@ import java.nio.file.Paths
 plugins {
   id("com.android.application")
   kotlin("android")
-  kotlin("kapt")
+  id("com.google.devtools.ksp")
   id("com.ke.gson.plugin")
   id("kotlin-parcelize")
   id("sdk-editor")
@@ -33,15 +33,14 @@ android {
     resourceConfigurations += arrayOf("en", "zh-rCN", "zh-rTW", "zh-rHK")
   }
 
-  kapt {
-    arguments {
-      arg("room.incremental", "true")
-      arg("room.schemaLocation", "$projectDir/schemas")
-    }
+  ksp {
+    arg("room.incremental", "true")
+    arg("room.schemaLocation", "$projectDir/schemas")
   }
 
   buildFeatures {
     viewBinding = true
+    compose = true
   }
 
   buildTypes {
@@ -64,6 +63,10 @@ android {
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+  }
+
+  composeOptions {
+    kotlinCompilerExtensionVersion = "1.1.0-beta03"
   }
 
   androidComponents.onVariants { v ->
@@ -167,7 +170,7 @@ dependencies {
   val roomVersion = "2.4.2"
   implementation("androidx.room:room-runtime:${roomVersion}")
   implementation("androidx.room:room-ktx:${roomVersion}")
-  kapt("androidx.room:room-compiler:${roomVersion}")
+  ksp("androidx.room:room-compiler:${roomVersion}")
   androidTestImplementation("androidx.room:room-testing:${roomVersion}")
 
   val lifecycleVersion = "2.4.1"
@@ -181,6 +184,7 @@ dependencies {
   implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
   implementation("androidx.recyclerview:recyclerview:1.2.1")
   implementation("androidx.drawerlayout:drawerlayout:1.1.1")
+  implementation("androidx.glance:glance-appwidget:1.0.0-alpha03")
 
   //KTX
   implementation("androidx.collection:collection-ktx:1.2.0")
@@ -195,7 +199,7 @@ dependencies {
 
   //Function
   implementation("com.github.bumptech.glide:glide:4.13.2")
-  kapt("com.github.bumptech.glide:compiler:4.13.2")
+  ksp("com.github.bumptech.glide:compiler:4.13.2")
 
   implementation("com.google.code.gson:gson:2.9.0")
   implementation("com.google.zxing:core:3.5.0")
