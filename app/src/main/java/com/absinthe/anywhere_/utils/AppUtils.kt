@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.utils
 
 import android.annotation.SuppressLint
-import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -22,7 +21,6 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.model.viewholder.FlowStepBean
-import com.absinthe.anywhere_.receiver.HomeWidgetProvider
 import com.absinthe.anywhere_.ui.settings.LogcatActivity
 import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.LogRecorder
@@ -71,24 +69,6 @@ object AppUtils {
       .build()
       .toString()
     URLSchemeHandler.parse(context, url)
-  }
-
-  /**
-   * Update Anywhere- widget
-   *
-   * @param context context
-   */
-  fun updateWidget(context: Context) {
-    val intent = Intent(context, HomeWidgetProvider::class.java).apply {
-      action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-      // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
-      // since it seems the onUpdate() is only fired on that:
-      val ids = AppWidgetManager.getInstance(context)
-        ?.getAppWidgetIds(ComponentName(context, HomeWidgetProvider::class.java))
-      putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-    }
-
-    context.sendBroadcast(intent)
   }
 
   /**

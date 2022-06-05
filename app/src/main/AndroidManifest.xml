@@ -416,12 +416,6 @@
       android:name=".services.overlay.CollectorService"
       android:enabled="true" />
 
-    <!--    Home launcher widget service    -->
-    <service
-      android:name=".services.widget.AppRemoteViewsService"
-      android:exported="true"
-      android:permission="android.permission.BIND_REMOTEVIEWS" />
-
     <!--    Accessibility service    -->
     <service
       android:name=".services.IzukoService"
@@ -456,20 +450,6 @@
         <action android:name="android.service.controls.ControlsProviderService" />
       </intent-filter>
     </service>
-
-    <!--    Home launcher widget click event receiver    -->
-    <receiver
-      android:name=".receiver.HomeWidgetProvider"
-      android:exported="true">
-      <meta-data
-        android:name="android.appwidget.provider"
-        android:resource="@xml/widget_home_provider_info" />
-
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-        <action android:name="${applicationId}.action.CLICK" />
-      </intent-filter>
-    </receiver>
 
     <!--    DPM receiver    -->
     <receiver
