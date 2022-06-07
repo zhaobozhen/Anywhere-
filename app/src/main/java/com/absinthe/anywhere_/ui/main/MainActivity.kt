@@ -72,7 +72,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.node.BaseNode
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -332,44 +331,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
       }
     }
 
-    if (GlobalValues.isMd2Toolbar) {
-      val marginHorizontal = resources.getDimension(R.dimen.toolbar_margin_horizontal).toInt()
-      val marginVertical = resources.getDimension(R.dimen.toolbar_margin_vertical).toInt()
-
-      val newLayoutParams = binding.toolbar.layoutParams as AppBarLayout.LayoutParams
-      newLayoutParams.apply {
-        rightMargin = marginHorizontal
-        leftMargin = newLayoutParams.rightMargin
-        topMargin = marginVertical
-        bottomMargin = marginVertical
-        height = 55.dp
-      }
-      binding.toolbar.apply {
-        layoutParams = newLayoutParams
-        contentInsetStartWithNavigation = 0
-        UxUtils.drawMd2Toolbar(this, 3)
-      }
-    }
-
     supportActionBar?.let {
       if (GlobalValues.isPages) {
         mToggle = ActionBarDrawerToggle(
           this, binding.drawer, binding.toolbar,
           R.string.drawer_open, R.string.drawer_close
-        )
+        ).also { toggle ->
+          if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_DARK) {
+            toggle.drawerArrowDrawable.color = Color.BLACK
+          } else {
+            toggle.drawerArrowDrawable.color = Color.WHITE
+          }
 
-        if (GlobalValues.actionBarType == Const.ACTION_BAR_TYPE_DARK) {
-          mToggle!!.drawerArrowDrawable.color = Color.BLACK
-        } else {
-          mToggle!!.drawerArrowDrawable.color = Color.WHITE
+          it.setDisplayHomeAsUpEnabled(true)
+          binding.drawer.addDrawerListener(toggle)
+          toggle.syncState()
+          AnywhereApplication.sRepository.allAnywhereEntities.observe(this) {
+            initDrawer(binding.drawer)
+          }
         }
-
-        it.setDisplayHomeAsUpEnabled(true)
-        binding.drawer.addDrawerListener(mToggle!!)
-        mToggle!!.syncState()
-        AnywhereApplication.sRepository.allAnywhereEntities.observe(
-          this
-        ) { initDrawer(binding.drawer) }
       } else {
         it.setHomeButtonEnabled(false)
         it.setDisplayHomeAsUpEnabled(false)
@@ -534,7 +514,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
   }
 
   private fun initFab() {
-    build(this, binding.fab)
+    build(binding.fab)
     binding.fab.apply {
       mainFab.transitionName = "item_container"
       translationY = -16.dp.toFloat()
@@ -637,7 +617,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
       val param2 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_2).orEmpty()
       val param3 = uri.getQueryParameter(Const.INTENT_EXTRA_PARAM_3).orEmpty()
       val type = uri.getQueryParameter(Const.INTENT_EXTRA_TYPE) ?: return
-      val fromCollector = runCatching { uri.getQueryParameter("fromCollector").toBoolean() }.getOrDefault(false)
+      val fromCollector =
+        runCatching { uri.getQueryParameter("fromCollector").toBoolean() }.getOrDefault(false)
 
       if (fromCollector) {
         if (CollectorService.serviceConnection != null) {

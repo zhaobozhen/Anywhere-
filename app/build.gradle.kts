@@ -9,6 +9,7 @@ plugins {
   id("com.ke.gson.plugin")
   id("kotlin-parcelize")
   id("sdk-editor")
+  id("dev.rikka.tools.materialthemebuilder")
 }
 
 val verName = "2.4.1"
@@ -104,6 +105,19 @@ android {
   }
 }
 
+materialThemeBuilder {
+  themes {
+    create("anywhere") {
+      primaryColor = "#8BC34A"
+      lightThemeFormat = "Theme.Material3.Light.%s"
+      lightThemeParent = "Theme.Material3.Light.Rikka"
+      darkThemeFormat = "Theme.Material3.Dark.%s"
+      darkThemeParent = "Theme.Material3.Dark.Rikka"
+    }
+  }
+  generatePalette = true
+}
+
 repositories {
   mavenCentral()
 }
@@ -154,8 +168,6 @@ dependencies {
 
   implementation(files("libs/color-picker.aar"))
   implementation(files("libs/IceBox-SDK-1.0.6.aar"))
-  implementation(files("libs/speed-dial-3.1.1.aar"))
-//    implementation(files("libs/blurkit-1.1.1.aar"))
 
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
 
@@ -217,6 +229,7 @@ dependencies {
   implementation("com.drakeet.multitype:multitype:4.3.0")
   implementation("com.drakeet.drawer:drawer:1.0.3")
   implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
+  implementation("com.leinardi.android:speed-dial:3.3.0")
   implementation("me.zhanghai.android.fastscroll:library:1.1.8")
 
   val shizukuVersion = "12.1.0"
@@ -227,12 +240,13 @@ dependencies {
 
   implementation("dev.rikka.rikkax.appcompat:appcompat:1.4.1")
   implementation("dev.rikka.rikkax.core:core:1.4.0")
-  implementation("dev.rikka.rikkax.material:material:1.6.6")
+  implementation("dev.rikka.rikkax.material:material:2.4.0")
   implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.3.1")
   implementation("dev.rikka.rikkax.widget:borderview:1.1.0")
   implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
   implementation("dev.rikka.rikkax.insets:insets:1.2.0")
   implementation("dev.rikka.rikkax.layoutinflater:layoutinflater:1.2.0")
+  implementation("dev.rikka.rikkax.material:material-preference:1.0.0")
 
   //Network
   implementation("com.squareup.okhttp3:okhttp:4.9.3")

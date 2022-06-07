@@ -84,9 +84,7 @@ class LabActivity : AppBarActivity<ActivityLabBinding>() {
 
       recyclerView.borderViewDelegate.borderVisibilityChangedListener =
         BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
-          (activity as LabActivity?)?.appBar?.setRaised(
-            !top
-          )
+          (activity as LabActivity?)?.getAppBarLayout()?.isLifted = !top
         }
 
       return recyclerView

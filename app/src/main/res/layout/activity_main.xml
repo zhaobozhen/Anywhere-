@@ -73,7 +73,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.leinardi.android.speeddial.SpeedDialView
+        <com.absinthe.anywhere_.view.home.MySpeedDialView
           android:id="@+id/fab"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -81,11 +81,11 @@
           android:clipToPadding="false"
           android:padding="16dp"
           app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
-          app:sdMainFabClosedBackgroundColor="@color/fabBackgroundColor"
-          app:sdMainFabClosedIconColor="@color/fabIconColor"
+          app:sdMainFabClosedBackgroundColor="?attr/colorSecondaryContainer"
+          app:sdMainFabClosedIconColor="?attr/colorOnSecondaryContainer"
           app:sdMainFabClosedSrc="@drawable/ic_add"
-          app:sdMainFabOpenedBackgroundColor="@color/fabBackgroundColor"
-          app:sdMainFabOpenedIconColor="@color/fabIconColor" />
+          app:sdMainFabOpenedBackgroundColor="?attr/colorPrimary"
+          app:sdMainFabOpenedIconColor="?attr/colorOnPrimary" />
 
       </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

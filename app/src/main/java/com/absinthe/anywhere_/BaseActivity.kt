@@ -22,6 +22,7 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ActivityStackManager
+import rikka.core.res.isNight
 import rikka.material.app.MaterialActivity
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -102,6 +103,13 @@ abstract class BaseActivity<T : ViewBinding> : MaterialActivity() {
   }
 
   override fun onApplyUserThemeResource(theme: Resources.Theme, isDecorView: Boolean) {
+    if (AppUtils.atLeastS()) {
+      if (resources.configuration.isNight()) {
+        theme.applyStyle(R.style.ThemeOverlay_DynamicColors_Dark, true)
+      } else {
+        theme.applyStyle(R.style.ThemeOverlay_DynamicColors_Light, true)
+      }
+    }
     theme.applyStyle(R.style.ThemeOverlay, true)
   }
 

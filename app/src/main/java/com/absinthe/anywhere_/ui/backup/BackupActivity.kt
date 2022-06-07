@@ -244,9 +244,7 @@ class BackupActivity : AppBarActivity<ActivityBackupBinding>() {
 
       recyclerView.borderViewDelegate.borderVisibilityChangedListener =
         BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
-          (activity as BackupActivity?)?.appBar?.setRaised(
-            !top
-          )
+          (activity as BackupActivity?)?.getAppBarLayout()?.isLifted = !top
         }
 
       return recyclerView

@@ -14,7 +14,8 @@
       android:id="@+id/select_working_mode"
       layout="@layout/card_select_working_mode"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/cardview_margin" />
 
   </LinearLayout>
 

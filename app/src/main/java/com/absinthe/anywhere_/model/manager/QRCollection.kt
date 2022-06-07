@@ -392,7 +392,6 @@ object QRCollection {
 
   private fun genUnionPay(id: String, text: String): QREntity {
     val pkgName = "com.unionpay"
-    val clsName = "com.unionpay.activity.UPActivityWelcome"
     entitySet.add(AnywhereEntity().apply {
       this.id = id
       appName = "云闪付${text}"

@@ -17,7 +17,7 @@
   <style name="Widget.AppBar" parent="">
     <item name="android:theme">?actionBarTheme</item>
     <item name="android:background">?android:colorBackground</item>
-    <item name="android:stateListAnimator">@animator/raise_animator</item>
+
     <item name="android:elevation">0dp</item>
   </style>
 
@@ -36,10 +36,6 @@
     <item name="android:windowBackground">@color/transparent</item>
     <item name="windowNoTitle">true</item>
     <item name="android:windowIsTranslucent">true</item>
-  </style>
-
-  <style name="AppTheme.Dialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-    <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.AppTheme.Dialog.Rounded</item>
   </style>
 
   <style name="ShapeAppearanceOverlay.AppTheme.Dialog.Rounded" parent="">

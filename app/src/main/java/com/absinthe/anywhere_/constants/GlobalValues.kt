@@ -53,12 +53,6 @@ object GlobalValues {
       mmkv.encode(Const.PREF_CLOSE_AFTER_LAUNCH, value)
     }
 
-  var isMd2Toolbar
-    get() = mmkv.decodeBool(Const.PREF_MD2_TOOLBAR)
-    set(value) {
-      mmkv.encode(Const.PREF_MD2_TOOLBAR, value)
-    }
-
   var isPages
     get() = mmkv.decodeBool(Const.PREF_PAGES)
     set(value) {

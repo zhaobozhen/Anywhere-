@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-  <style name="Base.AppTheme.Light" parent="Theme.Material.Light.LightStatusBar">
+  <style name="Base.AppTheme.Light" parent="Theme.Material3.Light.Anywhere">
     <item name="android:statusBarColor">?android:colorBackground</item>
 
-    <item name="colorPrimary">@color/colorPrimary</item>
-    <item name="colorPrimaryVariant">@color/colorPrimary</item>
-    <item name="colorSecondary">@color/colorPrimary</item>
-    <item name="colorSecondaryVariant">@color/colorPrimary</item>
-    <item name="colorOnSecondary">@android:color/white</item>
-
-    <item name="actionBarStyle">@style/Widget.Material.ActionBar.Surface</item>
-    <item name="actionBarTheme">@style/ThemeOverlay.ActionBar</item>
-    <item name="toolbarStyle">@style/Widget.Material.Toolbar</item>
     <item name="dropDownListViewStyle">@style/Widget.Aw.PopupMenu</item>
-
-    <item name="appBarStyle">@style/Widget.AppBar.Surface.Raisable</item>
     <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
     <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
@@ -36,19 +25,9 @@
 
   <style name="Theme.Light" parent="Base.AppTheme.Light" />
 
-  <style name="Base.AppTheme" parent="Theme.Material">
-    <item name="colorPrimary">@color/appColorDark</item>
-    <item name="colorPrimaryVariant">@color/appColorDark</item>
-    <item name="colorSecondary">@color/appColorDark</item>
-    <item name="colorSecondaryVariant">@color/appColorDark</item>
-    <item name="colorOnSecondary">@android:color/black</item>
-
-    <item name="actionBarStyle">@style/Widget.Material.ActionBar.Surface</item>
-    <item name="actionBarTheme">@style/ThemeOverlay.ActionBar</item>
-    <item name="toolbarStyle">@style/Widget.Material.Toolbar</item>
+  <style name="Base.AppTheme" parent="Theme.Material3.Dark.Anywhere">
     <item name="dropDownListViewStyle">@style/Widget.Aw.PopupMenu</item>
 
-    <item name="appBarStyle">@style/Widget.AppBar.Surface.Raisable</item>
     <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
     <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
@@ -68,29 +47,5 @@
   </style>
 
   <style name="Theme" parent="Base.AppTheme" />
-
-  <style name="Widget.Material.Toolbar" parent="Widget.MaterialComponents.Toolbar">
-    <item name="android:background">?android:colorBackground</item>
-  </style>
-
-  <style name="Widget.AppBar.Surface">
-    <item name="android:background">?android:colorBackground</item>
-    <item name="android:stateListAnimator">@animator/alpha_animator</item>
-    <item name="android:elevation">@dimen/app_bar_elevation</item>
-  </style>
-
-  <style name="Widget.AppBar.Surface.Raisable">
-    <item name="android:elevation">0dp</item>
-    <item name="android:stateListAnimator">@animator/raise_animator</item>
-  </style>
-
-  <style name="ThemeOverlay.ActionBar" parent="ThemeOverlay.MaterialComponents.ActionBar">
-    <item name="elevation">0dp</item>
-    <item name="titleTextAppearance">@android:style/TextAppearance.Material.Widget.Toolbar.Title
-    </item>
-    <item name="subtitleTextAppearance">
-      @android:style/TextAppearance.Material.Widget.Toolbar.Subtitle
-    </item>
-  </style>
 
 </resources>

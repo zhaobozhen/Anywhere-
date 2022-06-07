@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rikka.material.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/app_bar"
   style="?appBarStyle"
   android:layout_width="match_parent"
@@ -10,7 +10,6 @@
     android:id="@+id/tool_bar"
     style="?actionBarStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@null" />
+    android:layout_height="wrap_content" />
 
-</rikka.material.widget.AppBarLayout>
+</com.google.android.material.appbar.AppBarLayout>

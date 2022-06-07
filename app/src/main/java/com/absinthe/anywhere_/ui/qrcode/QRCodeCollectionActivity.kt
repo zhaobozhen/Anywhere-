@@ -72,7 +72,7 @@ class QRCodeCollectionActivity : AppBarActivity<ActivityQrcodeCollectionBinding>
                 addItemDecoration(SpacesItemDecoration(resources.getDimension(R.dimen.cardview_item_margin).toInt()))
                 borderVisibilityChangedListener =
                     BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
-                        appBar?.setRaised(!top)
+                      getAppBarLayout().isLifted = !top
                     }
             }
             progressHorizontal.show()

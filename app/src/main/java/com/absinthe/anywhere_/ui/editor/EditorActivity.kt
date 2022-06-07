@@ -12,7 +12,6 @@ import android.view.View
 import android.view.Window
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -40,6 +39,7 @@ import com.absinthe.anywhere_.utils.manager.DialogManager.showCannotAddShortcutD
 import com.absinthe.anywhere_.utils.manager.DialogManager.showCreatePinnedShortcutDialog
 import com.absinthe.anywhere_.utils.manager.DialogManager.showRemoveShortcutDialog
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
+import com.absinthe.libraries.utils.extensions.getColorByAttr
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -247,7 +247,7 @@ class EditorActivity : BaseActivity<ActivityEditorBinding>() {
 
     binding.fab.apply {
       val color = if (entity.color == 0) {
-        ContextCompat.getColor(context, R.color.colorPrimary)
+        context.getColorByAttr(com.google.android.material.R.attr.colorSecondaryContainer)
       } else {
         entity.color
       }

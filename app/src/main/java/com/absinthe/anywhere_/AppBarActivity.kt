@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.viewbinding.ViewBinding
-import rikka.material.widget.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout
 
 abstract class AppBarActivity<T : ViewBinding> : BaseActivity<T>() {
   protected abstract fun getToolBar(): Toolbar
@@ -12,12 +12,8 @@ abstract class AppBarActivity<T : ViewBinding> : BaseActivity<T>() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    initAppBar()
-  }
-
-  private fun initAppBar() {
-    setAppBar(getAppBarLayout(), getToolBar())
-    (root as ViewGroup).bringChildToFront(getAppBarLayout())
+    setSupportActionBar(getToolBar())
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    (root as ViewGroup).bringChildToFront(getAppBarLayout())
   }
 }

@@ -471,6 +471,19 @@
       android:name=".receiver.NotificationClickReceiver"
       android:exported="false" />
 
+    <!-- Widget -->
+    <receiver
+      android:name=".receiver.Common2X2Widget"
+      android:enabled="@bool/glance_appwidget_available"
+      android:exported="false">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/common_2x2_widget" />
+    </receiver>
+
     <!--    Shizuku provider    -->
     <provider
       android:name="rikka.shizuku.ShizukuProvider"

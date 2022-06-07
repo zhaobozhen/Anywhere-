@@ -156,7 +156,7 @@ class AppListActivity : AppBarActivity<ActivityAppListBinding>(), SearchView.OnQ
       adapter = mAdapter
       borderVisibilityChangedListener =
         BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
-          appBar?.setRaised(!top)
+          getAppBarLayout().isLifted = !top
         }
       addOnScrollListener(object : RecyclerView.OnScrollListener() {
 

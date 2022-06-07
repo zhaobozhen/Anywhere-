@@ -83,7 +83,7 @@ class DefrostActivity : AppBarActivity<ActivityDefrostBinding>() {
             layoutManager = LinearLayoutManager(this@DefrostActivity)
             borderVisibilityChangedListener =
                 BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
-                    appBar?.setRaised(!top)
+                  getAppBarLayout().isLifted = !top
                 }
         }
     }

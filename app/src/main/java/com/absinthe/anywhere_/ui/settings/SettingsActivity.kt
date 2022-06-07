@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.ui.settings
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -21,11 +22,9 @@ import com.absinthe.anywhere_.databinding.ActivitySettingsBinding
 import com.absinthe.anywhere_.model.Settings
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
-import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
 import rikka.material.app.DayNightDelegate
-import rikka.preference.SimpleMenuPreference
 import rikka.recyclerview.fixEdgeEffect
 import rikka.widget.borderview.BorderRecyclerView
 import rikka.widget.borderview.BorderView
@@ -39,16 +38,15 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
 
   override fun getAppBarLayout() = binding.toolbar.appBar
 
+  override fun onApplyUserThemeResource(theme: Resources.Theme, isDecorView: Boolean) {
+    super.onApplyUserThemeResource(theme, isDecorView)
+    theme.applyStyle(rikka.material.preference.R.style.ThemeOverlay_Rikka_Material3_Preference, true)
+  }
+
   class SettingsFragment : PreferenceFragmentCompat() {
 
-    companion object {
-      init {
-        SimpleMenuPreference.setLightFixEnabled(true)
-      }
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-      setPreferencesFromResource(R.xml.settings, rootKey)
+      setPreferencesFromResource(R.xml.settings, null)
 
       //Normal
       findPreference<ListPreference>(Const.PREF_WORKING_MODE)?.apply {
@@ -109,13 +107,6 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.sCardBackgroundMode = newValue.toString()
           GlobalValues.cardModeLiveData.value = newValue
-          true
-        }
-      }
-      findPreference<SwitchPreference>(Const.PREF_MD2_TOOLBAR)?.apply {
-        setOnPreferenceChangeListener { _, newValue ->
-          GlobalValues.isMd2Toolbar = newValue as Boolean
-          AppUtils.restart()
           true
         }
       }
@@ -198,23 +189,6 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
           true
         }
       }
-      findPreference<Preference>(Const.PREF_BETA)?.apply {
-        setOnPreferenceClickListener {
-          try {
-            CustomTabsIntent.Builder().build().apply {
-              launchUrl(requireActivity(), URLManager.BETA_DISTRIBUTE_URL.toUri())
-            }
-          } catch (e: ActivityNotFoundException) {
-            Timber.e(e)
-            try {
-              URLSchemeHandler.parse(requireActivity(), URLManager.BETA_DISTRIBUTE_URL)
-            } catch (e: ActivityNotFoundException) {
-              ToastUtil.makeText(R.string.toast_no_react_url)
-            }
-          }
-          true
-        }
-      }
     }
 
     override fun onCreateRecyclerView(
@@ -238,9 +212,7 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
 
       recyclerView.borderViewDelegate.borderVisibilityChangedListener =
         BorderView.OnBorderVisibilityChangedListener { top: Boolean, _: Boolean, _: Boolean, _: Boolean ->
-          (activity as SettingsActivity?)?.appBar?.setRaised(
-            !top
-          )
+          (activity as SettingsActivity?)?.getAppBarLayout()?.isLifted = !top
         }
 
       return recyclerView

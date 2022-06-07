@@ -66,7 +66,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
-  ): View? {
+  ): View {
     mBinding = FragmentInitializeBinding.inflate(inflater, container, false)
     rootBinding = CardAcquireRootPermissionBinding.inflate(inflater, container, false)
     shizukuBinding = CardAcquireShizukuPermissionBinding.inflate(inflater, container, false)
@@ -78,8 +78,8 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
     return mBinding.root
   }
 
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     initObserver()
   }
 
@@ -177,7 +177,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
   }
 
   private fun initObserver() {
-    isRoot.observe(viewLifecycleOwner, { aBoolean: Boolean ->
+    isRoot.observe(viewLifecycleOwner) { aBoolean: Boolean ->
       if (aBoolean) {
         rootBinding.apply {
           btnAcquireRootPermission.setText(R.string.btn_acquired)
@@ -189,8 +189,8 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         Timber.d("Root permission denied.")
         ToastUtil.makeText(R.string.toast_root_permission_denied)
       }
-    })
-    isShizuku.observe(viewLifecycleOwner, { aBoolean: Boolean ->
+    }
+    isShizuku.observe(viewLifecycleOwner) { aBoolean: Boolean ->
       if (aBoolean) {
         shizukuBinding.apply {
           btnAcquirePermission.setText(R.string.btn_acquired)
@@ -203,8 +203,8 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
           shizukuBinding.done.visibility = View.VISIBLE
         }
       }
-    })
-    isOverlay.observe(viewLifecycleOwner, { aBoolean: Boolean ->
+    }
+    isOverlay.observe(viewLifecycleOwner) { aBoolean: Boolean ->
       if (aBoolean) {
         overlayBinding.apply {
           btnAcquireOverlayPermission.setText(R.string.btn_acquired)
@@ -213,8 +213,8 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         }
         allPerm.value = allPerm.value!! or OVERLAY_PERM
       }
-    })
-    isPopup.observe(viewLifecycleOwner, { aBoolean: Boolean ->
+    }
+    isPopup.observe(viewLifecycleOwner) { aBoolean: Boolean ->
       if (aBoolean) {
         popupBinding.apply {
           btnAcquirePopupPermission.setText(R.string.btn_acquired)
@@ -223,7 +223,7 @@ class InitializeFragment : Fragment(), OnButtonCheckedListener {
         }
         allPerm.value = allPerm.value!! or POPUP_PERM
       }
-    })
+    }
   }
 
   private fun actCards(card: Int, isAdd: Boolean) {

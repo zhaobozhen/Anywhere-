@@ -16,7 +16,6 @@ import androidx.annotation.ColorRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -31,7 +30,6 @@ import com.absinthe.anywhere_.constants.GlobalValues.autoDarkModeEnd
 import com.absinthe.anywhere_.constants.GlobalValues.autoDarkModeStart
 import com.absinthe.anywhere_.constants.GlobalValues.backgroundUri
 import com.absinthe.anywhere_.constants.GlobalValues.iconPack
-import com.absinthe.anywhere_.constants.GlobalValues.isMd2Toolbar
 import com.absinthe.anywhere_.constants.GlobalValues.isPages
 import com.absinthe.anywhere_.constants.GlobalValues.workingMode
 import com.absinthe.anywhere_.model.Settings
@@ -39,9 +37,7 @@ import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.viewholder.AppListBean
 import com.absinthe.anywhere_.utils.AppUtils.getPackageNameByScheme
 import com.absinthe.anywhere_.utils.manager.CardTypeIconGenerator
-import com.absinthe.anywhere_.utils.manager.ShadowHelper
 import com.absinthe.anywhere_.view.home.TextSwitcherView
-import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ConvertUtils
 import com.bumptech.glide.Glide
@@ -135,11 +131,7 @@ object UxUtils {
    * @param activity Activity for bind action bar
    */
   fun setActionBarTransparent(activity: AppCompatActivity) {
-    activity.supportActionBar?.let {
-      if (!isMd2Toolbar) {
-        it.setBackgroundDrawable(null)
-      }
-    }
+    activity.supportActionBar?.setBackgroundDrawable(null)
   }
 
   /**
@@ -408,14 +400,5 @@ object UxUtils {
         it.drawerArrowDrawable.color = Color.WHITE
       }
     }
-  }
-
-  fun drawMd2Toolbar(toolbar: Toolbar, shadowRadius: Int) {
-    ShadowHelper.getInstance()
-      .setShape(ShadowHelper.SHAPE_ROUND)
-      .setShapeRadius(8.dp)
-      .setShadowRadius(shadowRadius.dp)
-      .setShadowColor(Color.parseColor("#4D000000"))
-      .into(toolbar)
   }
 }
