@@ -10,9 +10,8 @@
     android:id="@+id/iv_type"
     android:layout_width="36dp"
     android:layout_height="36dp"
-    android:layout_marginEnd="4dp"
     android:importantForAccessibility="no"
-    app:layout_constraintEnd_toStartOf="@id/tv_type"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:background="@drawable/ic_card_activity" />
 
@@ -20,11 +19,11 @@
     android:id="@+id/tv_type"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
     android:gravity="center_vertical"
     android:textAppearance="?attr/textAppearanceHeadline6"
     app:layout_constraintBottom_toBottomOf="@id/iv_type"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintStart_toEndOf="@id/iv_type"
     app:layout_constraintTop_toTopOf="@id/iv_type"
     tools:text="Activity" />
 
@@ -106,15 +105,16 @@
     android:id="@+id/tv_need_root"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
     android:fontFamily="sans-serif-condensed-medium"
     android:gravity="center_vertical"
     android:text="@string/cloud_rules_need_root"
     android:textAppearance="?attr/textAppearanceSubtitle2"
     android:visibility="gone"
     app:drawableStartCompat="@drawable/ic_sharp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/btn_add"
+    app:layout_constraintBottom_toBottomOf="@id/iv_type"
+    app:layout_constraintStart_toEndOf="@id/tv_type"
+    app:layout_constraintTop_toTopOf="@id/iv_type"
     tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

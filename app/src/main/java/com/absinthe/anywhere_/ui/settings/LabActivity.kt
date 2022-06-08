@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.ui.settings
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -29,10 +30,15 @@ class LabActivity : AppBarActivity<ActivityLabBinding>() {
 
   override fun getAppBarLayout() = binding.toolbar.appBar
 
+  override fun onApplyUserThemeResource(theme: Resources.Theme, isDecorView: Boolean) {
+    super.onApplyUserThemeResource(theme, isDecorView)
+    theme.applyStyle(rikka.material.preference.R.style.ThemeOverlay_Rikka_Material3_Preference, true)
+  }
+
   class LabFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-      setPreferencesFromResource(R.xml.settings_lab, rootKey)
+      setPreferencesFromResource(R.xml.settings_lab, null)
 
       findPreference<SwitchPreference>(Const.PREF_TRANS_ICON)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
