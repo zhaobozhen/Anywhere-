@@ -21,11 +21,13 @@ import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.databinding.FragmentCategoryCardBinding
 import com.absinthe.anywhere_.extension.addSystemBarPaddingAsync
 import com.absinthe.anywhere_.model.database.AnywhereEntity
+import com.absinthe.anywhere_.utils.AppUtils.updateWidget
 import com.absinthe.anywhere_.utils.doOnMainThreadIdle
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.libraries.utils.extensions.paddingEndCompat
 import com.absinthe.libraries.utils.extensions.paddingStartCompat
 import com.absinthe.libraries.utils.utils.XiaomiUtilities
+import com.blankj.utilcode.util.Utils
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -243,6 +245,7 @@ class CategoryCardFragment : Fragment() {
         list.toMutableList()
       }
     )
+    updateWidget(Utils.getApp())
   }
 
   private fun resetSelectState() {
