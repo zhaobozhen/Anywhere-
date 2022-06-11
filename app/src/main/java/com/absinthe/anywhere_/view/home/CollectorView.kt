@@ -12,7 +12,6 @@ import com.absinthe.anywhere_.constants.Const
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.manager.CollectorWindowManager
 import com.absinthe.anywhere_.services.overlay.ICollectorService
-import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CommandUtils
 import com.absinthe.anywhere_.utils.ToastUtil
@@ -73,7 +72,6 @@ class CollectorView(context: Context, binder: ICollectorService) : LinearLayout(
             // 获取按下时的X，Y坐标
             lastX = motionEvent.rawX
             lastY = motionEvent.rawY
-            Timber.d("MotionEvent.ACTION_DOWN last: %f %f", lastX, lastY)
             isClick = false
             mStartTime = System.currentTimeMillis()
           }
@@ -83,12 +81,10 @@ class CollectorView(context: Context, binder: ICollectorService) : LinearLayout(
             // 获取移动时的X，Y坐标
             nowX = motionEvent.rawX
             nowY = motionEvent.rawY
-            Timber.d("MotionEvent.ACTION_MOVE now: %f %f", nowX, nowY)
 
             // 计算XY坐标偏移量
             tranX = nowX - lastX
             tranY = nowY - lastY
-            Timber.d("MotionEvent.ACTION_MOVE tran: %f %f", tranX, tranY)
 
             // 移动悬浮窗
             mLayoutParams.apply {
@@ -103,7 +99,6 @@ class CollectorView(context: Context, binder: ICollectorService) : LinearLayout(
           }
           MotionEvent.ACTION_UP -> {
             mEndTime = System.currentTimeMillis()
-            Timber.d("Touch period = %d", mEndTime - mStartTime)
             isClick = mEndTime - mStartTime > 0.2 * 1000L
           }
         }
@@ -123,7 +118,7 @@ class CollectorView(context: Context, binder: ICollectorService) : LinearLayout(
     ) {
       ToastUtil.makeText(R.string.toast_check_perm)
     } else {
-      val processed = AppTextUtils.processResultString(result)
+      val processed = binderRef.get()?.currentActivity
       if (processed != null) {
         mPackageName = processed[0]
         mClassName = processed[1]

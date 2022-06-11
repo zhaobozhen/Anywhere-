@@ -6,9 +6,10 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="?android:colorBackground"
-  app:consumeSystemWindowsInsets="start|end|bottom"
+  android:fitsSystemWindows="false"
+  app:consumeSystemWindowsInsets="start|end"
   app:edgeToEdge="true"
-  app:fitsSystemWindowsInsets="start|end|bottom"
+  app:fitsSystemWindowsInsets="start|end"
   tools:context=".ui.editor.EditorActivity">
 
   <ScrollView
@@ -39,7 +40,8 @@
       <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:fitsSystemWindowsInsets="bottom" />
 
     </LinearLayout>
 
@@ -50,8 +52,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    app:consumeSystemWindowsInsets="bottom"
     app:fabAlignmentMode="end"
+    app:fitsSystemWindowsInsets="bottom"
     app:navigationIcon="@drawable/ic_menu" />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,6 +78,7 @@
       android:id="@+id/navigation_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      app:fitsSystemWindowsInsets="bottom"
       app:menu="@menu/editor_menu" />
   </FrameLayout>
 

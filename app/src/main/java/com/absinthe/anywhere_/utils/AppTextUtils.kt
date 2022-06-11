@@ -22,22 +22,6 @@ import java.util.*
 object AppTextUtils {
 
   /**
-   * process and obtain adb result
-   *
-   * @param result return result
-   */
-  fun processResultString(result: String): Array<String>? {
-    if (!result.contains(" u0 ") || result.indexOf(" u0 ") + 4 >= result.length - 1) {
-      return null
-    }
-
-    val packageName: String = result.substring(result.indexOf(" u0 ") + 4, result.indexOf("/"))
-    val className: String =
-      result.substring(result.indexOf("/") + 1, result.indexOf(" ", result.indexOf("/") + 1))
-    return arrayOf(packageName, className)
-  }
-
-  /**
    * get launch command of a item
    *
    * @param item the item

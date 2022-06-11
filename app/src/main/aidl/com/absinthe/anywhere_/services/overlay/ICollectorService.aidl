@@ -9,6 +9,7 @@ interface ICollectorService {
     void stopCollector();
     void startCoordinator();
     void stopCoordinator(in int x, in int y);
+    String[] getCurrentActivity();
     void registerCollectorListener(in ICollectorListener listener);
     void unregisterCollectorListener(in ICollectorListener listener);
 }

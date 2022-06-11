@@ -12,7 +12,6 @@ import com.absinthe.anywhere_.constants.GlobalValues.dumpInterval
 import com.absinthe.anywhere_.constants.GlobalValues.isCollectorPlus
 import com.absinthe.anywhere_.model.manager.CollectorWindowManager
 import com.absinthe.anywhere_.model.manager.CoordinatorWindowManager
-import com.absinthe.anywhere_.utils.AppTextUtils
 import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.CommandUtils.execAdbCmd
 import com.absinthe.anywhere_.utils.NotifyUtils
@@ -30,27 +29,20 @@ class CollectorService : Service() {
     CoordinatorWindowManager(applicationContext, binder)
   }
 
-  private val mHandler = Handler(Looper.myLooper()!!)
+  private val mHandler = Handler(Looper.getMainLooper())
   private val getCurrentInfoTask: Runnable = object : Runnable {
     override fun run() {
-      Timber.d("getCurrentInfoTask#run")
-      val result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY)
-
-      if (result == CommandResult.RESULT_NULL ||
-        result == CommandResult.RESULT_ROOT_PERM_ERROR ||
-        result == CommandResult.RESULT_SHIZUKU_PERM_ERROR
-      ) {
-        Thread.currentThread().interrupt()
-      } else {
-        AppTextUtils.processResultString(result)?.let {
-          if (isCollectorPlus) {
-            mCollectorWindowManager.setInfo(it[0], it[1])
-          }
-          NotifyUtils.updateCollectorNotification(this@CollectorService, it[0], it[1])
+      runCatching {
+        val pair = getCurrentActivity()
+        Timber.d("getCurrentActivity: $pair")
+        if (isCollectorPlus) {
+          mCollectorWindowManager.setInfo(pair.first, pair.second)
         }
+        NotifyUtils.updateCollectorNotification(this@CollectorService, pair.first, pair.second)
+        mHandler.postDelayed(this, dumpInterval.toLong())
+      }.onFailure {
+        Thread.currentThread().interrupt()
       }
-
-      mHandler.postDelayed(this, dumpInterval.toLong())
     }
   }
 
@@ -186,7 +178,63 @@ class CollectorService : Service() {
     }
   }
 
-  private class CollectorServiceBinder(private val serviceRef: WeakReference<CollectorService>) : ICollectorService.Stub() {
+  @Throws(IllegalStateException::class)
+  private fun getCurrentActivity(): Pair<String, String> {
+    var result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY)
+
+    if (result == CommandResult.RESULT_ROOT_PERM_ERROR || result == CommandResult.RESULT_SHIZUKU_PERM_ERROR) {
+      throw IllegalStateException("permission denied")
+    } else {
+      return if (result == CommandResult.RESULT_NULL) {
+        result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY2)
+        processResultString2(result) ?: Pair("", "")
+      } else {
+        processResultString(result) ?: run {
+          result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY2)
+          processResultString2(result) ?: Pair("", "")
+        }
+      }
+    }
+  }
+
+  private val u0 = " u0 "
+
+  private fun processResultString(result: String): Pair<String, String>? {
+    if (!result.contains("mResumedActivity:") || !result.contains(u0) || result.endsWith(u0)) {
+      return null
+    }
+
+    val joined = result.substring(result.indexOf(u0) + u0.length, result.lastIndexOf(" "))
+    if (!joined.contains("/")) {
+      return null
+    }
+    return Pair(
+      joined.substring(0, joined.lastIndexOf("/")),
+      joined.substring(joined.lastIndexOf("/") + 1)
+    )
+  }
+
+  private fun processResultString2(result: String): Pair<String, String>? {
+    if (!result.contains("Hist #0:") || !result.contains(u0) || result.endsWith(u0)) {
+      return null
+    }
+
+    val firstLine = result.lines().first()
+    val joined = firstLine.substring(
+      firstLine.indexOf(u0) + u0.length,
+      firstLine.substring(0, firstLine.indexOf("}") - 1).lastIndexOf(" ")
+    )
+    if (!joined.contains("/")) {
+      return null
+    }
+    return Pair(
+      joined.substring(0, joined.lastIndexOf("/")),
+      joined.substring(joined.lastIndexOf("/") + 1)
+    )
+  }
+
+  private class CollectorServiceBinder(private val serviceRef: WeakReference<CollectorService>) :
+    ICollectorService.Stub() {
     override fun startCollector() {
       serviceRef.get()?.startCollectorInternal()
     }
@@ -201,6 +249,12 @@ class CollectorService : Service() {
 
     override fun stopCoordinator(x: Int, y: Int) {
       serviceRef.get()?.stopCoordinatorInternal(x, y)
+    }
+
+    override fun getCurrentActivity(): Array<String>? {
+      return serviceRef.get()?.getCurrentActivity()?.let {
+        arrayOf(it.first, it.second)
+      }
     }
 
     override fun registerCollectorListener(listener: ICollectorListener?) {
