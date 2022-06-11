@@ -24,7 +24,6 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.ShellManager
 import com.absinthe.anywhere_.utils.manager.ShizukuHelper
-import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.PermissionUtils
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.topjohnwu.superuser.Shell
@@ -114,7 +113,7 @@ class AnywhereViewModel(application: Application) : AndroidViewModel(application
           }
           PermissionUtils.requestDrawOverlays(object : PermissionUtils.SimpleCallback {
             override fun onGranted() {
-              if (DeviceUtils.isDeviceRooted()) {
+              if (Shell.isAppGrantedRoot() == true) {
                 listener.onStart()
               } else {
                 Timber.d("ROOT permission denied.")

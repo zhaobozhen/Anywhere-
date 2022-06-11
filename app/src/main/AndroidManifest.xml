@@ -492,9 +492,10 @@
       android:exported="false" />
 
     <!-- Widget -->
+    <!--  android:enabled="@bool/glance_appwidget_available"  -->
     <receiver
       android:name=".receiver.Common2X2Widget"
-      android:enabled="@bool/glance_appwidget_available"
+      android:enabled="false"
       android:exported="false">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

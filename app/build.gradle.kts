@@ -12,8 +12,8 @@ plugins {
   id("dev.rikka.tools.materialthemebuilder")
 }
 
-val verName = "2.4.1"
-val verCode = 2040101
+val verName = "2.5.0"
+val verCode = 2050000
 
 android {
   compileSdk = 32
@@ -67,7 +67,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.1.0-beta03"
+    kotlinCompilerExtensionVersion = "1.2.0-beta03"
   }
 
   androidComponents.onVariants { v ->

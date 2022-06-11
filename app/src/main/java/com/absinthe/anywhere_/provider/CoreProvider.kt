@@ -50,7 +50,7 @@ class CoreProvider : ContentProvider() {
       cursor?.setNotificationUri(context.contentResolver, uri)
       cursor
     } else {
-      throw java.lang.IllegalArgumentException("Unknown URI: $uri")
+      throw IllegalArgumentException("Unknown URI: $uri")
     }
   }
 

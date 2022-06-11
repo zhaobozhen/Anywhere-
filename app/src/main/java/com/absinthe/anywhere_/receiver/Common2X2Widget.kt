@@ -1,7 +1,6 @@
 package com.absinthe.anywhere_.receiver
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceModifier
 import androidx.glance.appwidget.GlanceAppWidget
