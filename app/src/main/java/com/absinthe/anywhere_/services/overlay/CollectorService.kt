@@ -219,18 +219,21 @@ class CollectorService : Service() {
       return null
     }
 
-    val firstLine = result.lines().first()
-    val joined = firstLine.substring(
-      firstLine.indexOf(u0) + u0.length,
-      firstLine.substring(0, firstLine.indexOf("}") - 1).lastIndexOf(" ")
-    )
-    if (!joined.contains("/")) {
-      return null
+    runCatching {
+      val firstLine = result.lines().first()
+      val joined = firstLine.substring(
+        firstLine.indexOf(u0) + u0.length,
+        firstLine.substring(0, firstLine.indexOf("}") - 1).lastIndexOf(" ")
+      )
+      if (!joined.contains("/")) {
+        return null
+      }
+      return Pair(
+        joined.substring(0, joined.lastIndexOf("/")),
+        joined.substring(joined.lastIndexOf("/") + 1)
+      )
     }
-    return Pair(
-      joined.substring(0, joined.lastIndexOf("/")),
-      joined.substring(joined.lastIndexOf("/") + 1)
-    )
+    return null
   }
 
   private class CollectorServiceBinder(private val serviceRef: WeakReference<CollectorService>) :

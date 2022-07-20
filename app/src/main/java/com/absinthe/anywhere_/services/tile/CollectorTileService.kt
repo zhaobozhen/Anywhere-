@@ -45,6 +45,7 @@ class CollectorTileService : TileService() {
     if (collectorBinder != null) {
       collectorBinder?.stopCollector()
       unbindService(connection)
+      collectorBinder = null
     }
   }
 }
