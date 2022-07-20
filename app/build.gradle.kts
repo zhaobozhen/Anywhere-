@@ -246,7 +246,7 @@ dependencies {
   implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
   implementation("dev.rikka.rikkax.insets:insets:1.3.0")
   implementation("dev.rikka.rikkax.layoutinflater:layoutinflater:1.2.0")
-  implementation("dev.rikka.rikkax.material:material-preference:1.0.0")
+  implementation("dev.rikka.rikkax.material:material-preference:2.0.0")
 
   //Network
   implementation("com.squareup.okhttp3:okhttp:4.10.0")
