@@ -117,7 +117,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
   override fun setViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
   override fun onCreate(savedInstanceState: Bundle?) {
-
     if (!Once.beenDone(Once.THIS_APP_INSTALL, OnceTag.FIRST_GUIDE)) {
       finish()
       startActivity(Intent(this, SetupActivity::class.java))

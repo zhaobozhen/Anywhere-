@@ -9,11 +9,11 @@ import android.widget.ImageView
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import com.absinthe.anywhere_.AnywhereApplication
-import com.absinthe.anywhere_.BaseActivity
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.model.database.PageEntity
+import com.absinthe.anywhere_.utils.manager.ActivityStackManager
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.chad.library.adapter.base.provider.BaseNodeProvider
@@ -75,7 +75,9 @@ class PageTitleProvider : BaseNodeProvider() {
     val node = data as PageTitleNode
     popup.setOnMenuItemClickListener { item: MenuItem ->
       when (item.itemId) {
-        R.id.rename_page -> DialogManager.showRenameDialog(context as BaseActivity<*>, node.title)
+        R.id.rename_page -> ActivityStackManager.topActivity?.let {
+          DialogManager.showRenameDialog(it, node.title)
+        }
         R.id.delete_page -> DialogManager.showDeletePageDialog(context, node.title, false) {
           getPageEntity(node.title)?.let { AnywhereApplication.sRepository.deletePage(it) }
           AnywhereApplication.sRepository.allPageEntities.value?.let { list ->
