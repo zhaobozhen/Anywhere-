@@ -5,28 +5,28 @@
     app:key="normalCategory"
     app:title="@string/settings_category_normal">
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:defaultValue="false"
       app:icon="@drawable/ic_transparent_icon"
       app:key="transparentIcon"
       app:summary="@string/settings_transparent_icon_summary"
       app:title="@string/settings_transparent_icon_title" />
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:defaultValue="false"
       app:icon="@drawable/ic_animation"
       app:key="editorEntryAnim"
       app:summary="@string/settings_editor_entry_animation_summary"
       app:title="@string/settings_editor_entry_animation" />
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:defaultValue="false"
       app:icon="@drawable/ic_deprecate_icon"
       app:key="deprecatedScCreatingMethod"
       app:summary="@string/settings_deprecated_sc_creating_method_summary"
       app:title="@string/settings_deprecated_sc_creating_method" />
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:defaultValue="true"
       app:icon="@drawable/ic_snowflake"
       app:key="showDefreezingToast"

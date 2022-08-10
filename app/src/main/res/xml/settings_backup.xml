@@ -22,7 +22,7 @@
       app:key="webdavBackup"
       app:title="@string/settings_backup_webdav_backup_title" />
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:defaultValue="false"
       app:key="webdavAutoBackup"
       app:summary="@string/settings_backup_webdav_auto_backup_summary"

@@ -67,7 +67,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.2.0"
+    kotlinCompilerExtensionVersion = "1.3.0-rc02"
   }
 
   androidComponents.onVariants { v ->
@@ -179,13 +179,13 @@ dependencies {
   implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
   //Android X
-  val roomVersion = "2.4.2"
+  val roomVersion = "2.4.3"
   implementation("androidx.room:room-runtime:${roomVersion}")
   implementation("androidx.room:room-ktx:${roomVersion}")
   ksp("androidx.room:room-compiler:${roomVersion}")
   androidTestImplementation("androidx.room:room-testing:${roomVersion}")
 
-  val lifecycleVersion = "2.5.0"
+  val lifecycleVersion = "2.5.1"
   implementation("androidx.lifecycle:lifecycle-livedata-ktx:${lifecycleVersion}")
   implementation("androidx.lifecycle:lifecycle-common-java8:${lifecycleVersion}")
   implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycleVersion}")
@@ -200,20 +200,20 @@ dependencies {
 
   //KTX
   implementation("androidx.collection:collection-ktx:1.2.0")
-  implementation("androidx.activity:activity-ktx:1.5.0")
-  implementation("androidx.fragment:fragment-ktx:1.5.0")
+  implementation("androidx.activity:activity-ktx:1.5.1")
+  implementation("androidx.fragment:fragment-ktx:1.5.1")
   implementation("androidx.palette:palette-ktx:1.0.0")
   implementation("androidx.core:core-ktx:1.8.0")
   implementation("androidx.preference:preference-ktx:1.2.0")
 
   //Google
-  implementation("com.google.android.material:material:1.6.1")
+  implementation("com.google.android.material:material:1.7.0-alpha02")
 
   //Function
   implementation("com.github.bumptech.glide:glide:4.13.2")
   ksp("com.github.bumptech.glide:compiler:4.13.2")
 
-  implementation("com.google.code.gson:gson:2.9.0")
+  implementation("com.google.code.gson:gson:2.9.1")
   implementation("com.google.zxing:core:3.5.0")
   implementation("com.blankj:utilcodex:1.31.0")
   implementation("com.tencent:mmkv-static:1.2.13")
@@ -240,13 +240,13 @@ dependencies {
 
   implementation("dev.rikka.rikkax.appcompat:appcompat:1.4.1")
   implementation("dev.rikka.rikkax.core:core:1.4.1")
-  implementation("dev.rikka.rikkax.material:material:2.4.0")
+  implementation("dev.rikka.rikkax.material:material:2.5.1")
   implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.3.1")
   implementation("dev.rikka.rikkax.widget:borderview:1.1.0")
   implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
   implementation("dev.rikka.rikkax.insets:insets:1.3.0")
   implementation("dev.rikka.rikkax.layoutinflater:layoutinflater:1.2.0")
-  implementation("dev.rikka.rikkax.material:material-preference:1.0.0")
+  implementation("dev.rikka.rikkax.material:material-preference:2.0.0")
 
   //Network
   implementation("com.squareup.okhttp3:okhttp:4.10.0")

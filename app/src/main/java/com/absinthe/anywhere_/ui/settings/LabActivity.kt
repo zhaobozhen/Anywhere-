@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import androidx.preference.TwoStatePreference
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
@@ -40,7 +40,7 @@ class LabActivity : AppBarActivity<ActivityLabBinding>() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
       setPreferencesFromResource(R.xml.settings_lab, null)
 
-      findPreference<SwitchPreference>(Const.PREF_TRANS_ICON)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_TRANS_ICON)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalScope.launch(Dispatchers.IO) {
             delay(500)
@@ -49,19 +49,19 @@ class LabActivity : AppBarActivity<ActivityLabBinding>() {
           true
         }
       }
-      findPreference<SwitchPreference>(Const.PREF_EDITOR_ENTRY_ANIM)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_EDITOR_ENTRY_ANIM)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.editorEntryAnim = newValue as Boolean
           true
         }
       }
-      findPreference<SwitchPreference>(Const.PREF_DEPRECATED_SC_CREATING_METHOD)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_DEPRECATED_SC_CREATING_METHOD)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.deprecatedScCreatingMethod = newValue as Boolean
           true
         }
       }
-      findPreference<SwitchPreference>(Const.PREF_SHOW_DEFREEZING_TOAST)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_SHOW_DEFREEZING_TOAST)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.showDefreezingToast = newValue as Boolean
           true

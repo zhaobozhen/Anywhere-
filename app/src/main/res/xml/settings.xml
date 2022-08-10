@@ -38,7 +38,7 @@
 
     </Preference>
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:icon="@drawable/ic_rocket"
       app:key="closeAfterLaunch"
       app:summary="@string/settings_close_after_launch_summary"
@@ -101,7 +101,7 @@
     app:key="advancedCategory"
     app:title="@string/settings_category_advanced">
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:icon="@drawable/ic_pages"
       app:key="pages"
       app:summary="@string/settings_pages_summary"
@@ -124,21 +124,21 @@
         android:targetPackage="@string/application_id" />
     </Preference>
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:defaultValue="false"
       app:icon="@drawable/ic_plus_circle"
       app:key="collectorPlus"
       app:summary="@string/settings_collector_plus_summary"
       app:title="@string/settings_collector_plus" />
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:defaultValue="false"
       app:icon="@drawable/ic_visibility_off"
       app:key="excludeFromRecent"
       app:summary="@string/settings_exclude_from_recent_summary"
       app:title="@string/settings_exclude_from_recent" />
 
-    <SwitchPreference
+    <rikka.material.preference.MaterialSwitchPreference
       app:defaultValue="true"
       app:icon="@drawable/ic_copy"
       app:key="shouldListenClipBoard"

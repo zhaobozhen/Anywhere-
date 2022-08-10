@@ -12,7 +12,7 @@ import androidx.core.net.toUri
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import androidx.preference.TwoStatePreference
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.R
@@ -55,7 +55,7 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
           true
         }
       }
-      findPreference<SwitchPreference>(Const.PREF_CLOSE_AFTER_LAUNCH)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_CLOSE_AFTER_LAUNCH)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.closeAfterLaunch = newValue as Boolean
           true
@@ -118,7 +118,7 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
       }
 
       //Advanced
-      findPreference<SwitchPreference>(Const.PREF_PAGES)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_PAGES)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.isPages = newValue as Boolean
           AppUtils.restart()
@@ -140,7 +140,7 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
           isVisible = false
         }
       }
-      findPreference<SwitchPreference>(Const.PREF_COLLECTOR_PLUS)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_COLLECTOR_PLUS)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.isCollectorPlus = newValue as Boolean
           if (newValue) {
@@ -149,7 +149,7 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
           true
         }
       }
-      findPreference<SwitchPreference>(Const.PREF_EXCLUDE_FROM_RECENT)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_EXCLUDE_FROM_RECENT)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.isExcludeFromRecent = newValue as Boolean
           true
@@ -161,7 +161,7 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
           true
         }
       }
-      findPreference<SwitchPreference>(Const.PREF_LISTEN_CLIP_BOARD)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_LISTEN_CLIP_BOARD)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.shouldListenClipBoardPref = newValue as Boolean
           true

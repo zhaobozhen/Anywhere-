@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import androidx.preference.TwoStatePreference
 import androidx.recyclerview.widget.RecyclerView
 import com.absinthe.anywhere_.AppBarActivity
 import com.absinthe.anywhere_.BaseActivity
@@ -147,7 +147,7 @@ class BackupActivity : AppBarActivity<ActivityBackupBinding>() {
         }
         isIconSpaceReserved = true
       }
-      findPreference<SwitchPreference>(Const.PREF_WEBDAV_AUTO_BACKUP)?.apply {
+      findPreference<TwoStatePreference>(Const.PREF_WEBDAV_AUTO_BACKUP)?.apply {
         setOnPreferenceChangeListener { _, newValue ->
           GlobalValues.isAutoBackup = newValue as Boolean
           true
