@@ -180,58 +180,19 @@ class CollectorService : Service() {
 
   @Throws(IllegalStateException::class)
   private fun getCurrentActivity(): Pair<String, String> {
-    var result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY)
+    val result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY)
 
     if (result == CommandResult.RESULT_ROOT_PERM_ERROR || result == CommandResult.RESULT_SHIZUKU_PERM_ERROR) {
       throw IllegalStateException("permission denied")
     } else {
-      return if (result == CommandResult.RESULT_NULL) {
-        result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY2)
-        processResultString2(result) ?: Pair("", "")
-      } else {
-        processResultString(result) ?: run {
-          result = execAdbCmd(Const.CMD_GET_TOP_STACK_ACTIVITY2)
-          processResultString2(result) ?: Pair("", "")
-        }
-      }
+      return processResultString(result) ?: ("" to "")
     }
   }
-
-  private val u0 = " u0 "
 
   private fun processResultString(result: String): Pair<String, String>? {
-    if (!result.contains("mResumedActivity:") || !result.contains(u0) || result.endsWith(u0)) {
-      return null
-    }
-
-    val joined = result.substring(result.indexOf(u0) + u0.length, result.lastIndexOf(" "))
-    if (!joined.contains("/")) {
-      return null
-    }
-    return Pair(
-      joined.substring(0, joined.lastIndexOf("/")),
-      joined.substring(joined.lastIndexOf("/") + 1)
-    )
-  }
-
-  private fun processResultString2(result: String): Pair<String, String>? {
-    if (!result.contains("Hist #0:") || !result.contains(u0) || result.endsWith(u0)) {
-      return null
-    }
-
-    runCatching {
-      val firstLine = result.lines().first()
-      val joined = firstLine.substring(
-        firstLine.indexOf(u0) + u0.length,
-        firstLine.substring(0, firstLine.indexOf("}") - 1).lastIndexOf(" ")
-      )
-      if (!joined.contains("/")) {
-        return null
-      }
-      return Pair(
-        joined.substring(0, joined.lastIndexOf("/")),
-        joined.substring(joined.lastIndexOf("/") + 1)
-      )
+    val splits = result.removeSurrounding("[", "]").split("/")
+    if (splits.size == 2) {
+      return splits[0] to splits[1]
     }
     return null
   }

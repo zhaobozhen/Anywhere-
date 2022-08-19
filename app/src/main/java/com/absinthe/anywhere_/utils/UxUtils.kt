@@ -379,7 +379,7 @@ object UxUtils {
     if (item == null) {
       return
     }
-    val normalDrawable = item.icon
+    val normalDrawable = item.icon ?: return
     val wrapDrawable = DrawableCompat.wrap(normalDrawable)
     DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(context, color))
     item.icon = wrapDrawable

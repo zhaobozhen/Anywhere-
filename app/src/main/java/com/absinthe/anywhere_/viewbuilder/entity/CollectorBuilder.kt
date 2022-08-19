@@ -2,6 +2,7 @@ package com.absinthe.anywhere_.viewbuilder.entity
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.ImageButton
@@ -59,6 +60,7 @@ class CollectorBuilder(context: Context, viewGroup: ViewGroup) : ViewBuilder(con
       tvClsName = TextView(context).apply {
         layoutParams = wrapWrap
         setTextColor(Color.WHITE)
+        setTypeface(null, Typeface.BOLD)
         textSize = 15f
       }
       infoLayout.addView(tvClsName)

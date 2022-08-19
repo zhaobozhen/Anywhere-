@@ -12,12 +12,12 @@ plugins {
   id("dev.rikka.tools.materialthemebuilder")
 }
 
-val verName = "2.5.1"
-val verCode = 2050101
+val verName = "2.5.2"
+val verCode = 2050200
 
 android {
-  compileSdk = 32
-  ndkVersion = "21.4.7075529"
+  compileSdk = 33
+  ndkVersion = "25.0.8775105"
 
   defaultConfig {
     applicationId = "com.absinthe.anywhere_"
@@ -81,11 +81,11 @@ android {
 
   dependenciesInfo.includeInApk = false
 
-//    externalNativeBuild {
-//        cmake {
-//            path = file("CMakeLists.txt")
-//        }
-//    }
+    externalNativeBuild {
+        cmake {
+            path = file("CMakeLists.txt")
+        }
+    }
 
   packagingOptions {
     resources {
@@ -95,12 +95,6 @@ android {
       excludes += "org/**"
       excludes += "**.properties"
       excludes += "**.bin"
-    }
-  }
-
-  sourceSets {
-    named("main") {
-      jniLibs.srcDir("libs")
     }
   }
 }
@@ -196,18 +190,18 @@ dependencies {
   implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
   implementation("androidx.recyclerview:recyclerview:1.2.1")
   implementation("androidx.drawerlayout:drawerlayout:1.1.1")
-  implementation("androidx.glance:glance-appwidget:1.0.0-alpha03")
+  implementation("androidx.glance:glance-appwidget:1.0.0-alpha04")
 
   //KTX
   implementation("androidx.collection:collection-ktx:1.2.0")
   implementation("androidx.activity:activity-ktx:1.5.1")
-  implementation("androidx.fragment:fragment-ktx:1.5.1")
+  implementation("androidx.fragment:fragment-ktx:1.5.2")
   implementation("androidx.palette:palette-ktx:1.0.0")
   implementation("androidx.core:core-ktx:1.8.0")
   implementation("androidx.preference:preference-ktx:1.2.0")
 
   //Google
-  implementation("com.google.android.material:material:1.7.0-alpha02")
+  implementation("com.google.android.material:material:1.7.0-beta01")
 
   //Function
   implementation("com.github.bumptech.glide:glide:4.13.2")
@@ -216,7 +210,7 @@ dependencies {
   implementation("com.google.code.gson:gson:2.9.0")
   implementation("com.google.zxing:core:3.5.0")
   implementation("com.blankj:utilcodex:1.31.0")
-  implementation("com.tencent:mmkv-static:1.2.13")
+  implementation("com.tencent:mmkv-static:1.2.14")
   implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7")
   implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
   implementation("com.github.topjohnwu.libsu:core:5.0.2")
@@ -238,7 +232,7 @@ dependencies {
   // required by Shizuku
   implementation("dev.rikka.shizuku:provider:$shizukuVersion")
 
-  implementation("dev.rikka.rikkax.appcompat:appcompat:1.4.1")
+  implementation("dev.rikka.rikkax.appcompat:appcompat:1.5.0")
   implementation("dev.rikka.rikkax.core:core:1.4.1")
   implementation("dev.rikka.rikkax.material:material:2.5.1")
   implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.3.1")
