@@ -34,10 +34,12 @@
     android:icon="@mipmap/ic_launcher"
     android:label="${appName}"
     android:largeHeap="true"
+    android:localeConfig="@xml/locales_config"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
-    android:usesCleartextTraffic="true">
+    android:usesCleartextTraffic="true"
+    tools:targetApi="tiramisu">
 
     <!--    Home    -->
     <activity

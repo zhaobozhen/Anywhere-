@@ -190,7 +190,7 @@ dependencies {
   implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
   implementation("androidx.recyclerview:recyclerview:1.2.1")
   implementation("androidx.drawerlayout:drawerlayout:1.1.1")
-  implementation("androidx.glance:glance-appwidget:1.0.0-alpha04")
+  implementation("androidx.glance:glance-appwidget:1.0.0-alpha03")
 
   //KTX
   implementation("androidx.collection:collection-ktx:1.2.0")

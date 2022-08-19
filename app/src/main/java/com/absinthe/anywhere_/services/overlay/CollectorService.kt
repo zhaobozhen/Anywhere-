@@ -190,7 +190,7 @@ class CollectorService : Service() {
   }
 
   private fun processResultString(result: String): Pair<String, String>? {
-    val splits = result.removeSurrounding("[", "]").split("/")
+    val splits = result.removeSurrounding("[", "]").trim().split("/")
     if (splits.size == 2) {
       return splits[0] to splits[1]
     }
