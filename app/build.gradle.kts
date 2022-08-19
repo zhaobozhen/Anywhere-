@@ -13,7 +13,7 @@ plugins {
 }
 
 val verName = "2.5.2"
-val verCode = 2050200
+val verCode = 2050201
 
 android {
   compileSdk = 33
@@ -201,7 +201,7 @@ dependencies {
   implementation("androidx.preference:preference-ktx:1.2.0")
 
   //Google
-  implementation("com.google.android.material:material:1.7.0-beta01")
+  implementation("com.google.android.material:material:1.7.0-alpha02")
 
   //Function
   implementation("com.github.bumptech.glide:glide:4.13.2")
@@ -232,7 +232,7 @@ dependencies {
   // required by Shizuku
   implementation("dev.rikka.shizuku:provider:$shizukuVersion")
 
-  implementation("dev.rikka.rikkax.appcompat:appcompat:1.5.0")
+  implementation("dev.rikka.rikkax.appcompat:appcompat:1.4.1")
   implementation("dev.rikka.rikkax.core:core:1.4.1")
   implementation("dev.rikka.rikkax.material:material:2.5.1")
   implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.3.1")
