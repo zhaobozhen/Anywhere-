@@ -211,7 +211,7 @@ dependencies {
   implementation("com.google.zxing:core:3.5.0")
   implementation("com.blankj:utilcodex:1.31.0")
   implementation("com.tencent:mmkv-static:1.2.14")
-  implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.7")
+  implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.08")
   implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
   implementation("com.github.topjohnwu.libsu:core:5.0.2")
   implementation("com.github.thegrizzlylabs:sardine-android:0.8")
