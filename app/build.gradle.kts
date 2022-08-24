@@ -232,7 +232,7 @@ dependencies {
   // required by Shizuku
   implementation("dev.rikka.shizuku:provider:$shizukuVersion")
 
-  implementation("dev.rikka.rikkax.appcompat:appcompat:1.4.1")
+  implementation("dev.rikka.rikkax.appcompat:appcompat:1.5.0.1")
   implementation("dev.rikka.rikkax.core:core:1.4.1")
   implementation("dev.rikka.rikkax.material:material:2.5.1")
   implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.3.1")
