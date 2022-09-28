@@ -165,8 +165,8 @@ dependencies {
 
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-  implementation("com.github.zhaobozhen.libraries:me:1.1.1")
-  implementation("com.github.zhaobozhen.libraries:utils:1.1.1")
+  implementation("com.github.zhaobozhen.libraries:me:1.1.2")
+  implementation("com.github.zhaobozhen.libraries:utils:1.1.2")
 
   val appCenterSdkVersion = "4.4.5"
   implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
@@ -194,26 +194,26 @@ dependencies {
 
   //KTX
   implementation("androidx.collection:collection-ktx:1.2.0")
-  implementation("androidx.activity:activity-ktx:1.5.1")
-  implementation("androidx.fragment:fragment-ktx:1.5.2")
+  implementation("androidx.activity:activity-ktx:1.6.0")
+  implementation("androidx.fragment:fragment-ktx:1.5.3")
   implementation("androidx.palette:palette-ktx:1.0.0")
-  implementation("androidx.core:core-ktx:1.8.0")
+  implementation("androidx.core:core-ktx:1.9.0")
   implementation("androidx.preference:preference-ktx:1.2.0")
 
   //Google
   implementation("com.google.android.material:material:1.7.0-rc01")
 
   //Function
-  implementation("com.github.bumptech.glide:glide:4.13.2")
-  ksp("com.github.bumptech.glide:compiler:4.13.2")
+  implementation("com.github.bumptech.glide:glide:4.14.0")
+  ksp("com.github.bumptech.glide:compiler:4.14.0")
 
   implementation("com.google.code.gson:gson:2.9.0")
   implementation("com.google.zxing:core:3.5.0")
   implementation("com.blankj:utilcodex:1.31.0")
   implementation("com.tencent:mmkv-static:1.2.14")
-  implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.08")
+  implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8")
   implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
-  implementation("com.github.topjohnwu.libsu:core:5.0.2")
+  implementation("com.github.topjohnwu.libsu:core:5.0.3")
   implementation("com.github.thegrizzlylabs:sardine-android:0.8")
   implementation("com.jonathanfinerty.once:once:1.3.1")
   implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")

@@ -7,7 +7,7 @@ buildscript {
     maven("https://jitpack.io")
   }
   dependencies {
-    classpath("com.android.tools.build:gradle:7.2.2")
+    classpath("com.android.tools.build:gradle:7.3.0")
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
     classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.7.10-1.0.6")
     classpath("com.github.iwhys:sdk-editor-plugin:1.1.7")
