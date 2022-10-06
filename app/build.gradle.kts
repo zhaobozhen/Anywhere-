@@ -193,7 +193,7 @@ dependencies {
   implementation("androidx.glance:glance-appwidget:1.0.0-alpha03")
 
   //KTX
-  implementation("androidx.collection:collection-ktx:1.2.0")
+  implementation("androidx.collection:collection-ktx:1.3.0-dev01")
   implementation("androidx.activity:activity-ktx:1.6.0")
   implementation("androidx.fragment:fragment-ktx:1.5.3")
   implementation("androidx.palette:palette-ktx:1.0.0")
