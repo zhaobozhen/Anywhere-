@@ -209,7 +209,7 @@ dependencies {
 
   implementation("com.google.code.gson:gson:2.9.0")
   implementation("com.google.zxing:core:3.5.0")
-  implementation("com.blankj:utilcodex:1.31.0")
+  implementation("com.blankj:utilcodex:1.31.1")
   implementation("com.tencent:mmkv-static:1.2.14")
   implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8")
   implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
