@@ -226,7 +226,7 @@ dependencies {
   implementation("com.leinardi.android:speed-dial:3.3.0")
   implementation("me.zhanghai.android.fastscroll:library:1.1.8")
 
-  val shizukuVersion = "12.1.0"
+  val shizukuVersion = "12.2.0"
   // required by Shizuku and Sui
   implementation("dev.rikka.shizuku:api:$shizukuVersion")
   // required by Shizuku
