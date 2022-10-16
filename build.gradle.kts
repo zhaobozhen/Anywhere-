@@ -8,7 +8,7 @@ buildscript {
   }
   dependencies {
     classpath("com.android.tools.build:gradle:7.3.1")
-    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
+    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
     classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.7.20-1.0.7")
     classpath("com.github.iwhys:sdk-editor-plugin:1.1.7")
     classpath("com.github.LianjiaTech:gson-plugin:2.1.0")
