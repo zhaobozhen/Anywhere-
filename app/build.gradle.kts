@@ -201,7 +201,7 @@ dependencies {
   implementation("androidx.preference:preference-ktx:1.2.0")
 
   //Google
-  implementation("com.google.android.material:material:1.7.0-rc01")
+  implementation("com.google.android.material:material:1.7.0")
 
   //Function
   implementation("com.github.bumptech.glide:glide:4.14.2")
