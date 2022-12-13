@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="Platform.V31.Theme.Anywhere" parent="Platform.V29.Theme.Anywhere">
+    <item name="android:windowSplashScreenBackground">?android:attr/colorBackground</item>
+    <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_anim_vector</item>
+    <item name="android:windowSplashScreenAnimationDuration">500</item>
+  </style>
+
+  <style name="Platform.Theme.Anywhere" parent="Platform.V31.Theme.Anywhere" />
+
+</resources>

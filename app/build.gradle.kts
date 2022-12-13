@@ -23,7 +23,7 @@ android {
     applicationId = "com.absinthe.anywhere_"
     namespace = "com.absinthe.anywhere_"
     minSdk = 23
-    targetSdk = 32
+    targetSdk = 33
     versionCode = verCode
     versionName = verName
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -57,6 +57,13 @@ android {
         "proguard-rules.pro"
       )
       buildConfigField("boolean", "BETA", "false")
+    }
+    all {
+      buildConfigField(
+        "String",
+        "APP_CENTER_SECRET",
+        "\"" + System.getenv("APP_CENTER_SECRET").orEmpty() + "\""
+      )
     }
   }
 
@@ -249,7 +256,7 @@ dependencies {
 
   //Debug
   testImplementation("junit:junit:4.13.2")
-  debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
-  androidTestImplementation("androidx.test:runner:1.4.0")
-  androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+  debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
+  androidTestImplementation("androidx.test:runner:1.5.1")
+  androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
 }

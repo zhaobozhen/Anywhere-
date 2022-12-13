@@ -33,7 +33,7 @@ class AnywhereApplication : Application() {
       PoliceMan.checkPMProxy(this)
       Timber.plant(ReleaseTree())
       AppCenter.start(
-        this, "ec71d412-5886-4a99-89a7-805436b91671",
+        this, BuildConfig.APP_CENTER_SECRET,
         Analytics::class.java, Crashes::class.java
       )
     }

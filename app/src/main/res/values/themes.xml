@@ -1,47 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-  <style name="Base.AppTheme.Light" parent="Theme.Material3.Light.Anywhere">
-    <item name="android:statusBarColor">?android:colorBackground</item>
+  <style name="Platform.V23.Theme.Anywhere" parent="Theme.Material3.Light.Anywhere" />
 
+  <style name="Platform.Theme.Anywhere" parent="Platform.V23.Theme.Anywhere" />
+
+  <style name="Base.AppTheme" parent="Platform.Theme.Anywhere">
     <item name="preferenceTheme">@style/PreferenceThemeOverlay.Rikka.Material3</item>
-    <item name="dropDownListViewStyle">@style/Widget.Aw.PopupMenu</item>
     <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
-    <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
-    <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
+    <item name="dropDownListViewStyle">@style/Widget.Aw.PopupMenu</item>
 
     <item name="android:windowActionBar">false</item>
     <item name="android:windowNoTitle">true</item>
     <item name="windowActionBar">false</item>
     <item name="windowNoTitle">true</item>
-    <item name="android:windowSplashscreenContent" tools:targetApi="o">@drawable/splash_drawable
-    </item>
-    <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
-    <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
-    <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
-
-    <item name="bottomSheetHeaderHandlerColor">@color/bottom_sheet_header_handler</item>
-    <item name="bottomSheetHeaderHandlerColorActivated">@color/bottom_sheet_header_handler_activated</item>
-  </style>
-
-  <style name="Theme.Light" parent="Base.AppTheme.Light" />
-
-  <style name="Base.AppTheme" parent="Theme.Material3.Dark.Anywhere">
-    <item name="preferenceTheme">@style/PreferenceThemeOverlay.Rikka.Material3</item>
-    <item name="dropDownListViewStyle">@style/Widget.Aw.PopupMenu</item>
-    <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
-    <item name="android:ambientShadowAlpha">@dimen/ambientShadowAlpha</item>
-    <item name="android:spotShadowAlpha">@dimen/spotShadowAlpha</item>
-
-    <item name="android:windowActionBar">false</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="windowActionBar">false</item>
-    <item name="windowNoTitle">true</item>
-    <item name="android:windowSplashscreenContent" tools:targetApi="o">@drawable/splash_drawable
-    </item>
-    <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
-    <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
-    <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
 
     <item name="bottomSheetHeaderHandlerColor">@color/bottom_sheet_header_handler</item>
     <item name="bottomSheetHeaderHandlerColorActivated">@color/bottom_sheet_header_handler_activated</item>

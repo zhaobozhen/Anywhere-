@@ -39,7 +39,7 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     android:usesCleartextTraffic="true"
-    tools:targetApi="tiramisu">
+    tools:targetApi="33">
 
     <!--    Home    -->
     <activity
@@ -499,20 +499,6 @@
     <receiver
       android:name=".receiver.NotificationClickReceiver"
       android:exported="false" />
-
-    <!-- Widget -->
-    <!--  android:enabled="@bool/glance_appwidget_available"  -->
-    <receiver
-      android:name=".receiver.Common2X2Widget"
-      android:enabled="false"
-      android:exported="false">
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-      </intent-filter>
-      <meta-data
-        android:name="android.appwidget.provider"
-        android:resource="@xml/common_2x2_widget" />
-    </receiver>
 
     <!--    Shizuku provider    -->
     <provider
