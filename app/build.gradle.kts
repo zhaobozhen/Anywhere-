@@ -41,7 +41,6 @@ android {
 
   buildFeatures {
     viewBinding = true
-    compose = true
   }
 
   buildTypes {
@@ -64,10 +63,6 @@ android {
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
-  }
-
-  composeOptions {
-    kotlinCompilerExtensionVersion = "1.3.0-rc02"
   }
 
   androidComponents.onVariants { v ->
@@ -165,10 +160,10 @@ dependencies {
 
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-  implementation("com.github.zhaobozhen.libraries:me:1.1.2")
-  implementation("com.github.zhaobozhen.libraries:utils:1.1.2")
+  implementation("com.github.zhaobozhen.libraries:me:1.1.3")
+  implementation("com.github.zhaobozhen.libraries:utils:1.1.3")
 
-  val appCenterSdkVersion = "4.4.5"
+  val appCenterSdkVersion = "5.0.0"
   implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
   implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
@@ -190,28 +185,27 @@ dependencies {
   implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
   implementation("androidx.recyclerview:recyclerview:1.2.1")
   implementation("androidx.drawerlayout:drawerlayout:1.1.1")
-  implementation("androidx.glance:glance-appwidget:1.0.0-alpha05")
 
   //KTX
   implementation("androidx.collection:collection-ktx:1.2.0")
-  implementation("androidx.activity:activity-ktx:1.6.0")
-  implementation("androidx.fragment:fragment-ktx:1.5.3")
+  implementation("androidx.activity:activity-ktx:1.6.1")
+  implementation("androidx.fragment:fragment-ktx:1.5.5")
   implementation("androidx.palette:palette-ktx:1.0.0")
   implementation("androidx.core:core-ktx:1.9.0")
   implementation("androidx.preference:preference-ktx:1.2.0")
 
   //Google
-  implementation("com.google.android.material:material:1.7.0-rc01")
+  implementation("com.google.android.material:material:1.7.0")
 
   //Function
   implementation("com.github.bumptech.glide:glide:4.14.2")
   ksp("com.github.bumptech.glide:compiler:4.14.2")
 
-  implementation("com.google.code.gson:gson:2.9.0")
-  implementation("com.google.zxing:core:3.5.0")
+  implementation("com.google.code.gson:gson:2.10")
+  implementation("com.google.zxing:core:3.5.1")
   implementation("com.blankj:utilcodex:1.31.1")
   implementation("com.tencent:mmkv-static:1.2.14")
-  implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.9")
+  implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11")
   implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
   implementation("com.github.topjohnwu.libsu:core:5.0.3")
   implementation("com.github.thegrizzlylabs:sardine-android:0.8")
