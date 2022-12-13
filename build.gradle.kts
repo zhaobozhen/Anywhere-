@@ -12,7 +12,7 @@ buildscript {
     classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.7.22-1.0.8")
     classpath("com.github.iwhys:sdk-editor-plugin:1.1.7")
     classpath("com.github.LianjiaTech:gson-plugin:2.1.0")
-    classpath("dev.rikka.tools.materialthemebuilder:gradle-plugin:1.3.3")
+    classpath("dev.rikka.tools.materialthemebuilder:gradle-plugin:1.4.0")
   }
 }
 
