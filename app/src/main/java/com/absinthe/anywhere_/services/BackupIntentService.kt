@@ -2,20 +2,18 @@ package com.absinthe.anywhere_.services
 
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import androidx.core.app.JobIntentService
+import androidx.core.app.ServiceCompat
 import com.absinthe.anywhere_.BuildConfig
 import com.absinthe.anywhere_.constants.GlobalValues
 import com.absinthe.anywhere_.utils.*
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.blankj.utilcode.util.NotificationUtils
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class BackupIntentService : JobIntentService() {
 
+  @Deprecated("Deprecated in Java")
   override fun onStart(intent: Intent?, startId: Int) {
     super.onStart(intent, startId)
     NotifyUtils.createBackupNotification(this)
@@ -28,7 +26,7 @@ class BackupIntentService : JobIntentService() {
       GlobalValues.webdavUsername.isEmpty() ||
       GlobalValues.webdavPassword.isEmpty()
     ) {
-      stopForeground(true)
+      ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
       return
     }
 
@@ -65,12 +63,10 @@ class BackupIntentService : JobIntentService() {
       }
     } catch (e: Exception) {
       e.printStackTrace()
-      GlobalScope.launch(Dispatchers.Main) {
-        Toast.makeText(this@BackupIntentService, "Backup failed: $e", Toast.LENGTH_LONG).show()
-      }
-      stopForeground(true)
+      ToastUtil.makeText(this, "Backup failed: $e")
+      ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
     } finally {
-      stopForeground(true)
+      ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
     }
   }
 

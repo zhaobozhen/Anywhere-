@@ -9,8 +9,10 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
+import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.AwContextWrapper
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.receiver.NotificationClickReceiver
@@ -18,6 +20,7 @@ import com.absinthe.anywhere_.utils.manager.LogRecorder
 import com.blankj.utilcode.util.NotificationUtils
 import com.blankj.utilcode.util.NotificationUtils.ChannelConfig
 import com.blankj.utilcode.util.Utils
+import timber.log.Timber
 
 object NotifyUtils {
 
@@ -36,8 +39,14 @@ object NotifyUtils {
     AwContextWrapper(Utils.getApp()).getText(R.string.notification_channel_collector),
     NotificationUtils.IMPORTANCE_LOW
   )
+  private val notificationManager by lazy { NotificationManagerCompat.from(AnywhereApplication.app) }
 
   fun createCollectorNotification(context: Service) {
+    val areNotificationsEnabled = notificationManager.areNotificationsEnabled()
+    if (!areNotificationsEnabled) {
+      Timber.d("Notifications are disabled")
+      return
+    }
     NotificationUtils.notify(
       COLLECTOR_NOTIFICATION_ID,
       channelConfig
@@ -58,6 +67,11 @@ object NotifyUtils {
   }
 
   fun updateCollectorNotification(context: Service, pkgName: String, clsName: String) {
+    val areNotificationsEnabled = notificationManager.areNotificationsEnabled()
+    if (!areNotificationsEnabled) {
+      Timber.d("Notifications are disabled")
+      return
+    }
     val intent = Intent().apply {
       data = Uri.parse(AppUtils.getUrlByParam(pkgName, clsName, "", true))
     }
@@ -81,11 +95,21 @@ object NotifyUtils {
   }
 
   fun cancelCollectorNotification(context: Service) {
+    val areNotificationsEnabled = notificationManager.areNotificationsEnabled()
+    if (!areNotificationsEnabled) {
+      Timber.d("Notifications are disabled")
+      return
+    }
     NotificationUtils.cancel(COLLECTOR_NOTIFICATION_ID)
     context.stopForeground(true)
   }
 
   fun createLogcatNotification(context: Context) {
+    val areNotificationsEnabled = notificationManager.areNotificationsEnabled()
+    if (!areNotificationsEnabled) {
+      Timber.d("Notifications are disabled")
+      return
+    }
     val channelConfig = ChannelConfig(
       LOGCAT_CHANNEL_ID,
       context.getText(R.string.notification_channel_logcat),
@@ -112,6 +136,11 @@ object NotifyUtils {
   }
 
   fun createBackupNotification(context: Service) {
+    val areNotificationsEnabled = notificationManager.areNotificationsEnabled()
+    if (!areNotificationsEnabled) {
+      Timber.d("Notifications are disabled")
+      return
+    }
     val channelConfig = ChannelConfig(
       BACKUP_CHANNEL_ID,
       context.getText(R.string.notification_channel_backup),
@@ -135,6 +164,11 @@ object NotifyUtils {
   }
 
   fun createWorkflowNotification(context: Service) {
+    val areNotificationsEnabled = notificationManager.areNotificationsEnabled()
+    if (!areNotificationsEnabled) {
+      Timber.d("Notifications are disabled")
+      return
+    }
     val channelConfig = ChannelConfig(
       WORKFLOW_CHANNEL_ID,
       context.getText(R.string.notification_channel_workflow),

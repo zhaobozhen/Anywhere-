@@ -7,6 +7,7 @@
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
   <uses-permission android:name="moe.shizuku.manager.permission.API_V23" />
   <uses-permission android:name="moe.shizuku.manager.permission.EXEC_COMMAND" />
@@ -29,6 +30,8 @@
   <application
     android:name=".AnywhereApplication"
     android:allowBackup="true"
+    android:appCategory="productivity"
+    android:dataExtractionRules="@xml/data_extraction_rules"
     android:fullBackupContent="@xml/backup_rules"
     android:hardwareAccelerated="true"
     android:icon="@mipmap/ic_launcher"

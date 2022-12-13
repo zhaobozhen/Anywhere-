@@ -1,21 +1,27 @@
 package com.absinthe.anywhere_.ui.main
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.view.*
 import android.widget.ImageButton
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -111,8 +117,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
       collectorService?.startCollector()
       ActivityUtils.startHomeActivity()
     }
-
   }
+  private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
   override fun setViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
@@ -132,6 +138,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     initObserver()
     getAnywhereIntent(intent)
     backupIfNeeded()
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+          Timber.d("Request post notification: $isGranted")
+        }
+    }
+    checkNotificationPermission()
   }
 
   override fun onResume() {
@@ -708,6 +722,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     if (GlobalValues.needBackup && GlobalValues.isAutoBackup) {
       BackupIntentService.enqueueWork(this, Intent())
       GlobalValues.needBackup = false
+    }
+  }
+
+  private fun checkNotificationPermission() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      if (ContextCompat.checkSelfPermission(
+          this,
+          Manifest.permission.POST_NOTIFICATIONS
+        ) != PackageManager.PERMISSION_GRANTED
+      ) {
+        if (!shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+          requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+      }
     }
   }
 
