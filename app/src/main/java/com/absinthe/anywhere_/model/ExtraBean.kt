@@ -19,10 +19,10 @@ const val TYPE_DOUBLE_LABEL = "Double"
 const val TYPE_URI_LABEL = "Uri"
 
 data class ExtraBean(
-  @SerializedName("data") val data: String,
-  @SerializedName("action") val action: String,
+  @SerializedName("data") val data: String = "",
+  @SerializedName("action") val action: String = "",
   @SerializedName("category") val category: String = "",
-  @SerializedName("extras") val extras: List<ExtraItem>
+  @SerializedName("extras") val extras: List<ExtraItem> = emptyList()
 ) {
   override fun toString(): String {
     val sb = StringBuilder()
