@@ -146,6 +146,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
     checkNotificationPermission()
+    checkCardCategory()
   }
 
   override fun onResume() {
@@ -734,6 +735,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
       ) {
         if (!shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
           requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+      }
+    }
+  }
+
+  private fun checkCardCategory() {
+    AnywhereApplication.sRepository.allAnywhereEntities.observe(this) {
+      lifecycleScope.launch(Dispatchers.IO) {
+        it.asSequence().forEach {
+          if (AnywhereApplication.sRepository.getPageEntityByTitle(it.category) == null) {
+            AnywhereApplication.sRepository.insertPage(
+              PageEntity().apply {
+                title = it.category ?: AnywhereType.Category.DEFAULT_CATEGORY
+                priority = AnywhereApplication.sRepository.allPageEntities.value?.size ?: 0
+              }
+            )
+          }
         }
       }
     }
