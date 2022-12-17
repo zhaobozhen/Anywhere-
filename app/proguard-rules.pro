@@ -26,9 +26,6 @@
 -keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
 
 -keep class * extends androidx.fragment.app.Fragment{}
--dontnote com.android.vending.licensing.ILicensingService
--dontnote com.google.vending.licensing.ILicensingService
--dontnote com.google.android.vending.licensing.ILicensingService
 
 # For native methods, see http://proguard.sourceforge.net/manual/examples.html#native
 -keepclasseswithmembernames class * {
