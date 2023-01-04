@@ -257,6 +257,6 @@ dependencies {
   //Debug
   testImplementation("junit:junit:4.13.2")
   debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
-  androidTestImplementation("androidx.test:runner:1.5.1")
+  androidTestImplementation("androidx.test:runner:1.5.2")
   androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
 }
