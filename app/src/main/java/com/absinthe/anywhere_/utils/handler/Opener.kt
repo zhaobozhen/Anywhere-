@@ -317,7 +317,7 @@ object Opener {
         null
       }
       val action = if (extraBean == null || extraBean.action.isEmpty()) {
-        Intent.ACTION_VIEW
+        null
       } else {
         extraBean.action
       }

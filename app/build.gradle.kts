@@ -12,8 +12,8 @@ plugins {
   id("dev.rikka.tools.materialthemebuilder")
 }
 
-val verName = "2.5.3"
-val verCode = 2050300
+val verName = "2.5.4"
+val verCode = 2050400
 
 android {
   compileSdk = 33
@@ -175,7 +175,7 @@ dependencies {
   implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
   //Android X
-  val roomVersion = "2.4.3"
+  val roomVersion = "2.5.0"
   implementation("androidx.room:room-runtime:${roomVersion}")
   implementation("androidx.room:room-ktx:${roomVersion}")
   ksp("androidx.room:room-compiler:${roomVersion}")
@@ -202,7 +202,7 @@ dependencies {
   implementation("androidx.preference:preference-ktx:1.2.0")
 
   //Google
-  implementation("com.google.android.material:material:1.7.0")
+  implementation("com.google.android.material:material:1.8.0")
 
   //Function
   implementation("com.github.bumptech.glide:glide:4.14.2")
@@ -211,10 +211,10 @@ dependencies {
   implementation("com.google.code.gson:gson:2.9.0")
   implementation("com.google.zxing:core:3.5.1")
   implementation("com.blankj:utilcodex:1.31.1")
-  implementation("com.tencent:mmkv-static:1.2.14")
+  implementation("com.tencent:mmkv-static:1.2.15")
   implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11")
   implementation("com.github.heruoxin.Delegated-Scopes-Manager:client:master-SNAPSHOT")
-  implementation("com.github.topjohnwu.libsu:core:5.0.3")
+  implementation("com.github.topjohnwu.libsu:core:5.0.4")
   implementation("com.github.thegrizzlylabs:sardine-android:0.8")
   implementation("com.jonathanfinerty.once:once:1.3.1")
   implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
@@ -225,7 +225,7 @@ dependencies {
   implementation("com.drakeet.drawer:drawer:1.0.3")
   implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
   implementation("com.leinardi.android:speed-dial:3.3.0")
-  implementation("me.zhanghai.android.fastscroll:library:1.1.8")
+  implementation("me.zhanghai.android.fastscroll:library:1.2.0")
 
   val shizukuVersion = "12.2.0"
   // required by Shizuku and Sui
@@ -247,7 +247,7 @@ dependencies {
   implementation("com.squareup.okhttp3:okhttp:4.10.0")
   implementation("com.squareup.retrofit2:retrofit:2.9.0")
   implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-  implementation("com.squareup.okio:okio:3.2.0")
+  implementation("com.squareup.okio:okio:3.3.0")
 
   //Rx
   implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
@@ -257,6 +257,6 @@ dependencies {
   //Debug
   testImplementation("junit:junit:4.13.2")
   debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
-  androidTestImplementation("androidx.test:runner:1.5.1")
-  androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+  androidTestImplementation("androidx.test:runner:1.5.2")
+  androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
