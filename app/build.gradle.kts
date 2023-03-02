@@ -167,7 +167,7 @@ dependencies {
 
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-  implementation("com.github.zhaobozhen.libraries:me:1.1.3")
+  implementation("com.github.zhaobozhen.libraries:me:1.1.4")
   implementation("com.github.zhaobozhen.libraries:utils:1.1.3")
 
   val appCenterSdkVersion = "5.0.0"
