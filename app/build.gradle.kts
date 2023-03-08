@@ -190,7 +190,7 @@ dependencies {
   implementation("androidx.constraintlayout:constraintlayout:2.1.4")
   implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
   implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
-  implementation("androidx.recyclerview:recyclerview:1.2.1")
+  implementation("androidx.recyclerview:recyclerview:1.3.0")
   implementation("androidx.drawerlayout:drawerlayout:1.1.1")
 
   //KTX
