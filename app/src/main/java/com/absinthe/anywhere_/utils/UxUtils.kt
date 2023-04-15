@@ -105,6 +105,17 @@ object UxUtils {
     }
   }
 
+  fun getEntityIcon(context: Context, entity: AnywhereEntity, size: Int): Drawable =
+    try {
+      Drawable.createFromStream(
+        context.contentResolver.openInputStream(Uri.parse(entity.iconUri)),
+        null
+      )
+    } catch (e: Exception) {
+      Timber.e(e)
+      getAppIcon(context, entity, size)
+    } ?: getAppIcon(context, entity, size)
+
   /**
    * get action bar title by working mode
    *

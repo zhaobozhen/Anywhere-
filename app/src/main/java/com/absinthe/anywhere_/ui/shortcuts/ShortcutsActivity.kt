@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.os.IBinder
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.viewbinding.ViewBinding
 import com.absinthe.anywhere_.AnywhereApplication
 import com.absinthe.anywhere_.BaseActivity
@@ -28,6 +32,7 @@ import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.anywhere_.view.app.AnywhereDialogBuilder
 import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.viewmodel.AnywhereViewModel
+import com.absinthe.libraries.utils.extensions.dp
 import com.blankj.utilcode.util.Utils
 import com.google.gson.Gson
 import com.microsoft.appcenter.analytics.Analytics
@@ -145,19 +150,25 @@ class ShortcutsActivity : BaseActivity<ViewBinding>() {
                       }
                     }
 
-                  setResult(Activity.RESULT_OK, Intent().apply {
-                    putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-                    putExtra(
-                      Intent.EXTRA_SHORTCUT_NAME,
-                      getString(R.string.shortcut_open)
+                  setResult(
+                    Activity.RESULT_OK, ShortcutManagerCompat.createShortcutResultIntent(
+                      this,
+                      ShortcutInfoCompat.Builder(this, entity.id)
+                        .setIntent(shortcutIntent)
+                        .setShortLabel(entity.appName)
+                        .setIcon(
+                          IconCompat.createWithAdaptiveBitmap(
+                            UxUtils.getEntityIcon(
+                              this,
+                              entity,
+                              45
+                            ).toBitmap(45.dp, 45.dp)
+                          )
+                        )
+                        .build()
                     )
-                    putExtra(
-                      Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                      Intent.ShortcutIconResource.fromContext(
-                        this@ShortcutsActivity, R.drawable.ic_shortcut_start_collector
-                      )
-                    )
-                  })
+                  )
+                  ToastUtil.makeText(R.string.toast_try_to_add_pinned_shortcut)
                   shouldFinishOnResume = true
                 }
                 .setOnCancelListener {
