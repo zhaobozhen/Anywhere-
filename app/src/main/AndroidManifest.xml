@@ -212,6 +212,10 @@
           android:host="open"
           android:scheme="anywhere" />
       </intent-filter>
+      <intent-filter>
+        <action android:name="START_IMAGE" />
+        <action android:name="START_ENTITY" />
+      </intent-filter>
     </activity>
 
     <!--    Backup page    -->
