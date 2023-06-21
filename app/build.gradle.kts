@@ -175,7 +175,7 @@ dependencies {
   implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
   //Android X
-  val roomVersion = "2.5.0"
+  val roomVersion = "2.5.2"
   implementation("androidx.room:room-runtime:${roomVersion}")
   implementation("androidx.room:room-ktx:${roomVersion}")
   ksp("androidx.room:room-compiler:${roomVersion}")
