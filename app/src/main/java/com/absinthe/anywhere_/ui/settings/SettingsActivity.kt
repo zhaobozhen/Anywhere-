@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.preference.ListPreference
@@ -24,7 +25,6 @@ import com.absinthe.anywhere_.utils.AppUtils
 import com.absinthe.anywhere_.utils.ToastUtil
 import com.absinthe.anywhere_.utils.manager.DialogManager
 import com.absinthe.anywhere_.utils.manager.URLManager
-import rikka.material.app.DayNightDelegate
 import rikka.recyclerview.fixEdgeEffect
 import rikka.widget.borderview.BorderRecyclerView
 import rikka.widget.borderview.BorderView
@@ -90,7 +90,7 @@ class SettingsActivity : AppBarActivity<ActivitySettingsBinding>() {
             DialogManager.showDarkModeTimePickerDialog(requireActivity() as SettingsActivity)
           } else {
             GlobalValues.darkMode = newValue.toString()
-            DayNightDelegate.setDefaultNightMode(Settings.getTheme())
+            AppCompatDelegate.setDefaultNightMode(Settings.getTheme())
             requireActivity().recreate()
           }
           true

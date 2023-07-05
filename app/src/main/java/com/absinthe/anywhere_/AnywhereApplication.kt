@@ -2,6 +2,7 @@ package com.absinthe.anywhere_
 
 import android.app.Application
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import cn.vove7.andro_accessibility_api.AccessibilityApi
 import com.absinthe.anywhere_.database.AnywhereRepository
 import com.absinthe.anywhere_.model.Settings
@@ -16,7 +17,6 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import jonathanfinerty.once.Once
 import org.lsposed.hiddenapibypass.HiddenApiBypass
-import rikka.material.app.DayNightDelegate
 import rikka.sui.Sui
 import timber.log.Timber
 
@@ -48,8 +48,7 @@ class AnywhereApplication : Application() {
     Settings.init()
     Utility.init(this)
     Sui.init(BuildConfig.APPLICATION_ID)
-    DayNightDelegate.setApplicationContext(this)
-    DayNightDelegate.setDefaultNightMode(Settings.getTheme())
+    AppCompatDelegate.setDefaultNightMode(Settings.getTheme())
     Global.start()
     sRepository = AnywhereRepository(this)
 
