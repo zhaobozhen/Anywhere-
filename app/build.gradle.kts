@@ -165,7 +165,7 @@ dependencies {
   implementation(files("libs/color-picker.aar"))
   implementation(files("libs/IceBox-SDK-1.0.6.aar"))
 
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
   implementation("com.github.zhaobozhen.libraries:me:1.1.4")
   implementation("com.github.zhaobozhen.libraries:utils:1.1.4")
