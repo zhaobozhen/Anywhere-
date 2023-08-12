@@ -1,5 +1,6 @@
 package com.absinthe.anywhere_.adapter.cloud
 
+import android.view.View
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.model.cloud.RuleEntity
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -15,7 +16,7 @@ class CloudRulesAdapter :
     holder.setText(R.id.tv_contributor, item.contributor)
   }
 
-  override fun getPopupText(position: Int): String {
+  override fun getPopupText(view: View, position: Int): CharSequence {
     return data[position].name.ifEmpty { " " }.first().toString()
   }
 

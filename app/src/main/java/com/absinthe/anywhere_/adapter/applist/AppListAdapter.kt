@@ -1,6 +1,7 @@
 package com.absinthe.anywhere_.adapter.applist
 
 import android.graphics.Color
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.absinthe.anywhere_.R
 import com.absinthe.anywhere_.constants.Const
@@ -88,7 +89,7 @@ class AppListAdapter(mode: Int) :
     fun onClick(bean: AppListBean, which: Int)
   }
 
-  override fun getPopupText(position: Int): String {
+  override fun getPopupText(view: View, position: Int): CharSequence {
     return data[position].appName.ifEmpty { " " }.first().toString()
   }
 }

@@ -26,9 +26,7 @@ import com.flask.colorpicker.builder.ColorWheelRendererBuilder;
 import com.flask.colorpicker.renderer.ColorWheelRenderer;
 import com.flask.colorpicker.slider.AlphaSlider;
 import com.flask.colorpicker.slider.LightnessSlider;
-import com.iwhys.sdkeditor.domain.ReplaceClass;
 
-@ReplaceClass("colorpicker:0.0.15")
 public class ColorPickerDialogBuilder {
   private final AnywhereDialogBuilder builder;
   private final LinearLayout pickerContainer;

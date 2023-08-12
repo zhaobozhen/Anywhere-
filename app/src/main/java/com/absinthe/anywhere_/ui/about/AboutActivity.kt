@@ -20,6 +20,7 @@ import com.absinthe.anywhere_.utils.handler.URLSchemeHandler
 import com.absinthe.anywhere_.utils.manager.DialogManager.showDebugDialog
 import com.absinthe.anywhere_.utils.manager.URLManager
 import com.absinthe.libraries.me.Absinthe
+import com.absinthe.libraries.utils.utils.UiUtils
 import com.blankj.utilcode.util.AppUtils
 import com.drakeet.about.*
 import com.drakeet.about.provided.GlideImageLoader
@@ -292,6 +293,7 @@ class AboutActivity : AbsAboutActivity() {
 
   private fun initView() {
     findViewById<Toolbar>(R.id.toolbar)?.background = null
+    UiUtils.setSystemBarStyle(window)
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
