@@ -6,7 +6,6 @@ plugins {
   id("com.android.application")
   kotlin("android")
   id("com.google.devtools.ksp")
-  id("com.ke.gson.plugin")
   id("kotlin-parcelize")
   id("sdk-editor")
   id("dev.rikka.tools.materialthemebuilder")
@@ -186,20 +185,20 @@ dependencies {
   implementation("androidx.lifecycle:lifecycle-common-java8:${lifecycleVersion}")
   implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycleVersion}")
 
-  implementation("androidx.browser:browser:1.5.0")
+  implementation("androidx.browser:browser:1.6.0")
   implementation("androidx.constraintlayout:constraintlayout:2.1.4")
   implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
-  implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
-  implementation("androidx.recyclerview:recyclerview:1.3.0")
+  implementation("androidx.viewpager2:viewpager2:1.1.0-beta02")
+  implementation("androidx.recyclerview:recyclerview:1.3.1")
   implementation("androidx.drawerlayout:drawerlayout:1.2.0")
 
   //KTX
   implementation("androidx.collection:collection-ktx:1.2.0")
   implementation("androidx.activity:activity-ktx:1.7.2")
-  implementation("androidx.fragment:fragment-ktx:1.6.0")
+  implementation("androidx.fragment:fragment-ktx:1.6.1")
   implementation("androidx.palette:palette-ktx:1.0.0")
   implementation("androidx.core:core-ktx:1.10.1")
-  implementation("androidx.preference:preference-ktx:1.2.0")
+  implementation("androidx.preference:preference-ktx:1.2.1")
 
   //Google
   implementation("com.google.android.material:material:1.9.0")
@@ -225,9 +224,9 @@ dependencies {
   implementation("com.drakeet.drawer:drawer:1.0.3")
   implementation("com.github.sephiroth74:android-target-tooltip:2.0.4")
   implementation("com.leinardi.android:speed-dial:3.3.0")
-  implementation("me.zhanghai.android.fastscroll:library:1.2.0")
+  implementation("me.zhanghai.android.fastscroll:library:1.3.0")
 
-  val shizukuVersion = "12.2.0"
+  val shizukuVersion = "13.1.4"
   // required by Shizuku and Sui
   implementation("dev.rikka.shizuku:api:$shizukuVersion")
   // required by Shizuku
@@ -236,7 +235,7 @@ dependencies {
   implementation("dev.rikka.rikkax.appcompat:appcompat:1.6.1")
   implementation("dev.rikka.rikkax.core:core:1.4.1")
   implementation("dev.rikka.rikkax.material:material:2.7.0")
-  implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.3.1")
+  implementation("dev.rikka.rikkax.recyclerview:recyclerview-ktx:1.3.2")
   implementation("dev.rikka.rikkax.widget:borderview:1.1.0")
   implementation("dev.rikka.rikkax.preference:simplemenu-preference:1.0.3")
   implementation("dev.rikka.rikkax.insets:insets:1.3.0")
