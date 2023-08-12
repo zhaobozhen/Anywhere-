@@ -53,6 +53,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     app:fabAlignmentMode="end"
+    app:fabAnchorMode="cradle"
     app:fitsSystemWindowsInsets="bottom"
     app:navigationIcon="@drawable/ic_menu" />
 
