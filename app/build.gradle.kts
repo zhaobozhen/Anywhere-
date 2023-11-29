@@ -208,7 +208,7 @@ dependencies {
   implementation("com.github.bumptech.glide:glide:4.16.0")
   ksp("com.github.bumptech.glide:compiler:4.16.0")
 
-  implementation("com.google.code.gson:gson:2.9.0")
+  implementation("com.google.code.gson:gson:2.10.1")
   implementation("com.google.zxing:core:3.5.2")
   implementation("com.blankj:utilcodex:1.31.1")
   implementation("com.tencent:mmkv-static:1.3.1")
