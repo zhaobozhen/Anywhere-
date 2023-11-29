@@ -198,7 +198,7 @@ dependencies {
   implementation("androidx.activity:activity-ktx:1.7.2")
   implementation("androidx.fragment:fragment-ktx:1.6.1")
   implementation("androidx.palette:palette-ktx:1.0.0")
-  implementation("androidx.core:core-ktx:1.10.1")
+  implementation("androidx.core:core-ktx:1.12.0")
   implementation("androidx.preference:preference-ktx:1.2.1")
 
   //Google
