@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import io.github.pixee.security.SystemCommand;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -244,7 +245,7 @@ public class LogRecorder {
     @Override
     public void run() {
       try {
-        logcatProcess = Runtime.getRuntime().exec(logCmd);
+        logcatProcess = SystemCommand.runCommand(Runtime.getRuntime(), logCmd);
         mReader = new BufferedReader(new InputStreamReader(
           logcatProcess.getInputStream()), 1024);
         String line;
