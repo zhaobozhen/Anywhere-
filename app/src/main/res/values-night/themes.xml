@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-  <style name="Platform.V23.Theme.Anywhere" parent="Theme.Material3.Dark.Anywhere" />
-
-</resources>

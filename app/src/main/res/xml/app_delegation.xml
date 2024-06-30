@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<device-delegation>
-  <uses-policies>
-    <delegation-package-access />
-  </uses-policies>
-</device-delegation>
