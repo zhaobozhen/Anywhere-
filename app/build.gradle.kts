@@ -170,7 +170,7 @@ dependencies {
   implementation("com.github.zhaobozhen.libraries:me:1.1.4")
   implementation("com.github.zhaobozhen.libraries:utils:1.1.4")
 
-  val appCenterSdkVersion = "5.0.3"
+  val appCenterSdkVersion = "5.0.4"
   implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
   implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
