@@ -49,6 +49,8 @@ class ShellResultContentView(context: Context) : LinearLayout(context), IHeaderV
     ).also {
       it.topMargin = 24.dp
     }
+    //make shell result dialog message text selectable
+    setTextIsSelectable(true)
   }
 
   init {

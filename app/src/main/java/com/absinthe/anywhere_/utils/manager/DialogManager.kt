@@ -1,13 +1,20 @@
 package com.absinthe.anywhere_.utils.manager
 
 import android.app.Activity
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Spanned
+import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.View
 import android.view.WindowManager
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -24,8 +31,20 @@ import com.absinthe.anywhere_.model.cloud.RuleEntity
 import com.absinthe.anywhere_.model.database.AnywhereEntity
 import com.absinthe.anywhere_.ui.backup.RestoreApplyFragmentDialog
 import com.absinthe.anywhere_.ui.backup.WebdavFilesListDialogFragment
-import com.absinthe.anywhere_.ui.dialog.*
+import com.absinthe.anywhere_.ui.dialog.AdvancedCardSelectDialogFragment
+import com.absinthe.anywhere_.ui.dialog.CardSharingDialogFragment
+import com.absinthe.anywhere_.ui.dialog.CloudRuleDetailDialogFragment
+import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment
 import com.absinthe.anywhere_.ui.dialog.DynamicParamsDialogFragment.OnParamsInputListener
+import com.absinthe.anywhere_.ui.dialog.EXTRA_CONTENT
+import com.absinthe.anywhere_.ui.dialog.EXTRA_ENTITY
+import com.absinthe.anywhere_.ui.dialog.EXTRA_FROM_WORKFLOW
+import com.absinthe.anywhere_.ui.dialog.EXTRA_NEED_FINISH_ACTIVITY
+import com.absinthe.anywhere_.ui.dialog.EXTRA_SHARING_TEXT
+import com.absinthe.anywhere_.ui.dialog.IceBoxGrantDialogFragment
+import com.absinthe.anywhere_.ui.dialog.ImageDialogFragment
+import com.absinthe.anywhere_.ui.dialog.RenameDialogFragment
+import com.absinthe.anywhere_.ui.dialog.ShellResultBottomSheetDialogFragment
 import com.absinthe.anywhere_.ui.list.CardListDialogFragment
 import com.absinthe.anywhere_.ui.settings.IconPackDialogFragment
 import com.absinthe.anywhere_.ui.settings.IntervalDialogFragment
@@ -41,6 +60,7 @@ import com.absinthe.anywhere_.view.app.AnywhereDialogFragment
 import com.absinthe.anywhere_.view.home.ColorPickerDialogBuilder
 import com.flask.colorpicker.ColorPickerView
 import jonathanfinerty.once.Once
+
 
 /**
  * Dialog Manager
@@ -357,6 +377,11 @@ object DialogManager {
             )
           }
           dialog.show()
+          //make shell result dialog message text selectable
+          val messageView: View? = dialog.window?.decorView?.findViewById(android.R.id.message)
+          if (messageView is TextView) {
+            messageView.setTextIsSelectable(true)
+          }
         }
       }
       else -> {
