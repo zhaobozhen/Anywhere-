@@ -2,9 +2,14 @@
 
 buildscript {
   repositories {
+    maven("https://maven.aliyun.com/repository/gradle-plugin")
+    maven("https://maven.aliyun.com/repository/google")
+    maven("https://maven.aliyun.com/repository/public")
+    maven("https://maven.aliyun.com/repository/central")
+    maven("https://maven.aliyun.com/repository/apache-snapshots")
+    maven("https://jitpack.io")
     google()
     gradlePluginPortal()
-    maven("https://jitpack.io")
   }
   dependencies {
     classpath("com.android.tools.build:gradle:8.1.4")
@@ -16,8 +21,12 @@ buildscript {
 
 allprojects {
   repositories {
-    google()
+    maven("https://maven.aliyun.com/repository/google")
+    maven("https://maven.aliyun.com/repository/public")
+    maven("https://maven.aliyun.com/repository/central")
+    maven("https://maven.aliyun.com/repository/apache-snapshots")
     maven("https://jitpack.io")
+    google()
     mavenCentral()
   }
 }

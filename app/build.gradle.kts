@@ -10,8 +10,8 @@ plugins {
   id("dev.rikka.tools.materialthemebuilder")
 }
 
-val verName = "2.5.5"
-val verCode = 2050500
+val verName = "2.5.6"
+val verCode = 2050600
 
 android {
   compileSdk = 34
@@ -27,9 +27,9 @@ android {
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     manifestPlaceholders["appName"] = "Anywhere-"
     ndk {
-      abiFilters += arrayOf("armeabi-v7a", "arm64-v8a")
+      abiFilters += arrayOf(/*"armeabi-v7a",*/ "arm64-v8a")
     }
-    resourceConfigurations += arrayOf("en", "zh-rCN", "zh-rTW", "zh-rHK")
+    resourceConfigurations += arrayOf("en", "zh-rCN"/*, "zh-rTW", "zh-rHK"*/)
   }
 
   ksp {
@@ -50,6 +50,7 @@ android {
       buildConfigField("boolean", "BETA", "true")
     }
     release {
+      manifestPlaceholders["appName"] = "Anywhere-🐑"
       isMinifyEnabled = true
       isShrinkResources = true
       proguardFiles(
